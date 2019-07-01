@@ -1,0 +1,105 @@
+<template>
+    <header>
+        <div class="margin flex j-b a-i first">
+            <ul class="flex">
+                <li><img src="../../assets/image/logo2.png" alt=""></li>
+                <li class="cu" @click="backindex()">智能抠图</li>
+                <li class="cu">API</li>
+                <li class="cu" @click="userCenter()">会员</li>
+                <!--            <li class="cu">登录</li>-->
+            </ul>
+            <div class="right">
+                <div v-if="!loginAfter">
+                    <span @click="userlogin(1)">登录</span>
+                    <span @click="userlogin(0)" class="active">注册</span>
+                </div>
+                <div class="cu" v-else>
+                    <el-dropdown placement="bottom-end" @command="handleCommand">
+                      <span class="el-dropdown-link">
+                        491051627@qq.com
+                      </span>
+                      <el-dropdown-menu slot="dropdown">
+                         <el-dropdown-item command="1">我的账户</el-dropdown-item>
+                         <el-dropdown-item command="0">注销账户</el-dropdown-item>
+                      </el-dropdown-menu>
+                    </el-dropdown>
+                </div>
+            </div>
+        </div>
+        <!--      <div class="margin big">-->
+        <!--        <p class="flex a-i">智能一键抠图神器<img src="static/images/free.png" alt=""></p>-->
+        <!--        <p>1 0 0 % 自 动  -  5 秒  -  免 费 背 景 模 板</p>-->
+        <!--      </div>-->
+    </header>
+</template>
+
+<script>
+    import { toRouter } from '@/utils'
+    export default {
+        name: "index",
+        data(){
+            return {
+                loginAfter:true
+            }
+        },
+        methods:{
+             backindex(){
+                 let url=window.location.href
+                 if(url.indexOf('index') > -1) return;
+                 else toRouter('index')
+            },
+            userlogin(key){
+                let urls = window.location.href.split('#/')[0]
+                let baseUrl = urls.substring(0,urls.lastIndexOf('/'))
+                let url=window.location.href
+                if(url.indexOf('login')>-1 || url.indexOf('Register')>-1) window.location.replace(baseUrl+'/loginOrRegister#/?type='+key)
+                else window.location.href=baseUrl+'/loginOrRegister#/?type='+key
+            },
+            userCenter(){
+                if(window.location.href.indexOf('userVip')>-1) return;
+                toRouter('userVip')
+            },
+            handleCommand(ev){
+                 let url=window.location.href
+                 if( ev==1 && url.indexOf('userCenter') > -1 ) return
+                 if(ev==1) toRouter('userCenter')
+                 else this.loginAfter=false
+
+            }
+        },
+        mounted() {
+        }
+    }
+</script>
+
+<style scoped lang="scss">
+    .el-dropdown-link {
+        cursor: pointer;
+        color: #ffffff;
+    }
+    header{
+        font-size: 14px;
+        color: #fff;
+        line-height:60px ;
+        background-color: #303030;
+        min-width: 1200px;
+        /*background: url("static/images/back.jpg") no-repeat center;*/
+    }
+    header li{
+        margin: 0 25px;
+    }
+    header .right span{
+        display: inline-block;
+        padding: 0 15px;
+        line-height: 32px;
+        cursor:pointer;
+    }
+    header .right span.active{
+        border: 1px solid #a1a1a1;
+        border-radius: 16px;
+    }
+    header li:first-child{
+        margin-left: 0;
+        margin-right: 60px;
+    }
+</style>
