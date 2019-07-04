@@ -1,6 +1,7 @@
 import axios from 'axios';
 // import qs from 'qs'
-// import { throwErr } from '../utils/setRepose'
+import { getToken,removeToken,clearCookie } from "../utils/auth";
+import { basrUrls } from "../utils/index";
 import { Message } from 'element-ui'
 // axios.defaults.timeout=10000;//设置请求时间，超过时间报超时错位
 // axios.defaults.headers={'X-Custom-Header': 'foobar'}//全局设置请求头
@@ -16,6 +17,7 @@ const instance  =axios.create({
 });//自定义axios对象
 instance.interceptors.request.use(function (config) {//为自定义axios设置请求拦截器
   // 在发送请求之前做些什么config是axios请求实例 里面包含axios各种配置项和相关属性信息
+  if(getToken()) config.headers['token']=getToken()
   return config
 }, function (error) {
   // 对请求错误做些什么
@@ -27,7 +29,11 @@ instance.interceptors.response.use(function (response) {//为自定义axios设�
   if(res.code===0){
     // return Promise.resolve(res)
     return res
-  }else{
+  }else if(res.code==1001){
+    removeToken()
+    clearCookie('token')
+    window.location.href=basrUrls()+'/loginOrRegister.html#/?type=1'
+  } else{
     Message({
       type:'warning',
       message:response.data.msg

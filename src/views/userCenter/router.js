@@ -12,23 +12,23 @@ const routes = [
     },{
         path: '/userCenter/user-credit',
         name: '我的学分',
-        component: ()=> import(/* webpackChunkName: "Retrieve" */ '@/views/userCenter/user-credit.vue'),
+        component: ()=> import(/* webpackChunkName: "credit" */ '@/views/userCenter/user-credit.vue'),
     },{
         path: '/userCenter/secret',
         name: 'API秘钥',
-        component: ()=> import(/* webpackChunkName: "Retrieve" */ '@/views/userCenter/user-secret-key.vue'),
+        component: ()=> import(/* webpackChunkName: "secret" */ '@/views/userCenter/user-secret-key.vue'),
     },{
         path: '/userCenter/earn',
         name: '赚取学分',
-        component: ()=> import(/* webpackChunkName: "Retrieve" */ '@/views/userCenter/user-earn.vue'),
+        component: ()=> import(/* webpackChunkName: "earn" */ '@/views/userCenter/user-earn.vue'),
     },{
         path: '/userCenter/history',
         name: '历史记录',
-        component: ()=> import(/* webpackChunkName: "Retrieve" */ '@/views/userCenter/user-history.vue'),
+        component: ()=> import(/* webpackChunkName: "history" */ '@/views/userCenter/user-history.vue'),
     },{
         path: '/userCenter/set',
         name: '账户设置',
-        component: ()=> import(/* webpackChunkName: "Retrieve" */ '@/views/userCenter/user-set.vue'),
+        component: ()=> import(/* webpackChunkName: "set" */ '@/views/userCenter/user-set.vue'),
     },
 ]
 

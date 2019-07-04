@@ -2,7 +2,7 @@
     <header>
         <div class="margin flex j-b a-i first">
             <ul class="flex">
-                <li><img src="../../assets/image/logo2.png" alt=""></li>
+                <li><img src="../../assets/image/logos.png" alt="" class="cu" @click="backindex()"></li>
                 <li class="cu" @click="backindex()">智能抠图</li>
                 <li class="cu">API</li>
                 <li class="cu" @click="userCenter()">会员</li>
@@ -16,7 +16,7 @@
                 <div class="cu" v-else>
                     <el-dropdown placement="bottom-end" @command="handleCommand">
                       <span class="el-dropdown-link">
-                        491051627@qq.com
+                       {{userInfo.email}}
                       </span>
                       <el-dropdown-menu slot="dropdown">
                          <el-dropdown-item command="1">我的账户</el-dropdown-item>
@@ -35,14 +35,37 @@
 
 <script>
     import { toRouter } from '@/utils'
+    import {setToken, getToken, removeToken, clearCookie} from "../../utils/auth";
+    import { getUserInfo } from "../../apis";
+    import { basrUrls } from "../../utils";
+
     export default {
         name: "index",
         data(){
             return {
-                loginAfter:true
+                loginAfter:false,
+                userInfo:'',
+                basrUrls:basrUrls()
             }
         },
         methods:{
+            getUserinfo(){
+                // let token=getToken()
+                // if(token)this.loginAfter=true
+                // else this.loginAfter=false
+                if(!getToken()) return
+                getUserInfo().then(res=>{
+                    if(!res.code){
+                        this.userInfo=res.data
+                        this.loginAfter=true
+                        this.$emit('to-parses',res.data)
+                    }else{
+                        this.loginAfter=false
+                        removeToken()
+                        clearCookie('token')
+                    }
+                })
+            },
              backindex(){
                  let url=window.location.href
                  if(url.indexOf('index') > -1) return;
@@ -52,8 +75,8 @@
                 let urls = window.location.href.split('#/')[0]
                 let baseUrl = urls.substring(0,urls.lastIndexOf('/'))
                 let url=window.location.href
-                if(url.indexOf('login')>-1 || url.indexOf('Register')>-1) window.location.replace(baseUrl+'/loginOrRegister#/?type='+key)
-                else window.location.href=baseUrl+'/loginOrRegister#/?type='+key
+                if(url.indexOf('login')>-1 || url.indexOf('Register')>-1) window.location.replace(baseUrl+'/loginOrRegister.html#/?type='+key)
+                else window.location.href=baseUrl+'/loginOrRegister.html#/?type='+key
             },
             userCenter(){
                 if(window.location.href.indexOf('userVip')>-1) return;
@@ -63,11 +86,17 @@
                  let url=window.location.href
                  if( ev==1 && url.indexOf('userCenter') > -1 ) return
                  if(ev==1) toRouter('userCenter')
-                 else this.loginAfter=false
+                 else {
+                     removeToken()
+                     clearCookie('token')
+                     // if(){}
+                     toRouter('index')
+                 }
 
             }
         },
         mounted() {
+            this.getUserinfo()
         }
     }
 </script>

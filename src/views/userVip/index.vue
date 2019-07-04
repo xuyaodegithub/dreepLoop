@@ -4,7 +4,7 @@
         <div class="section margin">
             <h3>获取全分辨率图像</h3>
             <p>1图像=1能量</p>
-            <div class="flex j-b a-i">
+            <div class="flex a-i">
                 <div class="left">
                     <div class="top">推荐个人使用和评估</div>
                     <div class="title">自由账户</div>
@@ -12,39 +12,41 @@
                     <div class="five0">50次免费预览</div>
                     <p>每月通过API和应用程序</p>
                     <div class="share">推荐朋友可获得能量</div>
-                    <el-button type="primary" round>免费注册</el-button>
+                    <el-button type="primary" round @click="userRegest()">免费注册</el-button>
                 </div>
-                <div class="center">
-                    <div class="top">无风险!可随时降级、升级和取消</div>
-                    <div class="title">订阅计划</div>
-                    <div class="price"><span>￥1.2</span>/图像</div>
-                    <el-radio-group v-model="radio">
-                        <el-radio :label="item.label" v-for="(item,index) in choseList" :key="index">
-                            <span class="clear">
-                                <span>{{item.title}}</span>
-                                <span>{{item.price}}</span>
-                                <span>{{item.consume}}</span>
-                            </span>
-                        </el-radio>
-                        <el-radio :label="99">企业-联系我们</el-radio>
-                    </el-radio-group>
-                    <el-button type="primary" round>现在订阅</el-button>
-                </div>
+<!--                <div class="center">-->
+<!--                    <div class="top">无风险!可随时降级、升级和取消</div>-->
+<!--                    <div class="title">订阅计划</div>-->
+<!--                    <div class="price"><span>￥{{selectRadio | Calculation}}</span>/图像</div>-->
+<!--                    <el-radio-group v-model="radio"  @change="changeRadio">-->
+<!--                        <el-radio :label="item.planId" v-for="(item,index) in choseList" :key="index">-->
+<!--                            <span class="clear">-->
+<!--                                <span>{{item.creditsPerMonth}}能量/月</span>-->
+<!--                                <span>￥{{item.price}}</span>-->
+<!--                                <span>￥{{item | Calculation}}/图像</span>-->
+<!--                            </span>-->
+<!--                        </el-radio>-->
+<!--&lt;!&ndash;                        <el-radio :label="99">企业-联系我们</el-radio>&ndash;&gt;-->
+<!--                    </el-radio-group>-->
+<!--                    <el-button type="primary" round>现在订阅</el-button>-->
+<!--                </div>-->
                 <div class="right">
-                    <div class="top">随时可用的能量，两年内有效</div>
-                    <div class="title">随时可用</div>
-                    <div class="price"><span>￥1.2</span>/图像</div>
+<!--                    <div class="top">随时可用的能量，两年内有效</div>-->
+<!--                    <div class="title">随时可用</div>-->
+                     <div class="top">无风险!可随时降级、升级和取消</div>
+                     <div class="title">订阅计划</div>
+                    <div class="price"><span>￥{{selectRadio2 | Calculation}}</span>/图像</div>
                     <el-radio-group v-model="radio2" @change="changeRadio2">
-                        <el-radio :label="item.label" v-for="(item,index) in choseList" :key="index">
+                        <el-radio :label="item.planId" v-for="(item,index) in choseList" :key="index">
                             <span class="clear">
-                                <span>{{item.title}}</span>
-                                <span>{{item.price}}</span>
-                                <span>{{item.consume}}</span>
+                                <span>{{item.creditsPerMonth}}能量/月</span>
+                                <span>￥{{item.price}}</span>
+                                <span>￥{{item | Calculation}}/图像</span>
                             </span>
                         </el-radio>
-                        <el-radio :label="99">企业-联系我们</el-radio>
+<!--                        <el-radio :label="99">企业-联系我们</el-radio>-->
                     </el-radio-group>
-                    <el-button type="primary" round @click="dialogVisible=true">立即购买</el-button>
+                    <el-button type="primary" round @click="dialogVisible = true">立即购买</el-button>
                 </div>
             </div>
         </div>
@@ -110,18 +112,18 @@
                 :visible.sync="dialogVisible"
                 width="400px">
             <div class="Dcontent">
-                <div class="title">订阅计划-{{selectRadio2.title}}</div>
-                <div class="price">{{selectRadio2.price}}</div>
-                <p><i class="el-icon-minus"></i>&nbsp; 请选择您的地址 &nbsp;<i class="el-icon-minus"></i></p>
-                <el-select v-model="value" placeholder="请选择">
-                    <el-option
-                            v-for="(item,index) in options"
-                            :key="index"
-                            :label="item.label"
-                            :value="item.value">
-                    </el-option>
-                </el-select>
-                <el-button @click="dialogVisible = false">继续</el-button>
+                <div class="title">订阅计划-{{selectRadio2.creditsPerMonth}}能量/月</div>
+                <div class="price">￥{{selectRadio2.price}}</div>
+<!--                <p><i class="el-icon-minus"></i>&nbsp; 请选择您的地址 &nbsp;<i class="el-icon-minus"></i></p>-->
+<!--                <el-select v-model="value" placeholder="请选择">-->
+<!--                    <el-option-->
+<!--                            v-for="(item,index) in options"-->
+<!--                            :key="index"-->
+<!--                            :label="item.label"-->
+<!--                            :value="item.value">-->
+<!--                    </el-option>-->
+<!--                </el-select>-->
+                <el-button @click="userContinue()">继续</el-button>
             </div>
         </el-dialog>
     </div>
@@ -130,19 +132,15 @@
 <script>
     import headerSub from '@/components/header/index.vue'
     import footerSub from '@/components/footer/index.vue'
-    import { mapGetters } from 'vuex'
-    import { mapActions } from 'vuex'
+    import { subscriptionPlans, userCreatePayment } from "../../apis";
+    import {getToken} from "../../utils/auth";
+    import { basrUrls } from "../../utils";
+
     export default {
         name: 'vip',
         data () {
             return {
                 choseList:[
-                    {title:'100能量/月',price:'￥59',consume:'￥1.2/图像',label:1},
-                    {title:'200能量/月',price:'￥89',consume:'￥1.2/图像',label:2},
-                    {title:'300能量/月',price:'￥109',consume:'￥1.2/图像',label:3},
-                    {title:'400能量/月',price:'￥209',consume:'￥1.2/图像',label:4},
-                    {title:'500能量/月',price:'￥300',consume:'￥1.2/图像',label:5},
-                    {title:'1000能量/月',price:'￥590',consume:'￥1.2/图像',label:6},
                 ],
                 feedbackList:[
                     {name:'王女士',tag:'跨境店铺店主',content:'他能帮我快速处理图片背景，节约了我大量的时间，让我有更多的时间运营我的店铺，并且他处理图片背景的效果非常强大。',img:'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3677209778,3519789803&fm=27&gp=0.jpg'},
@@ -161,7 +159,9 @@
                     {label:'澳大利亚',value:'5'},
                     {label:'新加坡',value:'6'},
                 ],
-                selectRadio2:{}
+                selectRadio2:{},
+                selectRadio:{},
+                basrUrls:basrUrls()
             }
         },
         computed:{
@@ -171,13 +171,53 @@
 
         },
         mounted(){
-            this.changeRadio2(this.radio2)
+            this.getPlansList()
         },
         methods:{
+            changeRadio(e){
+                this.selectRadio=this.choseList.filter((val,index)=>{
+                    return val.planId == e
+                })[0]
+            },
             changeRadio2(e){
                 this.selectRadio2=this.choseList.filter((val,index)=>{
-                    return val.label === e
+                    return val.planId == e
                 })[0]
+            },
+            getPlansList(){
+                subscriptionPlans().then(res=>{
+                    if(!res.code){
+                        this.choseList=res.data
+                        this.radio=res.data[0].planId
+                        this.radio2=res.data[0].planId
+                        this.changeRadio(this.radio)
+                        this.changeRadio2(this.radio2)
+                    }
+                })
+            },
+            userRegest(){
+                this.$message.closeAll();
+                if(getToken())this.$message({type:'warning',message:'您已经注册过啦~'});
+                else {
+                    window.location.href=`${this.basrUrls}/loginOrRegister.html#/?type=0`
+                }
+            },
+            userContinue(){
+                if(!getToken()) window.location.href=`${this.basrUrls}/loginOrRegister.html#/?type=1&hasBack=1`
+                else{
+                    const loading = this.$loading({
+                        lock: true,
+                        text: '处理中，请稍后...',
+                        spinner: 'el-icon-loading',
+                        background: 'rgba(0, 0, 0, 0.7)'
+                    });
+                    userCreatePayment({planId:this.selectRadio2.planId}).then(res=>{
+                        if(!res.code){
+                            window.location.href=res.data
+                            loading.close()
+                        }
+                    })
+                }
             }
         },
         components:{
@@ -192,7 +232,11 @@
     margin-top: 92px;
     text-align: center;
     margin-bottom: 108px;
+    .flex{
+        justify-content: space-around;
+    }
     h3{
+        font-family: "Microsoft YaHei";
         font-size: 44px;
         color: #333;
         font-weight: 500;
@@ -237,6 +281,9 @@
             color: #a2a2a2;
             .el-radio{
                 width: 100%;
+                &:last-child{
+                    margin-bottom: 14px;
+                }
             }
 
         }
@@ -395,7 +442,7 @@
       .price{
           font-size: 24px;
           color: #12a7ff;
-          margin-bottom: 54px;
+          margin-bottom: 50px;
       }
       & > p{
           font-size: 14px;

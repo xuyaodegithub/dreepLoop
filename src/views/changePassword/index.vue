@@ -8,32 +8,39 @@
       <div class="userinfo">
         <el-input v-model="username" placeholder="电子邮箱" ></el-input>
       </div>
-      <el-button type="primary">查看邮件重置密码</el-button>
+      <el-button type="primary" @click="resetPass()">查看邮件重置密码</el-button>
     </div>
   </div>
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
-  import { mapActions } from 'vuex'
   import headerSub from '@/components/header/index.vue'
+  import { sendChangePasswordEmail } from "../../apis";
+  import { basrUrls } from "../../utils";
+
   export default {
     name: 'login',
     data () {
       return {
-        loginBtn:['注册','登录'],
         username:'',
+        basrUrls:basrUrls()
       }
     },
     computed:{
 
     },
     methods:{
-      changeBtn(index){
-        this.btnType=index
-        this.username=''
-        this.userpass=''
-        this.usersurepass=''
+      resetPass(){
+        this.$message.closeAll()
+        if(!this.username){
+          this.$message({type:'warning', message:'邮箱不可为空'})
+          return
+        }
+        sendChangePasswordEmail({email:this.username}).then(res=>{
+          if(!res.code){
+            window.location.href=`${this.basrUrls}/resBackMsg.html#/?type=1&email=${this.username}`
+          }
+        })
       }
     },
     components:{

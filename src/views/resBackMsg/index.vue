@@ -1,12 +1,25 @@
 <template>
   <div class="resBackMsg">
     <header-sub></header-sub>
-    <div class="margin">
-        <i class="el-icon-success"></i>
-        <div class="msg">邮件发送成功</div>
-        <p>注册激活连接已发送到你的邮箱491051627@qq.com,请注意查收激活</p>
-        <el-button type="primary" round>激活成功</el-button>
-    </div>
+        <div class="margin" v-if="backType==0">
+            <i class="el-icon-success"></i>
+            <div class="msg">邮件发送成功</div>
+            <p>注册激活连接已发送到你的邮箱{{emailStr}},请注意查收激活</p>
+    <!--        <el-button type="primary" round>激活成功</el-button>-->
+        </div>
+         <div class="margin" v-else-if="backType==1">
+              <i class="el-icon-success"></i>
+              <div class="msg">邮件发送成功</div>
+              <p>你正在找回密码,请求链接已发送到邮箱{{emailStr}},请注意查收</p>
+              <!--        <el-button type="primary" round>激活成功</el-button>-->
+         </div>
+    <!--      注册成功返回-->
+         <div class="margin" v-else-if="backType==2">
+              <i class="el-icon-success"></i>
+              <div class="msg">注册成功</div>
+              <p>您已注册成功，可以体验更多功能！</p>
+              <!--        <el-button type="primary" round>激活成功</el-button>-->
+         </div>
   </div>
 </template>
 
@@ -24,7 +37,13 @@ export default {
   },
   computed:{
     ...mapGetters([
-    ])
+    ]),
+      backType(){
+        return this.$route.query.type
+      },
+      emailStr(){
+          return this.$route.query.email
+      }
   },
   components:{
     headerSub

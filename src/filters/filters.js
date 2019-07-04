@@ -3,7 +3,7 @@ import axios from 'axios'
 const filters={
   changeTime(val,num){
   if(val){
-    let data=val
+    let data=new Date(val)
     let year=data.getFullYear()
     let month=data.getMonth()+1
     let day= data.getDate()
@@ -39,6 +39,11 @@ const filters={
     return ''
   }
 },
+    Calculation(val){
+        let price=val.price
+        let creditsPerMonth=val.creditsPerMonth
+        return (price/creditsPerMonth).toFixed(2)
+    },
  getLastMonth(){
   var now=new Date();
   var year = now.getFullYear();//getYear()+1900=getFullYear()

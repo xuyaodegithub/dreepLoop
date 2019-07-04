@@ -7,8 +7,8 @@
             </div>
             <div class="userinfo">
                 <el-input v-model="username" placeholder="电子邮箱" ></el-input>
-                <el-input v-model="userpass" :placeholder="passmsg" type="password" ></el-input>
-                <el-input v-model="usersurepass" placeholder="确认密码" type="password" v-if="btnType==0"></el-input>
+                <el-input v-model="userpass" :placeholder="passmsg" type="password" @keyup.enter.native="regestUser()" ></el-input>
+                <el-input v-model="usersurepass" placeholder="确认密码" type="password" v-if="btnType==0"  @keyup.enter.native="regestUser()" ></el-input>
             </div>
             <el-button type="primary" @click="regestUser()">{{btnType == 0 ? '注册' : '登录'}}</el-button>
             <div class="forgot">
@@ -21,7 +21,9 @@
 
 <script>
     import headerSub from '@/components/header/index.vue'
-    import { toRouter } from '@/utils'
+    import { toRouter,basrUrls } from '@/utils'
+    import {setToken, getToken, setCookie} from "../../utils/auth";
+    import { usercheckEmail,userLogin,userRegister } from "../../apis";
     import { mapGetters } from 'vuex'
     import { mapActions } from 'vuex'
     export default {
@@ -32,7 +34,8 @@
                 loginBtn:['注册','登录'],
                 username:'',
                 userpass:'',
-                usersurepass:''
+                usersurepass:'',
+                basrUrl:basrUrls()
             }
         },
         computed:{
@@ -42,7 +45,10 @@
             },
             typeBtn(){
                 return this.$route.query.type
-            }
+            },
+            hasBack(){
+                return this.$route.query.hasBack
+            },
         },
         watch:{
             $route(newVal,oldVal){
@@ -65,7 +71,40 @@
                 this.usersurepass=''
             },
             regestUser(){
-                if(this.btnType==0) toRouter('resBackMsg')
+                this.$message.closeAll()
+                if(this.btnType==0){
+                    if(!this.username || !this.userpass || !this.usersurepass){
+                        this.$message({type:'warning',message:'邮箱或密码不可为空'})
+                        return
+                    }
+                    if(this.userpass!==this.usersurepass){
+                        this.$message({type:'warning',message:'两次输入密码不一致'})
+                        return
+                    }
+                    usercheckEmail({email:this.username}).then(res=>{
+                        if(!res.code) {
+                            userRegister({email:this.username,password:this.userpass}).then(res=>{
+                                if(!res.code){
+                                    window.location.replace(`${this.basrUrl}/resBackMsg.html#/?type=0&email=${this.username}`)
+                                }
+                            })
+                        }
+                    })
+                } else {
+                    if(!this.username || !this.userpass){
+                        this.$message({type:'warning',message:'邮箱或密码不可为空'})
+                        return
+                    }
+                    userLogin({email:this.username,password:this.userpass}).then(res=>{
+                        if(!res.code){
+                            let token=res.data.token
+                            setToken(token)
+                            setCookie('token',token)
+                            if(this.hasBack) window.history.go(-1);
+                            else window.location.replace(`${this.basrUrl}/index.html#/`)
+                        }
+                    })
+                }
             },
             forgetPass(){
                 toRouter('changePass')

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <header-sub></header-sub>
+        <header-sub @to-parses="Userinfos" />
         <div class="my clear margin">
             <div class="left">
                 <div v-for="(item,index) in leftBtn" :key="index" :class="{'active' : $route.path==item.path}" @click="openType(item)">
@@ -8,30 +8,29 @@
                 </div>
             </div>
             <div class="right">
-                <router-view></router-view>
+                <router-view :userInfo="userInfo"></router-view>
             </div>
         </div>
-        <footer-sub></footer-sub>
+        <footer-sub />
     </div>
 </template>
 
 <script>
     import headerSub from '@/components/header/index.vue'
     import footerSub from '@/components/footer/index.vue'
-    import { mapGetters } from 'vuex'
-    import { mapActions } from 'vuex'
     export default {
         name: 'my',
         data () {
             return {
                 leftBtn:[
                     {title:'我的订阅',path:'/'},
-                    {title:'我的学分',path:'/userCenter/user-credit'},
+                    // {title:'我的能量',path:'/userCenter/user-credit'},
                     {title:'API密钥',path:'/userCenter/secret'},
-                    {title:'赚取学分',path:'/userCenter/earn'},
-                    {title:'历史记录',path:'/userCenter/history'},
+                    // {title:'赚取学分',path:'/userCenter/earn'},
+                    // {title:'历史记录',path:'/userCenter/history'},
                     {title:'账户设置',path:'/userCenter/set'},
-                ]
+                ],
+                userInfo:{}
             }
         },
         computed:{
@@ -43,6 +42,9 @@
         methods:{
             openType(item){
                 this.$router.push(item.path)
+            },
+            Userinfos(val){
+                this.userInfo=val
             }
         }
     }

@@ -5,8 +5,8 @@
             <div class="margin seachI flex a-i">
                 <div>
                     <input type="file" style="display: none" ref="upImg" @change="changeImg($event,1)" multiple>
-                    <p class="flex a-i">智能一键抠图神器<img src="static/images/free.png" alt="" style="margin-left: 15px"></p>
-                    <p class="m-boonte"> &nbsp;1 0 0 % 自 动  -  5 秒  -  免 费 背 景 模 板</p>
+                    <p class="flex a-i">智能一键抠图神器<img src="../../assets/image/free.png" alt="" style="margin-left: 15px"></p>
+                    <p class="m-boonte"> &nbsp;1 0 0 % 自 动 - 5 秒 - 免 费 背 景 模 板</p>
                     <div class="flex dwoBtn">
                         <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()">上传1张图片</el-button>
                         <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()">批量上传</el-button>
@@ -20,79 +20,84 @@
             </div>
         </div>
         <!--    <img :src="test" alt="">-->
-        <div class="margin" ref="contentImg" style="margin-top: 30px;">
+        <div class="margin" ref="contentImg" style="margin-top: 30px;margin-bottom: 40px">
             <div class="Uploading" v-show="upLoading">
                 <el-progress type="circle" :percentage="percentValue" :stroke-width='strokeWidth'></el-progress>
                 <p style="font-size: 18px;color: #333;">上传中...</p>
             </div>
             <div class=" flex j-b content" v-show="canvasShow && this.files.length<2">
-                <i style="position: absolute;right: 10px;top: 10px;font-size: 24px;color: #999;" class="el-icon-close cu"
+                <i style="position: absolute;right: 10px;top: 10px;font-size: 24px;color: #999;"
+                   class="el-icon-close cu"
                    @click="clearFile()"></i>
                 <div class="left">
                     <div class="img">
                         <div style="position: relative;" v-show="!backimgShow">
                             <canvas id="hiddenCanvas" width="500" height="500">您的游览器不支持此功能，请换别的游览器试试...</canvas>
                             <canvas id="hiddenCanvasTwo" width="500" height="500">您的游览器不支持此功能，请换别的游览器试试...</canvas>
-                            <canvas id="hiddenCanvasThree" :width="TwoW" :height="TwoH">您的游览器不支持此功能，请换别的游览器试试...</canvas>
+                            <canvas id="hiddenCanvasThree" :width="TwoW" :height="TwoH">您的游览器不支持此功能，请换别的游览器试试...
+                            </canvas>
                         </div>
-<!--                        <div v-show="backimgShow" class="imgList">-->
-<!--                            <div class="flex j-b">-->
-<!--                                <span>背景图片</span>-->
-<!--                                <el-button round icon="el-icon-upload2" style="width:160px;" @click="upBackImgS()">选择一张图片</el-button>-->
-<!--                            </div>-->
-<!--                            <div class="titleList">-->
-<!--                <span v-for="(val,index) in titleList" :key="index" :class="{'active': index==titleIndex}" class="cu"-->
-<!--                      @click="changeimgList(index)">{{val}}</span>-->
-<!--                            </div>-->
-<!--                            <div class="imgAll flex">-->
-<!--                                <img :src="item" alt="" v-for="(item,index) in imgAllList[titleIndex]" :key="index"-->
-<!--                                     @click="addBackImg(item)" class="cu">-->
-<!--                            </div>-->
-<!--                            <el-button type="primary" round style="display:block;width:100px; margin: 50px auto;" size="small"-->
-<!--                                       @click="backimgShow=false">确定-->
-<!--                            </el-button>-->
-<!--                        </div>-->
+                        <!--                        <div v-show="backimgShow" class="imgList">-->
+                        <!--                            <div class="flex j-b">-->
+                        <!--                                <span>背景图片</span>-->
+                        <!--                                <el-button round icon="el-icon-upload2" style="width:160px;" @click="upBackImgS()">选择一张图片</el-button>-->
+                        <!--                            </div>-->
+                        <!--                            <div class="titleList">-->
+                        <!--                <span v-for="(val,index) in titleList" :key="index" :class="{'active': index==titleIndex}" class="cu"-->
+                        <!--                      @click="changeimgList(index)">{{val}}</span>-->
+                        <!--                            </div>-->
+                        <!--                            <div class="imgAll flex">-->
+                        <!--                                <img :src="item" alt="" v-for="(item,index) in imgAllList[titleIndex]" :key="index"-->
+                        <!--                                     @click="addBackImg(item)" class="cu">-->
+                        <!--                            </div>-->
+                        <!--                            <el-button type="primary" round style="display:block;width:100px; margin: 50px auto;" size="small"-->
+                        <!--                                       @click="backimgShow=false">确定-->
+                        <!--                            </el-button>-->
+                        <!--                        </div>-->
                     </div>
                 </div>
                 <div class="right">
-                    <div class="canvas" @mousedown="mouseDown($event)" @mousemove.prevent="moeseMove($event)"
-                         @mouseup="mouseUp($event)" :class="{'cours' : clearOrdraw===3}">
+<!--                    <div class="canvas" @mousedown="mouseDown($event)" @mousemove.prevent="moeseMove($event)"-->
+<!--                         @mouseup="mouseUp($event)" :class="{'cours' : clearOrdraw===3}">-->
+                        <div class="canvas" :class="{'cours' : clearOrdraw===3}">
                         <canvas id="cDown" width="500" height="500">您的游览器不支持此功能，请换别的游览器试试...</canvas>
                         <canvas id="cUp" width="500" height="500">您的游览器不支持此功能，请换别的游览器试试...</canvas>
                         <div class="border" v-show="borderShow"
                              :style="{'top':borderLocal.y,'left':borderLocal.x,'width':borderLocal.width,'height': borderLocal.height}">
                         </div>
                     </div>
-                    <div class="btns clear">
-                        <span>前景</span>
-                        <div>
-                            <div class="cu btn" :class="{'active':clearOrdraw===1}" @click="clearOrdraw=1" slot="reference"><i
-                                    class="icon iconfont icon-xiangpi"></i>擦除
-                            </div>
-                            <div class="cu btn" :class="{'active':clearOrdraw===2}" @click="clearOrdraw=2"><i
-                                    class="icon iconfont icon-qianbi"></i>还原
-                            </div>
-                        </div>
-                        <div class="cu btn" :class="{'active':clearOrdraw===3}" @click="clearOrdraw=3"><i
-                                class="el-icon-rank"></i>移动
-                        </div>
-                        <div class="back">
-                            <div class="cu re" @click="backReset()"><i
-                                    class="icon iconfont icon-chexiaofanhuichehuishangyibu"></i>撤回
-                            </div>
-                            <div class="cu re" @click="reset()"><i class="icon iconfont icon-zhongzhi"></i>复位</div>
-                        </div>
-                    </div>
-                    <div style="padding-left: 20px;line-height: 38px;" class="flex">
-                        <div style="width:200px;margin-right: 10px;">
-                            <el-slider v-model="eraserWidthSelect" tooltip-effect="light" :min="1" :max="20"
-                                       :show-tooltip="showThost"></el-slider>
-                        </div>
-                        <span>{{eraserWidthSelect}}px</span>
-                    </div>
+<!--                    <div class="btns clear">-->
+<!--                        <span>前景</span>-->
+<!--                        <div>-->
+<!--                            <div class="cu btn" :class="{'active':clearOrdraw===1}" @click="clearOrdraw=1"-->
+<!--                                 slot="reference"><i-->
+<!--                                    class="icon iconfont icon-xiangpi"></i>擦除-->
+<!--                            </div>-->
+<!--                            <div class="cu btn" :class="{'active':clearOrdraw===2}" @click="clearOrdraw=2"><i-->
+<!--                                    class="icon iconfont icon-qianbi"></i>还原-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="cu btn" :class="{'active':clearOrdraw===3}" @click="clearOrdraw=3"><i-->
+<!--                                class="el-icon-rank"></i>移动-->
+<!--                        </div>-->
+<!--                        <div class="back">-->
+<!--                            <div class="cu re" @click="backReset()"><i-->
+<!--                                    class="icon iconfont icon-chexiaofanhuichehuishangyibu"></i>撤回-->
+<!--                            </div>-->
+<!--                            <div class="cu re" @click="reset()"><i class="icon iconfont icon-zhongzhi"></i>复位</div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div style="padding-left: 20px;line-height: 38px;" class="flex">-->
+<!--                        <div style="width:200px;margin-right: 10px;">-->
+<!--                            <el-slider v-model="eraserWidthSelect" tooltip-effect="light" :min="1" :max="20"-->
+<!--                                       :show-tooltip="showThost"></el-slider>-->
+<!--                        </div>-->
+<!--                        <span>{{eraserWidthSelect}}px</span>-->
+<!--                    </div>-->
                     <div class="otherBtn flex a-i">
                         <span>背景</span>
-                        <div v-for="(item,index) in color" :key="index" :style="backg" @click="choseBackColor(item,index)"
+                        <div v-for="(item,index) in color" :key="index" :style="backg"
+                             @click="choseBackColor(item,index)"
                              class="cu" :class="{'bordershow' : index==choseBack}" v-if="index===0"></div>
                         <div v-for="(item,index) in color" :key="index" :style="{'background':item }"
                              @click="choseBackColor(item,index)" class="cu" :class="{'bordershow' : index==choseBack}"
@@ -101,34 +106,42 @@
                         <span style="height: 28px;"><el-color-picker v-model="colorValue" size="mini" ref="colorS"
                                                                      @change="choseColor()"
                                                                      :class="{'bordershow': choseBack=='span'}"></el-color-picker></span>
-<!--                        <p :style="back" class="cu" @click="backimgShow=!backimgShow"><i class="icon iconfont icon-zhaoxiangji"></i>背景图片-->
-<!--                        </p>-->
+                        <!--                        <p :style="back" class="cu" @click="backimgShow=!backimgShow"><i class="icon iconfont icon-zhaoxiangji"></i>背景图片-->
+                        <!--                        </p>-->
                     </div>
                     <div class="downLoadBtn">
-                        <el-button type="primary" round style="display:block;background-color: #27adf6;border-color: #27adf6;width: 100%;" icon="el-icon-download"
-                                   @click="save()" @mouseenter.native="showSize=true" @mouseleave.native="choseSize()">下载<i class="el-icon-caret-bottom" style="position: absolute;right: 15px;"></i>
+                        <el-button type="primary" round
+                                   style="display:block;background-color: #27adf6;border-color: #27adf6;width: 100%;"
+                                   icon="el-icon-download"
+                                   @mouseenter.native="showSize=true" @mouseleave.native="choseSize()">
+                            下载<i class="el-icon-caret-bottom" style="position: absolute;right: 15px;"></i>
                         </el-button>
-                        <div class="sizeChose" v-if="showSize" @mouseenter="showSize=true" @mouseleave="showSize=false" >
-                            <div v-for="(item,index) in sizeArr" :key="index" class="flex a-i j-b">
-                               <span>{{index==0 ? '下载图片(免费)' : index==1 ? '下载图片' : '下载图片(原图比例)'}}</span> <span>{{item.width + 'X' + item.height}}</span>
+                        <div class="sizeChose" v-if="showSize" @mouseenter="showSizeStop=true" @mouseleave="boxLeave()">
+<!--                            v-for="(item,index) in sizeArr" :key="index"-->
+                            <div class="flex a-i j-b" @click="save(0)">
+                                <span>下载图片(免费)</span> <span>{{imageMsg.previewWidth + ' X ' + imageMsg.previewHeight}}</span>
+                            </div>
+                            <div class="flex a-i j-b" @click="save(1)">
+                                <span>下载图片(原图比例)</span> <span>{{imageMsg.originalWidth + ' X ' + imageMsg.originalHeight}}</span>
                             </div>
                         </div>
                     </div>
-                    <div style="position: absolute;top:76px; right: 0px;">
-                        <el-slider
-                                v-model="clunmValue"
-                                vertical
-                                :min="-400"
-                                :max="400"
-                                height="460px"
-                                :marks="marks"
-                                @change="changeClunmValue(0,0,1)">
-                        </el-slider>
-                    </div>
+<!--                    <div style="position: absolute;top:76px; right: 0px;">-->
+<!--                        <el-slider-->
+<!--                                v-model="clunmValue"-->
+<!--                                vertical-->
+<!--                                :min="-400"-->
+<!--                                :max="400"-->
+<!--                                height="460px"-->
+<!--                                :marks="marks"-->
+<!--                                @change="changeClunmValue(0,0,1)">-->
+<!--                        </el-slider>-->
+<!--                    </div>-->
                 </div>
             </div>
             <div class="moreImgSet flex j-b" v-show="canvasShow && this.files.length>1">
-                <i style="position: absolute;right: 10px;top: 10px;font-size: 24px;color: #999;" class="el-icon-close cu"
+                <i style="position: absolute;right: 10px;top: 10px;font-size: 24px;color: #999;"
+                   class="el-icon-close cu"
                    @click="clearFile()"></i>
                 <div class="moveLeft">
                     <p>原图</p>
@@ -141,21 +154,26 @@
                             +
                         </div>
                     </div>
-                    <el-button round size="small" style="width: 100px;display: block;margin: 30px auto 0;" icon="el-icon-plus"  @click="upLoadimg()">批量抠图</el-button>
+                    <el-button round size="small" style="width: 100px;display: block;margin: 30px auto 0;"
+                               icon="el-icon-plus" @click="upLoadimg()">批量抠图
+                    </el-button>
                 </div>
                 <div class="moveright">
                     <p>去背景图片</p>
                     <div class="flexs clear">
-                        <div v-for="(item,index) in files" :style="{backgroundImage:`url(${opacity})`}">
-                            <div  v-if="rightMove[index]">
+                        <div v-for="(item,index) in files" :style="{backgroundImage:`url(${opacity})`}" :key="index">
+                            <div v-if="rightMove[index]">
                                 <img :src="rightMove[index].img" alt="" v-if="!rightMove[index].status">
                                 <p v-else>{{rightMove[index].msg}}</p>
                             </div>
                             <i class="el-icon-loading" v-show="!rightMove[index]"></i>
                         </div>
                     </div>
-                    <p style="text-align: right;line-height: 36px;color: #979797;">{{`处理进度(${leftMove.length}/${files.length})`}}</p>
-                    <el-button type="primary" round icon="el-icon-download" style="width: 150px;display: block;margin: 0 auto 0;" size="small" :disabled="leftMove.length!==files.length"
+                    <p style="text-align: right;line-height: 36px;color: #979797;">
+                        {{`处理进度(${leftMove.length}/${files.length})`}}</p>
+                    <el-button type="primary" round icon="el-icon-download"
+                               style="width: 150px;display: block;margin: 0 auto 0;" size="small"
+                               :disabled="leftMove.length!==files.length"
                                @click="saveMove()">下载
                     </el-button>
                     <!--          <i>处理进度({{leftMove.length}}/{{files.length}})</i>-->
@@ -165,29 +183,34 @@
     </div>
 </template>
 <script>
-    import other from '@/assets/dieimg2.gif'
-    import men from '@/assets/dieimg1.gif'
     import opacity from '@/assets/opacity.jpg'
-    // import pen from '../assets/pen.png'
+    import pen from '@/assets/image/pen.png'
     import {mapGetters} from 'vuex'
     import {mapActions} from 'vuex'
     import JSZip from 'jszip'
-    import FileSaver from "file-saver";
-    import { copyUpload,uploadImgApi } from "@/apis/index";
+    import { saveAs } from "file-saver";
+    import {copyUpload, uploadImgApi, downloadMattedImage} from "@/apis/index";
     import headerSub from '@/components/header/index.vue'
+    import { myBrowser } from "../../utils";
     export default {
         name: 'HelloWorld',
         data() {
             return {
-                showSize:false,
-                sizeArr:[
-                    {width:500,height:500},
-                    {width:800,height:800},
-                    {width:1600,height:1200}
+                penstyle:{
+                    cursor:`url(${pen}),auto`
+                },
+                imageMUrl:'',//原比例图片缓存
+                imageMsg:'',
+                showSizeStop: false,
+                showSize: false,
+                sizeArr: [
+                    // {width: 500, height: 500},
+                    // {width: 800, height: 800},
+                    // {width: 1600, height: 1200}
                 ],
-                files:[],
-                leftMove:[],
-                rightMove:[],
+                files: [],
+                leftMove: [],
+                rightMove: [],
                 marks: {
                     0: {
                         style: {
@@ -215,8 +238,6 @@
                 copyBackImg: '',//粘贴确认后返回的处理图片
                 strokeWidth: 10,
                 upLoading: false,
-                other: other,
-                men: men,
                 color: ['rgba(255,255,255,0)', '#ffffff', '#eeeeee', '#5d5d5d'],
                 colorValue: '#409EFF',
                 back: {
@@ -257,11 +278,10 @@
                 moveXYTwo: {x: 0, y: 0},//放大后隐藏偏移量
                 imgobj: {left: '', right: ''},
                 setImgOne: '',//模式一处理过后的图片储存
-                addNewImg:false,//是否是追加抠图
+                addNewImg: false,//是否是追加抠图
             }
         },
         mounted() {
-            // this.funa()
             this.hiddenCanvas = document.getElementById('hiddenCanvas')
             this.hiddenCanvasTxt = this.hiddenCanvas.getContext('2d')
             this.hiddenCanvasTwo = document.getElementById('hiddenCanvasTwo')
@@ -281,7 +301,8 @@
             headerSub
         },
         methods: {
-            initImgData(){
+            ...mapActions([]),
+            initImgData() {
                 let oldImgData = this.cUpTxt.getImageData(this.eraserWidthSelect, this.eraserWidthSelect, 2 * this.eraserWidthSelect, 2 * this.eraserWidthSelect)
                 let oldImgData2 = this.hiddenCanvasTwoTxt.getImageData(this.eraserWidthSelect, this.eraserWidthSelect, 2 * this.eraserWidthSelect, 2 * this.eraserWidthSelect)
                 let oldImgData3 = this.hiddenCanvasTxt.getImageData(this.eraserWidthSelect, this.eraserWidthSelect, 2 * this.eraserWidthSelect, 2 * this.eraserWidthSelect)
@@ -290,6 +311,8 @@
             initData() {//每次上传图片是初始化数据
                 this.historySet = [];//储存历史记录
                 this.historySetTwo = [];//储存历史记录
+                this.choseBack =0;
+                this.imageMUrl ='';
                 // this.imgUrl='';
                 this.setImgOne = '';
                 this.imgobj = {left: '', right: ''};
@@ -307,13 +330,13 @@
                 this.$refs.upImg.value = ''
             },
             choseColor() {//选择颜色背景
-                this.choseBack = 'span'
-                this.cDownTxt.clearRect(0, 0, this.cDown.width, this.cDown.height)
-                this.cDownTxt.fillStyle = this.colorValue
+                this.choseBack = 'span';
+                this.cDownTxt.clearRect(0, 0, this.cDown.width, this.cDown.height);
+                this.cDownTxt.fillStyle = this.colorValue;
                 this.cDownTxt.fillRect(250 - this.canveaContentW / 2, 250 - this.canveaContentH / 2, this.canveaContentW, this.canveaContentH)
             },
             choseBackColor(color, index) {//纯色背景切换
-                this.choseBack = index
+                this.choseBack = index;
                 if (index == 0) {
                     this.resetBImg();
                     this.drawImg(this.opacity, [this.cDown], 0, 1);
@@ -335,10 +358,6 @@
                 this.upBackImg = false//避免用户点击上传背景后，不选图片
                 this.backimgShow = false
                 this.$refs.upImg.click()
-            },
-            upLoadimgDwon() {//点击上传
-                this.upLoadimg();
-                window.scrollTo(0, 500);
             },
             backReset() {//返回上一步
                 let _self = this
@@ -381,8 +400,8 @@
                 this.drawImg(this.opacity, [this.cDown])
             },
             // 下载原图比例图
-            downOldImg() {
-                // let  _self=this
+            downOldImg(urls) {
+                let  _self=this
                 let oImg = new Image();
                 oImg.crossOrigin = "";
                 oImg.onload = function () {
@@ -390,27 +409,49 @@
                     let ctxs = cans.getContext('2d');
                     cans.width = oImg.width;
                     cans.height = oImg.height;
+                    if(_self.choseBack!==0 && _self.choseBack!=='span'){
+                        ctxs.fillStyle=_self.color[_self.choseBack]
+                        ctxs.fillRect(0,0,oImg.width,oImg.height)
+                    }else if(_self.choseBack =='span'){
+                        ctxs.fillStyle=_self.colorValue;
+                        ctxs.fillRect(0,0,oImg.width,oImg.height)
+                    }
                     ctxs.drawImage(oImg, 0, 0, cans.width, cans.height);
-                    let url = cans.toDataURL("image/png");
-                    let save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
-                    save_link.href = url;
-                    save_link.download = 'test.png';
-                    let event = document.createEvent('MouseEvents');
-                    event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-                    save_link.dispatchEvent(event);
+                    console.log(myBrowser())
+                    if(myBrowser()==='IE' || myBrowser()==='Edge'){//ie下载图片
+                        let url=cans.msToBlob();
+                        let blobObj = new Blob([url]);
+                        window.navigator.msSaveOrOpenBlob(blobObj, 'test' + ".png");
+                    }else {
+                        let url = cans.toDataURL("image/png");
+                        let save_link = document.createElement('a');
+                        // let event = new MouseEvent("click"); // 创建一个单击事件
+                        save_link.href = url;
+                        save_link.download = 'test.png';
+                        let event = document.createEvent('MouseEvents');
+                        event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+                        save_link.dispatchEvent(event);
+                        // save_link.click()
+                    }
                 }
-                oImg.src = this.upOrCopy ? this.upImgUrl : this.copyBackImg
+                oImg.src = urls
             },
             //下载多张抠图
-            saveMove(){
-                let arr=this.rightMove.filter((val,index)=>{
+            saveMove() {
+                const loading = this.$loading({
+                    lock: true,
+                    text: '处理中...',
+                    spinner: 'el-icon-loading',
+                    background: 'rgba(0, 0, 0, 0.7)'
+                });
+                let arr = this.rightMove.filter((val, index) => {
                     return !val.status
                 })
-                this.StoreDowQrcode(arr)
+                this.StoreDowQrcode(arr,loading)
             },
 
             //批量下载图片
-            StoreDowQrcode(arr, blogTitle = "图片包") {
+            StoreDowQrcode(arr,loading, blogTitle = "图片包") {
                 var zip = new JSZip();
                 var imgs = zip.folder(blogTitle);
                 var baseList = [];
@@ -418,16 +459,16 @@
                 for (var i = 0; i < arr.length; i++) {
                     let name = arr[i].name; //图片名称
                     let image = new Image();
-                    image.crossOrigin='';
-                    image.onload = function() {
+                    image.crossOrigin = '';
+                    image.onload = function () {
                         let canvas = document.createElement("canvas");
                         canvas.width = image.width;
                         canvas.height = image.height;
                         let context = canvas.getContext("2d");
                         context.drawImage(image, 0, 0, image.width, image.height);
-                        let url = canvas.toDataURL(); // 得到图片的base64编码数据 let url =
-                        canvas.toDataURL("image/png");
-                        baseList.push({ name: name, img: url.substring(22) });
+                        let url = canvas.toDataURL("image/png"); // 得到图片的base64编码数据 let url =
+                        // canvas.toDataURL();
+                        baseList.push({name: name, img: url.substring(22)});
                         if (baseList.length === arr.length) {
                             if (baseList.length > 0) {
                                 for (let k = 0; k < baseList.length; k++) {
@@ -435,10 +476,11 @@
                                         base64: true
                                     });
                                 }
-                                zip.generateAsync({ type: "blob" }).then(function(content) {
+                                zip.generateAsync({type: "blob"}).then(function (content) {
                                     // see FileSaver.js
-                                    FileSaver.saveAs(content, blogTitle + ".zip");
+                                    saveAs(content, blogTitle + ".zip");
                                 });
+                                loading.close()
                             } else {
                                 _this.$message.error({
                                     title: "错误",
@@ -450,23 +492,38 @@
                     image.src = arr[i].img;
                 }
             },
-            save() {//保存下载
-                if (this.historySet.length <= 0 && this.choseBack == 0 && !this.clunmValue) {
-                    this.downOldImg()
-                    return
+            save(index) {//保存下载
+                // if (this.historySet.length <= 0 && this.choseBack == 0 && !this.clunmValue) {
+                //     this.downOldImg()
+                //     return
+                // }
+                if (index === 0) {
+                    let url=this.upOrCopy ? this.upImgUrl : this.copyBackImg
+                    this.downOldImg(url)
+                }else{
+                    if(this.imageMUrl){
+                        this.downOldImg(this.imageMUrl)
+                        return
+                    }
+                    downloadMattedImage({fileId:this.imageMsg.fileId}).then(res=>{
+                        if (!res.code) {
+                            this.imageMUrl=res.data
+                            this.downOldImg(res.data)
+                        }
+                    })
                 }
-                let _self = this
-                let can = document.createElement('canvas')
-                can.width = this.canveaContentW
-                can.height = this.canveaContentH
-                let ctx = can.getContext('2d')
-                if (this.choseBack !== 0) {
-                    let backData = this.cDownTxt.getImageData(250 - _self.canveaContentW / 2, 250 - _self.canveaContentH / 2, _self.canveaContentW, _self.canveaContentH)
-                    ctx.putImageData(backData, 0, 0)
-                    _self.saveTwo(can, ctx)
-                } else {
-                    _self.saveTwo(can, ctx)
-                }
+                // let _self = this
+                // let can = document.createElement('canvas')
+                // can.width = this.canveaContentW
+                // can.height = this.canveaContentH
+                // let ctx = can.getContext('2d')
+                // if (this.choseBack !== 0) {
+                //     let backData = this.cDownTxt.getImageData(250 - _self.canveaContentW / 2, 250 - _self.canveaContentH / 2, _self.canveaContentW, _self.canveaContentH)
+                //     ctx.putImageData(backData, 0, 0)
+                //     _self.saveTwo(can, ctx)
+                // } else {
+                //     _self.saveTwo(can, ctx)
+                // }
             },
             saveTwo(can, ctx) {//保存方法提取
                 let _self = this
@@ -505,7 +562,7 @@
                     })
                     return
                 }
-                this.files=[]
+                this.files = []
                 let _self = this;
                 this.backimgShow = false;
                 this.upOrCopy = false;
@@ -519,15 +576,11 @@
                 this.toscroll()
                 let data = {url: this.imgUrl};
                 copyUpload(data).then(res => {
-                    if (_self.timer) {
-                        clearInterval(_self.timer)
-                        _self.timer = null
-                    }
-                    // if (res.data.code == 0) {
+                    _self.imageMsg=res.data
                     this.upLoading = false;
-                    this.copyBackImg = res.data.bgRemoved;
+                    this.copyBackImg = res.data.bgRemovedPreview;
                     let image = new Image();
-                    image.src = res.data.bgRemoved;
+                    image.src = res.data.bgRemovedPreview;
                     image.onload = function () {
                         let arrThis = [image.width, image.height];
                         let bigOne = _self.fingBig(arrThis);
@@ -544,22 +597,23 @@
                         }
                         _self.canveaContentW = image.width;//画到画布上的大小
                         _self.canveaContentH = image.height;
-                        _self.drawImg(res.data.bgRemoved, [_self.hiddenCanvasTwo])//隐藏扣过的
+                        _self.drawImg(res.data.bgRemovedPreview, [_self.hiddenCanvasTwo])//隐藏扣过的
                         _self.drawImg(res.data.original, [_self.hiddenCanvasThree])//隐藏原图的
                         _self.drawImg(res.data.original, [_self.hiddenCanvas]);
                         _self.upImgUrlTwo = res.data.original
-                        _self.drawImg(res.data.bgRemoved, [_self.cUp], 'closeLoading');
+                        _self.drawImg(res.data.bgRemovedPreview, [_self.cUp], 'closeLoading');
                         _self.drawImg(_self.opacity, [_self.cDown])
+                        if (_self.timer) {
+                            clearInterval(_self.timer)
+                            _self.timer = null
+                        }
                         _self.initData()//初始化数据
                     }
-
-                    // } else this.$message({message: res.data.msg, type: 'warning'})
                 }).catch(err => {
                     if (_self.timer) {
                         clearInterval(_self.timer);
                         _self.timer = null
                     }
-                    // this.$message({message: '网络错误,请重新尝试', type: 'warning'})
                 })
             },
             fingBig(val) {//找最大
@@ -582,7 +636,7 @@
                         } else obj.getContext('2d').drawImage(image, 250 - _self.canveaContentW / 2, 250 - _self.canveaContentH / 2, _self.canveaContentW, _self.canveaContentH);
                     })
                     _self.upLoading = false
-                    _self.percentValue =0
+                    _self.percentValue = 0
                     _self.$refs.upImg.value = ''
                     if (close) _self.canvasShow = true
                     if (!clear) _self.historySet = []
@@ -597,27 +651,27 @@
                         clearInterval(this.timer)
                         this.percentValue = 99
                     }
-                }, 100)
+                }, 50)
             },
             changeImg(e) {//图片上传
                 this.toscroll()
                 let _self = this
-                if(!this.addNewImg){
-                    this.files=[]
-                    this.leftMove=[]
-                    this.rightMove=[]
-                    for(let i=0;i<this.$refs.upImg.files.length;i++){
+                if (!this.addNewImg) {
+                    this.files = []
+                    this.leftMove = []
+                    this.rightMove = []
+                    for (let i = 0; i < this.$refs.upImg.files.length; i++) {
                         this.files.push(this.$refs.upImg.files[i])
                     }
-                    if(this.files.length>1){
-                        this.canvasShow=true
+                    if (this.files.length > 1) {
+                        this.canvasShow = true
                         this.upmoreImg(this.files)
                         return
                     }
-                }else {
-                    this.addNewImg=false;
-                    let arr=[]
-                    for(let i=0;i<this.$refs.upImg.files.length;i++){
+                } else {
+                    this.addNewImg = false;
+                    let arr = []
+                    for (let i = 0; i < this.$refs.upImg.files.length; i++) {
                         arr.push(this.$refs.upImg.files[i])
                         this.files.push(this.$refs.upImg.files[i])
                     }
@@ -654,10 +708,10 @@
                 }
             },
             //上传多张图片
-            upmoreImg(arr){
-                let _self=this
-                arr.map((val,index)=>{
-                    let file=val
+            upmoreImg(arr) {
+                let _self = this
+                arr.map((val, index) => {
+                    let file = val
                     if (window.FileReader) {
                         let reader = new FileReader();
                         reader.readAsDataURL(file);
@@ -665,38 +719,26 @@
                         reader.onloadend = function (e) {
                             let param = new FormData();
                             param.append('file', file, file.name)
-                            uploadImgApi(param).then(res=> {
+                            uploadImgApi(param).then(res => {
                                 _self.leftMove.push(e.target.result)
-                                if (_self.timer) {
-                                    clearInterval(_self.timer)
-                                    _self.timer = null
-                                }
                                 if (res.code == 0) {
-                                    let obj={
-                                        name:val.name.substring(0,val.name.lastIndexOf('.')),
-                                        img:res.data.bgRemoved,
-                                        status:0,
-                                        msg:''
+                                    let obj = {
+                                        name: val.name.substring(0, val.name.lastIndexOf('.')),
+                                        img: res.data.bgRemovedPreview,
+                                        status: 0,
+                                        msg: ''
                                     }
                                     _self.rightMove.push(obj)
                                 } else {
-                                    let obj={
-                                        name:val.name.substring(0,val.name.lastIndexOf('.')),
-                                        img:'',
-                                        status:1,
-                                        msg:'抠图失败'
+                                    let obj = {
+                                        name: val.name.substring(0, val.name.lastIndexOf('.')),
+                                        img: '',
+                                        status: 1,
+                                        msg: '抠图失败'
                                     }
                                     _self.rightMove.push(obj)
-                                    // console.log(index)
-                                    // _self.$message({message: res.data.msg+'-'+index, type: 'warning'});
                                 }
-                            }).catch(err=> {
-                                if (_self.timer) {
-                                    clearInterval(_self.timer)
-                                    _self.timer = null
-                                }
-                                console.log(err)
-                                // _self.$message({message: '网络错误,请重新尝试', type: 'warning'})
+                            }).catch(err => {
                             })
                         };
                     }
@@ -715,10 +757,10 @@
                 let param = new FormData();
                 param.append('file', file, file.name)
                 uploadImgApi(param).then(res => {
-                    // if (res.data.code == 0) {
+                    _self.imageMsg=res.data
                     _self.clearCanvas('all')
                     let image = new Image()
-                    image.src = res.data.bgRemoved
+                    image.src = res.data.bgRemovedPreview
                     image.onload = function () {
                         let arrThis = [image.width, image.height]
                         let bigOne = _self.fingBig(arrThis)
@@ -736,11 +778,11 @@
                         _self.canveaContentW = image.width//画到画布上的位置
                         _self.canveaContentH = image.height
                         _self.drawImg(res.data.original, [_self.hiddenCanvas])
-                        _self.drawImg(res.data.bgRemoved, [_self.hiddenCanvasTwo])//隐藏扣过的
+                        _self.drawImg(res.data.bgRemovedPreview, [_self.hiddenCanvasTwo])//隐藏扣过的
                         _self.drawImg(res.data.original, [_self.hiddenCanvasThree])//隐藏原图的
                         _self.upImgUrlTwo = res.data.original
-                        _self.upImgUrl = res.data.bgRemoved
-                        _self.drawImg(res.data.bgRemoved, [_self.cUp], 'closeLoading')
+                        _self.upImgUrl = res.data.bgRemovedPreview
+                        _self.drawImg(res.data.bgRemovedPreview, [_self.cUp], 'closeLoading')
                         _self.drawImg(_self.opacity, [_self.cDown])
                         _self.initData()//初始化数据
                         if (_self.timer) {
@@ -748,8 +790,7 @@
                             _self.timer = null
                         }
                     }
-                    // } else _self.$message({message: res.data.msg, type: 'warning'});
-                }).catch(err=> {
+                }).catch(err => {
                     if (_self.timer) {
                         clearInterval(_self.timer)
                         _self.timer = null
@@ -998,15 +1039,20 @@
                 if (x) return can2.toDataURL("image/png");
                 else this.setImgOne = can2.toDataURL("image/png");
             },
-            addNewImgto(){//批量追加
-                this.addNewImg=true
+            addNewImgto() {//批量追加
+                this.addNewImg = true
                 this.$refs.upImg.click()
             },
-            choseSize(){
-                let _self=this
-                setTimeout(()=>{
-                    _self.showSize=false
-                },300)
+            choseSize() {
+                let _self = this
+                setTimeout(() => {
+                    if (this.showSizeStop) return
+                    _self.showSize = false
+                }, 300)
+            },
+            boxLeave() {
+                this.showSizeStop = false
+                this.showSize = false
             }
         },
     }
@@ -1017,7 +1063,7 @@
     .helloFirst {
         background-color: #f5f5f6;
         /*padding-top:24px ;*/
-        padding-bottom: 40px;
+
         .Uploading {
             height: 500px;
             background-color: #fff;
@@ -1025,7 +1071,7 @@
             border-radius: 15px;
             text-align: center;
             /*margin-bottom: 20px;*/
-            .el-progress{
+            .el-progress {
                 margin: 96px auto 26px;
             }
         }
@@ -1052,11 +1098,12 @@
             }
 
             .right {
-                .downLoadBtn{
-                    width:160px;
+                .downLoadBtn {
+                    width: 160px;
                     margin: 50px auto 0;
                     position: relative;
-                    .sizeChose{
+
+                    .sizeChose {
                         position: absolute;
                         margin-top: 10px;
                         width: 260px;
@@ -1068,15 +1115,18 @@
                         padding: 10px 0;
                         background-color: #fff;
                         left: -100px;
-                        & > div:hover{
+
+                        & > div:hover {
                             background-color: #f1f1f1;
                         }
-                        & > div{
+
+                        & > div {
                             cursor: pointer;
                             padding: 0 12px;
                         }
                     }
                 }
+
                 .otherBtn {
                     font-size: 12px;
                     line-height: 28px;
@@ -1294,7 +1344,6 @@
             .right {
                 width: 465px;
                 margin-left: 200px;
-
                 p {
                     width: 290px;
                 }
@@ -1319,37 +1368,44 @@
                 }
             }
         }
-        .seachHeader{
+
+        .seachHeader {
             background-color: #5093b0;
             padding: 81px 0 108px 0;
         }
+
         .seachI, .seachDiv {
             font-size: 24px;
             color: #fff;
             position: relative;
-            & > img{
+
+            & > img {
                 width: 455px;
                 height: 410px;
                 margin-left: 116px;
             }
-            p.flex{
+
+            p.flex {
                 font-size: 54px;
                 margin-bottom: 15px;
             }
-            .m-boonte{
+
+            .m-boonte {
                 margin-bottom: 44px;
             }
+
             .el-button {
                 font-size: 16px;
                 line-height: 50px;
                 width: 220px;
                 border-radius: 25px;
-                padding: 0 ;
+                padding: 0;
                 background-color: #2fb9f7;
-                border:none;
+                border: none;
                 margin-bottom: 15px;
             }
-            .el-button:nth-child(2){
+
+            .el-button:nth-child(2) {
                 background-color: #40e0c4;
             }
 
@@ -1404,36 +1460,43 @@
         z-index: 99;
         visibility: hidden;
     }
+
     div.propeo, .el-popover, .el-popper[x-placement^=bottom] {
         padding: 0 !important;
     }
-    .moreImgSet{
+
+    .moreImgSet {
         background-color: #fff;
         padding: 0 20px 20px;
         border-radius: 15px;
         /*margin-bottom: 20px;*/
         position: relative;
     }
-    .moreImgSet .moveLeft,.moreImgSet .moveright{
+
+    .moreImgSet .moveLeft, .moreImgSet .moveright {
         width: 500px;
         font-size: 14px;
         text-align: center;
         line-height: 50px;
-        p{
+
+        p {
             font-size: 12px;
         }
     }
-    .moreImgSet .moveLeft .flexs ,.moreImgSet .moveright .flexs{
+
+    .moreImgSet .moveLeft .flexs, .moreImgSet .moveright .flexs {
         height: 500px;
         overflow-y: auto;
     }
-    .moreImgSet .moveLeft .flexs > div.addnew{
+
+    .moreImgSet .moveLeft .flexs > div.addnew {
         font-size: 36px;
         text-align: center;
         background-color: #e9e9e9;
         font-weight: 400;
     }
-    .moreImgSet .moveLeft .flexs > div,.moreImgSet .moveright .flexs > div{
+
+    .moreImgSet .moveLeft .flexs > div, .moreImgSet .moveright .flexs > div {
         width: 85px;
         height: 85px;
         margin-right: 10px;
@@ -1444,15 +1507,18 @@
         background-color: #979797;
         float: left;
     }
-    .moreImgSet .moveright .flexs > div > div{
+
+    .moreImgSet .moveright .flexs > div > div {
         height: 100%;
     }
-    .moreImgSet .moveLeft > div img , .moreImgSet .moveright > div img{
+
+    .moreImgSet .moveLeft > div img, .moreImgSet .moveright > div img {
         display: block;
         width: 100%;
         height: 100%;
     }
-    .moreImgSet .moveLeft .flexs > div:nth-child(5n),.moreImgSet .moveright .flexs > div:nth-child(5n){
+
+    .moreImgSet .moveLeft .flexs > div:nth-child(5n), .moreImgSet .moveright .flexs > div:nth-child(5n) {
         margin-right: 0;
     }
 </style>

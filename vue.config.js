@@ -1,9 +1,9 @@
 const webpack = require('webpack')
 module.exports = {
-    // publicPath: process.env.NODE_ENV === 'production'
-    //     ? ''
-    //     : '',
+    // publicPath: process.env.NODE_ENV === 'production' ? 'http://47.111.168.199:8080' : 'http://47.111.168.199:8080',
+    publicPath:'./',
     outputDir:'dist',//打包生出的目录
+    productionSourceMap: false,
     // assetsDir:'',//放置生成的静态资源 (js、css、img、fonts) 的 (相对于 outputDir 的) 目录。
     // indexPath:'',//指定生成的 index.html 的输出路径 (相对于 outputDir)。也可以是一个绝对路径。
     // productionSourceMap:'',//如果你不需要生产环境的 source map，可以将其设置为 false 以加速生产环境构建。
@@ -37,38 +37,52 @@ module.exports = {
         },
         loginOrRegister:{
             entry: 'src/views/login/login.js',
-            template:'public/login.html',
-            filename: 'login.html',
+            template:'public/loginOrRegister.html',
+            filename: 'loginOrRegister.html',
             title: '登录',
-            chunks: ['chunk-vendors', 'chunk-common', 'loginOrRegister']
+            // chunks: ['chunk-vendors', 'chunk-common', 'loginOrRegister']
         },
         userCenter:{
             entry: 'src/views/userCenter/user.js',
             template:'public/userCenter.html',
             filename: 'userCenter.html',
             title: '我的',
-            chunks: ['chunk-vendors', 'chunk-common', 'userCenter']
+            // chunks: ['chunk-vendors', 'chunk-common', 'userCenter']
         },
         userVip:{
             entry: 'src/views/userVip/index.js',
             template:'public/userVip.html',
             filename: 'userVip.html',
             title: '会员中心',
-            chunks: ['chunk-vendors', 'chunk-common', 'userVip']
+            // chunks: ['chunk-vendors', 'chunk-common', 'userVip']
         },
         resBackMsg:{
             entry: 'src/views/resBackMsg/index.js',
             template:'public/resRackMsg.html',
             filename: 'resBackMsg.html',
             title: '处理结果',
-            chunks: ['chunk-vendors', 'chunk-common', 'resBackMsg']
+            // chunks: ['chunk-vendors', 'chunk-common', 'resBackMsg']
         },
         changePass:{
             entry: 'src/views/changePassword/index.js',
             template:'public/changePass.html',
             filename: 'changePass.html',
+            title: '找回密码',
+            // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
+        },
+        updataPass:{
+            entry: 'src/views/updataPassword/index.js',
+            template:'public/updata.html',
+            filename: 'updataPass.html',
             title: '修改密码',
-            chunks: ['chunk-vendors', 'chunk-common', 'changePass']
+            // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
+        },
+        emailAction:{
+            entry: 'src/views/emailAction/index.js',
+            template:'public/emailAction.html',
+            filename: 'emailAction.html',
+            title: '邮箱',
+            // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
         },
     },
     configureWebpack: {

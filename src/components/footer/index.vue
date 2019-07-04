@@ -3,7 +3,7 @@
         <div class="margin">
             <ul class="flex">
                 <li>
-                    <img src="static/images/logo.png" alt="">
+                    <img src="static/images/logos.png" alt="">
                     <p>自助构建人工智能服务视觉应用平台，开创全球首个自助式图像引擎，实现快速服务创建、扩展和维护。企业可以通过简单、快速的API调用，一站式获得多种人工智能技术服务，实现技术与业务的无缝连接。</p>
                 </li>
                 <li>
@@ -20,7 +20,7 @@
                     <h4>研究成果</h4>
                     <p>人脸识别</p>
                     <p>步态识别</p>
-                    <p>只能语音</p>
+                    <p>智能语音</p>
                 </li>
             </ul>
         </div>
@@ -47,8 +47,8 @@
     }
     footer img{
         display: block;
-        width: 124px;
-        height: 40px;
+        /*width: 124px;*/
+        /*height: 40px;*/
         margin-bottom: 15px;
     }
     footer ul {
