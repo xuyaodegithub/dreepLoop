@@ -1,0 +1,107 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="../static/public.css">
+  <link rel="stylesheet" href="//unpkg.com/docsify/themes/vue.css">
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <style>
+    header{
+      font-size: 14px;
+      color: #fff;
+      line-height:60px ;
+      background-color: #303030;
+      /*background: url("static/images/back.jpg") no-repeat center;*/
+    }
+    header li{
+      margin: 0 25px;
+    }
+    header .right span{
+      display: inline-block;
+      padding: 0 15px;
+      line-height: 32px;
+      cursor:pointer;
+    }
+    header .right span.active{
+      border: 1px solid #a1a1a1;
+      border-radius: 16px;
+    }
+    header li:first-child{
+      margin-left: 0;
+      margin-right: 60px;
+    }
+    body.sticky .sidebar{
+      top: 60px;
+    }
+  </style>
+</head>
+<body>
+<header id="headers">
+  <div class="margin flex j-b a-i first">
+    <ul class="flex">
+      <li><img src="../static/images/logos.png" alt="" class="cu" @click="backindex()"></li>
+      <li class="cu" @click="backindex()">智能抠图</li>
+      <li class="cu">API</li>
+      <li class="cu" @click="userCenter()">会员</li>
+      <!--            <li class="cu">登录</li>-->
+    </ul>
+    <div class="right">
+      <div v-if="!loginAfter">
+        <span @click="userlogin(1)">登录</span>
+        <span @click="userlogin(0)" class="active">注册</span>
+      </div>
+    </div>
+  </div>
+</header>
+  <div id="app"></div>
+  <script>
+    window.$docsify = {
+      //...
+    }
+  </script>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- import JavaScript -->
+<!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
+<script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
+<script>
+  const toRouter=(url)=>{
+    let urls = window.location.href.split('/docsify')[0]
+    // let urlss = urls.substring(0,urls.lastIndexOf('/'))
+    window.location.href=urls+'/'+ url + '.html'
+  }
+  const basrUrls=()=>{
+    let urls = window.location.href.split('/docsify')[0]
+    // let baseUrl = urls.substring(0,urls.lastIndexOf('/'))
+    return urls
+  }
+  new Vue({
+    el: '#headers',
+    data: function() {
+      return {
+        loginAfter:false,
+        userInfo:'',
+        basrUrls:basrUrls()
+      }
+    },
+    methods:{
+      backindex(){
+         toRouter('index')
+      },
+      userlogin(key){
+        window.location.href=this.basrUrls+'/loginOrRegister.html#/?type='+key
+      },
+      userCenter(){
+        toRouter('userVip')
+      },
+    },
+    mounted() {
+
+    }
+  })
+</script>
+</body>
+</html>

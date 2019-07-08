@@ -17,5 +17,5 @@ export const myBrowser=()=>{//判断浏览器类型
     if (userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1 && userAgent.indexOf("Opera") < 0) return "IE"; //判断是否IE浏览器
     if (userAgent.indexOf("Edge") > -1) return "Edge"; //判断是否Edge浏览器
     if (userAgent.indexOf("QQBrowser") > -1) return "QQ"; //判断是否QQ浏览器
-    else return 'IE'
+    else return 'IE'//不认识一律ie处理
 }

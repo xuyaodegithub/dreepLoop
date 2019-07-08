@@ -9,7 +9,7 @@
                     <p class="m-boonte"> &nbsp;1 0 0 % 自 动 - 5 秒 - 免 费 背 景 模 板</p>
                     <div class="flex dwoBtn">
                         <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()">上传1张图片</el-button>
-                        <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()">批量上传</el-button>
+                        <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg(2)">批量上传</el-button>
                     </div>
                     <div class="flex input">
                         <input placeholder="粘贴URL地址" v-model="imgUrl" @keyup.enter="copyImgUrl"/>
@@ -155,7 +155,7 @@
                         </div>
                     </div>
                     <el-button round size="small" style="width: 100px;display: block;margin: 30px auto 0;"
-                               icon="el-icon-plus" @click="upLoadimg()">批量抠图
+                               icon="el-icon-plus" @click="upLoadimg(2)">批量抠图
                     </el-button>
                 </div>
                 <div class="moveright">
@@ -192,10 +192,14 @@
     import {copyUpload, uploadImgApi, downloadMattedImage} from "@/apis/index";
     import headerSub from '@/components/header/index.vue'
     import { myBrowser } from "../../utils";
+    import {getToken} from "../../utils/auth";
+    import { basrUrls } from "../../utils";
+
     export default {
         name: 'HelloWorld',
         data() {
             return {
+                basrUrls:basrUrls(),
                 penstyle:{
                     cursor:`url(${pen}),auto`
                 },
@@ -352,7 +356,11 @@
                 this.upBackImg = true
                 this.$refs.upImg.click()
             },
-            upLoadimg() {//点击上传
+            upLoadimg(key) {//点击上传
+                if(!getToken() && key){
+                    window.location.href=`${this.basrUrls}/loginOrRegister.html#/?type=1`
+                    return
+                }
                 this.$refs.upImg.value = ''
                 this.percentValue = 0
                 this.upBackImg = false//避免用户点击上传背景后，不选图片

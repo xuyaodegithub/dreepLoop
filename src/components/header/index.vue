@@ -4,7 +4,7 @@
             <ul class="flex">
                 <li><img src="../../assets/image/logos.png" alt="" class="cu" @click="backindex()"></li>
                 <li class="cu" @click="backindex()">智能抠图</li>
-                <li class="cu">API</li>
+                <li class="cu" @click="toApi()">API</li>
                 <li class="cu" @click="userCenter()">会员</li>
                 <!--            <li class="cu">登录</li>-->
             </ul>
@@ -49,10 +49,10 @@
             }
         },
         methods:{
+            toApi(){
+                window.location.href=this.basrUrls+'/docsify/#/test.md'
+            },
             getUserinfo(){
-                // let token=getToken()
-                // if(token)this.loginAfter=true
-                // else this.loginAfter=false
                 if(!getToken()) return
                 getUserInfo().then(res=>{
                     if(!res.code){
