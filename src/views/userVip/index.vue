@@ -2,17 +2,17 @@
     <div class="vip">
         <header-sub></header-sub>
         <div class="section margin">
-            <h3>获取全分辨率图像</h3>
-            <p>1图像=1能量</p>
+            <h3>Get full resolution image</h3><!--获取全分辨率图像-->
+            <p>1 picture = 1 point</p><!--1图像=1能量-->
             <div class="flex a-i">
                 <div class="left">
-                    <div class="top">推荐个人使用和评估</div>
-                    <div class="title">自由账户</div>
+                    <div class="top">Recommended for individual use and assessment</div><!--推荐个人使用和评估-->
+                    <div class="title">Free Account</div><!--自由账户-->
                     <div class="price">一</div>
-                    <div class="five0">50次免费预览</div>
-                    <p>每月通过API和应用程序</p>
-                    <div class="share">推荐朋友可获得能量</div>
-                    <el-button type="primary" round @click="userRegest()">免费注册</el-button>
+                    <div class="five0">Free preview for 50 images per month</div><!--50次免费预览-->
+                    <p>through API calls</p><!--每月通过API和应用程序-->
+                    <div class="share">Earn points by referrals</div><!--推荐朋友可获得能量-->
+                    <el-button type="primary" round @click="userRegest()">Free registration</el-button><!--免费注册-->
                 </div>
 <!--                <div class="center">-->
 <!--                    <div class="top">无风险!可随时降级、升级和取消</div>-->
@@ -33,63 +33,68 @@
                 <div class="right">
 <!--                    <div class="top">随时可用的能量，两年内有效</div>-->
 <!--                    <div class="title">随时可用</div>-->
-                     <div class="top">无风险!可随时降级、升级和取消</div>
-                     <div class="title">订阅计划</div>
-                    <div class="price"><span>￥{{selectRadio2 | Calculation}}</span>/图像</div>
+                     <div class="top">No risk! Can be downgraded, upgraded and cancelled at any time</div><!--无风险!可随时降级、升级和取消-->
+                     <div class="title">Member Subscription</div><!--订阅计划-->
+                    <div class="price"><span>${{selectRadio2 | Calculation}}</span>/picture</div><!--图像-->
                     <el-radio-group v-model="radio2" @change="changeRadio2">
                         <el-radio :label="item.planId" v-for="(item,index) in choseList" :key="index">
                             <span class="clear">
-                                <span>{{item.creditsPerMonth}}能量/月</span>
-                                <span>￥{{item.price}}</span>
-                                <span>￥{{item | Calculation}}/图像</span>
+                                <span>{{item.creditsPerMonth}}points/month</span><!--能量/月-->
+                                <span>${{item.price}}</span>
+                                <span>${{item | Calculation}}/picture</span>
                             </span>
                         </el-radio>
 <!--                        <el-radio :label="99">企业-联系我们</el-radio>-->
                     </el-radio-group>
-                    <el-button type="primary" round @click="dialogVisible = true">立即购买</el-button>
+                    <el-button type="primary" round @click="dialogVisible = true">Order Now</el-button><!--立即购买-->
                 </div>
             </div>
         </div>
         <div class="problem">
             <div class="margin">
-                <h3>常见问题</h3>
+                <h3>FAQ</h3><!--常见问题-->
                 <div class="item">
                     <div class="flex Ques">
                         <i>Q</i>
-                        <p>我应该得到随付即付的能量还是订阅</p>
+                        <p>Should I get paid-as-you-go points or subscribe?</p><!--我应该得到随付即付的能量还是订阅-->
                     </div>
                     <div class="flex Res">
                         <i>A</i>
-                        <p>一次性或难以预测图像的需求，现即付的信用是一个伟大的选择。对于较大的或正在进行的图像的需求，你会节省每一个图片。
-                        你的订阅过程。月度计划开始每月津40图像和翻转的任何未使用的能量(100%)你会受益于巨大的储存无需大费周章。</p>
+                        <p>For one-time users or those who have difficulty in predicting image demand, pay-as-you-go credit is a great choice. For those who have larger or ongoing demands, you will save every money on every picture processed if you become subscribed member. As low as $9, the monthly subscription with unused points carry-over capability will benefit you with tremendous savings.</p><!--一次性或难以预测图像的需求，现即付的信用是一个不错的选择。对于较大的或持续的图像的需求，订阅会为你处理的每一张图片省钱。
+                        月度计划开始每月津40图像和翻转的任何未使用的能量(100%)你会受益于巨大的储存无需大费周章。-->
                     </div>
                 </div>
                 <div class="item">
                     <div class="flex Ques">
                         <i>Q</i>
-                        <p>什么是能量</p>
+                        <p>what is point?</p><!--什么是能量-->
                     </div>
                     <div class="flex Res">
                         <i>A</i>
-                        <p>信用使您能够使用删除。bg在高质量的全分辨率图样。您可以使用删除信用。bg通过删除。bg API，在我们的 Windows/ Mac/ Linux应用程序或Photoshop扩展。删除背景从1图像需要1能量，预览图片删除都是免费，通过移除
-                        bg和1/4信贷。bg应用程序和API。订阅包括每个月的预算额度，你可以使用在这个月（或滚动到下个月，只要你爆出订阅）现收现付制能量是有效的购买后2年</p>
+<!--                        信用使您能够使用删除。bg在高质量的全分辨率图样。您可以使用删除信用。bg通过删除。bg API，在我们的 Windows/ Mac/ Linux应用程序或Photoshop扩展。删除背景从1图像需要1能量，预览图片删除都是免费，通过移除-->
+<!--                        bg和1/4信贷。bg应用程序和API。订阅包括每个月的预算额度，你可以使用在这个月（或滚动到下个月，只要你爆出订阅）现收现付制能量是有效的购买后2年-->
+                        <p>Point allows you to use Picup to process high quality images with full resolution. You can use points through our API or web browser extension. Cutting out one picture requires 1 point, and image preview is free on our website picup.ai. The subscription includes the monthly budget amount that you can use during that month (or carry over to the next month, as long as you remain subscribed). </p>
                     </div>
                 </div>
                 <div class="item">
                     <div class="flex Ques">
                         <i>Q</i>
-                        <p>支付哪些图像</p>
+                        <p>Which images are supported</p><!--支持哪些图像-->
                     </div>
                     <div class="flex Res">
                         <i>A</i>
-                        <p>你可以上传任何JPG和PNG图像高达8mb，每个图像都必须包含至少一个人，是一个产品照片或一辆车照片（更多信息），如果图像分辨率大于10像素（例如4000x2500或任何其他长宽比）这个最大分辨率的大小</p>
+<!--                        你可以上传任何JPG和PNG图像高达8mb，每个图像都必须包含至少一个人，是一个产品照片或一辆车照片（更多信息），-->
+<!--                        如果图像分辨率大于10像素（例如4000x2500或任何其他长宽比）这个最大分辨率的大小-->
+                        <p>
+                            You can upload any JPG and PNG images up to 8mb, each image must contain at least one person (we are working on to cutout additional objects/entities at this time), the image will be resized if its resolution is greater than 10 megapixels (e.g. 4000x2500 or any other Aspect ratio).
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="peopleAsk">
             <div class="margin">
-                <h3>用户反馈</h3>
+                <h3>Customer Feedback</h3><!--用户反馈-->
                 <div class="flex a-i j-b">
                     <div class="ones flex" v-for="(val,index) in feedbackList" :key="index">
                         <div class="imgs">
@@ -102,7 +107,7 @@
                         </div>
                     </div>
                 </div>
-                <el-button type="primary">继续</el-button>
+                <el-button type="primary">Continue</el-button><!--继续-->
             </div>
         </div>
         <footer-sub></footer-sub>
@@ -112,8 +117,8 @@
                 :visible.sync="dialogVisible"
                 width="400px">
             <div class="Dcontent">
-                <div class="title">订阅计划-{{selectRadio2.creditsPerMonth}}能量/月</div>
-                <div class="price">￥{{selectRadio2.price}}</div>
+                <div class="title">-Member Subscription- {{selectRadio2.creditsPerMonth}} points/month</div><!--订阅计划-{{selectRadio2.creditsPerMonth}}能量/月-->
+                <div class="price">${{selectRadio2.price}}</div>
 <!--                <p><i class="el-icon-minus"></i>&nbsp; 请选择您的地址 &nbsp;<i class="el-icon-minus"></i></p>-->
 <!--                <el-select v-model="value" placeholder="请选择">-->
 <!--                    <el-option-->
@@ -123,7 +128,7 @@
 <!--                            :value="item.value">-->
 <!--                    </el-option>-->
 <!--                </el-select>-->
-                <el-button @click="userContinue()">继续</el-button>
+                <el-button @click="userContinue()">Continue</el-button><!--继续-->
             </div>
         </el-dialog>
     </div>
@@ -143,9 +148,12 @@
                 choseList:[
                 ],
                 feedbackList:[
-                    {name:'王女士',tag:'跨境店铺店主',content:'他能帮我快速处理图片背景，节约了我大量的时间，让我有更多的时间运营我的店铺，并且他处理图片背景的效果非常强大。',img:'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3677209778,3519789803&fm=27&gp=0.jpg'},
-                    {name:'王女士',tag:'跨境店铺店主',content:'他能帮我快速处理图片背景，节约了我大量的时间，让我有更多的时间运营我的店铺，并且他处理图片背景的效果非常强大。',img:'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3677209778,3519789803&fm=27&gp=0.jpg'},
-                    {name:'王女士',tag:'跨境店铺店主',content:'他能帮我快速处理图片背景，节约了我大量的时间，让我有更多的时间运营我的店铺，并且他处理图片背景的效果非常强大。',img:'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3677209778,3519789803&fm=27&gp=0.jpg'},
+                    // {name:'王女士',tag:'跨境店铺店主',content:'他能帮我快速处理图片背景，节约了我大量的时间，让我有更多的时间运营我的店铺，并且他处理图片背景的效果非常强大。',img:'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3677209778,3519789803&fm=27&gp=0.jpg'},
+                    // {name:'王女士',tag:'跨境店铺店主',content:'他能帮我快速处理图片背景，节约了我大量的时间，让我有更多的时间运营我的店铺，并且他处理图片背景的效果非常强大。',img:'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3677209778,3519789803&fm=27&gp=0.jpg'},
+                    // {name:'王女士',tag:'跨境店铺店主',content:'他能帮我快速处理图片背景，节约了我大量的时间，让我有更多的时间运营我的店铺，并且他处理图片背景的效果非常强大。',img:'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3677209778,3519789803&fm=27&gp=0.jpg'},
+                    {name:'Ms. Wang',tag:'Cross-border e-commerce business owner',content:'Picup helps me quickly process the foreground of the picture, saving me a lot of time, giving me more time to run my business, and the effect on the processed pictures is very amazing!',img:'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3677209778,3519789803&fm=27&gp=0.jpg'},
+                    {name:'Ms. Wang',tag:'Cross-border e-commerce business owner',content:'Picup helps me quickly process the foreground of the picture, saving me a lot of time, giving me more time to run my business, and the effect on the processed pictures is very amazing!',img:'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3677209778,3519789803&fm=27&gp=0.jpg'},
+                    {name:'Ms. Wang',tag:'Cross-border e-commerce business owner',content:'Picup helps me quickly process the foreground of the picture, saving me a lot of time, giving me more time to run my business, and the effect on the processed pictures is very amazing!',img:'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3677209778,3519789803&fm=27&gp=0.jpg'},
                 ],
                 radio:1,
                 radio2:1,

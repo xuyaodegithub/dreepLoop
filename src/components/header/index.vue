@@ -3,15 +3,15 @@
         <div class="margin flex j-b a-i first">
             <ul class="flex">
                 <li><img src="../../assets/image/logos.png" alt="" class="cu" @click="backindex()"></li>
-                <li class="cu" @click="backindex()">智能抠图</li>
+                <li class="cu" @click="backindex()">Smart Foreground Cut-out</li><!--智能抠图-->
                 <li class="cu" @click="toApi()">API</li>
-                <li class="cu" @click="userCenter()">会员</li>
+                <li class="cu" @click="userCenter()">Members</li><!--会员-->
                 <!--            <li class="cu">登录</li>-->
             </ul>
             <div class="right">
                 <div v-if="!loginAfter">
-                    <span @click="userlogin(1)">登录</span>
-                    <span @click="userlogin(0)" class="active">注册</span>
+                    <span @click="userlogin(1)">Sign In</span><!--登录-->
+                    <span @click="userlogin(0)" class="active">Register</span><!--注册-->
                 </div>
                 <div class="cu" v-else>
                     <el-dropdown placement="bottom-end" @command="handleCommand">

@@ -4,23 +4,24 @@
             <ul class="flex">
                 <li>
                     <img src="static/images/logos.png" alt="">
-                    <p>自助构建人工智能服务视觉应用平台，开创全球首个自助式图像引擎，实现快速服务创建、扩展和维护。企业可以通过简单、快速的API调用，一站式获得多种人工智能技术服务，实现技术与业务的无缝连接。</p>
+                    <!--        自助构建人工智能服务视觉应用平台，开创全球首个自助式图像引擎，实现快速服务创建、扩展和维护。企业可以通过简单、快速的API调用，一站式获得多种人工智能技术服务，实现技术与业务的无缝连接。-->
+                    <p>Artificial intelligence visual application development platform, forging the world's first self-service image engine to achieve rapid service creation, extension and maintenance. Enterprises acquire a variety of artificial intelligence technology services at one-stop via simple and fast API calls, enabling seamless connection between technology and businesses.</p>
                 </li>
                 <li>
-                    <h4>联系我们</h4>
+                    <h4> Contact Us</h4><!--联系我们-->
                     <p>business@deeplor.com</p>
                 </li>
                 <li>
-                    <h4>关于我们</h4>
-                    <p>上传图片</p>
-                    <p>API介绍</p>
-                    <p>会员定价</p>
+                    <h4>About Us</h4><!--关于我们-->
+                    <p>Upload pictures</p><!--上传图片-->
+                    <p>API introduction</p><!--API介绍-->
+                    <p>Member Pricing</p><!--会员定价-->
                 </li>
                 <li>
-                    <h4>研究成果</h4>
-                    <p>人脸识别</p>
-                    <p>步态识别</p>
-                    <p>智能语音</p>
+                    <h4>Research Outcome</h4><!--研究成果-->
+                    <p>Face Recognition</p><!--人脸识别-->
+                    <p>Gait Recognition</p><!--步态识别-->
+                    <p>Intelligent Voice</p><!--智能语音-->
                 </li>
             </ul>
         </div>

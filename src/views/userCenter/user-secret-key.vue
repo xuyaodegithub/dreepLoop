@@ -7,19 +7,21 @@
         </div>
         <div class="btn">
 <!--            <el-button type="primary" round>上传图片</el-button>-->
-            <el-button type="primary" round>阅读API文档</el-button>
+            <el-button type="primary" round @click="toApi()">阅读API文档</el-button>
         </div>
     </div>
 </template>
 
 <script>
    import { userApikey, userRefreshApikey } from "../../apis";
+    import { basrUrls } from "../../utils";
 
    export default {
         name: 'Subscribe',
         data () {
             return {
-                ApiMsg:''
+                ApiMsg:'',
+                basrUrls:basrUrls()
             }
         },
         computed:{
@@ -40,7 +42,10 @@
                       this.ApiMsg=res.data
                   }
               })
-          }
+          },
+           toApi(){
+               window.location.href=this.basrUrls+'/docsify/#/test.md'
+           }
        },
        mounted() {
             this.getApiKey()

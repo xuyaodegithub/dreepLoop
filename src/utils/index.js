@@ -19,3 +19,7 @@ export const myBrowser=()=>{//判断浏览器类型
     if (userAgent.indexOf("QQBrowser") > -1) return "QQ"; //判断是否QQ浏览器
     else return 'IE'//不认识一律ie处理
 }
+//获取某一区间随机数
+export const getrandom=(min, max)=> {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}

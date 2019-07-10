@@ -10,7 +10,7 @@
                 <el-input v-model="userpass" :placeholder="passmsg" type="password" @keyup.enter.native="regestUser()" ></el-input>
                 <el-input v-model="usersurepass" placeholder="确认密码" type="password" v-if="btnType==0"  @keyup.enter.native="regestUser()" ></el-input>
             </div>
-            <el-button type="primary" @click="regestUser()">{{btnType == 0 ? '注册' : '登录'}}</el-button>
+            <el-button type="primary" @click="regestUser()">{{btnType == 0 ? 'Register' : 'Sign In'}}</el-button>
             <div class="forgot">
                 <span class="cu"  v-if="btnType==1" @click="forgetPass()">忘记密码</span>
                 <p v-else>完成此注册,即表明您同意了我们的<span class="cu">使用条款和隐私策略</span></p>
@@ -24,14 +24,12 @@
     import { toRouter,basrUrls } from '@/utils'
     import {setToken, getToken, setCookie} from "../../utils/auth";
     import { usercheckEmail,userLogin,userRegister } from "../../apis";
-    import { mapGetters } from 'vuex'
-    import { mapActions } from 'vuex'
     export default {
         name: 'login',
         data () {
             return {
                 btnType:this.$route.query.type,
-                loginBtn:['注册','登录'],
+                loginBtn:['Register','Sign In'],
                 username:'',
                 userpass:'',
                 usersurepass:'',
@@ -40,7 +38,7 @@
         },
         computed:{
             passmsg(){
-                if(this.btnType == 1) return '密码';
+                if(this.btnType == 1) return 'Password';
                 else return '密码(最少6个字符)'
             },
             typeBtn(){

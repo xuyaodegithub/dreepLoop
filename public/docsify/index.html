@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
   <style>
     header{
-      font-size: 14px;
+      font-size: 16px;
       color: #fff;
       line-height:60px ;
       background-color: #303030;
@@ -44,15 +44,15 @@
   <div class="margin flex j-b a-i first">
     <ul class="flex">
       <li><img src="../static/images/logos.png" alt="" class="cu" @click="backindex()"></li>
-      <li class="cu" @click="backindex()">智能抠图</li>
+      <li class="cu" @click="backindex()">Smart Foreground Cut-out</li>
       <li class="cu">API</li>
-      <li class="cu" @click="userCenter()">会员</li>
+      <li class="cu" @click="userCenter()">Members</li>
       <!--            <li class="cu">登录</li>-->
     </ul>
     <div class="right">
       <div v-if="!loginAfter">
-        <span @click="userlogin(1)">登录</span>
-        <span @click="userlogin(0)" class="active">注册</span>
+        <span @click="userlogin(1)">Sign In</span>
+        <span @click="userlogin(0)" class="active">Register</span>
       </div>
     </div>
   </div>

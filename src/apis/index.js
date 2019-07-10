@@ -3,20 +3,32 @@ import https from './request'
  * 上传图片
  **/
  export const uploadImgApi=(data)=>{
-  return https.upPost('/webMatting/matting',data)
+  return https.upPost('/webMatting/matting2',data)
 }
 
 /**
  * 粘贴抠图
  **/
  export const copyUpload=(data)=>{
-  return https.paramspost('/webMatting/mattingByUrl',data)
+  return https.paramspost('/webMatting/mattingByUrl2',data)
+}
+/**
+ * 获取排队中图片信息
+ **/
+ export const getMattingInfo=(data)=>{
+  return https.get('/webMatting/getMattingInfo',data)
 }
 /**
  * 下载原图
  **/
  export const downloadMattedImage=(data)=>{
   return https.get('/webMatting/getMattedImage',data)
+}
+/**
+ * 批量下载
+ **/
+ export const getMattedImageMultiple=(data)=>{
+  return https.post('/webMatting/getMattedImageMultiple',data)
 }
 
 

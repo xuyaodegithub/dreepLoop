@@ -79,6 +79,18 @@ const filters={
   }
 
 },
+    reduceDimension(arr){//数组降维//
+    let ret = [];
+    let toArr = function(arr){
+        arr.forEach(function(item){
+            item instanceof Array ? toArr(item) : ret.push(item);
+        });
+    }
+
+    toArr(arr);
+
+    return ret;
+},
   saveActions(funUrl){
     axios({
       method: 'post',

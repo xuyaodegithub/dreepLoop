@@ -29,7 +29,7 @@ instance.interceptors.response.use(function (response) {//为自定义axios设�
   if(res.code===0){
     // return Promise.resolve(res)
     return res
-  }else if(res.code==1001){
+  }else if(res.code==1100){
     removeToken()
     clearCookie('token')
     window.location.href=basrUrls()+'/loginOrRegister.html#/?type=1'
