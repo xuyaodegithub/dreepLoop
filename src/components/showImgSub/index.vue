@@ -141,13 +141,18 @@
                                 this.$emit('to-parse', {
                                     id: this.index,
                                     img: res.data.bgRemovedPreview,
-                                    name: this.file.name,
+                                    name: this.files.type === 'copy' ? this.imgname : this.file.name,
                                     color: 'add',
                                     fileId:this.fileId
                                 })
-                            }
+                            }/*else if(res.data.status === 'faild'){
+                                this.$emit('to-parse', {id: this.index, img: '', color: 'add', name:this.files.type === 'copy' ? this.imgname : this.file.name, fileId:this.fileId})
+                                this.bgOriginal = {name: this.imgname, img: '', status: 1, fileId:this.fileId}
+                            }*/
                         } else {
                             clearInterval(this.timer)
+                            this.$emit('to-parse', {id: this.index, img: '', color: 'add', name:this.files.type === 'copy' ? this.imgname : this.file.name, fileId:this.fileId})
+                            this.bgOriginal = {name: this.imgname, img: '', status: 1, fileId:this.fileId}
                         }
                     })
                 }, 1000)
@@ -200,7 +205,7 @@
                                 })
                             } else {
                                 let obj = {
-                                    name: this.imgname,
+                                    name: _self.imgname,
                                     img: '',
                                     status: 1,
                                     fileId:_self.fileId

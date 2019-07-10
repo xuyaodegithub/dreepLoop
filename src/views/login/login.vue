@@ -13,7 +13,7 @@
             <el-button type="primary" @click="regestUser()">{{btnType == 0 ? 'Register' : 'Sign In'}}</el-button>
             <div class="forgot">
                 <span class="cu"  v-if="btnType==1" @click="forgetPass()">忘记密码</span>
-                <p v-else>完成此注册,即表明您同意了我们的<span class="cu">使用条款和隐私策略</span></p>
+                <p v-else>完成此注册,即表明您同意了我们的<span class="cu" @click="selfXy()">使用条款和隐私策略</span></p>
             </div>
         </div>
     </div>
@@ -106,6 +106,9 @@
             },
             forgetPass(){
                 toRouter('changePass')
+            },
+            selfXy(){
+                window.open(this.basrUrl+'/docsify/#/terms.md')
             }
         },
         components:{

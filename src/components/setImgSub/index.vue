@@ -455,48 +455,45 @@
           this.borderLocal.x = (loc.x - this.eraserWidthSelect) + 'px'
           this.borderLocal.y = (loc.y - this.eraserWidthSelect) + 'px'
         },
-        setImgDataNum(x, y, r, key) {//计算鼠标圆像素
-          let dataArr = [];
+        setImgData(obj,num,obj2){
+          for(let i=0;i<obj2.data.length;i++){
+            obj.data[(num-1)*4+i]=obj2.data[i]
+          }
+        },
+        setImgDataNum(x, y, r, key,or) {//计算鼠标圆像素
+          let  imgData=this.cUpTxt.createImageData(or,or);
+          let num=0;
           for (let i = y - r; i < y + r; i++) {//计算离鼠标圆圆心的距离
             for (let j = x - r; j < x + r; j++) {
-              let radius = Math.sqrt((x - j) * (x - j) + (y - i) * (y - i))//坐标离鼠标的距离
+              num+=1;
+              let radius = Math.sqrt((x - j) * (x - j) + (y - i) * (y - i));//坐标离鼠标的距离
               if (radius > r) {
-                if (key === 1) dataArr = [...dataArr, ...this.hiddenCanvasTwoTxt.getImageData(j, i, 1, 1).data]
-                else dataArr = [...dataArr, ...this.cUpTxt.getImageData(j - this.moveXYTwo.x + this.moveXY.x, i - this.moveXYTwo.y + this.moveXY.y, 1, 1).data]
+                if (key === 1) this.setImgData(imgData,num,this.hiddenCanvasTwoTxt.getImageData(j, i, 1, 1));
+                else  this.setImgData(imgData,num,this.cUpTxt.getImageData(j - this.moveXYTwo.x + this.moveXY.x, i - this.moveXYTwo.y + this.moveXY.y, 1, 1));
               } else {
-                if (key === 1) dataArr = [...dataArr, ...this.hiddenCanvasTxt.getImageData(j, i, 1, 1).data]
-                else dataArr = [...dataArr, ...this.hiddenCanvasThreeTxt.getImageData(j, i, 1, 1).data]
+                if (key === 1)  this.setImgData(imgData,num,this.hiddenCanvasTxt.getImageData(j, i, 1, 1));
+                else this.setImgData(imgData,num,this.hiddenCanvasThreeTxt.getImageData(j, i, 1, 1));
               }
             }
           }
-          return dataArr
+          return imgData
         },
         drawCri(x, y, z) {//复原状态填充
-          let oldImgData, nowImgData
-          let lx = (x - this.moveXY.x) / (this.canveaContentW - this.clunmValue) * this.canveaContentW
-          let ly = (y - this.moveXY.y) / ((this.canveaContentW - this.clunmValue) * this.canveaContentH / this.canveaContentW) * this.canveaContentH
-          let px = 250 - this.canveaContentW / 2
-          let py = 250 - this.canveaContentH / 2
-          let or = Math.round(this.eraserWidthSelect / (this.canveaContentW - this.clunmValue) * this.canveaContentW)
+          let lx = (x - this.moveXY.x) / (this.canveaContentW - this.clunmValue) * this.canveaContentW;
+          let ly = (y - this.moveXY.y) / ((this.canveaContentW - this.clunmValue) * this.canveaContentH / this.canveaContentW) * this.canveaContentH;
+          let px = 250 - this.canveaContentW / 2;
+          let py = 250 - this.canveaContentH / 2;
+          let or = Math.round(this.eraserWidthSelect / (this.canveaContentW - this.clunmValue) * this.canveaContentW);
           let xx = Math.round(lx + px);
           let yy = Math.round(ly + py);
           let rightx = (x - this.moveXY.x) + this.moveXYTwo.x;
           let righty = (y - this.moveXY.y) + this.moveXYTwo.y;
-          oldImgData = this.hiddenCanvasTxt.getImageData(xx - or, yy - or, 2 * or, 2 * or);
-          // oldImgData2 = this.hiddenCanvasTwoTxt.getImageData(xx - o, yy - o, 2 * o, 2 * o)
-          nowImgData = this.hiddenCanvasThreeTxt.getImageData(rightx - this.eraserWidthSelect, righty - this.eraserWidthSelect, 2 * this.eraserWidthSelect, 2 * this.eraserWidthSelect)
           if (!z) {
-            let dataArr2 = this.setImgDataNum(rightx, righty, this.eraserWidthSelect, 0);
-            for (let i = 0; i < dataArr2.length; i++) {
-              nowImgData.data[i] = dataArr2[i]
-            }
-            this.cUpTxt.putImageData(nowImgData, x - this.eraserWidthSelect, y - this.eraserWidthSelect)
+            let dataArr2 = this.setImgDataNum(rightx, righty, this.eraserWidthSelect, 0,2 * this.eraserWidthSelect);
+            this.cUpTxt.putImageData(dataArr2, x - this.eraserWidthSelect, y - this.eraserWidthSelect)
           } else {
-            let dataArr = this.setImgDataNum(xx, yy, or, 1);
-            for (let i = 0; i < dataArr.length; i++) {
-              oldImgData.data[i] = dataArr[i]
-            }
-            this.hiddenCanvasTwoTxt.putImageData(oldImgData, xx - or, yy - or)
+            let dataArr = this.setImgDataNum(xx, yy, or, 1,2 * or);
+            this.hiddenCanvasTwoTxt.putImageData(dataArr, xx - or, yy - or)
           }
 
 

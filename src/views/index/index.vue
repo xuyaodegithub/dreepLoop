@@ -4,7 +4,7 @@
         <div class="seachHeader">
             <div class="margin seachI flex a-i">
                 <div>
-                    <input type="file" style="display: none" ref="upImg" @change="changeImg($event,1)" multiple>
+                    <input type="file" style="display: none" ref="upImg" @change="changeImg($event,1)" :multiple="multiple">
                     <p class="flex a-i" style="line-height: 1.2;">Cut out picture foreground without moving your finger<img src="../../assets/image/free2.png" alt="" style="margin-left: 15px"></p><!--智能一键抠图神器-->
                     <p class="m-boonte">  Fully automatic, ~3 seconds, free background templates</p><!--&nbsp;1 0 0 % 自 动 - 5 秒 - 免 费 背 景 模 板-->
                     <div class="flex dwoBtn">
@@ -64,6 +64,7 @@
         name: 'HelloWorld',
         data() {
             return {
+                multiple:false,
                 imgMsg:{},
                 showSetImg:false,
                 allbgImg:[],
@@ -114,6 +115,8 @@
                 })
             },
             upLoadimg(key) {//点击上传
+                if(key)this.multiple=true
+                else this.multiple=false
                 if(!getToken() && key){
                     this.$confirm('该功能需要登录后操作, 前往登录?', '提示', {
                         confirmButtonText: '确定',
@@ -130,7 +133,9 @@
                 }
                 this.$refs.upImg.value = ''
                 this.percentValue = 0
-                this.$refs.upImg.click()
+                this.$nextTick(()=>{
+                    this.$refs.upImg.click()
+                })
             },
             //下载多张抠图
             saveMove(key) {
