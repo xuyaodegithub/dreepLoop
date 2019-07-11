@@ -484,8 +484,8 @@
           let px = 250 - this.canveaContentW / 2;
           let py = 250 - this.canveaContentH / 2;
           let or = Math.round(this.eraserWidthSelect / (this.canveaContentW - this.clunmValue) * this.canveaContentW);
-          let xx = Math.round(lx + px);
-          let yy = Math.round(ly + py);
+          let xx = Math.floor(lx + px);
+          let yy = Math.floor(ly + py);
           let rightx = (x - this.moveXY.x) + this.moveXYTwo.x;
           let righty = (y - this.moveXY.y) + this.moveXYTwo.y;
           if (!z) {

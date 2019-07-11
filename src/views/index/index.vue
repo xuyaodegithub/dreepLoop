@@ -275,7 +275,9 @@
     .helloFirst {
         background-color: #f5f5f6;
         /*padding-top:24px ;*/
+        min-width: 1200px;
         .seachHeader {
+            min-width: 1200px;
             background-color: #5093b0;
             padding: 81px 0 108px 0;
         }
