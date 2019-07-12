@@ -29,18 +29,18 @@
             </div>
         </div>
         <div class="AllDown" v-if="allbgImg.length>1">
-            共上传<span>{{files.length}}</span>张图片，已处理<span>{{allbgImg.length}}</span>张
+            Total <span>{{files.length}}</span> pictures，<span>{{allbgImg.length}}</span> is done
             <el-button type="primary" round
                        style="background-color: #27a9f4;border-color: #27a9f4;color: #fff;position: relative;left: 365px;width: 200px;position: relative;"
                        icon="el-icon-download">
-                批量下载
+                Batch Download
                 <div class="sizeChoses">
                     <!--                            v-for="(item,index) in sizeArr" :key="index"-->
                     <div class="flex a-i j-b" @click="saveMove(0)">
-                        <span>下载预览图（ 免费 ）</span>
+                        <span>Download Preview Image (Free)</span>
                     </div>
                     <div class="flex a-i j-b" @click="saveMove(1)">
-                        <span>下载原图（ 原图比例 ）</span>
+                        <span>Download Full Image</span>
                     </div>
                 </div>
             </el-button>
@@ -118,9 +118,9 @@
                 if(key)this.multiple=true
                 else this.multiple=false
                 if(!getToken() && key){
-                    this.$confirm('该功能需要登录后操作, 前往登录?', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
+                    this.$confirm('This function only can be used by signed user, Go to login?', 'Information', {
+                        confirmButtonText: 'OK',
+                        cancelButtonText: 'Cancel',
                         type: 'warning',
                         center: true,
                         showClose:false
@@ -141,12 +141,12 @@
             saveMove(key) {
                 this.$message.closeAll()
                 if( this.files.length!==this.allbgImg.length){
-                    this.$message({type:'warning',message:'图片尚未处理完,请稍后...'})
+                    this.$message({type:'warning',message:'Picture is on processing, please wait...'})
                     return
                 }
                 const loading = this.$loading({
                     lock: true,
-                    text: '处理中...',
+                    text: 'processing...',
                     spinner: 'el-icon-loading',
                     background: 'rgba(0, 0, 0, 0.7)'
                 });
@@ -175,7 +175,7 @@
             },
 
             //批量下载图片
-            StoreDowQrcode(arr,loading, blogTitle = "图片包") {
+            StoreDowQrcode(arr,loading, blogTitle = "pictures") {
                 var zip = new JSZip();
                 var imgs = zip.folder(blogTitle);
                 var baseList = [];
@@ -213,7 +213,7 @@
                             } else {
                                 _this.$message.error({
                                     title: "error",
-                                    message: "暂无图片可下载"
+                                    message: "There is no picture can be download"
                                 });
                             }
                         }
@@ -224,7 +224,7 @@
             copyImgUrl() {//粘贴图片链接确定
                 if (!this.imgUrl) {
                     this.$message({
-                        message: '图片路径不可为空',
+                        message: 'Url can not be empty',
                         type: 'warning'
                     })
                     return
@@ -233,11 +233,11 @@
                     return val.url===this.imgUrl
                 })
                 if(hsaOwn){
-                    this.$message({type:'warning',message:'重复图片已过滤。'})
+                    this.$message({type:'warning',message:'Dulplicate pictures has been filtered'})
                     return
                 }
                 if(this.files.length+1>20){
-                    this.$message({type:'warning',message:'最高可上传20张图片，请分批次处理！'})
+                    this.$message({type:'warning',message:'Pictures count must be less than 20'})
                     return
                 }
                 this.toscroll()
@@ -247,7 +247,7 @@
             changeImg(e) {//图片上传
                 let NewLength=this.$refs.upImg.files.length
                 if(NewLength + this.files.length>20){
-                    this.$message({type:'warning',message:'最高可上传20张图片，请分批次处理！'})
+                    this.$message({type:'warning',message:'Pictures count must be less than 20'})
                     return
                 }
                 // if(){}
@@ -257,7 +257,7 @@
                         let hsaOwn=this.files.some((val)=>{
                             return val.name===this.$refs.upImg.files[i].name
                         })
-                        if(hsaOwn)this.$message({type:'warning',message:'重复图片已过滤。'})
+                        if(hsaOwn)this.$message({type:'warning',message:'Dulplicate pictures has been filtered.'})
                         else this.files.unshift({url:this.$refs.upImg.files[i],name:this.$refs.upImg.files[i].name,type:'file'})
 
                     }

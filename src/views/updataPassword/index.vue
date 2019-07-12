@@ -3,14 +3,14 @@
     <header-sub></header-sub>
     <div class="userContent">
       <div class="tag">
-       修改密码
+       Change password
       </div>
       <div class="userinfo">
-        <el-input v-model="oldpass" placeholder="旧密码" v-if="userToken==undefined" type="password"></el-input>
-        <el-input v-model="newpass" placeholder="新密码" type="password" ></el-input>
-        <el-input v-model="usersurepass" placeholder="确认密码" type="password"></el-input>
+        <el-input v-model="oldpass" placeholder="Old password" v-if="userToken==undefined" type="password"></el-input>
+        <el-input v-model="newpass" placeholder="New password" type="password" ></el-input>
+        <el-input v-model="usersurepass" placeholder="Confirm new password" type="password"></el-input>
       </div>
-      <el-button type="primary" @click="regestUser()">确认修改</el-button>
+      <el-button type="primary" @click="regestUser()">Confirm</el-button>
     </div>
   </div>
 </template>
@@ -25,7 +25,7 @@
     data () {
       return {
         btnType:this.$route.query.type,
-        loginBtn:['注册','登录'],
+        loginBtn:['Sign up','Login'],
         oldpass:'',
         newpass:'',
         usersurepass:'',
@@ -48,31 +48,31 @@
         this.$message.closeAll()
         if(!this.userToken){
           if(!this.oldpass || !this.newpass || !this.usersurepass){
-            this.$message({type:'warning',message:'密码不可为空'})
+            this.$message({type:'warning',message:'Password can not be empty'})
             return
           }
           if(this.newpass!==this.usersurepass){
-            this.$message({type:'warning',message:'两次新密码不一致'})
+            this.$message({type:'warning',message:'Confirm password is not the same as password'})
             return
           }
           userResetPassword({oldPassword:this.oldpass,newPassword:this.newpass}).then(res=>{
             if(!res.code){
-              this.$message({type:'warning',message:'密码修改成功'})
+              this.$message({type:'warning',message:'Password is updated'})
               window.history.go(-1)
             }
           })
         }else{
           if(!this.newpass || !this.usersurepass){
-            this.$message({type:'warning',message:'密码不可为空'})
+            this.$message({type:'warning',message:'Password can not be empty'})
             return
           }
           if(this.newpass!==this.usersurepass){
-            this.$message({type:'warning',message:'两次新密码不一致'})
+            this.$message({type:'warning',message:'Confirm password is not the same as password'})
             return
           }
           userResetbyEmail({newPassword:this.newpass,token:this.userToken}).then(res=>{
             if(!res.code){
-              this.$message({type:'warning',message:'密码修改成功'})
+              this.$message({type:'warning',message:'Password is updated'})
               window.location.replace(`${this.basrUrl}/loginOrRegister.html#/?type=1`)
             }
           })

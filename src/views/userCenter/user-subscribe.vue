@@ -1,17 +1,17 @@
 <template>
   <div class="Subscribe">
-    <h3>我的订阅</h3>
+    <h3>My Subscription</h3>
     <div v-if="mySubPlans">
-      <h4>订阅计划-每月{{mySubPlans.monthRemaining}}能量</h4>
-      <p>预定时间：{{mySubPlans.createdAt | changeTime}}</p>
-      <p>免费剩余：{{mySubPlans.freeRemaining}}能量</p>
-      <p>订阅剩余：{{mySubPlans.monthRemaining}}能量</p>
+      <h4>Subscription plan - {{mySubPlans.monthRemaining}} points per month</h4>
+      <p>Created at：{{mySubPlans.createdAt | changeTime}}</p>
+      <p>Free remaining：{{mySubPlans.freeRemaining}} points</p>
+      <p>Subscription remaining：{{mySubPlans.monthRemaining}} points</p>
       <div class="btn">
-        <el-button type="primary" round>升级订阅</el-button>
-        <el-button type="primary" round>取消订阅</el-button>
+        <el-button type="primary" round>Upgrade Subscription</el-button>
+        <el-button type="primary" round>Cancel Subscription</el-button>
       </div>
       <div class="oldUse">
-        <h5>使用记录</h5>
+        <h5>Points History</h5>
         <el-table
                 :header-cell-style="{color:'#333',fontWeight:500}"
                 :data="plansHistory.content"
@@ -44,9 +44,9 @@
     </div>
     <div v-else class="nodata">
       <div>
-        暂无订阅，赶紧去订阅吧
+      	No subscription found
       </div>
-      <el-button type="primary" round @click="toBuy()">去订阅</el-button>
+      <el-button type="primary" round @click="toBuy()">Go to subscript</el-button>
     </div>
 
   </div>
@@ -63,9 +63,9 @@
         mySubPlans:null,
         plansHistory:'',
         tableHeader:[
-          {label:'日期',str:'createdAt',width:''},
-          {label:'消耗',str:'credits',width:''},
-          {label:'描述',str:'comment',width:''},
+          {label:'Date',str:'createdAt',width:''},
+          {label:'Amount',str:'credits',width:''},
+          {label:'Description',str:'comment',width:''},
         ],
       rows:10,
       page:1,
@@ -143,11 +143,11 @@
       margin-right: 12px;
       font-size: 14px;
       line-height: 40px;
-      padding: 0;
+      padding: 0 15px;
       border-color:#27adf6 ;
       color: #fff;
       background-color: #27adf6;
-      width: 120px;
+      /*width: 120px;*/
     }
     .el-button:last-child{
       background-color: #fff;

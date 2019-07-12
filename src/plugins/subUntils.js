@@ -2,6 +2,9 @@ import Vue from 'vue'
 import '../assets/public.css';
 import '../element-variables.scss'
 import filters from '../filters/filters'
+import lang from 'element-ui/lib/locale/lang/en'
+import locale from 'element-ui/lib/locale'
+locale.use(lang)
 Object.keys(filters).map((val,index)=>{
     Vue.filter(val,filters[val])
     // console.log(val,filters[val])

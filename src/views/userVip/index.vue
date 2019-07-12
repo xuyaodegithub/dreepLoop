@@ -205,7 +205,7 @@
             },
             userRegest(){
                 this.$message.closeAll();
-                if(getToken())this.$message({type:'warning',message:'您已经注册过啦~'});
+                if(getToken())this.$message({type:'warning',message:'You are already registered'});
                 else {
                     window.location.href=`${this.basrUrls}/loginOrRegister.html#/?type=0`
                 }
@@ -215,7 +215,7 @@
                 else{
                     const loading = this.$loading({
                         lock: true,
-                        text: '处理中，请稍后...',
+                        text: 'Processing, please wait...',
                         spinner: 'el-icon-loading',
                         background: 'rgba(0, 0, 0, 0.7)'
                     });

@@ -1,13 +1,13 @@
 <template>
     <div class="Subscribe">
-        <h3>API密钥</h3>
+        <h3>API Key</h3>
         <div class="flex">
             <p>{{ApiMsg}}</p>
             <i class="el-icon-refresh-right" @click="refreshApikey()"></i>
         </div>
         <div class="btn">
 <!--            <el-button type="primary" round>上传图片</el-button>-->
-            <el-button type="primary" round @click="toApi()">阅读API文档</el-button>
+            <el-button type="primary" round @click="toApi()">Read the API document</el-button>
         </div>
     </div>
 </template>
@@ -85,11 +85,11 @@
                 margin-right: 12px;
                 font-size: 14px;
                 line-height: 40px;
-                padding: 0;
+                padding: 0 15px;
                 border-color:#27adf6 ;
                 color: #fff;
                 background-color: #27adf6;
-                width: 120px;
+                /*width: 120px;*/
             }
             /*.el-button:last-child{*/
             /*    background-color: #fff;*/

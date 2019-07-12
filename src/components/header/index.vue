@@ -2,7 +2,7 @@
     <header>
         <div class="margin flex j-b a-i first">
             <ul class="flex">
-                <li><img src="../../assets/image/logos.png" alt="" class="cu" @click="backindex()"></li>
+                <li><img src="../../assets/image/sureLogo.png" alt="" class="cu" @click="backindex()"></li>
                 <li class="cu" @click="backindex()">Smart Foreground Cut-out</li><!--智能抠图-->
                 <li class="cu" @click="toApi()">API</li>
                 <li class="cu" @click="userCenter()">Members</li><!--会员-->
@@ -11,16 +11,16 @@
             <div class="right">
                 <div v-if="!loginAfter">
                     <span @click="userlogin(1)">Sign In</span><!--登录-->
-                    <span @click="userlogin(0)" class="active">Register</span><!--注册-->
+                    <span @click="userlogin(0)" class="active">Sign Up</span><!--注册-->
                 </div>
                 <div class="cu" v-else>
                     <el-dropdown placement="bottom-end" @command="handleCommand">
-                      <span class="el-dropdown-link">
+                      <span class="el-dropdown-link" @click="toMyCount()">
                        {{userInfo.email}}
                       </span>
                       <el-dropdown-menu slot="dropdown">
-                         <el-dropdown-item command="1">我的账户</el-dropdown-item>
-                         <el-dropdown-item command="0">注销账户</el-dropdown-item>
+                         <el-dropdown-item command="1">My Account</el-dropdown-item>
+                         <el-dropdown-item command="0">Logout</el-dropdown-item>
                       </el-dropdown-menu>
                     </el-dropdown>
                 </div>
@@ -92,7 +92,11 @@
                      // if(){}
                      toRouter('index')
                  }
-
+            },
+            toMyCount(){
+                let url=window.location.href
+                if(url.indexOf('userCenter') > -1 ) return
+                toRouter('userCenter')
             }
         },
         mounted() {

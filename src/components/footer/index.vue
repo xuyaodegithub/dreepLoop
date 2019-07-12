@@ -3,7 +3,7 @@
         <div class="margin">
             <ul class="flex">
                 <li>
-                    <img src="static/images/logos.png" alt="">
+                    <img src="static/images/sureLogo.png" alt="">
                     <!--        自助构建人工智能服务视觉应用平台，开创全球首个自助式图像引擎，实现快速服务创建、扩展和维护。企业可以通过简单、快速的API调用，一站式获得多种人工智能技术服务，实现技术与业务的无缝连接。-->
                     <p>Artificial intelligence visual application development platform, forging the world's first self-service image engine to achieve rapid service creation, extension and maintenance. Enterprises acquire a variety of artificial intelligence technology services at one-stop via simple and fast API calls, enabling seamless connection between technology and businesses.</p>
                 </li>

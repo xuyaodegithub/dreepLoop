@@ -3,21 +3,21 @@
     <header-sub></header-sub>
         <div class="margin" v-if="backType==0">
             <i class="el-icon-success"></i>
-            <div class="msg">邮件发送成功</div>
-            <p>注册激活连接已发送到你的邮箱{{emailStr}},请注意查收激活</p>
+            <div class="msg">Email has been sucessfully sent </div>
+            <p>The active link has been sent to your email {{emailStr}}, please go and check it</p>
     <!--        <el-button type="primary" round>激活成功</el-button>-->
         </div>
          <div class="margin" v-else-if="backType==1">
               <i class="el-icon-success"></i>
-              <div class="msg">邮件发送成功</div>
-              <p>你正在找回密码,请求链接已发送到邮箱{{emailStr}},请注意查收</p>
+              <div class="msg">Email has been sucessfully sent</div>
+              <p>You are retrieving your password, The reset link has been sent to your email {{emailStr}}, please go and check it</p>
               <!--        <el-button type="primary" round>激活成功</el-button>-->
          </div>
     <!--      注册成功返回-->
          <div class="margin" v-else-if="backType==2">
               <i class="el-icon-success"></i>
-              <div class="msg">注册成功</div>
-              <p>您已注册成功，可以体验更多功能！</p>
+              <div class="msg">Welcome</div>
+              <p>You are now a member of picup.ai, you are be able to use more functions</p>
               <!--        <el-button type="primary" round>激活成功</el-button>-->
          </div>
   </div>

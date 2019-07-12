@@ -1,10 +1,10 @@
 <template>
     <div class="Subscribe">
-        <h3>账户设置</h3>
-        <h4>电子邮箱：{{userInfo.email}}</h4>
+        <h3>Account Setting</h3>
+        <h4>email：{{userInfo.email}}</h4>
 <!--        <p>密码：123456</p>-->
         <div class="btn">
-            <el-button type="primary" round @click="changePass()">更改密码</el-button>
+            <el-button type="primary" round @click="changePass()">Change password</el-button>
         </div>
     </div>
 </template>
@@ -63,11 +63,11 @@
                 margin-right: 12px;
                 font-size: 14px;
                 line-height: 40px;
-                padding: 0;
+                padding: 0 15px;
                 border-color:#27adf6 ;
                 color: #fff;
                 background-color: #27adf6;
-                width: 120px;
+                /*width: 120px;*/
             }
             .el-button+.el-button{
                 margin: 0;

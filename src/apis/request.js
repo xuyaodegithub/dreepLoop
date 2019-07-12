@@ -44,18 +44,18 @@ instance.interceptors.response.use(function (response) {//为自定义axios设�
 }, function (err) {
   // 对请求错误做些什么
   if (!navigator.onLine) {
-    Message({
+    Message({//网络异常，请查看你的网络状态
       type:'warning',
-      message:'网络异常，请查看你的网络状态'
+      message:'Network exception, please check your network status'
     })
     return 'networkdisconnect';
   }
   // 根据你设置的timeout/真的请求超时 判断请求现在超时了，你可以在这里加入超时的处理方案
   if (err.code === 'ECONNABORTED' && err.message.indexOf('timeout') !== -1) {
     // return axios.request(originalRequest) // 再重复请求一次
-    Message({
+    Message({//
       type:'warning',
-      message:'网络繁忙，请稍后重试'
+      message:'The network is busy. Please try again later.'
     })
     return 'timeout';
   }

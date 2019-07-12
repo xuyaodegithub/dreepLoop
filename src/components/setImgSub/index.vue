@@ -7,39 +7,39 @@
       <div class="img">
 <!--        &lt;!&ndash;              <img :src="other" alt="" v-if="!backimgShow">&ndash;&gt; v-show="!backimgShow"-->
         <div style="position: relative;">
-          <canvas id="hiddenCanvas" width="500" height="500">您的游览器不支持此功能，请换别的游览器试试...</canvas>
-          <canvas id="hiddenCanvasTwo" width="500" height="500">您的游览器不支持此功能，请换别的游览器试试...</canvas>
-          <canvas id="hiddenCanvasThree" :width="TwoW" :height="TwoH">您的游览器不支持此功能，请换别的游览器试试...</canvas>
+          <canvas id="hiddenCanvas" width="500" height="500">The function is not surpported by your browser is deprecated, change or upgrade your browser</canvas>
+          <canvas id="hiddenCanvasTwo" width="500" height="500">The function is not surpported by your browser is deprecated, change or upgrade your browser</canvas>
+          <canvas id="hiddenCanvasThree" :width="TwoW" :height="TwoH">The function is not surpported by your browser is deprecated, change or upgrade your browser</canvas>
         </div>
       </div>
     </div>
     <div class="right">
       <div class="canvas" @mousedown="mouseDown($event)" @mousemove.prevent="moeseMove($event)"
            @mouseup="mouseUp($event)" :class="{'cours' : clearOrdraw===3}" :style="styleCours">
-        <canvas id="cDown" width="500" height="500">您的游览器不支持此功能，请换别的游览器试试...</canvas>
-        <canvas id="cUp" width="500" height="500">您的游览器不支持此功能，请换别的游览器试试...</canvas>
+        <canvas id="cDown" width="500" height="500">The function is not surpported by your browser is deprecated, change or upgrade your browser</canvas>
+        <canvas id="cUp" width="500" height="500">The function is not surpported by your browser is deprecated, change or upgrade your browser</canvas>
         <div class="border" v-show="borderShow"
              :style="{'top':borderLocal.y,'left':borderLocal.x,'width':borderLocal.width,'height': borderLocal.height}">
         </div>
       </div>
       <div class="btns clear">
-        <span>前景</span>
+        <span>Foreground</span>
         <div>
           <div class="cu btn" :class="{'active':clearOrdraw===1}" @click="clearOrdraw=1" slot="reference"><i
-            class="icon iconfont icon-xiangpi"></i>擦除
+            class="icon iconfont icon-xiangpi"></i>Erase
           </div>
           <div class="cu btn" :class="{'active':clearOrdraw===2}" @click="clearOrdraw=2"><i
-            class="icon iconfont icon-qianbi"></i>还原
+            class="icon iconfont icon-qianbi"></i>Restore
           </div>
         </div>
         <div class="cu btn" :class="{'active':clearOrdraw===3}" @click="clearOrdraw=3"><i
-          class="el-icon-rank"></i>移动
+          class="el-icon-rank"></i>Move
         </div>
         <div class="back">
           <div class="cu re" @click="backReset()"><i
-            class="icon iconfont icon-chexiaofanhuichehuishangyibu"></i>撤回
+            class="icon iconfont icon-chexiaofanhuichehuishangyibu"></i>Undo
           </div>
-          <div class="cu re" @click="reset()"><i class="icon iconfont icon-zhongzhi"></i>复位</div>
+          <div class="cu re" @click="reset()"><i class="icon iconfont icon-zhongzhi"></i>Reset</div>
         </div>
       </div>
       <div style="padding-left: 20px;line-height: 38px;" class="flex">
@@ -50,7 +50,7 @@
         <span>{{eraserWidthSelect}}px</span>
       </div>
       <div class="otherBtn flex a-i">
-        <span>背景</span>
+        <span>Background</span>
         <div v-for="(item,index) in color" :key="index" :style="backg" @click="choseBackColor(item,index)"
              class="cu" :class="{'bordershow' : index==choseBack}" v-if="index===0"></div>
         <div v-for="(item,index) in color" :key="index" :style="{'background':item }"
@@ -62,7 +62,7 @@
                                                      :class="{'bordershow': choseBack=='span'}"></el-color-picker></span>
       </div>
       <el-button type="primary" round icon="el-icon-download" style="width:160px;margin: 30px 0 0 150px;"
-                 @click="save()">下载
+                 @click="save()">Download
       </el-button>
       <div style="position: absolute;top:60px; right: 6px;margin-right: 6px">
         <el-slider
@@ -97,7 +97,7 @@
               style: {
                 color: '#1989FA'
               },
-              label: this.$createElement('strong', '原点')
+              label: this.$createElement('strong', 'initial value')
             }
           },
           historySet: [],//储存历史记录
@@ -234,8 +234,8 @@
             }
             this.historySet.pop();
           } else {
-            this.$message({
-              message: '不能再继续撤回了',
+            this.$message({//不能再继续撤回了
+              message: 'Can not go on undo',
               type: 'warning'
             })
           }

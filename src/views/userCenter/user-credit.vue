@@ -1,13 +1,13 @@
 <template>
   <div class="Subscribe">
-    <h3>我的能量</h3>
-    <h4>当前可用能量</h4>
-    <p>1能量</p>
+    <h3>My Points</h3>
+    <h4>Available Points</h4>
+    <p>1 Points</p>
     <div class="btn">
-      <el-button type="primary" round>购买能量</el-button>
+      <el-button type="primary" round>Buy Points</el-button>
     </div>
     <div class="oldUse">
-      <h5>使用记录</h5>
+      <h5>Points History</h5>
       <el-table
               :header-cell-style="{color:'#333',fontWeight:500}"
               :data="tableData"
@@ -33,9 +33,9 @@
     data () {
       return {
         tableHeader:[
-          {label:'日期',str:'data',width:''},
-          {label:'金额',str:'money',width:''},
-          {label:'描述',str:'des',width:''},
+          {label:'Date',str:'data',width:''},
+          {label:'Amount',str:'money',width:''},
+          {label:'Description',str:'des',width:''},
         ],
         tableData:[
           {data:'2019-06-28',money:3000,des:'这是一个描述'},
