@@ -4,12 +4,20 @@
         <div class="seachHeader">
             <div class="margin seachI flex a-i">
                 <div>
-                    <input type="file" style="display: none" ref="upImg" @change="changeImg($event,1)" :multiple="multiple">
-                    <p class="flex a-i" style="line-height: 1.2;">Cut out picture foreground without moving your finger<img src="../../assets/image/free2.png" alt="" style="margin-left: 15px"></p><!--智能一键抠图神器-->
-                    <p class="m-boonte">  Fully automatic, ~3 seconds, free background templates</p><!--&nbsp;1 0 0 % 自 动 - 5 秒 - 免 费 背 景 模 板-->
+                    <input type="file" style="display: none" ref="upImg" @change="changeImg($event,1)"
+                           :multiple="multiple">
+                    <p class="flex a-i" style="line-height: 1.2;">Cut out picture foreground without moving your
+                        finger<img src="../../assets/image/free2.png" alt="" style="margin-left: 15px"></p>
+                    <!--智能一键抠图神器-->
+                    <p class="m-boonte"> Fully automatic, ~3 seconds, free background templates</p>
+                    <!--&nbsp;1 0 0 % 自 动 - 5 秒 - 免 费 背 景 模 板-->
                     <div class="flex dwoBtn">
-                        <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()">Upload a single picture</el-button><!--上传1张图片-->
-                        <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg(2)">Upload multiple pictures</el-button><!--批量上传-->
+                        <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()">Upload a single
+                            picture
+                        </el-button><!--上传1张图片-->
+                        <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg(2)">Upload multiple
+                            pictures
+                        </el-button><!--批量上传-->
                     </div>
                     <div class="flex input">
                         <input placeholder=" Paste a URL " v-model="imgUrl" @keyup.enter="copyImgUrl"/><!--粘贴URL地址-->
@@ -23,9 +31,10 @@
         </div>
         <!--    <img :src="test" alt="">-->
         <div class="margin" ref="contentImg" style="margin-top: 30px;margin-bottom: 40px">
-<!--            这里的key不能使用index-->
-            <div  v-for="(item,index) in files" :key="item.name">
-                <img-sub :files="item" @to-parse="collectBg" @close="closeItem" :index="index" @openImgSet="openImgSet"></img-sub>
+            <!--            这里的key不能使用index-->
+            <div v-for="(item,index) in files" :key="item.name">
+                <img-sub :files="item" @to-parse="collectBg" @close="closeItem" :index="index"
+                         @openImgSet="openImgSet"></img-sub>
             </div>
         </div>
         <div class="AllDown" v-if="allbgImg.length>1">
@@ -53,22 +62,23 @@
     import {mapGetters} from 'vuex'
     import {mapActions} from 'vuex'
     import JSZip from 'jszip'
-    import { saveAs } from "file-saver";
+    import {saveAs} from "file-saver";
     import headerSub from '@/components/header/index.vue'
     import imgSub from '@/components/showImgSub/index.vue'
     import {getToken} from "../../utils/auth";
-    import { basrUrls } from "../../utils";
+    import {basrUrls} from "../../utils";
     import imgSetSub from '@/components/setImgSub/index.vue'
-    import { getMattedImageMultiple } from "../../apis";
+    import {getMattedImageMultiple} from "../../apis";
+
     export default {
         name: 'HelloWorld',
         data() {
             return {
-                multiple:false,
-                imgMsg:{},
-                showSetImg:false,
-                allbgImg:[],
-                basrUrls:basrUrls(),
+                multiple: false,
+                imgMsg: {},
+                showSetImg: false,
+                allbgImg: [],
+                basrUrls: basrUrls(),
                 sizeArr: [
                     // {width: 500, height: 500},
                     // {width: 800, height: 800},
@@ -87,45 +97,45 @@
             ...mapGetters([])
         },
         components: {
-            headerSub,imgSub,imgSetSub
+            headerSub, imgSub, imgSetSub
         },
         methods: {
             ...mapActions([]),
-            closeImgSet(val){//关闭操作台
-                    this.showSetImg=false;
-                    this.imgMsg={};
+            closeImgSet(val) {//关闭操作台
+                this.showSetImg = false;
+                this.imgMsg = {};
             },
-            openImgSet(obj){//打开操作台
-                this.imgMsg=obj;
-                this.showSetImg=true;
+            openImgSet(obj) {//打开操作台
+                this.imgMsg = obj;
+                this.showSetImg = true;
             },
-            collectBg(obj){
-                if(obj.color==='add')this.allbgImg.push(obj)
-                else{
-                    this.allbgImg.filter((val,index)=>{
-                        if(val.name===obj.name) val.color=obj.color
+            collectBg(obj) {
+                if (obj.color === 'add') this.allbgImg.push(obj)
+                else {
+                    this.allbgImg.filter((val, index) => {
+                        if (val.name === obj.name) val.color = obj.color
                     })
                 }
 
             },
-            closeItem(item){
-                this.files.splice(item.index,1)
-                this.allbgImg.map((val,index)=>{
-                    if(val.name===item.name) this.allbgImg.splice(index,1)
+            closeItem(item) {
+                this.files.splice(item.index, 1)
+                this.allbgImg.map((val, index) => {
+                    if (val.name === item.name) this.allbgImg.splice(index, 1)
                 })
             },
             upLoadimg(key) {//点击上传
-                if(key)this.multiple=true
-                else this.multiple=false
-                if(!getToken() && key){
+                if (key) this.multiple = true
+                else this.multiple = false
+                if (!getToken() && key) {
                     this.$confirm('This function only can be used by signed user, Go to login?', 'Information', {
                         confirmButtonText: 'OK',
                         cancelButtonText: 'Cancel',
                         type: 'warning',
                         center: true,
-                        showClose:false
+                        showClose: false
                     }).then(() => {
-                        window.location.href=`${this.basrUrls}/loginOrRegister.html#/?type=1`
+                        window.location.href = `${this.basrUrls}/loginOrRegister.html#/?type=1`
                     }).catch(() => {
 
                     });
@@ -133,15 +143,15 @@
                 }
                 this.$refs.upImg.value = ''
                 this.percentValue = 0
-                this.$nextTick(()=>{
+                this.$nextTick(() => {
                     this.$refs.upImg.click()
                 })
             },
             //下载多张抠图
             saveMove(key) {
                 this.$message.closeAll()
-                if( this.files.length!==this.allbgImg.length){
-                    this.$message({type:'warning',message:'Picture is on processing, please wait...'})
+                if (this.files.length !== this.allbgImg.length) {
+                    this.$message({type: 'warning', message: 'Picture is on processing, please wait...'})
                     return
                 }
                 const loading = this.$loading({
@@ -153,20 +163,20 @@
                 let arr = this.allbgImg.filter((val, index) => {
                     return val.img
                 })
-                if(key===0)this.StoreDowQrcode(arr,loading)
-                else{
-                    let filedId=[]
-                    arr.map((item,index)=>{
+                if (key === 0) this.StoreDowQrcode(arr, loading)
+                else {
+                    let filedId = []
+                    arr.map((item, index) => {
                         filedId.push(item.fileId)
                     })
-                    getMattedImageMultiple(filedId).then(res=>{
-                        if(!res.code){
-                            let newArr=res.data
-                            arr.map((item,index)=>{
-                                item.img=newArr[index]
+                    getMattedImageMultiple(filedId).then(res => {
+                        if (!res.code) {
+                            let newArr = res.data
+                            arr.map((item, index) => {
+                                item.img = newArr[index]
                             })
-                            this.StoreDowQrcode(arr,loading)
-                        }else{
+                            this.StoreDowQrcode(arr, loading)
+                        } else {
                             loading.close()
                         }
                     })
@@ -175,14 +185,14 @@
             },
 
             //批量下载图片
-            StoreDowQrcode(arr,loading, blogTitle = "pictures") {
+            StoreDowQrcode(arr, loading, blogTitle = "pictures") {
                 var zip = new JSZip();
                 var imgs = zip.folder(blogTitle);
                 var baseList = [];
                 var _this = this;
                 for (var i = 0; i < arr.length; i++) {
                     let name = arr[i].name; //图片名称
-                    let color=arr[i]['color']
+                    let color = arr[i]['color']
                     let image = new Image();
                     image.crossOrigin = '';
                     image.onload = function () {
@@ -190,9 +200,9 @@
                         canvas.width = image.width;
                         canvas.height = image.height;
                         let context = canvas.getContext("2d");
-                        if(color !=='add' && color ){
-                            context.fillStyle=color
-                            context.fillRect(0,0, canvas.width,canvas.height)
+                        if (color !== 'add' && color) {
+                            context.fillStyle = color
+                            context.fillRect(0, 0, canvas.width, canvas.height)
                         }
                         context.drawImage(image, 0, 0, image.width, image.height);
                         let url = canvas.toDataURL("image/png"); // 得到图片的base64编码数据 let url =
@@ -229,38 +239,42 @@
                     })
                     return
                 }
-                let hsaOwn=this.files.some((val)=>{
-                    return val.url===this.imgUrl
+                let hsaOwn = this.files.some((val) => {
+                    return val.url === this.imgUrl
                 })
-                if(hsaOwn){
-                    this.$message({type:'warning',message:'Dulplicate pictures has been filtered'})
+                if (hsaOwn) {
+                    this.$message({type: 'warning', message: 'Dulplicate pictures has been filtered'})
                     return
                 }
-                if(this.files.length+1>20){
-                    this.$message({type:'warning',message:'Pictures count must be less than 20'})
+                if (this.files.length + 1 > 20) {
+                    this.$message({type: 'warning', message: 'Pictures count must be less than 20'})
                     return
                 }
                 this.toscroll()
-                let name=Math.random().toString().substring(2)
-                this.files.unshift({url:this.imgUrl,name:name,type:'copy'})
+                let name = Math.random().toString().substring(2)
+                this.files.unshift({url: this.imgUrl, name: name, type: 'copy'})
             },
             changeImg(e) {//图片上传
-                let NewLength=this.$refs.upImg.files.length
-                if(NewLength + this.files.length>20){
-                    this.$message({type:'warning',message:'Pictures count must be less than 20'})
+                let NewLength = this.$refs.upImg.files.length
+                if (NewLength + this.files.length > 20) {
+                    this.$message({type: 'warning', message: 'Pictures count must be less than 20'})
                     return
                 }
                 // if(){}
-                    this.toscroll()
-                    for (let i = 0; i < this.$refs.upImg.files.length; i++) {
-                        this.$message.closeAll()
-                        let hsaOwn=this.files.some((val)=>{
-                            return val.name===this.$refs.upImg.files[i].name
-                        })
-                        if(hsaOwn)this.$message({type:'warning',message:'Dulplicate pictures has been filtered.'})
-                        else this.files.unshift({url:this.$refs.upImg.files[i],name:this.$refs.upImg.files[i].name,type:'file'})
+                this.toscroll()
+                for (let i = 0; i < this.$refs.upImg.files.length; i++) {
+                    this.$message.closeAll()
+                    let hsaOwn = this.files.some((val) => {
+                        return val.name === this.$refs.upImg.files[i].name
+                    })
+                    if (hsaOwn) this.$message({type: 'warning', message: 'Dulplicate pictures has been filtered.'})
+                    else this.files.unshift({
+                        url: this.$refs.upImg.files[i],
+                        name: this.$refs.upImg.files[i].name,
+                        type: 'file'
+                    })
 
-                    }
+                }
             },
             toscroll() {
                 let oDiv = this.$refs.contentImg.offsetTop;
@@ -276,6 +290,7 @@
         background-color: #f5f5f6;
         /*padding-top:24px ;*/
         min-width: 1200px;
+
         .seachHeader {
             min-width: 1200px;
             background-color: #5093b0;
@@ -286,16 +301,19 @@
             font-size: 24px;
             color: #fff;
             position: relative;
-            & > div:first-child{
+
+            & > div:first-child {
                 width: 50%;
             }
+
             & > .imgRR {
                 width: 455px;
                 height: 410px;
                 margin-left: 116px;
-                img{
+
+                img {
                     display: block;
-                    width:100%;
+                    width: 100%;
                     height: 100%;
                 }
             }
@@ -350,26 +368,29 @@
 
     }
 
-.AllDown{
-    text-align: center;
-    font-size: 14px;
-    color: #333;
-    line-height: 90px;
-    background-color: #fff;
-    /*margin-bottom: 30px;*/
-    text-indent: 60px;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    & > span{
-        font-size: 22px;
-        color: #27a9f4;
+    .AllDown {
+        text-align: center;
+        font-size: 14px;
+        color: #333;
+        line-height: 90px;
+        background-color: #fff;
+        /*margin-bottom: 30px;*/
+        text-indent: 60px;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+
+        & > span {
+            font-size: 22px;
+            color: #27a9f4;
+        }
+
+        .el-button:hover .sizeChoses {
+            display: block;
+        }
     }
-    .el-button:hover .sizeChoses{
-        display: block;
-    }
-}
+
     .sizeChoses {
         display: none;
         position: absolute;
@@ -384,6 +405,7 @@
         z-index: 99;
         top: -82px;
         right: 0;
+
         & > div:hover {
             background-color: #f1f1f1;
         }
@@ -392,7 +414,8 @@
             cursor: pointer;
             padding: 0 12px;
         }
-        &:hover{
+
+        &:hover {
             display: block;
         }
     }

@@ -413,7 +413,6 @@
         },
         setImgInitialization(file, e) {//画图
           let _self = this
-          console.log(_self.imgMsg)
           // _self.clearCanvas('all')
             let image = new Image()
             image.src = this.imgMsg.bgRemovedPreview

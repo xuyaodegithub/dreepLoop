@@ -166,8 +166,8 @@
                 }, 1000)
             },
             updataThis() {
-                if (this.bgOriginal.status !== 0) {
-                    this.$message({type: 'warning', message: '当前图片不可编辑'})
+                if (this.bgOriginal.status !== 0) {//当前图片不可编辑
+                    this.$message({type: 'warning', message: 'Current picture is not editable'})
                     return
                 }
                 this.$emit('openImgSet', this.imageMsg)
