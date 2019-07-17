@@ -91,22 +91,22 @@ const filters={
 
     return ret;
 },
-  saveActions(funUrl){
-    axios({
-      method: 'post',
-      url:funUrl.url,
-      dataType: 'JSON',
-      data: funUrl.data
-    }).then(function(res){
-      // if(res.data.code==10000){
-        // context.commit(funUrl[1],res)
-        funUrl.callback(res)
-      // }else{
-      //   Toast({message: res.data.message, duration: 1500})
-      // }
-    }).catch(function(err){
-      console.log(err)
-    })
-  },
+  // saveActions(funUrl){
+  //   axios({
+  //     method: 'post',
+  //     url:funUrl.url,
+  //     dataType: 'JSON',
+  //     data: funUrl.data
+  //   }).then(function(res){
+  //     // if(res.data.code==10000){
+  //       // context.commit(funUrl[1],res)
+  //       funUrl.callback(res)
+  //     // }else{
+  //     //   Toast({message: res.data.message, duration: 1500})
+  //     // }
+  //   }).catch(function(err){
+  //     console.log(err)
+  //   })
+  // },
 }
 export default filters

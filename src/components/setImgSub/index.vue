@@ -188,9 +188,9 @@
           this.setImgOne = '';
           this.imgobj = {left: '', right: ''};
           this.clearOrdraw = 1;
-          this.moveXY = {x: 250 - this.canveaContentW / 2, y: 250 - this.canveaContentH / 2};
+          this.moveXY = {x: parseInt(250 - this.canveaContentW / 2), y: parseInt(250 - this.canveaContentH / 2)};
           this.clunmValue = 0;
-          this.moveXYTwo = {x: 250 - this.canveaContentW / 2, y: 250 - this.canveaContentH / 2};
+          this.moveXYTwo = {x:parseInt(250 - this.canveaContentW / 2), y: parseInt(250 - this.canveaContentH / 2)};
         },
         resetBImg() {//重置背景大小
           this.backImgW = 500//背景图片大小
@@ -218,19 +218,22 @@
           this.cDownTxt.fillRect(250 - this.canveaContentW / 2, 250 - this.canveaContentH / 2, this.canveaContentW, this.canveaContentH)
         },
         backReset() {//返回上一步
+          console.log(this.moveXY)
           let _self = this
           let x = this.moveXY.x
           let y = this.moveXY.y
           if (this.historySet.length > 0) {
             this.hiddenCanvasTwoTxt.clearRect(0, 0, this.hiddenCanvasTwo.width, this.hiddenCanvasTwo.height);
-            this.hiddenCanvasTwoTxt.putImageData(this.historySet[this.historySet.length - 1], 250 - this.canveaContentW / 2, 250 - this.canveaContentH / 2);
+            this.hiddenCanvasTwoTxt.putImageData(this.historySet[this.historySet.length - 1], parseInt(250 - this.canveaContentW / 2), parseInt( 250 - this.canveaContentH / 2));
             let url = this.initImg(1)
             let img = new Image()
             img.crossOrigin = ""
             img.src = url
             img.onload = function () {
               _self.cUpTxt.clearRect(0, 0, _self.cUp.width, _self.cUp.height);
-              _self.cUpTxt.drawImage(img, x, y, _self.canveaContentW - _self.clunmValue, (_self.canveaContentW - _self.clunmValue) * _self.canveaContentH / _self.canveaContentW)
+              if(!_self.clunmValue)  _self.cUpTxt.drawImage(img, x, y, _self.canveaContentW,  _self.canveaContentH)
+              else  _self.cUpTxt.drawImage(img, x, y, _self.canveaContentW - _self.clunmValue, (_self.canveaContentW - _self.clunmValue) * _self.canveaContentH / _self.canveaContentW)
+
             }
             this.historySet.pop();
           } else {
@@ -399,7 +402,7 @@
             arr.map((obj, index) => {
               if (obj == _self.cDown) {
                 obj.getContext('2d').drawImage(image, _self.backImgW / 2 - _self.canveaContentW / 2, _self.backImgH / 2 - _self.canveaContentH / 2, _self.canveaContentW, _self.canveaContentH, 250 - _self.canveaContentW / 2, 250 - _self.canveaContentH / 2, _self.canveaContentW, _self.canveaContentH);
-              } else obj.getContext('2d').drawImage(image, 250 - _self.canveaContentW / 2, 250 - _self.canveaContentH / 2, _self.canveaContentW, _self.canveaContentH);
+              } else obj.getContext('2d').drawImage(image, parseInt(250 - _self.canveaContentW / 2), parseInt(250 - _self.canveaContentH / 2), _self.canveaContentW, _self.canveaContentH);
             })
           }
           image.src = url
@@ -583,10 +586,10 @@
             let _self = this
             if (this.moveXY.x === 0 || this.moveXY.y === 0) {
               this.moveXY = {
-                x: 250 - ((this.canveaContentW - this.clunmValue) / 2) + x,
-                y: 250 - (((this.canveaContentW - this.clunmValue) * (this.canveaContentH)) / this.canveaContentW / 2) + y
+                x: parseInt(250 - ((this.canveaContentW - this.clunmValue) / 2) + x),
+                y: parseInt(250 - (((this.canveaContentW - this.clunmValue) * (this.canveaContentH)) / this.canveaContentW / 2) + y)
               }
-            } else this.moveXY = {x: this.moveXY.x + x, y: this.moveXY.y + y}
+            } else this.moveXY = {x: parseInt(this.moveXY.x + x), y: parseInt(this.moveXY.y + y)}
             this.imgobj.right = ''
           }
           // restoreDrawingSurface()
@@ -599,13 +602,14 @@
           let xx, yy;
           xx = 250 - ((_self.canveaContentW - num) / 2) + x;
           yy = 250 - (((_self.canveaContentW - num) * (_self.canveaContentH)) / _self.canveaContentW / 2) + y;
-          this.moveXY = {x: xx, y: yy};
+          this.moveXY = {x: parseInt(xx), y: parseInt(yy)};
           _self.cUpTxt.clearRect(0, 0, _self.cUp.width, _self.cUp.height);
           let image = new Image();
           image.crossOrigin = "";
           image.src = this.setImgOne;
           image.onload = function (ev) {
-            _self.cUpTxt.drawImage(image, xx, yy, _self.canveaContentW - num, ((_self.canveaContentW - num) * (_self.canveaContentH)) / _self.canveaContentW);
+            if(!num) _self.cUpTxt.drawImage(image, parseInt(xx), parseInt(yy), _self.canveaContentW,_self.canveaContentH);
+            else _self.cUpTxt.drawImage(image, parseInt(xx), parseInt(yy), _self.canveaContentW - num, ((_self.canveaContentW - num) * (_self.canveaContentH)) / _self.canveaContentW);
           }
           ////////
           _self.hiddenCanvasThreeTxt.clearRect(0, 0, _self.hiddenCanvasThree.width, _self.hiddenCanvasThree.height)
@@ -613,8 +617,8 @@
           _self.TwoW = w
           _self.TwoH = w
           _self.moveXYTwo = {
-            x: w / 2 - (_self.canveaContentW - num) / 2,
-            y: w / 2 - (((_self.canveaContentW - num) * (_self.canveaContentH)) / _self.canveaContentW / 2)
+            x: parseInt(w / 2 - (_self.canveaContentW - num) / 2),
+            y: parseInt(w / 2 - (((_self.canveaContentW - num) * (_self.canveaContentH)) / _self.canveaContentW / 2))
           }
           let imageleft = new Image();
           imageleft.crossOrigin = "";
@@ -637,7 +641,7 @@
           }
           _self.cUpTxt.clearRect(0, 0, _self.cUp.width, _self.cUp.height);
           if (this.imgobj.right) {//this.imgobj.left &&
-            _self.cUpTxt.drawImage(this.imgobj.right, xx, yy, _self.canveaContentW - num, ((_self.canveaContentW - num) * (_self.canveaContentH)) / _self.canveaContentW);
+            _self.cUpTxt.drawImage(this.imgobj.right, parseInt(xx), parseInt(yy), _self.canveaContentW - num, ((_self.canveaContentW - num) * (_self.canveaContentH)) / _self.canveaContentW);
           } else {
             this.initImg()
             let image = new Image();
@@ -645,7 +649,7 @@
             image.src = this.setImgOne
             image.onload = function (ev) {
               _self.imgobj.right = image
-              _self.cUpTxt.drawImage(image, xx, yy, _self.canveaContentW - num, ((_self.canveaContentW - num) * (_self.canveaContentH)) / _self.canveaContentW);
+              _self.cUpTxt.drawImage(image, parseInt(xx), parseInt(yy), _self.canveaContentW - num, ((_self.canveaContentW - num) * (_self.canveaContentH)) / _self.canveaContentW);
             }
           }
           this.initImgData()
@@ -655,7 +659,7 @@
           can2.width = this.canveaContentW;
           can2.height = this.canveaContentH;
           let ctx2 = can2.getContext('2d');
-          let upData = this.hiddenCanvasTwoTxt.getImageData(250 - this.canveaContentW / 2, 250 - this.canveaContentH / 2, this.canveaContentW, this.canveaContentH);
+          let upData = this.hiddenCanvasTwoTxt.getImageData(parseInt(250 - this.canveaContentW / 2), parseInt(250 - this.canveaContentH / 2), this.canveaContentW, this.canveaContentH);
           ctx2.putImageData(upData, 0, 0);
           if (x) return can2.toDataURL("image/png");
           else this.setImgOne = can2.toDataURL("image/png");

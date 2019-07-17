@@ -142,7 +142,7 @@
                     return
                 }
                 this.$refs.upImg.value = ''
-                this.percentValue = 0
+                // this.percentValue = 0
                 this.$nextTick(() => {
                     this.$refs.upImg.click()
                 })
@@ -162,19 +162,19 @@
                 });
                 let arr = this.allbgImg.filter((val, index) => {
                     return val.img
-                })
-                if (key === 0) this.StoreDowQrcode(arr, loading)
+                });
+                if (key === 0) this.StoreDowQrcode(arr, loading);
                 else {
-                    let filedId = []
+                    let filedId = [];
                     arr.map((item, index) => {
                         filedId.push(item.fileId)
-                    })
+                    });
                     getMattedImageMultiple(filedId).then(res => {
                         if (!res.code) {
-                            let newArr = res.data
+                            let newArr = res.data;
                             arr.map((item, index) => {
                                 item.img = newArr[index]
-                            })
+                            });
                             this.StoreDowQrcode(arr, loading)
                         } else {
                             loading.close()
@@ -192,7 +192,7 @@
                 var _this = this;
                 for (var i = 0; i < arr.length; i++) {
                     let name = arr[i].name; //图片名称
-                    let color = arr[i]['color']
+                    let color = arr[i]['color'];
                     let image = new Image();
                     image.crossOrigin = '';
                     image.onload = function () {
@@ -201,7 +201,7 @@
                         canvas.height = image.height;
                         let context = canvas.getContext("2d");
                         if (color !== 'add' && color) {
-                            context.fillStyle = color
+                            context.fillStyle = color;
                             context.fillRect(0, 0, canvas.width, canvas.height)
                         }
                         context.drawImage(image, 0, 0, image.width, image.height);
@@ -236,38 +236,38 @@
                     this.$message({
                         message: 'Url can not be empty',
                         type: 'warning'
-                    })
+                    });
                     return
                 }
                 let hsaOwn = this.files.some((val) => {
                     return val.url === this.imgUrl
-                })
+                });
                 if (hsaOwn) {
-                    this.$message({type: 'warning', message: 'Dulplicate pictures has been filtered'})
+                    this.$message({type: 'warning', message: 'Dulplicate pictures has been filtered'});
                     return
                 }
                 if (this.files.length + 1 > 20) {
-                    this.$message({type: 'warning', message: 'Pictures count must be less than 20'})
+                    this.$message({type: 'warning', message: 'Pictures count must be less than 20'});
                     return
                 }
-                this.toscroll()
-                let name = Math.random().toString().substring(2)
+                this.toscroll();
+                let name = Math.random().toString().substring(2);
                 this.files.unshift({url: this.imgUrl, name: name, type: 'copy'})
             },
             changeImg(e) {//图片上传
-                let NewLength = this.$refs.upImg.files.length
+                let NewLength = this.$refs.upImg.files.length;
                 if (NewLength + this.files.length > 20) {
-                    this.$message({type: 'warning', message: 'Pictures count must be less than 20'})
+                    this.$message({type: 'warning', message: 'Pictures count must be less than 20'});
                     return
                 }
                 // if(){}
-                this.toscroll()
+                this.toscroll();
                 for (let i = 0; i < this.$refs.upImg.files.length; i++) {
-                    this.$message.closeAll()
+                    this.$message.closeAll();
                     let hsaOwn = this.files.some((val) => {
                         return val.name === this.$refs.upImg.files[i].name
-                    })
-                    if (hsaOwn) this.$message({type: 'warning', message: 'Dulplicate pictures has been filtered.'})
+                    });
+                    if (hsaOwn) this.$message({type: 'warning', message: 'Dulplicate pictures has been filtered.'});
                     else this.files.unshift({
                         url: this.$refs.upImg.files[i],
                         name: this.$refs.upImg.files[i].name,
