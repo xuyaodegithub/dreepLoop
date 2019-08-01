@@ -1,19 +1,21 @@
 <template>
     <header>
-        <div class="margin flex j-b a-i first">
+        <div class="margins flex j-b a-i first">
             <ul class="flex">
-                <li><img src="../../assets/image/sureLogo.png" alt="" class="cu" @click="backindex()"></li>
-                <li class="cu" @click="backindex()">Smart Foreground Cut-out</li><!--智能抠图-->
-                <li class="cu" @click="toApi()">API</li>
-                <li class="cu" @click="userCenter()">Members</li><!--会员-->
+                <li><img src="../../assets/image/sureLogo.png" alt="" class="cu" @click="backindex()" style="width: 120px;height: 30px;"></li>
+                <li class="cu" :class="{'red' : urls.indexOf('index')>-1 || urls.indexOf('/#/')>-1}" @click="backindex()">Portrait cut-out</li><!--智能抠图-->
+                <li class="cu" :class="{'red' : urls.indexOf('product')>-1}" @click="toProduct()">More products</li>
+                <li class="cu" :class="{'red' : urls.indexOf('aboutUs')>-1}" @click="toAbout()">About us</li><!--会员-->
                 <!--            <li class="cu">登录</li>-->
             </ul>
             <div class="right">
                 <div v-if="!loginAfter">
-                    <span @click="userlogin(1)">Sign In</span><!--登录-->
-                    <span @click="userlogin(0)" class="active">Sign Up</span><!--注册-->
+                    <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">Members</span>
+<!--                    <span @click="userlogin(1)">Sign In</span>&lt;!&ndash;登录&ndash;&gt;-->
+                    <span @click="userlogin(0)" class="active">Login/Register</span><!--注册-->
                 </div>
                 <div class="cu" v-else>
+                    <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">Members</span>
                     <el-dropdown placement="bottom-end" @command="handleCommand">
                       <span class="el-dropdown-link" @click="toMyCount()">
                        {{userInfo.email}}
@@ -45,7 +47,9 @@
             return {
                 loginAfter:false,
                 userInfo:'',
-                basrUrls:basrUrls()
+                basrUrls:basrUrls(),
+                navList:['index','product','aboutUs','userVip'],
+                urls:window.location.href
             }
         },
         methods:{
@@ -82,6 +86,14 @@
                 if(window.location.href.indexOf('userVip')>-1) return;
                 toRouter('userVip')
             },
+            toProduct(){
+                if(window.location.href.indexOf('product')>-1) return;
+                toRouter('product')
+            },
+            toAbout(){
+                if(window.location.href.indexOf('aboutUs')>-1) return;
+                toRouter('aboutUs')
+            },
             handleCommand(ev){
                  let url=window.location.href
                  if( ev==1 && url.indexOf('userCenter') > -1 ) return
@@ -108,18 +120,33 @@
 <style scoped lang="scss">
     .el-dropdown-link {
         cursor: pointer;
-        color: #ffffff;
+        color: #e82255;
     }
     header{
+        z-index: 1100;
+        position: fixed;
+        top: 0;
+        left: 0;
+       box-shadow: 0 2px 2px rgba(0,0,0,0.06);
         font-size: 14px;
-        color: #fff;
+        color: #333;
         line-height:60px ;
-        background-color: #303030;
-        min-width: 1200px;
+        background-color: #fff;
+        width: 100%;
+        font-weight: 500;
         /*background: url("static/images/back.jpg") no-repeat center;*/
+        .margins{
+            padding: 0 30px 0;
+        }
     }
     header li{
-        margin: 0 25px;
+        margin: 0 40px;
+        &.red{
+            color: #e82255;
+        }
+    }
+    header .right .red{
+        color: #e82255;
     }
     header .right span{
         display: inline-block;
@@ -128,11 +155,13 @@
         cursor:pointer;
     }
     header .right span.active{
-        border: 1px solid #a1a1a1;
+        border: 1px solid #e82255;
         border-radius: 16px;
+        margin-left: 10px;
+        color: #e82255;
     }
     header li:first-child{
         margin-left: 0;
-        margin-right: 60px;
+        margin-right: 65px;
     }
 </style>

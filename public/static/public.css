@@ -13,7 +13,7 @@ table{border-collapse:collapse;}
 mark{background:none;}
 input,textarea{outline:none;}/*去除谷歌点击蓝色虚框*/
 textarea{resize:none;}/*禁止多行文本输入框的拖动*/
-.margin{width:1200px;margin:0 auto;}
+.margin{margin:0 auto;width:1200px;}
 
 
 /*文本溢出 出现省略号*/

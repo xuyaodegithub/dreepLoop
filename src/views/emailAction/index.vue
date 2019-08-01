@@ -88,7 +88,7 @@
         color: #333;
     }
     .margin p span{
-        color: #2a5582;
+        color: #e82255;
     }
     .margin p:nth-child(2){
         margin-bottom: 25px;
@@ -102,7 +102,7 @@
         line-height: 50px;
         font-size: 16px;
         text-align: center;
-        background-color: #29aff6;
+        background-color: #e82255;
         margin-bottom: 25px;
         border-radius: 25px;
         color: #fff;

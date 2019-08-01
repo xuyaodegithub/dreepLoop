@@ -94,6 +94,12 @@ export const userApikey=(data)=>{
 export const userRefreshApikey=(data)=>{
  return https.get('/user/refreshApikey',data)
 }
+/**
+ * 获取抠图历史记录
+ **/
+export const userHistoryList=(data)=>{
+ return https.get('/webMatting/mattingHistory',data)
+}
 //用户模块结束
 
 

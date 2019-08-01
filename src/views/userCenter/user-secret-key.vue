@@ -86,9 +86,9 @@
                 font-size: 14px;
                 line-height: 40px;
                 padding: 0 15px;
-                border-color:#27adf6 ;
+                border-color:#e82255 ;
                 color: #fff;
-                background-color: #27adf6;
+                background-color: #e82255;
                 /*width: 120px;*/
             }
             /*.el-button:last-child{*/

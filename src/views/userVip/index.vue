@@ -46,70 +46,70 @@
                         </el-radio>
 <!--                        <el-radio :label="99">企业-联系我们</el-radio>-->
                     </el-radio-group>
-                    <el-button type="primary" round @click="dialogVisible = true">Order Now</el-button><!--立即购买-->
+                    <el-button type="primary" round @click="dialogVisible = true">Order now</el-button><!--立即购买-->
                 </div>
             </div>
         </div>
-        <div class="problem">
-            <div class="margin">
-                <h3>FAQ</h3><!--常见问题-->
-                <div class="item">
-                    <div class="flex Ques">
-                        <i>Q</i>
-                        <p>Should I get paid-as-you-go points or subscribe?</p><!--我应该得到随付即付的能量还是订阅-->
-                    </div>
-                    <div class="flex Res">
-                        <i>A</i>
-                        <p>For one-time users or those who have difficulty in predicting image demand, pay-as-you-go credit is a great choice. For those who have larger or ongoing demands, you will save every money on every picture processed if you become subscribed member. As low as $9, the monthly subscription with unused points carry-over capability will benefit you with tremendous savings.</p><!--一次性或难以预测图像的需求，现即付的信用是一个不错的选择。对于较大的或持续的图像的需求，订阅会为你处理的每一张图片省钱。
-                        月度计划开始每月津40图像和翻转的任何未使用的能量(100%)你会受益于巨大的储存无需大费周章。-->
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="flex Ques">
-                        <i>Q</i>
-                        <p>what is point?</p><!--什么是能量-->
-                    </div>
-                    <div class="flex Res">
-                        <i>A</i>
-<!--                        信用使您能够使用删除。bg在高质量的全分辨率图样。您可以使用删除信用。bg通过删除。bg API，在我们的 Windows/ Mac/ Linux应用程序或Photoshop扩展。删除背景从1图像需要1能量，预览图片删除都是免费，通过移除-->
-<!--                        bg和1/4信贷。bg应用程序和API。订阅包括每个月的预算额度，你可以使用在这个月（或滚动到下个月，只要你爆出订阅）现收现付制能量是有效的购买后2年-->
-                        <p>Point allows you to use Picup to process high quality images with full resolution. You can use points through our API or web browser extension. Cutting out one picture requires 1 point, and image preview is free on our website picup.ai. The subscription includes the monthly budget amount that you can use during that month (or carry over to the next month, as long as you remain subscribed). </p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="flex Ques">
-                        <i>Q</i>
-                        <p>Which images are supported</p><!--支持哪些图像-->
-                    </div>
-                    <div class="flex Res">
-                        <i>A</i>
-<!--                        你可以上传任何JPG和PNG图像高达8mb，每个图像都必须包含至少一个人，是一个产品照片或一辆车照片（更多信息），-->
-<!--                        如果图像分辨率大于10像素（例如4000x2500或任何其他长宽比）这个最大分辨率的大小-->
-                        <p>
-                            You can upload any JPG and PNG images up to 8mb, each image must contain at least one person (we are working on to cutout additional objects/entities at this time), the image will be resized if its resolution is greater than 10 megapixels (e.g. 4000x2500 or any other Aspect ratio).
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="peopleAsk">
-            <div class="margin">
-                <h3>Customer Feedback</h3><!--用户反馈-->
-                <div class="flex a-i j-b">
-                    <div class="ones flex" v-for="(val,index) in feedbackList" :key="index">
-                        <div class="imgs">
-                            <img :src="val.img" alt="">
-                        </div>
-                        <div class="msg">
-                            <div>{{val.name}}</div>
-                            <span>{{val.tag}}</span>
-                            <p>{{val.content}}</p>
-                        </div>
-                    </div>
-                </div>
-                <el-button type="primary">Continue</el-button><!--继续-->
-            </div>
-        </div>
+<!--        <div class="problem">-->
+<!--            <div class="margin">-->
+<!--                <h3>FAQ</h3>&lt;!&ndash;常见问题&ndash;&gt;-->
+<!--                <div class="item">-->
+<!--                    <div class="flex Ques">-->
+<!--                        <i>Q</i>-->
+<!--                        <p>Should I get paid-as-you-go points or subscribe?</p>&lt;!&ndash;我应该得到随付即付的能量还是订阅&ndash;&gt;-->
+<!--                    </div>-->
+<!--                    <div class="flex Res">-->
+<!--                        <i>A</i>-->
+<!--                        <p>For one-time users or those who have difficulty in predicting image demand, pay-as-you-go credit is a great choice. For those who have larger or ongoing demands, you will save every money on every picture processed if you become subscribed member. As low as $9, the monthly subscription with unused points carry-over capability will benefit you with tremendous savings.</p>&lt;!&ndash;一次性或难以预测图像的需求，现即付的信用是一个不错的选择。对于较大的或持续的图像的需求，订阅会为你处理的每一张图片省钱。-->
+<!--                        月度计划开始每月津40图像和翻转的任何未使用的能量(100%)你会受益于巨大的储存无需大费周章。&ndash;&gt;-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="item">-->
+<!--                    <div class="flex Ques">-->
+<!--                        <i>Q</i>-->
+<!--                        <p>what is point?</p>&lt;!&ndash;什么是能量&ndash;&gt;-->
+<!--                    </div>-->
+<!--                    <div class="flex Res">-->
+<!--                        <i>A</i>-->
+<!--&lt;!&ndash;                        信用使您能够使用删除。bg在高质量的全分辨率图样。您可以使用删除信用。bg通过删除。bg API，在我们的 Windows/ Mac/ Linux应用程序或Photoshop扩展。删除背景从1图像需要1能量，预览图片删除都是免费，通过移除&ndash;&gt;-->
+<!--&lt;!&ndash;                        bg和1/4信贷。bg应用程序和API。订阅包括每个月的预算额度，你可以使用在这个月（或滚动到下个月，只要你爆出订阅）现收现付制能量是有效的购买后2年&ndash;&gt;-->
+<!--                        <p>Point allows you to use Picup to process high quality images with full resolution. You can use points through our API or web browser extension. Cutting out one picture requires 1 point, and image preview is free on our website picup.ai. The subscription includes the monthly budget amount that you can use during that month (or carry over to the next month, as long as you remain subscribed). </p>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="item">-->
+<!--                    <div class="flex Ques">-->
+<!--                        <i>Q</i>-->
+<!--                        <p>Which images are supported</p>&lt;!&ndash;支持哪些图像&ndash;&gt;-->
+<!--                    </div>-->
+<!--                    <div class="flex Res">-->
+<!--                        <i>A</i>-->
+<!--&lt;!&ndash;                        你可以上传任何JPG和PNG图像高达8mb，每个图像都必须包含至少一个人，是一个产品照片或一辆车照片（更多信息），&ndash;&gt;-->
+<!--&lt;!&ndash;                        如果图像分辨率大于10像素（例如4000x2500或任何其他长宽比）这个最大分辨率的大小&ndash;&gt;-->
+<!--                        <p>-->
+<!--                            You can upload any JPG and PNG images up to 8mb, each image must contain at least one person (we are working on to cutout additional objects/entities at this time), the image will be resized if its resolution is greater than 10 megapixels (e.g. 4000x2500 or any other Aspect ratio).-->
+<!--                        </p>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="peopleAsk">-->
+<!--            <div class="margin">-->
+<!--                <h3>Customer Feedback</h3>&lt;!&ndash;用户反馈&ndash;&gt;-->
+<!--                <div class="flex a-i j-b">-->
+<!--                    <div class="ones flex" v-for="(val,index) in feedbackList" :key="index">-->
+<!--                        <div class="imgs">-->
+<!--                            <img :src="val.img" alt="">-->
+<!--                        </div>-->
+<!--                        <div class="msg">-->
+<!--                            <div>{{val.name}}</div>-->
+<!--                            <span>{{val.tag}}</span>-->
+<!--                            <p>{{val.content}}</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <el-button type="primary">Continue</el-button>&lt;!&ndash;继续&ndash;&gt;-->
+<!--            </div>-->
+<!--        </div>-->
         <footer-sub></footer-sub>
         <el-dialog
                 custom-class="Dlog"
@@ -237,7 +237,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .section{
-    margin-top: 92px;
+    padding-top: 152px;
     text-align: center;
     margin-bottom: 108px;
     .flex{
@@ -266,7 +266,7 @@
             font-size: 12px;
             color: #fff;
             line-height: 50px;
-            background-color: #86abbd;
+            background-color: #f494ad;
         }
         .title{
             font-size: 20px;
@@ -275,7 +275,7 @@
         }
         .price{
             font-size: 12px;
-            color: #3bb7f7;
+            color: #e82255;
             margin-bottom: 34px;
             line-height: 1;
             span{
@@ -289,6 +289,7 @@
             color: #a2a2a2;
             .el-radio{
                 width: 100%;
+                height: 32px;
                 &:last-child{
                     margin-bottom: 14px;
                 }
@@ -298,7 +299,7 @@
         .clear span{
             display: inline-block;
             width: 31%;
-            color: #a2a2a2;
+            color: #333;
             &:last-child{
                 text-align: right;
             }
@@ -307,9 +308,9 @@
             }
         }
         .el-button{
-            background-color: #27adf6;
+            background-color: #e82255;
             width: 160px;
-            border-color: #27adf6;
+            border-color: #e82255;
             margin-top: 54px;
             margin-bottom: 46px;
         }
@@ -356,7 +357,7 @@
             i{
                 width: 26px;
                 border-radius: 50%;
-                background-color: #25a9f1;
+                background-color: #e82255;
                 text-align: center;
                 margin-right: 17px;
                 color: #fff;
@@ -433,10 +434,10 @@
         }
         .el-button{
             width: 160px;
-            background-color: #2aadf5;
+            background-color: #e82255;
             height: 50px;
             border-radius: 25px;
-            border-color:#2aadf5 ;
+            border-color:#e82255 ;
             display: block;
             margin:95px auto 0 ;
         }
@@ -449,7 +450,7 @@
       }
       .price{
           font-size: 24px;
-          color: #12a7ff;
+          color: #e82255;
           margin-bottom: 50px;
       }
       & > p{
@@ -469,20 +470,23 @@
       }
       .el-button{
           width: 100%;
-          border-color: #27adf6;
-          background-color: #27adf6;
+          border-color: #e82255;
+          background-color: #e82255;
           color: #fff;
           height: 50px;
       }
   }
 </style>
 <style lang="scss">
+    .vip .right .clear span{
+        color: #333;
+    }
    .vip .el-radio__input.is-checked + .el-radio__label,.vip .el-radio{
         color: #a2a2a2;
     }
     .vip .el-radio__input.is-checked .el-radio__inner{
-        border-color: #1babff;
-        background-color: #1babff;
+        border-color: #e82255;
+        background-color: #e82255;
     }
     .vip  .el-dialog__body{
         padding: 16px 22px 32px;

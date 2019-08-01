@@ -81,7 +81,7 @@
     .el-button{
       display: block;
       width: 100%;
-      background-color: #29b2f6;
+      background-color: #e82255;
       border: none;
     }
   }

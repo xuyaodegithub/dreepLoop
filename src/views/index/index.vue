@@ -1,61 +1,131 @@
 <template>
     <div class="helloFirst">
-        <header-sub></header-sub>
-        <div class="seachHeader">
-            <div class="margin seachI flex a-i">
+        <input type="file" style="display: none" ref="upImg" @change="changeImg($event)" multiple accept="image/*"/>
+        <header-sub @to-parses="getLoginStatus"></header-sub>
+        <div class="flex apps">
+            <div class="Operator">
+                <h6>Local images</h6>
+                <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()">Upload</el-button>
+                <p class="afterbtn" v-if="!LoginStatus"><span class="cu" @click="userlogin(0)">Login</span> for batch upload</p>
+                <div class="center">
+                    <h5>Web images</h5>
+                    <div style="position: relative;">
+                        <img src="../../assets/image/inputImg.png" alt="" style="position: absolute;left: 8px;top: 12px;">
+                        <input type="text" placeholder="Paste a URL" v-model="imgUrl" @keyup.enter="copyImgUrl()" @focus="$event.target.select()">
+                        <img src="../../assets/image/img5.png" alt="" style="margin-left:-14px;" class="cu" @click="copyImgUrl()">
+                    </div>
+                    <div class="flex a-i cu">
+                        <img src="../../assets/image/img1.png" alt="">
+                        <p>Chrome extension</p>
+                    </div>
+                </div>
+                <div class="bottonLast">
+                        <div class="flex a-i cu" @click="toApi()">
+                            <img src="../../assets/image/img4.png" alt="">
+                            <span>API</span>
+                        </div>
+                        <div class="flex a-i cu" @click="openHistory()">
+                            <img src="../../assets/image/img2.png" alt="">
+                            <span>History</span>
+                        </div>
+                    <div class=fixedB>
+                        <h5>Concat us</h5>
+                        <div class="flex a-i cu">
+                            <img src="../../assets/image/img3.png" alt="">
+                            <p><a href="mailto:pikachu@picup.ai">pikachu@picup.ai</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="historyList" v-show="showHistory">
+                    <i class="el-icon-close cu" @click="closeHistory()"></i>
+                    <div v-show="Object.keys(historyList).length<1" style="margin-top: 60px;text-align: center;">No record</div>
+                    <div class="hisimgs"  v-show="Object.keys(historyList).length>0" ref="historyList"  @scroll="getmoveHis($event)">
+                        <div v-for="(value,name) in historyList" :key="name" class="oneDate" :class="">
+                            <h4>{{name | datafilter}}</h4>
+                            <div class="flex a-i">
+                                <div v-for="(item,index) in value" :key="item.id">
+                                    <img :src="item.originalImage" alt="" class="cu" @click="addItem(item)">
+                                </div>
+                            </div>
+                        </div>
+                        <p style="text-align: center;margin-bottom: 15px;margin-top: 15px;" v-if="stopUpdata">No more~~~~~</p>
+                    </div>
+                </div>
+            </div>
+             <div class="OperatorRight">
+                 <div v-for="(item,index) in files" :key="item.name" class="imgRef" :class="{'active' : index===files.length-1}" :id="item.name">
+                     <img-sub :files="item" @to-parse="collectBg" @close="closeItem" :index="index"
+                              @openImgSet="openImgSet"></img-sub>
+                 </div>
+                 <div class="OperatorCenter" v-show="files.length<1">
+                     <h4>Portrait Cut-out</h4>
+                     <p>Powerful & Efficient & Free</p>
+                     <img src="../../assets/image/img6.png" alt="" class="bigimg">
+                 </div>
+                 <div class="OperatorCenter"  v-show="files.length<1">
+                     <h4>Powerful</h4>
+                     <p>Astonishing edge details,qualified for commercial usage</p>
+                     <img src="../../assets/image/img7.png" alt="">
+                 </div>
+             </div>
+             <div class="ImgLists" v-show="rightImgList.length>1">
+                     <div class="imgs">
+                         <div v-for="(item,index) in rightImgList" :key="index" :class="{'active' : selectImg ===index}" class="cu" @click="goThisImg(index)">
+                             <img :src="item.url" alt="">
+                         </div>
+                     </div>
+
+                     <div class="downBtn cu">
+                         <span>Download all</span><i class="el-icon-download"></i>
+                         <div class="sizeChoses">
+                             <div class="flex a-i btn">
+                                 <div v-for="(val,index) in color" :key="index" :style="{background:val}" :class="{'active' : classType===index}" @click="classType=index"></div>
+                             </div>
+                             <div class="flex a-i j-b" @click="saveMove(0)">
+                                 <span>Download Preview Image (Free)</span>
+                             </div>
+                             <div class="flex a-i j-b" @click="saveMove(1)">
+                                 <span>Download Full Image</span>
+                             </div>
+                         </div>
+                     </div>
+             </div>
+        </div>
+        <div class="content flex" id="content"  v-show="files.length<1">
+            <!--  <div class="leftMune"></div>-->
+            <div class="rightBig">
                 <div>
-                    <input type="file" style="display: none" ref="upImg" @change="changeImg($event,1)"
-                           :multiple="multiple">
-                    <p class="flex a-i" style="line-height: 1.2;">Cut out picture foreground without moving your
-                        finger<img src="../../assets/image/free2.png" alt="" style="margin-left: 15px"></p>
-                    <!--智能一键抠图神器-->
-                    <p class="m-boonte"> Fully automatic, ~3 seconds, free background templates</p>
-                    <!--&nbsp;1 0 0 % 自 动 - 5 秒 - 免 费 背 景 模 板-->
-                    <div class="flex dwoBtn">
-                        <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()">Upload a single
-                            picture
-                        </el-button><!--上传1张图片-->
-                        <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg(2)">Upload multiple
-                            pictures
-                        </el-button><!--批量上传-->
-                    </div>
-                    <div class="flex input">
-                        <input placeholder=" Paste a URL " v-model="imgUrl" @keyup.enter="copyImgUrl"/><!--粘贴URL地址-->
-                        <div class="cu" @click="copyImgUrl()">OK</div><!--确定-->
+                    <div class="efficient">
+                        <h3>Efficient</h3>
+                        <p>Bulk Processing & Google Chrome extension & API Integration, time saver for your life</p>
+                        <img src="static/images/img81.png" alt="">
+                        <div class="flex a-i">
+                            <div>
+                                <p>Batch upload</p>
+                                <p>Process multiple images in parallel</p>
+                            </div>
+                            <div>
+                                <p>Chrome extension</p>
+                                <p>Embedded in the web browser</p>
+                            </div>
+                            <div>
+                                <p>API</p>
+                                <p>Seamless integration with your system</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="imgRR">
-                    <img src="../../assets/morepeople.png" alt="">
+                <div>
+                    <div class="free">
+                        <h3>Free</h3>
+                        <p>Up to 1000x1000 Pixels free to use WITHOUT any cost,best solution for eCommerce</p>
+                        <img src="static/images/img9.png" alt="">
+                    </div>
                 </div>
             </div>
         </div>
-        <!--    <img :src="test" alt="">-->
-        <div class="margin" ref="contentImg" style="margin-top: 30px;margin-bottom: 40px">
-            <!--            这里的key不能使用index-->
-            <div v-for="(item,index) in files" :key="item.name">
-                <img-sub :files="item" @to-parse="collectBg" @close="closeItem" :index="index"
-                         @openImgSet="openImgSet"></img-sub>
-            </div>
-        </div>
-        <div class="AllDown" v-if="allbgImg.length>1">
-            Total <span>{{files.length}}</span> pictures，<span>{{allbgImg.length}}</span> is done
-            <el-button type="primary" round
-                       style="background-color: #27a9f4;border-color: #27a9f4;color: #fff;position: relative;left: 365px;width: 200px;position: relative;"
-                       icon="el-icon-download">
-                Batch Download
-                <div class="sizeChoses">
-                    <!--                            v-for="(item,index) in sizeArr" :key="index"-->
-                    <div class="flex a-i j-b" @click="saveMove(0)">
-                        <span>Download Preview Image (Free)</span>
-                    </div>
-                    <div class="flex a-i j-b" @click="saveMove(1)">
-                        <span>Download Full Image</span>
-                    </div>
-                </div>
-            </el-button>
-        </div>
-        <div class="zhezhao" v-if="showSetImg"></div>
-        <img-set-sub v-if="showSetImg" :imgMsg="imgMsg" @closeImgSet="closeImgSet"></img-set-sub>
+<!--        <div class="zhezhao" v-if="showSetImg"></div>-->
+<!--        <img-set-sub v-if="showSetImg" :imgMsg="imgMsg" @closeImgSet="closeImgSet"></img-set-sub>-->
     </div>
 </template>
 <script>
@@ -68,39 +138,76 @@
     import {getToken} from "../../utils/auth";
     import {basrUrls} from "../../utils";
     import imgSetSub from '@/components/setImgSub/index.vue'
-    import {getMattedImageMultiple} from "../../apis";
-
+    import {getMattedImageMultiple, userHistoryList} from "../../apis";
+    import mohu1 from '@/assets/image/mohu1.png'
+    import mohu2 from '@/assets/image/mohu2.png'
+    import opacity from '@/assets/opacity.jpg'
+    import JSManipulate from '../../utils/jsmanipulate.js'
+    import niceScroll from 'jquery.nicescroll';
     export default {
         name: 'HelloWorld',
         data() {
             return {
+                rightImgList:[],
+                selectImg:0,
                 multiple: false,
                 imgMsg: {},
                 showSetImg: false,
                 allbgImg: [],
                 basrUrls: basrUrls(),
                 sizeArr: [
-                    // {width: 500, height: 500},
-                    // {width: 800, height: 800},
-                    // {width: 1600, height: 1200}
+
                 ],
+                historyList:{},
+                showHistory:false,
                 files: [],
                 timer: '',//上传过度动画
                 percentValue: 0,//上传百份比
                 imgUrl: '',//图片链接
+                page:1,
+                rows:30,
+                color: [`url(${opacity})`, '#ffffff', '#eeeeee', '#5d5d5d',`url(${mohu2})`,`url(${mohu1})`],
+                classType:0,
+                stopUpdata:false,//停止滑动加载
+                Percentile:0,
+                loading:null,
+                LoginStatus:false,//登录状态
+            }
+        },
+        filters:{
+            datafilter(val){
+                let now=new Date();
+                let y=now.getFullYear(),m=now.getMonth()+1, d=now.getDate();
+                if(m<10) m='0'+m;
+                if (d<10) d='0'+d;
+                let arr=val.split('-');
+                if(arr[0]==y && arr[1]==m && arr[2]==d) return 'Today';
+                else if(arr[0]==y && arr[1]==m && arr[2]==d-1) return 'Yesterday';
+                else return val
             }
         },
         mounted() {
+            $('.ImgLists .imgs').niceScroll({cursorcolor :'#999999'});
+            this.stopPrevent()
 
+            // $('.hisimgs').niceScroll({cursorcolor :'#999999',boxzoom:true});
         },
         computed: {
-            ...mapGetters([])
+            ...mapGetters([]),
         },
         components: {
             headerSub, imgSub, imgSetSub
         },
         methods: {
             ...mapActions([]),
+            getLoginStatus(item){//获取登录状态
+               this.LoginStatus=true
+            },
+            userlogin(key){
+                let urls = window.location.href.split('#/')[0]
+                let baseUrl = urls.substring(0,urls.lastIndexOf('/'))
+                window.location.href=baseUrl+'/loginOrRegister.html#/?type='+key
+            },
             closeImgSet(val) {//关闭操作台
                 this.showSetImg = false;
                 this.imgMsg = {};
@@ -111,15 +218,17 @@
             },
             collectBg(obj) {
                 if (obj.color === 'add') this.allbgImg.push(obj)
-                else {
-                    this.allbgImg.filter((val, index) => {
-                        if (val.name === obj.name) val.color = obj.color
-                    })
-                }
+                // else {
+                //     this.allbgImg.map((val, index) => {
+                //         if (val.name === obj.name) val.color = obj.color
+                //     })
+                // }
 
             },
             closeItem(item) {
                 this.files.splice(item.index, 1)
+                this.rightImgList.splice(item.index, 1)
+                // console.log(this.$refs.imgRef)
                 this.allbgImg.map((val, index) => {
                     if (val.name === item.name) this.allbgImg.splice(index, 1)
                 })
@@ -149,21 +258,24 @@
             },
             //下载多张抠图
             saveMove(key) {
+                let that=this
                 this.$message.closeAll()
                 if (this.files.length !== this.allbgImg.length) {
                     this.$message({type: 'warning', message: 'Picture is on processing, please wait...'})
                     return
                 }
-                const loading = this.$loading({
+                this.loading=this.$loading({
                     lock: true,
-                    text: 'processing...',
+                    text:'0 completed',
                     spinner: 'el-icon-loading',
                     background: 'rgba(0, 0, 0, 0.7)'
                 });
-                let arr = this.allbgImg.filter((val, index) => {
+                let allImgs=JSON.parse(JSON.stringify(this.allbgImg))
+                let arr = allImgs.filter((val, index) => {
                     return val.img
                 });
-                if (key === 0) this.StoreDowQrcode(arr, loading);
+                // console.log(arr)
+                if (key === 0) this.StoreDowQrcode(arr);
                 else {
                     let filedId = [];
                     arr.map((item, index) => {
@@ -175,9 +287,9 @@
                             arr.map((item, index) => {
                                 item.img = newArr[index]
                             });
-                            this.StoreDowQrcode(arr, loading)
+                            this.StoreDowQrcode(arr)
                         } else {
-                            loading.close()
+                            this.loading.close()
                         }
                     })
                 }
@@ -185,31 +297,29 @@
             },
 
             //批量下载图片
-            StoreDowQrcode(arr, loading, blogTitle = "pictures") {
-                var zip = new JSZip();
-                var imgs = zip.folder(blogTitle);
-                var baseList = [];
-                var _this = this;
-                for (var i = 0; i < arr.length; i++) {
-                    let name = arr[i].name; //图片名称
-                    let color = arr[i]['color'];
-                    let image = new Image();
-                    image.crossOrigin = '';
-                    image.onload = function () {
-                        let canvas = document.createElement("canvas");
-                        canvas.width = image.width;
-                        canvas.height = image.height;
-                        let context = canvas.getContext("2d");
-                        if (color !== 'add' && color) {
-                            context.fillStyle = color;
-                            context.fillRect(0, 0, canvas.width, canvas.height)
-                        }
-                        context.drawImage(image, 0, 0, image.width, image.height);
-                        let url = canvas.toDataURL("image/png"); // 得到图片的base64编码数据 let url =
-                        // canvas.toDataURL();
-                        baseList.push({name: name, img: url.substring(22)});
-                        if (baseList.length === arr.length) {
+            StoreDowQrcode(arr, blogTitle = "pictures") {
+                let zip = new JSZip();
+                let imgs = zip.folder(blogTitle);
+                let baseList = [];
+                let _this = this;
+                let callback=(objs)=> {
+                    let cans = document.createElement('canvas')
+                    let ctxs = cans.getContext('2d')
+                    cans.width = objs.bgRemovedImg.width;
+                    cans.height = objs.bgRemovedImg.height;
+                    if(this.classType>0 && this.classType<4){
+                        ctxs.fillStyle = this.color[this.classType];
+                        ctxs.fillRect(0, 0, cans.width, cans.height)
+                    }else if(this.classType===4 || this.classType===5) ctxs.putImageData(objs.dwonBg, 0, 0);
+                    ctxs.drawImage(objs.bgRemovedImg, 0, 0);
+                    let url = cans.toDataURL("image/png"); // 得到图片的base64编码数据 let url =
+                     baseList.push({name: objs.is, img: url.substring(22)});
+                    _this.Percentile+=1
+                    _this.loading.text=_this.Percentile +'/'+ arr.length +' completed'
+                    // console.log(_this.loading.text)
+                    if (baseList.length === arr.length) {
                             if (baseList.length > 0) {
+                                _this.loading.text='Packing...'
                                 for (let k = 0; k < baseList.length; k++) {
                                     imgs.file(baseList[k].name + ".png", baseList[k].img, {
                                         base64: true
@@ -218,68 +328,225 @@
                                 zip.generateAsync({type: "blob"}).then(function (content) {
                                     // see FileSaver.js
                                     saveAs(content, blogTitle + ".zip");
+                                    _this.loading.close()
+                                    _this.Percentile=0
                                 });
-                                loading.close()
                             } else {
                                 _this.$message.error({
                                     title: "error",
                                     message: "There is no picture can be download"
                                 });
                             }
-                        }
-                    };
-                    image.src = arr[i].img;
+                         }
+                }
+                for (let i = 0; i < arr.length; i++) {
+                    this.drawStyleBg(arr[i],this.classType,callback,i)
                 }
             },
-            copyImgUrl() {//粘贴图片链接确定
-                if (!this.imgUrl) {
+            copyImgUrl(url) {//粘贴图片链接确定
+                if (!this.imgUrl && !url) {
                     this.$message({
                         message: 'Url can not be empty',
                         type: 'warning'
                     });
                     return
                 }
-                let hsaOwn = this.files.some((val) => {
-                    return val.url === this.imgUrl
-                });
-                if (hsaOwn) {
-                    this.$message({type: 'warning', message: 'Dulplicate pictures has been filtered'});
-                    return
-                }
-                if (this.files.length + 1 > 20) {
-                    this.$message({type: 'warning', message: 'Pictures count must be less than 20'});
-                    return
-                }
+                // let hsaOwn = this.files.some((val) => {
+                //     return val.url === (url ? url.url : this.imgUrl)
+                // });
+                // if (hsaOwn) {
+                //     this.$message({type: 'warning', message: 'Dulplicate pictures has been filtered'});
+                //     return
+                // }
+                // if (this.files.length + 1 > 20) {
+                //     this.$message({type: 'warning', message: 'Pictures count must be less than 20'});
+                //     return
+                // }
                 this.toscroll();
-                let name = Math.random().toString().substring(2);
-                this.files.unshift({url: this.imgUrl, name: name, type: 'copy'})
+                let name = parseInt(Math.random()*100000000000);
+                this.files.unshift({url: url ? url.url : this.imgUrl, name: name, type: 'copy',fileId:url ? url.fileId : ''})
+                this.imgUrlss({url:  url ? url.url : this.imgUrl, name: name, type: 'copy',fileId:url ? url.fileId : ''})
             },
             changeImg(e) {//图片上传
-                let NewLength = this.$refs.upImg.files.length;
-                if (NewLength + this.files.length > 20) {
-                    this.$message({type: 'warning', message: 'Pictures count must be less than 20'});
-                    return
-                }
-                // if(){}
+                // let NewLength = this.$refs.upImg.files.length;
+                // if (NewLength + this.files.length > 20) {
+                //     this.$message({type: 'warning', message: 'Pictures count must be less than 20'});
+                //     return
+                // }
+                // console.log(this.$refs.upImg.files)
                 this.toscroll();
                 for (let i = 0; i < this.$refs.upImg.files.length; i++) {
-                    this.$message.closeAll();
-                    let hsaOwn = this.files.some((val) => {
-                        return val.name === this.$refs.upImg.files[i].name
-                    });
-                    if (hsaOwn) this.$message({type: 'warning', message: 'Dulplicate pictures has been filtered.'});
-                    else this.files.unshift({
-                        url: this.$refs.upImg.files[i],
-                        name: this.$refs.upImg.files[i].name,
-                        type: 'file'
-                    })
-
+                    // this.$message.closeAll();
+                    // let hsaOwn = this.files.some((val) => {
+                    //     return val.name === this.$refs.upImg.files[i].name
+                    // });
+                    // if (hsaOwn) this.$message({type: 'warning', message: 'Dulplicate pictures has been filtered.'});
+                    // else {
+                        this.files.unshift({
+                            url: this.$refs.upImg.files[i],
+                            name:parseInt(Math.random()*100000000000),
+                            type: 'file'
+                        });
+                    // }
                 }
+                this.imgUrlss(this.$refs.upImg.files)
             },
             toscroll() {
-                let oDiv = this.$refs.contentImg.offsetTop;
-                $('body,html').animate({scrollTop: oDiv - 30}, 500);
+                // let oDiv = this.$refs.contentImg.offsetTop;
+                $('body,html').animate({scrollTop: 0}, 500);
             },
+            toApi(){
+                window.location.href=this.basrUrls+'/docsify/#/test.md'
+            },
+            imgUrlss (obj){//rightImgList
+                let _self=this
+                let newArr=new Array(obj.length).fill(0);
+                if(obj.type==='copy') this.rightImgList.unshift({url:obj.url,name:obj.name})
+                else{
+                    for(let i = 0; i < obj.length; i++){
+                        let reader = new FileReader();
+                            reader.readAsDataURL(obj[i]);
+                            //监听文件读取结束后事件
+                            reader.onloadend = function (e) {
+                                newArr[i]={url:e.target.result,name:obj[i].name}
+                                let t=newArr.every((item,index)=>{
+                                    return item!==0
+                                })
+                                if(t)_self.rightImgList=[...newArr.reverse(),..._self.rightImgList]
+                            }
+                    }
+                }
+                    // if(item.type==='copy') this.rightImgList.unshift({url:item.url,name:item.name})
+                    // else{
+                    //     let reader = new FileReader();
+                    //     reader.readAsDataURL(item);
+                    //     //监听文件读取结束后事件
+                    //     reader.onloadend = function (e) {
+                    //         _self.rightImgList.unshift({url:e.target.result,name:item.name})
+                    //     }
+                    // }
+            },
+            goThisImg(index){
+                this.selectImg=index;
+                let dome=document.getElementsByClassName('imgRef');
+                $('body,html').animate({scrollTop: dome[index].offsetTop-52}, 500);
+            },
+            openHistory(){
+                this.showHistory=true
+                let data={
+                    page:this.page,
+                    pageSize:this.rows
+                }
+                userHistoryList(data).then(res=>{
+                    if(!res.code){
+                        this.historyList=res.data;
+                        let newArr=Object.keys(res.data),num=0
+                        for(let i=0;i<newArr.length;i++){
+                            num+=res.data[newArr[i]].length
+                        }
+                        if(num<data.pageSize) this.stopUpdata=true
+                    }
+                })
+            },
+            closeHistory(){
+                this.showHistory=false
+            },
+            drawStyleBg(obj,key,callback,i){//批量下载封装
+                let that=this
+                let imgLoaded = false;
+                let originalImgLoaded = false;
+                let img = new Image()
+                img.crossOrigin = '';
+                img.onload = function() {
+                    imgLoaded = true;
+                   if(imgLoaded && originalImgLoaded){
+                        that.downOthers({oldImg:originalImg,bgImg:img,name:obj.name},key,callback,i)
+                    }
+                }
+                img.src = obj.img;
+                let originalImg = new Image();
+                originalImg.crossOrigin = '';
+                originalImg.onload = function() {
+                    originalImgLoaded = true;
+                    if(imgLoaded && originalImgLoaded) {
+                        that.downOthers({oldImg:originalImg,bgImg:img,name:obj.name},key,callback,i)
+                    }
+                }
+                originalImg.src = obj.Original;
+            },
+            downOthers(imgObjs,index,callback,i){//效果图下载
+                let canvasTemp = document.createElement('canvas');
+                canvasTemp.width = imgObjs.bgImg.width; //☜
+                canvasTemp.height = imgObjs.bgImg.height;
+                let ctx = canvasTemp.getContext("2d");
+                ctx.drawImage(imgObjs.oldImg, 0, 0,canvasTemp.width,canvasTemp.height);
+                let imgData = ctx.getImageData(0, 0, canvasTemp.width, canvasTemp.height);
+                let newBg1 = imgData;
+                let newBg4 = ctx.getImageData(0, 0, canvasTemp.width, canvasTemp.height);
+                JSManipulate.blur.filter(newBg1, {amount: 5.0});
+                JSManipulate.grayscale.filter(newBg4);
+                callback({
+                    dwonBg:index===4 ? newBg4 : newBg1,
+                    bgRemovedImg:imgObjs.bgImg,
+                    name:imgObjs.name,
+                    is:i//下载名称
+                })
+            },
+            getmoveHis(e){
+                let historyList=this.$refs.historyList,scrollTop=e.target.scrollTop
+                if(scrollTop+historyList.offsetHeight>historyList.scrollHeight-20){
+                  if(!this.stopUpdata){
+                      this.rows+=10;
+                      this.openHistory()
+                  }
+                }
+            },
+            addItem(item){
+                this.copyImgUrl({url:item.originalImage,fileId:item.id})
+            },
+            stopPrevent(){//阻止游览器默认打开图片
+                let _self=this
+                document.addEventListener("drop", function (e) {  //拖离
+                    e.preventDefault();
+                });
+                document.addEventListener("dragleave", function (e) {  //拖后放
+                    e.preventDefault();
+                });
+                document.addEventListener("dragenter", function (e) {  //拖进
+                    e.preventDefault();
+                });
+                document.addEventListener("dragover", function (e) {  //拖来拖去
+                    e.preventDefault();
+                });
+                document.getElementsByClassName('OperatorRight')[0].addEventListener("drop", function (e) {
+                    e.preventDefault();
+                    let files = e.dataTransfer.files;
+                    // console.log(files.length)
+                    // let NewLength = files.length;
+                    // if (NewLength + _self.files.length > 20) {
+                    //     _self.$message({type: 'warning', message: 'Pictures count must be less than 20'});
+                    //     return
+                    // }
+                    if(files.length<1) return;
+                    _self.toscroll();
+                    for (let i = 0; i < files.length; i++) {
+                        // _self.$message.closeAll();
+                        // let hsaOwn = _self.files.some((val) => {
+                        //     return val.name === files[i].name
+                        // });
+                        // if (hsaOwn) _self.$message({type: 'warning', message: 'Dulplicate pictures has been filtered.'});
+                        // else {
+                            _self.files.unshift({
+                                url: files[i],
+                                name: parseInt(Math.random()*100000000000),
+                                type: 'file'
+                            })
+                        // }
+                    }
+                    _self.imgUrlss(files)
+                })
+            }
+
         },
     }
 </script>
@@ -288,135 +555,403 @@
 <style lang="scss">
     .helloFirst {
         background-color: #f5f5f6;
-        /*padding-top:24px ;*/
-        min-width: 1200px;
-
-        .seachHeader {
-            min-width: 1200px;
-            background-color: #5093b0;
-            padding: 81px 0 108px 0;
+        .apps{
+            padding-right: 75px;
         }
-
-        .seachI, .seachDiv {
-            font-size: 24px;
-            color: #fff;
-            position: relative;
-
-            & > div:first-child {
-                width: 50%;
+        .apps.tactive{
+            padding-right: 85px;
+        }
+        .Operator{
+            line-height: 1;
+            color: #333;
+            width: 244px;
+            background-color: #fff;
+            font-size: 14px;
+            height: 100%;
+            position: fixed;
+            left: 0;
+            top: 60px;
+            z-index: 1001;
+            h6{
+                padding: 27px 0 25px 34px;
+                font-weight: 500;
+                font-size: 14px;
+                color: #666;
             }
-
-            & > .imgRR {
-                width: 455px;
-                height: 410px;
-                margin-left: 116px;
-
-                img {
+            .el-button {
+                border-radius: 0;
+                width: 160px;
+                height: 40px;
+                background-color: #e82255;
+                color: #fff;
+                border-color:#e82255 ;
+                margin:0 0 14px 42px;
+            }
+            .afterbtn{
+                padding: 0 0 0 42px;
+                span{
+                    color: #e82255;
+                }
+            }
+            .center{
+                margin-top: 24px;
+                padding: 24px 0 27px 34px;
+                border-top: 1px solid #e5e5e5;
+                border-bottom: 1px solid #e5e5e5;
+                .flex img{
+                    margin-right: 6px;
+                }
+                h5{
+                    font-weight: 500;
+                    font-size: 14px;
+                    margin-bottom: 24px;
+                    color: #666;
+                }
+                input{
+                    border: none;
+                    border-bottom: 1px solid #333;
+                    line-height: 40px;
+                    height: 40px;
+                    width: 111px;
+                    margin-left: 8px;
+                    margin-bottom: 22px;
+                    padding-right: 24px;
+                    padding-left: 25px;
+                }
+                input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+                    color:#333;
+                }
+                input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+                    color:#333;
+                }
+                input::-moz-placeholder { /* Mozilla Firefox 19+ */
+                    color:#333;
+                }
+                input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+                    color:#333;
+                }
+                .flex{
+                    margin: 0 0 0 8px;
+                }
+            }
+            .bottonLast{
+                padding: 30px 0 30px 34px;
+                font-size: 14px;
+                /*font-weight: 600;*/
+                flex-direction: column;
+                justify-content: space-between;
+                .flex img{
+                    margin-right: 10px;
+                }
+                & > div:first-child{
+                    margin-bottom: 30px;
+                }
+                & > div:nth-child(2){
+                    /*margin-bottom: 376px;*/
+                }
+                h5{
+                    margin-bottom: 24px;
+                    font-size: 14px;
+                    font-weight: 500;
+                    color: #666;
+                }
+                .fixedB{
+                    position: absolute;
+                    left: 34px;
+                    bottom: 100px;
+                    a{
+                        color: #333;
+                    }
+                }
+            }
+            .historyList{
+                position: absolute;
+                width: 570px;
+                background-color: #fff;
+                right: -644px;
+                top: 8px;
+                height: 80%;
+                padding: 24px 34px 0;
+                z-index: 1001;
+                box-shadow: 0 0 3px rgba(0,0,0,.4);
+                .hisimgs{
+                    height:95%;
+                    overflow-y: auto;
+                }
+                i{
+                    font-size: 20px;
+                    position: absolute;
+                    top: 8px;
+                    right: 8px;
+                }
+                .oneDate{
+                    margin-bottom: 30px;
+                }
+                .oneDate:nth-last-child(2){
+                    margin-bottom: 0;
+                }
+                h4{font-size: 26px;line-height: 1;margin-bottom: 20px;font-weight: 500}
+                .flex{
+                    flex-wrap: wrap;
+                    & > div{
+                        width: 100px;
+                        height: 100px;
+                        margin-right: 12px;
+                        margin-bottom: 15px;
+                        img {
+                            display: block;
+                            width: 100%;
+                            height: 100%;
+                        }
+                        &:nth-child(5n){
+                            margin-right: 0;
+                        }
+                    }
+                }
+            }
+        }
+        .OperatorRight{
+            margin: 60px 0 0 244px;
+            flex: 1;
+            padding: 15px 0 0 15px;
+            .imgRef.active{
+                margin-bottom: 85px;
+            }
+            .OperatorCenter{
+                /*min-width: 1024px;*/
+                padding: 80px 0 85px 0;
+                text-align: center;
+                margin: 0 auto 20px;
+                background-color: #fff;
+                h4{
+                    font-size: 32px;
+                    color: #333;
+                    margin-bottom: 28px;
+                }
+                p{
+                    font-size: 18px;
+                    color: #999999;
+                    margin-bottom: 54px;
+                }
+                img{
+                    display: block;
+                    margin: 0 auto;
+                }
+            }
+        }
+        .ImgLists{
+            position: fixed;
+            right: 25px;
+            top: 75px;
+            width: 40px;
+            max-height: 70%;
+            /*overflow: hidden;*/
+            /*max-height: 70%;*/
+            /*overflow-y: auto;*/
+            /*overflow-x: hidden;*/
+            .imgs{
+                max-height:450px;
+                /*overflow-y: auto;*/
+                /*overflow-x: hidden;*/
+            }
+            .imgs > div{
+                margin-bottom: 8px;
+                height: 40px;
+                width: 100%;
+                img{
                     display: block;
                     width: 100%;
                     height: 100%;
                 }
             }
-
-            p.flex {
-                font-size: 54px;
-                margin-bottom: 15px;
+            .imgs > div.active{
+                border: 1px solid #e82255;
+                width:38px;
+                height: 38px;
             }
-
-            .m-boonte {
-                margin-bottom: 44px;
-                line-height: 1;
-            }
-
-            .el-button {
-                font-size: 16px;
-                line-height: 50px;
-                width: 220px;
-                border-radius: 25px;
-                padding: 0;
-                background-color: #2fb9f7;
-                border: none;
-                margin-bottom: 15px;
-            }
-
-            .el-button:nth-child(2) {
-                background-color: #40e0c4;
-            }
-
-            input {
-                border: none;
-                font-size: 16px;
-                text-indent: 1em;
-                width: 340px;
-            }
-
-            .input {
-                width: 450px;
-                height: 50px;
-                line-height: 50px;
-                border-radius: 25px;
-                overflow: hidden;
-                background-color: #2fb9f7;
-                /*border: 1px solid #333;*/
-                & > div {
-                    font-size: 16px;
-                    flex: 1;
-                    text-align: center;
+            .downBtn{
+                line-height: 40px;
+                position: absolute;
+                right: 0;
+                min-width: 40px;
+                text-align: center;
+                color: #fff;
+                background-color: #e82255;
+                span{
+                    display: none;
+                }
+                &:hover span{display: inline-block;margin-right: 15px;}
+                &:hover{
+                    width: 160px;
+                }
+                &:hover .sizeChoses{
+                    display: block;
                 }
             }
         }
-
     }
-
-    .AllDown {
-        text-align: center;
-        font-size: 14px;
-        color: #333;
-        line-height: 90px;
-        background-color: #fff;
-        /*margin-bottom: 30px;*/
-        text-indent: 60px;
-        position: fixed;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-
-        & > span {
-            font-size: 22px;
-            color: #27a9f4;
-        }
-
-        .el-button:hover .sizeChoses {
-            display: block;
-        }
-    }
-
     .sizeChoses {
         display: none;
         position: absolute;
-        width: 260px;
+        width: 236px;
         border: 1px solid #efefef;
         border-radius: 10px;
         font-size: 12px;
         line-height: 30px;
         color: #727272;
-        padding: 10px 0;
+        padding: 10px 12px;
         background-color: #fff;
         z-index: 99;
-        top: -82px;
+        bottom: -138px;
         right: 0;
 
         & > div:hover {
             background-color: #f1f1f1;
         }
+        & > div:first-child:hover {
+            background-color: #fff;
+        }
 
         & > div {
             cursor: pointer;
-            padding: 0 12px;
         }
 
         &:hover {
             display: block;
+        }
+        .btn{
+            height: 40px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #999;
+            margin-bottom: 8px;
+        }
+        .btn div{
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 24px;
+            height: 24px;
+            border-radius:50%;
+            border: 1px solid #999;
+            margin-right: 12px;
+            background-size: cover;
+        }
+        .btn .active{
+            border-color: #e82255;
+        }
+    }
+    .el-icon-loading{
+        font-size: 36px;
+    }
+    .el-loading-spinner p.el-loading-text{
+        font-size: 24px;
+    }
+    .content{
+        padding-bottom: 85px;
+    }
+    .content .leftMune{
+        width: 244px;
+    }
+    .content .rightBig{
+        margin-left: 244px;
+        flex: 1;
+        padding-left: 15px;
+        padding-right: 75px;
+    }
+    .content .rightBig > div{
+        background-color: #fff;
+    }
+    .content .rightBig .free,.content .rightBig .efficient{
+        /*min-width: 1024px;*/
+        padding: 85px 0 80px 0;
+        text-align: center;
+        margin: 0 auto 20px;
+        line-height: 1;
+    }
+    .content .rightBig h3{
+        font-size: 32px;
+        margin-bottom: 28px;
+        color: #333;
+    }
+    .content .rightBig p{
+        font-size: 18px;
+        color: #999999;
+    }
+    .content .efficient img{
+        display: block;
+        margin: 122px auto 0;
+    }
+    .content .rightBig .efficient div.flex{
+        justify-content:center;
+        font-size: 18px;
+        color: #333;
+        line-height: 1;
+        margin-top: 28px;
+    }
+    .content  .efficient .flex p{
+        color: #333;
+    }
+    .content .efficient .flex > div:nth-child(2){
+        margin: 0 68px 0 93px;
+    }
+    .content .efficient .flex p:last-child{
+        font-size: 14px;
+        color: #7a7a7a;
+        margin-top: 15px;
+    }
+    .content .free img{
+        display: block;
+        margin: 66px auto 0;
+    }
+    .content .title{
+        font-size: 34px;
+        padding: 90px 0 80px 0;
+        text-align: center;
+        color: #000;
+        font-weight: 500;
+    }
+    .content ul li{
+        font-size: 14px;
+        color: #b4b4b4;
+        text-align: center;
+        width: 225px;
+    }
+    .content ul img{
+        display: block;
+        width: 80px;
+        height: 80px;
+        margin:0 auto;
+        margin-bottom: 26px;
+    }
+    .content ul h4{
+        font-size: 20px;
+        color: #262626;
+        margin-bottom: 24px;
+        font-weight: 500;
+    }
+    .content ul p{
+        line-height: 24px;
+    }
+    @media screen and (max-width:1500px){
+        .helloFirst .apps{
+            padding-right: 55px;
+            .bigimg{
+                max-width: 862px;
+            }
+        }
+        .helloFirst .ImgLists{
+            right: 10px;
+        }
+        .helloFirst .ImgLists{
+            .imgs{
+                max-height:380px;
+            }
+            .sizeChoses {
+                bottom: auto;
+                top: -138px;
+            }
+        }
+        .content .rightBig{
+            padding-right: 55px;
         }
     }
 </style>

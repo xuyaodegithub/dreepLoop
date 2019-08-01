@@ -93,7 +93,7 @@
       background-color: #fff;
       width: 400px;
       padding: 22px 50px 60px;
-      margin: 115px auto 0;
+      margin: 175px auto 0;
       border-radius: 10px;
     }
     .tag{
@@ -109,8 +109,8 @@
         height: 50px;
       }
       span.active{
-        color: #0aa5f7;
-        border-bottom: 2px solid #0aa5f7;
+        color: #e82255;
+        border-bottom: 2px solid #e82255;
       }
     }
     .el-input{
@@ -124,7 +124,7 @@
     .el-button{
       display: block;
       width: 100%;
-      background-color: #29b2f6;
+      background-color: #e82255;
       border: none;
       margin-bottom: 60px;
     }
@@ -133,7 +133,7 @@
       /*color: #29b2f6;*/
       text-align: center;
       span {
-        color: #3cb2e0;
+        color: #e82255;
       }
     }
   }

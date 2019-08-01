@@ -678,7 +678,7 @@
      position: fixed;
      top: 50%;
      left: 50%;
-     margin: -400px 0 0 -600px;
+     margin: -350px 0 0 -600px;
     canvas{
       border-radius: 15px;
     }

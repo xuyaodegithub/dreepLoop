@@ -6,7 +6,7 @@ import axios from 'axios';
 import $ from 'jquery'
 import './plugins/element.js'
 Vue.prototype.$http=axios;
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
     $,

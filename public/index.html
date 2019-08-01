@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" id="view">
 <!--  <title>AI智能抠图</title>-->
-  <title>PICUP.AI</title>
+  <title>PicUP.Ai</title>
   <link rel="stylesheet" href="static/public.css">
   <link rel="icon" href="smalllogo.png">
   <!--标题栏：-->
@@ -50,9 +50,61 @@
     margin-right: 60px;
   }
   .content{
-    min-width: 1200px;
     padding-bottom: 85px;
+  }
+  .content .leftMune{
+    width: 244px;
+  }
+  .content .rightBig{
+    margin-left: 244px;
+    flex: 1;
+    padding-left: 15px;
+      padding-right: 75px;
+  }
+  .content .rightBig > div{
     background-color: #fff;
+  }
+  .content .rightBig .free,.content .rightBig .efficient{
+    /*min-width: 1024px;*/
+    padding: 85px 0 80px 0;
+    text-align: center;
+    margin: 0 auto 20px;
+    line-height: 1;
+  }
+  .content .rightBig h3{
+    font-size: 32px;
+    margin-bottom: 28px;
+    color: #333;
+  }
+  .content .rightBig p{
+    font-size: 18px;
+    color: #999999;
+  }
+  .content .efficient img{
+    display: block;
+    margin: 122px auto 0;
+  }
+  .content .rightBig .efficient div.flex{
+    justify-content:center;
+    font-size: 18px;
+    color: #333;
+    line-height: 1;
+    margin-top: 28px;
+  }
+  .content  .efficient .flex p{
+    color: #333;
+  }
+  .content .efficient .flex > div:nth-child(2){
+    margin: 0 68px 0 93px;
+  }
+  .content .efficient .flex p:last-child{
+    font-size: 14px;
+    color: #7a7a7a;
+    margin-top: 15px;
+  }
+  .content .free img{
+    display: block;
+    margin: 66px auto 0;
   }
   .content .title{
     font-size: 34px;
@@ -89,7 +141,7 @@
     font-size: 12px;
     line-height: 20px;
     padding-top: 62px;
-    min-width: 1200px;
+    /*min-width: 1200px;*/
   }
   footer img{
     display: block;
@@ -137,10 +189,6 @@
     font-weight: 500;
     line-height: normal;
   }
-  /*.section > img {*/
-  /*  width: 360px;*/
-  /*  height: 360px;*/
-  /*}*/
   .section .left {
     margin-bottom: 74px;
   }
@@ -171,97 +219,138 @@
   <div class="margin flex j-b a-i first">
     <ul class="flex">
       <li><img src="static/images/sureLogo.png" alt=""></li>
-      <li class="cu">智能抠图</li>
-      <li class="cu">API</li>
-      <li class="cu" onclick="userCenter()">会员</li>
+      <li class="cu">Portrait cut-out</li>
+      <li class="cu">More products</li>
+      <li class="cu" onclick="userCenter()">About us</li>
       <!--            <li class="cu">登录</li>-->
     </ul>
     <div class="right">
-      <span onclick="userlogin(1)">登录</span>
-      <span onclick="userlogin(0)" class="active">注册</span>
+      <span onclick="userlogin(1)">Members</span>
+      <span onclick="userlogin(0)" class="active">Login/Register</span>
     </div>
   </div>
 </header>
 <div id="app"></div>
-<div class="content" id="content">
-  <div class="section">
-    <div class="margin">
-      <div class="left">
-        <h3>Powered by artificial intelligence, cut out picture foregrounds in batches </h3><!--人工智能抠图，支持批量上传-->
-        <p>No need to mark up the foreground and background of your images, Picup AI recognizes the desired cutout region automatically, saves your time, and delivers PNG pictures with transparent background at lightning speed. </p><!--无需标注前景背景，深求AI人工智能，自动识别抠图区域，省时省力，快速获得带透明背景PNG图片。-->
-      </div>
-      <img src="static/gif1.gif" alt="">
-    </div>
-  </div>
-  <div class="lastMo2">
-    <div class="lastMo margin">
-      <div class="right">
-        <h3>No need to switch to photoshop, changing picture background within the integrated environment</h3><!--无需下载PS，集成换背景-->
-        <p>Whether it is pure color or complex background, just click, it’s time to ditch photoshop, choose from a great number of free background pictures to save your time and money. </p><!--不论是纯色填充，还是背景替换，轻量点选，彻底摆脱PhotoShop，更有海量背景免费供选择，轻松又省钱。-->
-      </div>
-      <img src="static/gif2.gif" alt="">
-    </div>
-  </div>
-  <div>
-    <div class="title">Why us</div><!--为什么选我们-->
-    <ul class="flex j-b margin">
-      <li>
-        <img src="static/images/img1.png" alt="">
-        <h4>Individuals and professionals</h4><!--个人与专业-->
-        <p>Whether they are e-commerce, daily life, or travel photos, cutting out foreground for massive amount of pictures is always intimidating. Experience has never been easier with our tool.</p><!--不论是电商照片、生活照片、旅行照片，大批量抠图总是令人头疼。体验从未有过的简单。-->
-      </li>
-      <li>
-        <img src="static/images/img2.png" alt="">
-        <h4>Time and Money Saving</h4><!--节约金钱和时间-->
-        <p>Lots of time spent? Many headcounts? Now we offer you a better and cheaper solution, a intelligent tool to free your hands.</p><!--花费大量时间?雇佣大量人员?现在有更好的方案了，智能抠图来解放双手，还免费。-->
-      </li>
-      <li>
-        <img src="static/images/img3.png" alt="">
-        <h4>Fully automated</h4><!--100%自动化-->
-        <p>Upload files or paste a URL, that’s it, you no longer need to filter through pixels, neither do you have to label human body parts, nothing at all. </p><!--上传文件或者粘贴URL，仅此而已，无需按像素筛选，无需标注人员物体部位，什么都不用。-->
-      </li>
-      <li>
-        <img src="static/images/img4.png" alt="">
-        <h4>Variety of templates </h4><!--全套分类模板-->
-        <p>Beaches, forests, mountains, street scenes, super markets, southeast Asia, North Europe, America, Japan, lots of free background templates to choose from</p><!--海边、树林、高山、街景、超市、东南亚、北欧、美国、日本，免费背景模板，直接选择使用。-->
-      </li>
-    </ul>
-  </div>
-</div>
-<footer id="foter">
-  <div class="margin">
-    <ul class="flex">
-      <li>
-        <img src="static/images/sureLogo.png" alt="">
-<!--        自助构建人工智能服务视觉应用平台，开创全球首个自助式图像引擎，实现快速服务创建、扩展和维护。企业可以通过简单、快速的API调用，一站式获得多种人工智能技术服务，实现技术与业务的无缝连接。-->
-        <p>Artificial intelligence visual application development platform, forging the world's first self-service image engine to achieve rapid service creation, extension and maintenance. Enterprises acquire a variety of artificial intelligence technology services at one-stop via simple and fast API calls, enabling seamless connection between technology and businesses.</p>
-      </li>
-      <li>
-        <h4> Contact Us</h4><!--联系我们-->
-        <p>business@deeplor.com</p>
-      </li>
-      <li>
-        <h4>About Us</h4><!--关于我们-->
-        <p>Upload pictures</p><!--上传图片-->
-        <p>API introduction</p><!--API介绍-->
-        <p>Member Pricing</p><!--会员定价-->
-      </li>
-      <li>
-        <h4>Research Outcome</h4><!--研究成果-->
-        <p>Face Recognition</p><!--人脸识别-->
-        <p>Gait Recognition</p><!--步态识别-->
-        <p>Intelligent Voice</p><!--智能语音-->
-      </li>
-    </ul>
-  </div>
-  <div class="last">
-    @ Copyright Deeplor 2018. All Rights reserved
-  </div>
-</footer>
+<!--<div class="content flex" id="content">-->
+<!--&lt;!&ndash;  <div class="leftMune"></div>&ndash;&gt;-->
+<!--  <div class="rightBig">-->
+<!--    <div>-->
+<!--      <div class="efficient">-->
+<!--        <h3>Efficient</h3>-->
+<!--        <p>Bulk Processing & Google Chrome extension & API Integration, time saver for your life</p>-->
+<!--        <img src="static/images/img81.png" alt="">-->
+<!--        <div class="flex a-i">-->
+<!--          <div>-->
+<!--            <p>Batch upload</p>-->
+<!--            <p>Process multiple images in parallel</p>-->
+<!--          </div>-->
+<!--          <div>-->
+<!--            <p>Chrome extension</p>-->
+<!--            <p>Embedded in the web browser</p>-->
+<!--          </div>-->
+<!--          <div>-->
+<!--            <p>API</p>-->
+<!--            <p>Seamless integration with your system</p>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--      <div class="free">-->
+<!--        <h3>Free</h3>-->
+<!--        <p>Up to 1000x1000 Pixels free to use WITHOUT any cost,best solution for eCommerce</p>-->
+<!--        <img src="static/images/img9.png" alt="">-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="section">-->
+<!--    <div class="margin">-->
+<!--      <div class="left">-->
+<!--        <h3>Powered by artificial intelligence, cut out picture foregrounds in batches </h3>&lt;!&ndash;人工智能抠图，支持批量上传&ndash;&gt;-->
+<!--        <p>No need to mark up the foreground and background of your images, Picup AI recognizes the desired cutout region automatically, saves your time, and delivers PNG pictures with transparent background at lightning speed. </p>&lt;!&ndash;无需标注前景背景，深求AI人工智能，自动识别抠图区域，省时省力，快速获得带透明背景PNG图片。&ndash;&gt;-->
+<!--      </div>-->
+<!--      <img src="static/gif1.gif" alt="">-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="lastMo2">-->
+<!--    <div class="lastMo margin">-->
+<!--      <div class="right">-->
+<!--        <h3>No need to switch to photoshop, changing picture background within the integrated environment</h3>&lt;!&ndash;无需下载PS，集成换背景&ndash;&gt;-->
+<!--        <p>Whether it is pure color or complex background, just click, it’s time to ditch photoshop, choose from a great number of free background pictures to save your time and money. </p>&lt;!&ndash;不论是纯色填充，还是背景替换，轻量点选，彻底摆脱PhotoShop，更有海量背景免费供选择，轻松又省钱。&ndash;&gt;-->
+<!--      </div>-->
+<!--      <img src="static/gif2.gif" alt="">-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div>-->
+<!--    <div class="title">Why us</div>&lt;!&ndash;为什么选我们&ndash;&gt;-->
+<!--    <ul class="flex j-b margin">-->
+<!--      <li>-->
+<!--        <img src="static/images/img1.png" alt="">-->
+<!--        <h4>Individuals and professionals</h4>&lt;!&ndash;个人与专业&ndash;&gt;-->
+<!--        <p>Whether they are e-commerce, daily life, or travel photos, cutting out foreground for massive amount of pictures is always intimidating. Experience has never been easier with our tool.</p>&lt;!&ndash;不论是电商照片、生活照片、旅行照片，大批量抠图总是令人头疼。体验从未有过的简单。&ndash;&gt;-->
+<!--      </li>-->
+<!--      <li>-->
+<!--        <img src="static/images/img2.png" alt="">-->
+<!--        <h4>Time and Money Saving</h4>&lt;!&ndash;节约金钱和时间&ndash;&gt;-->
+<!--        <p>Lots of time spent? Many headcounts? Now we offer you a better and cheaper solution, a intelligent tool to free your hands.</p>&lt;!&ndash;花费大量时间?雇佣大量人员?现在有更好的方案了，智能抠图来解放双手，还免费。&ndash;&gt;-->
+<!--      </li>-->
+<!--      <li>-->
+<!--        <img src="static/images/img3.png" alt="">-->
+<!--        <h4>Fully automated</h4>&lt;!&ndash;100%自动化&ndash;&gt;-->
+<!--        <p>Upload files or paste a URL, that’s it, you no longer need to filter through pixels, neither do you have to label human body parts, nothing at all. </p>&lt;!&ndash;上传文件或者粘贴URL，仅此而已，无需按像素筛选，无需标注人员物体部位，什么都不用。&ndash;&gt;-->
+<!--      </li>-->
+<!--      <li>-->
+<!--        <img src="static/images/img4.png" alt="">-->
+<!--        <h4>Variety of templates </h4>&lt;!&ndash;全套分类模板&ndash;&gt;-->
+<!--        <p>Beaches, forests, mountains, street scenes, super markets, southeast Asia, North Europe, America, Japan, lots of free background templates to choose from</p>&lt;!&ndash;海边、树林、高山、街景、超市、东南亚、北欧、美国、日本，免费背景模板，直接选择使用。&ndash;&gt;-->
+<!--      </li>-->
+<!--    </ul>-->
+<!--  </div>-->
+<!--</div>-->
+<!--<footer id="foter">-->
+<!--  <div class="margin">-->
+<!--    <ul class="flex">-->
+<!--      <li>-->
+<!--        <img src="static/images/sureLogo.png" alt="">-->
+<!--&lt;!&ndash;        自助构建人工智能服务视觉应用平台，开创全球首个自助式图像引擎，实现快速服务创建、扩展和维护。企业可以通过简单、快速的API调用，一站式获得多种人工智能技术服务，实现技术与业务的无缝连接。&ndash;&gt;-->
+<!--        <p>Artificial intelligence visual application development platform, forging the world's first self-service image engine to achieve rapid service creation, extension and maintenance. Enterprises acquire a variety of artificial intelligence technology services at one-stop via simple and fast API calls, enabling seamless connection between technology and businesses.</p>-->
+<!--      </li>-->
+<!--      <li>-->
+<!--        <h4> Contact Us</h4>&lt;!&ndash;联系我们&ndash;&gt;-->
+<!--        <p>business@deeplor.com</p>-->
+<!--      </li>-->
+<!--      <li>-->
+<!--        <h4>About Us</h4>&lt;!&ndash;关于我们&ndash;&gt;-->
+<!--        <p>Upload pictures</p>&lt;!&ndash;上传图片&ndash;&gt;-->
+<!--        <p>API introduction</p>&lt;!&ndash;API介绍&ndash;&gt;-->
+<!--        <p>Member Pricing</p>&lt;!&ndash;会员定价&ndash;&gt;-->
+<!--      </li>-->
+<!--      <li>-->
+<!--        <h4>Research Outcome</h4>&lt;!&ndash;研究成果&ndash;&gt;-->
+<!--        <p>Face Recognition</p>&lt;!&ndash;人脸识别&ndash;&gt;-->
+<!--        <p>Gait Recognition</p>&lt;!&ndash;步态识别&ndash;&gt;-->
+<!--        <p>Intelligent Voice</p>&lt;!&ndash;智能语音&ndash;&gt;-->
+<!--      </li>-->
+<!--    </ul>-->
+<!--  </div>-->
+<!--  <div class="last">-->
+<!--    @ Copyright Deeplor 2018. All Rights reserved-->
+<!--  </div>-->
+<!--</footer>-->
 <!-- built files will be auto injected -->
 <script>
   let urls = window.location.href.split('#/')[0]
   let baseUrl = urls.substring(0,urls.lastIndexOf('/'))
+  function setWindow(){
+    let Wwidth=document.documentElement.clientWidth
+    let oDiv=document.querySelector('.rightBig')
+    let oDiv2=document.querySelector('.OperatorRight')
+    let scales=Wwidth/1920
+    console.log(scales)
+    document.body.transform="transform-origin:0 0"
+    document.body.transform="scale("+scales+","+scales+")"
+    // oDiv2.style.transform="scale("+scales+","+scales+")"
+  }
   function userlogin(key){
     let url=window.location.href
     if(url.indexOf('login')>-1 || url.indexOf('Register')>-1) window.location.replace(baseUrl+'/loginOrRegister#/?type='+key)
@@ -273,6 +362,12 @@
   function userCenter(){
     window.location.href=baseUrl+"/userCenter"
   }
+ function setWindeom(){
+   let sc=document.documentElement.clientWidth/1920;
+   let md=document.getElementById('view')
+   md.setAttribute('content',"width=device-width,initial-scale="+sc.toFixed(2))
+ }
+  setWindeom()
 </script>
 </body>
 </html>

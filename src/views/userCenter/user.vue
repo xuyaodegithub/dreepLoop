@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="user flex">
         <header-sub @to-parses="Userinfos" />
         <div class="my clear margin">
             <div class="left">
@@ -52,8 +52,13 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+    .user{
+        min-height: 100%;
+        flex-direction: column;
+        justify-content: space-between;
+    }
     .my{
-        margin-top: 27px;
+        padding-top: 87px;
         margin-bottom: 72px;
         .right{
             background-color: #fff;
@@ -73,9 +78,9 @@
             width: 190px;
             text-align: center;
             & > div.active{
-                color: #23b0e8;
+                color: #e82255;
                 background-color: #e0f2fc;
-                border-left: 2px solid #25b0f3;
+                border-left: 2px solid #e82255;
             }
             & > div{
                 cursor: pointer;

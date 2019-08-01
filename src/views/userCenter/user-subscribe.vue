@@ -144,14 +144,14 @@
       font-size: 14px;
       line-height: 40px;
       padding: 0 15px;
-      border-color:#27adf6 ;
+      border-color:#e82255 ;
       color: #fff;
-      background-color: #27adf6;
+      background-color: #e82255;
       /*width: 120px;*/
     }
     .el-button:last-child{
       background-color: #fff;
-      color: #27adf6;
+      color: #e82255;
     }
     .el-button+.el-button{
       margin: 0;
@@ -175,8 +175,8 @@
     padding: 50px 0;
     color: #979797;
     .el-button{
-      background-color: #27adf6;
-      border-color:#27adf6 ;
+      background-color: #e82255;
+      border-color:#e82255 ;
       margin-top: 50px;
       width: 120px;
     }

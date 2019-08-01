@@ -1,7 +1,7 @@
 @charset "utf-8";
 /* CSS Document */
 body,ol,ul,h1,h2,h3,h4,h5,h6,p,th,td,dl,dd,form,fieldset,legend,input,textarea,select,figure{margin:0;padding:0;}
-body{font-size:12px; word-wrap:break-word;height:100%;background-color: #f5f5f7;}
+body{font-size:12px; word-wrap:break-word;height:100%;background-color: #f5f5f7;font-family: "Microsoft YaHei";}
 html{height:100%;}
 a,u,s,del{color:#666;text-decoration:none}
 fieldset ,a img,.bor0 {border:0;}
@@ -54,8 +54,11 @@ textarea{resize:none;}/*禁止多行文本输入框的拖动*/
   content: "\e63a";
 }
 
-
-
+/*全是字母时  单词断开换行显示*/
+.ab{
+  word-wrap:break-word;
+  word-break:break-all;
+}
 
 
 /*文本溢出 出现省略号*/

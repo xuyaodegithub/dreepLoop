@@ -55,11 +55,11 @@ export default {
 <style scoped lang="scss">
 .margin {
   text-align: center;
-  padding-top: 190px;
+  padding-top: 250px;
   line-height: 1;
   i{
     font-size: 60px;
-    color: #27adf6;
+    color: #e82255;
     margin-bottom: 24px;
   }
   .msg{
@@ -75,9 +75,9 @@ export default {
   .el-button{
     height: 50px;
     width: 160px;
-    color: #4dace4;
+    color: #e82255;
     background-color: rgba(0,0,0,0);
-    border-color: #4dace4;
+    border-color: #e82255;
     border-radius: 25px;
     font-size: 16px;
   }

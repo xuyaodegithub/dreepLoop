@@ -6,14 +6,14 @@
                 <span v-for="(item,index) in loginBtn" :key="index" :class="{'active' : index==btnType}" @click="changeBtn(index)">{{item}}</span>
             </div>
             <div class="userinfo">
-                <el-input v-model="username" placeholder="email" ></el-input>
+                <el-input v-model="username" placeholder="Email" ></el-input>
                 <el-input v-model="userpass" :placeholder="passmsg" type="password" @keyup.enter.native="regestUser()" ></el-input>
-                <el-input v-model="usersurepass" placeholder="confirm your password" type="password" v-if="btnType==0"  @keyup.enter.native="regestUser()" ></el-input>
+                <el-input v-model="usersurepass" placeholder="Confirm your password" type="password" v-if="btnType==1"  @keyup.enter.native="regestUser()" ></el-input>
             </div>
-            <el-button type="primary" @click="regestUser()">{{btnType == 0 ? 'Register' : 'Sign In'}}</el-button>
+            <el-button type="primary" @click="regestUser()">{{btnType == 0 ? 'Login' : 'Sign up'}}</el-button>
             <div class="forgot">
-                <span class="cu"  v-if="btnType==1" @click="forgetPass()">Forgot your password?</span>
-                <p v-else>By clicking the register buttion, you are agree with <span class="cu" @click="selfXy()">Terms of Service, General Terms and Conditions and Privacy Policy</span></p>
+                <span class="cu"  v-if="btnType==0" @click="forgetPass()">Forgot your password?</span>
+                <p v-else>By clicking the register buttion, you are agree with the <span class="cu" @click="selfXy()">Terms of Service, General Terms and Conditions and Privacy Policy</span></p>
             </div>
         </div>
     </div>
@@ -29,7 +29,7 @@
         data () {
             return {
                 btnType:this.$route.query.type,
-                loginBtn:['Sign Up','Sign In'],
+                loginBtn:['Login','Sign up'],
                 username:'',
                 userpass:'',
                 usersurepass:'',
@@ -38,7 +38,7 @@
         },
         computed:{
             passmsg(){
-                if(this.btnType == 1) return 'Password';
+                if(this.btnType == 0) return 'Password';
                 else return 'Password(More than 6 characters)'
             },
             typeBtn(){
@@ -70,7 +70,7 @@
             },
             regestUser(){
                 this.$message.closeAll()
-                if(this.btnType==0){
+                if(this.btnType==1){
                     if(!this.username || !this.userpass || !this.usersurepass){
                         // this.$message({type:'warning',message:'邮箱或密码不可为空'})
                         this.$message({type:'warning',message:'Mailbox or password must not be empty'})
@@ -128,7 +128,7 @@
             background-color: #fff;
             width: 400px;
             padding: 22px 50px 60px;
-            margin: 115px auto 0;
+            margin: 175px auto 0;
             border-radius: 10px;
         }
         .tag{
@@ -144,8 +144,8 @@
                 height: 50px;
             }
             span.active{
-                color: #0aa5f7;
-                border-bottom: 2px solid #0aa5f7;
+                color: #e82255;
+                border-bottom: 2px solid #e82255;
             }
         }
         .el-input{
@@ -159,7 +159,7 @@
         .el-button{
             display: block;
             width: 100%;
-            background-color: #29b2f6;
+            background-color: #e82255;
             border: none;
             margin-bottom: 60px;
         }
@@ -168,7 +168,7 @@
             /*color: #29b2f6;*/
             text-align: center;
             span {
-                color: #3cb2e0;
+                color: #e82255;
             }
         }
     }

@@ -23,3 +23,76 @@ export const myBrowser=()=>{//判断浏览器类型
 export const getrandom=(min, max)=> {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+//深拷贝
+export function shenCopy(obj){
+    var newObj = obj instanceof Array?[]:{}
+    for(var p in obj){
+        if(obj.hasOwnProperty(p)){//hasOwnProperty  方法是去除其原型上的属性，只复制对象上的属性
+            newObj[p] = typeof obj[p] === 'object'?shenCopy(obj[p]):obj[p]
+        }
+    }
+    return newObj
+}
+
+//requestAnimationFrame兼容写法
+(function() {
+    var lastTime = 0;
+    var vendors = ['webkit', 'moz', 'ms', 'o'];
+    for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+        window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] ||    // name has changed in Webkit
+            window[vendors[x] + 'CancelRequestAnimationFrame'];
+    }
+
+    if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = function(callback, element) {
+            var currTime = new Date().getTime();
+            var timeToCall = Math.max(0, 16.7 - (currTime - lastTime));
+            var id = window.setTimeout(function() {
+                callback(currTime + timeToCall);
+            }, timeToCall);
+            lastTime = currTime + timeToCall;
+            return id;
+        };
+    }
+    if (!window.cancelAnimationFrame) {
+        window.cancelAnimationFrame = function(id) {
+            clearTimeout(id);
+        };
+    }
+}());
+//倒计时方法
+export const overTime=(val,num) =>{
+    if(val<0){
+        return {
+            hours: 0,
+            mint: 0,
+            sec: 0
+        }
+    }
+    let day = Math.floor(val / 1000 / 60 / 60/24)
+    let hoursD = Math.floor(val / 1000 / 60 / 60 % 24)
+    let hours = Math.floor(val / 1000 / 60 / 60)
+    let mint = Math.floor(val / 1000 / 60 % 60)
+    let sec = Math.floor(val / 1000 % 60)
+    if (day < 10) day = '0' + day
+    if (hoursD < 10) hoursD = '0' + hoursD
+    if (hours < 10) hours = '0' + hours
+    if (mint < 10) mint = '0' + mint
+    if (sec < 10) sec = '0' + sec
+    if ((this.data.productType == 4 && num == 1) || (this.data.productType == 4 && num == 5)){
+        return {
+            day:day,
+            hoursD: hoursD,
+            mint: mint,
+            sec: sec
+        }
+    }else{
+        return {
+            hours: hours,
+            mint: mint,
+            sec: sec
+        }
+    }
+}
