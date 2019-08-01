@@ -28,10 +28,10 @@
                     <div v-else-if="bgOriginal.status===2" class="errmsg">
                         <i class="el-icon-s-flag"></i>
                         <!--当前正在排队,请稍后...-->
-                        Currently queued, please
+                        Waiting in the queue,
                         <p>
                         	<!--排队位置{{imageMsg.queueNumber}}-->
-                        	Your queue number: {{imageMsg.queueNumber}}
+                            Sequence number: {{imageMsg.queueNumber}}
                         </p>
                     </div>
                     <div class="close flex" v-else>
@@ -628,7 +628,7 @@
 
             .close {
                 font-size: 16px;
-                color: #26adf5;
+                color: #e82255;
                 width: 500px;
                 /*max-height:500px;*/
                 height: 100%;
@@ -738,7 +738,7 @@
             border-radius: 10px;
             font-size: 12px;
             line-height: 30px;
-            color: #727272;
+            color: #333;
             padding: 10px 0;
             background-color: #fff;
             /*right: 170px;*/
@@ -783,6 +783,9 @@
     .el-color-picker__color {
         /*display: none;*/
         border: none;
+    }
+    .el-color-dropdown__btns .el-button--text{
+        display: none;
     }
     @media screen and (max-width:1500px){
         .dreepAfter {

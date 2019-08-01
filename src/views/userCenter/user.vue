@@ -79,7 +79,7 @@
             text-align: center;
             & > div.active{
                 color: #e82255;
-                background-color: #e0f2fc;
+                background-color: #f7e7ea;
                 border-left: 2px solid #e82255;
             }
             & > div{

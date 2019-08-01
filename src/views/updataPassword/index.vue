@@ -73,7 +73,7 @@
           userResetbyEmail({newPassword:this.newpass,token:this.userToken}).then(res=>{
             if(!res.code){
               this.$message({type:'warning',message:'Password is updated'})
-              window.location.replace(`${this.basrUrl}/loginOrRegister.html#/?type=1`)
+              window.location.replace(`${this.basrUrl}/loginOrRegister.html#/?type=0`)
             }
           })
         }

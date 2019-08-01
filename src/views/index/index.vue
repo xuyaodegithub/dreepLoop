@@ -1,6 +1,6 @@
 <template>
     <div class="helloFirst">
-        <input type="file" style="display: none" ref="upImg" @change="changeImg($event)" multiple accept="image/*"/>
+        <input type="file" style="display: none" ref="upImg" @change="changeImg($event)" :multiple="multiple" accept="image/*"/>
         <header-sub @to-parses="getLoginStatus"></header-sub>
         <div class="flex apps">
             <div class="Operator">
@@ -172,6 +172,7 @@
                 Percentile:0,
                 loading:null,
                 LoginStatus:false,//登录状态
+                scrollStop:true
             }
         },
         filters:{
@@ -189,7 +190,7 @@
         mounted() {
             $('.ImgLists .imgs').niceScroll({cursorcolor :'#999999'});
             this.stopPrevent()
-
+            window.addEventListener('scroll',this.scrollFun)
             // $('.hisimgs').niceScroll({cursorcolor :'#999999',boxzoom:true});
         },
         computed: {
@@ -233,25 +234,10 @@
                     if (val.name === item.name) this.allbgImg.splice(index, 1)
                 })
             },
-            upLoadimg(key) {//点击上传
-                if (key) this.multiple = true
-                else this.multiple = false
-                if (!getToken() && key) {
-                    this.$confirm('This function only can be used by signed user, Go to login?', 'Information', {
-                        confirmButtonText: 'OK',
-                        cancelButtonText: 'Cancel',
-                        type: 'warning',
-                        center: true,
-                        showClose: false
-                    }).then(() => {
-                        window.location.href = `${this.basrUrls}/loginOrRegister.html#/?type=1`
-                    }).catch(() => {
-
-                    });
-                    return
-                }
-                this.$refs.upImg.value = ''
-                // this.percentValue = 0
+            upLoadimg() {//点击上传
+                if (!getToken())  this.multiple = false;
+                else this.multiple = true;
+                this.$refs.upImg.value = '';
                 this.$nextTick(() => {
                     this.$refs.upImg.click()
                 })
@@ -416,20 +402,16 @@
                             }
                     }
                 }
-                    // if(item.type==='copy') this.rightImgList.unshift({url:item.url,name:item.name})
-                    // else{
-                    //     let reader = new FileReader();
-                    //     reader.readAsDataURL(item);
-                    //     //监听文件读取结束后事件
-                    //     reader.onloadend = function (e) {
-                    //         _self.rightImgList.unshift({url:e.target.result,name:item.name})
-                    //     }
-                    // }
             },
             goThisImg(index){
+                let _self=this
+                this.scrollStop=false
                 this.selectImg=index;
                 let dome=document.getElementsByClassName('imgRef');
-                $('body,html').animate({scrollTop: dome[index].offsetTop-52}, 500);
+                $('body,html').animate({scrollTop: dome[index].offsetTop-75}, 500);
+                setTimeout(()=>{
+                    _self.scrollStop=true
+                },500)
             },
             openHistory(){
                 this.showHistory=true
@@ -521,29 +503,34 @@
                 document.getElementsByClassName('OperatorRight')[0].addEventListener("drop", function (e) {
                     e.preventDefault();
                     let files = e.dataTransfer.files;
-                    // console.log(files.length)
-                    // let NewLength = files.length;
-                    // if (NewLength + _self.files.length > 20) {
-                    //     _self.$message({type: 'warning', message: 'Pictures count must be less than 20'});
-                    //     return
-                    // }
                     if(files.length<1) return;
                     _self.toscroll();
                     for (let i = 0; i < files.length; i++) {
-                        // _self.$message.closeAll();
-                        // let hsaOwn = _self.files.some((val) => {
-                        //     return val.name === files[i].name
-                        // });
-                        // if (hsaOwn) _self.$message({type: 'warning', message: 'Dulplicate pictures has been filtered.'});
-                        // else {
                             _self.files.unshift({
                                 url: files[i],
                                 name: parseInt(Math.random()*100000000000),
                                 type: 'file'
                             })
-                        // }
                     }
                     _self.imgUrlss(files)
+                })
+            },
+            scrollFun(){
+                if(!this.scrollStop) return;
+                let oDiv=document.getElementsByClassName('imgRef')
+                // let oImg=document.querySelector('.ImgLists .imgs div')
+                if(oDiv.length<2) return;
+                let _self=this
+                Array.prototype.slice.call(oDiv).map((item,index)=>{
+                    let t=item.getBoundingClientRect().top
+                    if(t>0 && t<100){
+                        _self.selectImg=index;
+                        // console.log(document.querySelectorAll('.ImgLists .imgs > div')[index])
+                        let o=document.querySelectorAll('.ImgLists .imgs > div')[index].offsetTop
+                        // console.log(document.querySelectorAll('.ImgLists .imgs > div')[index])
+                        $(".ImgLists .imgs").getNiceScroll(0).doScrollTop(o);
+                        return
+                    }
                 })
             }
 
@@ -798,7 +785,7 @@
         border-radius: 10px;
         font-size: 12px;
         line-height: 30px;
-        color: #727272;
+        color: #333;
         padding: 10px 12px;
         background-color: #fff;
         z-index: 99;

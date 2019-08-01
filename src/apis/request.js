@@ -36,7 +36,7 @@ instance.interceptors.response.use(function (response) {//为自定义axios设�
     window.location.href=basrUrls()+'/loginOrRegister.html#/?type=0'
   } else{
     Message({
-      type:'warning',
+      type:'error',
       message:response.data.msg
     })
     return res

@@ -10,7 +10,7 @@
                 <el-input v-model="userpass" :placeholder="passmsg" type="password" @keyup.enter.native="regestUser()" ></el-input>
                 <el-input v-model="usersurepass" placeholder="Confirm your password" type="password" v-if="btnType==1"  @keyup.enter.native="regestUser()" ></el-input>
             </div>
-            <el-button type="primary" @click="regestUser()">{{btnType == 0 ? 'Login' : 'Sign up'}}</el-button>
+            <el-button type="primary" @click="regestUser()">{{btnType == 0 ? 'Login' : 'Register'}}</el-button>
             <div class="forgot">
                 <span class="cu"  v-if="btnType==0" @click="forgetPass()">Forgot your password?</span>
                 <p v-else>By clicking the register buttion, you are agree with the <span class="cu" @click="selfXy()">Terms of Service, General Terms and Conditions and Privacy Policy</span></p>
@@ -29,7 +29,7 @@
         data () {
             return {
                 btnType:this.$route.query.type,
-                loginBtn:['Login','Sign up'],
+                loginBtn:['Login','Register'],
                 username:'',
                 userpass:'',
                 usersurepass:'',
