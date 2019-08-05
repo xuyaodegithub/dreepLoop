@@ -8,7 +8,7 @@ import { Message } from 'element-ui'
 // instance.defaults.headers['Content-Type']='application/x-www-form-urlencoded;charset=UTF-8'
 // axios.defaults.headers.post['Content-Type']='application/x-www-form-urlencoded;charset=UTF-8';//全局设置请求头//表示跨域请求时是否需要使用凭证默认false
 // axios.defaults.baseURL='http://test-admin-h5.olquan.cn'//设置域名
-// axios.defaults.withCredentials=true//表示跨域请求时是否需要使用凭证,默认false，一般请求携带cookie是设置为true
+  axios.defaults.withCredentials=true//表示跨域请求时是否需要使用凭证,默认false，一般请求携带cookie是设置为true
 // })
 const instance  =axios.create({
   // timeout:10000,

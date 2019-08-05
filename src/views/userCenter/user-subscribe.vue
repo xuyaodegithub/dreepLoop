@@ -3,7 +3,7 @@
     <h3>My Subscription</h3>
     <div v-if="mySubPlans">
       <h4>Subscription plan - {{mySubPlans.monthRemaining}} points per month</h4>
-      <p>Created at：{{mySubPlans.createdAt | changeTime}}</p>
+      <p>Created at：{{mySubPlans.createdAt | changeTime(1)}}</p>
       <p>Free remaining：{{mySubPlans.freeRemaining}} points</p>
       <p>Subscription remaining：{{mySubPlans.monthRemaining}} points</p>
       <div class="btn">
@@ -11,7 +11,7 @@
         <el-button type="primary" round>Cancel Subscription</el-button>
       </div>
       <div class="oldUse">
-        <h5>Points History</h5>
+        <h5>Points Usage History</h5>
         <el-table
                 :header-cell-style="{color:'#333',fontWeight:500}"
                 :data="plansHistory.content"
@@ -64,7 +64,7 @@
         plansHistory:'',
         tableHeader:[
           {label:'Date',str:'createdAt',width:''},
-          {label:'Amount',str:'credits',width:''},
+          {label:'Points',str:'credits',width:''},
           {label:'Description',str:'comment',width:''},
         ],
       rows:10,

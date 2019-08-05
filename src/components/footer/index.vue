@@ -26,7 +26,7 @@
 <!--            </ul>-->
 <!--        </div>-->
         <div class="last">
-            @ Copyright PicUp 2018. All Rights reserved
+            @ Copyright PicUP.AI 2018. All Rights reserved
         </div>
     </footer>
 </template>

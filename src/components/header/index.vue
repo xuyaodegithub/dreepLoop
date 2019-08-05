@@ -10,12 +10,12 @@
             </ul>
             <div class="right">
                 <div v-if="!loginAfter">
-                    <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">Members</span>
+                    <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">Pricing</span>
 <!--                    <span @click="userlogin(1)">Sign In</span>&lt;!&ndash;登录&ndash;&gt;-->
                     <span @click="userlogin(0)" class="active">Login/Register</span><!--注册-->
                 </div>
                 <div class="cu" v-else>
-                    <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">Members</span>
+                    <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">Pricing</span>
                     <el-dropdown placement="bottom-end" @command="handleCommand">
                       <span class="el-dropdown-link" @click="toMyCount()">
                        {{userInfo.email}}
@@ -96,7 +96,7 @@
             },
             handleCommand(ev){
                  let url=window.location.href
-                 if( ev==1 && url.indexOf('userCenter') > -1 ) return
+                 if( ev==1 && url.indexOf('userCenter') > -1 ) return;
                  if(ev==1) toRouter('userCenter')
                  else {
                      removeToken()

@@ -3,12 +3,12 @@
         <header-sub></header-sub>
         <div class="section margin">
             <h3>Get full resolution image</h3><!--获取全分辨率图像-->
-            <p>1 picture = 1 point</p><!--1图像=1能量-->
+            <p>1 image = 1 point</p><!--1图像=1能量-->
             <div class="flex a-i">
                 <div class="left">
                     <div class="top">Recommended for individual use and assessment</div><!--推荐个人使用和评估-->
                     <div class="title">Free Account</div><!--自由账户-->
-                    <div class="price">一</div>
+                    <div class="price yi"></div>
                     <div class="five0">Free preview for 50 images per month</div><!--50次免费预览-->
                     <p>through API calls</p><!--每月通过API和应用程序-->
                     <div class="share">Earn points by referrals</div><!--推荐朋友可获得能量-->
@@ -35,13 +35,13 @@
 <!--                    <div class="title">随时可用</div>-->
                      <div class="top">No risk! Can be downgraded, upgraded and cancelled at any time</div><!--无风险!可随时降级、升级和取消-->
                      <div class="title">Member Subscription</div><!--订阅计划-->
-                    <div class="price"><span>${{selectRadio2 | Calculation}}</span>/picture</div><!--图像-->
+                    <div class="price"><span>${{selectRadio2 | Calculation}}</span>/image</div><!--图像-->
                     <el-radio-group v-model="radio2" @change="changeRadio2">
                         <el-radio :label="item.planId" v-for="(item,index) in choseList" :key="index">
                             <span class="clear">
                                 <span>{{item.creditsPerMonth}}points/month</span><!--能量/月-->
                                 <span>${{item.price}}</span>
-                                <span>${{item | Calculation}}/picture</span>
+                                <span>${{item | Calculation}}/image</span>
                             </span>
                         </el-radio>
 <!--                        <el-radio :label="99">企业-联系我们</el-radio>-->
@@ -336,6 +336,13 @@
     .left .price{
         font-size: 30px;
         color: #333;
+    }
+    .left .price.yi{
+        width: 30px;
+        margin: 0 auto 34px;
+        padding: 15px 0;
+        border-bottom:3px solid #333;
+        height: 1px;
     }
 }
     .problem{

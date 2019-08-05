@@ -1,4 +1,5 @@
-const TokenKey = 'user_Token'
+const TokenKey = 'user_Token';
+const imgsKey='secImgs'
 
 export function getToken() {
   return window.localStorage.getItem(TokenKey)
@@ -39,3 +40,12 @@ export const clearCookie = name => {
   setCookie(name, '', -1);
 };
 
+export function getSecImgs(imgs) {
+  return window.sessionStorage.getItem(imgsKey,imgs)
+}
+export function setSecImgs(imgs) {
+  return window.sessionStorage.setItem(imgsKey,imgs)
+}
+export function removeSecImgs(imgs) {
+  return window.sessionStorage.removeItem(imgsKey,imgs)
+}

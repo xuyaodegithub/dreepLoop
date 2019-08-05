@@ -29,7 +29,7 @@
                             <span>History</span>
                         </div>
                     <div class=fixedB>
-                        <h5>Concat us</h5>
+                        <h5>Contact us</h5>
                         <div class="flex a-i cu">
                             <img src="../../assets/image/img3.png" alt="">
                             <p><a href="mailto:pikachu@picup.ai">pikachu@picup.ai</a></p>
@@ -64,7 +64,7 @@
                  </div>
                  <div class="OperatorCenter"  v-show="files.length<1">
                      <h4>Powerful</h4>
-                     <p>Astonishing edge details,qualified for commercial usage</p>
+                     <p>Astonishing edge details, qualified for commercial usage</p>
                      <img src="../../assets/image/img7.png" alt="">
                  </div>
              </div>
@@ -118,7 +118,7 @@
                 <div>
                     <div class="free">
                         <h3>Free</h3>
-                        <p>Up to 1000x1000 Pixels free to use WITHOUT any cost,best solution for eCommerce</p>
+                        <p>Up to 1000x1000 Pixels free to use WITHOUT any cost, best solution for eCommerce</p>
                         <img src="static/images/img9.png" alt="">
                     </div>
                 </div>
@@ -135,7 +135,7 @@
     import {saveAs} from "file-saver";
     import headerSub from '@/components/header/index.vue'
     import imgSub from '@/components/showImgSub/index.vue'
-    import {getToken} from "../../utils/auth";
+    import {getToken, getSecImgs, setSecImgs} from "../../utils/auth";
     import {basrUrls} from "../../utils";
     import imgSetSub from '@/components/setImgSub/index.vue'
     import {getMattedImageMultiple, userHistoryList} from "../../apis";
@@ -190,6 +190,7 @@
         mounted() {
             $('.ImgLists .imgs').niceScroll({cursorcolor :'#999999'});
             this.stopPrevent()
+            this.getsesImgsSet()
             window.addEventListener('scroll',this.scrollFun)
             // $('.hisimgs').niceScroll({cursorcolor :'#999999',boxzoom:true});
         },
@@ -218,7 +219,16 @@
                 this.showSetImg = true;
             },
             collectBg(obj) {
-                if (obj.color === 'add') this.allbgImg.push(obj)
+                if (obj.color === 'add') this.allbgImg.push(obj);
+                if(!getSecImgs()){
+                    this.sesImgsSet(this.allbgImg);
+                    return
+                }
+                let hasown = JSON.parse(getSecImgs()).some((item)=>{
+                    return item.fileId==obj.fileId
+                });
+                if(!hasown)this.sesImgsSet(this.allbgImg)
+                // console.log(this.allbgImg)
                 // else {
                 //     this.allbgImg.map((val, index) => {
                 //         if (val.name === obj.name) val.color = obj.color
@@ -227,12 +237,13 @@
 
             },
             closeItem(item) {
-                this.files.splice(item.index, 1)
-                this.rightImgList.splice(item.index, 1)
+                this.files.splice(item.index, 1);
+                this.rightImgList.splice(item.index, 1);
                 // console.log(this.$refs.imgRef)
                 this.allbgImg.map((val, index) => {
                     if (val.name === item.name) this.allbgImg.splice(index, 1)
                 })
+                this.sesImgsSet(this.allbgImg)
             },
             upLoadimg() {//点击上传
                 if (!getToken())  this.multiple = false;
@@ -247,7 +258,7 @@
                 let that=this
                 this.$message.closeAll()
                 if (this.files.length !== this.allbgImg.length) {
-                    this.$message({type: 'warning', message: 'Picture is on processing, please wait...'})
+                    this.$message({type: 'warning', message: 'Picture is on processing, please wait...'});
                     return
                 }
                 this.loading=this.$loading({
@@ -256,7 +267,7 @@
                     spinner: 'el-icon-loading',
                     background: 'rgba(0, 0, 0, 0.7)'
                 });
-                let allImgs=JSON.parse(JSON.stringify(this.allbgImg))
+                let allImgs=JSON.parse(JSON.stringify(this.allbgImg));
                 let arr = allImgs.filter((val, index) => {
                     return val.img
                 });
@@ -408,10 +419,12 @@
                 this.scrollStop=false
                 this.selectImg=index;
                 let dome=document.getElementsByClassName('imgRef');
-                $('body,html').animate({scrollTop: dome[index].offsetTop-75}, 500);
-                setTimeout(()=>{
+                $('body,html').animate({scrollTop: dome[index].offsetTop-75}, 500,()=>{
                     _self.scrollStop=true
-                },500)
+                });
+                // setTimeout(()=>{
+                //
+                // },500)
             },
             openHistory(){
                 this.showHistory=true
@@ -522,15 +535,30 @@
                 if(oDiv.length<2) return;
                 let _self=this
                 Array.prototype.slice.call(oDiv).map((item,index)=>{
-                    let t=item.getBoundingClientRect().top
+                    let t=item.getBoundingClientRect().top;
                     if(t>0 && t<100){
                         _self.selectImg=index;
                         // console.log(document.querySelectorAll('.ImgLists .imgs > div')[index])
-                        let o=document.querySelectorAll('.ImgLists .imgs > div')[index].offsetTop
+                        let o=document.querySelectorAll('.ImgLists .imgs > div')[index].offsetTop;
                         // console.log(document.querySelectorAll('.ImgLists .imgs > div')[index])
                         $(".ImgLists .imgs").getNiceScroll(0).doScrollTop(o);
                         return
                     }
+                })
+            },
+            sesImgsSet(files){
+                let arr=[]
+                files.map((item,index)=>{
+                    arr.push({Original:item.Original,fileId:item.fileId})
+                })
+                setSecImgs(JSON.stringify(arr))
+            },
+            getsesImgsSet(){
+                if(!getSecImgs())return;
+                let arr=JSON.parse(getSecImgs())
+                if(!arr) return;
+                arr.map((item)=>{
+                    this.copyImgUrl({url:item.Original,fileId:item.fileId})
                 })
             }
 

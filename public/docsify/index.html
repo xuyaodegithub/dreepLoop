@@ -118,13 +118,14 @@
     <ul class="flex">
       <li><img src="../static/images/sureLogo.png" alt="" class="cu" @click="backindex()" style="width: 120px;height: 30px;"></li>
       <li class="cu" @click="backindex()">Portrait cut-out</li>
-      <li class="cu" @click="toApi()">More products</li>
+      <li class="cu" @click="toProduct()">More products</li>
+      <li class="cu" @click="toAbout()">About us</li>
 <!--      <li class="cu" @click="userCenter()">Members</li>-->
       <!--            <li class="cu">登录</li>-->
     </ul>
     <div class="right">
       <div v-if="!loginAfter">
-        <span @click="userCenter()">Members</span>
+        <span @click="userCenter()">Pricing</span>
 <!--        <span @click="userlogin(1)" class="active">Sign In/Sign Up</span>-->
       </div>
     </div>
@@ -158,7 +159,7 @@
 <!--    </ul>-->
 <!--  </div>-->
   <div class="last">
-    @ Copyright PicUp 2018. All Rights reserved
+    @ Copyright PicUP.AI 2018. All Rights reserved
   </div>
 </footer>
   <script>
@@ -189,6 +190,14 @@
       }
     },
     methods:{
+      toProduct(){
+        if(window.location.href.indexOf('product')>-1) return;
+        toRouter('product')
+      },
+      toAbout(){
+        if(window.location.href.indexOf('aboutUs')>-1) return;
+        toRouter('aboutUs')
+      },
       backindex(){
          toRouter('index')
       },

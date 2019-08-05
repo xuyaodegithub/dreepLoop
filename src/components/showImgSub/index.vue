@@ -49,10 +49,6 @@
                         <span style="height: 28px;"><el-color-picker v-model="colorValue" size="mini"
                                                                      @change="choseColor(index)"
                                                                      :class="{'bordershow': choseBack=='span'}"></el-color-picker></span>
-                        <!--                <el-button type="primary" icon="el-icon-edit-outline" round-->
-                        <!--                           style="background-color: #27adf6;border-color: #27adf6;font-size: 14px;margin: 0 70px 0 60px"-->
-                        <!--                           size="small" @click="updataThis()">编辑-->
-                        <!--                </el-button>-->
 <!--                        <el-button type="primary" icon="el-icon-edit" circle style="background-color: #27adf6;border-color: #27adf6;margin: 0 70px 0 60px" size="small" @click="updataThis()"></el-button>-->
                     </div>
                     <div class="downLoadBtn" v-if="bgOriginal.img">
@@ -62,13 +58,11 @@
                                    @mouseenter.native="showSize=true" @mouseleave.native="choseSize()">
                             Download<i class="el-icon-caret-bottom" style="position: absolute;margin-left: 12px"></i>
                         </el-button>
-                        <div class="sizeChose" v-if="showSize" @mouseenter="showSizeStop=true" @mouseleave="boxLeave()">
-                            <!--                            v-for="(item,index) in sizeArr" :key="index"-->
+                        <div class="sizeChose" v-if="showSize" @mouseenter="showSizeStop=true" @mouseleave="boxLeave()" :class="{'lessTop' : !(imageMsg.previewWidth!==imageMsg.originalWidth && imageMsg.previewHeight!==imageMsg.originalHeight)}">
                             <div class="flex a-i j-b" @click="save(0)">
-                                <!--<span>Download Preview Image </span> --><span>{{imageMsg.previewWidth + ' X ' + imageMsg.previewHeight}} (free)</span>
+                             <span>{{imageMsg.previewWidth + ' X ' + imageMsg.previewHeight}} (free)</span>
                             </div>
-                            <div class="flex a-i j-b" @click="save(1)">
-<!--                                <span>Download Full Image</span>-->
+                            <div class="flex a-i j-b" @click="save(1)" v-if="imageMsg.previewWidth!==imageMsg.originalWidth && imageMsg.previewHeight!==imageMsg.originalHeight">
                                 <span>{{imageMsg.originalWidth + ' X ' + imageMsg.originalHeight}} (original)</span>
                             </div>
                         </div>
@@ -743,6 +737,7 @@
             background-color: #fff;
             /*right: 170px;*/
             left: 0;
+            top: -95px;
             z-index: 99;
 
             & > div:hover {
@@ -756,6 +751,9 @@
                     margin-right: 25px;
                 }
             }
+        }
+        .sizeChose.lessTop{
+            top: -65px;
         }
     }
 
@@ -809,7 +807,8 @@
             }
             .downLoadBtn {
                 .sizeChose {
-                    left: 0;
+                  /*  left: -160px;
+                    top: -10px;*/
                 }
             }
         }

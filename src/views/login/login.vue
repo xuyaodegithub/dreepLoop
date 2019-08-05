@@ -73,12 +73,12 @@
                 if(this.btnType==1){
                     if(!this.username || !this.userpass || !this.usersurepass){
                         // this.$message({type:'warning',message:'邮箱或密码不可为空'})
-                        this.$message({type:'warning',message:'Mailbox or password must not be empty'})
+                        this.$message({type:'error',message:'Mailbox or password must not be empty'})
                         return
                     }
                     if(this.userpass!==this.usersurepass){
                         // this.$message({type:'warning',message:'两次输入密码不一致'})
-                        this.$message({type:'warning',message:'Inconsistent passwords'})
+                        this.$message({type:'error',message:'Inconsistent passwords'})
                         return
                     }
                     usercheckEmail({email:this.username}).then(res=>{
@@ -93,7 +93,7 @@
                 } else {
                     if(!this.username || !this.userpass){
                         // this.$message({type:'warning',message:'邮箱或密码不可为空'})
-                        this.$message({type:'warning',message:'Mailbox or password must not be empty'});
+                        this.$message({type:'error',message:'Mailbox or password must not be empty'});
                         return
                     }
                     userLogin({email:this.username,password:this.userpass}).then(res=>{

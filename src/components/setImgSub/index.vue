@@ -1,5 +1,5 @@
 <template>
-<!--  v-show="canvasShow && this.files.length<2"-->
+<!--  图片处理操作台组件-->
   <div class=" flex j-b content">
     <i style="position: absolute;right: 10px;top: 10px;font-size: 24px;color: #999;" class="el-icon-close cu"
        @click="clearFile()"></i>
