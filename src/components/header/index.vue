@@ -3,26 +3,26 @@
         <div class="margins flex j-b a-i first">
             <ul class="flex">
                 <li><img src="../../assets/image/sureLogo.png" alt="" class="cu" @click="backindex()" style="width: 120px;height: 30px;"></li>
-                <li class="cu" :class="{'red' : urls.indexOf('index')>-1 || urls.indexOf('/#/')>-1}" @click="backindex()">Portrait cut-out</li><!--智能抠图-->
-                <li class="cu" :class="{'red' : urls.indexOf('product')>-1}" @click="toProduct()">More products</li>
-                <li class="cu" :class="{'red' : urls.indexOf('aboutUs')>-1}" @click="toAbout()">About us</li><!--会员-->
+                <li class="cu" :class="{'red' : urls.indexOf('index')>-1 || urls.indexOf('/#/')>-1}" @click="backindex()">图像剪辑</li><!--智能抠图-->
+                <li class="cu" :class="{'red' : urls.indexOf('product')>-1}" @click="toProduct()">更多产品</li>
+                <li class="cu" :class="{'red' : urls.indexOf('aboutUs')>-1}" @click="toAbout()">关于我们</li><!--会员-->
                 <!--            <li class="cu">登录</li>-->
             </ul>
             <div class="right">
                 <div v-if="!loginAfter">
-                    <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">Pricing</span>
+                    <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">定价</span>
 <!--                    <span @click="userlogin(1)">Sign In</span>&lt;!&ndash;登录&ndash;&gt;-->
-                    <span @click="userlogin(0)" class="active">Login/Register</span><!--注册-->
+                    <span @click="userlogin(0)" class="active">登录/注册</span><!--注册-->
                 </div>
                 <div class="cu" v-else>
-                    <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">Pricing</span>
+                    <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">定价</span>
                     <el-dropdown placement="bottom-end" @command="handleCommand">
                       <span class="el-dropdown-link" @click="toMyCount()">
                        {{userInfo.email}}
                       </span>
                       <el-dropdown-menu slot="dropdown">
-                         <el-dropdown-item command="1">My Account</el-dropdown-item>
-                         <el-dropdown-item command="0">Logout</el-dropdown-item>
+                         <el-dropdown-item command="1">我的账户</el-dropdown-item>
+                         <el-dropdown-item command="0">注销</el-dropdown-item>
                       </el-dropdown-menu>
                     </el-dropdown>
                 </div>

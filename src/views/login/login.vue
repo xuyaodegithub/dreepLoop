@@ -6,14 +6,14 @@
                 <span v-for="(item,index) in loginBtn" :key="index" :class="{'active' : index==btnType}" @click="changeBtn(index)">{{item}}</span>
             </div>
             <div class="userinfo">
-                <el-input v-model="username" placeholder="Email" ></el-input>
+                <el-input v-model="username" placeholder="邮箱" ></el-input>
                 <el-input v-model="userpass" :placeholder="passmsg" type="password" @keyup.enter.native="regestUser()" ></el-input>
-                <el-input v-model="usersurepass" placeholder="Confirm your password" type="password" v-if="btnType==1"  @keyup.enter.native="regestUser()" ></el-input>
+                <el-input v-model="usersurepass" placeholder="确认您的密码" type="password" v-if="btnType==1"  @keyup.enter.native="regestUser()" ></el-input>
             </div>
-            <el-button type="primary" @click="regestUser()">{{btnType == 0 ? 'Login' : 'Register'}}</el-button>
+            <el-button type="primary" @click="regestUser()">{{btnType == 0 ? '登录' : '注册'}}</el-button>
             <div class="forgot">
-                <span class="cu"  v-if="btnType==0" @click="forgetPass()">Forgot your password?</span>
-                <p v-else>By clicking the register buttion, you are agree with the <span class="cu" @click="selfXy()">Terms of Service, General Terms and Conditions and Privacy Policy</span></p>
+                <span class="cu"  v-if="btnType==0" @click="forgetPass()"><!--Forgot your password-->忘记密码?</span>
+                <p v-else><!--By clicking the register buttion, you are agree with the-->点击注册按钮，即表示您同意 <span class="cu" @click="selfXy()"><!--Terms of Service, General Terms and Conditions and Privacy Policy-->服务条款、一般条款和条件以及隐私政策</span></p>
             </div>
         </div>
     </div>
@@ -29,7 +29,7 @@
         data () {
             return {
                 btnType:this.$route.query.type,
-                loginBtn:['Login','Register'],
+                loginBtn:['登录','注册'],
                 username:'',
                 userpass:'',
                 usersurepass:'',
@@ -38,8 +38,8 @@
         },
         computed:{
             passmsg(){
-                if(this.btnType == 0) return 'Password';
-                else return 'Password(More than 6 characters)'
+                if(this.btnType == 0) return '密码';
+                else return '密码(不少于6位)'
             },
             typeBtn(){
                 return this.$route.query.type
@@ -73,12 +73,12 @@
                 if(this.btnType==1){
                     if(!this.username || !this.userpass || !this.usersurepass){
                         // this.$message({type:'warning',message:'邮箱或密码不可为空'})
-                        this.$message({type:'error',message:'Mailbox or password must not be empty'})
+                        this.$message({type:'error',message:'邮箱或密码不可为空'})
                         return
                     }
                     if(this.userpass!==this.usersurepass){
                         // this.$message({type:'warning',message:'两次输入密码不一致'})
-                        this.$message({type:'error',message:'Inconsistent passwords'})
+                        this.$message({type:'error',message:'密码不一致'})
                         return
                     }
                     usercheckEmail({email:this.username}).then(res=>{
@@ -93,7 +93,7 @@
                 } else {
                     if(!this.username || !this.userpass){
                         // this.$message({type:'warning',message:'邮箱或密码不可为空'})
-                        this.$message({type:'error',message:'Mailbox or password must not be empty'});
+                        this.$message({type:'error',message:'邮箱或密码不可为空'});
                         return
                     }
                     userLogin({email:this.username,password:this.userpass}).then(res=>{

@@ -6,14 +6,15 @@
                 <img src="../../assets/image/about.jpg" alt="">
             </div>
             <div class="aboutRight">
-                <h3>About us</h3>
-                <p>With a group of technomaniacs, PicUP AI leverages the power of artificial intelligence and computer
-                    vision to deliver a wide range of products that make your life much easier and your work more
-                    productive. Whether it is portrait cut-out, style transfer, inpainting, image enhancing, inverse
-                    image search niche or generic image classification, detection, or semantic segmentation task, we
-                    will cater to your need. Together, let’s make humanity smarter!
-                </p>
-                <h4>Contact us</h4>
+                <h3>关于我们</h3>
+<!--                <p>With a group of technomaniacs, PicUP AI leverages the power of artificial intelligence and computer-->
+<!--                    vision to deliver a wide range of products that make your life much easier and your work more-->
+<!--                    productive. Whether it is portrait cut-out, style transfer, inpainting, image enhancing, inverse-->
+<!--                    image search niche or generic image classification, detection, or semantic segmentation task, we-->
+<!--                    will cater to your need. Together, let’s make humanity smarter!-->
+<!--                </p>-->
+                <p>有了一群技术狂人，picup ai利用人工智能和计算机视觉的力量，提供各种各样的产品，使您的生活更容易，工作更富有成效。无论是人像裁剪、风格转换、绘画、图像增强、逆向图像搜索利基或通用图像分类、检测或语义分割任务，我们都能满足您的需求。让我们一起让人类变得更聪明！</p>
+                <h4>联系我们</h4>
                 <div class="flex a-i">
                     <img src="../../assets/image/img3.png" alt="">
                     <a href="mailto:pikachu@picup.ai">pikachu@picup.ai</a>

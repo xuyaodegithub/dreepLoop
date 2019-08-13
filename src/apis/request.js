@@ -28,6 +28,7 @@ instance.interceptors.response.use(function (response) {//为自定义axios设�
   // console.log(response.status)
   const res=response.data
   if(res.code===0){
+    // return Promise.reject(response.data)
     // return Promise.resolve(res)
     return res
   }else if(res.code==1100){

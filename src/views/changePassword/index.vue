@@ -3,12 +3,12 @@
     <header-sub></header-sub>
     <div class="userContent">
       <div class="tag">
-        <span>Reset password</span>
+        <span><!--Reset password-->重置密码</span>
       </div>
       <div class="userinfo">
-        <el-input v-model="username" placeholder="email" ></el-input>
+        <el-input v-model="username" placeholder="邮箱" ></el-input>
       </div>
-      <el-button type="primary" @click="resetPass()">Check your email to reset password</el-button>
+      <el-button type="primary" @click="resetPass()"><!--Check your email to reset password-->检查您的电子邮件以重置密码</el-button>
     </div>
   </div>
 </template>
@@ -33,7 +33,7 @@
       resetPass(){
         this.$message.closeAll()
         if(!this.username){
-          this.$message({type:'warning', message:'Email can not be empty'})
+          this.$message({type:'warning', message:'邮箱不可为空'})
           return
         }
         sendChangePasswordEmail({email:this.username}).then(res=>{

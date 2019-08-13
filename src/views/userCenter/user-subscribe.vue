@@ -1,17 +1,17 @@
 <template>
   <div class="Subscribe">
-    <h3>My Subscription</h3>
+    <h3><!--My Subscription-->我的订阅</h3>
     <div v-if="mySubPlans">
-      <h4>Subscription plan - {{mySubPlans.monthRemaining}} points per month</h4>
-      <p>Created at：{{mySubPlans.createdAt | changeTime(1)}}</p>
-      <p>Free remaining：{{mySubPlans.freeRemaining}} points</p>
-      <p>Subscription remaining：{{mySubPlans.monthRemaining}} points</p>
+      <h4><!--Subscription plan-->订阅计划 - {{mySubPlans.monthRemaining}} <!--points per month-->每月能量</h4>
+      <p><!--Created at-->创建时间：{{mySubPlans.createdAt | changeTime(1)}}</p>
+      <p><!--Free remaining-->剩余可用能量：{{mySubPlans.freeRemaining}} <!--points-->能量</p>
+      <p><!--Subscription remaining-->剩余订阅：{{mySubPlans.monthRemaining}} <!--points-->能量</p>
       <div class="btn flex">
-        <el-button type="primary" round>Upgrade Subscription</el-button>
-        <el-button type="primary" round>Cancel Subscription</el-button>
+        <el-button type="primary" round><!--Upgrade Subscription-->升级订阅</el-button>
+        <el-button type="primary" round><!--Cancel Subscription-->取消订阅</el-button>
       </div>
       <div class="oldUse">
-        <h5>Points Usage History</h5>
+        <h5><!--Points Usage History-->能量使用记录</h5>
         <el-table
                 :header-cell-style="{color:'#333',fontWeight:500}"
                 :data="plansHistory.content"
@@ -63,9 +63,12 @@
         mySubPlans:null,
         plansHistory:'',
         tableHeader:[
-          {label:'Date',str:'createdAt',width:''},
-          {label:'Points',str:'credits',width:''},
-          {label:'Description',str:'comment',width:''},
+          // {label:'Date',str:'createdAt',width:''},
+          {label:'时间',str:'createdAt',width:''},
+          // {label:'Points',str:'credits',width:''},
+          {label:'能量',str:'credits',width:''},
+          // {label:'Description',str:'comment',width:''},
+          {label:'描述',str:'comment',width:''},
         ],
       rows:10,
       page:1,
@@ -148,7 +151,7 @@
       border-color:#e82255 ;
       color: #fff;
       background-color: #e82255;
-      /*width: 120px;*/
+      min-width: 120px;
     }
     .el-button:last-child{
       background-color: #fff;

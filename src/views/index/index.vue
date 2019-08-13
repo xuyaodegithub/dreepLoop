@@ -4,19 +4,19 @@
         <header-sub @to-parses="getLoginStatus"></header-sub>
         <div class="flex apps">
             <div class="Operator">
-                <h6>Local images</h6>
-                <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()">Upload</el-button>
-                <p class="afterbtn" v-if="!LoginStatus"><span class="cu" @click="userlogin(0)">Login</span> for batch upload</p>
+                <h6><!--Local images-->本地图像</h6>
+                <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()"><!--Upload-->上传</el-button>
+                <p class="afterbtn" v-if="!LoginStatus"><span class="cu" @click="userlogin(0)">登录</span> <!--for batch upload-->后批量上传</p>
                 <div class="center">
                     <h5>Web images</h5>
                     <div style="position: relative;">
                         <img src="../../assets/image/inputImg.png" alt="" style="position: absolute;left: 8px;top: 12px;">
-                        <input type="text" placeholder="Paste a URL" v-model="imgUrl" @keyup.enter="copyImgUrl()" @focus="$event.target.select()">
+                        <input type="text" placeholder="粘贴一个图片地址" v-model="imgUrl" @keyup.enter="copyImgUrl()" @focus="$event.target.select()">
                         <img src="../../assets/image/img5.png" alt="" style="margin-left:-14px;" class="cu" @click="copyImgUrl()">
                     </div>
                     <div class="flex a-i cu">
                         <img src="../../assets/image/img1.png" alt="">
-                        <p>Chrome extension</p>
+                        <p>Chrome <!--extension-->插件</p>
                     </div>
                 </div>
                 <div class="bottonLast">
@@ -26,10 +26,10 @@
                         </div>
                         <div class="flex a-i cu" @click="openHistory()">
                             <img src="../../assets/image/img2.png" alt="">
-                            <span>History</span>
+                            <span><!--History-->历史记录</span>
                         </div>
                     <div class=fixedB>
-                        <h5>Contact us</h5>
+                        <h5><!--Contact us-->联系我们</h5>
                         <div class="flex a-i cu">
                             <img src="../../assets/image/img3.png" alt="">
                             <p><a href="mailto:pikachu@picup.ai">pikachu@picup.ai</a></p>
@@ -38,7 +38,7 @@
                 </div>
                 <div class="historyList" v-show="showHistory">
                     <i class="el-icon-close cu" @click="closeHistory()"></i>
-                    <div v-show="Object.keys(historyList).length<1" style="margin-top: 60px;text-align: center;">No record</div>
+                    <div v-show="Object.keys(historyList).length<1" style="margin-top: 60px;text-align: center;"><!--No record-->暂无记录</div>
                     <div class="hisimgs"  v-show="Object.keys(historyList).length>0" ref="historyList"  @scroll="getmoveHis($event)">
                         <div v-for="(value,name) in historyList" :key="name" class="oneDate" :class="">
                             <h4>{{name | datafilter}}</h4>
@@ -48,7 +48,7 @@
                                 </div>
                             </div>
                         </div>
-                        <p style="text-align: center;margin-bottom: 15px;margin-top: 15px;" v-if="stopUpdata">No more~~~~~</p>
+                        <p style="text-align: center;margin-bottom: 15px;margin-top: 15px;" v-if="stopUpdata"><!--No more~~~~~-->没有更多了```</p>
                     </div>
                 </div>
             </div>
@@ -58,13 +58,13 @@
                               @openImgSet="openImgSet"></img-sub>
                  </div>
                  <div class="OperatorCenter" v-show="files.length<1">
-                     <h4>Portrait Cut-out</h4>
-                     <p>Powerful & Efficient & Free</p>
+                     <h4><!--Portrait Cut-out-->图像剪辑</h4>
+                     <p><!--Powerful & Efficient & Free-->强大 & 高效 & 免费</p>
                      <img src="../../assets/image/img6.png" alt="" class="bigimg">
                  </div>
                  <div class="OperatorCenter"  v-show="files.length<1">
-                     <h4>Powerful</h4>
-                     <p>Astonishing edge details, qualified for commercial usage</p>
+                     <h4><!--Powerful-->强大</h4>
+                     <p><!--Astonishing edge details, qualified for commercial usage-->令人惊叹的边缘细节，可用于商业用途</p>
                      <img src="../../assets/image/img7.png" alt="">
                  </div>
              </div>
@@ -76,16 +76,16 @@
                      </div>
 
                      <div class="downBtn cu">
-                         <span>Download all</span><i class="el-icon-download"></i>
+                         <span><!--Download all-->下载全部</span><i class="el-icon-download"></i>
                          <div class="sizeChoses">
                              <div class="flex a-i btn">
                                  <div v-for="(val,index) in color" :key="index" :style="{background:val}" :class="{'active' : classType===index}" @click="classType=index"></div>
                              </div>
                              <div class="flex a-i j-b" @click="saveMove(0)">
-                                 <span>Download Preview Image (Free)</span>
+                                 <span><!--Download Preview Image (Free)-->下载预览图(免费)</span>
                              </div>
                              <div class="flex a-i j-b" @click="saveMove(1)">
-                                 <span>Download Full Image</span>
+                                 <span><!--Download Full Image-->下载原图比例</span>
                              </div>
                          </div>
                      </div>
@@ -96,29 +96,29 @@
             <div class="rightBig">
                 <div>
                     <div class="efficient">
-                        <h3>Efficient</h3>
-                        <p>Bulk Processing & Google Chrome extension & API Integration, time saver for your life</p>
+                        <h3><!--Efficient-->高效</h3>
+                        <p><!--Bulk Processing & Google Chrome extension & API Integration, time saver for your life-->批量处理 & 谷歌Chrome扩展和 & API集成，为您的生活节省时间</p>
                         <img src="static/images/img81.png" alt="">
                         <div class="flex a-i">
                             <div>
-                                <p>Batch upload</p>
-                                <p>Process multiple images in parallel</p>
+                                <p><!--Batch upload-->批量上传</p>
+                                <p><!--Process multiple images in parallel-->并行处理多个图像</p>
                             </div>
                             <div>
-                                <p>Chrome extension</p>
-                                <p>Embedded in the web browser</p>
+                                <p>Chrome <!--extension-->插件</p>
+                                <p><!--Embedded in the web browser-->嵌入到Web浏览器中</p>
                             </div>
                             <div>
                                 <p>API</p>
-                                <p>Seamless integration with your system</p>
+                                <p><!--Seamless integration with your system-->与系统无缝集成</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div>
                     <div class="free">
-                        <h3>Free</h3>
-                        <p>Up to 1000x1000 Pixels free to use WITHOUT any cost, best solution for eCommerce</p>
+                        <h3><!--Free-->免费</h3>
+                        <p><!--Up to 1000x1000 Pixels free to use WITHOUT any cost, best solution for eCommerce-->高达1000x1000像素，免费使用，是电子商务的最佳解决方案。</p>
                         <img src="static/images/img9.png" alt="">
                     </div>
                 </div>
@@ -182,8 +182,8 @@
                 if(m<10) m='0'+m;
                 if (d<10) d='0'+d;
                 let arr=val.split('-');
-                if(arr[0]==y && arr[1]==m && arr[2]==d) return 'Today';
-                else if(arr[0]==y && arr[1]==m && arr[2]==d-1) return 'Yesterday';
+                if(arr[0]==y && arr[1]==m && arr[2]==d) return '今天';
+                else if(arr[0]==y && arr[1]==m && arr[2]==d-1) return '昨天';
                 else return val
             }
         },
@@ -228,6 +228,7 @@
                     return item.fileId==obj.fileId
                 });
                 if(!hasown)this.sesImgsSet(this.allbgImg)
+                // console.log(this.allbgImg,"2222222222222222")
                 // console.log(this.allbgImg)
                 // else {
                 //     this.allbgImg.map((val, index) => {
@@ -258,12 +259,12 @@
                 let that=this
                 this.$message.closeAll()
                 if (this.files.length !== this.allbgImg.length) {
-                    this.$message({type: 'warning', message: 'Picture is on processing, please wait...'});
+                    this.$message({type: 'warning', message: '正在处理中，请稍后...'});
                     return
                 }
                 this.loading=this.$loading({
                     lock: true,
-                    text:'0 completed',
+                    text:'0 已完成',
                     spinner: 'el-icon-loading',
                     background: 'rgba(0, 0, 0, 0.7)'
                 });
@@ -312,10 +313,10 @@
                     let url = cans.toDataURL("image/png"); // 得到图片的base64编码数据 let url =
                      baseList.push({name: objs.is, img: url.substring(22)});
                     _this.Percentile+=1
-                    _this.loading.text=_this.Percentile +'/'+ arr.length +' completed'
+                    _this.loading.text=_this.Percentile +'/'+ arr.length +' 已完成'
                     if (baseList.length === arr.length) {
                             if (baseList.length > 0) {
-                                _this.loading.text='Packing...'
+                                _this.loading.text='打包中...'
                                 for (let k = 0; k < baseList.length; k++) {
                                     imgs.file(baseList[k].name + ".png", baseList[k].img, {
                                         base64: true
@@ -329,7 +330,7 @@
                             } else {
                                 _this.$message.error({
                                     title: "error",
-                                    message: "There is no picture can be download"
+                                    message: "没有图片可下载"
                                 });
                             }
                          }
@@ -341,48 +342,24 @@
             copyImgUrl(url) {//粘贴图片链接确定
                 if (!this.imgUrl && !url) {
                     this.$message({
-                        message: 'Url can not be empty',
+                        message: '图片地址不可为空',
                         type: 'warning'
                     });
                     return
                 }
-                // let hsaOwn = this.files.some((val) => {
-                //     return val.url === (url ? url.url : this.imgUrl)
-                // });
-                // if (hsaOwn) {
-                //     this.$message({type: 'warning', message: 'Dulplicate pictures has been filtered'});
-                //     return
-                // }
-                // if (this.files.length + 1 > 20) {
-                //     this.$message({type: 'warning', message: 'Pictures count must be less than 20'});
-                //     return
-                // }
                 this.toscroll();
                 let name = parseInt(Math.random()*100000000000);
                 this.files.unshift({url: url ? url.url : this.imgUrl, name: name, type: 'copy',fileId:url ? url.fileId : ''})
                 this.imgUrlss({url:  url ? url.url : this.imgUrl, name: name, type: 'copy',fileId:url ? url.fileId : ''})
             },
             changeImg(e) {//图片上传
-                // let NewLength = this.$refs.upImg.files.length;
-                // if (NewLength + this.files.length > 20) {
-                //     this.$message({type: 'warning', message: 'Pictures count must be less than 20'});
-                //     return
-                // }
-                // console.log(this.$refs.upImg.files)
                 this.toscroll();
                 for (let i = 0; i < this.$refs.upImg.files.length; i++) {
-                    // this.$message.closeAll();
-                    // let hsaOwn = this.files.some((val) => {
-                    //     return val.name === this.$refs.upImg.files[i].name
-                    // });
-                    // if (hsaOwn) this.$message({type: 'warning', message: 'Dulplicate pictures has been filtered.'});
-                    // else {
                         this.files.unshift({
                             url: this.$refs.upImg.files[i],
                             name:parseInt(Math.random()*100000000000),
                             type: 'file'
                         });
-                    // }
                 }
                 this.imgUrlss(this.$refs.upImg.files)
             },
@@ -408,6 +385,7 @@
                                     return item!==0
                                 })
                                 if(t)_self.rightImgList=[...newArr.reverse(),..._self.rightImgList]
+                                // console.log(_self.allbgImg,"11111111111111111111111")
                             }
                     }
                 }
@@ -894,17 +872,20 @@
         margin: 122px auto 0;
     }
     .content .rightBig .efficient div.flex{
-        justify-content:center;
+        justify-content:space-between;
         font-size: 18px;
         color: #333;
         line-height: 1;
+        width: 706px;
+        padding: 0 60px;
+        margin: 0 auto;
         margin-top: 28px;
     }
     .content  .efficient .flex p{
         color: #333;
     }
     .content .efficient .flex > div:nth-child(2){
-        margin: 0 68px 0 93px;
+        /*margin: 0 68px 0 93px;*/
     }
     .content .efficient .flex p:last-child{
         font-size: 14px;

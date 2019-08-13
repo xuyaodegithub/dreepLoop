@@ -2,17 +2,17 @@
     <div class="vip">
         <header-sub></header-sub>
         <div class="section margin">
-            <h3>Get full resolution image</h3><!--获取全分辨率图像-->
-            <p>1 image = 1 point</p><!--1图像=1能量-->
+            <h3>获取全分辨率图像</h3><!--获取全分辨率图像-->
+            <p>1 图像 = 1 能量</p><!--1图像=1能量-->
             <div class="flex a-i">
                 <div class="left">
-                    <div class="top">Recommended for individual use and assessment</div><!--推荐个人使用和评估-->
-                    <div class="title">Free Account</div><!--自由账户-->
+                    <div class="top">推荐个人使用和评估</div><!--推荐个人使用和评估-->
+                    <div class="title">自由账户</div><!--自由账户-->
                     <div class="price yi"></div>
-                    <div class="five0">Free preview for 50 images per month</div><!--50次免费预览-->
-                    <p>through API calls</p><!--每月通过API和应用程序-->
-                    <div class="share">Earn points by referrals</div><!--推荐朋友可获得能量-->
-                    <el-button type="primary" round @click="userRegest()">Free registration</el-button><!--免费注册-->
+                    <div class="five0">50次免费预览</div><!--50次免费预览-->
+                    <p>每月通过API和应用程序</p><!--每月通过API和应用程序-->
+                    <div class="share">推荐朋友可获得能量</div><!--推荐朋友可获得能量-->
+                    <el-button type="primary" round @click="userRegest()">免费注册</el-button><!--免费注册-->
                 </div>
 <!--                <div class="center">-->
 <!--                    <div class="top">无风险!可随时降级、升级和取消</div>-->
@@ -33,20 +33,20 @@
                 <div class="right">
 <!--                    <div class="top">随时可用的能量，两年内有效</div>-->
 <!--                    <div class="title">随时可用</div>-->
-                     <div class="top">No risk! Can be downgraded, upgraded and cancelled at any time</div><!--无风险!可随时降级、升级和取消-->
-                     <div class="title">Member Subscription</div><!--订阅计划-->
-                    <div class="price"><span>${{selectRadio2 | Calculation}}</span>/image</div><!--图像-->
+                     <div class="top">无风险!可随时降级、升级和取消</div><!--无风险!可随时降级、升级和取消-->
+                     <div class="title">订阅计划</div><!--订阅计划-->
+                    <div class="price"><span>${{selectRadio2 | Calculation}}</span>/图像</div><!--图像-->
                     <el-radio-group v-model="radio2" @change="changeRadio2">
                         <el-radio :label="item.planId" v-for="(item,index) in choseList" :key="index">
                             <span class="clear">
-                                <span>{{item.creditsPerMonth}}points/month</span><!--能量/月-->
+                                <span>{{item.creditsPerMonth}}能量/月</span><!--能量/月-->
                                 <span>${{item.price}}</span>
-                                <span>${{item | Calculation}}/image</span>
+                                <span>${{item | Calculation}}/图像</span>
                             </span>
                         </el-radio>
 <!--                        <el-radio :label="99">企业-联系我们</el-radio>-->
                     </el-radio-group>
-                    <el-button type="primary" round @click="dialogVisible = true">Order now</el-button><!--立即购买-->
+                    <el-button type="primary" round @click="dialogVisible = true">立即购买</el-button><!--立即购买-->
                 </div>
             </div>
         </div>
@@ -117,7 +117,7 @@
                 :visible.sync="dialogVisible"
                 width="400px">
             <div class="Dcontent">
-                <div class="title">-Member Subscription- {{selectRadio2.creditsPerMonth}} points/month</div><!--订阅计划-{{selectRadio2.creditsPerMonth}}能量/月-->
+                <div class="title">-订阅计划- {{selectRadio2.creditsPerMonth}} 能量/月</div><!--订阅计划-{{selectRadio2.creditsPerMonth}}能量/月-->
                 <div class="price">${{selectRadio2.price}}</div>
 <!--                <p><i class="el-icon-minus"></i>&nbsp; 请选择您的地址 &nbsp;<i class="el-icon-minus"></i></p>-->
 <!--                <el-select v-model="value" placeholder="请选择">-->
@@ -128,7 +128,7 @@
 <!--                            :value="item.value">-->
 <!--                    </el-option>-->
 <!--                </el-select>-->
-                <el-button @click="userContinue()">Continue</el-button><!--继续-->
+                <el-button @click="userContinue()">继续</el-button><!--继续-->
             </div>
         </el-dialog>
     </div>
@@ -205,7 +205,7 @@
             },
             userRegest(){
                 this.$message.closeAll();
-                if(getToken())this.$message({type:'warning',message:'You are already registered'});
+                if(getToken())this.$message({type:'warning',message:'你已经注册过啦!'});
                 else {
                     window.location.href=`${this.basrUrls}/loginOrRegister.html#/?type=1`
                 }
@@ -215,7 +215,7 @@
                 else{
                     const loading = this.$loading({
                         lock: true,
-                        text: 'Processing, please wait...',
+                        text: '处理中，请稍等...',
                         spinner: 'el-icon-loading',
                         background: 'rgba(0, 0, 0, 0.7)'
                     });

@@ -3,20 +3,20 @@
     <header-sub :userData="userInfo"></header-sub>
         <div class="margin" v-if="backType==0">
             <i class="el-icon-success"></i>
-            <div class="msg">Email has been sucessfully sent </div>
-            <p>The active link has been sent to your email {{emailStr}}, please go and check it</p>
+            <div class="msg"><!--Email has been sucessfully sent-->电子邮件已成功发送 </div>
+            <p><!--The active link has been sent to your email-->激活链接已发送到您的电子邮件 {{emailStr}}, <!--please go and check it-->请去检查一下</p>
     <!--        <el-button type="primary" round>激活成功</el-button>-->
         </div>
          <div class="margin" v-else-if="backType==1">
               <i class="el-icon-success"></i>
-              <div class="msg">Email has been sucessfully sent</div>
-              <p>You are retrieving your password, The reset link has been sent to your email {{emailStr}}, please go and check it</p>
+              <div class="msg"><!--Email has been sucessfully sent-->电子邮件已成功发送</div>
+              <p><!--You are retrieving your password, The reset link has been sent to your email-->您正在找回密码，重置链接已发送到您的电子邮件 {{emailStr}}, <!--please go and check it-->请去检查一下</p>
               <!--        <el-button type="primary" round>激活成功</el-button>-->
          </div>
     <!--      注册成功返回-->
          <div class="margin" v-else-if="backType==2">
               <i class="el-icon-success"></i>
-              <div class="msg">Welcome</div>
+              <div class="msg"><!--Welcome-->欢迎！</div>
               <p>{{backmsg}}</p>
               <!--        <el-button type="primary" round>激活成功</el-button>-->
          </div>
@@ -34,7 +34,7 @@
   name: 'resBackMsg',
   data () {
     return {
-        backmsg:'Activating...',
+        backmsg:'激活中...',
         userInfo:{}
     }
   },
@@ -58,13 +58,13 @@
       regeistItem(){
           userActivationEmail({token:this.userToken}).then(res=>{
               if(!res.code){
-                  this.backmsg='You are now a member of picup.ai, you are be able to use more functions'
+                  this.backmsg='您现在是picup.ai的成员，可以使用更多的功能'
                   this.userInfo=res.data
                   let token=res.data.token
                   setToken(token)
                   setCookie('token',token)
               }else{
-                  this.backmsg='Activation failed, please re-register'
+                  this.backmsg='激活失败，请重新注册'
               }
           })
       }

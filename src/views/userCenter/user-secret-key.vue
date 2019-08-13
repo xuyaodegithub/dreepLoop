@@ -1,13 +1,13 @@
 <template>
     <div class="Subscribe">
-        <h3>API Key</h3>
+        <h3>API密钥</h3>
         <div class="flex">
             <p>{{ApiMsg}}</p>
             <i class="el-icon-refresh-right" @click="refreshApikey()"></i>
         </div>
         <div class="btn">
 <!--            <el-button type="primary" round>上传图片</el-button>-->
-            <el-button type="primary" round @click="toApi()">Read the API document</el-button>
+            <el-button type="primary" round @click="toApi()"><!--Read the API document-->阅读API文档</el-button>
         </div>
     </div>
 </template>

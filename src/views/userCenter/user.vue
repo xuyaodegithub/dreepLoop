@@ -23,12 +23,12 @@
         data () {
             return {
                 leftBtn:[
-                    {title:'My Subscription',path:'/'},
+                    {title:'我的订阅',path:'/'},
                     // {title:'我的能量',path:'/userCenter/user-credit'},
-                    {title:'API Key',path:'/userCenter/secret'},
+                    {title:'API密钥',path:'/userCenter/secret'},
                     // {title:'赚取学分',path:'/userCenter/earn'},
                     // {title:'历史记录',path:'/userCenter/history'},
-                    {title:'Account Setting',path:'/userCenter/set'},
+                    {title:'账户设置',path:'/userCenter/set'},
                 ],
                 userInfo:{}
             }

@@ -6,8 +6,8 @@
         <div class="dreepAfter">
             <i class="el-icon-close cu" @click="deleteItem()"></i>
             <div class="flex j-b a-i imgs">
-                <p>Original picture</p>
-                <p>Matted picture</p>
+                <p>原图</p>
+                <p>无格式图片</p>
             </div>
             <div class="flex imgs">
                 <div>
@@ -15,31 +15,32 @@
                 </div>
                 <div>
                     <!--                        <img :src="bgOriginal.img" alt="">-->
-                    <div v-if="bgOriginal.status===0" :style="backg" class="activeDiv"><canvas :id="'canvas'+ramdId">The function is not surpported by your browser is deprecated, change or upgrade your browser</canvas></div>
+                    <div v-if="bgOriginal.status===0" :style="backg" class="activeDiv"><canvas :id="'canvas'+ramdId">当前游览器不支持此功能，换一个试试吧！</canvas></div>
                     <div v-else-if="bgOriginal.status===1" class="errmsg">
                         <i class="el-icon-circle-close"></i>
-                        <!--这张图片当前不支持，不能识别前景-->
-                        Error occured, the foreground can not be recognized
+                        这张图片当前不支持，不能识别前景
+<!--                        Error occured, the foreground can not be recognized-->
                         <p>
-                        	<!--请选择一个有明确区分前景和背景的图片。例如:试着一个人的照片，产品、动物、汽车或另一个对象-->
-                        	Try picture that contains person, more categories will be supported in future
+                        	请选择一个有明确区分前景和背景的图片。例如:试着一个人的照片，产品、动物、汽车或另一个对象
+<!--                        	Try picture that contains person, more categories will be supported in future-->
                         </p>
                     </div>
                     <div v-else-if="bgOriginal.status===2" class="errmsg">
                         <i class="el-icon-s-flag"></i>
-                        <!--当前正在排队,请稍后...-->
-                        Waiting in the queue,
+                        当前正在排队,请稍后...
+<!--                        Waiting in the queue,-->
                         <p>
-                        	<!--排队位置{{imageMsg.queueNumber}}-->
-                            Sequence number: {{imageMsg.queueNumber}}
+                        	排队位置{{imageMsg.queueNumber}}
+<!--                            Sequence number: {{imageMsg.queueNumber}}-->
                         </p>
                     </div>
                     <div class="close flex" v-else>
                         <i class="el-icon-loading"></i>
-                        Processing...
+                        处理中...
+<!--                        Processing...-->
                     </div>
                     <div class="otherBtn flex a-i"  v-if="bgOriginal.img">
-                        <span>Background</span>
+                        <span><!--Background-->背景</span>
                         <div v-for="(items,indexs) in color" :key="indexs" :style="backBtn"
                              @click="choseBackColor(items,indexs)"
                              class="cu" :class="{'bordershow' : indexs==choseBack}" v-if="indexs===0"></div>
@@ -56,14 +57,14 @@
                                    style="background-color: #e82255;border-color: #e82255;width: 160px;"
                                    icon="el-icon-download"
                                    @mouseenter.native="showSize=true" @mouseleave.native="choseSize()">
-                            Download<i class="el-icon-caret-bottom" style="position: absolute;margin-left: 12px"></i>
+                            <!--Download-->下载<i class="el-icon-caret-bottom" style="position: absolute;margin-left: 12px"></i>
                         </el-button>
                         <div class="sizeChose" v-if="showSize" @mouseenter="showSizeStop=true" @mouseleave="boxLeave()" :class="{'lessTop' : !(imageMsg.previewWidth!==imageMsg.originalWidth && imageMsg.previewHeight!==imageMsg.originalHeight)}">
                             <div class="flex a-i j-b" @click="save(0)">
-                             <span>{{imageMsg.previewWidth + ' X ' + imageMsg.previewHeight}} (free)</span>
+                             <span>{{imageMsg.previewWidth + ' X ' + imageMsg.previewHeight}} (免费)</span>
                             </div>
                             <div class="flex a-i j-b" @click="save(1)" v-if="imageMsg.previewWidth!==imageMsg.originalWidth && imageMsg.previewHeight!==imageMsg.originalHeight">
-                                <span>{{imageMsg.originalWidth + ' X ' + imageMsg.originalHeight}} (original)</span>
+                                <span>{{imageMsg.originalWidth + ' X ' + imageMsg.originalHeight}} (原始尺寸)</span>
                             </div>
                         </div>
                     </div>
@@ -185,7 +186,7 @@
             },
             updataThis() {
                 if (this.bgOriginal.status !== 0) {//当前图片不可编辑
-                    this.$message({type: 'warning', message: 'Current picture is not editable'})
+                    this.$message({type: 'error', message: '当前图片不可编辑'})
                     return
                 }
                 this.$emit('openImgSet', this.imageMsg)
@@ -290,6 +291,8 @@
                         this.$emit('to-parse', {id: this.index, img: '', color: 'add', name: obj.name, fileId:this.fileId, Original:this.Original})
                         this.bgOriginal = obj
                     }
+                }).catch(err=>{
+                    console.log(err)
                 })
             },
             choseBackColor(color, index) {//纯色背景切换
