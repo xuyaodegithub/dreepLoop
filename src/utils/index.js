@@ -35,6 +35,20 @@ export function shenCopy(obj){
     return newObj
 }
 
+export function deepCopy(obj) {
+    var result = Array.isArray(obj) ? [] : {};
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            if (typeof obj[key] === 'object' && obj[key]!==null) {
+                result[key] = deepCopy(obj[key]);   //递归复制
+            } else {
+                result[key] = obj[key];
+            }
+        }
+    }
+    return result;
+}
+
 //requestAnimationFrame兼容写法
 (function() {
     var lastTime = 0;

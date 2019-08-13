@@ -43,6 +43,9 @@
 
     export default {
         name: "index",
+        props:{
+            userData:{type:Object}
+        },
         data(){
             return {
                 loginAfter:false,
@@ -52,12 +55,21 @@
                 urls:window.location.href
             }
         },
+        watch:{
+            userData(newVal,oldVal){
+                if(newVal!=={}){
+                    this.userInfo=newVal
+                    this.loginAfter=true
+                    this.$emit('to-parses',newVal)
+                }
+            }
+        },
         methods:{
             toApi(){
                 window.location.href=this.basrUrls+'/docsify/#/test.md'
             },
             getUserinfo(){
-                if(!getToken()) return
+                if(!getToken()) return;
                 getUserInfo().then(res=>{
                     if(!res.code){
                         this.userInfo=res.data

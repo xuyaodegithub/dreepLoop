@@ -207,7 +207,7 @@
                 this.$message.closeAll();
                 if(getToken())this.$message({type:'warning',message:'You are already registered'});
                 else {
-                    window.location.href=`${this.basrUrls}/loginOrRegister.html#/?type=0`
+                    window.location.href=`${this.basrUrls}/loginOrRegister.html#/?type=1`
                 }
             },
             userContinue(){

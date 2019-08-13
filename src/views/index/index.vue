@@ -313,7 +313,6 @@
                      baseList.push({name: objs.is, img: url.substring(22)});
                     _this.Percentile+=1
                     _this.loading.text=_this.Percentile +'/'+ arr.length +' completed'
-                    // console.log(_this.loading.text)
                     if (baseList.length === arr.length) {
                             if (baseList.length > 0) {
                                 _this.loading.text='Packing...'
@@ -323,7 +322,6 @@
                                     });
                                 }
                                 zip.generateAsync({type: "blob"}).then(function (content) {
-                                    // see FileSaver.js
                                     saveAs(content, blogTitle + ".zip");
                                     _this.loading.close()
                                     _this.Percentile=0

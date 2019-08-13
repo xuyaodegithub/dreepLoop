@@ -174,10 +174,7 @@
                                     fileId:this.fileId,
                                     Original:this.Original
                                 })
-                            }/*else if(res.data.status === 'faild'){
-                                this.$emit('to-parse', {id: this.index, img: '', color: 'add', name:this.files.type === 'copy' ? this.imgname : this.file.name, fileId:this.fileId})
-                                this.bgOriginal = {name: this.imgname, img: '', status: 1, fileId:this.fileId}
-                            }*/
+                            }
                         } else {
                             clearInterval(this.timer)
                             this.$emit('to-parse', {id: this.index, img: '', color: 'add', name:this.files.type === 'copy' ? this.imgname : this.files.name, fileId:this.fileId,Original:this.Original})

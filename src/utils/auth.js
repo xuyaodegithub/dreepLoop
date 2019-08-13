@@ -2,7 +2,8 @@ const TokenKey = 'user_Token';
 const imgsKey='secImgs'
 
 export function getToken() {
-  return window.localStorage.getItem(TokenKey)
+  // return window.localStorage.getItem(TokenKey)
+  return window.sessionStorage.getItem(TokenKey)
 }
 
 export function setToken(token) {
@@ -10,11 +11,13 @@ export function setToken(token) {
   // Cookies.set('foo', 'bar', {
   //   expires: inFifteenMinutes//不设置默认会话式储存，游览器关闭就删除
   // });
-  return window.localStorage.setItem(TokenKey,token)
+  // return window.localStorage.setItem(TokenKey,token)
+  return window.sessionStorage.setItem(TokenKey,token)
 }
 
 export function removeToken() {
-  return window.localStorage.removeItem(TokenKey)
+  // return window.localStorage.removeItem(TokenKey)
+  return window.sessionStorage.removeItem(TokenKey)
 }
 export const setCookie = (name, cvalue, clearDay = 3650) => {
   const d = new Date();

@@ -1,6 +1,6 @@
 <template>
   <div class="resBackMsg">
-    <header-sub></header-sub>
+    <header-sub :userData="userInfo"></header-sub>
         <div class="margin" v-if="backType==0">
             <i class="el-icon-success"></i>
             <div class="msg">Email has been sucessfully sent </div>
@@ -17,7 +17,7 @@
          <div class="margin" v-else-if="backType==2">
               <i class="el-icon-success"></i>
               <div class="msg">Welcome</div>
-              <p>You are now a member of picup.ai, you are be able to use more functions</p>
+              <p>{{backmsg}}</p>
               <!--        <el-button type="primary" round>激活成功</el-button>-->
          </div>
   </div>
@@ -27,14 +27,20 @@
   import { mapGetters } from 'vuex'
   import { mapActions } from 'vuex'
   import headerSub from '@/components/header/index.vue'
+  import { userActivationEmail } from "../../apis";
+  import { setToken,setCookie } from "../../utils/auth";
 
-export default {
+  export default {
   name: 'resBackMsg',
   data () {
     return {
-
+        backmsg:'Activating...',
+        userInfo:{}
     }
   },
+    mounted(){
+        if(this.backType==2) this.regeistItem()
+    },
   computed:{
     ...mapGetters([
     ]),
@@ -43,8 +49,26 @@ export default {
       },
       emailStr(){
           return this.$route.query.email
+      },
+      userToken(){
+          return this.$route.query.token
       }
   },
+    methods:{
+      regeistItem(){
+          userActivationEmail({token:this.userToken}).then(res=>{
+              if(!res.code){
+                  this.backmsg='You are now a member of picup.ai, you are be able to use more functions'
+                  this.userInfo=res.data
+                  let token=res.data.token
+                  setToken(token)
+                  setCookie('token',token)
+              }else{
+                  this.backmsg='Activation failed, please re-register'
+              }
+          })
+      }
+    },
   components:{
     headerSub
   }

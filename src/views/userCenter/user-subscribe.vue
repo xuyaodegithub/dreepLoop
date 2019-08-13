@@ -6,7 +6,7 @@
       <p>Created at：{{mySubPlans.createdAt | changeTime(1)}}</p>
       <p>Free remaining：{{mySubPlans.freeRemaining}} points</p>
       <p>Subscription remaining：{{mySubPlans.monthRemaining}} points</p>
-      <div class="btn">
+      <div class="btn flex">
         <el-button type="primary" round>Upgrade Subscription</el-button>
         <el-button type="primary" round>Cancel Subscription</el-button>
       </div>
@@ -42,7 +42,7 @@
         </div>
       </div>
     </div>
-    <div v-else class="nodata">
+    <div  class="nodata" v-else>
       <div>
       	No subscription found
       </div>
@@ -139,6 +139,7 @@
   .btn{
     margin-top: 28px;
     margin-bottom: 56px;
+    justify-content: space-between;
     .el-button{
       margin-right: 12px;
       font-size: 14px;
@@ -151,7 +152,8 @@
     }
     .el-button:last-child{
       background-color: #fff;
-      color: #e82255;
+      border: none;
+      color: #dcdcdc;
     }
     .el-button+.el-button{
       margin: 0;
@@ -178,7 +180,7 @@
       background-color: #e82255;
       border-color:#e82255 ;
       margin-top: 50px;
-      width: 120px;
+      /*width: 120px;*/
     }
   }
 </style>
