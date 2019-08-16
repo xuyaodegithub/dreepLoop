@@ -25,6 +25,7 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
+    "html-loader": "^0.5.5",
     "node-sass": "^4.9.2",
     "progress-bar-webpack-plugin": "^1.12.1",
     "sass-loader": "^7.1.0",

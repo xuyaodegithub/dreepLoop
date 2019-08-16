@@ -25,11 +25,8 @@ instance.interceptors.request.use(function (config) {//为自定义axios设置�
 });
 instance.interceptors.response.use(function (response) {//为自定义axios设置响应拦截器
   // 对响应数据做点什么
-  // console.log(response.status)
   const res=response.data
   if(res.code===0){
-    // return Promise.reject(response.data)
-    // return Promise.resolve(res)
     return res
   }else if(res.code==1100){
     removeToken()
