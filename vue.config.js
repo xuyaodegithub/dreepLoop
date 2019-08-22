@@ -24,7 +24,7 @@ module.exports = {
 
     devServer: {//代理
         port: process.env.PORT ? process.env.PORT : 8888,//端口号
-        // host: 'localhost',
+        host: '0.0.0.0',
         // https: false, // https:{type:Boolean}
         open: true, //配置自动启动浏览器
         proxy: {

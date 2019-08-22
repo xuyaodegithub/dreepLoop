@@ -1,18 +1,23 @@
 <template>
     <div class="helloFirst">
-        <input type="file" style="display: none" ref="upImg" @change="changeImg($event)" :multiple="multiple" accept="image/*"/>
+        <input type="file" style="display: none" ref="upImg" @change="changeImg($event)" :multiple="multiple"
+               accept="image/*"/>
         <header-sub @to-parses="getLoginStatus"></header-sub>
         <div class="flex apps">
             <div class="Operator">
                 <h6><!--Local images-->本地图像</h6>
                 <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()"><!--Upload-->上传</el-button>
-                <p class="afterbtn" v-if="!LoginStatus"><span class="cu" @click="userlogin(0)">登录</span> <!--for batch upload-->后批量上传</p>
+                <p class="afterbtn" v-if="!LoginStatus"><span class="cu" @click="userlogin(0)">登录</span>
+                    <!--for batch upload-->后批量上传</p>
                 <div class="center">
                     <h5>Web images</h5>
                     <div style="position: relative;">
-                        <img src="../../assets/image/inputImg.png" alt="" style="position: absolute;left: 8px;top: 12px;">
-                        <input type="text" placeholder="粘贴一个图片地址" v-model="imgUrl" @keyup.enter="copyImgUrl()" @focus="$event.target.select()">
-                        <img src="../../assets/image/img5.png" alt="" style="margin-left:-14px;" class="cu" @click="copyImgUrl()">
+                        <img src="../../assets/image/inputImg.png" alt=""
+                             style="position: absolute;left: 8px;top: 12px;">
+                        <input type="text" placeholder="粘贴一个图片地址" v-model="imgUrl" @keyup.enter="copyImgUrl()"
+                               @focus="$event.target.select()">
+                        <img src="../../assets/image/img5.png" alt="" style="margin-left:-14px;" class="cu"
+                             @click="copyImgUrl()">
                     </div>
                     <div class="flex a-i cu">
                         <img src="../../assets/image/img1.png" alt="">
@@ -20,14 +25,14 @@
                     </div>
                 </div>
                 <div class="bottonLast">
-                        <div class="flex a-i cu" @click="toApi()">
-                            <img src="../../assets/image/img4.png" alt="">
-                            <span>API</span>
-                        </div>
-                        <div class="flex a-i cu" @click="openHistory()">
-                            <img src="../../assets/image/img2.png" alt="">
-                            <span><!--History-->历史记录</span>
-                        </div>
+                    <div class="flex a-i cu" @click="toApi()">
+                        <img src="../../assets/image/img4.png" alt="">
+                        <span>API</span>
+                    </div>
+                    <div class="flex a-i cu" @click="openHistory()">
+                        <img src="../../assets/image/img2.png" alt="">
+                        <span><!--History-->历史记录</span>
+                    </div>
                     <div class=fixedB>
                         <h5><!--Contact us-->联系我们</h5>
                         <div class="flex a-i cu">
@@ -38,8 +43,11 @@
                 </div>
                 <div class="historyList" v-show="showHistory">
                     <i class="el-icon-close cu" @click="closeHistory()"></i>
-                    <div v-show="Object.keys(historyList).length<1" style="margin-top: 60px;text-align: center;"><!--No record-->暂无记录</div>
-                    <div class="hisimgs"  v-show="Object.keys(historyList).length>0" ref="historyList"  @scroll="getmoveHis($event)">
+                    <div v-show="Object.keys(historyList).length<1" style="margin-top: 60px;text-align: center;">
+                        <!--No record-->暂无记录
+                    </div>
+                    <div class="hisimgs" v-show="Object.keys(historyList).length>0" ref="historyList"
+                         @scroll="getmoveHis($event)">
                         <div v-for="(value,name) in historyList" :key="name" class="oneDate" :class="">
                             <h4>{{name | datafilter}}</h4>
                             <div class="flex a-i">
@@ -48,56 +56,61 @@
                                 </div>
                             </div>
                         </div>
-                        <p style="text-align: center;margin-bottom: 15px;margin-top: 15px;" v-if="stopUpdata"><!--No more~~~~~-->没有更多了```</p>
+                        <p style="text-align: center;margin-bottom: 15px;margin-top: 15px;" v-if="stopUpdata">
+                            <!--No more~~~~~-->没有更多了```</p>
                     </div>
                 </div>
             </div>
-             <div class="OperatorRight">
-                 <div v-for="(item,index) in files" :key="item.name" class="imgRef" :class="{'active' : index===files.length-1}" :id="item.name">
-                     <img-sub :files="item" @to-parse="collectBg" @close="closeItem" :index="index"
-                              @openImgSet="openImgSet"></img-sub>
-                 </div>
-                 <div class="OperatorCenter" v-show="files.length<1">
-                     <h4><!--Portrait Cut-out-->图像剪辑</h4>
-                     <p><!--Powerful & Efficient & Free-->强大 & 高效 & 免费</p>
-                     <img src="../../assets/image/img6.png" alt="" class="bigimg">
-                 </div>
-                 <div class="OperatorCenter"  v-show="files.length<1">
-                     <h4><!--Powerful-->强大</h4>
-                     <p><!--Astonishing edge details, qualified for commercial usage-->令人惊叹的边缘细节，可用于商业用途</p>
-                     <img src="../../assets/image/img7.png" alt="">
-                 </div>
-             </div>
-             <div class="ImgLists" v-show="rightImgList.length>1">
-                     <div class="imgs">
-                         <div v-for="(item,index) in rightImgList" :key="index" :class="{'active' : selectImg ===index}" class="cu" @click="goThisImg(index)">
-                             <img :src="item.url" alt="">
-                         </div>
-                     </div>
+            <div class="OperatorRight">
+                <div v-for="(item,index) in files" :key="item.name" class="imgRef"
+                     :class="{'active' : index===files.length-1}" :id="item.name">
+                    <img-sub :files="item" @to-parse="collectBg" @close="closeItem" :index="index"
+                             @openImgSet="openImgSet"></img-sub>
+                </div>
+                <div class="OperatorCenter" v-show="files.length<1">
+                    <h4><!--Portrait Cut-out-->图像剪辑</h4>
+                    <p><!--Powerful & Efficient & Free-->强大 & 高效 & 免费</p>
+                    <img src="../../assets/image/img6.png" alt="" class="bigimg">
+                </div>
+                <div class="OperatorCenter" v-show="files.length<1">
+                    <h4><!--Powerful-->强大</h4>
+                    <p><!--Astonishing edge details, qualified for commercial usage-->令人惊叹的边缘细节，可用于商业用途</p>
+                    <img src="../../assets/image/img7.png" alt="">
+                </div>
+            </div>
+            <div class="ImgLists" v-show="rightImgList.length>1">
+                <div class="imgs">
+                    <div v-for="(item,index) in rightImgList" :key="index" :class="{'active' : selectImg ===index}"
+                         class="cu" @click="goThisImg(index)">
+                        <img :src="item.url" alt="">
+                    </div>
+                </div>
 
-                     <div class="downBtn cu">
-                         <span><!--Download all-->下载全部</span><i class="el-icon-download"></i>
-                         <div class="sizeChoses">
-                             <div class="flex a-i btn">
-                                 <div v-for="(val,index) in color" :key="index" :style="{background:val}" :class="{'active' : classType===index}" @click="classType=index"></div>
-                             </div>
-                             <div class="flex a-i j-b" @click="saveMove(0)">
-                                 <span><!--Download Preview Image (Free)-->下载预览图(免费)</span>
-                             </div>
-                             <div class="flex a-i j-b" @click="saveMove(1)">
-                                 <span><!--Download Full Image-->下载原图比例</span>
-                             </div>
-                         </div>
-                     </div>
-             </div>
+                <div class="downBtn cu">
+                    <span><!--Download all-->下载全部</span><i class="el-icon-download"></i>
+                    <div class="sizeChoses">
+                        <div class="flex a-i btn">
+                            <div v-for="(val,index) in color" :key="index" :style="{background:val}"
+                                 :class="{'active' : classType===index}" @click="classType=index"></div>
+                        </div>
+                        <div class="flex a-i j-b" @click="saveMove(0)">
+                            <span><!--Download Preview Image (Free)-->下载预览图(免费)</span>
+                        </div>
+                        <div class="flex a-i j-b" @click="saveMove(1)">
+                            <span><!--Download Full Image-->下载原图比例</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="content flex" id="content"  v-show="files.length<1">
+        <div class="content flex" id="content" v-show="files.length<1">
             <!--  <div class="leftMune"></div>-->
             <div class="rightBig">
                 <div>
                     <div class="efficient">
                         <h3><!--Efficient-->高效</h3>
-                        <p><!--Bulk Processing & Google Chrome extension & API Integration, time saver for your life-->批量处理 & 谷歌Chrome扩展和 & API集成，为您的生活节省时间</p>
+                        <p><!--Bulk Processing & Google Chrome extension & API Integration, time saver for your life-->
+                            批量处理 & 谷歌Chrome扩展和 & API集成，为您的生活节省时间</p>
                         <img src="static/images/img81.png" alt="">
                         <div class="flex a-i">
                             <div>
@@ -118,14 +131,15 @@
                 <div>
                     <div class="free">
                         <h3><!--Free-->免费</h3>
-                        <p><!--Up to 1000x1000 Pixels free to use WITHOUT any cost, best solution for eCommerce-->高达1000x1000像素，免费使用，是电子商务的最佳解决方案。</p>
+                        <p><!--Up to 1000x1000 Pixels free to use WITHOUT any cost, best solution for eCommerce-->
+                            高达1000x1000像素，免费使用，是电子商务的最佳解决方案。</p>
                         <img src="static/images/img9.png" alt="">
                     </div>
                 </div>
             </div>
         </div>
-<!--        <div class="zhezhao" v-if="showSetImg"></div>-->
-<!--        <img-set-sub v-if="showSetImg" :imgMsg="imgMsg" @closeImgSet="closeImgSet"></img-set-sub>-->
+        <!--        <div class="zhezhao" v-if="showSetImg"></div>-->
+        <!--        <img-set-sub v-if="showSetImg" :imgMsg="imgMsg" @closeImgSet="closeImgSet"></img-set-sub>-->
     </div>
 </template>
 <script>
@@ -144,71 +158,70 @@
     import opacity from '@/assets/opacity.jpg'
     import JSManipulate from '../../utils/jsmanipulate.js'
     import niceScroll from 'jquery.nicescroll';
+
     export default {
         name: 'HelloWorld',
         data() {
             return {
-                rightImgList:[],
-                selectImg:0,
+                rightImgList: [],
+                selectImg: 0,
                 multiple: false,
                 imgMsg: {},
                 showSetImg: false,
                 allbgImg: [],
                 basrUrls: basrUrls(),
-                sizeArr: [
-
-                ],
-                historyList:{},
-                showHistory:false,
+                sizeArr: [],
+                historyList: {},
+                showHistory: false,
                 files: [],
                 timer: '',//上传过度动画
                 percentValue: 0,//上传百份比
                 imgUrl: '',//图片链接
-                page:1,
-                rows:30,
-                color: [`url(${opacity})`, '#ffffff', '#eeeeee', '#5d5d5d',`url(${mohu2})`,`url(${mohu1})`],
-                classType:0,
-                stopUpdata:false,//停止滑动加载
-                Percentile:0,
-                loading:null,
-                LoginStatus:false,//登录状态
-                scrollStop:true
+                page: 1,
+                rows: 30,
+                color: [`url(${opacity})`, '#ffffff', '#eeeeee', '#5d5d5d', `url(${mohu2})`, `url(${mohu1})`],
+                classType: 0,
+                stopUpdata: false,//停止滑动加载
+                Percentile: 0,
+                loading: null,
+                LoginStatus: false,//登录状态
+                scrollStop: true
             }
         },
-        filters:{
-            datafilter(val){
-                let now=new Date();
-                let y=now.getFullYear(),m=now.getMonth()+1, d=now.getDate();
-                if(m<10) m='0'+m;
-                if (d<10) d='0'+d;
-                let arr=val.split('-');
-                if(arr[0]==y && arr[1]==m && arr[2]==d) return '今天';
-                else if(arr[0]==y && arr[1]==m && arr[2]==d-1) return '昨天';
+        filters: {
+            datafilter(val) {
+                let now = new Date();
+                let y = now.getFullYear(), m = now.getMonth() + 1, d = now.getDate();
+                if (m < 10) m = '0' + m;
+                if (d < 10) d = '0' + d;
+                let arr = val.split( '-' );
+                if (arr[0] == y && arr[1] == m && arr[2] == d) return '今天';
+                else if (arr[0] == y && arr[1] == m && arr[2] == d - 1) return '昨天';
                 else return val
             }
         },
         mounted() {
-            $('.ImgLists .imgs').niceScroll({cursorcolor :'#999999'});
+            $( '.ImgLists .imgs' ).niceScroll( {cursorcolor: '#999999'} );
             this.stopPrevent()
             this.getsesImgsSet()
-            window.addEventListener('scroll',this.scrollFun)
+            window.addEventListener( 'scroll', this.scrollFun )
             // $('.hisimgs').niceScroll({cursorcolor :'#999999',boxzoom:true});
         },
         computed: {
-            ...mapGetters([]),
+            ...mapGetters( [] ),
         },
         components: {
             headerSub, imgSub, imgSetSub
         },
         methods: {
-            ...mapActions([]),
-            getLoginStatus(item){//获取登录状态
-               this.LoginStatus=true
+            ...mapActions( [] ),
+            getLoginStatus(item) {//获取登录状态
+                this.LoginStatus = true
             },
-            userlogin(key){
-                let urls = window.location.href.split('#/')[0]
-                let baseUrl = urls.substring(0,urls.lastIndexOf('/'))
-                window.location.href=baseUrl+'/loginOrRegister.html#/?type='+key
+            userlogin(key) {
+                let urls = window.location.href.split( '#/' )[0]
+                let baseUrl = urls.substring( 0, urls.lastIndexOf( '/' ) )
+                window.location.href = baseUrl + '/loginOrRegister.html#/?type=' + key
             },
             closeImgSet(val) {//关闭操作台
                 this.showSetImg = false;
@@ -219,15 +232,15 @@
                 this.showSetImg = true;
             },
             collectBg(obj) {
-                if (obj.color === 'add') this.allbgImg.push(obj);
-                if(!getSecImgs()){
-                    this.sesImgsSet(this.allbgImg);
+                if (obj.color === 'add') this.allbgImg.push( obj );
+                if (!getSecImgs()) {
+                    this.sesImgsSet( this.allbgImg );
                     return
                 }
-                let hasown = JSON.parse(getSecImgs()).some((item)=>{
-                    return item.fileId==obj.fileId
-                });
-                if(!hasown)this.sesImgsSet(this.allbgImg)
+                let hasown = JSON.parse( getSecImgs() ).some( (item) => {
+                    return item.fileId == obj.fileId
+                } );
+                if (!hasown) this.sesImgsSet( this.allbgImg )
                 // console.log(this.allbgImg,"2222222222222222")
                 // console.log(this.allbgImg)
                 // else {
@@ -238,58 +251,58 @@
 
             },
             closeItem(item) {
-                this.files.splice(item.index, 1);
-                this.rightImgList.splice(item.index, 1);
+                this.files.splice( item.index, 1 );
+                this.rightImgList.splice( item.index, 1 );
                 // console.log(this.$refs.imgRef)
-                this.allbgImg.map((val, index) => {
-                    if (val.name === item.name) this.allbgImg.splice(index, 1)
-                })
-                this.sesImgsSet(this.allbgImg)
+                this.allbgImg.map( (val, index) => {
+                    if (val.name === item.name) this.allbgImg.splice( index, 1 )
+                } )
+                this.sesImgsSet( this.allbgImg )
             },
             upLoadimg() {//点击上传
-                if (!getToken())  this.multiple = false;
+                if (!getToken()) this.multiple = false;
                 else this.multiple = true;
                 this.$refs.upImg.value = '';
-                this.$nextTick(() => {
+                this.$nextTick( () => {
                     this.$refs.upImg.click()
-                })
+                } )
             },
             //下载多张抠图
             saveMove(key) {
-                let that=this
+                let that = this
                 this.$message.closeAll()
                 if (this.files.length !== this.allbgImg.length) {
-                    this.$message({type: 'warning', message: '正在处理中，请稍后...'});
+                    this.$message( {type: 'warning', message: '正在处理中，请稍后...'} );
                     return
                 }
-                this.loading=this.$loading({
+                this.loading = this.$loading( {
                     lock: true,
-                    text:'0 已完成',
+                    text: '0 已完成',
                     spinner: 'el-icon-loading',
                     background: 'rgba(0, 0, 0, 0.7)'
-                });
-                let allImgs=JSON.parse(JSON.stringify(this.allbgImg));
-                let arr = allImgs.filter((val, index) => {
+                } );
+                let allImgs = JSON.parse( JSON.stringify( this.allbgImg ) );
+                let arr = allImgs.filter( (val, index) => {
                     return val.img
-                });
+                } );
                 // console.log(arr)
-                if (key === 0) this.StoreDowQrcode(arr);
+                if (key === 0) this.StoreDowQrcode( arr );
                 else {
                     let filedId = [];
-                    arr.map((item, index) => {
-                        filedId.push(item.fileId)
-                    });
-                    getMattedImageMultiple(filedId).then(res => {
+                    arr.map( (item, index) => {
+                        filedId.push( item.fileId )
+                    } );
+                    getMattedImageMultiple( filedId ).then( res => {
                         if (!res.code) {
                             let newArr = res.data;
-                            arr.map((item, index) => {
+                            arr.map( (item, index) => {
                                 item.img = newArr[index]
-                            });
-                            this.StoreDowQrcode(arr)
+                            } );
+                            this.StoreDowQrcode( arr )
                         } else {
                             this.loading.close()
                         }
-                    })
+                    } )
                 }
 
             },
@@ -297,245 +310,255 @@
             //批量下载图片
             StoreDowQrcode(arr, blogTitle = "pictures") {
                 let zip = new JSZip();
-                let imgs = zip.folder(blogTitle);
+                let imgs = zip.folder( blogTitle );
                 let baseList = [];
                 let _this = this;
-                let callback=(objs)=> {
-                    let cans = document.createElement('canvas')
-                    let ctxs = cans.getContext('2d')
+                let callback = (objs) => {
+                    let cans = document.createElement( 'canvas' )
+                    let ctxs = cans.getContext( '2d' )
                     cans.width = objs.bgRemovedImg.width;
                     cans.height = objs.bgRemovedImg.height;
-                    if(this.classType>0 && this.classType<4){
+                    if (this.classType > 0 && this.classType < 4) {
                         ctxs.fillStyle = this.color[this.classType];
-                        ctxs.fillRect(0, 0, cans.width, cans.height)
-                    }else if(this.classType===4 || this.classType===5) ctxs.putImageData(objs.dwonBg, 0, 0);
-                    ctxs.drawImage(objs.bgRemovedImg, 0, 0);
-                    let url = cans.toDataURL("image/png"); // 得到图片的base64编码数据 let url =
-                     baseList.push({name: objs.is, img: url.substring(22)});
-                    _this.Percentile+=1
-                    _this.loading.text=_this.Percentile +'/'+ arr.length +' 已完成'
+                        ctxs.fillRect( 0, 0, cans.width, cans.height )
+                    } else if (this.classType === 4 || this.classType === 5) ctxs.putImageData( objs.dwonBg, 0, 0 );
+                    ctxs.drawImage( objs.bgRemovedImg, 0, 0 );
+                    let url = cans.toDataURL( "image/png" ); // 得到图片的base64编码数据 let url =
+                    baseList.push( {name: objs.is, img: url.substring( 22 )} );
+                    _this.Percentile += 1
+                    _this.loading.text = _this.Percentile + '/' + arr.length + ' 已完成'
                     if (baseList.length === arr.length) {
-                            if (baseList.length > 0) {
-                                _this.loading.text='打包中...'
-                                for (let k = 0; k < baseList.length; k++) {
-                                    imgs.file(baseList[k].name + ".png", baseList[k].img, {
-                                        base64: true
-                                    });
-                                }
-                                zip.generateAsync({type: "blob"}).then(function (content) {
-                                    saveAs(content, blogTitle + ".zip");
-                                    _this.loading.close()
-                                    _this.Percentile=0
-                                });
-                            } else {
-                                _this.$message.error({
-                                    title: "error",
-                                    message: "没有图片可下载"
-                                });
+                        if (baseList.length > 0) {
+                            _this.loading.text = '打包中...'
+                            for (let k = 0; k < baseList.length; k++) {
+                                imgs.file( baseList[k].name + ".png", baseList[k].img, {
+                                    base64: true
+                                } );
                             }
-                         }
+                            zip.generateAsync( {type: "blob"} ).then( function (content) {
+                                saveAs( content, blogTitle + ".zip" );
+                                _this.loading.close()
+                                _this.Percentile = 0
+                            } );
+                        } else {
+                            _this.$message.error( {
+                                title: "error",
+                                message: "没有图片可下载"
+                            } );
+                        }
+                    }
                 }
                 for (let i = 0; i < arr.length; i++) {
-                    this.drawStyleBg(arr[i],this.classType,callback,i)
+                    this.drawStyleBg( arr[i], this.classType, callback, i )
                 }
             },
             copyImgUrl(url) {//粘贴图片链接确定
                 if (!this.imgUrl && !url) {
-                    this.$message({
+                    this.$message( {
                         message: '图片地址不可为空',
                         type: 'warning'
-                    });
+                    } );
                     return
                 }
                 this.toscroll();
-                let name = parseInt(Math.random()*100000000000);
-                this.files.unshift({url: url ? url.url : this.imgUrl, name: name, type: 'copy',fileId:url ? url.fileId : ''})
-                this.imgUrlss({url:  url ? url.url : this.imgUrl, name: name, type: 'copy',fileId:url ? url.fileId : ''})
+                let name = parseInt( Math.random() * 100000000000 );
+                this.files.unshift( {
+                    url: url ? url.url : this.imgUrl,
+                    name: name,
+                    type: 'copy',
+                    fileId: url ? url.fileId : ''
+                } )
+                this.imgUrlss( {
+                    url: url ? url.url : this.imgUrl,
+                    name: name,
+                    type: 'copy',
+                    fileId: url ? url.fileId : ''
+                } )
             },
             changeImg(e) {//图片上传
                 this.toscroll();
                 for (let i = 0; i < this.$refs.upImg.files.length; i++) {
-                        this.files.unshift({
-                            url: this.$refs.upImg.files[i],
-                            name:parseInt(Math.random()*100000000000),
-                            type: 'file'
-                        });
+                    this.files.unshift( {
+                        url: this.$refs.upImg.files[i],
+                        name: parseInt( Math.random() * 100000000000 ),
+                        type: 'file'
+                    } );
                 }
-                this.imgUrlss(this.$refs.upImg.files)
+                this.imgUrlss( this.$refs.upImg.files )
             },
             toscroll() {
                 // let oDiv = this.$refs.contentImg.offsetTop;
-                $('body,html').animate({scrollTop: 0}, 500);
+                $( 'body,html' ).animate( {scrollTop: 0}, 500 );
             },
-            toApi(){
-                window.location.href=this.basrUrls+'/docsify/#/test.md'
+            toApi() {
+                window.location.href = this.basrUrls + '/docsify/#/test.md'
             },
-            imgUrlss (obj){//rightImgList
-                let _self=this
-                let newArr=new Array(obj.length).fill(0);
-                if(obj.type==='copy') this.rightImgList.unshift({url:obj.url,name:obj.name})
-                else{
-                    for(let i = 0; i < obj.length; i++){
+            imgUrlss(obj) {//rightImgList
+                let _self = this
+                let newArr = new Array( obj.length ).fill( 0 );
+                if (obj.type === 'copy') this.rightImgList.unshift( {url: obj.url, name: obj.name} )
+                else {
+                    for (let i = 0; i < obj.length; i++) {
                         let reader = new FileReader();
-                            reader.readAsDataURL(obj[i]);
-                            //监听文件读取结束后事件
-                            reader.onloadend = function (e) {
-                                newArr[i]={url:e.target.result,name:obj[i].name}
-                                let t=newArr.every((item,index)=>{
-                                    return item!==0
-                                })
-                                if(t)_self.rightImgList=[...newArr.reverse(),..._self.rightImgList]
-                                // console.log(_self.allbgImg,"11111111111111111111111")
-                            }
+                        reader.readAsDataURL( obj[i] );
+                        //监听文件读取结束后事件
+                        reader.onloadend = function (e) {
+                            newArr[i] = {url: e.target.result, name: obj[i].name}
+                            let t = newArr.every( (item, index) => {
+                                return item !== 0
+                            } )
+                            if (t) _self.rightImgList = [...newArr.reverse(), ..._self.rightImgList]
+                            // console.log(_self.allbgImg,"11111111111111111111111")
+                        }
                     }
                 }
             },
-            goThisImg(index){
-                let _self=this
-                this.scrollStop=false
-                this.selectImg=index;
-                let dome=document.getElementsByClassName('imgRef');
-                $('body,html').animate({scrollTop: dome[index].offsetTop-75}, 500,()=>{
-                    _self.scrollStop=true
-                });
+            goThisImg(index) {
+                let _self = this
+                this.scrollStop = false
+                this.selectImg = index;
+                let dome = document.getElementsByClassName( 'imgRef' );
+                $( 'body,html' ).animate( {scrollTop: dome[index].offsetTop - 75}, 500, () => {
+                    _self.scrollStop = true
+                } );
                 // setTimeout(()=>{
                 //
                 // },500)
             },
-            openHistory(){
-                this.showHistory=true
-                let data={
-                    page:this.page,
-                    pageSize:this.rows
+            openHistory() {
+                this.showHistory = true
+                let data = {
+                    page: this.page,
+                    pageSize: this.rows
                 }
-                userHistoryList(data).then(res=>{
-                    if(!res.code){
-                        this.historyList=res.data;
-                        let newArr=Object.keys(res.data),num=0
-                        for(let i=0;i<newArr.length;i++){
-                            num+=res.data[newArr[i]].length
+                userHistoryList( data ).then( res => {
+                    if (!res.code) {
+                        this.historyList = res.data;
+                        let newArr = Object.keys( res.data ), num = 0
+                        for (let i = 0; i < newArr.length; i++) {
+                            num += res.data[newArr[i]].length
                         }
-                        if(num<data.pageSize) this.stopUpdata=true
+                        if (num < data.pageSize) this.stopUpdata = true
                     }
-                })
+                } )
             },
-            closeHistory(){
-                this.showHistory=false
+            closeHistory() {
+                this.showHistory = false
             },
-            drawStyleBg(obj,key,callback,i){//批量下载封装
-                let that=this
+            drawStyleBg(obj, key, callback, i) {//批量下载封装
+                let that = this
                 let imgLoaded = false;
                 let originalImgLoaded = false;
                 let img = new Image()
                 img.crossOrigin = '';
-                img.onload = function() {
+                img.onload = function () {
                     imgLoaded = true;
-                   if(imgLoaded && originalImgLoaded){
-                        that.downOthers({oldImg:originalImg,bgImg:img,name:obj.name},key,callback,i)
+                    if (imgLoaded && originalImgLoaded) {
+                        that.downOthers( {oldImg: originalImg, bgImg: img, name: obj.name}, key, callback, i )
                     }
                 }
                 img.src = obj.img;
                 let originalImg = new Image();
                 originalImg.crossOrigin = '';
-                originalImg.onload = function() {
+                originalImg.onload = function () {
                     originalImgLoaded = true;
-                    if(imgLoaded && originalImgLoaded) {
-                        that.downOthers({oldImg:originalImg,bgImg:img,name:obj.name},key,callback,i)
+                    if (imgLoaded && originalImgLoaded) {
+                        that.downOthers( {oldImg: originalImg, bgImg: img, name: obj.name}, key, callback, i )
                     }
                 }
                 originalImg.src = obj.Original;
             },
-            downOthers(imgObjs,index,callback,i){//效果图下载
-                let canvasTemp = document.createElement('canvas');
+            downOthers(imgObjs, index, callback, i) {//效果图下载
+                let canvasTemp = document.createElement( 'canvas' );
                 canvasTemp.width = imgObjs.bgImg.width; //☜
                 canvasTemp.height = imgObjs.bgImg.height;
-                let ctx = canvasTemp.getContext("2d");
-                ctx.drawImage(imgObjs.oldImg, 0, 0,canvasTemp.width,canvasTemp.height);
-                let imgData = ctx.getImageData(0, 0, canvasTemp.width, canvasTemp.height);
+                let ctx = canvasTemp.getContext( "2d" );
+                ctx.drawImage( imgObjs.oldImg, 0, 0, canvasTemp.width, canvasTemp.height );
+                let imgData = ctx.getImageData( 0, 0, canvasTemp.width, canvasTemp.height );
                 let newBg1 = imgData;
-                let newBg4 = ctx.getImageData(0, 0, canvasTemp.width, canvasTemp.height);
-                JSManipulate.blur.filter(newBg1, {amount: 5.0});
-                JSManipulate.grayscale.filter(newBg4);
-                callback({
-                    dwonBg:index===4 ? newBg4 : newBg1,
-                    bgRemovedImg:imgObjs.bgImg,
-                    name:imgObjs.name,
-                    is:i//下载名称
-                })
+                let newBg4 = ctx.getImageData( 0, 0, canvasTemp.width, canvasTemp.height );
+                JSManipulate.blur.filter( newBg1, {amount: 5.0} );
+                JSManipulate.grayscale.filter( newBg4 );
+                callback( {
+                    dwonBg: index === 4 ? newBg4 : newBg1,
+                    bgRemovedImg: imgObjs.bgImg,
+                    name: imgObjs.name,
+                    is: i//下载名称
+                } )
             },
-            getmoveHis(e){
-                let historyList=this.$refs.historyList,scrollTop=e.target.scrollTop
-                if(scrollTop+historyList.offsetHeight>historyList.scrollHeight-20){
-                  if(!this.stopUpdata){
-                      this.rows+=10;
-                      this.openHistory()
-                  }
+            getmoveHis(e) {
+                let historyList = this.$refs.historyList, scrollTop = e.target.scrollTop
+                if (scrollTop + historyList.offsetHeight > historyList.scrollHeight - 20) {
+                    if (!this.stopUpdata) {
+                        this.rows += 10;
+                        this.openHistory()
+                    }
                 }
             },
-            addItem(item){
-                this.copyImgUrl({url:item.originalImage,fileId:item.id})
+            addItem(item) {
+                this.copyImgUrl( {url: item.originalImage, fileId: item.id} )
             },
-            stopPrevent(){//阻止游览器默认打开图片
-                let _self=this
-                document.addEventListener("drop", function (e) {  //拖离
+            stopPrevent() {//阻止游览器默认打开图片
+                let _self = this
+                document.addEventListener( "drop", function (e) {  //拖离
                     e.preventDefault();
-                });
-                document.addEventListener("dragleave", function (e) {  //拖后放
+                } );
+                document.addEventListener( "dragleave", function (e) {  //拖后放
                     e.preventDefault();
-                });
-                document.addEventListener("dragenter", function (e) {  //拖进
+                } );
+                document.addEventListener( "dragenter", function (e) {  //拖进
                     e.preventDefault();
-                });
-                document.addEventListener("dragover", function (e) {  //拖来拖去
+                } );
+                document.addEventListener( "dragover", function (e) {  //拖来拖去
                     e.preventDefault();
-                });
-                document.getElementsByClassName('OperatorRight')[0].addEventListener("drop", function (e) {
+                } );
+                document.getElementsByClassName( 'OperatorRight' )[0].addEventListener( "drop", function (e) {
                     e.preventDefault();
                     let files = e.dataTransfer.files;
-                    if(files.length<1) return;
+                    if (files.length < 1) return;
                     _self.toscroll();
                     for (let i = 0; i < files.length; i++) {
-                            _self.files.unshift({
-                                url: files[i],
-                                name: parseInt(Math.random()*100000000000),
-                                type: 'file'
-                            })
+                        _self.files.unshift( {
+                            url: files[i],
+                            name: parseInt( Math.random() * 100000000000 ),
+                            type: 'file'
+                        } )
                     }
-                    _self.imgUrlss(files)
-                })
+                    _self.imgUrlss( files )
+                } )
             },
-            scrollFun(){
-                if(!this.scrollStop) return;
-                let oDiv=document.getElementsByClassName('imgRef')
+            scrollFun() {
+                if (!this.scrollStop) return;
+                let oDiv = document.getElementsByClassName( 'imgRef' )
                 // let oImg=document.querySelector('.ImgLists .imgs div')
-                if(oDiv.length<2) return;
-                let _self=this
-                Array.prototype.slice.call(oDiv).map((item,index)=>{
-                    let t=item.getBoundingClientRect().top;
-                    if(t>0 && t<100){
-                        _self.selectImg=index;
+                if (oDiv.length < 2) return;
+                let _self = this
+                Array.prototype.slice.call( oDiv ).map( (item, index) => {
+                    let t = item.getBoundingClientRect().top;
+                    if (t > 0 && t < 100) {
+                        _self.selectImg = index;
                         // console.log(document.querySelectorAll('.ImgLists .imgs > div')[index])
-                        let o=document.querySelectorAll('.ImgLists .imgs > div')[index].offsetTop;
+                        let o = document.querySelectorAll( '.ImgLists .imgs > div' )[index].offsetTop;
                         // console.log(document.querySelectorAll('.ImgLists .imgs > div')[index])
-                        $(".ImgLists .imgs").getNiceScroll(0).doScrollTop(o);
+                        $( ".ImgLists .imgs" ).getNiceScroll( 0 ).doScrollTop( o );
                         return
                     }
-                })
+                } )
             },
-            sesImgsSet(files){
-                let arr=[]
-                files.map((item,index)=>{
-                    arr.push({Original:item.Original,fileId:item.fileId})
-                })
-                setSecImgs(JSON.stringify(arr))
+            sesImgsSet(files) {
+                let arr = []
+                files.map( (item, index) => {
+                    arr.push( {Original: item.Original, fileId: item.fileId} )
+                } )
+                setSecImgs( JSON.stringify( arr ) )
             },
-            getsesImgsSet(){
-                if(!getSecImgs())return;
-                let arr=JSON.parse(getSecImgs())
-                if(!arr) return;
-                arr.map((item)=>{
-                    this.copyImgUrl({url:item.Original,fileId:item.fileId})
-                })
+            getsesImgsSet() {
+                if (!getSecImgs()) return;
+                let arr = JSON.parse( getSecImgs() )
+                if (!arr) return;
+                arr.map( (item) => {
+                    this.copyImgUrl( {url: item.Original, fileId: item.fileId} )
+                } )
             }
 
         },
@@ -546,13 +569,16 @@
 <style lang="scss">
     .helloFirst {
         background-color: #f5f5f6;
-        .apps{
+
+        .apps {
             padding-right: 75px;
         }
-        .apps.tactive{
+
+        .apps.tactive {
             padding-right: 85px;
         }
-        .Operator{
+
+        .Operator {
             line-height: 1;
             color: #333;
             width: 244px;
@@ -563,42 +589,50 @@
             left: 0;
             top: 60px;
             z-index: 1001;
-            h6{
+
+            h6 {
                 padding: 27px 0 25px 34px;
                 font-weight: 500;
                 font-size: 14px;
                 color: #666;
             }
+
             .el-button {
                 border-radius: 0;
                 width: 160px;
                 height: 40px;
                 background-color: #e82255;
                 color: #fff;
-                border-color:#e82255 ;
-                margin:0 0 14px 42px;
+                border-color: #e82255;
+                margin: 0 0 14px 42px;
             }
-            .afterbtn{
+
+            .afterbtn {
                 padding: 0 0 0 42px;
-                span{
+
+                span {
                     color: #e82255;
                 }
             }
-            .center{
+
+            .center {
                 margin-top: 24px;
                 padding: 24px 0 27px 34px;
                 border-top: 1px solid #e5e5e5;
                 border-bottom: 1px solid #e5e5e5;
-                .flex img{
+
+                .flex img {
                     margin-right: 6px;
                 }
-                h5{
+
+                h5 {
                     font-weight: 500;
                     font-size: 14px;
                     margin-bottom: 24px;
                     color: #666;
                 }
-                input{
+
+                input {
                     border: none;
                     border-bottom: 1px solid #333;
                     line-height: 40px;
@@ -609,53 +643,66 @@
                     padding-right: 24px;
                     padding-left: 25px;
                 }
+
                 input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-                    color:#333;
+                    color: #333;
                 }
+
                 input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-                    color:#333;
+                    color: #333;
                 }
+
                 input::-moz-placeholder { /* Mozilla Firefox 19+ */
-                    color:#333;
+                    color: #333;
                 }
+
                 input:-ms-input-placeholder { /* Internet Explorer 10-11 */
-                    color:#333;
+                    color: #333;
                 }
-                .flex{
+
+                .flex {
                     margin: 0 0 0 8px;
                 }
             }
-            .bottonLast{
+
+            .bottonLast {
                 padding: 30px 0 30px 34px;
                 font-size: 14px;
                 /*font-weight: 600;*/
                 flex-direction: column;
                 justify-content: space-between;
-                .flex img{
+
+                .flex img {
                     margin-right: 10px;
                 }
-                & > div:first-child{
+
+                & > div:first-child {
                     margin-bottom: 30px;
                 }
-                & > div:nth-child(2){
+
+                & > div:nth-child(2) {
                     /*margin-bottom: 376px;*/
                 }
-                h5{
+
+                h5 {
                     margin-bottom: 24px;
                     font-size: 14px;
                     font-weight: 500;
                     color: #666;
                 }
-                .fixedB{
+
+                .fixedB {
                     position: absolute;
                     left: 34px;
                     bottom: 100px;
-                    a{
+
+                    a {
                         color: #333;
                     }
                 }
             }
-            .historyList{
+
+            .historyList {
                 position: absolute;
                 width: 570px;
                 background-color: #fff;
@@ -664,73 +711,94 @@
                 height: 80%;
                 padding: 24px 34px 0;
                 z-index: 1001;
-                box-shadow: 0 0 3px rgba(0,0,0,.4);
-                .hisimgs{
-                    height:95%;
+                box-shadow: 0 0 3px rgba(0, 0, 0, .4);
+
+                .hisimgs {
+                    height: 95%;
                     overflow-y: auto;
                 }
-                i{
+
+                i {
                     font-size: 20px;
                     position: absolute;
                     top: 8px;
                     right: 8px;
                 }
-                .oneDate{
+
+                .oneDate {
                     margin-bottom: 30px;
                 }
-                .oneDate:nth-last-child(2){
+
+                .oneDate:nth-last-child(2) {
                     margin-bottom: 0;
                 }
-                h4{font-size: 26px;line-height: 1;margin-bottom: 20px;font-weight: 500}
-                .flex{
+
+                h4 {
+                    font-size: 26px;
+                    line-height: 1;
+                    margin-bottom: 20px;
+                    font-weight: 500
+                }
+
+                .flex {
                     flex-wrap: wrap;
-                    & > div{
+
+                    & > div {
                         width: 100px;
                         height: 100px;
                         margin-right: 12px;
                         margin-bottom: 15px;
+
                         img {
                             display: block;
                             width: 100%;
                             height: 100%;
                         }
-                        &:nth-child(5n){
+
+                        &:nth-child(5n) {
                             margin-right: 0;
                         }
                     }
                 }
             }
         }
-        .OperatorRight{
+
+        .OperatorRight {
             margin: 60px 0 0 244px;
             flex: 1;
             padding: 15px 0 0 15px;
-            .imgRef.active{
+
+            .imgRef.active {
                 margin-bottom: 85px;
             }
-            .OperatorCenter{
+
+            .OperatorCenter {
                 /*min-width: 1024px;*/
                 padding: 80px 0 85px 0;
                 text-align: center;
                 margin: 0 auto 20px;
                 background-color: #fff;
-                h4{
+
+                h4 {
                     font-size: 32px;
                     color: #333;
                     margin-bottom: 28px;
                 }
-                p{
+
+                p {
                     font-size: 18px;
                     color: #999999;
                     margin-bottom: 54px;
                 }
-                img{
+
+                img {
                     display: block;
                     margin: 0 auto;
                 }
             }
         }
-        .ImgLists{
+
+        .ImgLists {
             position: fixed;
             right: 25px;
             top: 75px;
@@ -740,27 +808,31 @@
             /*max-height: 70%;*/
             /*overflow-y: auto;*/
             /*overflow-x: hidden;*/
-            .imgs{
-                max-height:450px;
+            .imgs {
+                max-height: 450px;
                 /*overflow-y: auto;*/
                 /*overflow-x: hidden;*/
             }
-            .imgs > div{
+
+            .imgs > div {
                 margin-bottom: 8px;
                 height: 40px;
                 width: 100%;
-                img{
+
+                img {
                     display: block;
                     width: 100%;
                     height: 100%;
                 }
             }
-            .imgs > div.active{
+
+            .imgs > div.active {
                 border: 1px solid #e82255;
-                width:38px;
+                width: 38px;
                 height: 38px;
             }
-            .downBtn{
+
+            .downBtn {
                 line-height: 40px;
                 position: absolute;
                 right: 0;
@@ -768,19 +840,27 @@
                 text-align: center;
                 color: #fff;
                 background-color: #e82255;
-                span{
+
+                span {
                     display: none;
                 }
-                &:hover span{display: inline-block;margin-right: 15px;}
-                &:hover{
+
+                &:hover span {
+                    display: inline-block;
+                    margin-right: 15px;
+                }
+
+                &:hover {
                     width: 160px;
                 }
-                &:hover .sizeChoses{
+
+                &:hover .sizeChoses {
                     display: block;
                 }
             }
         }
     }
+
     .sizeChoses {
         display: none;
         position: absolute;
@@ -799,6 +879,7 @@
         & > div:hover {
             background-color: #f1f1f1;
         }
+
         & > div:first-child:hover {
             background-color: #fff;
         }
@@ -810,69 +891,83 @@
         &:hover {
             display: block;
         }
-        .btn{
+
+        .btn {
             height: 40px;
             padding-bottom: 8px;
             border-bottom: 1px solid #999;
             margin-bottom: 8px;
         }
-        .btn div{
+
+        .btn div {
             background-repeat: no-repeat;
             background-position: center;
             width: 24px;
             height: 24px;
-            border-radius:50%;
+            border-radius: 50%;
             border: 1px solid #999;
             margin-right: 12px;
             background-size: cover;
         }
-        .btn .active{
+
+        .btn .active {
             border-color: #e82255;
         }
     }
-    .el-icon-loading{
+
+    .el-icon-loading {
         font-size: 36px;
     }
-    .el-loading-spinner p.el-loading-text{
+
+    .el-loading-spinner p.el-loading-text {
         font-size: 24px;
     }
-    .content{
+
+    .content {
         padding-bottom: 85px;
     }
-    .content .leftMune{
+
+    .content .leftMune {
         width: 244px;
     }
-    .content .rightBig{
+
+    .content .rightBig {
         margin-left: 244px;
         flex: 1;
         padding-left: 15px;
         padding-right: 75px;
     }
-    .content .rightBig > div{
+
+    .content .rightBig > div {
         background-color: #fff;
     }
-    .content .rightBig .free,.content .rightBig .efficient{
+
+    .content .rightBig .free, .content .rightBig .efficient {
         /*min-width: 1024px;*/
         padding: 85px 0 80px 0;
         text-align: center;
         margin: 0 auto 20px;
         line-height: 1;
     }
-    .content .rightBig h3{
+
+    .content .rightBig h3 {
         font-size: 32px;
         margin-bottom: 28px;
         color: #333;
     }
-    .content .rightBig p{
+
+    .content .rightBig p {
         font-size: 18px;
         color: #999999;
     }
-    .content .efficient img{
+
+    .content .efficient img {
         display: block;
         margin: 122px auto 0;
     }
-    .content .rightBig .efficient div.flex{
-        justify-content:space-between;
+
+    .content .rightBig .efficient div.flex {
+        justify-content: space-between;
         font-size: 18px;
         color: #333;
         line-height: 1;
@@ -881,70 +976,82 @@
         margin: 0 auto;
         margin-top: 28px;
     }
-    .content  .efficient .flex p{
+
+    .content .efficient .flex p {
         color: #333;
     }
-    .content .efficient .flex > div:nth-child(2){
+
+    .content .efficient .flex > div:nth-child(2) {
         /*margin: 0 68px 0 93px;*/
     }
-    .content .efficient .flex p:last-child{
+
+    .content .efficient .flex p:last-child {
         font-size: 14px;
         color: #7a7a7a;
         margin-top: 15px;
     }
-    .content .free img{
+
+    .content .free img {
         display: block;
         margin: 66px auto 0;
     }
-    .content .title{
+
+    .content .title {
         font-size: 34px;
         padding: 90px 0 80px 0;
         text-align: center;
         color: #000;
         font-weight: 500;
     }
-    .content ul li{
+
+    .content ul li {
         font-size: 14px;
         color: #b4b4b4;
         text-align: center;
         width: 225px;
     }
-    .content ul img{
+
+    .content ul img {
         display: block;
         width: 80px;
         height: 80px;
-        margin:0 auto;
+        margin: 0 auto;
         margin-bottom: 26px;
     }
-    .content ul h4{
+
+    .content ul h4 {
         font-size: 20px;
         color: #262626;
         margin-bottom: 24px;
         font-weight: 500;
     }
-    .content ul p{
+
+    .content ul p {
         line-height: 24px;
     }
-    @media screen and (max-width:1500px){
-        .helloFirst .apps{
+
+    @media screen and (max-width: 1500px) {
+        .helloFirst .apps {
             padding-right: 55px;
-            .bigimg{
+
+            .bigimg {
                 max-width: 862px;
             }
         }
-        .helloFirst .ImgLists{
+        .helloFirst .ImgLists {
             right: 10px;
         }
-        .helloFirst .ImgLists{
-            .imgs{
-                max-height:380px;
+        .helloFirst .ImgLists {
+            .imgs {
+                max-height: 380px;
             }
+
             .sizeChoses {
                 bottom: auto;
                 top: -138px;
             }
         }
-        .content .rightBig{
+        .content .rightBig {
             padding-right: 55px;
         }
     }
