@@ -3,7 +3,7 @@
         <div class="margins flex j-b a-i first">
             <ul class="flex">
                 <li><img src="../../assets/image/sureLogo.png" alt="" class="cu" @click="backindex()" style="width: 120px;height: 30px;"></li>
-                <li class="cu" :class="{'red' : urls.indexOf('index')>-1 || urls.indexOf('/#/')>-1}" @click="backindex()">图像剪辑</li><!--智能抠图-->
+                <li class="cu" :class="{'red' : urls.indexOf('index')>-1 || urls.indexOf('/#/')>-1}" @click="backindex()">人物抠图</li><!--智能抠图-->
                 <li class="cu" :class="{'red' : urls.indexOf('product')>-1}" @click="toProduct()">更多产品</li>
                 <li class="cu" :class="{'red' : urls.indexOf('aboutUs')>-1}" @click="toAbout()">关于我们</li><!--会员-->
                 <!--            <li class="cu">登录</li>-->

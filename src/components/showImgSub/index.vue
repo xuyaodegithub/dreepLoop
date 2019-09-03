@@ -7,7 +7,7 @@
             <i class="el-icon-close cu" @click="deleteItem()"></i>
             <div class="flex j-b a-i imgs">
                 <p>原图</p>
-                <p>无格式图片</p>
+                <p>抠图结果</p>
             </div>
             <div class="flex imgs">
                 <div>
@@ -15,7 +15,7 @@
                 </div>
                 <div>
                     <!--                        <img :src="bgOriginal.img" alt="">-->
-                    <div v-if="bgOriginal.status===0" :style="backg" class="activeDiv"><canvas :id="'canvas'+ramdId">当前游览器不支持此功能，换一个试试吧！</canvas></div>
+                    <div v-if="bgOriginal.status===0" :style="backg" class="activeDiv"><canvas :id="'canvas'+ramdId" >当前游览器不支持此功能，换一个试试吧！</canvas></div>
                     <div v-else-if="bgOriginal.status===1" class="errmsg">
                         <i class="el-icon-circle-close"></i>
                         这张图片当前不支持，不能识别前景
@@ -56,10 +56,11 @@
                         <el-button type="primary" round
                                    style="background-color: #e82255;border-color: #e82255;width: 160px;"
                                    icon="el-icon-download"
-                                   @mouseenter.native="showSize=true" @mouseleave.native="choseSize()">
-                            <!--Download-->下载<i class="el-icon-caret-bottom" style="position: absolute;margin-left: 12px"></i>
+                                   :class="{'opacitys' : showSize}"
+                                   @mouseenter.native="showSize=true" @mouseleave.native="choseSize()" @click="save(0,1)">
+                            <!--Download-->下载<i class="el-icon-caret-bottom" style="position: absolute;margin-left: 12px;transition: .3s all;" :class="{'rotates' : showSize}" v-if="imageMsg.previewWidth!==imageMsg.originalWidth && imageMsg.previewHeight!==imageMsg.originalHeight"></i>
                         </el-button>
-                        <div class="sizeChose" v-if="showSize" @mouseenter="showSizeStop=true" @mouseleave="boxLeave()" :class="{'lessTop' : !(imageMsg.previewWidth!==imageMsg.originalWidth && imageMsg.previewHeight!==imageMsg.originalHeight)}">
+                        <div class="sizeChose" v-if="showSize && (imageMsg.previewWidth!==imageMsg.originalWidth && imageMsg.previewHeight!==imageMsg.originalHeight)" @mouseenter="showSizeStop=true" @mouseleave="boxLeave()" :class="{'lessTop' : !(imageMsg.previewWidth!==imageMsg.originalWidth && imageMsg.previewHeight!==imageMsg.originalHeight)}">
                             <div class="flex a-i j-b" @click="save(0)">
                              <span>{{imageMsg.previewWidth + ' X ' + imageMsg.previewHeight}} (免费)</span>
                             </div>
@@ -317,7 +318,8 @@
                 // let name= this.files.type == 'copy' ? this.imgname : this.file.name;
                 // this.$emit('to-parse', {name: name, color: this.colorValue})
             },
-            save(index) {//保存下载
+            save(index,key) {//保存下载
+                if(key && this.imageMsg.previewWidth!==this.imageMsg.originalWidth && this.imageMsg.previewHeight!==this.imageMsg.originalHeight) return;
                 if (index === 0) {
                     let url = this.bgOriginal.img
                     this.downOldImg(url)
@@ -400,7 +402,7 @@
                 setTimeout(() => {
                     if (this.showSizeStop) return
                     _self.showSize = false
-                }, 300)
+                }, 200)
             },
             boxLeave() {
                 this.showSizeStop = false
@@ -437,12 +439,16 @@
                             image.height = _self.canvasinitNum
                         }
                     }
-                    _self.canvas.width=image.width
-                    _self.canvas.height=image.height
-                    _self.canveaContentW = image.width//画到画布上的位置
-                    _self.canveaContentH = image.height
+                    _self.canvas.width=2*image.width
+                    _self.canvas.height=2*image.height
+                    _self.canvas.style.width=image.width+'px'
+                    _self.canvas.style.height=image.height+'px'
+                    _self.canveaContentW = 2*image.width//画到画布上的位置
+                    _self.canveaContentH = 2*image.height
                     _self.canvasText.clearRect(0,0,_self.canvas.width,_self.canvas.height)
+                    // _self.canvasText.scale(0.5,0.5)
                     _self.canvasText.drawImage(image,0,0,_self.canveaContentW,_self.canveaContentH)
+                    // _self.canvasText.setTransform(1, 0, 0, 1, 0, 0);
                 }
             },
             drawStyleBg(originalImgUrl, bgRemovedImgUrl,index,key,callback){
@@ -519,7 +525,9 @@
             showStyleBgCanvas(newBg,bgRemovedImg){
                 this.canvasText.clearRect(0,0,this.canvas.width,this.canvas.height);
                 this.canvasText.putImageData(newBg, 0, 0);
+                // this.canvasText.scale(0.5,0.5);
                 this.canvasText.drawImage(bgRemovedImg, 0, 0,this.canveaContentW,this.canveaContentH);
+                // this.canvasText.setTransform(1, 0, 0, 1, 0, 0);
             },
             downOthers(imgObjs,index,callback){//效果图下载
                 let canvasTemp = document.createElement('canvas');
@@ -579,8 +587,8 @@
             /*max-height: 500px;*/
             text-align: center;
             /*canvas{*/
-            /*    width: 500px;*/
-            /*    height: 500px;*/
+            /*    width: 250px;*/
+            /*    height: 187.5px;*/
             /*}*/
             img {
                 max-width: 500px;
@@ -724,6 +732,12 @@
         text-align: left;
         margin: 25px auto 0;
         position: relative;
+        .opacitys{
+            opacity: .6;
+        }
+        .rotates{
+            transform: rotateZ(180deg);
+        }
         .sizeChose {
             position: absolute;
             margin-top: 10px;
@@ -732,16 +746,16 @@
             border-radius: 10px;
             font-size: 12px;
             line-height: 30px;
-            color: #333;
+            color: #ffffff;
             padding: 10px 0;
-            background-color: #fff;
+            background-color: rgba(0,0,0,.9);
             /*right: 170px;*/
             left: 0;
             top: -95px;
             z-index: 99;
 
             & > div:hover {
-                background-color: #f1f1f1;
+                background-color: #454545;
             }
 
             & > div {

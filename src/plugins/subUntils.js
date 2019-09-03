@@ -2,9 +2,9 @@ import Vue from 'vue'
 import '../assets/public.css';
 import '../element-variables.scss'
 import filters from '../filters/filters'
-import lang from 'element-ui/lib/locale/lang/en'
-import locale from 'element-ui/lib/locale'
-locale.use(lang)
+// import lang from 'element-ui/lib/locale/lang/en'
+// import locale from 'element-ui/lib/locale'
+// locale.use(lang)
 Object.keys(filters).map((val,index)=>{
     Vue.filter(val,filters[val])
     // console.log(val,filters[val])
@@ -25,3 +25,23 @@ Vue.component(DropdownItem.name, DropdownItem);
 Vue.prototype.$message = Message;
 Vue.component(Pagination.name, Pagination);
 Vue.prototype.$loading = Loading.service;
+
+Vue.directive('drag',(event)=>{
+    let oDiv=event;
+    oDiv.onmousedown=(ev)=>{
+        if( ev.target.className!=='content' ) return;
+        let x=ev.clientX-oDiv.offsetLeft;
+        let y=ev.clientY-oDiv.offsetTop;
+        document.onmousemove=(e)=>{
+            let l=e.clientX-x;
+            let t=e.clientY-y;
+            oDiv.style.left=l+'px';
+            oDiv.style.top=t+'px';
+        }
+        document.onmouseup=(e)=>{
+            document.onmousemove=null;
+            document.onmouseup=null;
+        }
+    }
+
+})

@@ -10,7 +10,7 @@
                 <p class="afterbtn" v-if="!LoginStatus"><span class="cu" @click="userlogin(0)">登录</span>
                     <!--for batch upload-->后批量上传</p>
                 <div class="center">
-                    <h5>Web images</h5>
+                    <h5>Web 图片</h5>
                     <div style="position: relative;">
                         <img src="../../assets/image/inputImg.png" alt=""
                              style="position: absolute;left: 8px;top: 12px;">
@@ -19,10 +19,10 @@
                         <img src="../../assets/image/img5.png" alt="" style="margin-left:-14px;" class="cu"
                              @click="copyImgUrl()">
                     </div>
-                    <div class="flex a-i cu">
-                        <img src="../../assets/image/img1.png" alt="">
-                        <p>Chrome <!--extension-->插件</p>
-                    </div>
+<!--                    <div class="flex a-i cu">-->
+<!--                        <img src="../../assets/image/img1.png" alt="">-->
+<!--                        <p>Chrome &lt;!&ndash;extension&ndash;&gt;插件</p>-->
+<!--                    </div>-->
                 </div>
                 <div class="bottonLast">
                     <div class="flex a-i cu" @click="toApi()">
@@ -61,21 +61,11 @@
                     </div>
                 </div>
             </div>
-            <div class="OperatorRight">
+            <div class="OperatorRight drops">
                 <div v-for="(item,index) in files" :key="item.name" class="imgRef"
                      :class="{'active' : index===files.length-1}" :id="item.name">
                     <img-sub :files="item" @to-parse="collectBg" @close="closeItem" :index="index"
                              @openImgSet="openImgSet"></img-sub>
-                </div>
-                <div class="OperatorCenter" v-show="files.length<1">
-                    <h4><!--Portrait Cut-out-->图像剪辑</h4>
-                    <p><!--Powerful & Efficient & Free-->强大 & 高效 & 免费</p>
-                    <img src="../../assets/image/img6.png" alt="" class="bigimg">
-                </div>
-                <div class="OperatorCenter" v-show="files.length<1">
-                    <h4><!--Powerful-->强大</h4>
-                    <p><!--Astonishing edge details, qualified for commercial usage-->令人惊叹的边缘细节，可用于商业用途</p>
-                    <img src="../../assets/image/img7.png" alt="">
                 </div>
             </div>
             <div class="ImgLists" v-show="rightImgList.length>1">
@@ -103,43 +93,11 @@
                 </div>
             </div>
         </div>
-        <div class="content flex" id="content" v-show="files.length<1">
-            <!--  <div class="leftMune"></div>-->
-            <div class="rightBig">
-                <div>
-                    <div class="efficient">
-                        <h3><!--Efficient-->高效</h3>
-                        <p><!--Bulk Processing & Google Chrome extension & API Integration, time saver for your life-->
-                            批量处理 & 谷歌Chrome扩展和 & API集成，为您的生活节省时间</p>
-                        <img src="static/images/img81.png" alt="">
-                        <div class="flex a-i">
-                            <div>
-                                <p><!--Batch upload-->批量上传</p>
-                                <p><!--Process multiple images in parallel-->并行处理多个图像</p>
-                            </div>
-                            <div>
-                                <p>Chrome <!--extension-->插件</p>
-                                <p><!--Embedded in the web browser-->嵌入到Web浏览器中</p>
-                            </div>
-                            <div>
-                                <p>API</p>
-                                <p><!--Seamless integration with your system-->与系统无缝集成</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="free">
-                        <h3><!--Free-->免费</h3>
-                        <p><!--Up to 1000x1000 Pixels free to use WITHOUT any cost, best solution for eCommerce-->
-                            高达1000x1000像素，免费使用，是电子商务的最佳解决方案。</p>
-                        <img src="static/images/img9.png" alt="">
-                    </div>
-                </div>
-            </div>
+                <div class="zhezhao" v-if="showSetImg"></div>
+        <div >
+            <img-set-sub v-if="showSetImg" :imgMsg="imgMsg" @closeImgSet="closeImgSet"></img-set-sub>
         </div>
-        <!--        <div class="zhezhao" v-if="showSetImg"></div>-->
-        <!--        <img-set-sub v-if="showSetImg" :imgMsg="imgMsg" @closeImgSet="closeImgSet"></img-set-sub>-->
+
     </div>
 </template>
 <script>
@@ -200,6 +158,15 @@
                 else return val
             }
         },
+        watch:{
+            files: {
+                handler(newName, oldName) {
+                    if (newName.length>0) setShow(0)
+                    else setShow(1)
+                 },
+                immediate: true,
+                }
+        },
         mounted() {
             $( '.ImgLists .imgs' ).niceScroll( {cursorcolor: '#999999'} );
             this.stopPrevent()
@@ -219,8 +186,8 @@
                 this.LoginStatus = true
             },
             userlogin(key) {
-                let urls = window.location.href.split( '#/' )[0]
-                let baseUrl = urls.substring( 0, urls.lastIndexOf( '/' ) )
+                let urls = window.location.href.split( '#/' )[0];
+                let baseUrl = urls.substring( 0, urls.lastIndexOf( '/' ) );
                 window.location.href = baseUrl + '/loginOrRegister.html#/?type=' + key
             },
             closeImgSet(val) {//关闭操作台
@@ -487,7 +454,7 @@
                 } )
             },
             getmoveHis(e) {
-                let historyList = this.$refs.historyList, scrollTop = e.target.scrollTop
+                let historyList = this.$refs.historyList, scrollTop = e.target.scrollTop;
                 if (scrollTop + historyList.offsetHeight > historyList.scrollHeight - 20) {
                     if (!this.stopUpdata) {
                         this.rows += 10;
@@ -512,20 +479,28 @@
                 document.addEventListener( "dragover", function (e) {  //拖来拖去
                     e.preventDefault();
                 } );
-                document.getElementsByClassName( 'OperatorRight' )[0].addEventListener( "drop", function (e) {
-                    e.preventDefault();
-                    let files = e.dataTransfer.files;
-                    if (files.length < 1) return;
-                    _self.toscroll();
-                    for (let i = 0; i < files.length; i++) {
-                        _self.files.unshift( {
-                            url: files[i],
-                            name: parseInt( Math.random() * 100000000000 ),
-                            type: 'file'
-                        } )
-                    }
-                    _self.imgUrlss( files )
-                } )
+                let oDrops=document.getElementsByClassName('drops');
+                for(let i=0;i<oDrops.length;i++){
+                    oDrops[i].addEventListener("drop", function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        // e.cancelable=true
+                        let files = e.dataTransfer.files;
+                        if(files.length<1  || (!getToken() && files.length>1)) {
+                            _self.$message({type:'error',message:'登录后可批量上传'})
+                            return
+                        }
+                        _self.toscroll();
+                        for (let i = 0; i < files.length; i++) {
+                            _self.files.unshift({
+                                url: files[i],
+                                name: parseInt(Math.random()*100000000000),
+                                type: 'file'
+                            })
+                        }
+                        _self.imgUrlss(files)
+                    })
+                }
             },
             scrollFun() {
                 if (!this.scrollStop) return;
@@ -771,31 +746,6 @@
             .imgRef.active {
                 margin-bottom: 85px;
             }
-
-            .OperatorCenter {
-                /*min-width: 1024px;*/
-                padding: 80px 0 85px 0;
-                text-align: center;
-                margin: 0 auto 20px;
-                background-color: #fff;
-
-                h4 {
-                    font-size: 32px;
-                    color: #333;
-                    margin-bottom: 28px;
-                }
-
-                p {
-                    font-size: 18px;
-                    color: #999999;
-                    margin-bottom: 54px;
-                }
-
-                img {
-                    display: block;
-                    margin: 0 auto;
-                }
-            }
         }
 
         .ImgLists {
@@ -923,120 +873,115 @@
         font-size: 24px;
     }
 
-    .content {
-        padding-bottom: 85px;
-    }
+    /*.content {*/
+    /*    padding-bottom: 85px;*/
+    /*}*/
 
-    .content .leftMune {
-        width: 244px;
-    }
+    /*.content .leftMune {*/
+    /*    width: 244px;*/
+    /*}*/
 
-    .content .rightBig {
-        margin-left: 244px;
-        flex: 1;
-        padding-left: 15px;
-        padding-right: 75px;
-    }
+    /*.content .rightBig {*/
+    /*    margin-left: 244px;*/
+    /*    flex: 1;*/
+    /*    padding-left: 15px;*/
+    /*    padding-right: 75px;*/
+    /*    .OperatorCenter {*/
+    /*        !*min-width: 1024px;*!*/
+    /*        padding: 80px 0 85px 0;*/
+    /*        text-align: center;*/
+    /*        margin: 0 auto 20px;*/
+    /*        background-color: #fff;*/
 
-    .content .rightBig > div {
-        background-color: #fff;
-    }
+    /*        h4 {*/
+    /*            font-size: 32px;*/
+    /*            color: #333;*/
+    /*            margin-bottom: 28px;*/
+    /*        }*/
 
-    .content .rightBig .free, .content .rightBig .efficient {
-        /*min-width: 1024px;*/
-        padding: 85px 0 80px 0;
-        text-align: center;
-        margin: 0 auto 20px;
-        line-height: 1;
-    }
+    /*        p {*/
+    /*            font-size: 18px;*/
+    /*            color: #999999;*/
+    /*            margin-bottom: 54px;*/
+    /*        }*/
 
-    .content .rightBig h3 {
-        font-size: 32px;
-        margin-bottom: 28px;
-        color: #333;
-    }
+    /*        img {*/
+    /*            display: block;*/
+    /*            margin: 0 auto;*/
+    /*        }*/
+    /*    }*/
+    /*}*/
 
-    .content .rightBig p {
-        font-size: 18px;
-        color: #999999;
-    }
+    /*.content .rightBig > div {*/
+    /*    background-color: #fff;*/
+    /*}*/
 
-    .content .efficient img {
-        display: block;
-        margin: 122px auto 0;
-    }
+    /*.content .rightBig .free, .content .rightBig .efficient {*/
+    /*    !*min-width: 1024px;*!*/
+    /*    padding: 85px 0 80px 0;*/
+    /*    text-align: center;*/
+    /*    margin: 0 auto 20px;*/
+    /*    line-height: 1;*/
+    /*}*/
 
-    .content .rightBig .efficient div.flex {
-        justify-content: space-between;
-        font-size: 18px;
-        color: #333;
-        line-height: 1;
-        width: 706px;
-        padding: 0 60px;
-        margin: 0 auto;
-        margin-top: 28px;
-    }
+    /*.content .rightBig h3 {*/
+    /*    font-size: 32px;*/
+    /*    margin-bottom: 28px;*/
+    /*    color: #333;*/
+    /*}*/
 
-    .content .efficient .flex p {
-        color: #333;
-    }
+    /*.content .rightBig p {*/
+    /*    font-size: 18px;*/
+    /*    color: #999999;*/
+    /*}*/
 
-    .content .efficient .flex > div:nth-child(2) {
-        /*margin: 0 68px 0 93px;*/
-    }
+    /*.content .efficient img {*/
+    /*    display: block;*/
+    /*    margin: 122px auto 0;*/
+    /*}*/
 
-    .content .efficient .flex p:last-child {
-        font-size: 14px;
-        color: #7a7a7a;
-        margin-top: 15px;
-    }
+    /*.content .rightBig .efficient div.flexs {*/
+    /*    text-align: left;*/
+    /*    !*justify-content: space-between;*!*/
+    /*    font-size: 18px;*/
+    /*    color: #333;*/
+    /*    line-height: 1;*/
+    /*    width: 706px;*/
+    /*    padding: 0 60px;*/
+    /*    margin: 0 auto;*/
+    /*    margin-top: 28px;*/
+    /*}*/
 
-    .content .free img {
-        display: block;
-        margin: 66px auto 0;
-    }
+    /*.content .efficient .flexs p {*/
+    /*    color: #333;*/
+    /*}*/
 
-    .content .title {
-        font-size: 34px;
-        padding: 90px 0 80px 0;
-        text-align: center;
-        color: #000;
-        font-weight: 500;
-    }
+    /*.content .efficient .flexs > div{*/
+    /*    display: inline-block;*/
+    /*    text-align: center;*/
+    /*    !*margin: 0 68px 0 93px;*!*/
+    /*}*/
+    /*.content .efficient .flexs > div:nth-child(2){*/
+    /* margin-left: 178px;*/
+    /*}*/
+    /*.content .efficient .flexs > div:nth-child(3){*/
+    /*    margin-left: 184px;*/
+    /*}*/
 
-    .content ul li {
-        font-size: 14px;
-        color: #b4b4b4;
-        text-align: center;
-        width: 225px;
-    }
+    /*.content .efficient .flexs p:last-child {*/
+    /*    font-size: 14px;*/
+    /*    color: #7a7a7a;*/
+    /*    margin-top: 15px;*/
+    /*}*/
 
-    .content ul img {
-        display: block;
-        width: 80px;
-        height: 80px;
-        margin: 0 auto;
-        margin-bottom: 26px;
-    }
-
-    .content ul h4 {
-        font-size: 20px;
-        color: #262626;
-        margin-bottom: 24px;
-        font-weight: 500;
-    }
-
-    .content ul p {
-        line-height: 24px;
-    }
+    /*.content .free img {*/
+    /*    display: block;*/
+    /*    margin: 66px auto 0;*/
+    /*}*/
 
     @media screen and (max-width: 1500px) {
         .helloFirst .apps {
             padding-right: 55px;
-
-            .bigimg {
-                max-width: 862px;
-            }
         }
         .helloFirst .ImgLists {
             right: 10px;
@@ -1053,6 +998,9 @@
         }
         .content .rightBig {
             padding-right: 55px;
+            .bigimg {
+            max-width: 862px;
+        }
         }
     }
 </style>
