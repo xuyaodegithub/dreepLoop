@@ -1,3 +1,6 @@
+/**
+ * Created by Yan on 2019-06-01
+ **/
 import https from './request'
 /**
  * 上传图片

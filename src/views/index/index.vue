@@ -486,6 +486,7 @@
                         e.stopPropagation();
                         // e.cancelable=true
                         let files = e.dataTransfer.files;
+                        // console.log(files)
                         if(files.length<1  || (!getToken() && files.length>1)) {
                             _self.$message({type:'error',message:'登录后可批量上传'})
                             return
@@ -522,8 +523,11 @@
             },
             sesImgsSet(files) {
                 let arr = []
+                // console.log(this.allbgImg)
                 files.map( (item, index) => {
-                    arr.push( {Original: item.Original, fileId: item.fileId} )
+                    if(!item.noSave){
+                        arr.push( {Original: item.Original, fileId: item.fileId} )
+                    }
                 } )
                 setSecImgs( JSON.stringify( arr ) )
             },

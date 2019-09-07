@@ -179,7 +179,7 @@
                             }
                         } else {
                             clearInterval(this.timer)
-                            this.$emit('to-parse', {id: this.index, img: '', color: 'add', name:this.files.type === 'copy' ? this.imgname : this.files.name, fileId:this.fileId,Original:this.Original})
+                            this.$emit('to-parse', {id: this.index, img: '', color: 'add', name:this.files.type === 'copy' ? this.imgname : this.files.name, fileId:this.fileId,Original:this.Original,noSave:true})
                             this.bgOriginal = {name: this.imgname, img: '', status: 1, fileId:this.fileId}
                         }
                     })
@@ -239,7 +239,7 @@
                                     status: 1,
                                     fileId:_self.fileId
                                 }
-                                _self.$emit('to-parse', {id: _self.index, img: '', color: 'add', name: _self.files.name, fileId:_self.fileId,Original:_self.Original})
+                                _self.$emit('to-parse', {id: _self.index, img: '', color: 'add', name: _self.files.name, fileId:_self.fileId,Original:_self.Original,noSave:true})
                                 _self.bgOriginal = obj
                             }
                         }).catch(err => {
@@ -289,7 +289,7 @@
                             status: 1,
                             fileId:this.fileId
                         }
-                        this.$emit('to-parse', {id: this.index, img: '', color: 'add', name: obj.name, fileId:this.fileId, Original:this.Original})
+                        this.$emit('to-parse', {id: this.index, img: '', color: 'add', name: obj.name, fileId:this.fileId, Original:this.Original,noSave:true})
                         this.bgOriginal = obj
                     }
                 }).catch(err=>{
