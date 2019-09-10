@@ -33,8 +33,14 @@
                         <img src="../../assets/image/img2.png" alt="">
                         <span><!--History-->历史记录</span>
                     </div>
-                    <div class=fixedB>
+                    <div class="fixedB">
                         <h5><!--Contact us-->联系我们</h5>
+                        <div class="flex a-i cu">
+                            <img src="../../assets/image/wx.png" alt="">
+                            <p>roymind</p>
+                            <img src="../../assets/image/ewm.png" alt="" style="margin-left: 20px;margin-right: 0;">
+                            <img src="../../assets/image/wxl.png" alt="" class="noC">
+                        </div>
                         <div class="flex a-i cu">
                             <img src="../../assets/image/img3.png" alt="">
                             <p><a href="mailto:pikachu@picup.ai">pikachu@picup.ai</a></p>
@@ -674,7 +680,17 @@
                     position: absolute;
                     left: 34px;
                     bottom: 100px;
-
+                    .flex{
+                        position: relative;
+                        margin-bottom: 15px;
+                        &:hover .noC{display: block;}
+                        .noC{
+                            position: absolute;
+                            bottom: 0;
+                            right: -116px;
+                            display: none;
+                        }
+                    }
                     a {
                         color: #333;
                     }

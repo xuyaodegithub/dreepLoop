@@ -45,7 +45,7 @@ instance.interceptors.response.use(function (response) {//为自定义axios设�
   if (!navigator.onLine) {
     Message({//网络异常，请查看你的网络状态
       type:'warning',
-      message:'Network exception, please check your network status'
+      message:'网络异常，请查看你的网络状态'
     })
     return 'networkdisconnect';
   }
@@ -54,7 +54,7 @@ instance.interceptors.response.use(function (response) {//为自定义axios设�
     // return axios.request(originalRequest) // 再重复请求一次
     Message({//
       type:'warning',
-      message:'The network is busy. Please try again later.'
+      message:'网络超时，请重新尝试'
     })
     return 'timeout';
   }
