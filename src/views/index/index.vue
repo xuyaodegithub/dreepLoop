@@ -7,8 +7,8 @@
             <div class="Operator">
                 <h6><!--Local images-->本地图像</h6>
                 <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()"><!--Upload-->上传</el-button>
-                <p class="afterbtn" v-if="!LoginStatus"><span class="cu" @click="userlogin(0)">登录</span>
-                    <!--for batch upload-->后批量上传</p>
+<!--                <p class="afterbtn" v-if="!LoginStatus"><span class="cu" @click="userlogin(0)">登录</span>-->
+<!--                    &lt;!&ndash;for batch upload&ndash;&gt;后批量上传</p>-->
                 <div class="center">
                     <h5>Web 图片</h5>
                     <div style="position: relative;">
