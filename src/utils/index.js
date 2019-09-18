@@ -19,6 +19,14 @@ export const myBrowser=()=>{//判断浏览器类型
     if (userAgent.indexOf("QQBrowser") > -1) return "QQ"; //判断是否QQ浏览器
     else return 'IE'//不认识一律ie处理
 }
+export const BrowserInfo = {//目前主要支持 安卓 & 苹果 & ipad & 微信 & 支付宝 & 是否是手机端。
+    isAndroid: Boolean(navigator.userAgent.match(/android/ig)),
+    isIphone: Boolean(navigator.userAgent.match(/iphone|ipod/ig)),
+    isIpad: Boolean(navigator.userAgent.match(/ipad/ig)),
+    isWeixin: Boolean(navigator.userAgent.match(/MicroMessenger/ig)),
+    isAli: Boolean(navigator.userAgent.match(/AlipayClient/ig)),
+    isPhone: Boolean(/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent))
+}
 //获取某一区间随机数
 export const getrandom=(min, max)=> {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -95,20 +103,44 @@ export const overTime=(val,num) =>{
     if (hours < 10) hours = '0' + hours
     if (mint < 10) mint = '0' + mint
     if (sec < 10) sec = '0' + sec
-    if ((this.data.productType == 4 && num == 1) || (this.data.productType == 4 && num == 5)){
         return {
             day:day,
             hoursD: hoursD,
             mint: mint,
             sec: sec
         }
-    }else{
-        return {
-            hours: hours,
-            mint: mint,
-            sec: sec
+}
+//canvas画文本自动换行原型方法
+export const setCanvasText=()=>{
+    CanvasRenderingContext2D.prototype.wrapText = function (text, x, y, maxWidth, lineHeight) {
+        if (typeof text != 'string' || typeof x != 'number' || typeof y != 'number') {
+            return;
         }
-    }
+        var context = this;
+        var canvas = context.canvas;
+        if (typeof maxWidth == 'undefined') {
+            maxWidth = (canvas && canvas.width) || 300;
+        }
+        if (typeof lineHeight == 'undefined') {
+            lineHeight = (canvas && parseInt(window.getComputedStyle(canvas).lineHeight)) || parseInt(window.getComputedStyle(document.body).lineHeight);
+        }
+        // 字符分隔为数组
+        var arrText = text.split('');
+        var line = '';
+        for (var n = 0; n < arrText.length; n++) {
+            var testLine = line + arrText[n];
+            var metrics = context.measureText(testLine);
+            var testWidth = metrics.width;
+            if (testWidth > maxWidth && n > 0) {
+                context.fillText(line, x, y);
+                line = arrText[n];
+                y += lineHeight;
+            } else {
+                line = testLine;
+            }
+        }
+        context.fillText(line, x, y);
+    };
 }
 //判断类型
 export const JudgmentType=(val)=>{
