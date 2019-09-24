@@ -1,5 +1,17 @@
 const TokenKey = 'user_Token';
-const imgsKey='secImgs'
+const imgsKey='secImgs';
+const userAccount='userAccount';
+
+export const getAccount=()=>{
+  return JSON.parse(window.localStorage.getItem(userAccount))
+}
+export const setAccount=(data)=>{
+  console.log(userAccount)
+  return window.localStorage.setItem(userAccount,JSON.stringify(data))
+}
+export const reAccount=()=>{
+  return window.localStorage.removeItem(userAccount)
+}
 
 export function getToken() {
   // return window.localStorage.getItem(TokenKey)

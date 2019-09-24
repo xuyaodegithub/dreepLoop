@@ -11,16 +11,16 @@ module.exports = {
     // indexPath:'',//指定生成的 index.html 的输出路径 (相对于 outputDir)。也可以是一个绝对路径。
     // productionSourceMap:'',//如果你不需要生产环境的 source map，可以将其设置为 false 以加速生产环境构建。
     // filenameHashing:'',//默认情况下，生成的静态资源在它们的文件名中包含了 hash 以便更好的控制缓存。然而，这也要求 index 的 HTML 是被 Vue CLI 自动生成的。如果你无法使用 Vue CLI 生成的 index HTML，你可以通过将这个选项设为 false 来关闭文件名哈希
-    // css: {//有的时候你想要向 webpack 的预处理器 loader 传递选项。你可以使用 vue.config.js 中的 css.loaderOptions 选项。比如你可以这样向所有 Sass 样式传入共享的全局变量：
-    //     loaderOptions: {
-    //         // 给 sass-loader 传递选项
-    //         sass: {
-    //             // @/ 是 src/ 的别名
-    //             // 所以这里假设你有 `src/variables.scss` 这个文件
-    //             // data: `@import "~@/variables.scss";`
-    //         }
-    //     }
-    // },
+    css: {//有的时候你想要向 webpack 的预处理器 loader 传递选项。你可以使用 vue.config.js 中的 css.loaderOptions 选项。比如你可以这样向所有 Sass 样式传入共享的全局变量：
+        loaderOptions: {
+            // 给 sass-loader 传递选项
+            sass: {
+                // @/ 是 src/ 的别名
+                // 所以这里假设你有 `src/variables.scss` 这个文件
+                data: `@import "~@/style/initscss.scss";`
+            }
+        }
+    },
 
     devServer: {//代理
         port: process.env.PORT ? process.env.PORT : 8888,//端口号
@@ -58,6 +58,13 @@ module.exports = {
             template:'public/loginOrRegister.html',
             filename: 'loginOrRegister.html',
             title: '登录',
+            // chunks: ['chunk-vendors', 'chunk-common', 'loginOrRegister']
+        },
+        register:{
+            entry: 'src/views/register/index.js',
+            template:'public/register.html',
+            filename: 'register.html',
+            title: '注册',
             // chunks: ['chunk-vendors', 'chunk-common', 'loginOrRegister']
         },
         userCenter:{

@@ -13,13 +13,13 @@
                 <div v-if="!loginAfter">
                     <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">定价</span>
 <!--                    <span @click="userlogin(1)">Sign In</span>&lt;!&ndash;登录&ndash;&gt;-->
-<!--                    <span @click="userlogin(0)" class="active">登录/注册</span>&lt;!&ndash;注册&ndash;&gt;-->
+                    <span @click="userlogin(0)" class="active">登录/注册</span><!--注册-->
                 </div>
                 <div class="cu" v-else>
                     <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">定价</span>
                     <el-dropdown placement="bottom-end" @command="handleCommand">
                       <span class="el-dropdown-link" @click="toMyCount()">
-                       {{userInfo.email}}
+                       {{userInfo.mobile}}
                       </span>
                       <el-dropdown-menu slot="dropdown">
                          <el-dropdown-item command="1">我的账户</el-dropdown-item>
@@ -73,8 +73,8 @@
                 if(!getToken()) return;
                 getUserInfo().then(res=>{
                     if(!res.code){
-                        this.userInfo=res.data
-                        this.loginAfter=true
+                        this.userInfo=res.data;
+                        this.loginAfter=true;
                         this.$emit('to-parses',res.data)
                     }else{
                         this.loginAfter=false

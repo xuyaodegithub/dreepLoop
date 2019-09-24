@@ -1,7 +1,7 @@
 <template>
     <div class="Subscribe">
         <h3><!--Account Setting-->账户设置</h3>
-        <h4><!--email-->邮箱：{{userInfo.email}}</h4>
+        <h4><!--email-->手机号：{{userInfo.mobile}}</h4>
 <!--        <p>密码：123456</p>-->
         <div class="btn">
             <el-button type="primary" round @click="changePass()"><!--Change password-->修改密码</el-button>

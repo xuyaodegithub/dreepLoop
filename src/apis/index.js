@@ -50,16 +50,28 @@ export const usercheckEmail=(data)=>{
  return https.get('/user/checkEmail',data)
 }
 /**
- * 注册
+ * 手机号注册
  **/
 export const userRegister=(data)=>{
- return https.get('/user/registerByEmail',data)
+ return https.get('/user/registerByMobile',data)
+}
+/**
+ * 发送验证码
+ **/
+export const sendCode=(data)=>{
+ return https.get('/user/sendSms',data)
+}
+/**
+ * 手机号快速登录
+ **/
+export const loginByMobile=(data)=>{
+ return https.get('/user/quickLoginByMobile',data)
 }
 /**
  * 用户登录
  **/
 export const userLogin=(data)=>{
- return https.get('/user/loginByEmail',data)
+ return https.get('/user/login',data)
 }
 /**
  * 修改密码

@@ -2,114 +2,31 @@
     <div class="vip">
         <header-sub></header-sub>
         <div class="section margin">
-            <h3>获取全分辨率图像</h3><!--获取全分辨率图像-->
-            <p>1 图像 = 1 能量</p><!--1图像=1能量-->
+            <h3>获取高分辨率图像</h3><!--获取全分辨率图像-->
+            <p>1图像消耗1次</p><!--1图像=1能量-->
             <div class="flex a-i">
-                <div class="left">
-                    <div class="top">推荐个人使用和评估</div><!--推荐个人使用和评估-->
-                    <div class="title">自由账户</div><!--自由账户-->
-                    <div class="price yi"></div>
-                    <div class="five0">50次免费预览</div><!--50次免费预览-->
-                    <p>每月通过API和应用程序</p><!--每月通过API和应用程序-->
-                    <div class="share">推荐朋友可获得能量</div><!--推荐朋友可获得能量-->
-                    <el-button type="primary" round @click="userRegest()">免费注册</el-button><!--免费注册-->
-                </div>
-<!--                <div class="center">-->
-<!--                    <div class="top">无风险!可随时降级、升级和取消</div>-->
-<!--                    <div class="title">订阅计划</div>-->
-<!--                    <div class="price"><span>￥{{selectRadio | Calculation}}</span>/图像</div>-->
-<!--                    <el-radio-group v-model="radio"  @change="changeRadio">-->
-<!--                        <el-radio :label="item.planId" v-for="(item,index) in choseList" :key="index">-->
-<!--                            <span class="clear">-->
-<!--                                <span>{{item.creditsPerMonth}}能量/月</span>-->
-<!--                                <span>￥{{item.price}}</span>-->
-<!--                                <span>￥{{item | Calculation}}/图像</span>-->
-<!--                            </span>-->
-<!--                        </el-radio>-->
-<!--&lt;!&ndash;                        <el-radio :label="99">企业-联系我们</el-radio>&ndash;&gt;-->
-<!--                    </el-radio-group>-->
-<!--                    <el-button type="primary" round>现在订阅</el-button>-->
-<!--                </div>-->
                 <div class="right">
-<!--                    <div class="top">随时可用的能量，两年内有效</div>-->
-<!--                    <div class="title">随时可用</div>-->
-                     <div class="top">无风险!可随时降级、升级和取消</div><!--无风险!可随时降级、升级和取消-->
-                     <div class="title">订阅计划</div><!--订阅计划-->
-                    <div class="price"><span>${{selectRadio2 | Calculation}}</span>/图像</div><!--图像-->
+                     <div class="title">充值账户</div><!--订阅计划-->
+                    <div class="price"><span>￥{{selectRadio2 | Calculation}}</span>/次</div><!--图像-->
+                    <div class="raidos">
                     <el-radio-group v-model="radio2" @change="changeRadio2">
                         <el-radio :label="item.planId" v-for="(item,index) in choseList" :key="index">
                             <span class="clear">
-                                <span>{{item.creditsPerMonth}}能量/月</span><!--能量/月-->
-                                <span>${{item.price}}</span>
-                                <span>${{item | Calculation}}/图像</span>
+                                <span>{{item.creditsPerMonth}}次</span><!--能量/月-->
+                                <span>￥{{item.price}}</span>
+                                <span>￥{{item | Calculation}}/次</span>
                             </span>
                         </el-radio>
 <!--                        <el-radio :label="99">企业-联系我们</el-radio>-->
                     </el-radio-group>
+                    </div>
                     <el-button type="primary" round @click="dialogVisible = true">立即购买</el-button><!--立即购买-->
+                    <div class="lasts">
+                        注册即可获得50次免费下载赠送。<span class="cu" @click="userRegest">马上注册领取</span>
+                    </div>
                 </div>
             </div>
         </div>
-<!--        <div class="problem">-->
-<!--            <div class="margin">-->
-<!--                <h3>FAQ</h3>&lt;!&ndash;常见问题&ndash;&gt;-->
-<!--                <div class="item">-->
-<!--                    <div class="flex Ques">-->
-<!--                        <i>Q</i>-->
-<!--                        <p>Should I get paid-as-you-go points or subscribe?</p>&lt;!&ndash;我应该得到随付即付的能量还是订阅&ndash;&gt;-->
-<!--                    </div>-->
-<!--                    <div class="flex Res">-->
-<!--                        <i>A</i>-->
-<!--                        <p>For one-time users or those who have difficulty in predicting image demand, pay-as-you-go credit is a great choice. For those who have larger or ongoing demands, you will save every money on every picture processed if you become subscribed member. As low as $9, the monthly subscription with unused points carry-over capability will benefit you with tremendous savings.</p>&lt;!&ndash;一次性或难以预测图像的需求，现即付的信用是一个不错的选择。对于较大的或持续的图像的需求，订阅会为你处理的每一张图片省钱。-->
-<!--                        月度计划开始每月津40图像和翻转的任何未使用的能量(100%)你会受益于巨大的储存无需大费周章。&ndash;&gt;-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="item">-->
-<!--                    <div class="flex Ques">-->
-<!--                        <i>Q</i>-->
-<!--                        <p>what is point?</p>&lt;!&ndash;什么是能量&ndash;&gt;-->
-<!--                    </div>-->
-<!--                    <div class="flex Res">-->
-<!--                        <i>A</i>-->
-<!--&lt;!&ndash;                        信用使您能够使用删除。bg在高质量的全分辨率图样。您可以使用删除信用。bg通过删除。bg API，在我们的 Windows/ Mac/ Linux应用程序或Photoshop扩展。删除背景从1图像需要1能量，预览图片删除都是免费，通过移除&ndash;&gt;-->
-<!--&lt;!&ndash;                        bg和1/4信贷。bg应用程序和API。订阅包括每个月的预算额度，你可以使用在这个月（或滚动到下个月，只要你爆出订阅）现收现付制能量是有效的购买后2年&ndash;&gt;-->
-<!--                        <p>Point allows you to use Picup to process high quality images with full resolution. You can use points through our API or web browser extension. Cutting out one picture requires 1 point, and image preview is free on our website picup.ai. The subscription includes the monthly budget amount that you can use during that month (or carry over to the next month, as long as you remain subscribed). </p>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="item">-->
-<!--                    <div class="flex Ques">-->
-<!--                        <i>Q</i>-->
-<!--                        <p>Which images are supported</p>&lt;!&ndash;支持哪些图像&ndash;&gt;-->
-<!--                    </div>-->
-<!--                    <div class="flex Res">-->
-<!--                        <i>A</i>-->
-<!--&lt;!&ndash;                        你可以上传任何JPG和PNG图像高达8mb，每个图像都必须包含至少一个人，是一个产品照片或一辆车照片（更多信息），&ndash;&gt;-->
-<!--&lt;!&ndash;                        如果图像分辨率大于10像素（例如4000x2500或任何其他长宽比）这个最大分辨率的大小&ndash;&gt;-->
-<!--                        <p>-->
-<!--                            You can upload any JPG and PNG images up to 8mb, each image must contain at least one person (we are working on to cutout additional objects/entities at this time), the image will be resized if its resolution is greater than 10 megapixels (e.g. 4000x2500 or any other Aspect ratio).-->
-<!--                        </p>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="peopleAsk">-->
-<!--            <div class="margin">-->
-<!--                <h3>Customer Feedback</h3>&lt;!&ndash;用户反馈&ndash;&gt;-->
-<!--                <div class="flex a-i j-b">-->
-<!--                    <div class="ones flex" v-for="(val,index) in feedbackList" :key="index">-->
-<!--                        <div class="imgs">-->
-<!--                            <img :src="val.img" alt="">-->
-<!--                        </div>-->
-<!--                        <div class="msg">-->
-<!--                            <div>{{val.name}}</div>-->
-<!--                            <span>{{val.tag}}</span>-->
-<!--                            <p>{{val.content}}</p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <el-button type="primary">Continue</el-button>&lt;!&ndash;继续&ndash;&gt;-->
-<!--            </div>-->
-<!--        </div>-->
         <footer-sub></footer-sub>
         <el-dialog
                 custom-class="Dlog"
@@ -117,8 +34,8 @@
                 :visible.sync="dialogVisible"
                 width="400px">
             <div class="Dcontent">
-                <div class="title">-订阅计划- {{selectRadio2.creditsPerMonth}} 能量/月</div><!--订阅计划-{{selectRadio2.creditsPerMonth}}能量/月-->
-                <div class="price">${{selectRadio2.price}}</div>
+                <div class="title">-充值账户- {{selectRadio2.creditsPerMonth}} 次</div><!--订阅计划-{{selectRadio2.creditsPerMonth}}能量/月-->
+                <div class="price">￥{{selectRadio2.price}}</div>
 <!--                <p><i class="el-icon-minus"></i>&nbsp; 请选择您的地址 &nbsp;<i class="el-icon-minus"></i></p>-->
 <!--                <el-select v-model="value" placeholder="请选择">-->
 <!--                    <el-option-->
@@ -204,14 +121,14 @@
                 })
             },
             userRegest(){
-                this.$message.closeAll();
-                if(getToken())this.$message({type:'warning',message:'你已经注册过啦!'});
-                else {
-                    window.location.href=`${this.basrUrls}/loginOrRegister.html#/?type=1`
+                if(getToken()){
+                    this.$message({message:'您已经注册过啦！',type:'success'})
+                    return
                 }
+                    window.location.href=`${this.basrUrls}/register.html`
             },
             userContinue(){
-                if(!getToken()) window.location.href=`${this.basrUrls}/loginOrRegister.html#/?type=1&hasBack=1`
+                if(!getToken()) window.location.href=`${this.basrUrls}/loginOrRegister.html#/?type=0&hasBack=1`
                 else{
                     const loading = this.$loading({
                         lock: true,
@@ -253,25 +170,22 @@
     & > p{
         font-size: 16px;
         color: #626262;
-        margin-bottom: 78px;
+        margin-bottom: 40px;
     }
     .left,.center,.right{
-        width: 390px;
+        width: 800px;
         overflow: hidden;
         border-radius: 15px;
         text-align: center;
         background-color: #fff;
-        height: 550px;
-        .top{
-            font-size: 12px;
-            color: #fff;
-            line-height: 50px;
-            background-color: #f494ad;
-        }
+        padding-bottom: 60px;
         .title{
-            font-size: 20px;
-            color: #333;
-            margin: 41px 0 30px;
+            font-size: 24px;
+            color: #7b7b7b;
+            margin: 50px 0 37px;
+        }
+        .raidos{
+            padding: 0 130px 0 150px;
         }
         .price{
             font-size: 12px;
@@ -312,13 +226,11 @@
             width: 160px;
             border-color: #e82255;
             margin-top: 54px;
-            margin-bottom: 46px;
+            margin-bottom: 26px;
         }
-        .five0{
+        .lasts{
             font-size: 14px;
-            color: #333;
-            margin-bottom: 12px;
-            line-height: 1;
+            span{color: #e82255}
         }
         & > p{
             font-size: 12px;
@@ -345,110 +257,6 @@
         height: 1px;
     }
 }
-    .problem{
-        background-color: #fff;
-        padding: 86px 0 80px;
-        color: #333;
-        line-height: 1;
-        h3{
-            font-size: 32px;
-            margin-bottom: 58px;
-            font-weight: 500;
-            text-align: center;
-        }
-        .item{
-            font-size: 16px;
-            line-height: 26px;
-            color: #333;
-            margin-bottom: 40px;
-            i{
-                width: 26px;
-                border-radius: 50%;
-                background-color: #e82255;
-                text-align: center;
-                margin-right: 17px;
-                color: #fff;
-                height: 26px;
-            }
-            .Ques{
-                font-size: 16px;
-                font-weight: 600;
-            }
-            .Res{
-                margin-top: 12px;
-                font-size: 14px;
-                color: #a4a4a4;
-                line-height: 24px;
-            }
-            .Res i{
-                background-color: #3ddfc7;
-            }
-            p{
-                width: 800px;
-            }
-        }
-    }
-    .peopleAsk{
-        background-color: #f5f5f7;
-        padding: 86px 0 130px;
-        .a-i{
-            flex-wrap: wrap;
-        }
-        h3{
-            font-size: 34px;
-            color: #333;
-            line-height: 1;
-            margin-bottom: 74px;
-            text-align: center;
-            font-weight: 500;
-        }
-        .ones{
-            background-color: #fff;
-            border-radius: 10px;
-            width: 330px;
-            padding: 30px 30px 50px;
-            margin-bottom: 15px;
-            line-height: 1;
-            /*.imgs{*/
-            /*    width: 60px;*/
-            /*    height: 60px;*/
-            /*    border-radius: 50%;*/
-            /*    margin-right: 16px;*/
-            /*}*/
-            img{
-                display: block;
-                width: 60px;
-                height: 60px;
-                border-radius: 50%;
-                margin-right: 16px;
-            }
-            .msg > div{
-                font-size: 16px;
-                color: #333;
-                margin-bottom: 10px;
-            }
-            .msg > span{
-                display: inline-block;
-                font-size: 12px;
-                margin-bottom: 18px;
-                color: #8d8d8d;
-            }
-            .msg > p{
-                font-size: 12px;
-                line-height:18px ;
-                color: #8d8d8d;
-            }
-        }
-        .el-button{
-            width: 160px;
-            background-color: #e82255;
-            height: 50px;
-            border-radius: 25px;
-            border-color:#e82255 ;
-            display: block;
-            margin:95px auto 0 ;
-        }
-    }
   .Dcontent{
       .title{
           font-size: 20px;

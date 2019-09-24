@@ -61,11 +61,22 @@
                             <!--Download-->下载<i class="el-icon-caret-bottom" style="position: absolute;margin-left: 12px;transition: .3s all;" :class="{'rotates' : showSize}" v-if="imageMsg.previewWidth!==imageMsg.originalWidth && imageMsg.previewHeight!==imageMsg.originalHeight"></i>
                         </el-button>
                         <div class="sizeChose" v-if="showSize && (imageMsg.previewWidth!==imageMsg.originalWidth && imageMsg.previewHeight!==imageMsg.originalHeight)" @mouseenter="showSizeStop=true" @mouseleave="boxLeave()" :class="{'lessTop' : !(imageMsg.previewWidth!==imageMsg.originalWidth && imageMsg.previewHeight!==imageMsg.originalHeight)}">
-                            <div class="flex a-i j-b" @click="save(0)">
-                             <span>{{imageMsg.previewWidth + ' X ' + imageMsg.previewHeight}} (免费)</span>
+                            <div class="flex a-i">
+                                <span>尺寸</span>
+                                <span>消耗次数</span>
                             </div>
-                            <div class="flex a-i j-b" @click="save(1)" v-if="imageMsg.previewWidth!==imageMsg.originalWidth && imageMsg.previewHeight!==imageMsg.originalHeight">
-                                <span>{{imageMsg.originalWidth + ' X ' + imageMsg.originalHeight}} (原始尺寸)</span>
+                            <div class="flex a-i j-b" >
+                             <span>{{imageMsg.previewWidth + ' X ' + imageMsg.previewHeight}}</span>
+                             <span>0</span>
+                             <span class="cu" @click="save(0)">下载</span>
+                            </div>
+                            <div class="flex a-i j-b" v-if="imageMsg.previewWidth!==imageMsg.originalWidth && imageMsg.previewHeight!==imageMsg.originalHeight">
+                                <span>{{imageMsg.originalWidth + ' X ' + imageMsg.originalHeight}}</span>
+                                <span>1</span>
+                                <span class="cu"  @click="save(1)">下载</span>
+                            </div>
+                            <div>
+                                当前可用次数： 0 <i class="cu">去充值</i>
                             </div>
                         </div>
                     </div>
@@ -121,7 +132,8 @@
                 canveaContentW:500,
                 canveaContentH:500,
                 ramdId:Math.random(),
-                canvasinitNum:''
+                canvasinitNum:'',
+                loadImg:''
             }
         },
         watch:{
@@ -300,19 +312,22 @@
                 // let imgData = this.canvasText.getImageData(0, 0, this.canvas.width, this.canvas.height);
                 this.choseBack = index;
                 if (index === 0){
-                    this.drameImg(this.bgOriginal.img)
+                    // this.drameImg(this.bgOriginal.img)
+                    this.drawImgAfterFirst(this.loadImg)
                     this.backg = {backgroundImage: `url("${this.opacity}")`,backgroundRepeat: 'mo-repeat',backgroundPasition: 'center'};
                 } else if(index===4)this.drawStyleBg(this.Original,this.bgOriginal.img,1);
                   else if(index===5)this.drawStyleBg(this.Original,this.bgOriginal.img,2);
                   else {
-                    this.drameImg(this.bgOriginal.img)
+                    // this.drameImg(this.bgOriginal.img)
+                    this.drawImgAfterFirst(this.loadImg)
                     this.backg = {background: color}
                 }
                 // let name=  this.files.type == 'copy' ? this.imgname : this.file.name;
                 // this.$emit('to-parse', {name: name, color: index == 0 ? '' : color})
             },
             choseColor(index) {//选择颜色背景，颜色选择器
-                this.drameImg(this.bgOriginal.img)
+                // this.drameImg(this.bgOriginal.img)
+                this.drawImgAfterFirst(this.loadImg)
                 this.choseBack = 'span'
                 this.backg = {background: this.colorValue}
                 // let name= this.files.type == 'copy' ? this.imgname : this.file.name;
@@ -426,6 +441,7 @@
                 let image = new Image()
                 image.src = url
                 image.onload = function () {
+                    _self.loadImg=image
                     let arrThis = [image.width, image.height]
                     let bigOne = _self.fingBig(arrThis)
                     if (bigOne == arrThis[0]) {
@@ -544,6 +560,10 @@
                     dwonBg:index===4 ? newBg4 : newBg1,
                     bgRemovedImg:imgObjs.bgImg
                 })
+            },
+            drawImgAfterFirst(img){
+                this.canvasText.clearRect(0,0,this.canvas.width,this.canvas.height);
+                this.canvasText.drawImage(img,0,0,this.canveaContentW,this.canveaContentH);
             }
         }
     }
@@ -741,28 +761,40 @@
         .sizeChose {
             position: absolute;
             margin-top: 10px;
-            /*width: 260px;*/
             border: 1px solid #efefef;
             border-radius: 10px;
             font-size: 12px;
             line-height: 30px;
             color: #ffffff;
-            padding: 10px 0;
+            padding: 10px 6px;
             background-color: rgba(0,0,0,.9);
-            /*right: 170px;*/
-            left: 0;
-            top: -95px;
+            left: -100px;
+            top: -180px;
             z-index: 99;
-
-            & > div:hover {
-                background-color: #454545;
-            }
-
             & > div {
-                cursor: pointer;
                 padding: 0 12px;
-                span:first-child{
-                    margin-right: 25px;
+                margin-bottom: 8px;
+                &:last-child{
+                    text-align: right;
+                    margin: 10px 0 0 0;
+                    i{border-bottom: 1px solid #a1a0a0;margin-left: 10px;}
+                    color: #a1a0a0;
+                }
+                &:first-child span:last-child{border: 0;text-align: left;color: #a1a0a0;}
+                &:first-child span{color: #a1a0a0;}
+                span{
+                    width: 100px;
+                    &:nth-child(2){
+                        width: 80px;
+                    }
+                    &:last-child{
+                        border: 1px solid #e82255;
+                        width: 50px;
+                        line-height: 24px;
+                        border-radius: 13px;
+                        text-align: center;
+                        color: #e82255;
+                    }
                 }
             }
         }
@@ -818,12 +850,6 @@
             }
             .imgs.flex > p{
                 max-width: 380px;
-            }
-            .downLoadBtn {
-                .sizeChose {
-                  /*  left: -160px;
-                    top: -10px;*/
-                }
             }
         }
     }

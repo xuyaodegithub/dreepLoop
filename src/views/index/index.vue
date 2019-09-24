@@ -7,8 +7,8 @@
             <div class="Operator">
                 <h6><!--Local images-->本地图像</h6>
                 <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()"><!--Upload-->上传</el-button>
-<!--                <p class="afterbtn" v-if="!LoginStatus"><span class="cu" @click="userlogin(0)">登录</span>-->
-<!--                    &lt;!&ndash;for batch upload&ndash;&gt;后批量上传</p>-->
+                <p class="afterbtn" v-if="!LoginStatus"><span class="cu" @click="userlogin(0)">登录</span>
+                    <!--for batch upload-->后批量上传</p>
                 <div class="center">
                     <h5>Web 图片</h5>
                     <div style="position: relative;">
@@ -82,18 +82,29 @@
                     </div>
                 </div>
 
-                <div class="downBtn cu">
-                    <span><!--Download all-->下载全部</span><i class="el-icon-download"></i>
+                <div class="downBtn">
+                    <span><!--Download all-->下载全部</span>
                     <div class="sizeChoses">
-                        <div class="flex a-i btn">
+                        <div class="flex a-i btn j-b">
                             <div v-for="(val,index) in color" :key="index" :style="{background:val}"
-                                 :class="{'active' : classType===index}" @click="classType=index"></div>
+                                 :class="{'active' : classType===index}" @click="classType=index" class="cu"></div>
                         </div>
-                        <div class="flex a-i j-b" @click="saveMove(0)">
-                            <span><!--Download Preview Image (Free)-->下载预览图(免费)</span>
+                        <div class="flex a-i">
+                            <span>尺寸</span>
+                            <span>消耗次数</span>
                         </div>
-                        <div class="flex a-i j-b" @click="saveMove(1)">
-                            <span><!--Download Full Image-->下载原图比例</span>
+                        <div class="flex a-i">
+                            <span>下载预览图</span>
+                            <span>0</span>
+                            <span class="cu" @click="saveMove(0)">下载</span>
+                        </div>
+                        <div class="flex a-i ">
+                            <span>下载原图比例</span>
+                            <span>{{allbgImg.length}}</span>
+                            <span class="cu" @click="saveMove(1)">下载</span>
+                        </div>
+                        <div>
+                            当前可用次数： 0 <i class="cu">去充值</i>
                         </div>
                     </div>
                 </div>
@@ -143,7 +154,7 @@
                 imgUrl: '',//图片链接
                 page: 1,
                 rows: 30,
-                color: [`url(${opacity})`, '#ffffff', '#eeeeee', '#5d5d5d', `url(${mohu2})`, `url(${mohu1})`],
+                color: [`url(${opacity}) center`, '#ffffff', '#eeeeee', '#5d5d5d', `url(${mohu2}) center`, `url(${mohu1}) center`],
                 classType: 0,
                 stopUpdata: false,//停止滑动加载
                 Percentile: 0,
@@ -743,11 +754,11 @@
                         height: 100px;
                         margin-right: 12px;
                         margin-bottom: 15px;
-
+                        overflow: hidden;
                         img {
                             display: block;
                             width: 100%;
-                            height: 100%;
+                            /*height: 100%;*/
                         }
 
                         &:nth-child(5n) {
@@ -810,20 +821,13 @@
                 text-align: center;
                 color: #fff;
                 background-color: #e82255;
-
-                span {
-                    display: none;
+                & > span{
+                    display: block;
+                    height: 100%;
+                    line-height: 16px;
+                    font-size:12px ;
+                    padding: 5px;
                 }
-
-                &:hover span {
-                    display: inline-block;
-                    margin-right: 15px;
-                }
-
-                &:hover {
-                    width: 160px;
-                }
-
                 &:hover .sizeChoses {
                     display: block;
                 }
@@ -834,7 +838,6 @@
     .sizeChoses {
         display: none;
         position: absolute;
-        width: 236px;
         border: 1px solid #efefef;
         border-radius: 10px;
         font-size: 12px;
@@ -843,19 +846,27 @@
         padding: 10px 12px;
         background-color: #fff;
         z-index: 99;
-        bottom: -138px;
         right: 0;
-
-        & > div:hover {
-            background-color: #f1f1f1;
-        }
-
-        & > div:first-child:hover {
-            background-color: #fff;
-        }
-
+        top: 42px;
+        text-align: left;
         & > div {
-            cursor: pointer;
+            margin-bottom: 10px;
+            span:first-child{width: 130px;}
+            span:nth-child(2){width: 110px;}
+            span.cu{
+                width: 50px;
+                text-align: center;
+                line-height: 24px;
+                border: 1px solid #e82255;
+                border-radius: 13px;
+                color: #e82255;
+            }
+            &:last-child{
+                margin-bottom: 0;
+                text-align: right;
+                i{border-bottom: 1px solid #a1a0a0;margin-left: 10px;}
+                color: #a1a0a0;
+            }
         }
 
         &:hover {
@@ -864,8 +875,8 @@
 
         .btn {
             height: 40px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #999;
+            padding:0 10px 8px;
+            border-bottom: 1px solid #ececec;
             margin-bottom: 8px;
         }
 
@@ -893,111 +904,6 @@
         font-size: 24px;
     }
 
-    /*.content {*/
-    /*    padding-bottom: 85px;*/
-    /*}*/
-
-    /*.content .leftMune {*/
-    /*    width: 244px;*/
-    /*}*/
-
-    /*.content .rightBig {*/
-    /*    margin-left: 244px;*/
-    /*    flex: 1;*/
-    /*    padding-left: 15px;*/
-    /*    padding-right: 75px;*/
-    /*    .OperatorCenter {*/
-    /*        !*min-width: 1024px;*!*/
-    /*        padding: 80px 0 85px 0;*/
-    /*        text-align: center;*/
-    /*        margin: 0 auto 20px;*/
-    /*        background-color: #fff;*/
-
-    /*        h4 {*/
-    /*            font-size: 32px;*/
-    /*            color: #333;*/
-    /*            margin-bottom: 28px;*/
-    /*        }*/
-
-    /*        p {*/
-    /*            font-size: 18px;*/
-    /*            color: #999999;*/
-    /*            margin-bottom: 54px;*/
-    /*        }*/
-
-    /*        img {*/
-    /*            display: block;*/
-    /*            margin: 0 auto;*/
-    /*        }*/
-    /*    }*/
-    /*}*/
-
-    /*.content .rightBig > div {*/
-    /*    background-color: #fff;*/
-    /*}*/
-
-    /*.content .rightBig .free, .content .rightBig .efficient {*/
-    /*    !*min-width: 1024px;*!*/
-    /*    padding: 85px 0 80px 0;*/
-    /*    text-align: center;*/
-    /*    margin: 0 auto 20px;*/
-    /*    line-height: 1;*/
-    /*}*/
-
-    /*.content .rightBig h3 {*/
-    /*    font-size: 32px;*/
-    /*    margin-bottom: 28px;*/
-    /*    color: #333;*/
-    /*}*/
-
-    /*.content .rightBig p {*/
-    /*    font-size: 18px;*/
-    /*    color: #999999;*/
-    /*}*/
-
-    /*.content .efficient img {*/
-    /*    display: block;*/
-    /*    margin: 122px auto 0;*/
-    /*}*/
-
-    /*.content .rightBig .efficient div.flexs {*/
-    /*    text-align: left;*/
-    /*    !*justify-content: space-between;*!*/
-    /*    font-size: 18px;*/
-    /*    color: #333;*/
-    /*    line-height: 1;*/
-    /*    width: 706px;*/
-    /*    padding: 0 60px;*/
-    /*    margin: 0 auto;*/
-    /*    margin-top: 28px;*/
-    /*}*/
-
-    /*.content .efficient .flexs p {*/
-    /*    color: #333;*/
-    /*}*/
-
-    /*.content .efficient .flexs > div{*/
-    /*    display: inline-block;*/
-    /*    text-align: center;*/
-    /*    !*margin: 0 68px 0 93px;*!*/
-    /*}*/
-    /*.content .efficient .flexs > div:nth-child(2){*/
-    /* margin-left: 178px;*/
-    /*}*/
-    /*.content .efficient .flexs > div:nth-child(3){*/
-    /*    margin-left: 184px;*/
-    /*}*/
-
-    /*.content .efficient .flexs p:last-child {*/
-    /*    font-size: 14px;*/
-    /*    color: #7a7a7a;*/
-    /*    margin-top: 15px;*/
-    /*}*/
-
-    /*.content .free img {*/
-    /*    display: block;*/
-    /*    margin: 66px auto 0;*/
-    /*}*/
 
     @media screen and (max-width: 1500px) {
         .helloFirst .apps {
@@ -1013,7 +919,8 @@
 
             .sizeChoses {
                 bottom: auto;
-                top: -138px;
+                right: 40px;
+                top: -100px;
             }
         }
         .content .rightBig {
