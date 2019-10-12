@@ -125,7 +125,7 @@
     import JSZip from 'jszip'
     import {saveAs} from "file-saver";
     import headerSub from '@/components/header/index.vue'
-    import imgSub from '@/components/showImgSub/index.vue'
+    import imgSub from '@/components/showImgSub/object.vue'
     import {getToken, getSecImgs, setSecImgs} from "../../utils/auth";
     import {basrUrls} from "../../utils";
     import imgSetSub from '@/components/setImgSub/index.vue'
@@ -221,11 +221,11 @@
             },
             collectBg(obj) {
                 if (obj.color === 'add') this.allbgImg.push( obj );
-                if (!getSecImgs(1)) {
+                if (!getSecImgs(2)) {
                     this.sesImgsSet( this.allbgImg );
                     return
                 }
-                let hasown = JSON.parse( getSecImgs(1) ).some( (item) => {
+                let hasown = JSON.parse( getSecImgs(2) ).some( (item) => {
                     return item.fileId == obj.fileId
                 } );
                 if (!hasown) this.sesImgsSet( this.allbgImg )
@@ -418,7 +418,7 @@
                 let data = {
                     page: this.page,
                     pageSize: this.rows,
-                    mattingType:1
+                    mattingType:2
                 }
                 userHistoryList( data ).then( res => {
                     if (!res.code) {
@@ -554,11 +554,11 @@
                         arr.push( {Original: item.Original, fileId: item.fileId} )
                     }
                 } )
-                setSecImgs( JSON.stringify( arr ) ,1)
+                setSecImgs( JSON.stringify( arr ),2 )
             },
             getsesImgsSet() {
-                if (!getSecImgs(1)) return;
-                let arr = JSON.parse( getSecImgs(1) )
+                if (!getSecImgs(2)) return;
+                let arr = JSON.parse( getSecImgs(2) )
                 if (!arr) return;
                 arr.map( (item) => {
                     this.copyImgUrl( {url: item.Original, fileId: item.fileId},1 )
@@ -605,9 +605,9 @@
                 border-radius: 0;
                 width: 160px;
                 height: 40px;
-                background-color: #e82255;
+                background-color: $to;
                 color: #fff;
-                border-color: #e82255;
+                border-color: $to;
                 margin: 0 0 14px 42px;
             }
 
@@ -615,7 +615,7 @@
                 padding: 0 0 0 42px;
 
                 span {
-                    color: #e82255;
+                    color: $to;
                 }
             }
 
@@ -818,7 +818,7 @@
             }
 
             .imgs > div.active {
-                border: 1px solid #e82255;
+                border: 1px solid $to;
                 width: 38px;
                 height: 38px;
             }
@@ -830,7 +830,7 @@
                 min-width: 40px;
                 text-align: center;
                 color: #fff;
-                background-color: #e82255;
+                background-color: $to;
                 & > span{
                     display: block;
                     height: 100%;
@@ -867,9 +867,9 @@
                 width: 50px;
                 text-align: center;
                 line-height: 24px;
-                border: 1px solid #e82255;
+                border: 1px solid $to;
                 border-radius: 13px;
-                color: #e82255;
+                color: $to;
             }
             &:last-child{
                 margin-bottom: 0;
@@ -896,13 +896,13 @@
             width: 24px;
             height: 24px;
             border-radius: 50%;
-            border: 1px solid #999;
+            border: 2px solid #999;
             margin-right: 12px;
             background-size: cover;
         }
 
         .btn .active {
-            border-color: #e82255;
+            border-color: $to;
         }
     }
 

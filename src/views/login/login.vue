@@ -8,13 +8,12 @@
             </div>
             <div class="userinfo">
                 <el-input v-model="username" placeholder="手机号" type="number" :maxlength="11"></el-input>
-                <sliderYz @success="toShowCode" v-if="btnType!=0"></sliderYz>
-                <div class="flex dxzz a-i" :class="{'m-b' : btnType!=0}"
-                     v-show="btnType==0 || (btnType!=0 && showCode)">
+                <sliderYz @success="toShowCode" :visible.sync="showCode"></sliderYz>
+                <div class="flex dxzz a-i" :class="{'m-b' : btnType!=0}">
                     <el-input v-model="userpass" :placeholder="passmsg" :type="btnType==0? 'password' : 'number'"
                               @keyup.enter.native="regestUser()">
                     </el-input>
-                    <el-button type="primary" @click="sendMobileCode" v-if="btnType!=0">发送验证码</el-button>
+                    <el-button type="primary" @click="sendMobileCode" v-show="btnType!=0">发送验证码</el-button>
                 </div>
 
                 <!--                <el-input v-model="usersurepass" placeholder="确认您的密码" type="password" v-if="btnType==1"  @keyup.enter.native="regestUser()" ></el-input>-->
@@ -73,7 +72,16 @@
                 this.showCode = false
             },
             toShowCode(item) {
-                this.showCode = item
+                this.showCode = false;
+                const data={
+                    mobile:this.username,
+                    image_code:item,
+                }
+                sendCode(data).then(res=>{
+                    if(!res.code){
+                        this.$message( {type: 'success', message: '短信发送成功'} )
+                    }
+                })
             },
             regestUser() {
                 this.$message.closeAll()
@@ -111,15 +119,7 @@
                     this.$message( {type: 'error', message: '手机号格式不正确'} )
                     return
                 }
-                const data={
-                    mobile:this.username,
-                    image_code:1111,
-                }
-                sendCode(data).then(res=>{
-                    if(!res.code){
-                        this.$message( {type: 'success', message: '短信发送成功'} )
-                    }
-                })
+                this.showCode = true
             },
             forgetPass() {
                 toRouter( 'changePass' )
@@ -180,7 +180,7 @@
             }
 
             span.active {
-                color: $co;
+                color: #e82255;
                 border-bottom: 2px solid #e82255;
             }
         }

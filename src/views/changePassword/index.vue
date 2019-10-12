@@ -7,8 +7,8 @@
       </div>
       <div class="userinfo">
         <el-input v-model="phone" placeholder="手机号" type="number" :maxlength="11"></el-input>
-        <sliderYz @success="toShowCode"></sliderYz>
-        <div class="flex dxzz a-i" v-if="showCode">
+        <sliderYz @success="toShowCode" :visible.sync="showCode"></sliderYz>
+        <div class="flex dxzz a-i">
           <el-input v-model="code" placeholder="短信验证码" type="number">
           </el-input>
           <el-button type="primary" @click="sendMobileCode">发送验证码</el-button>
@@ -46,21 +46,24 @@
           this.$message( {type: 'error', message: '手机号格式不正确'} )
           return
         }
+        this.showCode=true;
+      },
+      resetPass(){
+        // this.showCode=true;
+          window.location.href=`${this.basrUrls}/updataPass.html#/?token=a9daaea9c9e24fc5b8f5ea6ec3ed196b`
+      },
+      toShowCode(item){
+        this.showCode=false;
         const data={
           mobile:this.phone,
-          image_code:1111,
+          image_code:item,
         }
         sendCode(data).then(res=>{
           if(!res.code){
             this.$message( {type: 'success', message: '短信发送成功'} )
           }
         })
-      },
-      resetPass(){
-        window.location.href=`${this.basrUrls}/updataPass.html#/?token=a9daaea9c9e24fc5b8f5ea6ec3ed196b`
-      },
-      toShowCode(item){
-        this.showCode=item
+        // window.location.href=`${this.basrUrls}/updataPass.html#/?token=a9daaea9c9e24fc5b8f5ea6ec3ed196b`
       }
     },
     components:{

@@ -9,7 +9,7 @@ Object.keys(filters).map((val,index)=>{
     Vue.filter(val,filters[val])
     // console.log(val,filters[val])
 })
-import {  Button, Input, Table, TableColumn,  Radio, RadioGroup, Dialog, Select, Option,Dropdown, DropdownMenu, DropdownItem, Message, Pagination, Loading, Checkbox, } from 'element-ui'
+import {  Button, Input, Table, TableColumn,  Radio, RadioGroup, Dialog, Select, Option,Dropdown, DropdownMenu, DropdownItem, Message, Pagination, Loading, Checkbox,Scrollbar,ColorPicker } from 'element-ui'
 Vue.component(Button.name, Button);
 Vue.component(Input.name, Input);
 Vue.component(Table.name, Table);
@@ -23,9 +23,12 @@ Vue.component(Dropdown.name, Dropdown);
 Vue.component(DropdownMenu.name, DropdownMenu);
 Vue.component(DropdownItem.name, DropdownItem);
 Vue.component(Checkbox.name, Checkbox);
+Vue.component(Scrollbar.name, Scrollbar);
 Vue.prototype.$message = Message;
 Vue.component(Pagination.name, Pagination);
+Vue.component(ColorPicker.name, ColorPicker);
 Vue.prototype.$loading = Loading.service;
+Vue.use(Loading.directive);
 
 Vue.directive('drag',(event)=>{
     let oDiv=event;

@@ -6,7 +6,7 @@
       <!-- Change password-->修改密码
       </div>
       <div class="userinfo">
-        <el-input v-model="oldpass" placeholder="旧密码" v-if="userToken==undefined" type="password"></el-input>
+        <el-input v-model="oldpass" placeholder="旧密码" v-if="!userToken" type="password"></el-input>
         <el-input v-model="newpass" placeholder="新密码" type="password" ></el-input>
         <el-input v-model="usersurepass" placeholder="重复新密码" type="password"></el-input>
       </div>

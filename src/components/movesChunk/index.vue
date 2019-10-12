@@ -33,7 +33,7 @@
             moves(e){
                 // e.preventDefault()
                 if(!this.openMoves) return;
-                let cBoxW=this.$refs.imgs.getBoundingClientRect().left;
+                let cBoxW=this.$refs.imgs.getBoundingClientRect().left;//对比offset 的方向值需要考虑到父级，如果父级是定位元素，那么子元素的offset值相对于父元素，如果父元素不是定位元素，那么子元素的offset值相对于 可视区窗口。getBoundingClientRect() 的值只相对于可视去窗口。
                 let l=e.clientX-cBoxW;
                 if(l>=this.$refs.imgs.offsetWidth)this.ws='100%';
                 else if(l<0)this.ws=0;

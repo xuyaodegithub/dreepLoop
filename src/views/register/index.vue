@@ -8,14 +8,14 @@
         </div>
         <div class="userinfo">
           <el-input v-model="phone" placeholder="请输入手机号" type="number" :maxlength="11"></el-input>
-          <sliderYz @success="toShowCode"></sliderYz>
-          <div class="flex dxzz a-i" v-show="showCode">
+          <sliderYz @success="toShowCode" :visible.sync="showCode"></sliderYz>
+          <div class="flex dxzz a-i">
             <el-input v-model="userpass" placeholder="短信验证码" type="number">
             </el-input>
             <el-button type="primary" @click="sendMobileCode()">发送验证码</el-button>
           </div>
           <!--                <el-input v-model="usersurepass" placeholder="确认您的密码" type="password" v-if="btnType==1"  @keyup.enter.native="regestUser()" ></el-input>-->
-          <el-input v-model="userMima" placeholder="请设置密码" v-show="showCode" type="password"></el-input>
+          <el-input v-model="userMima" placeholder="请设置密码" type="password"></el-input>
           <p>完成此注册，即表明您同意了我们的<span class="cu" @click="selfXy()">使用条款和隐私策略</span></p>
 
         </div>
@@ -60,16 +60,10 @@
         toRouter('loginOrRegister')
       },
       toShowCode(item){
-        this.showCode=item
-      },
-      sendMobileCode(){
-        if (!this.phone || this.phone.length!==11) {
-          this.$message( {type: 'error', message: '手机号格式不正确'} )
-          return
-        }
+        this.showCode=false
         const data={
           mobile:this.phone,
-          image_code:1111,
+          image_code:item,
         }
         sendCode(data).then(res=>{
           if(!res.code){
@@ -77,12 +71,23 @@
           }
         })
       },
+      sendMobileCode(){
+        if (!this.phone || this.phone.length!==11) {
+          this.$message( {type: 'error', message: '手机号格式不正确'} )
+          return
+        }
+        this.showCode=true
+      },
       resetPass(){
           if (!this.phone || !this.userpass || !this.userMima) {
             this.$message( {type: 'error', message: '内容不可为空'} )
             return
           }
-          if(this.phone.length!==11){this.$message( {type: 'error', message: '手机号格式不正确'} )}
+          if(this.phone.length!==11){
+            this.$message( {type: 'error', message: '手机号格式不正确'} )
+            return
+          }
+          // this.showCode=true
           let data={
             mobile:this.phone,
             password:this.userMima,
@@ -184,7 +189,7 @@
     margin: 0 auto;
     i{
       font-size: 60px;
-      color: $co;
+      color: #e82255;
       margin-bottom: 35px;
     }
     p{

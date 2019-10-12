@@ -155,6 +155,18 @@ export const userCreatePayment=(data)=>{
 export const userNotifyPaid=(data)=>{
  return https.get('/order/notifyPaid',data)
 }
+/**
+ *获取验证图
+ **/
+export const userGetCaptcha=(data)=>{
+ return https.get('/getCaptcha',data)
+}
+/**
+ *获取验证结果
+ **/
+export const userGetvalidate=(data)=>{
+ return https.get('/validate',data)
+}
 //产品模块结束
 
 

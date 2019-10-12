@@ -6,4 +6,4 @@ import '@/plugins/subUntils.js'
 new Vue({
     router,
     render: h => h(index)
-}).$mount('#app')
+}).$mount('#apptwo')

@@ -4,6 +4,7 @@
             <ul class="flex">
                 <li><img src="../../assets/image/sureLogo.png" alt="" class="cu" @click="backindex()" style="width: 120px;height: 30px;"></li>
                 <li class="cu" :class="{'red' : urls.indexOf('index')>-1 || urls.indexOf('/#/')>-1}" @click="backindex()">人物抠图</li><!--智能抠图-->
+                <li class="cu" :class="{'reds' : urls.indexOf('objects')>-1}"><a href="objects.html">物体抠图</a></li><!--智能抠图-->
                 <li class="cu" :class="{'red' : urls.indexOf('product')>-1}"><a href="product.html">更多产品</a></li>
 <!--                @click="toProduct()" @click="toAbout()"-->
                 <li class="cu" :class="{'red' : urls.indexOf('aboutUs')>-1}"><a href="aboutUs.html">关于我们</a></li><!--会员-->
@@ -13,7 +14,7 @@
                 <div v-if="!loginAfter">
                     <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">定价</span>
 <!--                    <span @click="userlogin(1)">Sign In</span>&lt;!&ndash;登录&ndash;&gt;-->
-                    <span @click="userlogin(0)" class="active">登录/注册</span><!--注册-->
+<!--                    <span @click="userlogin(0)" class="active">登录/注册</span>&lt;!&ndash;注册&ndash;&gt;-->
                 </div>
                 <div class="cu" v-else>
                     <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">定价</span>
@@ -157,8 +158,14 @@
         a{
             display: block;
         }
+        &.reds a{
+            color: $to;
+        }
         &.red{
             color: #e82255;
+            a{
+                color: #e82255;
+            }
         }
     }
     header .right .red{

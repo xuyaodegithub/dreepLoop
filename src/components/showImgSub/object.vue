@@ -1,5 +1,5 @@
 <template>
-    <div class="showImgOut">
+    <div class="showobject">
         <!--            <div class="Uploading flex a-i" v-show="upLoading" style="margin-top: 30px">-->
         <!--                <el-progress type="circle" :percentage="percentValue" :stroke-width='strokeWidth'></el-progress>-->
         <!--            </div>-->
@@ -54,7 +54,6 @@
                     </div>
                     <div class="downLoadBtn" v-if="bgOriginal.img">
                         <el-button type="primary" round
-                                   style="background-color: #e82255;border-color: #e82255;width: 160px;"
                                    icon="el-icon-download"
                                    :class="{'opacitys' : showSize}"
                                    @mouseenter.native="showSize=true" @mouseleave.native="choseSize()" @click="save(0,1)">
@@ -214,7 +213,7 @@
                         _self.Original = e.target.result
                         let param = new FormData();
                         param.append('file', file, file.name)
-                        param.set('mattingType', 1)
+                        param.set('mattingType', 2)
                         uploadImgApi(param).then(res => {
                             if (res.code == 0) {
                                 _self.fileId = res.data.fileId
@@ -263,7 +262,7 @@
             },
             getImgMsgByurl(){//通过粘贴请求
                 this.Original = this.file
-                let obj={url:this.file,mattingType:1}
+                let obj={url:this.file,mattingType:2}
                 if(this.files.fileId)obj.fileId=this.files.fileId
                 copyUpload(obj).then(res=>{
                     if (res.code == 0) {
@@ -569,8 +568,8 @@
     }
 </script>
 
-<style lang="scss">
-    .showImgOut{
+<style lang="scss" >
+    .showobject{
         background-color: #fff;
         margin-bottom: 15px;
     }
@@ -650,7 +649,7 @@
 
             .close {
                 font-size: 16px;
-                color: #e82255;
+                color: $to;
                 width: 500px;
                 /*max-height:500px;*/
                 height: 100%;
@@ -693,11 +692,11 @@
         }
 
         .bordershow.cu {
-            border: 1px solid #e82255;
+            border: 1px solid $to;
         }
 
         .bordershow .el-color-picker__trigger {
-            border-color: #e82255;
+            border-color: $to;
         }
 
         & > div {
@@ -758,6 +757,11 @@
         .rotates{
             transform: rotateZ(180deg);
         }
+        & > .el-button,& > .el-button:hover{
+            background-color: $to;
+            border-color: $to;
+            width: 160px;
+        }
         .sizeChose {
             position: absolute;
             margin-top: 10px;
@@ -788,12 +792,12 @@
                         width: 80px;
                     }
                     &:last-child{
-                        border: 1px solid #e82255;
+                        border: 1px solid $to;
                         width: 50px;
                         line-height: 24px;
                         border-radius: 13px;
                         text-align: center;
-                        color: #e82255;
+                        color: $to;
                     }
                 }
             }
