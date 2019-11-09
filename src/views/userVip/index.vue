@@ -22,6 +22,7 @@
                     </div>
                     <el-button type="primary" round @click="dialogVisible = true">立即购买</el-button><!--立即购买-->
                     <div class="lasts">
+                        <p>* 购买的次数没有使用时间限制</p>
                         注册即可获得50次免费下载赠送。<span class="cu" @click="userRegest">马上注册领取</span>
                     </div>
                 </div>
@@ -226,11 +227,15 @@
             width: 160px;
             border-color: #e82255;
             margin-top: 54px;
-            margin-bottom: 26px;
+            margin-bottom: 20px;
         }
         .lasts{
+            p{
+                margin-bottom: 10px;
+                color: #e82255
+            }
             font-size: 14px;
-            span{color: #e82255}
+            span{color: $to}
         }
         & > p{
             font-size: 12px;

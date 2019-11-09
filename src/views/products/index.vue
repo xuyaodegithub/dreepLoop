@@ -2,6 +2,61 @@
     <div class="products">
         <header-sub></header-sub>
         <div class="product margin">
+            <div class="imgInpainting">
+                <h3><!--Image inpainting-->人物头像自动分割（抠头像）</h3>
+                <!--                <p>Restore the missing parts of photos in just a few seconds. Replace any portions (lost, deteriorated, or unwanted such as watermarks) of the pictures without being noticed.</p>-->
+                <!--                <img src="../../assets/image/women.jpg" alt="">-->
+                <p>利用人工智能技术全自动分割出照片中的头像，分割精度高，准确率高，速度快。 发丝级抠图，对脸部、头发进行细粒度分析，实现发丝级的精细化分割效果。不论发型是披肩发，还是丸子头，都可以完整分割。非常适合在图像合成的场景中应用，比如：照片换头，制作专属表情包等。</p>
+                <div class="flex">
+                    <img src="../../assets/image/header_people.jpg" alt="">
+                </div>
+                <div class="flex deepname">
+                    <p>原图效果</p>
+                    <p>抠图效果</p>
+                    <p>合成效果</p>
+                </div>
+                <a class="cancat"  href="mailto:pikachu@picup.ai">
+                    <span>联系我们:</span>pikachu@picup.ai
+                </a>
+            </div>
+            <div class="imgInpainting">
+                <h3><!--Image inpainting-->图像修复</h3>
+                <!--                <p>Restore the missing parts of photos in just a few seconds. Replace any portions (lost, deteriorated, or unwanted such as watermarks) of the pictures without being noticed.</p>-->
+                <!--                <img src="../../assets/image/women.jpg" alt="">-->
+                <p>在几秒钟内恢复丢失的部分照片。替换图片的任何部分（丢失、变质或不需要的部分，如水印），而不被注意。</p>
+                <div class="flex j-b">
+                    <move-chunk :imgss="arrw"></move-chunk>
+                    <move-chunk :imgss="arrg"></move-chunk>
+                </div>
+                <a class="cancat"  href="mailto:pikachu@picup.ai">
+                    <span>联系我们:</span>pikachu@picup.ai
+                </a>
+            </div>
+            <div class="super">
+                <h3><!--Super Resolution-->超分辨率</h3>
+                <!--                <p>Need to increase the resolution of your poor-quality pictures? this is the right tool for you. Want to experience the stunning effects? Contact us now!</p>-->
+                <p>需要提高劣质图片的分辨率吗？这是适合你的工具。想体验惊艳效果吗？现在联系我们！</p>
+                <!--                <img src="../../assets/image/katong.jpg" alt="">-->
+                <div class="flex" style="justify-content: center;">
+                    <move-chunk :imgss="arrr"></move-chunk>
+                </div>
+                <a class="cancat"  href="mailto:pikachu@picup.ai">
+                    <span>联系我们:</span>pikachu@picup.ai
+                </a>
+            </div>
+            <div class="photoTouch">
+                <h3><!--Automated photo retouching-->自动照片修饰</h3>
+                <!--                <p>No time to edit your photos? This AI powered tool can enhance the aesthetic quality of pictures with just a single click. Anyone can become a pro without any hassle.</p>-->
+                <p>没有时间编辑照片？这个人工智能驱动的工具只需点击一下就可以提高图片的美感。任何人都可以成为职业选手而不必麻烦。</p>
+                <!--                <img src="../../assets/image/water.jpg" alt="">-->
+                <div class="flex j-b">
+                    <move-chunk :imgss="arrm"></move-chunk>
+                    <move-chunk :imgss="arrf"></move-chunk>
+                </div>
+                <a class="cancat"  href="mailto:pikachu@picup.ai">
+                    <span>联系我们:</span>pikachu@picup.ai
+                </a>
+            </div>
             <div class="imgSeach">
                 <h3><!--Reverse image search-->以图搜款</h3>
 <!--                <p>Having dificultyt in describing what you want? This content based image retrieval tool helps you find related images for both personal and business (e.g. searching for similar or same products on e commerce platforms) uses. It' s quick and easy!</p>-->
@@ -16,19 +71,6 @@
 <!--                <p>Transform photographs into artworks by applying appearance of style paintings to the content of user provided pictures. Creation of art pieces is easier than ever before!</p>-->
                 <p>通过将风格绘画的外观应用到用户提供的图片的内容，将照片转换为艺术品。创造艺术品比以往任何时候都容易！</p>
                 <img src="../../assets/image/mounted.jpg" alt="">
-                <a class="cancat"  href="mailto:pikachu@picup.ai">
-                    <span>联系我们:</span>pikachu@picup.ai
-                </a>
-            </div>
-            <div class="imgInpainting">
-                <h3><!--Image inpainting-->图像修复</h3>
-<!--                <p>Restore the missing parts of photos in just a few seconds. Replace any portions (lost, deteriorated, or unwanted such as watermarks) of the pictures without being noticed.</p>-->
-<!--                <img src="../../assets/image/women.jpg" alt="">-->
-                <p>在几秒钟内恢复丢失的部分照片。替换图片的任何部分（丢失、变质或不需要的部分，如水印），而不被注意。</p>
-                <div class="flex j-b">
-                    <move-chunk :imgss="arrw"></move-chunk>
-                    <move-chunk :imgss="arrg"></move-chunk>
-                </div>
                 <a class="cancat"  href="mailto:pikachu@picup.ai">
                     <span>联系我们:</span>pikachu@picup.ai
                 </a>
@@ -58,19 +100,7 @@
                     <span>联系我们:</span>pikachu@picup.ai
                 </a>
             </div>
-            <div class="photoTouch">
-                <h3><!--Automated photo retouching-->自动照片修饰</h3>
-<!--                <p>No time to edit your photos? This AI powered tool can enhance the aesthetic quality of pictures with just a single click. Anyone can become a pro without any hassle.</p>-->
-                <p>没有时间编辑照片？这个人工智能驱动的工具只需点击一下就可以提高图片的美感。任何人都可以成为职业选手而不必麻烦。</p>
-<!--                <img src="../../assets/image/water.jpg" alt="">-->
-                <div class="flex j-b">
-                    <move-chunk :imgss="arrm"></move-chunk>
-                    <move-chunk :imgss="arrf"></move-chunk>
-                </div>
-                <a class="cancat"  href="mailto:pikachu@picup.ai">
-                    <span>联系我们:</span>pikachu@picup.ai
-                </a>
-            </div>
+
             <div class="aiDesigner">
                 <h3><!--AI designer-->人工智能设计师</h3>
 <!--                <p>Ever runs out of innovative ideas? This Generative Adversarial Network (GAN) powered AI designer helps you in many aspects of your work and life: haistyle design, handbag design, shoes design, and many more! No need to hallucinate by yourself anymore.</p>-->
@@ -105,18 +135,6 @@
 <!--                <p>This product can not only assign a class label, but also show the location of an object in the image. Guess what, you don’t have to provide labelled data with object locations. Our model figures out the locations automatically for you. It will your work so much easier in various use cases: automobile, gaming, healthcare, retail, security, social media platform, and many more.</p>-->
                 <p>此产品不仅可以指定类标签，还可以显示对象在图像中的位置。猜猜看，您不必提供带有对象位置的标记数据。我们的模型会自动为您计算出位置。它将使您的工作在各种各样的用例中更加容易：汽车、游戏、医疗保健、零售、安全、社交媒体平台等等。</p>
                 <img src="../../assets/image/computed.jpg" alt="">
-                <a class="cancat"  href="mailto:pikachu@picup.ai">
-                    <span>联系我们:</span>pikachu@picup.ai
-                </a>
-            </div>
-            <div class="super">
-                <h3><!--Super Resolution-->超分辨率</h3>
-<!--                <p>Need to increase the resolution of your poor-quality pictures? this is the right tool for you. Want to experience the stunning effects? Contact us now!</p>-->
-                <p>需要提高劣质图片的分辨率吗？这是适合你的工具。想体验惊艳效果吗？现在联系我们！</p>
-<!--                <img src="../../assets/image/katong.jpg" alt="">-->
-                <div class="flex" style="justify-content: center;">
-                    <move-chunk :imgss="arrr"></move-chunk>
-                </div>
                 <a class="cancat"  href="mailto:pikachu@picup.ai">
                     <span>联系我们:</span>pikachu@picup.ai
                 </a>
@@ -262,6 +280,15 @@
     .imgInpainting{
         padding-bottom: 57px;
     }
+    .imgInpainting .deepname{
+        margin-top: 0;
+        line-height: 40px;
+        p{
+            flex: 1;
+            text-align: center;
+        }
+    }
+
 
  .photoTouch .flex{
         margin:42px 0 0 0;

@@ -86,6 +86,10 @@ export const userResetbyEmail=(data)=>{
  return https.get('/user/changePasswordByToken',data)
 }
 /**
+ * 通过短信获取token修改密码
+ **/
+export const getResetPasswordToken=(data)=>https.get('/user/getResetPasswordToken',data)
+/**
  * 发送修改密码邮件
  **/
 export const sendChangePasswordEmail=(data)=>{

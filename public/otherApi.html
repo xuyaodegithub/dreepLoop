@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>一起火对接API</title>
+    <link rel="stylesheet" href="static/one.css">
+    <link rel="stylesheet" href="static/two.css">
+    <link rel="stylesheet" href="static/three.css">
+    <style>
+        .blob-viewer{
+            width: 800px;
+            margin: 50px auto;
+        }
+    </style>
+</head>
+<body>
+<div class="blob-viewer" data-rich-type="markup" data-type="rich" data-url="/17huo/open/blob/master/API.md?format=json&amp;viewer=rich" data-loading="true" data-loaded="true"><div class="blob-viewer" data-rich-type="markup" data-type="rich">
+    <div class="file-content md md-file">
+        <h1 data-sourcepos="1:1-1:20" dir="auto">
+            <a id="user-content-一起火对接api" class="anchor" href="http://118.31.220.5:8080/doc.html" aria-hidden="true" rel="nofollow noreferrer noopener" target="_blank"></a>一起火对接API</h1>
+        <p data-sourcepos="3:1-3:40" dir="auto"><strong>以下是一起火开放平台说明</strong></p>
+        <h2 data-sourcepos="5:1-5:15" dir="auto">
+            <a id="user-content-项目介绍" class="anchor" href="#%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D" aria-hidden="true" rel="nofollow noreferrer noopener" target="_blank"></a>项目介绍</h2>
+        <p data-sourcepos="6:1-6:81" dir="auto">一起火为大客户提供API支持，通过API让商家提升发货效率......</p>
+        <h2 data-sourcepos="8:1-8:15" dir="auto">
+            <a id="user-content-对接方式" class="anchor" href="#%E5%AF%B9%E6%8E%A5%E6%96%B9%E5%BC%8F" aria-hidden="true" rel="nofollow noreferrer noopener" target="_blank"></a>对接方式</h2>
+        <h3 data-sourcepos="10:1-10:15" dir="auto">
+            <a id="user-content-1api调用" class="anchor" href="#1api%E8%B0%83%E7%94%A8" aria-hidden="true" rel="nofollow noreferrer noopener" target="_blank"></a>1.API调用</h3>
+        <p data-sourcepos="12:1-13:92" dir="auto">一起火将给商家分配一个用户，商家将通过此用户获取token，之后API访问以此token最为凭证
+            ######详细说清请看开发文档 <a href="http://118.31.220.5:8080/doc.html" rel="nofollow noreferrer noopener" target="_blank">一起火开发文档</a></p>
+        <h3 data-sourcepos="15:1-15:18" dir="auto">
+            <a id="user-content-2系统推送" class="anchor" href="#2%E7%B3%BB%E7%BB%9F%E6%8E%A8%E9%80%81" aria-hidden="true" rel="nofollow noreferrer noopener" target="_blank"></a>2.系统推送</h3>
+        <p data-sourcepos="17:1-17:131" dir="auto">由商家提供http协议的数据接收地址，一起火将数据时时推送到对应的地址，推送内容以JSON格式呈现</p>
+        <p data-sourcepos="19:1-19:16" dir="auto">####商品信息</p>
+        <ul data-sourcepos="21:1-22:0" dir="auto">
+            <li data-sourcepos="21:1-22:0">合作档口商品上架</li>
+        </ul>
+        <table data-sourcepos="23:1-25:41" dir="auto">
+            <thead>
+            <tr data-sourcepos="23:1-23:46">
+                <th align="center" data-sourcepos="23:2-23:15">名称</th>
+                <th align="center" data-sourcepos="23:17-23:27">类型</th>
+                <th align="center" data-sourcepos="23:29-23:45">说明</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-sourcepos="25:1-25:41">
+                <td align="center" data-sourcepos="25:2-25:12">productId</td>
+                <td align="center" data-sourcepos="25:14-25:22">Long</td>
+                <td align="center" data-sourcepos="25:24-25:40">商品ID</td>
+            </tr>
+            </tbody>
+        </table>
+        <ul data-sourcepos="27:1-28:0" dir="auto">
+            <li data-sourcepos="27:1-28:0">合作档口商品下架</li>
+        </ul>
+        <table data-sourcepos="29:1-31:41" dir="auto">
+            <thead>
+            <tr data-sourcepos="29:1-29:46">
+                <th align="center" data-sourcepos="29:2-29:15">名称</th>
+                <th align="center" data-sourcepos="29:17-29:27">类型</th>
+                <th align="center" data-sourcepos="29:29-29:45">说明</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-sourcepos="31:1-31:41">
+                <td align="center" data-sourcepos="31:2-31:12">productId</td>
+                <td align="center" data-sourcepos="31:14-31:22">Long</td>
+                <td align="center" data-sourcepos="31:24-31:40">商品ID</td>
+            </tr>
+            </tbody>
+        </table>
+        <ul data-sourcepos="33:1-34:0" dir="auto">
+            <li data-sourcepos="33:1-34:0">合作档口商品价格变更通知</li>
+        </ul>
+        <table data-sourcepos="35:1-38:45" dir="auto">
+            <thead>
+            <tr data-sourcepos="35:1-35:46">
+                <th align="center" data-sourcepos="35:2-35:15">名称</th>
+                <th align="center" data-sourcepos="35:17-35:27">类型</th>
+                <th align="center" data-sourcepos="35:29-35:45">说明</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-sourcepos="37:1-37:41">
+                <td align="center" data-sourcepos="37:2-37:12">productId</td>
+                <td align="center" data-sourcepos="37:14-37:22">Long</td>
+                <td align="center" data-sourcepos="37:24-37:40">商品ID</td>
+            </tr>
+            <tr data-sourcepos="38:1-38:45">
+                <td align="center" data-sourcepos="38:2-38:12">price</td>
+                <td align="center" data-sourcepos="38:14-38:22">Double</td>
+                <td align="center" data-sourcepos="38:24-38:44">价格(人民币)</td>
+            </tr>
+            </tbody>
+        </table>
+        <p data-sourcepos="40:1-40:16" dir="auto">####物流情况</p>
+        <ul data-sourcepos="42:1-43:0" dir="auto">
+            <li data-sourcepos="42:1-43:0">发货通知</li>
+        </ul>
+        <table data-sourcepos="44:1-50:55" dir="auto">
+            <thead>
+            <tr data-sourcepos="44:1-44:46">
+                <th align="center" data-sourcepos="44:2-44:15">名称</th>
+                <th align="center" data-sourcepos="44:17-44:27">类型</th>
+                <th align="center" data-sourcepos="44:29-44:45">说明</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-sourcepos="46:1-46:41">
+                <td align="center" data-sourcepos="46:2-46:12">orderId</td>
+                <td align="center" data-sourcepos="46:14-46:22">Long</td>
+                <td align="center" data-sourcepos="46:24-46:40">订单ID</td>
+            </tr>
+            <tr data-sourcepos="47:1-47:41">
+                <td align="center" data-sourcepos="47:2-47:12">packageId</td>
+                <td align="center" data-sourcepos="47:14-47:22">Long</td>
+                <td align="center" data-sourcepos="47:24-47:40">包裹ID</td>
+            </tr>
+            <tr data-sourcepos="48:1-48:45">
+                <td align="center" data-sourcepos="48:2-48:12">courierNo</td>
+                <td align="center" data-sourcepos="48:14-48:22">String</td>
+                <td align="center" data-sourcepos="48:24-48:44">快递面单号</td>
+            </tr>
+            <tr data-sourcepos="49:1-49:46">
+                <td align="center" data-sourcepos="49:2-49:12">courierName</td>
+                <td align="center" data-sourcepos="49:14-49:22">String</td>
+                <td align="center" data-sourcepos="49:24-49:45">快递公司名称</td>
+            </tr>
+            <tr data-sourcepos="50:1-50:55">
+                <td align="center" data-sourcepos="50:2-50:12">itemNos</td>
+                <td align="center" data-sourcepos="50:14-50:22">String</td>
+                <td align="center" data-sourcepos="50:24-50:54">已发货物编号,逗号隔开</td>
+            </tr>
+            </tbody>
+        </table>
+        <ul data-sourcepos="52:1-53:0" dir="auto">
+            <li data-sourcepos="52:1-53:0">缺货通知</li>
+        </ul>
+        <table data-sourcepos="54:1-59:41" dir="auto">
+            <thead>
+            <tr data-sourcepos="54:1-54:46">
+                <th align="center" data-sourcepos="54:2-54:15">名称</th>
+                <th align="center" data-sourcepos="54:17-54:27">类型</th>
+                <th align="center" data-sourcepos="54:29-54:45">说明</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-sourcepos="56:1-56:41">
+                <td align="center" data-sourcepos="56:2-56:12">orderId</td>
+                <td align="center" data-sourcepos="56:14-56:22">Long</td>
+                <td align="center" data-sourcepos="56:24-56:40">订单ID</td>
+            </tr>
+            <tr data-sourcepos="57:1-57:41">
+                <td align="center" data-sourcepos="57:2-57:12">productId</td>
+                <td align="center" data-sourcepos="57:14-57:22">Long</td>
+                <td align="center" data-sourcepos="57:24-57:40">商品ID</td>
+            </tr>
+            <tr data-sourcepos="58:1-58:44">
+                <td align="center" data-sourcepos="58:2-58:12">itemNo</td>
+                <td align="center" data-sourcepos="58:14-58:22">Long</td>
+                <td align="center" data-sourcepos="58:24-58:43">货物编号</td>
+            </tr>
+            <tr data-sourcepos="59:1-59:41">
+                <td align="center" data-sourcepos="59:2-59:12">num</td>
+                <td align="center" data-sourcepos="59:14-59:22">Int</td>
+                <td align="center" data-sourcepos="59:24-59:40">件数</td>
+            </tr>
+            </tbody>
+        </table>
+        <p data-sourcepos="61:1-61:16" dir="auto">####售后信息</p>
+        <ul data-sourcepos="63:1-64:0" dir="auto">
+            <li data-sourcepos="63:1-64:0">退货签收通知</li>
+        </ul>
+        <table data-sourcepos="65:1-68:44" dir="auto">
+            <thead>
+            <tr data-sourcepos="65:1-65:46">
+                <th align="center" data-sourcepos="65:2-65:15">名称</th>
+                <th align="center" data-sourcepos="65:17-65:27">类型</th>
+                <th align="center" data-sourcepos="65:29-65:45">说明</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-sourcepos="67:1-67:41">
+                <td align="center" data-sourcepos="67:2-67:12">orderId</td>
+                <td align="center" data-sourcepos="67:14-67:22">Long</td>
+                <td align="center" data-sourcepos="67:24-67:40">订单ID</td>
+            </tr>
+            <tr data-sourcepos="68:1-68:44">
+                <td align="center" data-sourcepos="68:2-68:12">itemNo</td>
+                <td align="center" data-sourcepos="68:14-68:22">Long</td>
+                <td align="center" data-sourcepos="68:24-68:43">货物编号</td>
+            </tr>
+            </tbody>
+        </table>
+        <ul data-sourcepos="70:1-71:0" dir="auto">
+            <li data-sourcepos="70:1-71:0">退货成功或失败通知</li>
+        </ul>
+        <table data-sourcepos="72:1-77:41" dir="auto">
+            <thead>
+            <tr data-sourcepos="72:1-72:46">
+                <th align="center" data-sourcepos="72:2-72:15">名称</th>
+                <th align="center" data-sourcepos="72:17-72:27">类型</th>
+                <th align="center" data-sourcepos="72:29-72:45">说明</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-sourcepos="74:1-74:41">
+                <td align="center" data-sourcepos="74:2-74:12">orderId</td>
+                <td align="center" data-sourcepos="74:14-74:22">Long</td>
+                <td align="center" data-sourcepos="74:24-74:40">订单ID</td>
+            </tr>
+            <tr data-sourcepos="75:1-75:44">
+                <td align="center" data-sourcepos="75:2-75:12">itemNo</td>
+                <td align="center" data-sourcepos="75:14-75:22">Long</td>
+                <td align="center" data-sourcepos="75:24-75:43">货物编号</td>
+            </tr>
+            <tr data-sourcepos="76:1-76:44">
+                <td align="center" data-sourcepos="76:2-76:12">status</td>
+                <td align="center" data-sourcepos="76:14-76:22">Boolean</td>
+                <td align="center" data-sourcepos="76:24-76:43">是否成功</td>
+            </tr>
+            <tr data-sourcepos="77:1-77:41">
+                <td align="center" data-sourcepos="77:2-77:12">remark</td>
+                <td align="center" data-sourcepos="77:14-77:22">String</td>
+                <td align="center" data-sourcepos="77:24-77:40">备注</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</div>
+</body>
+</html>

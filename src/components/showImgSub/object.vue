@@ -15,8 +15,8 @@
                 </div>
                 <div>
                     <!--                        <img :src="bgOriginal.img" alt="">-->
-                    <div v-if="bgOriginal.status===0" :style="backg" class="activeDiv"><canvas :id="'canvas'+ramdId" >当前游览器不支持此功能，换一个试试吧！</canvas></div>
-                    <div v-else-if="bgOriginal.status===1" class="errmsg">
+                    <div v-show="bgOriginal.status===0" :style="backg" class="activeDiv"><canvas :id="'canvas'+ramdId" >当前游览器不支持此功能，换一个试试吧！</canvas></div>
+                    <div v-show="bgOriginal.status===1" class="errmsg">
                         <i class="el-icon-circle-close"></i>
                         这张图片当前不支持，不能识别前景
 <!--                        Error occured, the foreground can not be recognized-->
@@ -25,7 +25,7 @@
 <!--                        	Try picture that contains person, more categories will be supported in future-->
                         </p>
                     </div>
-                    <div v-else-if="bgOriginal.status===2" class="errmsg">
+                    <div v-show="bgOriginal.status===2" class="errmsg">
                         <i class="el-icon-s-flag"></i>
                         当前正在排队,请稍后...
 <!--                        Waiting in the queue,-->
@@ -34,7 +34,7 @@
 <!--                            Sequence number: {{imageMsg.queueNumber}}-->
                         </p>
                     </div>
-                    <div class="close flex" v-else>
+                    <div class="close flex" v-show="![0,1,2].includes(bgOriginal.status)">
                         <i class="el-icon-loading"></i>
                         处理中...
 <!--                        Processing...-->
@@ -138,9 +138,9 @@
         watch:{
             bgOriginal(newval,oldval){
                 if(newval.img){
-                    this.$nextTick(()=>{
+                    // this.$nextTick(()=>{
                         this.drameImg(newval.img)
-                    })
+                    // })
                 }
             }
         },

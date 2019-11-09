@@ -58,7 +58,7 @@
           userResetPassword({oldPassword:this.oldpass,newPassword:this.newpass}).then(res=>{
             if(!res.code){
               this.$message({type:'warning',message:'密码已修改完成'})
-              window.history.go(-1)
+              window.location.replace=`loginOrRegister.html#/`
             }
           })
         }else{

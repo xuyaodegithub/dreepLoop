@@ -2,7 +2,7 @@
     <header>
         <div class="margins flex j-b a-i first">
             <ul class="flex">
-                <li><img src="../../assets/image/sureLogo.png" alt="" class="cu" @click="backindex()" style="width: 120px;height: 30px;"></li>
+                <li><img src="../../assets/image/sureLogo.png" alt="" class="cu" @click="backindex()" style="height: 30px;"></li>
                 <li class="cu" :class="{'red' : urls.indexOf('index')>-1 || urls.indexOf('/#/')>-1}" @click="backindex()">人物抠图</li><!--智能抠图-->
                 <li class="cu" :class="{'reds' : urls.indexOf('objects')>-1}"><a href="objects.html">物体抠图</a></li><!--智能抠图-->
                 <li class="cu" :class="{'red' : urls.indexOf('product')>-1}"><a href="product.html">更多产品</a></li>

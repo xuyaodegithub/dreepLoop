@@ -365,6 +365,7 @@
             },
             changeImg(e) {//图片上传
                 this.toscroll();
+                console.log(this.$refs.upImg.files)
                 for (let i = 0; i < this.$refs.upImg.files.length; i++) {
                     this.files.unshift( {
                         url: this.$refs.upImg.files[i],

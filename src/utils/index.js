@@ -146,5 +146,32 @@ export const setCanvasText=()=>{
 export const JudgmentType=(val)=>{
   return Object.prototype.toString.call(val).split(' ')[1].split(']')[0]
 }
+//两数组的交集
+export const intersection = (a, b) => {
+    const s = new Set(b);
+    return a.filter(x => s.has(x));
+};
+//生成两数之间指定长度的随机数组
+export const randomIntArrayInRange = (min, max, n = 1) =>
+    Array.from({ length: n }, () => Math.floor(Math.random() * (max - min + 1)) + min);
 
+// randomIntArrayInRange(12, 35, 10); // [ 34, 14, 27, 17, 30, 27, 20, 26, 21, 14 ]
+//每个单词首字母大写
+export const capitalizeEveryWord  = str => str.replace(/\b[a-z]/g, char => char.toUpperCase());
+//获取上月今天的日期
+export const getlastDate=()=>{
+    let nowData=new Date();
+    const [nowY,nowM,nowD]=[nowData.getFullYear(),nowData.getMonth()+1,nowData.getDate()];//当前日期年月日
+    nowData.setDate(1);//本月1号时间戳
+    const nowOne=nowData.getTime();
+    const lastY= nowM-1 > 0 ? nowY : nowY-1;//上月年份
+    const lastM=nowM-1 > 0 ? nowM-1 : 12;//上月月份
+    nowData.setFullYear(lastY);
+    nowData.setMonth(lastM-1);
+    const lastOne=nowData.getTime()//上月一号时间戳
+    const days=Math.floor((nowOne-lastOne) / (1000*60*60*24));
+    console.log(days);
+    if(days>=nowD) return lastY+'-'+lastM+'-'+nowD;
+    else return lastY+'-'+lastM+'-'+days;
+}
 

@@ -15,8 +15,8 @@
                 </div>
                 <div>
                     <!--                        <img :src="bgOriginal.img" alt="">-->
-                    <div v-if="bgOriginal.status===0" :style="backg" class="activeDiv"><canvas :id="'canvas'+ramdId" >当前游览器不支持此功能，换一个试试吧！</canvas></div>
-                    <div v-else-if="bgOriginal.status===1" class="errmsg">
+                    <div v-show="bgOriginal.status===0" :style="backg" class="activeDiv"><canvas :id="'canvas'+ramdId" >当前游览器不支持此功能，换一个试试吧！</canvas></div>
+                    <div v-show="bgOriginal.status===1" class="errmsg">
                         <i class="el-icon-circle-close"></i>
                         这张图片当前不支持，不能识别前景
 <!--                        Error occured, the foreground can not be recognized-->
@@ -25,7 +25,7 @@
 <!--                        	Try picture that contains person, more categories will be supported in future-->
                         </p>
                     </div>
-                    <div v-else-if="bgOriginal.status===2" class="errmsg">
+                    <div v-show="bgOriginal.status===2" class="errmsg">
                         <i class="el-icon-s-flag"></i>
                         当前正在排队,请稍后...
 <!--                        Waiting in the queue,-->
@@ -34,7 +34,7 @@
 <!--                            Sequence number: {{imageMsg.queueNumber}}-->
                         </p>
                     </div>
-                    <div class="close flex" v-else>
+                    <div class="close flex" v-show="![0,1,2].includes(bgOriginal.status)">
                         <i class="el-icon-loading"></i>
                         处理中...
 <!--                        Processing...-->
@@ -57,10 +57,11 @@
                                    style="background-color: #e82255;border-color: #e82255;width: 160px;"
                                    icon="el-icon-download"
                                    :class="{'opacitys' : showSize}"
-                                   @mouseenter.native="showSize=true" @mouseleave.native="choseSize()" @click="save(0,1)">
-                            <!--Download-->下载<i class="el-icon-caret-bottom" style="position: absolute;margin-left: 12px;transition: .3s all;" :class="{'rotates' : showSize}" v-if="imageMsg.previewWidth!==imageMsg.originalWidth && imageMsg.previewHeight!==imageMsg.originalHeight"></i>
+                                   @mouseenter.native="showSize=true" @mouseleave.native="choseSize()">
+                            <!--Download-->下载<i class="el-icon-caret-bottom" style="position: absolute;margin-left: 12px;transition: .3s all;" :class="{'rotates' : showSize}"></i>
                         </el-button>
-                        <div class="sizeChose" v-if="showSize && (imageMsg.previewWidth!==imageMsg.originalWidth && imageMsg.previewHeight!==imageMsg.originalHeight)" @mouseenter="showSizeStop=true" @mouseleave="boxLeave()" :class="{'lessTop' : !(imageMsg.previewWidth!==imageMsg.originalWidth && imageMsg.previewHeight!==imageMsg.originalHeight)}">
+<!--                        && (imageMsg.previewWidth!==imageMsg.originalWidth && imageMsg.previewHeight!==imageMsg.originalHeight)"-->
+                        <div class="sizeChose" v-if="showSize" @mouseenter="showSizeStop=true" @mouseleave="boxLeave()" :class="{'lessTop' : !(imageMsg.previewWidth!==imageMsg.originalWidth && imageMsg.previewHeight!==imageMsg.originalHeight)}">
                             <div class="flex a-i">
                                 <span>尺寸</span>
                                 <span>消耗次数</span>
@@ -76,7 +77,7 @@
                                 <span class="cu"  @click="save(1)">下载</span>
                             </div>
                             <div>
-<!--                                当前可用次数： 0 <i class="cu">去充值</i>-->
+                                当前可用次数： 0 <i class="cu">去充值</i>
                             </div>
                         </div>
                     </div>
@@ -139,9 +140,9 @@
         watch:{
             bgOriginal(newval,oldval){
                 if(newval.img){
-                    this.$nextTick(()=>{
+                    // this.$nextTick(()=>{
                         this.drameImg(newval.img)
-                    })
+                    // })
                 }
             }
         },
@@ -335,7 +336,7 @@
                 // this.$emit('to-parse', {name: name, color: this.colorValue})
             },
             save(index,key) {//保存下载
-                if(key && this.imageMsg.previewWidth!==this.imageMsg.originalWidth && this.imageMsg.previewHeight!==this.imageMsg.originalHeight) return;
+                // if(key && this.imageMsg.previewWidth!==this.imageMsg.originalWidth && this.imageMsg.previewHeight!==this.imageMsg.originalHeight) return;
                 if (index === 0) {
                     let url = this.bgOriginal.img
                     this.downOldImg(url)
@@ -769,13 +770,13 @@
             padding: 10px 6px;
             background-color: rgba(0,0,0,.9);
             left: -100px;
-            top: -150px;
+            top: -175px;
             z-index: 99;
             & > div {
                 padding: 0 12px;
                 margin-bottom: 8px;
                 &:last-child{
-                    text-align: right;
+                    text-align: left;
                     margin: 10px 0 0 0;
                     i{border-bottom: 1px solid #a1a0a0;margin-left: 10px;}
                     color: #a1a0a0;
@@ -799,7 +800,7 @@
             }
         }
         .sizeChose.lessTop{
-            top: -65px;
+            top: -135px;
         }
     }
 
