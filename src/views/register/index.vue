@@ -7,15 +7,17 @@
           <span><!--Reset password-->注册</span>
         </div>
         <div class="userinfo">
-          <el-input v-model="phone" placeholder="请输入手机号" type="number" :maxlength="11"></el-input>
+          <el-input v-model="phone" placeholder="请输入手机号" type="number" :maxlength="11" required></el-input>
           <sliderYz @success="toShowCode" :visible.sync="showCode"></sliderYz>
           <div class="flex dxzz a-i">
             <el-input v-model="userpass" placeholder="短信验证码" type="number">
             </el-input>
-            <el-button type="primary" @click="sendMobileCode()">发送验证码</el-button>
+            <el-button type="primary" @click="sendMobileCode()">{{timer ? timer : '发送验证码'}}</el-button>
           </div>
           <!--                <el-input v-model="usersurepass" placeholder="确认您的密码" type="password" v-if="btnType==1"  @keyup.enter.native="regestUser()" ></el-input>-->
           <el-input v-model="userMima" placeholder="请设置密码" type="password"></el-input>
+          <el-input v-model="yqma" placeholder="（可不填）邀请码，可以增加20次免费下载" style="margin-bottom: 0" class="yqma"></el-input>
+          <span style="color: #3d8fd1;margin-bottom: 20px;display: inline-block;" class="cu" @click="dialogVisible=true">如何获取邀请码？</span>
           <p>完成此注册，即表明您同意了我们的<span class="cu" @click="selfXy()">使用条款和隐私策略</span></p>
 
         </div>
@@ -28,6 +30,18 @@
       <p>您已成功设置密码</p>
       <el-button type="primary" @click="goLogin()">马上登录</el-button>
     </div>
+    <el-dialog
+            custom-class="Dlog"
+            :close-on-click-modal="false"
+            :visible.sync="dialogVisible"
+            width="400px">
+      <div class="Dcontent">
+        <div class="title">如何获取邀请码</div><!--订阅计划-{{selectRadio2.creditsPerMonth}}能量/月-->
+        <div class="price">您可以咨询您身边的朋友，还可以加我微信索取
+        </div>
+        <img src="@/assets/image/buyEwm.png" alt="">
+      </div>
+    </el-dialog>
   </section>
 </template>
 
@@ -46,7 +60,10 @@
         basrUrls:basrUrls(),
         showCode:false,
         userMima:'',
-        beforSet:true
+        beforSet:true,
+        timer:0,
+        yqma:'',
+        dialogVisible:false
       }
     },
     computed:{
@@ -54,10 +71,11 @@
     },
     methods:{
       selfXy(){
-        window.open(this.basrUrls+'/docsify/#/terms.md')
+        window.open(this.basrUrls+'/docsify/#/registerdoc_terms.md')
       },
       goLogin(){
-        toRouter('loginOrRegister')
+        window.location.replace('loginOrRegister.html')
+        // toRouter('loginOrRegister')
       },
       toShowCode(item){
         this.showCode=false
@@ -68,10 +86,16 @@
         sendCode(data).then(res=>{
           if(!res.code){
             this.$message( {type: 'success', message: '短信发送成功'} )
+            this.timer=60;
+            let timer=setInterval(()=>{
+              this.timer--
+              if(!this.timer)clearInterval(timer)
+            },1000)
           }
         })
       },
       sendMobileCode(){
+        if(this.timer)return;
         if (!this.phone || this.phone.length!==11) {
           this.$message( {type: 'error', message: '手机号格式不正确'} )
           return
@@ -93,6 +117,7 @@
             password:this.userMima,
             validate_code:this.userpass,
           }
+          if(this.yqma)data.invitation=this.yqma;
           userRegister( data ).then( res => {
             if (!res.code) {
             this.beforSet=false
@@ -156,6 +181,17 @@
       height: 46px;
       line-height: 46px;
       margin-bottom: 20px;
+      &:before{
+        content: "*";
+        color: #f56c6c;
+        position: absolute;
+        top: 0;
+        left: -10px;
+        margin-right: 4px;
+      }
+      &.yqma:before{
+        content: '';
+      }
     }
     .userinfo > p{
       font-size: 14px;
@@ -170,6 +206,14 @@
       margin-bottom:20px;
       .el-input{
         margin-bottom: 0;
+        &:before{
+          content: "*";
+          color: #f56c6c;
+          position: absolute;
+          top: 0;
+          left: -10px;
+          margin-right: 4px;
+        }
       }
       .el-button{
         width: 35%;
@@ -202,12 +246,32 @@
       width: 100%;
     }
   }
-
+  .Dcontent{
+    text-align: center;
+    border-radius: 15px;
+    .title{
+      font-size: 20px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    img{
+      display: block;
+      margin: 0 auto;
+    }
+    .price{
+      font-size: 12px;
+      color: rgb(168,168,168);
+      margin-bottom: 25px;
+    }
+  }
 </style>
 <style>
   .dxzz .el-input__inner{
     border-right: 0;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+  }
+  section .el-dialog{
+    border-radius: 15px;
   }
 </style>

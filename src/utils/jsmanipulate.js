@@ -709,8 +709,8 @@ function EdgeFilter(){
 		for (var y = 0; y < height; y++) {
 			for (var x = 0; x < width; x++) {
 				var pixel = (y*width + x)*4;
-				var rh = 0; gh = 0; bh = 0;
-				var rv = 0; gv = 0; bv = 0;
+				var rh = 0, gh = 0, bh = 0;
+				var rv = 0, gv = 0, bv = 0;
 				for(var row = -1; row <= 1; row++){
 					var iy = y+row;
 					var ioffset;

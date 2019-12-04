@@ -1,17 +1,17 @@
 <template>
   <div class="Subscribe">
-    <h3><!--My Subscription-->我的订阅</h3>
+    <h3><!--My Subscription-->我的账户</h3>
     <div v-if="mySubPlans">
-      <h4><!--Subscription plan-->订阅计划 - {{mySubPlans.monthRemaining}} <!--points per month-->每月能量</h4>
+<!--      <h4>&lt;!&ndash;Subscription plan&ndash;&gt;订阅计划 - {{mySubPlans.monthRemaining}} &lt;!&ndash;points per month&ndash;&gt;每月能量</h4>-->
       <p><!--Created at-->创建时间：{{mySubPlans.createdAt | changeTime(1)}}</p>
-      <p><!--Free remaining-->剩余可用能量：{{mySubPlans.freeRemaining}} <!--points-->能量</p>
-      <p><!--Subscription remaining-->剩余订阅：{{mySubPlans.monthRemaining}} <!--points-->能量</p>
+      <p><!--Free remaining-->剩余可用次数：{{mySubPlans.freeRemaining+mySubPlans.monthRemaining}} <!--points-->次数</p>
+<!--      <p>&lt;!&ndash;Subscription remaining&ndash;&gt;剩余充值次数：{{}} &lt;!&ndash;points&ndash;&gt;次数</p>-->
       <div class="btn flex">
-        <el-button type="primary" round><!--Upgrade Subscription-->升级订阅</el-button>
+        <el-button type="primary" round><!--Upgrade <Subscription--><a href="userVip.html" style="display: block;color: #fff;">立即购买</a></el-button>
         <el-button type="primary" round><!--Cancel Subscription-->取消订阅</el-button>
       </div>
       <div class="oldUse">
-        <h5><!--Points Usage History-->能量使用记录</h5>
+        <h5><!--Points Usage History-->使用记录</h5>
         <el-table
                 :header-cell-style="{color:'#333',fontWeight:500}"
                 :data="plansHistory.content"
@@ -66,7 +66,7 @@
           // {label:'Date',str:'createdAt',width:''},
           {label:'时间',str:'createdAt',width:''},
           // {label:'Points',str:'credits',width:''},
-          {label:'能量',str:'credits',width:''},
+          {label:'消耗次数',str:'credits',width:''},
           // {label:'Description',str:'comment',width:''},
           {label:'描述',str:'comment',width:''},
         ],

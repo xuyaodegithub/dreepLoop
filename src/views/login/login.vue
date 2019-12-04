@@ -13,7 +13,7 @@
                     <el-input v-model="userpass" :placeholder="passmsg" :type="btnType==0? 'password' : 'number'"
                               @keyup.enter.native="regestUser()">
                     </el-input>
-                    <el-button type="primary" @click="sendMobileCode" v-show="btnType!=0">发送验证码</el-button>
+                    <el-button type="primary" @click="sendMobileCode" v-show="btnType!=0">{{timer ? timer : '发送验证码'}}</el-button>
                 </div>
 
                 <!--                <el-input v-model="usersurepass" placeholder="确认您的密码" type="password" v-if="btnType==1"  @keyup.enter.native="regestUser()" ></el-input>-->
@@ -49,6 +49,7 @@
                 basrUrl: basrUrls(),
                 checked: true,
                 showCode: false,
+                timer:0
                 // moveMsg:'请按住滑块拖动到最右边'
             }
         },
@@ -58,10 +59,10 @@
                 else return '短信验证码'
             },
             typeBtn() {
-                return this.$route.query.type
+                return this.$route.query.type;
             },
             hasBack() {
-                return this.$route.query.hasBack
+                return this.$route.query.hasback;
             },
         },
         methods: {
@@ -80,6 +81,11 @@
                 sendCode(data).then(res=>{
                     if(!res.code){
                         this.$message( {type: 'success', message: '短信发送成功'} )
+                        this.timer=60;
+                        let timer=setInterval(()=>{
+                            this.timer--
+                            if(!this.timer)clearInterval(timer)
+                        },1000)
                     }
                 })
             },
@@ -98,8 +104,12 @@
                                 let token = res.data.token
                                 setToken( token )
                                 setCookie( 'token', token )
-                                if (this.hasBack) window.history.go( -1 );
-                                else window.location.replace( `${this.basrUrl}/index.html#/` )
+                                // window.location.replace(document.referrer)
+                                // console.log(window.history.back())
+                                // setTimeout(()=>{
+                                    if(window.history.length<3 || document.referrer.indexOf('register')>-1){window.location.replace('index.html')}
+                                    else window.location.replace(document.referrer)
+                                // },10000)
                             }
                         } )
                     }else{
@@ -108,13 +118,15 @@
                                 let token = res.data.token
                                 setToken( token )
                                 setCookie( 'token', token )
-                                if (this.hasBack) window.history.go( -1 );
-                                else window.location.replace( `${this.basrUrl}/index.html#/` )
+                                // if (this.hasBack) window.history.go( -1 );
+                                // else window.location.replace( `${this.basrUrl}/index.html#/` )
+                                window.history.go(-1)
                             }
                         })
                     }
             },
             sendMobileCode(){
+                if(this.timer)return;
                 if (!this.username || this.username.length!==11) {
                     this.$message( {type: 'error', message: '手机号格式不正确'} )
                     return
@@ -125,11 +137,11 @@
                 toRouter( 'changePass' )
             },
             goRegister() {
-                toRouter( 'register' )
+                window.location.replace('register.html')
             },
             initAccount() {
                 const Account = getAccount();
-                console.log( Account );
+                // console.log( Account );
                 this.username = Account ? Account.username : '';
                 this.userpass = Account ? Account.password : '';
 

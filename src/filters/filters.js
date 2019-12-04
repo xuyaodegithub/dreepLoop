@@ -41,8 +41,14 @@ const filters={
 },
     Calculation(val){
         let price=val.price
-        let creditsPerMonth=val.creditsPerMonth
-        return (price/creditsPerMonth).toFixed(2)
+        let creditsPerMonth=val.num
+        return (price/creditsPerMonth).toFixed(3)
+    },
+    imgtitle(i){//图片title
+        if (i===0)return '背景透明';
+        else if (i===1)return '纯色背景';
+        else if (i===2)return '背景黑白';
+        else if (i===3)return '背景模糊';
     },
  getLastMonth(){
   var now=new Date();

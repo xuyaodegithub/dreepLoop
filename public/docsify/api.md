@@ -2,7 +2,7 @@
 
 ## quick start
 
-- [get your apikey](http://www.picup.ai/userCenter.html)
+- [get your apikey](http://www.picup.ai/userCenter.html/secret)
 - use http protocol to call the api, the content type should be "multipart/form-data" 
 
 ```shell

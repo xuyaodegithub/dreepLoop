@@ -2,7 +2,7 @@ import axios from 'axios';
 // import qs from 'qs'
 import { getToken,removeToken,clearCookie } from "../utils/auth";
 import { basrUrls } from "../utils/index";
-import { Message } from 'element-ui'
+import { Message,Notification } from 'element-ui'
 // axios.defaults.timeout=10000;//设置请求时间，超过时间报超时错位
 // axios.defaults.headers={'X-Custom-Header': 'foobar'}//全局设置请求头
 // instance.defaults.headers['Content-Type']='application/x-www-form-urlencoded;charset=UTF-8'
@@ -29,11 +29,14 @@ instance.interceptors.response.use(function (response) {//为自定义axios设�
   if(res.code===0){
     return res
   }else if(res.code==1100){
-    removeToken()
-    clearCookie('token')
-    window.location.href=basrUrls()+'/loginOrRegister.html#/?type=0'
+    // setTimeout(()=>{
+      removeToken()
+      clearCookie('token')
+      window.location.href=`loginOrRegister.html`
+    // },15000)
+    return res
   } else{
-    Message({
+    Notification({
       type:'error',
       message:response.data.msg
     })

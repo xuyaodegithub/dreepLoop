@@ -26,7 +26,7 @@
 <!--            </ul>-->
 <!--        </div>-->
         <div class="last">
-            @ Copyright PicUP.AI 2018. All Rights reserved
+            © 2018-2020皮卡智能PicUP.AI
         </div>
     </footer>
 </template>

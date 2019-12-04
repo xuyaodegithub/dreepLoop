@@ -23,11 +23,11 @@
         data () {
             return {
                 leftBtn:[
-                    {title:'我的订阅',path:'/'},
+                    {title:'我的账户',path:'/'},
                     // {title:'我的能量',path:'/userCenter/user-credit'},
                     {title:'API密钥',path:'/userCenter/secret'},
                     // {title:'赚取学分',path:'/userCenter/earn'},
-                    // {title:'历史记录',path:'/userCenter/history'},
+                    {title:'邀请码',path:'/userCenter/invitation'},
                     {title:'账户设置',path:'/userCenter/set'},
                 ],
                 userInfo:{}
@@ -41,7 +41,7 @@
         },
         methods:{
             openType(item){
-                this.$router.push(item.path)
+                this.$router.replace(item.path)
             },
             Userinfos(val){
                 this.userInfo=val

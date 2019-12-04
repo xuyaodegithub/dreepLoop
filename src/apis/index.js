@@ -8,6 +8,12 @@ import https from './request'
  export const uploadImgApi=(data)=>{
   return https.upPost('/webMatting/matting2',data)
 }
+/**
+ * 上传背景保存
+ **/
+ export const uploadossBg=(data)=>{
+  return https.upPost('/oss/upload',data)
+}
 
 /**
  * 粘贴抠图
@@ -127,7 +133,7 @@ export const userHistoryList=(data)=>{
  * 获取订阅列表
  **/
 export const subscriptionPlans=(data)=>{
- return https.get('/order/subscriptionPlans',data)
+ return https.get('/pay/findProductAll',data)
 }
 /**
  *我的订阅
@@ -148,10 +154,22 @@ export const creatSubscriptionPlan=(data)=>{
  return https.get('/order/prepaySubscriptionPlan',data)
 }
 /**
- *支付
+ *下单接口
  **/
 export const userCreatePayment=(data)=>{
- return https.get('/paypal/createPayment',data)
+ return https.get('/pay/unifiedOrder',data)
+}
+/**
+ *判断是否支付成功
+ **/
+export const judgeIsPaly=(data)=>{
+ return https.get('/pay/isPay',data)
+}
+/**
+ *获取二维码
+ **/
+export const getQrCode=(data)=>{
+ return https.get('/pay/getQrcode',data)
 }
 /**
  *通知支付成功
@@ -170,6 +188,18 @@ export const userGetCaptcha=(data)=>{
  **/
 export const userGetvalidate=(data)=>{
  return https.get('/validate',data)
+}
+/**
+ *获取邀请码
+ **/
+export const userGetInvitation=(data)=>{
+ return https.get('/user/getInvitation',data)
+}
+/**
+ *获取邀请码记录
+ **/
+export const userGetInvitationLogPage=(data)=>{
+ return https.get('/user/listInvitationLogPage',data)
 }
 //产品模块结束
 

@@ -58,7 +58,9 @@
           userResetPassword({oldPassword:this.oldpass,newPassword:this.newpass}).then(res=>{
             if(!res.code){
               this.$message({type:'warning',message:'密码已修改完成'})
-              window.location.replace=`loginOrRegister.html#/`
+              setTimeout(()=>{
+                window.location.replace(`${this.basrUrl}/loginOrRegister.html#/?type=0`)
+              },1500)
             }
           })
         }else{
@@ -73,7 +75,10 @@
           userResetbyEmail({newPassword:this.newpass,token:this.userToken}).then(res=>{
             if(!res.code){
               this.$message({type:'warning',message:'密码已修改完成'})
-              window.location.replace(`${this.basrUrl}/loginOrRegister.html#/?type=0`)
+              setTimeout(()=>{
+                window.location.replace(`${this.basrUrl}/loginOrRegister.html#/?type=0`)
+              },1500)
+
             }
           })
         }

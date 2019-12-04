@@ -22,9 +22,9 @@ const routes = [
         name: '赚取学分',
         component: ()=> import(/* webpackChunkName: "earn" */ '@/views/userCenter/user-earn.vue'),
     },{
-        path: '/userCenter/history',
-        name: '历史记录',
-        component: ()=> import(/* webpackChunkName: "history" */ '@/views/userCenter/user-history.vue'),
+        path: '/userCenter/invitation',
+        name: '邀请码',
+        component: ()=> import(/* webpackChunkName: "history" */ '@/views/userCenter/user-invitation.vue'),
     },{
         path: '/userCenter/set',
         name: '账户设置',

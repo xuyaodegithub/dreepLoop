@@ -11,7 +11,7 @@
                 <div class="flex dxzz a-i">
                     <el-input v-model="code" placeholder="短信验证码" type="number">
                     </el-input>
-                    <el-button type="primary" @click="sendMobileCode">发送验证码</el-button>
+                    <el-button type="primary" @click="sendMobileCode">{{timer ? timer : '发送验证码'}}</el-button>
                 </div>
 
                 <!--                <el-input v-model="usersurepass" placeholder="确认您的密码" type="password" v-if="btnType==1"  @keyup.enter.native="regestUser()" ></el-input>-->
@@ -34,12 +34,14 @@
                 phone: '',
                 code: '',
                 basrUrls: basrUrls(),
-                showCode: false
+                showCode: false,
+                timer:0
             }
         },
         computed: {},
         methods: {
             sendMobileCode() {
+                if(this.timer)return;
                 if (!this.phone || this.phone.length !== 11) {
                     this.$message( {type: 'error', message: '手机号格式不正确'} )
                     return
@@ -75,6 +77,11 @@
                 sendCode( data ).then( res => {
                     if (!res.code) {
                         this.$message( {type: 'success', message: '短信发送成功'} )
+                        this.timer=60
+                        let timer=setInterval(()=>{
+                            this.timer--
+                            if(!this.timer)clearInterval(timer)
+                        },1000)
                     }
                 } )
                 // window.location.href=`${this.basrUrls}/updataPass.html#/?token=a9daaea9c9e24fc5b8f5ea6ec3ed196b`

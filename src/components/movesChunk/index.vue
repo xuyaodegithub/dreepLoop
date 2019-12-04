@@ -1,7 +1,7 @@
 <template>
 <!--    图片滑块组件-->
     <div>
-        <div class="relative" ref="imgs"  @mousedown.prevent="downs" @mousemove.prevent="moves" @mouseup="ups" @mouseleave.prevent="openMoves=false">
+        <div class="relative" ref="imgs"  @mousedown.prevent="downs" @mousemove.prevent="moves">
             <div class="posi" :style="{width:ws}"><img :src="imgss[0]" alt=""></div>
             <img :src="imgss[1]" alt="">
             <img src="../../assets/image/moveW.png" alt="" class="move cu" :style="{left:ws}">
@@ -44,7 +44,7 @@
             },
         },
         mounted() {
-
+            window.addEventListener('mouseup',this.ups)
         }
     }
 </script>
@@ -65,7 +65,7 @@
             transform: translateX(-50%);
         }
         .move:hover{
-            cursor:w-resize
+            cursor:ew-resize;
         }
     }
     .flex{

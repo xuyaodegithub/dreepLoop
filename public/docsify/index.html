@@ -12,6 +12,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta charset="UTF-8">
+<!--  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
   <link rel="stylesheet" href="../static/public.css">
   <link rel="stylesheet" href="css/vue.css">
   <link rel="stylesheet" href="css/index.css">
@@ -37,7 +38,7 @@
       padding: 0 30px 0;
     }
     header li{
-      margin: 0 40px;
+      margin: 0 20px;
     }
     header li.red{
        color: #e82255;
@@ -128,17 +129,33 @@
   <div class="margins flex j-b a-i first">
     <ul class="flex">
       <li><img src="../static/images/sureLogo.png" alt="" class="cu" @click="backindex()" style="height: 30px;"></li>
-      <li class="cu" @click="backindex()">人物抠图</li>
+      <li class="cu" @click="backindex('index')">首页</li>
+      <li class="cu" @click="backindex('people')">人物抠图</li>
       <li class="cu" @click="toObject()">物体抠图</li>
       <li class="cu" @click="toProduct()">更多产品</li>
       <li class="cu" @click="toAbout()">关于我们</li>
+<!--      <li>|</li>-->
+<!--      <li class="cu" ><a href="../freeimg.html">免费PNG透明图</a></li>-->
 <!--      <li class="cu" @click="userCenter()">Members</li>-->
       <!--            <li class="cu">登录</li>-->
     </ul>
     <div class="right">
       <div v-if="!loginAfter">
+        <a href="#/apidoc_api.md"><span>API</span></a><!--登录-->
         <span @click="userCenter()">定价</span>
-<!--        <span @click="userlogin(1)" class="active">Sign In/Sign Up</span>-->
+        <span @click="userlogin(0)" class="active">登录/注册</span><!--注册-->
+      </div>
+      <div class="cu" v-else>
+        <span @click="userCenter()">定价</span>
+<!--        <el-dropdown placement="bottom-end" @command="handleCommand">-->
+<!--                      <span class="el-dropdown-link" @click="toMyCount()">-->
+<!--                       {{userInfo.mobile}}-->
+<!--                      </span>-->
+<!--          <el-dropdown-menu slot="dropdown">-->
+<!--            <el-dropdown-item command="1">我的账户</el-dropdown-item>-->
+<!--            <el-dropdown-item command="0">注销</el-dropdown-item>-->
+<!--          </el-dropdown-menu>-->
+<!--        </el-dropdown>-->
       </div>
     </div>
   </div>
@@ -179,10 +196,10 @@
       //...
     }
   </script>
-<script src="js/vue.js"></script>
-<!-- import JavaScript -->
 <!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
 <script src="js/docsify.min.js"></script>
+<script src="js/vue.js"></script>
+<!-- import JavaScript -->
 <script>
   const toRouter=(url)=>{
     let urls = window.location.href.split('/docsify')[0]
@@ -192,13 +209,22 @@
     let urls = window.location.href.split('/docsify')[0]
     return urls
   }
+  const  getToken=function() {
+    // return window.localStorage.getItem(TokenKey)
+    return window.sessionStorage.getItem('user_Token')
+  }
+  const  removeToken=function() {
+    // return window.localStorage.getItem(TokenKey)
+    return window.sessionStorage.removeItem('user_Token')
+  }
   new Vue({
     el: '#headers',
     data: function() {
       return {
-        loginAfter:false,
+        loginAfter:getToken(),
         userInfo:'',
-        basrUrls:basrUrls()
+        basrUrls:basrUrls(),
+        urls:window.location.href
       }
     },
     methods:{
@@ -214,8 +240,8 @@
         if(window.location.href.indexOf('aboutUs')>-1) return;
         toRouter('aboutUs')
       },
-      backindex(){
-         toRouter('index')
+      backindex(url){
+         toRouter(url)
       },
       userlogin(key){
         window.location.href=this.basrUrls+'/loginOrRegister.html#/?type='+key
@@ -224,8 +250,22 @@
         toRouter('userVip')
       },
       toApi(){
-        if(window.location.href.indexOf('/#/test')>-1) return
-        window.location.href=this.basrUrls+'/docsify/#/test.md'
+        if(window.location.href.indexOf('/#/apidoc_api')>-1) return
+        window.location.href=this.basrUrls+'/docsify/#/apidoc_api.md'
+      },
+      handleCommand(ev){
+        let url=window.location.href
+        if( ev==1 && url.indexOf('userCenter') > -1 ) return;
+        if(ev==1) toRouter('userCenter')
+        else {
+          removeToken()
+          clearCookie('token')
+          // if(){}
+          toRouter('index')
+        }
+      },
+      toMyCount(){
+        toRouter('userCenter')
       }
     },
     mounted() {

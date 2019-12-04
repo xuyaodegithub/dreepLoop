@@ -2,21 +2,26 @@
     <header>
         <div class="margins flex j-b a-i first">
             <ul class="flex">
-                <li><img src="../../assets/image/sureLogo.png" alt="" class="cu" @click="backindex()" style="height: 30px;"></li>
-                <li class="cu" :class="{'red' : urls.indexOf('index')>-1 || urls.indexOf('/#/')>-1}" @click="backindex()">人物抠图</li><!--智能抠图-->
+                <li><a href="index.html"><img src="../../assets/image/sureLogo.png" alt="" style="height: 30px;"></a></li>
+                <li class="cu" :class="{'red' : urls.indexOf('index')>-1 || urls.indexOf('/#/')>-1}">
+                    <a href="index.html">首页</a></li><!--智能抠图-->
+                <li class="cu" :class="{'red' : urls.indexOf('people')>-1}" @click="backindex()">人像抠图</li><!--智能抠图-->
                 <li class="cu" :class="{'reds' : urls.indexOf('objects')>-1}"><a href="objects.html">物体抠图</a></li><!--智能抠图-->
                 <li class="cu" :class="{'red' : urls.indexOf('product')>-1}"><a href="product.html">更多产品</a></li>
 <!--                @click="toProduct()" @click="toAbout()"-->
                 <li class="cu" :class="{'red' : urls.indexOf('aboutUs')>-1}"><a href="aboutUs.html">关于我们</a></li><!--会员-->
+<!--                <li>|</li>-->
+<!--                <li class="cu" :class="{'red' : urls.indexOf('freeimg')>-1}"><a href="freeimg.html">免费PNG透明图</a></li>-->
                 <!--            <li class="cu">登录</li>-->
             </ul>
             <div class="right">
                 <div v-if="!loginAfter">
+                    <a href="docsify/#/apidoc_api.md"><span>API</span></a><!--登录-->
                     <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">定价</span>
-<!--                    <span @click="userlogin(1)">Sign In</span>&lt;!&ndash;登录&ndash;&gt;-->
-<!--                    <span @click="userlogin(0)" class="active">登录/注册</span>&lt;!&ndash;注册&ndash;&gt;-->
+                    <span @click="userlogin(0)" class="active">登录/注册</span><!--注册-->
                 </div>
                 <div class="cu" v-else>
+                    <a href="docsify/#/apidoc_api.md"><span>API</span></a><!--登录-->
                     <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">定价</span>
                     <el-dropdown placement="bottom-end" @command="handleCommand">
                       <span class="el-dropdown-link" @click="toMyCount()">
@@ -24,7 +29,7 @@
                       </span>
                       <el-dropdown-menu slot="dropdown">
                          <el-dropdown-item command="1">我的账户</el-dropdown-item>
-                         <el-dropdown-item command="0">注销</el-dropdown-item>
+                         <el-dropdown-item command="0">退出</el-dropdown-item>
                       </el-dropdown-menu>
                     </el-dropdown>
                 </div>
@@ -67,6 +72,9 @@
             }
         },
         methods:{
+            goindex(){
+                window.location.href='index.html'
+            },
             toApi(){
                 window.location.href=this.basrUrls+'/docsify/#/test.md'
             },
@@ -79,15 +87,15 @@
                         this.$emit('to-parses',res.data)
                     }else{
                         this.loginAfter=false
-                        removeToken()
-                        clearCookie('token')
+                        // removeToken()
+                        // clearCookie('token')
                     }
                 })
             },
              backindex(){
                  let url=window.location.href
-                 if(url.indexOf('index') > -1) return;
-                 else toRouter('index')
+                 if(url.indexOf('people') > -1) return;
+                 else toRouter('people')
             },
             userlogin(key){
                 let urls = window.location.href.split('#/')[0]
@@ -154,7 +162,7 @@
         }
     }
     header li{
-        margin: 0 40px;
+        margin: 0 20px;
         a{
             display: block;
         }

@@ -7,17 +7,18 @@
             <div class="Operator">
                 <h6><!--Local images-->本地图像</h6>
                 <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()"><!--Upload-->上传</el-button>
-<!--                <p class="afterbtn" v-if="!LoginStatus"><span class="cu" @click="userlogin(0)">登录</span>-->
-<!--                    &lt;!&ndash;for batch upload&ndash;&gt;后批量上传</p>-->
+                <p class="afterbtn" v-if="!LoginStatus"><span class="cu" @click="userlogin(0)">登录</span>
+                    <!--for batch upload-->后批量上传</p>
                 <div class="center">
                     <h5>Web 图片</h5>
                     <div style="position: relative;">
                         <img src="../../assets/image/inputImg.png" alt=""
                              style="position: absolute;left: 8px;top: 12px;">
-                        <input type="text" placeholder="粘贴一个图片地址" v-model="imgUrl" @keyup.enter="copyImgUrl()"
+<!--                        @keyup.enter="copyImgUrl()"-->
+                        <input type="text" placeholder="CTRL+V图像或URL" v-model="imgUrl"
                                @focus="$event.target.select()">
-                        <img src="../../assets/image/img5.png" alt="" style="margin-left:-14px;" class="cu"
-                             @click="copyImgUrl()">
+<!--                        <img src="../../assets/image/img5.png" alt="" style="margin-left:-14px;" class="cu"-->
+<!--                             @click="copyImgUrl()">-->
                     </div>
 <!--                    <div class="flex a-i cu">-->
 <!--                        <img src="../../assets/image/img1.png" alt="">-->
@@ -67,10 +68,26 @@
                     </div>
                 </div>
             </div>
-            <div class="OperatorRight drops" v-show="files.length">
+            <div class="OperatorRight drops">
+                <div class="newChunk">
+                    <h2>物体抠图</h2>
+                    <p>猫狗汽车鞋包家居，通通能抠</p>
+                    <div class="flex a-i">
+                        <div class="gif"><img src="../../assets/image/ogif.gif" alt=""></div>
+                        <div class="gifright">
+                            <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()" style="background-color: #21a9e8;border-color: #21a9e8;"><!--Upload-->上传图像</el-button>
+                            <el-input v-model="imgUrl"  placeholder="CTRL+V粘贴图像或者URL"
+                                      @focus="$event.target.select()"></el-input>
+                            <p>没有图像？试试以下图片看看效果</p>
+                            <div class="flex a-i">
+                                <div :style="{backgroundImage:`url(${item})`,backgroundSize:'cover',backgroundPosition:'center'}" v-for="(item,idx) in initimgsList" :key="idx" @click="deepItem(item)" class="cu"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div v-for="(item,index) in files" :key="item.name" class="imgRef"
-                      :id="item.name">
-<!--                    :class="{'active' : index===files.length-1}"-->
+                     :id="item.name">
+                    <!--                    :class="{'active' : index===files.length-1}"-->
                     <img-sub :files="item" @to-parse="collectBg" @close="closeItem" :index="index"
                              @openImgSet="openImgSet"></img-sub>
                 </div>
@@ -84,12 +101,17 @@
                         </div>
                     </div>
 <!--                </el-scrollbar>-->
-                <div class="downBtn">
+                <div class="downBtn"  @mouseenter="classType=0">
                     <span><!--Download all-->下载全部</span>
                     <div class="sizeChoses">
                         <div class="flex a-i btn j-b">
-                            <div v-for="(val,index) in color" :key="index" :style="{background:val}"
-                                 :class="{'active' : classType===index}" @click="classType=index" class="cu"></div>
+                            <div v-for="(val,index) in color" :key="index"
+                                 :class="{'active' : classType===index}" @click="classType=index" class="cu">
+                                <div class="flex color_List" v-show="classType===1 && index===1">
+                                    <span v-for="(color,idx) in colorList" :key="idx" :style="{backgroundColor:color}" @click.stop="selectColor=color" :class="{selectC : selectColor===color}"></span>
+                                </div>
+                                <img :src="val" alt="" style="position: absolute;left: 0;top: 0;width: 24px;height: 24px" :title="index | imgtitle">
+                            </div>
                         </div>
                         <div class="flex a-i">
                             <span>尺寸</span>
@@ -132,7 +154,8 @@
     import {getMattedImageMultiple, userHistoryList} from "../../apis";
     import mohu1 from '@/assets/image/mohu1.png'
     import mohu2 from '@/assets/image/mohu2.png'
-    import opacity from '@/assets/opacity.jpg'
+    import opacity from '@/assets/image/fopa.png'
+    import bscolor from '@/assets/image/color.png'
     import JSManipulate from '../../utils/jsmanipulate.js'
     import { niceScroll } from 'jquery.nicescroll';
 
@@ -140,6 +163,12 @@
         name: 'HelloWorld',
         data() {
             return {
+                initimgsList:[
+                    'http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2019/11/15/9a6ccd03366c4e2eb1fd94484221c873.png',
+                    'http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2019/11/15/824e91700851429eb71c8a6a474dd065.png',
+                    'http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2019/11/15/da6daaeb1f4a449ba833ce817d4de741.png',
+                    'http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2019/11/15/7b2ad3124e70486eb0635da2a84f88c3.png',
+                ],
                 rightImgList: [],
                 selectImg: 0,
                 multiple: false,
@@ -151,17 +180,29 @@
                 historyList: {},
                 showHistory: false,
                 files: [],
-                timer: '',//上传过度动画
-                percentValue: 0,//上传百份比
                 imgUrl: '',//图片链接
                 page: 1,
                 rows: 30,
-                color: [`url(${opacity}) center`, '#ffffff', '#eeeeee', '#5d5d5d', `url(${mohu2}) center`, `url(${mohu1}) center`],
+                color: [opacity, bscolor, mohu2, mohu1],
                 classType: 0,
                 stopUpdata: false,//停止滑动加载
                 Percentile: 0,
                 loading: null,
-                scrollStop: true
+                scrollStop: true,
+                colorList:[
+                    '#fc0615','#ff7f02','#ffff11','#1cff12','#1bffff','#0000fe','#fc01fc','#7f0f7f','#986633','#ffffff','#7f7f7f','#000000',
+                    '#ffffff','#ebebeb','#d6d6d6','#c2c2c2','#adadad','#999999','#858585','#707070','#5c5c5c','#474747','#333333','#000000',
+                    '#12374a','#061a55','#10033b','#2e063b','#3c091a','#5c0f07','#5b1f05','#563309','#583c0c','#676113','#4f5613','#273e14',
+                    '#154d66','#0f2f7c','#190950','#451058','#551428','#81190c','#7b2a0c','#7b4a10','#795813','#8c8614','#71761a','#38571c',
+                    '#0a6d8d','#1542a9','#2a0876','#621c7e','#781d3e','#b51d12','#ae3d13','#aa6917','#a77a15','#c3bc14','#9aa40d','#4f7a28',
+                    '#158cb4','#1855d4','#371b94','#7a259e','#982550','#e32316','#db5017','#d4810b','#d39c0c','#f5eb17','#c3d119','#689d31',
+                    '#06a1d7','#1260fe','#4e22b5','#972abb','#ba2c5c','#ff3f1a','#fe690b','#fcaa18','#fec810','#fffc45','#d9ec38','#76bc3f',
+                    '#0fc7fd','#3c87fe','#5f2eec','#bf36f5','#e73a7c','#ff6050','#ff8647','#ffb43f','#fecb3e','#fef769','#e3ef65','#97d45f',
+                    '#54d6fa','#75a7ff','#874efd','#d257fd','#ef71a0','#fe8c82','#fea57d','#fec775','#fdda76','#fdf892','#ebf390','#b2dd8b',
+                    '#96e2fa','#a9c6fe','#b18cfd','#e391fd','#f4a4c1','#ffb4ae','#fec5aa','#ffd9a8','#fee4a9','#fefaba','#f4f6b7','#cce8b5',
+                    '#ccf0fe','#d3e2ff','#d9c8fe','#efcafe','#f9d3e0','#fedbd9','#ffe3d7','#feedd3','#fff1d4','#fffdde','#f7fadd','#e0eed5',
+                ],//色板
+                selectColor:''
             }
         },
         filters: {
@@ -174,6 +215,12 @@
                 if (arr[0] == y && arr[1] == m && arr[2] == d) return '今天';
                 else if (arr[0] == y && arr[1] == m && arr[2] == d - 1) return '昨天';
                 else return val
+            },
+            imgtitle(i){
+                if (i===0)return '背景透明';
+                else if (i===1)return '纯色背景';
+                else if (i===2)return '背景黑白';
+                else if (i===3)return '背景模糊';
             }
         },
         watch:{
@@ -188,8 +235,34 @@
         mounted() {
             this.stopPrevent()
             this.getsesImgsSet()
+            if(getToken())this.userGetscribe();
             window.addEventListener( 'scroll', this.scrollFun );
             $( '#niceScrolls' ).niceScroll( {cursorcolor: '#999999'} );
+            document.addEventListener('paste', (e) => {
+                let clipboardData = e.clipboardData,//谷歌
+                    i = 0,
+                    items, item, types;
+                if( clipboardData ) {
+                    items = clipboardData.items;
+                    if (!items) {
+                        return;
+                    }
+                    item = items[0];
+                    types = clipboardData.types || [];
+                    for (let i=0; i < types.length; i++) {
+                        if (types[i] === 'Files') {
+                            item = items[i];
+                            break;
+                        }
+                    }
+                    if(item && item.kind === 'string' && item.type.match( /^text\//i )){
+                        this.deepItem(clipboardData.getData("Text"))
+                    }
+                    if (item && item.kind === 'file' && item.type.match( /^image\//i )) {
+                        this.changeImg({target:{files:[item.getAsFile()]}})
+                    }
+                }
+            })
             // $('.hisimgs').niceScroll({cursorcolor :'#999999',boxzoom:true});
         },
         destroyed(){
@@ -205,7 +278,13 @@
             headerSub, imgSub, imgSetSub
         },
         methods: {
-            ...mapActions( [] ),
+            ...mapActions( [
+                'userGetscribe'
+            ] ),
+            deepItem(item){
+                this.imgUrl=item
+                this.copyImgUrl()
+            },
             userlogin(key) {
                 let urls = window.location.href.split( '#/' )[0];
                 let baseUrl = urls.substring( 0, urls.lastIndexOf( '/' ) );
@@ -220,7 +299,7 @@
                 this.showSetImg = true;
             },
             collectBg(obj) {
-                if (obj.color === 'add') this.allbgImg.push( obj );
+                    this.allbgImg[obj.id]=obj
                 if (!getSecImgs(2)) {
                     this.sesImgsSet( this.allbgImg );
                     return
@@ -236,7 +315,6 @@
                 //         if (val.name === obj.name) val.color = obj.color
                 //     })
                 // }
-
             },
             closeItem(item) {
                 this.files.splice( item.index, 1 );
@@ -306,10 +384,10 @@
                     let ctxs = cans.getContext( '2d' )
                     cans.width = objs.bgRemovedImg.width;
                     cans.height = objs.bgRemovedImg.height;
-                    if (this.classType > 0 && this.classType < 4) {
-                        ctxs.fillStyle = this.color[this.classType];
+                    if (this.classType ===1) {
+                        ctxs.fillStyle = this.selectColor;
                         ctxs.fillRect( 0, 0, cans.width, cans.height )
-                    } else if (this.classType === 4 || this.classType === 5) ctxs.putImageData( objs.dwonBg, 0, 0 );
+                    } else if (this.classType >1) ctxs.putImageData( objs.dwonBg, 0, 0 );
                     ctxs.drawImage( objs.bgRemovedImg, 0, 0 );
                     let url = cans.toDataURL( "image/png" ); // 得到图片的base64编码数据 let url =
                     baseList.push( {name: objs.is, img: url.substring( 22 )} );
@@ -362,29 +440,41 @@
                     type: 'copy',
                     fileId: url ? url.fileId : ''
                 } )
+                this.imgUrl=''
             },
-            changeImg(e) {//图片上传
+            changeImg(ev) {//图片上传
+                const e= ev.target
+                if(e.files.length>30){
+                    this.$message({
+                        type:'warning',
+                        message:'最多同时上传30张图片，请分批次进行上传。'
+                    })
+                    return
+                }
                 this.toscroll();
-                for (let i = 0; i < this.$refs.upImg.files.length; i++) {
+                for (let i = 0; i < e.files.length; i++) {
                     this.files.unshift( {
-                        url: this.$refs.upImg.files[i],
+                        url: e.files[i],
                         name: parseInt( Math.random() * 100000000000 ),
                         type: 'file'
                     } );
                 }
-                this.imgUrlss( this.$refs.upImg.files )
+                this.imgUrlss( e.files )
             },
             toscroll() {
                 // let oDiv = this.$refs.contentImg.offsetTop;
-                $( 'body,html' ).animate( {scrollTop: 0}, 500 );
+                $( 'body,html' ).animate( {scrollTop: 620}, 500 );
             },
             toApi() {
-                window.location.href = this.basrUrls + '/docsify/#/test.md'
+                window.location.href = this.basrUrls + '/docsify/#/apidoc_api.md'
             },
             imgUrlss(obj) {//rightImgList
                 let _self = this
                 let newArr = new Array( obj.length ).fill( 0 );
-                if (obj.type === 'copy') this.rightImgList.unshift( {url: obj.url, name: obj.name} )
+                if (obj.type === 'copy'){
+                    this.rightImgList.unshift( {url: obj.url, name: obj.name} )
+                    this.allbgImg=[0,...this.allbgImg]
+                }
                 else {
                     for (let i = 0; i < obj.length; i++) {
                         let reader = new FileReader();
@@ -399,6 +489,7 @@
                             // console.log(_self.allbgImg,"11111111111111111111111")
                         }
                     }
+                    this.allbgImg=[...new Array(obj.length).fill(0),...this.allbgImg]
                 }
             },
             goThisImg(index) {
@@ -469,7 +560,7 @@
                 JSManipulate.blur.filter( newBg1, {amount: 5.0} );
                 JSManipulate.grayscale.filter( newBg4 );
                 callback( {
-                    dwonBg: index === 4 ? newBg4 : newBg1,
+                    dwonBg: index === 2 ? newBg4 : newBg1,
                     bgRemovedImg: imgObjs.bgImg,
                     name: imgObjs.name,
                     is: i//下载名称
@@ -558,7 +649,7 @@
             },
             getsesImgsSet() {
                 if (!getSecImgs(2)) return;
-                let arr = JSON.parse( getSecImgs(2) )
+                let arr = JSON.parse( getSecImgs(2) ).reverse();
                 if (!arr) return;
                 arr.map( (item) => {
                     this.copyImgUrl( {url: item.Original, fileId: item.fileId},1 )
@@ -566,6 +657,10 @@
             }
 
         },
+        created() {
+            const data=localStorage.getItem('initObjStatus') ? JSON.parse(localStorage.getItem('initObjStatus')) : '';
+            this.$store.commit('SET_INIT_STATUS',data)
+        }
     }
 </script>
 
@@ -573,7 +668,6 @@
 <style lang="scss">
     .helloFirst {
         background-color: #f5f5f6;
-
         .apps {
             padding-right: 75px;
         }
@@ -641,10 +735,8 @@
                     border-bottom: 1px solid #333;
                     line-height: 40px;
                     height: 40px;
-                    width: 111px;
                     margin-left: 8px;
                     margin-bottom: 22px;
-                    padding-right: 24px;
                     padding-left: 25px;
                 }
 
@@ -784,6 +876,57 @@
             .imgRef.active {
                 margin-bottom: 85px;
             }
+            .newChunk{
+                background-color: #fff;
+                padding: 60px 0 80px;
+                line-height: 1;
+                text-align: center;
+                margin-bottom: 15px;
+                h2{
+                    font-size: 34px;
+                    font-weight: 500;
+                }
+                & > p{
+                    font-size: 20px;
+                    margin: 20px 0 50px 0;
+                    color: #777;
+                }
+                & > .flex{
+                    justify-content: center;
+                }
+                .gifright{
+                    text-align: left;
+                    width: 280px;
+                    margin-left: 78px;
+                    .el-button,.el-input{
+                        display: block;
+                        width: 100%;
+                        border-radius: 10px;
+                        height: 50px;
+                        margin-bottom: 20px;
+                        input{
+                            height: 100%;
+                            background-color: rgb(243,243,243);
+                            border-color: #fff;
+                        }
+                    }
+                    .el-input{
+                        margin-bottom: 40px;
+                        background-color: rgb(243,243,243);
+                    }
+                    p{
+                        font-size: 14px;
+                        color: #999;
+                        line-height: 50px;
+                    }
+                    .flex div{
+                        width: 62px;
+                        height: 62px;
+                        border-radius: 5px;
+                        margin-right: 12px;
+                    }
+                }
+            }
         }
 
         .ImgLists {
@@ -792,10 +935,7 @@
             top: 75px;
             width: 40px;
             max-height: 70%;
-            /*overflow: hidden;*/
-            /*max-height: 70%;*/
-            /*overflow-y: auto;*/
-            /*overflow-x: hidden;*/
+           z-index: 88;
             .el-scrollbar{
                 z-index: 999;
             }
@@ -888,9 +1028,34 @@
             padding:0 10px 8px;
             border-bottom: 1px solid #ececec;
             margin-bottom: 8px;
+            & > div{
+                position: relative;
+            }
+            .color_List{
+                position: absolute;
+                top: -250px;
+                left: 50%;
+                margin-left: -100px;
+                width: 240px;
+                flex-wrap: wrap;
+                box-shadow: 0 0 10px #333;
+                margin-top: 10px;
+                z-index:88;
+                background-color: #fff;
+                span:first-child{
+                    margin-bottom: 10px;
+                }
+                span{
+                    width: 20px;
+                    height: 20px;
+                }
+                .selectC{
+                    box-shadow: 0 0 8px #fff inset;
+                }
+            }
         }
 
-        .btn div {
+        .btn > div {
             background-repeat: no-repeat;
             background-position: center;
             width: 24px;

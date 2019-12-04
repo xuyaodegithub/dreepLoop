@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');//打包时，显示进度条插件
+const Timestamp = new Date().getTime();//时间戳，解决缓存问题
 module.exports = {
     // publicPath: process.env.NODE_ENV === 'production' ? 'http://47.111.168.199:8080' : 'http://47.111.168.199:8080',
     publicPath:'./',
@@ -39,21 +40,28 @@ module.exports = {
         }
     },
     pages:{
-        index: {
+        index:{
+            entry: 'src/views/initIdx/index.js',
+            template:'public/init.html',
+            filename: 'index.html',
+            title: '首页',
+            // chunks: ['chunk-vendors', 'chunk-common', 'loginOrRegister']
+        },
+        people: {
             // page 的入口
             entry: 'src/views/index/index.js',
             // 模板来源
             template: 'public/index.html',
             // 在 dist/index.html 的输出
-            filename: 'index.html',
+            filename: 'people.html',
             // 当使用 title 选项时，
             // template 中的 title 标签需要是 <title><%= htmlWebpackPlugin.options.title %></title>
-            title: '首页',
+            title: '人物抠图',
             // 在这个页面中包含的块，默认情况下会包含
             // 提取出来的通用 chunk 和 vendor chunk。
             // chunks: ['chunk-vendors', 'chunk-common', 'index']
         },
-        indextwo: {
+        objects: {
             // page 的入口
             entry: 'src/views/indexTwo/index.js',
             // 模板来源
@@ -127,14 +135,38 @@ module.exports = {
             entry: 'src/views/products/index.js',
             template:'public/product.html',
             filename: 'product.html',
-            title: 'More products',
+            title: '更多产品',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
         },
         aboutUs:{
             entry: 'src/views/aboutUs/index.js',
             template:'public/aboutUs.html',
             filename: 'aboutUs.html',
-            title: 'about us',
+            title: '关于我们',
+            // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
+        }, freeimg:{
+            entry: 'src/views/freeimg/index.js',
+            template:'public/freeimg.html',
+            filename: 'freeimg.html',
+            title: '免费PNG透明图',
+            // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
+        },detail:{
+            entry: 'src/views/detail/index.js',
+            template:'public/detail.html',
+            filename: 'detail.html',
+            title: '图片详情',
+            // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
+        },copyright:{
+            entry: 'src/views/copyright/index.js',
+            template:'public/copyright.html',
+            filename: 'copyright.html',
+            title: '版权',
+            // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
+        },editPictures:{
+            entry: 'src/views/editPictures/index.js',
+            template:'public/editPictures.html',
+            filename: 'editPictures.html',
+            title: '图片编辑',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
         },
     },
@@ -146,7 +178,11 @@ module.exports = {
                 "windows.jQuery":"jquery"
             }),
             new ProgressBarPlugin()
-        ]
+        ],
+        output: { // 输出重构  打包编译后的 文件名称  【模块名称.版本号.时间戳】
+            filename: `js/[name].${Timestamp}.js`,
+            chunkFilename: `js/[name].${Timestamp}.js`
+        },
     },
     // configureWebpack: config => {//如果你需要基于环境有条件地配置行为，或者想要直接修改配置，那就换成一个函数 (该函数会在环境变量被设置之后懒执行)。该方法的第一个参数会收到已经解析好的配置。在函数内，你可以直接修改配置，或者返回一个将会被合并的对象：
     //     if (process.env.NODE_ENV === 'production') {
