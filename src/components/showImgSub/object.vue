@@ -90,11 +90,13 @@
                                 <div class="flex a-i j-b" >
                                     <span>{{imageMsg.previewWidth + ' X ' + imageMsg.previewHeight}}</span>
                                     <span>0</span>
+                                    <i @click="edireThis(0)">编辑</i>
                                     <span class="cu" @click="save(0)">下载</span>
                                 </div>
                                 <div class="flex a-i j-b" v-if="imageMsg.previewWidth!==imageMsg.originalWidth || imageMsg.previewHeight!==imageMsg.originalHeight">
                                     <span>{{imageMsg.originalWidth + ' X ' + imageMsg.originalHeight}}</span>
                                     <span>1</span>
+                                    <i @click="edireThis(1)">编辑</i>
                                     <span class="cu"  @click="save(1)">下载</span>
                                 </div>
                                 <div>
@@ -1201,6 +1203,11 @@
                         text-align: center;
                         color: $to;
                     }
+                }
+                i{
+                    display: inline-block;
+                    margin-right: 20px;
+                    color: $to;
                 }
             }
             .j-b:hover{

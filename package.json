@@ -30,6 +30,7 @@
     "node-sass": "^4.9.2",
     "progress-bar-webpack-plugin": "^1.12.1",
     "sass-loader": "^7.1.0",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "vue-cli-plugin-element": "^1.0.1",
     "vue-template-compiler": "^2.6.10"
   },

@@ -76,6 +76,7 @@ import color from '@/assets/image/color.png'
 import fopa from '@/assets/image/fopa.png'
 import mohu1 from '@/assets/image/mohu1.png'
 import mohu2 from '@/assets/image/mohu2.png'
+import { downloadMattedImage } from "@/apis";
 export const mixins={
   data(){
     return {
@@ -102,7 +103,31 @@ export const mixins={
     }
   },
   methods:{
-
+    edireThis(k){
+      const editPictures={
+        pro:this.bgOriginal.img,
+        ori:this.Original
+      }
+      if(!k){
+        localStorage.setItem('editImg',JSON.stringify(editPictures))
+        window.open('editPictures.html')
+      } else{
+        if( this.imageMUrl){
+          editPictures.pro=this.imageMUrl
+          localStorage.setItem('editImg',JSON.stringify(editPictures))
+          window.open('editPictures.html')
+          return
+        }
+        downloadMattedImage({fileId: this.fileId}).then(res => {
+          if (!res.code) {
+            this.imageMUrl = res.data
+            editPictures.pro=res.data
+            localStorage.setItem('editImg',JSON.stringify(editPictures))
+            window.open('editPictures.html')
+          }
+        })
+      }
+    },
   },
   mounted(){
 

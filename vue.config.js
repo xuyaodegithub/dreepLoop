@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');//打包时，显示进度条插件
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin');//js压缩
 const Timestamp = new Date().getTime();//时间戳，解决缓存问题
 module.exports = {
     // publicPath: process.env.NODE_ENV === 'production' ? 'http://47.111.168.199:8080' : 'http://47.111.168.199:8080',
@@ -177,7 +178,8 @@ module.exports = {
                 jQuery:"jquery",
                 "windows.jQuery":"jquery"
             }),
-            new ProgressBarPlugin()
+            new ProgressBarPlugin(),
+            // new UglifyJsPlugin()
         ],
         output: { // 输出重构  打包编译后的 文件名称  【模块名称.版本号.时间戳】
             filename: `js/[name].${Timestamp}.js`,
