@@ -104,10 +104,9 @@
                                 let token = res.data.token
                                 setToken( token )
                                 setCookie( 'token', token )
-                                // window.location.replace(document.referrer)
-                                // console.log(window.history.back())
                                 // setTimeout(()=>{
                                     if(window.history.length<3 || document.referrer.indexOf('register')>-1){window.location.replace('index.html')}
+                                    else if (document.referrer.includes('docsify')) window.location.replace('docsify/#/apidoc_api.md')
                                     else window.location.replace(document.referrer)
                                 // },10000)
                             }
@@ -120,7 +119,9 @@
                                 setCookie( 'token', token )
                                 // if (this.hasBack) window.history.go( -1 );
                                 // else window.location.replace( `${this.basrUrl}/index.html#/` )
-                                window.history.go(-1)
+                                if(window.history.length<3 || document.referrer.indexOf('register')>-1){window.location.replace('index.html')}
+                                else if (document.referrer.includes('docsify')) window.location.replace('docsify/#/apidoc_api.md')
+                                else window.location.replace(document.referrer)
                             }
                         })
                     }

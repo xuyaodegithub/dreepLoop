@@ -35,7 +35,7 @@
                 </div>
             </div>
         </div>
-        <footer-sub></footer-sub>
+<!--        <footer-sub></footer-sub>-->
         <el-dialog
                 @close="closeDlog"
                 custom-class="Dlog"

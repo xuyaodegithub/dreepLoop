@@ -45,6 +45,7 @@ instance.interceptors.response.use(function (response) {//为自定义axios设�
   }
 }, function (err) {
   // 对请求错误做些什么
+  // console.log('erererererer',err)
   if (!navigator.onLine) {
     Message({//网络异常，请查看你的网络状态
       type:'warning',
@@ -61,7 +62,7 @@ instance.interceptors.response.use(function (response) {//为自定义axios设�
     })
     return 'timeout';
   }
-  return Promise.reject(err.response);
+  return Promise.reject(err);
 });
 // instance.interceptors.request.eject(beforask);//移除请求拦截器方法
 // instance.interceptors.response.eject(afterask);//移除响应拦截器方法

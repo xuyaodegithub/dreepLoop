@@ -5,7 +5,7 @@
                 <li><a href="index.html"><img src="../../assets/image/sureLogo.png" alt="" style="height: 30px;"></a></li>
                 <li class="cu" :class="{'red' : urls.indexOf('index')>-1 || urls.indexOf('/#/')>-1}">
                     <a href="index.html">首页</a></li><!--智能抠图-->
-                <li class="cu" :class="{'red' : urls.indexOf('people')>-1}" @click="backindex()">人像抠图</li><!--智能抠图-->
+                <li class="cu" :class="{'red' : urls.indexOf('people')>-1}"><a href="people.html">人像抠图</a></li><!--智能抠图-->
                 <li class="cu" :class="{'reds' : urls.indexOf('objects')>-1}"><a href="objects.html">物体抠图</a></li><!--智能抠图-->
                 <li class="cu" :class="{'red' : urls.indexOf('product')>-1}"><a href="product.html">更多产品</a></li>
 <!--                @click="toProduct()" @click="toAbout()"-->

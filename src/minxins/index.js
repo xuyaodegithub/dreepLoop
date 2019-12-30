@@ -128,6 +128,26 @@ export const mixins={
         })
       }
     },
+    initSmallTag(e,txt) {//点击小动画
+      let $i = $( '<span></span>' ).text( txt ), y = e.clientY - 30, x = e.clientX - 10;
+      $i.css( {
+        "z-index": 999,
+        "top": y,
+        "left": x,
+        'fontSize':'14px',
+        "position": "fixed",
+        "color": "rgb(" + (255 * Math.random()) + "," + (255 * Math.random()) + "," + (255 * Math.random()) + ")"
+      } );
+      $( "body" ).append( $i );
+      $i.animate( {
+            "top": y - 80,
+            "opacity": 0,
+          },
+          1500,
+          function () {
+            $i.remove();
+          } );
+    }
   },
   mounted(){
 

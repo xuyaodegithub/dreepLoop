@@ -44,7 +44,7 @@
               })
           },
            toApi(){
-               window.location.href=this.basrUrls+'/docsify/#/test.md'
+               window.location.href=this.basrUrls+'/docsify/#/apidoc_api.md'
            }
        },
        mounted() {

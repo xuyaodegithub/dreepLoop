@@ -48,6 +48,15 @@
                             <!--                        	Try picture that contains person, more categories will be supported in future-->
                         </p>
                     </div>
+                    <div v-show="bgOriginal.status===3" class="errmsg">
+                        <i class="el-icon-circle-close"></i>
+                        图片过大，暂时无法处理
+                        <!--                        Error occured, the foreground can not be recognized-->
+                        <p>
+                            请选择一个不超过15M的图片进行处理
+                            <!--                        	Try picture that contains person, more categories will be supported in future-->
+                        </p>
+                    </div>
                     <div v-show="bgOriginal.status===2" class="errmsg">
                         <i class="el-icon-s-flag"></i>
                         当前正在排队,请稍后...
@@ -57,7 +66,7 @@
                             <!--                            Sequence number: {{imageMsg.queueNumber}}-->
                         </p>
                     </div>
-                    <div class="close flex" v-show="![0,1,2].includes(bgOriginal.status)">
+                    <div class="close flex" v-show="![0,1,2,3].includes(bgOriginal.status)">
                         <i class="el-icon-loading"></i>
                         处理中...
                         <!--                        Processing...-->
@@ -90,14 +99,14 @@
                                 <div class="flex a-i j-b" >
                                     <span>{{imageMsg.previewWidth + ' X ' + imageMsg.previewHeight}}</span>
                                     <span>0</span>
-                                    <i @click="edireThis(0)">编辑</i>
-                                    <span class="cu" @click="save(0)">下载</span>
+                                    <p @click="edireThis(0)">编辑</p>
+                                    <span class="cu" @click="save(0,$event)">下载</span>
                                 </div>
                                 <div class="flex a-i j-b" v-if="imageMsg.previewWidth!==imageMsg.originalWidth || imageMsg.previewHeight!==imageMsg.originalHeight">
                                     <span>{{imageMsg.originalWidth + ' X ' + imageMsg.originalHeight}}</span>
                                     <span>1</span>
-                                    <i @click="edireThis(1)">编辑</i>
-                                    <span class="cu"  @click="save(1)">下载</span>
+                                    <p @click="edireThis(1)">编辑</p>
+                                    <span class="cu"  @click="save(1,$event)">下载</span>
                                 </div>
                                 <div>
                                     当前可用次数： {{userSubscribeData ? userSubscribeData.freeRemaining + userSubscribeData.monthRemaining : 0}} <a href="userVip.html" class="cu" >去充值</a>
@@ -549,6 +558,14 @@
                             }
                         }).catch(err => {
                             console.log(err)
+                            let obj = {
+                                name: _self.imgname,
+                                img: '',
+                                status: 3,
+                                fileId:_self.fileId
+                            }
+                            _self.$emit('to-parse', {id: _self.index, img: '', color: 'add', name: _self.files.name, fileId:_self.fileId,Original:_self.Original,noSave:true})
+                            _self.bgOriginal = obj
                         })
                     };
                 }
@@ -626,17 +643,20 @@
                 this.drawImgAfterFirst(this.loadImg);
                 this.backg = {background: this.colorValue}
             },
-            save(index,key) {//保存下载
+            save(index,e) {//保存下载
                 if (index === 0) {
                     let url = this.bgOriginal.img
+                    this.initSmallTag( e,'免费 :）' )
                     this.downOldImg(url)
                 } else {
                     if (this.imageMUrl) {
+                        this.initSmallTag( e,'免费 :）' )
                         this.downOldImg(this.imageMUrl)
                         return
                     }
                     downloadMattedImage({fileId: this.fileId}).then(res => {
                         if (!res.code) {
+                            this.initSmallTag( e,'次数 -1' )
                             this.imageMUrl = res.data
                             this.downOldImg(res.data)
                         }
@@ -1204,8 +1224,7 @@
                         color: $to;
                     }
                 }
-                i{
-                    display: inline-block;
+                p{
                     margin-right: 20px;
                     color: $to;
                 }

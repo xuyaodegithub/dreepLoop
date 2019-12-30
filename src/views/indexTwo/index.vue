@@ -239,6 +239,7 @@
             window.addEventListener( 'scroll', this.scrollFun );
             $( '#niceScrolls' ).niceScroll( {cursorcolor: '#999999'} );
             document.addEventListener('paste', (e) => {
+                console.log(e)
                 let clipboardData = e.clipboardData,//谷歌
                     i = 0,
                     items, item, types;
@@ -259,6 +260,7 @@
                         this.deepItem(clipboardData.getData("Text"))
                     }
                     if (item && item.kind === 'file' && item.type.match( /^image\//i )) {
+                        console.log(item.getAsFile().size/1024)
                         this.changeImg({target:{files:[item.getAsFile()]}})
                     }
                 }

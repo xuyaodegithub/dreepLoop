@@ -6,7 +6,7 @@ Hi，开发者您好，欢迎使用PicUP.AI的API。以下内容，是您接入�
 
 ## 快速开始
 ### 获取API Key
-[点击获取，您的专属API Key](http://www.picup.ai/userCenter.html/secret)
+[点击获取，您的专属API Key](http://www.picup.ai/userCenter.html#/userCenter/secret)
 ### 简单调用示例
 使用http协议Post传图片方式，调用人物抠图API
 > 注意：Content-Type为"multipart/form-data"
@@ -14,7 +14,7 @@ Hi，开发者您好，欢迎使用PicUP.AI的API。以下内容，是您接入�
 ```shellcommand
 curl -H 'APIKEY: INSERT_YOUR_API_KEY_HERE' \
      -F 'file=@/home/roy/images/1.jpg'     \
-     -f http://www.picup.ai/api/v1/matting \
+     -f http://www.picup.ai/api/v1/matting (物体抠图请用  http://www.picup.ai/api/v1/matting?mattingType=2) \
      -o out.png
 ```
 
@@ -37,7 +37,7 @@ A：目前限制上传的分辨率最高为2000x2000，图片文件大小10MB以
 一次性购买越多，越优惠。  
 购买的次数没有时间限制。  
 注册账号即送10次免费使用。  
-[查看价格列表](http://www.picup.ai/userVip.html#/)
+[查看价格列表](http://www.picup.ai/userVip.html)
 
 ### 可定制
 对于需要特殊模式的大客户，可以通过邮件[pikachu@picup.ai](mailto:pikachu@picup.ai)或微信roymind和我们联系。
@@ -48,14 +48,14 @@ A：目前限制上传的分辨率最高为2000x2000，图片文件大小10MB以
 **请求示例**
 
 HTTP 方法：POST  
-请求URL：`http://www.picup.ai/api/v1/matting`  
+请求URL：`http://www.picup.ai/api/v1/matting (物体抠图请用  http://www.picup.ai/api/v1/matting?mattingType=2)`  
   
 Header如下：  
 
 | 参数 | 值 |
 | ------ | ------ |
 | Content-Type	 | multipart/form-data |
-| APIKEY | [您的专属API Key](http://www.picup.ai/userCenter.html/secret) | 
+| APIKEY | [您的专属API Key](http://www.picup.ai/userCenter.html#/userCenter/secret) | 
   
 Body中放置请求参数，参数详情如下：  
 
@@ -76,7 +76,7 @@ Body中放置请求参数，参数详情如下：
 ```shellcommand
 curl -H 'APIKEY: INSERT_YOUR_API_KEY_HERE' \
      -F 'file=@/path/to/file.jpg'     \
-     -f http://www.picup.ai/api/v1/matting \
+     -f http://www.picup.ai/api/v1/matting \ (物体抠图请用  http://www.picup.ai/api/v1/matting?mattingType=2)
      -o out.png
 ```
 
@@ -84,7 +84,7 @@ curl -H 'APIKEY: INSERT_YOUR_API_KEY_HERE' \
 ```python
 import requests
 response = requests.post(
-    'http://www.picup.ai/api/v1/matting',
+    'http://www.picup.ai/api/v1/matting', (物体抠图请用  http://www.picup.ai/api/v1/matting?mattingType=2)
     files={'file': open('/path/to/file.jpg', 'rb')},
     headers={'APIKEY': 'INSERT_YOUR_API_KEY_HERE'},
 )
@@ -95,7 +95,7 @@ with open('out.png', 'wb') as out:
 #### PHP
 ```php
 $client = new GuzzleHttp\Client();
-$res = $client->post('http://www.picup.ai/api/v1/matting', [
+$res = $client->post('http://www.picup.ai/api/v1/matting (物体抠图请用  http://www.picup.ai/api/v1/matting?mattingType=2)', [
     'multipart' => [
         [
             'name'     => 'file',
@@ -129,7 +129,7 @@ HttpHeaders headers = new HttpHeaders();
 headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 headers.add("APIKEY","INSERT_YOUR_API_KEY_HERE");
 HttpEntity<MultiValueMap> request= new HttpEntity<>(builder.build(),headers);
-entity = restTemplate.postForEntity("http://www.picup.ai/api/v1/matting", request, Resource.class);
+entity = restTemplate.postForEntity("http://www.picup.ai/api/v1/matting (物体抠图请用  http://www.picup.ai/api/v1/matting?mattingType=2)", request, Resource.class);
 
 //todo: your logic to deal with entity
 ```
