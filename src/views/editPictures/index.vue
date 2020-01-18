@@ -246,7 +246,7 @@
                 this.proCansTxt.restore()
             },
             toclear(x, y) {//擦除功能提取
-                this.cansTxt.save()
+                this.cansTxt.save();
                 this.cansTxt.beginPath();
                 this.cansTxt.arc( x, y, 2 * this.penSize, 0, Math.PI * 2, false );
                 this.cansTxt.clip();

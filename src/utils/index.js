@@ -174,4 +174,38 @@ export const getlastDate=()=>{
     if(days>=nowD) return lastY+'-'+lastM+'-'+nowD;
     else return lastY+'-'+lastM+'-'+days;
 }
+//节流函数
+export const throttle=(func, wait) =>{
+    var previous = 0;
+    return function() {
+        let now = Date.now();
+        let context = this;
+        let args = arguments;
+        if (now - previous > wait) {
+            func.apply(context, args);
+            previous = now;
+        }
+    }
+}
+//防抖函数
+export const debounce=(func,wait,immediate) =>{// wait 延迟执行毫秒数, immediate true 表立即执行，false 表非立即执行
+    let timeout;
+    return function () {
+        let context = this;
+        let args = arguments;
 
+        if (timeout) clearTimeout(timeout);
+        if (immediate) {
+            let callNow = !timeout;
+            timeout = setTimeout(() => {
+                timeout = null;
+            }, wait)
+            if (callNow) func.apply(context, args)
+        }
+        else {
+            timeout = setTimeout(() => {
+                func.apply(context, args)
+            }, wait);
+        }
+    }
+}

@@ -103,37 +103,9 @@
                         </i>
                         <!--                        <el-button type="primary" icon="el-icon-edit" circle style="background-color: #27adf6;border-color: #27adf6;margin: 0 70px 0 60px" size="small" @click="updataThis()"></el-button>-->
                     </div>
-                    <div class="downLoadBtn" v-if="bgOriginal.img">
-                        <div class="flex a-i cu itemson"
-                             style="border-radius:20px;justify-content:center;width: 160px;color: #fff; line-height: 40px;text-align: center;">
-                            <span class="el-icon-download" style="margin-right: 6px"></span>下载<i
-                                class="el-icon-caret-bottom rotates" style="margin-left: 12px;transition: .3s all;"></i>
-                            <div class="sizeChose"
-                                 :class="{'lessTop' : !(imageMsg.previewWidth!==imageMsg.originalWidth || imageMsg.previewHeight!==imageMsg.originalHeight)}">
-                                <div class="flex a-i">
-                                    <span>尺寸</span>
-                                    <span>消耗次数</span>
-                                </div>
-                                <div class="flex a-i j-b">
-                                    <span>{{imageMsg.previewWidth + ' X ' + imageMsg.previewHeight}}</span>
-                                    <span>0</span>
-                                    <p @click="edireThis(0)">编辑</p>
-                                    <span class="cu" @click="save(0,$event)">下载</span>
-                                </div>
-                                <div class="flex a-i j-b"
-                                     v-if="imageMsg.previewWidth!==imageMsg.originalWidth || imageMsg.previewHeight!==imageMsg.originalHeight">
-                                    <span>{{imageMsg.originalWidth + ' X ' + imageMsg.originalHeight}}</span>
-                                    <span>1</span>
-                                    <p @click="edireThis(1)">编辑</p>
-                                    <span class="cu" @click="save(1,$event)">下载</span>
-                                </div>
-                                <div>
-                                    当前可用次数： {{userSubscribeData ? userSubscribeData.freeRemaining +
-                                    userSubscribeData.monthRemaining : 0}} <a href="userVip.html" class="cu">去充值</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!--                        && (imageMsg.previewWidth!==imageMsg.originalWidth && imageMsg.previewHeight!==imageMsg.originalHeight)"-->
+                    <div class="flex">
+                        <down-btn  v-if="bgOriginal.img" :imageMsg="imageMsg" @edireThis="edireThis" @save="save" :type="1"></down-btn>
+                        <down-btn  v-if="bgOriginal.img" :imageMsg="imageMsg" @edireThis="edireThis" @save="save" :type="1" down></down-btn>
                     </div>
                 </div>
             </div>
@@ -151,7 +123,7 @@
     import JSManipulate from '../../utils/jsmanipulate.js'
     import {mapGetters} from 'vuex'
     import {mixins} from '@/minxins'
-
+    import downBtn from '../downLoadBtn'
     export default {
         name: "imgsub",
         props: {
@@ -223,6 +195,9 @@
                 },
                 immediate: true,
             }
+        },
+        components:{
+            downBtn
         },
         computed: {
             ...mapGetters( [
@@ -1260,105 +1235,6 @@
 
         i:hover label {
             display: block;
-        }
-    }
-
-    .downLoadBtn {
-        /*width: 160px;*/
-        text-align: left;
-        margin: 25px auto 0;
-        position: relative;
-
-        .itemson {
-            background-color: #e82255;
-            border-color: #e82255;
-        }
-
-        .itemson:hover {
-            background-color: rgba(232, 34, 85, .6);
-            border-color: rgba(232, 34, 85, .6);
-        }
-
-        .itemson:hover .rotates {
-            transform: rotateZ(180deg);
-        }
-
-        & > div:hover .sizeChose {
-            display: block;
-        }
-
-        .sizeChose {
-            display: none;
-            position: absolute;
-            border: 1px solid #efefef;
-            border-radius: 10px;
-            font-size: 12px;
-            line-height: 30px;
-            color: #ffffff;
-            padding: 10px 6px;
-            background-color: rgba(0, 0, 0, .9);
-            left: -100px;
-            top: -168px;
-            z-index: 999;
-            text-align: left;
-
-            & > div {
-                padding: 0 12px;
-                margin-bottom: 8px;
-
-                &:last-child {
-                    text-align: left;
-                    margin: 10px 0 0 0;
-
-                    a {
-                        border-bottom: 1px solid #a1a0a0;
-                        margin-left: 10px;
-                        color: #a1a0a0;
-                    }
-
-                    color: #a1a0a0;
-                }
-
-                &:first-child span:last-child {
-                    border: 0;
-                    text-align: left;
-                    color: #a1a0a0;
-                }
-
-                &:first-child span {
-                    color: #a1a0a0;
-                }
-
-                span {
-                    width: 100px;
-
-                    &:nth-child(2) {
-                        width: 80px;
-                    }
-
-                    &:last-child {
-                        border: 1px solid #e82255;
-                        width: 50px;
-                        line-height: 24px;
-                        border-radius: 13px;
-                        text-align: center;
-                        color: #e82255;
-                    }
-                }
-
-                p {
-                    margin-right: 20px;
-                    color: $co;
-                }
-            }
-
-            .j-b:hover {
-                background-color: rgba(255, 255, 255, .1);
-            }
-        }
-
-        .sizeChose.lessTop {
-            top: -130px;
         }
     }
 
