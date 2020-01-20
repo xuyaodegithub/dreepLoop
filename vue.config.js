@@ -136,7 +136,7 @@ module.exports = {
             entry: 'src/views/products/index.js',
             template:'public/product.html',
             filename: 'product.html',
-            title: '更多产品',
+            title: 'picup.ai更多产品',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
         },
         aboutUs:{
