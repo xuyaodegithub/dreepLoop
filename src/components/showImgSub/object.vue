@@ -133,6 +133,7 @@
                 timer: null,
                 fileId: '',
                 imgname:'',//下载的图片名称
+                filename: '',//下载的图片名称
                 file:null,
                 canvas:'',
                 bgcanvas:'',
@@ -204,6 +205,7 @@
             if(windowW>1500) this.canvasinitNum=500
             else this.canvasinitNum=380
             this.file=this.files.url
+            this.filename=this.files.filename;
             if( this.files.type === 'copy') {
                 this.imgname=`copy_${getrandom(0,1000000000)}`;
                 this.getImgMsgByurl()
@@ -467,7 +469,8 @@
                                     name: this.files.type === 'copy' ? this.imgname : this.files.name,
                                     color: 'add',
                                     fileId:this.fileId,
-                                    Original:this.Original
+                                    Original:this.Original,
+                                    filename:this.filename
                                 })
                             }
                         } else {
@@ -476,7 +479,7 @@
                             this.bgOriginal = {name: this.imgname, img: '', status: 1, fileId:this.fileId}
                         }
                     })
-                }, 1000)
+                }, 2000)
             },
             updataThis() {
                 if (this.bgOriginal.status !== 0) {//当前图片不可编辑
@@ -524,7 +527,8 @@
                                     name: _self.files.name,
                                     color: 'add',
                                     fileId:_self.fileId,
-                                    Original:_self.Original
+                                    Original:_self.Original,
+                                    filename:_self.filename
                                 })
                             } else {
                                 let obj = {
@@ -582,7 +586,8 @@
                             name: obj.name,
                             color: 'add',
                             fileId:this.fileId,
-                            Original:this.Original
+                            Original:this.Original,
+                            filename:this.filename
                         })
                     } else {
                         let obj = {
@@ -683,7 +688,7 @@
                 if (myBrowser() === 'IE' || myBrowser() === 'Edge') {//ie下载图片
                     let url = cans.msToBlob();
                     let blobObj = new Blob([url]);
-                    window.navigator.msSaveOrOpenBlob(blobObj, this.bgOriginal.name + ".png");
+                    window.navigator.msSaveOrOpenBlob(blobObj, this.filename.substring(0,this.filename.lastIndexOf('.')) + ".png");
                 } else {
                     let url = cans.toDataURL("image/png");
                     let arr = url.split(','), mime = arr[0].match(/:(.*?);/)[1], bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
@@ -693,7 +698,7 @@
                     let objurl = URL.createObjectURL(new Blob([u8arr], {type:mime}));
                     let save_link = document.createElement('a');
                     save_link.href = objurl;
-                    save_link.download = this.bgOriginal.name+'.png';
+                    save_link.download = this.filename.substring(0,this.filename.lastIndexOf('.'))+'.png';
                     let event = document.createEvent('MouseEvents');
                     event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
                     save_link.dispatchEvent(event);

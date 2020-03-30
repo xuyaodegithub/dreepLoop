@@ -185,6 +185,23 @@ module.exports = {
             filename: `js/[name].${Timestamp}.js`,
             chunkFilename: `js/[name].${Timestamp}.js`
         },
+        // resolve: {//设置路径别名
+        //     alias: {
+        //         'assets': '@/assets',
+        //         'components': '@/components',
+        //         'views': '@/views',
+        //     }
+        // },
+
+        // pwa: {//配置网页小图标
+        //     iconPaths: {
+        //         favicon32: './plug_jchLogo.png',
+        //         favicon16: './plug_jchLogo.png',
+        //         appleTouchIcon: './plug_jchLogo.png',
+        //         maskIcon: './plug_jchLogo.png',
+        //         msTileImage: './plug_jchLogo.png'
+        //     }
+        // }
     },
     // configureWebpack: config => {//如果你需要基于环境有条件地配置行为，或者想要直接修改配置，那就换成一个函数 (该函数会在环境变量被设置之后懒执行)。该方法的第一个参数会收到已经解析好的配置。在函数内，你可以直接修改配置，或者返回一个将会被合并的对象：
     //     if (process.env.NODE_ENV === 'production') {

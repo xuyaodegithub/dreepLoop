@@ -10,7 +10,7 @@ Object.keys(filters).map((val,index)=>{
     // console.log(val,filters[val])
 })
 import {  Button, Input, Table, TableColumn,  Radio, RadioGroup, Dialog, Select, Option,Dropdown, DropdownMenu, DropdownItem, Message, Pagination, Loading, Checkbox,Scrollbar,ColorPicker,Upload,Notification,Switch,
-    Slider} from 'element-ui'
+    Slider,MessageBox} from 'element-ui'
 Vue.component(Button.name, Button);
 Vue.component(Input.name, Input);
 Vue.component(Table.name, Table);
@@ -34,6 +34,7 @@ Vue.component(Slider.name, Slider);
 Vue.prototype.$loading = Loading.service;
 Vue.use(Loading.directive);
 Vue.prototype.$notify = Notification;
+Vue.prototype.$confirm = MessageBox.confirm;
 Vue.directive('drag',(event)=>{
     let oDiv=event;
     oDiv.onmousedown=(ev)=>{

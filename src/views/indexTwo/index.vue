@@ -78,6 +78,7 @@
                             <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()" style="background-color: #21a9e8;border-color: #21a9e8;"><!--Upload-->上传图像</el-button>
                             <el-input v-model="imgUrl"  placeholder="CTRL+V粘贴图像或者URL"
                                       @focus="$event.target.select()"></el-input>
+                            <div class="titlips">推荐使用：谷歌游览器 <img src="@/assets/image/img1.png" alt="">，防止兼容问题</div>
                             <p>没有图像？试试以下图片看看效果</p>
                             <div class="flex a-i">
                                 <div :style="{backgroundImage:`url(${item})`,backgroundSize:'cover',backgroundPosition:'center'}" v-for="(item,idx) in initimgsList" :key="idx" @click="deepItem(item)" class="cu"></div>
@@ -132,6 +133,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="deAll cu" @click="deleteAllImg">删除全部</div>
             </div>
         </div>
                 <div class="zhezhao" v-if="showSetImg"></div>
@@ -392,14 +394,15 @@
                     } else if (this.classType >1) ctxs.putImageData( objs.dwonBg, 0, 0 );
                     ctxs.drawImage( objs.bgRemovedImg, 0, 0 );
                     let url = cans.toDataURL( "image/png" ); // 得到图片的base64编码数据 let url =
-                    baseList.push( {name: objs.is, img: url.substring( 22 )} );
+                    const name=objs.is.substring(0,objs.is.lastIndexOf('.')).replace(/\//g,'%')
+                    baseList.push( {name:  name+'.png', img: url.substring( 22 )} );
                     _this.Percentile += 1
                     _this.loading.text = _this.Percentile + '/' + arr.length + ' 已完成'
                     if (baseList.length === arr.length) {
                         if (baseList.length > 0) {
                             _this.loading.text = '打包中...'
                             for (let k = 0; k < baseList.length; k++) {
-                                imgs.file( baseList[k].name + ".png", baseList[k].img, {
+                                imgs.file( baseList[k].name, baseList[k].img, {
                                     base64: true
                                 } );
                             }
@@ -417,7 +420,7 @@
                     }
                 }
                 for (let i = 0; i < arr.length; i++) {
-                    this.drawStyleBg( arr[i], this.classType, callback, i )
+                    this.drawStyleBg( arr[i], this.classType, callback,arr[i].filename )
                 }
             },
             copyImgUrl(url,k) {//粘贴图片链接确定
@@ -433,12 +436,14 @@
                 this.files.unshift( {
                     url: url ? url.url : this.imgUrl,
                     name: name,
+                    filename:url ? (url.filename ? url.filename :  url.url) : this.imgUrl,
                     type: 'copy',
                     fileId: url ? url.fileId : ''
                 } )
                 this.imgUrlss( {
                     url: url ? url.url : this.imgUrl,
                     name: name,
+                    filename:url ? (url.filename ? url.filename :  url.url) : this.imgUrl,
                     type: 'copy',
                     fileId: url ? url.fileId : ''
                 } )
@@ -458,7 +463,8 @@
                     this.files.unshift( {
                         url: e.files[i],
                         name: parseInt( Math.random() * 100000000000 ),
-                        type: 'file'
+                        type: 'file',
+                        filename:e.files[i].name
                     } );
                 }
                 this.imgUrlss( e.files )
@@ -614,7 +620,8 @@
                             _self.files.unshift({
                                 url: files[i],
                                 name: parseInt(Math.random()*100000000000),
-                                type: 'file'
+                                type: 'file',
+                                filename:files[i].name
                             })
                         }
                         _self.imgUrlss(files)
@@ -644,7 +651,7 @@
                 // console.log(this.allbgImg)
                 files.map( (item, index) => {
                     if(!item.noSave){
-                        arr.push( {Original: item.Original, fileId: item.fileId} )
+                        arr.push( {Original: item.Original, fileId: item.fileId,filename:item.filename} )
                     }
                 } )
                 setSecImgs( JSON.stringify( arr ),2 )
@@ -654,8 +661,30 @@
                 let arr = JSON.parse( getSecImgs(2) ).reverse();
                 if (!arr) return;
                 arr.map( (item) => {
-                    this.copyImgUrl( {url: item.Original, fileId: item.fileId},1 )
+                    this.copyImgUrl( {url: item.Original, fileId: item.fileId,filename:item.filename},1 )
                 } )
+            },
+            deleteAllImg(){//删除全部
+                this.$confirm('确定要删除全部么', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning',
+                    confirmButtonClass:'conSure',
+                    cancelButtonClass:'canalSure'
+                }).then(() => {
+                    this.files=[];
+                    this.rightImgList=[];
+                    // console.log(this.$refs.imgRef)
+                    this.allbgImg=[];
+                    this.sesImgsSet( this.allbgImg );
+                    $( 'body,html' ).animate( {scrollTop: 0}, 500 );
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                    });
+                }).catch(() => {
+
+                });
             }
 
         },
@@ -927,6 +956,10 @@
                         border-radius: 5px;
                         margin-right: 12px;
                     }
+                    .titlips{
+                        font-size: 14px;
+                        color: #999;
+                    }
                 }
             }
         }
@@ -967,7 +1000,7 @@
 
             .downBtn {
                 line-height: 40px;
-                position: absolute;
+                position: relative;
                 right: 0;
                 min-width: 40px;
                 text-align: center;
@@ -983,6 +1016,15 @@
                 &:hover .sizeChoses {
                     display: block;
                 }
+            }
+            .deAll{
+                display: block;
+                line-height: 16px;
+                font-size: 12px;
+                padding: 5px;
+                color: $to;
+                border: 1px solid $to;
+                text-align: center;
             }
         }
     }
@@ -1106,5 +1148,16 @@
             max-width: 862px;
         }
         }
+    }
+</style>
+<style>
+    .el-message-box .conSure,.el-message-box .conSure:hover{
+        background-color: #21a9e8;
+        border-color: #21a9e8;
+    }
+    .el-message-box .canalSure:hover{
+        background-color: rgb(198, 226, 255);
+        border-color: rgb(198, 226, 255);
+        color: #fff;
     }
 </style>

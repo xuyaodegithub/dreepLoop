@@ -14,16 +14,16 @@
                     <div style="position: relative;">
                         <img src="../../assets/image/inputImg.png" alt=""
                              style="position: absolute;left: 8px;top: 12px;">
-<!--                        @keyup.enter="copyImgUrl()"-->
+                        <!--                        @keyup.enter="copyImgUrl()"-->
                         <input type="text" placeholder="CTRL+V图像或URL" v-model="imgUrl"
-                               @focus="$event.target.select()"  class="upcas">
-<!--                        <img src="../../assets/image/img5.png" alt="" style="margin-left:-14px;" class="cu"-->
-<!--                             @click="copyImgUrl()">-->
+                               @focus="$event.target.select()" class="upcas">
+                        <!--                        <img src="../../assets/image/img5.png" alt="" style="margin-left:-14px;" class="cu"-->
+                        <!--                             @click="copyImgUrl()">-->
                     </div>
-<!--                    <div class="flex a-i cu">-->
-<!--                        <img src="../../assets/image/img1.png" alt="">-->
-<!--                        <p>Chrome &lt;!&ndash;extension&ndash;&gt;插件</p>-->
-<!--                    </div>-->
+                    <!--                    <div class="flex a-i cu">-->
+                    <!--                        <img src="../../assets/image/img1.png" alt="">-->
+                    <!--                        <p>Chrome &lt;!&ndash;extension&ndash;&gt;插件</p>-->
+                    <!--                    </div>-->
                 </div>
                 <div class="bottonLast">
                     <div class="flex a-i cu" @click="toApi()">
@@ -75,12 +75,17 @@
                     <div class="flex a-i">
                         <div class="gif"><img src="../../assets/image/pgif.gif" alt=""></div>
                         <div class="gifright">
-                            <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()"><!--Upload-->上传图像</el-button>
+                            <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()"><!--Upload-->
+                                上传图像
+                            </el-button>
                             <el-input v-model="imgUrl" class="upcas" placeholder="CTRL+V粘贴图像或者URL"
                                       @focus="$event.target.select()"></el-input>
+                            <div class="titlips">推荐使用：谷歌游览器 <img src="@/assets/image/img1.png" alt="">，防止兼容问题</div>
                             <p>没有图像？试试以下图片看看效果</p>
                             <div class="flex a-i">
-                                <div :style="{backgroundImage:`url(${item})`,backgroundSize:'cover',backgroundPosition:'center'}" v-for="(item,idx) in initimgsList" :key="idx" @click="deepItem(item)" class="cu"></div>
+                                <div :style="{backgroundImage:`url(${item})`,backgroundSize:'cover',backgroundPosition:'center'}"
+                                     v-for="(item,idx) in initimgsList" :key="idx" @click="deepItem(item)"
+                                     class="cu"></div>
                             </div>
                         </div>
                     </div>
@@ -93,14 +98,14 @@
                 </div>
             </div>
             <div class="ImgLists" v-show="rightImgList.length>1">
-<!--                <el-scrollbar>-->
-                    <div class="imgs" id="niceScrolls">
-                        <div v-for="(item,index) in rightImgList" :key="index" :class="{'active' : selectImg ===index}"
-                             class="cu" @click="goThisImg(index)">
-                            <img :src="item.url" alt="">
-                        </div>
+                <!--                <el-scrollbar>-->
+                <div class="imgs" id="niceScrolls">
+                    <div v-for="(item,index) in rightImgList" :key="index" :class="{'active' : selectImg ===index}"
+                         class="cu" @click="goThisImg(index)">
+                        <img :src="item.url" alt="">
                     </div>
-<!--                </el-scrollbar>-->
+                </div>
+                <!--                </el-scrollbar>-->
                 <div class="downBtn" @mouseenter="classType=0">
                     <span><!--Download all-->下载全部</span>
                     <div class="sizeChoses">
@@ -108,9 +113,13 @@
                             <div v-for="(val,index) in color" :key="index"
                                  :class="{'active' : classType===index}" @click="classType=index" class="cu">
                                 <div class="flex color_List" v-show="classType===1 && index===1">
-                                    <span v-for="(color,idx) in colorList" :key="idx" :style="{backgroundColor:color}" @click.stop="selectColor=color" :class="{selectC : selectColor===color}"></span>
+                                    <span v-for="(color,idx) in colorList" :key="idx" :style="{backgroundColor:color}"
+                                          @click.stop="selectColor=color"
+                                          :class="{selectC : selectColor===color}"></span>
                                 </div>
-                                <img :src="val" alt="" style="position: absolute;left: 0;top: 0;width: 24px;height: 24px" :title="index | imgtitle">
+                                <img :src="val" alt=""
+                                     style="position: absolute;left: 0;top: 0;width: 24px;height: 24px"
+                                     :title="index | imgtitle">
                             </div>
                         </div>
                         <div class="flex a-i">
@@ -128,14 +137,15 @@
                             <span class="cu" @click="saveMove(1)">下载</span>
                         </div>
                         <div>
-<!--                            当前可用次数： 0 <i class="cu">去充值</i>-->
+                            <!--                            当前可用次数： 0 <i class="cu">去充值</i>-->
                         </div>
                     </div>
                 </div>
+                <div class="deAll cu" @click="deleteAllImg">删除全部</div>
             </div>
         </div>
-                <div class="zhezhao" v-if="showSetImg"></div>
-        <div >
+        <div class="zhezhao" v-if="showSetImg"></div>
+        <div>
             <img-set-sub v-if="showSetImg" :imgMsg="imgMsg" @closeImgSet="closeImgSet"></img-set-sub>
         </div>
 
@@ -157,13 +167,13 @@
     import opacity from '@/assets/image/fopa.png'
     import bscolor from '@/assets/image/color.png'
     import JSManipulate from '../../utils/jsmanipulate.js'
-    import { niceScroll } from 'jquery.nicescroll';
+    import {niceScroll} from 'jquery.nicescroll';
 
     export default {
         name: 'HelloWorld',
         data() {
             return {
-                initimgsList:[
+                initimgsList: [
                     'http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2019/11/15/89e18986c9d04b22bf4298e510b92efd.png',
                     'http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2019/11/15/aad243c8df764979961ab4e905f63bd9.jpg',
                     'http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2019/11/15/19708509c8c9440db6d92d91a916892e.png',
@@ -189,20 +199,21 @@
                 Percentile: 0,
                 loading: null,
                 scrollStop: true,
-                colorList:[
-                    '#fc0615','#ff7f02','#ffff11','#1cff12','#1bffff','#0000fe','#fc01fc','#7f0f7f','#986633','#ffffff','#7f7f7f','#000000',
-                    '#ffffff','#ebebeb','#d6d6d6','#c2c2c2','#adadad','#999999','#858585','#707070','#5c5c5c','#474747','#333333','#000000',
-                    '#12374a','#061a55','#10033b','#2e063b','#3c091a','#5c0f07','#5b1f05','#563309','#583c0c','#676113','#4f5613','#273e14',
-                    '#154d66','#0f2f7c','#190950','#451058','#551428','#81190c','#7b2a0c','#7b4a10','#795813','#8c8614','#71761a','#38571c',
-                    '#0a6d8d','#1542a9','#2a0876','#621c7e','#781d3e','#b51d12','#ae3d13','#aa6917','#a77a15','#c3bc14','#9aa40d','#4f7a28',
-                    '#158cb4','#1855d4','#371b94','#7a259e','#982550','#e32316','#db5017','#d4810b','#d39c0c','#f5eb17','#c3d119','#689d31',
-                    '#06a1d7','#1260fe','#4e22b5','#972abb','#ba2c5c','#ff3f1a','#fe690b','#fcaa18','#fec810','#fffc45','#d9ec38','#76bc3f',
-                    '#0fc7fd','#3c87fe','#5f2eec','#bf36f5','#e73a7c','#ff6050','#ff8647','#ffb43f','#fecb3e','#fef769','#e3ef65','#97d45f',
-                    '#54d6fa','#75a7ff','#874efd','#d257fd','#ef71a0','#fe8c82','#fea57d','#fec775','#fdda76','#fdf892','#ebf390','#b2dd8b',
-                    '#96e2fa','#a9c6fe','#b18cfd','#e391fd','#f4a4c1','#ffb4ae','#fec5aa','#ffd9a8','#fee4a9','#fefaba','#f4f6b7','#cce8b5',
-                    '#ccf0fe','#d3e2ff','#d9c8fe','#efcafe','#f9d3e0','#fedbd9','#ffe3d7','#feedd3','#fff1d4','#fffdde','#f7fadd','#e0eed5',
+                colorList: [
+                    '#fc0615', '#ff7f02', '#ffff11', '#1cff12', '#1bffff', '#0000fe', '#fc01fc', '#7f0f7f', '#986633', '#ffffff', '#7f7f7f', '#000000',
+                    '#ffffff', '#ebebeb', '#d6d6d6', '#c2c2c2', '#adadad', '#999999', '#858585', '#707070', '#5c5c5c', '#474747', '#333333', '#000000',
+                    '#12374a', '#061a55', '#10033b', '#2e063b', '#3c091a', '#5c0f07', '#5b1f05', '#563309', '#583c0c', '#676113', '#4f5613', '#273e14',
+                    '#154d66', '#0f2f7c', '#190950', '#451058', '#551428', '#81190c', '#7b2a0c', '#7b4a10', '#795813', '#8c8614', '#71761a', '#38571c',
+                    '#0a6d8d', '#1542a9', '#2a0876', '#621c7e', '#781d3e', '#b51d12', '#ae3d13', '#aa6917', '#a77a15', '#c3bc14', '#9aa40d', '#4f7a28',
+                    '#158cb4', '#1855d4', '#371b94', '#7a259e', '#982550', '#e32316', '#db5017', '#d4810b', '#d39c0c', '#f5eb17', '#c3d119', '#689d31',
+                    '#06a1d7', '#1260fe', '#4e22b5', '#972abb', '#ba2c5c', '#ff3f1a', '#fe690b', '#fcaa18', '#fec810', '#fffc45', '#d9ec38', '#76bc3f',
+                    '#0fc7fd', '#3c87fe', '#5f2eec', '#bf36f5', '#e73a7c', '#ff6050', '#ff8647', '#ffb43f', '#fecb3e', '#fef769', '#e3ef65', '#97d45f',
+                    '#54d6fa', '#75a7ff', '#874efd', '#d257fd', '#ef71a0', '#fe8c82', '#fea57d', '#fec775', '#fdda76', '#fdf892', '#ebf390', '#b2dd8b',
+                    '#96e2fa', '#a9c6fe', '#b18cfd', '#e391fd', '#f4a4c1', '#ffb4ae', '#fec5aa', '#ffd9a8', '#fee4a9', '#fefaba', '#f4f6b7', '#cce8b5',
+                    '#ccf0fe', '#d3e2ff', '#d9c8fe', '#efcafe', '#f9d3e0', '#fedbd9', '#ffe3d7', '#feedd3', '#fff1d4', '#fffdde', '#f7fadd', '#e0eed5',
                 ],//色板
-                selectColor:''
+                selectColor: '',
+                limitIdx: 0
             }
         },
         filters: {
@@ -216,14 +227,14 @@
                 else if (arr[0] == y && arr[1] == m && arr[2] == d - 1) return '昨天';
                 else return val
             },
-            imgtitle(i){
-                if (i===0)return '背景透明';
-                else if (i===1)return '纯色背景';
-                else if (i===2)return '背景黑白';
-                else if (i===3)return '背景模糊';
+            imgtitle(i) {
+                if (i === 0) return '背景透明';
+                else if (i === 1) return '纯色背景';
+                else if (i === 2) return '背景黑白';
+                else if (i === 3) return '背景模糊';
             }
         },
-        watch:{
+        watch: {
             // files: {
             //     handler(newName, oldName) {
             //         if (newName.length>0) setShow(0)
@@ -235,44 +246,48 @@
         mounted() {
             this.stopPrevent()
             this.getsesImgsSet()
-            if(getToken())this.userGetscribe();
+            if (getToken()) this.userGetscribe();
             window.addEventListener( 'scroll', this.scrollFun );
             $( '#niceScrolls' ).niceScroll( {cursorcolor: '#999999'} );
-                document.addEventListener('paste', (e) => {
-                    let clipboardData = e.clipboardData,//谷歌
-                        i = 0,
-                        items, item, types;
-                    if( clipboardData ) {
-                        items = clipboardData.items;
-                        if (!items) {
-                            return;
-                        }
-                        item = items[0];
-                        types = clipboardData.types || [];
-                        for (; i < types.length; i++) {
-                            if (types[i] === 'Files') {
-                                item = items[i];
-                                break;
-                            }
-                        }
-                        if(item && item.kind === 'string' && item.type.match( /^text\//i )){
-                            this.deepItem(clipboardData.getData("Text"))
-                        }
-                        if (item && item.kind === 'file' && item.type.match( /^image\//i )) {
-                            this.changeImg({target:{files:[item.getAsFile()]}})
+            document.addEventListener( 'paste', (e) => {
+                let clipboardData = e.clipboardData,//谷歌
+                    i = 0,
+                    items, item, types;
+                if (clipboardData) {
+                    items = clipboardData.items;
+                    if (!items) {
+                        return;
+                    }
+                    item = items[0];
+                    types = clipboardData.types || [];
+                    for (; i < types.length; i++) {
+                        if (types[i] === 'Files') {
+                            item = items[i];
+                            break;
                         }
                     }
-                })
+                    if (item && item.kind === 'string' && item.type.match( /^text\//i )) {
+                        this.deepItem( clipboardData.getData( "Text" ) )
+                    }
+                    if (item && item.kind === 'file' && item.type.match( /^image\//i )) {
+                        this.changeImg( {target: {files: [item.getAsFile()]}} )
+                    }
+                }
+            } )
             // $('.hisimgs').niceScroll({cursorcolor :'#999999',boxzoom:true});
         },
-        destroyed(){
+        destroyed() {
             window.removeEventListener( 'scroll', this.scrollFun )
         },
         computed: {
             ...mapGetters( [] ),
-            LoginStatus(){//登录状态
+            LoginStatus() {//登录状态
                 return getToken() ? true : false;
             },
+            // filesList(){
+            //     const arrr=this.files.filter((item,idx)=>idx<this.limitIdx+2)
+            //     return arrr
+            // }
         },
         components: {
             headerSub, imgSub, imgSetSub
@@ -281,8 +296,8 @@
             ...mapActions( [
                 'userGetscribe'
             ] ),
-            deepItem(item){
-                this.imgUrl=item
+            deepItem(item) {
+                this.imgUrl = item
                 this.copyImgUrl()
             },
             userlogin(key) {
@@ -299,12 +314,13 @@
                 this.showSetImg = true;
             },
             collectBg(obj) {
-                        this.allbgImg[obj.id]=obj
-                if (!getSecImgs(1)) {
+                // this.limitIdx++;
+                this.allbgImg[obj.id] = obj
+                if (!getSecImgs( 1 )) {
                     this.sesImgsSet( this.allbgImg );
                     return
                 }
-                let hasown = JSON.parse( getSecImgs(1) ).some( (item) => {
+                let hasown = JSON.parse( getSecImgs( 1 ) ).some( (item) => {
                     return item.fileId == obj.fileId
                 } );
                 if (!hasown) this.sesImgsSet( this.allbgImg )
@@ -375,6 +391,7 @@
 
             //批量下载图片
             StoreDowQrcode(arr, blogTitle = "pictures") {
+                console.log(arr)
                 let zip = new JSZip();
                 let imgs = zip.folder( blogTitle );
                 let baseList = [];
@@ -384,20 +401,22 @@
                     let ctxs = cans.getContext( '2d' )
                     cans.width = objs.bgRemovedImg.width;
                     cans.height = objs.bgRemovedImg.height;
-                    if (this.classType ===1) {
+                    if (this.classType === 1) {
                         ctxs.fillStyle = this.selectColor;
                         ctxs.fillRect( 0, 0, cans.width, cans.height )
-                    } else if (this.classType>1) ctxs.putImageData( objs.dwonBg, 0, 0 );
+                    } else if (this.classType > 1) ctxs.putImageData( objs.dwonBg, 0, 0 );
                     ctxs.drawImage( objs.bgRemovedImg, 0, 0 );
                     let url = cans.toDataURL( "image/png" ); // 得到图片的base64编码数据 let url =
-                    baseList.push( {name: objs.is, img: url.substring( 22 )} );
+                    const name=objs.is.substring(0,objs.is.lastIndexOf('.')).replace(/\//g,'%')
+                    console.log(objs.is,name)
+                    baseList.push( {name: name+'.png', img: url.substring( 22 )} );
                     _this.Percentile += 1
                     _this.loading.text = _this.Percentile + '/' + arr.length + ' 已完成'
                     if (baseList.length === arr.length) {
                         if (baseList.length > 0) {
                             _this.loading.text = '打包中...'
                             for (let k = 0; k < baseList.length; k++) {
-                                imgs.file( baseList[k].name + ".png", baseList[k].img, {
+                                imgs.file( baseList[k].name, baseList[k].img, {
                                     base64: true
                                 } );
                             }
@@ -415,10 +434,10 @@
                     }
                 }
                 for (let i = 0; i < arr.length; i++) {
-                    this.drawStyleBg( arr[i], this.classType, callback, i )
+                    this.drawStyleBg( arr[i], this.classType, callback, arr[i].filename )
                 }
             },
-            copyImgUrl(url,k) {//粘贴图片链接确定
+            copyImgUrl(url, k) {//粘贴图片链接确定
                 if (!this.imgUrl && !url) {
                     this.$message( {
                         message: '图片地址不可为空',
@@ -431,24 +450,26 @@
                 this.files.unshift( {
                     url: url ? url.url : this.imgUrl,
                     name: name,
+                    filename:url ? (url.filename ? url.filename :  url.url) : this.imgUrl,
                     type: 'copy',
                     fileId: url ? url.fileId : ''
                 } )
                 this.imgUrlss( {
                     url: url ? url.url : this.imgUrl,
                     name: name,
+                    filename:url ? (url.filename ? url.filename :  url.url) : this.imgUrl,
                     type: 'copy',
                     fileId: url ? url.fileId : ''
                 } )
-                this.imgUrl=''
+                this.imgUrl = ''
             },
             changeImg(ev) {//图片上传
-                const e= ev.target
-                if(e.files.length>30){
-                    this.$message({
-                        type:'warning',
-                        message:'最多同时上传30张图片，请分批次进行上传。'
-                    })
+                const e = ev.target
+                if (e.files.length > 30) {
+                    this.$message( {
+                        type: 'warning',
+                        message: '最多同时上传30张图片，请分批次进行上传。'
+                    } )
                     return
                 }
                 this.toscroll();
@@ -456,14 +477,15 @@
                     this.files.unshift( {
                         url: e.files[i],
                         name: parseInt( Math.random() * 100000000000 ),
-                        type: 'file'
+                        type: 'file',
+                        filename:e.files[i].name
                     } );
                 }
                 this.imgUrlss( e.files )
             },
             toscroll() {
                 // let oDiv = this.$refs.contentImg.offsetTop;
-                $( 'body,html' ).animate( {scrollTop:620}, 500 );
+                $( 'body,html' ).animate( {scrollTop: 620}, 500 );
             },
             toApi() {
                 window.location.href = this.basrUrls + '/docsify/#/apidoc_api.md'
@@ -473,9 +495,8 @@
                 let newArr = new Array( obj.length ).fill( 0 );
                 if (obj.type === 'copy') {
                     this.rightImgList.unshift( {url: obj.url, name: obj.name} )
-                    this.allbgImg=[0,...this.allbgImg]
-                }
-                else {
+                    this.allbgImg = [0, ...this.allbgImg]
+                } else {
                     for (let i = 0; i < obj.length; i++) {
                         let reader = new FileReader();
                         reader.readAsDataURL( obj[i] );
@@ -489,7 +510,7 @@
                             // console.log(_self.allbgImg,"11111111111111111111111")
                         }
                     }
-                    this.allbgImg=[...new Array(obj.length).fill(0),...this.allbgImg]
+                    this.allbgImg = [...new Array( obj.length ).fill( 0 ), ...this.allbgImg]
                 }
             },
             goThisImg(index) {
@@ -509,7 +530,7 @@
                 let data = {
                     page: this.page,
                     pageSize: this.rows,
-                    mattingType:1
+                    mattingType: 1
                 }
                 userHistoryList( data ).then( res => {
                     if (!res.code) {
@@ -537,7 +558,7 @@
                         that.downOthers( {oldImg: originalImg, bgImg: img, name: obj.name}, key, callback, i )
                     }
                 }
-                img.src = obj.img+`?str=${Math.random()}`;
+                img.src = obj.img + `?str=${Math.random()}`;
                 let originalImg = new Image();
                 originalImg.crossOrigin = '';
                 originalImg.onload = function () {
@@ -546,7 +567,7 @@
                         that.downOthers( {oldImg: originalImg, bgImg: img, name: obj.name}, key, callback, i )
                     }
                 }
-                originalImg.src = obj.Original+`?str=${Math.random()}`;
+                originalImg.src = obj.Original + `?str=${Math.random()}`;
             },
             downOthers(imgObjs, index, callback, i) {//效果图下载
                 let canvasTemp = document.createElement( 'canvas' );
@@ -568,7 +589,7 @@
             },
             getmoveHis(e) {
                 let historyList = this.$refs.historyList, scrollTop = e.target.scrollTop;
-                console.log(historyList.offsetHeight,historyList.scrollHeight)
+                console.log( historyList.offsetHeight, historyList.scrollHeight )
                 if (scrollTop + historyList.offsetHeight > historyList.scrollHeight - 20) {
                     if (!this.stopUpdata) {
                         this.rows += 10;
@@ -593,34 +614,36 @@
                 document.addEventListener( "dragover", function (e) {  //拖来拖去
                     e.preventDefault();
                 } );
-                let oDrops=document.getElementsByClassName('drops');
-                for(let i=0;i<oDrops.length;i++){
-                    oDrops[i].addEventListener("drop", function (e) {
+                let oDrops = document.getElementsByClassName( 'drops' );
+                for (let i = 0; i < oDrops.length; i++) {
+                    oDrops[i].addEventListener( "drop", function (e) {
                         e.preventDefault();
                         e.stopPropagation();
                         // e.cancelable=true
                         let files = e.dataTransfer.files;
                         // console.log(files)
-                        if(!files.length)return;
-                        if(!getToken() && files.length>1) {
-                            console.log(files)
-                            _self.$message({type:'error',message:'登录后可批量上传'})
+                        if (!files.length) return;
+                        if (!getToken() && files.length > 1) {
+                            console.log( files )
+                            _self.$message( {type: 'error', message: '登录后可批量上传'} )
                             return
                         }
                         _self.toscroll();
                         for (let i = 0; i < files.length; i++) {
-                            _self.files.unshift({
+                            console.log(files)
+                            _self.files.unshift( {
                                 url: files[i],
-                                name: parseInt(Math.random()*100000000000),
-                                type: 'file'
-                            })
+                                name: parseInt( Math.random() * 100000000000 ),
+                                type: 'file',
+                                filename:files[i].name
+                            } )
                         }
-                        _self.imgUrlss(files)
-                    })
+                        _self.imgUrlss( files )
+                    } )
                 }
             },
             scrollFun() {
-                if (!this.scrollStop || this.rightImgList.length<2) return;
+                if (!this.scrollStop || this.rightImgList.length < 2) return;
                 let oDiv = document.getElementsByClassName( 'imgRef' )
                 // let oImg=document.querySelector('.ImgLists .imgs div')
                 if (oDiv.length < 2) return;
@@ -641,25 +664,45 @@
                 let arr = []
                 // console.log(this.allbgImg)
                 files.map( (item, index) => {
-                    if(!item.noSave){
-                        arr.push( {Original: item.Original, fileId: item.fileId} )
+                    if (!item.noSave) {
+                        arr.push( {Original: item.Original, fileId: item.fileId,filename:item.filename} )
                     }
                 } )
-                setSecImgs( JSON.stringify( arr ) ,1)
+                setSecImgs( JSON.stringify( arr ), 1 )
             },
             getsesImgsSet() {
-                if (!getSecImgs(1)) return;
-                let arr = JSON.parse( getSecImgs(1) ).reverse();
+                if (!getSecImgs( 1 )) return;
+                let arr = JSON.parse( getSecImgs( 1 ) ).reverse();
                 if (!arr) return;
                 arr.map( (item) => {
-                    this.copyImgUrl( {url: item.Original, fileId: item.fileId},1 )
+                    this.copyImgUrl( {url: item.Original, fileId: item.fileId,filename:item.filename}, 1 )
                 } )
+            },
+            deleteAllImg(){//删除全部
+                this.$confirm('确定要删除全部么', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.files=[];
+                    this.rightImgList=[];
+                    // console.log(this.$refs.imgRef)
+                    this.allbgImg=[];
+                    this.sesImgsSet( this.allbgImg );
+                    $( 'body,html' ).animate( {scrollTop: 0}, 500 );
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                    });
+                }).catch(() => {
+
+                });
             }
 
         },
         created() {
-            const data=localStorage.getItem('initStatus') ? JSON.parse(localStorage.getItem('initStatus')) : '';
-            this.$store.commit('SET_INIT_STATUS',data)
+            const data = localStorage.getItem( 'initStatus' ) ? JSON.parse( localStorage.getItem( 'initStatus' ) ) : '';
+            this.$store.commit( 'SET_INIT_STATUS', data )
         }
     }
 </script>
@@ -668,6 +711,7 @@
 <style lang="scss">
     .helloFirst {
         background-color: #f5f5f6;
+
         .apps {
             padding-right: 75px;
         }
@@ -791,17 +835,23 @@
                     position: absolute;
                     left: 34px;
                     bottom: 100px;
-                    .flex{
+
+                    .flex {
                         position: relative;
                         margin-bottom: 15px;
-                        &:hover .noC{display: block;}
-                        .noC{
+
+                        &:hover .noC {
+                            display: block;
+                        }
+
+                        .noC {
                             position: absolute;
                             bottom: 0;
                             right: -116px;
                             display: none;
                         }
                     }
+
                     a {
                         color: #333;
                     }
@@ -855,6 +905,7 @@
                         margin-right: 12px;
                         margin-bottom: 15px;
                         overflow: hidden;
+
                         img {
                             display: block;
                             width: 100%;
@@ -873,57 +924,72 @@
             margin: 60px 0 0 244px;
             flex: 1;
             padding: 15px 0 0 15px;
+
             .imgRef.active {
                 margin-bottom: 85px;
             }
-            .newChunk{
+
+            .newChunk {
                 background-color: #fff;
                 padding: 60px 0 80px;
                 line-height: 1;
                 text-align: center;
                 margin-bottom: 15px;
-                h2{
+
+                h2 {
                     font-size: 34px;
                     font-weight: 500;
                 }
-                & > p{
+
+                & > p {
                     font-size: 20px;
                     margin: 20px 0 50px 0;
                     color: #777;
                 }
-                & > .flex{
+
+                & > .flex {
                     justify-content: center;
                 }
-                .gifright{
+
+                .gifright {
                     text-align: left;
                     width: 280px;
                     margin-left: 78px;
-                    .el-button,.el-input{
+
+                    .el-button, .el-input {
                         display: block;
                         width: 100%;
                         border-radius: 10px;
                         height: 50px;
                         margin-bottom: 20px;
-                        input{
+
+                        input {
                             height: 100%;
-                            background-color: rgb(243,243,243);
+                            background-color: rgb(243, 243, 243);
                             border-color: #fff;
                         }
                     }
-                    .el-input{
+
+                    .el-input {
                         margin-bottom: 40px;
-                        background-color: rgb(243,243,243);
+                        background-color: rgb(243, 243, 243);
                     }
-                    p{
+
+                    p {
                         font-size: 14px;
                         color: #999;
                         line-height: 50px;
                     }
-                    .flex div{
+
+                    .flex div {
                         width: 62px;
                         height: 62px;
                         border-radius: 5px;
                         margin-right: 12px;
+                    }
+                    .titlips{
+                        font-size: 14px;
+                        color: #999;
                     }
                 }
             }
@@ -936,9 +1002,11 @@
             width: 40px;
             max-height: 70%;
             z-index: 88;
-            .el-scrollbar{
+
+            .el-scrollbar {
                 z-index: 999;
             }
+
             .imgs {
                 max-height: 450px;
                 /*overflow-y: auto;*/
@@ -965,22 +1033,33 @@
 
             .downBtn {
                 line-height: 40px;
-                position: absolute;
+                position: relative;
                 right: 0;
                 min-width: 40px;
                 text-align: center;
                 color: #fff;
                 background-color: #e82255;
-                & > span{
+
+                & > span {
                     display: block;
                     height: 100%;
                     line-height: 16px;
-                    font-size:12px ;
+                    font-size: 12px;
                     padding: 5px;
                 }
+
                 &:hover .sizeChoses {
                     display: block;
                 }
+            }
+            .deAll{
+                display: block;
+                line-height: 16px;
+                font-size: 12px;
+                padding: 5px;
+                color: #e82255;
+                border: 1px solid #e82255;
+                text-align: center;
             }
         }
     }
@@ -999,11 +1078,19 @@
         right: 40px;
         top: 0;
         text-align: left;
+
         & > div {
             margin-bottom: 10px;
-            span:first-child{width: 130px;}
-            span:nth-child(2){width: 110px;}
-            span.cu{
+
+            span:first-child {
+                width: 130px;
+            }
+
+            span:nth-child(2) {
+                width: 110px;
+            }
+
+            span.cu {
                 width: 50px;
                 text-align: center;
                 line-height: 24px;
@@ -1011,10 +1098,16 @@
                 border-radius: 13px;
                 color: #e82255;
             }
-            &:last-child{
+
+            &:last-child {
                 margin-bottom: 0;
                 text-align: right;
-                i{border-bottom: 1px solid #a1a0a0;margin-left: 10px;}
+
+                i {
+                    border-bottom: 1px solid #a1a0a0;
+                    margin-left: 10px;
+                }
+
                 color: #a1a0a0;
             }
         }
@@ -1025,13 +1118,15 @@
 
         .btn {
             height: 40px;
-            padding:0 10px 8px;
+            padding: 0 10px 8px;
             border-bottom: 1px solid #ececec;
             margin-bottom: 8px;
-           & > div{
-               position: relative;
-           }
-            .color_List{
+
+            & > div {
+                position: relative;
+            }
+
+            .color_List {
                 position: relative;
                 top: -250px;
                 left: 50%;
@@ -1040,16 +1135,19 @@
                 flex-wrap: wrap;
                 box-shadow: 0 0 10px #333;
                 margin-top: 10px;
-                z-index:88;
+                z-index: 88;
                 background-color: #fff;
-                span:first-child{
+
+                span:first-child {
                     margin-bottom: 10px;
                 }
-                span{
+
+                span {
                     width: 20px;
                     height: 20px;
                 }
-                .selectC{
+
+                .selectC {
                     box-shadow: 0 0 8px #fff inset;
                 }
             }
@@ -1100,9 +1198,10 @@
         }
         .content .rightBig {
             padding-right: 55px;
+
             .bigimg {
-            max-width: 862px;
-        }
+                max-width: 862px;
+            }
         }
     }
 </style>
