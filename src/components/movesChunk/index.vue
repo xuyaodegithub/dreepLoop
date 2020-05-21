@@ -29,6 +29,7 @@
             downs(e){
                 this.openMoves=true
                 this.moves(e)
+
             },
             moves(e){
                 // e.preventDefault()

@@ -103,30 +103,35 @@ export const mixins={
     }
   },
   methods:{
-    edireThis(k){
+    edireThis(down){
+      if(!down)return;
       const editPictures={
         pro:this.bgOriginal.img,
-        ori:this.Original
+        ori:this.Original,
+        filename:this.filename,
+        bgImg:'',
+        fileId:this.fileId,
+        imageMsg:this.imageMsg
       }
-      if(!k){
+      // if(!k){
         localStorage.setItem('editImg',JSON.stringify(editPictures))
         window.open('editPictures.html')
-      } else{
-        if( this.imageMUrl){
-          editPictures.pro=this.imageMUrl
-          localStorage.setItem('editImg',JSON.stringify(editPictures))
-          window.open('editPictures.html')
-          return
-        }
-        downloadMattedImage({fileId: this.fileId}).then(res => {
-          if (!res.code) {
-            this.imageMUrl = res.data
-            editPictures.pro=res.data
-            localStorage.setItem('editImg',JSON.stringify(editPictures))
-            window.open('editPictures.html')
-          }
-        })
-      }
+      // } else{
+      //   if( this.imageMUrl){
+      //     editPictures.pro=this.imageMUrl
+      //     localStorage.setItem('editImg',JSON.stringify(editPictures))
+      //     window.open('editPictures.html')
+      //     return
+      //   }
+      //   downloadMattedImage({fileId: this.fileId}).then(res => {
+      //     if (!res.code) {
+      //       this.imageMUrl = res.data
+      //       editPictures.pro=res.data
+      //       localStorage.setItem('editImg',JSON.stringify(editPictures))
+      //       window.open('editPictures.html')
+      //     }
+      //   })
+      // }
     },
     initSmallTag(e,txt) {//点击小动画
       let $i = $( '<span></span>' ).text( txt ), y = e.clientY - 30, x = e.clientX - 10;

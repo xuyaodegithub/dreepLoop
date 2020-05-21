@@ -78,7 +78,7 @@
                             <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()" style="background-color: #21a9e8;border-color: #21a9e8;"><!--Upload-->上传图像</el-button>
                             <el-input v-model="imgUrl"  placeholder="CTRL+V粘贴图像或者URL"
                                       @focus="$event.target.select()"></el-input>
-                            <div class="titlips">推荐使用：谷歌游览器 <img src="@/assets/image/img1.png" alt="">，防止兼容问题</div>
+                            <div class="titlips"><a href="https://www.google.cn/chrome/" target="_blank">推荐使用：谷歌游览器 <img src="@/assets/image/img1.png" alt="">，防止兼容问题</a></div>
                             <p>没有图像？试试以下图片看看效果</p>
                             <div class="flex a-i">
                                 <div :style="{backgroundImage:`url(${item})`,backgroundSize:'cover',backgroundPosition:'center'}" v-for="(item,idx) in initimgsList" :key="idx" @click="deepItem(item)" class="cu"></div>
@@ -89,7 +89,7 @@
                 <div v-for="(item,index) in files" :key="item.name" class="imgRef"
                      :id="item.name">
                     <!--                    :class="{'active' : index===files.length-1}"-->
-                    <img-sub :files="item" @to-parse="collectBg" @close="closeItem" :index="index"
+                    <img-sub :files="item" @to-parse="collectBg" @close="closeItem" :index="index" ref="subs" @downall="downAllinit"
                              @openImgSet="openImgSet"></img-sub>
                 </div>
             </div>
@@ -108,7 +108,7 @@
                         <div class="flex a-i btn j-b">
                             <div v-for="(val,index) in color" :key="index"
                                  :class="{'active' : classType===index}" @click="classType=index" class="cu">
-                                <div class="flex color_List" v-show="classType===1 && index===1">
+                                <div class="flex color_List" v-show="classType===2 && index===2">
                                     <span v-for="(color,idx) in colorList" :key="idx" :style="{backgroundColor:color}" @click.stop="selectColor=color" :class="{selectC : selectColor===color}"></span>
                                 </div>
                                 <img :src="val" alt="" style="position: absolute;left: 0;top: 0;width: 24px;height: 24px" :title="index | imgtitle">
@@ -121,12 +121,12 @@
                         <div class="flex a-i">
                             <span>下载预览图</span>
                             <span>0</span>
-                            <span class="cu" @click="saveMove(0)">下载</span>
+                            <span class="cu" @click="saveMove(0,$event)">下载</span>
                         </div>
                         <div class="flex a-i ">
                             <span>下载原图比例</span>
                             <span>{{allbgImg.length}}</span>
-                            <span class="cu" @click="saveMove(1)">下载</span>
+                            <span class="cu" @click="saveMove(1,$event)">下载</span>
                         </div>
                         <div>
 <!--                            当前可用次数： 0 <i class="cu">去充值</i>-->
@@ -156,6 +156,7 @@
     import {getMattedImageMultiple, userHistoryList} from "../../apis";
     import mohu1 from '@/assets/image/mohu1.png'
     import mohu2 from '@/assets/image/mohu2.png'
+    import init from '@/assets/image/init.png'
     import opacity from '@/assets/image/fopa.png'
     import bscolor from '@/assets/image/color.png'
     import JSManipulate from '../../utils/jsmanipulate.js'
@@ -185,7 +186,7 @@
                 imgUrl: '',//图片链接
                 page: 1,
                 rows: 30,
-                color: [opacity, bscolor, mohu2, mohu1],
+                color: [init,opacity, bscolor, mohu2, mohu1],
                 classType: 0,
                 stopUpdata: false,//停止滑动加载
                 Percentile: 0,
@@ -204,7 +205,8 @@
                     '#96e2fa','#a9c6fe','#b18cfd','#e391fd','#f4a4c1','#ffb4ae','#fec5aa','#ffd9a8','#fee4a9','#fefaba','#f4f6b7','#cce8b5',
                     '#ccf0fe','#d3e2ff','#d9c8fe','#efcafe','#f9d3e0','#fedbd9','#ffe3d7','#feedd3','#fff1d4','#fffdde','#f7fadd','#e0eed5',
                 ],//色板
-                selectColor:''
+                selectColor:'',
+                baseList:[]//全部下载自定义
             }
         },
         filters: {
@@ -219,10 +221,11 @@
                 else return val
             },
             imgtitle(i){
-                if (i===0)return '背景透明';
-                else if (i===1)return '纯色背景';
-                else if (i===2)return '背景黑白';
-                else if (i===3)return '背景模糊';
+                if(i===0)return '自定义后';
+                else if (i===1)return '背景透明';
+                else if (i===2)return '纯色背景';
+                else if (i===3)return '背景黑白';
+                else if (i===4)return '背景模糊';
             }
         },
         watch:{
@@ -285,6 +288,36 @@
             ...mapActions( [
                 'userGetscribe'
             ] ),
+            downAllinit(objs,blogTitle='picture'){//下载全部自定义后的图片
+                const allNum=this.$refs.subs.length,_this=this;
+                let zip = new JSZip(),imgs = zip.folder( blogTitle );
+                const name=objs.filename.substring(0,objs.filename.lastIndexOf('.')).replace(/\//g,'%')
+                this.baseList.push( {name: name+'.png', img: objs.obj.substring( 22 )} );
+                this.Percentile += 1;
+                this.loading.text = this.Percentile + '/' + this.allbgImg.length + ' 已完成';
+                console.log(this.Percentile,this.allbgImg.length,'.....')
+                if (this.baseList.length === this.allbgImg.length) {
+                    if (this.baseList.length > 0) {
+                        this.loading.text = '打包中...'
+                        for (let k = 0; k < this.baseList.length; k++) {
+                            imgs.file( this.baseList[k].name, this.baseList[k].img, {
+                                base64: true
+                            } );
+                        }
+                        zip.generateAsync( {type: "blob"} ).then( function (content) {
+                            saveAs( content, blogTitle + ".zip" );
+                            _this.loading.close()
+                            _this.Percentile = 0
+                            _this.baseList = []
+                        } );
+                    } else {
+                        _this.$message.error( {
+                            title: "error",
+                            message: "没有图片可下载"
+                        } );
+                    }
+                }
+            },
             deepItem(item){
                 this.imgUrl=item
                 this.copyImgUrl()
@@ -338,7 +371,7 @@
                 } )
             },
             //下载多张抠图
-            saveMove(key) {
+            saveMove(key,e) {
                 let that = this
                 this.$message.closeAll()
                 if (this.files.length !== this.allbgImg.length) {
@@ -351,6 +384,11 @@
                     spinner: 'el-icon-loading',
                     background: 'rgba(0, 0, 0, 0.7)'
                 } );
+                if(!this.classType){
+                    const allSub=this.$refs.subs
+                    allSub.map((item)=>item.save(key,e,'all'))
+                    return
+                }
                 let allImgs = JSON.parse( JSON.stringify( this.allbgImg ) );
                 let arr = allImgs.filter( (val, index) => {
                     return val.img
@@ -388,10 +426,10 @@
                     let ctxs = cans.getContext( '2d' )
                     cans.width = objs.bgRemovedImg.width;
                     cans.height = objs.bgRemovedImg.height;
-                    if (this.classType ===1) {
+                    if (this.classType ===2) {
                         ctxs.fillStyle = this.selectColor;
                         ctxs.fillRect( 0, 0, cans.width, cans.height )
-                    } else if (this.classType >1) ctxs.putImageData( objs.dwonBg, 0, 0 );
+                    } else if (this.classType >2) ctxs.putImageData( objs.dwonBg, 0, 0 );
                     ctxs.drawImage( objs.bgRemovedImg, 0, 0 );
                     let url = cans.toDataURL( "image/png" ); // 得到图片的base64编码数据 let url =
                     const name=objs.is.substring(0,objs.is.lastIndexOf('.')).replace(/\//g,'%')
@@ -568,7 +606,7 @@
                 JSManipulate.blur.filter( newBg1, {amount: 5.0} );
                 JSManipulate.grayscale.filter( newBg4 );
                 callback( {
-                    dwonBg: index === 2 ? newBg4 : newBg1,
+                    dwonBg: index === 3 ? newBg4 : newBg1,
                     bgRemovedImg: imgObjs.bgImg,
                     name: imgObjs.name,
                     is: i//下载名称
@@ -958,7 +996,9 @@
                     }
                     .titlips{
                         font-size: 14px;
-                        color: #999;
+                        a{
+                            color: #999;
+                        }
                     }
                 }
             }

@@ -1,9 +1,10 @@
 <template>
     <div class="downLoadBtn" :class="{'objectType' : type===2}">
         <div class="flex a-i cu itemson"
-             :style="style">
-            <span class="el-icon-download" style="margin-right: 6px"></span>{{down ? '编辑' : '下载'}}<i
-                class="el-icon-caret-bottom rotates" style="margin-left: 12px;transition: .3s all;"></i>
+             @click="edireThis(down)"
+             :style="style" :class="{'itemson2' : !down}">
+            <span :class="down ? 'el-icon-edit' : 'el-icon-download'" style="margin-right: 6px"></span>{{down ? '编辑' : '下载'}}<i
+                class="el-icon-caret-bottom rotates" style="margin-left: 12px;transition: .3s all;" v-show="!down"></i>
             <div class="sizeChose"
                  :class="{'lessTop' : !(imageMsg.previewWidth!==imageMsg.originalWidth || imageMsg.previewHeight!==imageMsg.originalHeight),'addBorder' : down}">
                 <div class="flex a-i">
@@ -13,14 +14,14 @@
                 <div class="flex a-i j-b">
                     <span>{{imageMsg.previewWidth + ' X ' + imageMsg.previewHeight}}</span>
                     <span>0</span>
-                    <p @click="edireThis(0)">编辑</p>
+<!--                    <p @click="edireThis(0)">编辑</p>-->
                     <span class="cu" @click="save(0,$event)">下载</span>
                 </div>
                 <div class="flex a-i j-b"
                      v-if="imageMsg.previewWidth!==imageMsg.originalWidth || imageMsg.previewHeight!==imageMsg.originalHeight">
                     <span>{{imageMsg.originalWidth + ' X ' + imageMsg.originalHeight}}</span>
                     <span>1</span>
-                    <p @click="edireThis(1)">编辑</p>
+<!--                    <p @click="edireThis(1)">编辑</p>-->
                     <span class="cu" @click="save(1,$event)">下载</span>
                 </div>
                 <div>
@@ -92,11 +93,11 @@
             border-color: rgba(232, 34, 85, .6);
         }
 
-        .itemson:hover .rotates {
+        .itemson2:hover .rotates {
             transform: rotateZ(180deg);
         }
 
-        & > div:hover .sizeChose {
+        & > .itemson2:hover .sizeChose {
             display: block;
         }
 

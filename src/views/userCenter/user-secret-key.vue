@@ -2,7 +2,7 @@
     <div class="Subscribe">
         <h3>API密钥</h3>
         <div class="flex">
-            <p>{{ApiMsg}}</p>
+            <p class="cu" @click="copyUrl2">{{ApiMsg}}</p>
             <i class="el-icon-refresh-right" @click="refreshApikey()"></i>
         </div>
         <div class="btn">
@@ -29,6 +29,20 @@
         components:{
         },
        methods:{
+           copyUrl2(){
+               let Url2=this.ApiMsg;
+               let oInput = document.createElement('input');
+               oInput.value = Url2;
+               document.body.appendChild(oInput);
+               oInput.select(); // 选择对象
+               document.execCommand("Copy"); // 执行浏览器复制命令
+               // oInput.className = 'oInput';
+               oInput.style.display='none';
+               this.$message({
+                   type:'success',
+                   message:'复制成功'
+               })
+           },
             getApiKey(){
                 userApikey().then(res=>{
                     if(!res.code){

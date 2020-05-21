@@ -34,7 +34,7 @@
     <meta property="og:url" content="http://www.picup.shop"/>
     <meta property="og:type" content="image"/>
     <meta property="og:title" content="一键抠图人像在线抠图物体抠图软件PicUP.Ai"/>
-    <meta property="og:description" content="picup.ai提供在线抠图,AI抠图,智能抠图,人像抠图服务，图片风格迁移，帮助设计师和PS使用者加速图片处理" />
+    <meta property="og:description" content="picup.ai提供在线抠图,AI抠图,智能抠图,人像抠图服务，图片风格迁移，帮助设计师和PS使用者加速图片处理"/>
     <meta property="og:image" content="slt.jpg"/>
     <link rel="stylesheet" href="static/public.css">
     <!--    <link rel="icon" href="<%= BASE_URL %>favicon.ico">-->
@@ -258,6 +258,23 @@
             color: #333;
         }
 
+        .API .downBtn {
+            display: block;
+            width: 160px;
+            font-size: 18px;
+            line-height: 42px;
+            text-align: center;
+            background-color: #e82255;
+            color: #fff;
+            margin: 30px auto 48px;
+            border-radius: 21px;
+        }
+        .API video{
+            height: 338px;
+            object-fit:fill;
+            box-shadow: 0 0 30px rgba(0,0,0,.1);
+        }
+
         .anli {
             text-align: center;
             background-color: rgba(0, 0, 0, 0);
@@ -292,21 +309,24 @@
             color: rgb(152, 152, 152);
             line-height: 30px;
         }
-
         footer .F_l ~ div {
             margin-right: 120px;
         }
-        footer .labelTages{
+
+        footer .labelTages {
             margin-top: 50px;
             color: #354545;
         }
-        footer .labelTages a{
+
+        footer .labelTages a {
             color: #2a3030;
             margin-right: 8px;
         }
-        footer .labelTages span{
-            margin-left:15px ;
+
+        footer .labelTages span {
+            margin-left: 15px;
         }
+
         .f_last {
             font-size: 16px;
             color: rgb(152, 152, 152);
@@ -415,11 +435,17 @@
 <div class="API">
     <div class="margin">
         <h1>真正提高效率</h1>
-        <p>时间就是金钱：批量处理、API集成</p>
+        <p style="margin-bottom: 0">时间就是金钱：网页批量处理、Mac/Windows桌面端、API集成</p>
+        <a href="downLoad.html" class="downBtn cu">桌面端下载 > </a>
         <div class="flex item">
             <div class="left">
-                <img src="static/apis.png" alt="一键抠图，人像抠图">
-                <p><span>批量处理实例</span></p>
+                <video src="http://www.picup.shop/downLoad.mp4" muted ref="videoss" loop autoplay>
+                    <source src="http://www.picup.shop/downLoad.mp4" type="video/mp4">
+                    <!--                            <source :src="item" type="video/ogg">-->
+                    <!--                            <source :src="item" type="video/webm">-->
+                    你的游览器暂不支持视频播放，换一个试试吧！
+                </video>
+                <p><span>桌面端实例</span></p>
             </div>
             <div class="right">
                 <div class="flex a-i j-b">
@@ -471,7 +497,7 @@
                 <img src="static/e1.png" alt="一键抠图，人像抠图">
             </span>
             <span class="lv ewn cu" onclick="showEwm(1)">一键旅拍
-                <img src="static/e1.png" alt="一键抠图，人像抠图"></span>
+                <img src="static/e2.png" alt="一键抠图，人像抠图"></span>
             <a href="product.html">更多产品</a>
         </div>
         <div>
@@ -480,6 +506,9 @@
             <a href="docsify/#/registerdoc_terms.md">服务和隐私</a>
             <a href="copyright.html">版权</a>
         </div>
+    </div>
+    <div class="margin youqin">
+        友情链接：<a href="http://www.djcang.com/" target="_blank">大鲸云仓</a>
     </div>
     <div class="labelTages margin">
         皮卡智能 <a href="index.html">抠图网站</a> 提供：

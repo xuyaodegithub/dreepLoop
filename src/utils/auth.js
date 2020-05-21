@@ -1,4 +1,5 @@
-const [TokenKey,imgsKey,imgsKey2,userAccount] = ['user_Token','secImgs','objectImgs','userAccount'];
+const [TokenKey,imgsKey,imgsKey2,imgsKey3,userAccount] = ['user_Token','secImgs','objectImgs','beautyImgs','userAccount'];
+const imgsesion=['',imgsKey,imgsKey2,imgsKey3]
 // const imgsKey='secImgs';
 // const imgsKey2='objectImgs';
 // const userAccount='userAccount';
@@ -15,8 +16,8 @@ export const reAccount=()=>{
 }
 
 export function getToken() {
-  // return window.localStorage.getItem(TokenKey)
-  return window.sessionStorage.getItem(TokenKey)
+  return window.localStorage.getItem(TokenKey)
+  // return window.sessionStorage.getItem(TokenKey)
 }
 
 export function setToken(token) {
@@ -24,13 +25,13 @@ export function setToken(token) {
   // Cookies.set('foo', 'bar', {
   //   expires: inFifteenMinutes//不设置默认会话式储存，游览器关闭就删除
   // });
-  // return window.localStorage.setItem(TokenKey,token)
-  return window.sessionStorage.setItem(TokenKey,token)
+  return window.localStorage.setItem(TokenKey,token)
+  // return window.sessionStorage.setItem(TokenKey,token)
 }
 
 export function removeToken() {
-  // return window.localStorage.removeItem(TokenKey)
-  return window.sessionStorage.removeItem(TokenKey)
+  return window.localStorage.removeItem(TokenKey)
+  // return window.sessionStorage.removeItem(TokenKey)
 }
 export const setCookie = (name, cvalue, clearDay = 3650) => {
   const d = new Date();
@@ -57,14 +58,11 @@ export const clearCookie = name => {
 };
 
 export function getSecImgs(k) {
-  const a= k===1 ? imgsKey : imgsKey2;
-  return window.sessionStorage.getItem(a)
+  return window.sessionStorage.getItem(imgsesion[k])
 }
 export function setSecImgs(imgs,k) {
-  const a= k===1 ? imgsKey : imgsKey2;
-  return window.sessionStorage.setItem(a,imgs)
+  return window.sessionStorage.setItem(imgsesion[k],imgs)
 }
 export function removeSecImgs(imgs,k) {
-  const a= k===1 ? imgsKey : imgsKey2;
-  return window.sessionStorage.removeItem(a,imgs)
+  return window.sessionStorage.removeItem(imgsesion[k],imgs)
 }

@@ -104,8 +104,10 @@
                         <!--                        <el-button type="primary" icon="el-icon-edit" circle style="background-color: #27adf6;border-color: #27adf6;margin: 0 70px 0 60px" size="small" @click="updataThis()"></el-button>-->
                     </div>
                     <div class="flex">
-                        <down-btn  v-if="bgOriginal.img" :imageMsg="imageMsg" @edireThis="edireThis" @save="save" :type="1"></down-btn>
-                        <down-btn  v-if="bgOriginal.img" :imageMsg="imageMsg" @edireThis="edireThis" @save="save" :type="1" down></down-btn>
+                        <down-btn v-if="bgOriginal.img" :imageMsg="imageMsg" @edireThis="edireThis" @save="save"
+                                  :type="1"></down-btn>
+                        <down-btn v-if="bgOriginal.img" :imageMsg="imageMsg" @edireThis="edireThis" @save="save"
+                                  :type="1" down></down-btn>
                     </div>
                 </div>
             </div>
@@ -124,6 +126,7 @@
     import {mapGetters} from 'vuex'
     import {mixins} from '@/minxins'
     import downBtn from '../downLoadBtn'
+
     export default {
         name: "imgsub",
         props: {
@@ -194,10 +197,10 @@
                 handler(n, o) {
                     this.offNo = this.seleceStatus//检测状态
                 },
-                immediate: true,
+                immediate: true,//初始化执行一次
             }
         },
-        components:{
+        components: {
             downBtn
         },
         computed: {
@@ -223,7 +226,7 @@
             if (windowW > 1500) this.canvasinitNum = 500
             else this.canvasinitNum = 380
             this.file = this.files.url;
-            this.filename=this.files.filename
+            this.filename = this.files.filename
             if (this.files.type === 'copy') {
                 this.imgname = `copy_${getrandom( 0, 1000000000 )}`;
                 this.getImgMsgByurl()
@@ -498,7 +501,7 @@
                                     color: 'add',
                                     fileId: this.fileId,
                                     Original: this.Original,
-                                    filename:this.filename
+                                    filename: this.filename
                                 } )
                             }
                         } else {
@@ -564,7 +567,7 @@
                                     color: 'add',
                                     fileId: _self.fileId,
                                     Original: _self.Original,
-                                    filename:_self.filename
+                                    filename: _self.filename
                                 } )
                             } else {
                                 let obj = {
@@ -639,7 +642,7 @@
                             color: 'add',
                             fileId: this.fileId,
                             Original: this.Original,
-                            filename:this.filename
+                            filename: this.filename
                         } )
                     } else {
                         let obj = {
@@ -692,28 +695,28 @@
                 this.drawImgAfterFirst( this.loadImg );
                 this.backg = {background: this.colorValue}
             },
-            save(index, e) {//保存下载
+            save(index, e, all) {//保存下载
                 if (index === 0) {
-                    let url = this.bgOriginal.img
-                    this.initSmallTag( e,'免费 :）' )
-                    this.downOldImg( url )
+                    let url = this.bgOriginal.img;
+                    this.initSmallTag( e, '免费 :）' );
+                    this.downOldImg( url, all )
                 } else {
                     if (this.imageMUrl) {
-                        this.initSmallTag( e ,'免费 :）')
-                        this.downOldImg( this.imageMUrl )
+                        this.initSmallTag( e, '免费 :）' )
+                        this.downOldImg( this.imageMUrl, all )
                         return
                     }
                     downloadMattedImage( {fileId: this.fileId} ).then( res => {
                         if (!res.code) {
-                            this.initSmallTag( e ,'次数 -1')
+                            this.initSmallTag( e, '次数 -1' )
                             this.imageMUrl = res.data
-                            this.downOldImg( res.data )
+                            this.downOldImg( res.data, all )
                         }
                     } )
                 }
             },
             // 下载
-            downOldImg(urls) {
+            downOldImg(urls, all) {
                 // console.log(urls,this.choseBack)
                 let urlss = urls + `?str=${Math.random()}`
                 let _self = this
@@ -725,7 +728,7 @@
                         cans.height = objs.bgRemovedImg.height;
                         ctxs.putImageData( objs.dwonBg, 0, 0 );
                         ctxs.drawImage( objs.bgRemovedImg, 0, 0 );
-                        _self.downFunc( cans )
+                        _self.downFunc( cans, all )
                     }
                     this.drawStyleBg( this.Original + `?str=${Math.random()}`, urlss + `?str=${Math.random()}`, 1, _self.choseBack, callback )
                     return
@@ -744,17 +747,21 @@
                         ctxs.drawImage( oImg, _self.Offsetxy.x / 2 * oImg.width / (_self.canveaContentW / 2), _self.Offsetxy.y / 2 * oImg.height / (_self.canveaContentH / 2), _self.initwh.w / 2 * oImg.width / (_self.canveaContentW / 2), _self.initwh.h / 2 * oImg.height / (_self.canveaContentH / 2) );
                     }
                     if (_self.choseBack !== 'bg') ctxs.drawImage( oImg, 0, 0, cans.width, cans.height );
-                    _self.downFunc( cans )
+                    _self.downFunc( cans, all )
                 }
                 oImg.src = urlss
             },
-            downFunc(cans) {//下载方法提取
+            downFunc(cans, all) {//下载方法提取
                 if (myBrowser() === 'IE' || myBrowser() === 'Edge') {//ie下载图片
                     let url = cans.msToBlob();
                     let blobObj = new Blob( [url] );
-                    window.navigator.msSaveOrOpenBlob( blobObj, this.filename.substring(0,this.filename.lastIndexOf('.')) + ".png" );
+                    window.navigator.msSaveOrOpenBlob( blobObj, this.filename.substring( 0, this.filename.lastIndexOf( '.' ) ) + ".png" );
                 } else {
                     let url = cans.toDataURL( "image/png" );
+                    if (all) {
+                        this.$emit( 'downall', {obj: url, filename: this.filename} )
+                        return
+                    }
                     let arr = url.split( ',' ), mime = arr[0].match( /:(.*?);/ )[1], bstr = atob( arr[1] ),
                         n = bstr.length, u8arr = new Uint8Array( n );
                     while (n--) {
@@ -763,7 +770,7 @@
                     let objurl = URL.createObjectURL( new Blob( [u8arr], {type: mime} ) );
                     let save_link = document.createElement( 'a' );
                     save_link.href = objurl;
-                    save_link.download = this.filename.substring(0,this.filename.lastIndexOf('.')) + '.png';
+                    save_link.download = this.filename.substring( 0, this.filename.lastIndexOf( '.' ) ) + '.png';
                     let event = document.createEvent( 'MouseEvents' );
                     event.initMouseEvent( 'click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null );
                     save_link.dispatchEvent( event );

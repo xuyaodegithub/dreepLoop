@@ -1,20 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-WG4BQ8P');
+    <script>(function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push( {
+            'gtm.start':
+                new Date().getTime(), event: 'gtm.js'
+        } );
+        var f = d.getElementsByTagName( s )[0],
+            j = d.createElement( s ), dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src =
+            'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore( j, f );
+    })( window, document, 'script', 'dataLayer', 'GTM-WG4BQ8P' );
     </script>
     <script>
         var _hmt = _hmt || [];
-        (function() {
-            var hm = document.createElement("script");
+        (function () {
+            var hm = document.createElement( "script" );
             // hm.src = "https://hm.baidu.com/hm.js?156c05f7319464c49127c703f9ed21df";
             hm.src = "https://hm.baidu.com/hm.js?c4e46c993747640c7a9788bbd1879f39";
-            var s = document.getElementsByTagName("script")[0];
-            s.parentNode.insertBefore(hm, s);
+            var s = document.getElementsByTagName( "script" )[0];
+            s.parentNode.insertBefore( hm, s );
         })();
     </script>
     <meta charset="utf-8">
@@ -24,74 +32,546 @@
     <meta name="Description" content="picup.ai提供一键在线抠图,AI抠图,智能抠图,人像抠图服务，图片风格迁移，帮助设计师和PS使用者加速图片处理">
     <meta name="Keywords" content="在线抠图,AI抠图,智能抠图,人像抠图,在线人像抠图,人物抠图,在线人物抠图,发丝抠图,一键抠图,ps抠图"/>
     <link rel="stylesheet" href="static/public.css">
-    <link rel="icon" href="smallLogo.jpg">
-    <title><%= htmlWebpackPlugin.options.title %></title>
-    <style>
-        footer {
-            margin-top: 80px;
-            background-color: #191919;
-            color: rgb(152, 152, 152);
-            font-size: 14px;
-            line-height: 22px;
-            padding: 40px 0 80px 0;
-            border-bottom: 1px solid rgb(152, 152, 152);
-        }
-
-        footer h5 {
-            line-height: 1;
-            font-size: 20px;
-            color: #fff;
-        }
-
-        footer .F_l {
-            width: 325px;
-            margin-right: 85px;
-        }
-
-        footer .F_l img, footer h5 {
-            margin-bottom: 25px;
-        }
-
-        footer a, footer span {
-            display: block;
-            color: rgb(152, 152, 152);
-            line-height: 30px;
-        }
-
-        footer .F_l ~ div {
-            margin-right: 120px;
-        }
-
-        .f_last {
-            font-size: 16px;
-            color: rgb(152, 152, 152);
-            text-align: center;
-            line-height: 57px;
-            background-color: #191919;
-        }
-
-        .guo, .lv {
-            position: relative;
-        }
-
-        .guo:hover img, .lv:hover img {
-            display: block;
-        }
-
-        .guo img, .lv img {
-            position: absolute;
-            right: -100%;
-            bottom: 0;
-            background-color: #fff;
-            display: none;
-        }
-    </style>
+    <link rel="stylesheet" href="static/css/freeimg.css">
+    <link rel="icon" href="static/smallLogo.jpg">
+    <title>免费背景</title>
 </head>
 <body>
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WG4BQ8P"
-                  height="0" width="0" style="display:none;visibility:hidden"></iframe>
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WG4BQ8P"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe>
 </noscript>
+<header>
+    <div class="margins flex j-b a-i first">
+        <ul class="flex">
+            <li><a href="index.html"><img src="static/sureLogo.png" alt="" style="height: 30px;"></a></li>
+            <li>
+                <a href="index.html">首页</a></li><!--智能抠图-->
+            <li><a href="people.html">人像抠图</a></li><!--智能抠图-->
+            <li><a href="objects.html">物体抠图</a></li><!--智能抠图-->
+<!--            <li><a href="product.html">更多产品</a></li>-->
+            <!--                @click="toProduct()" @click="toAbout()"-->
+<!--            <li><a href="aboutUs.html">关于我们</a></li>&lt;!&ndash;会员&ndash;&gt;-->
+<!--            <li><a href="downLoad.html">下载桌面端</a></li>&lt;!&ndash;下载&ndash;&gt;-->
+            <li class="red"><a href="freeimg.html">免费背景图</a></li><!--下载-->
+        </ul>
+        <div class="right">
+            <div>
+                <a href="downLoad.html">下载桌面端</a>
+                <a href="docsify/#/apidoc_api.md">API</a><!--登录-->
+                <a href="userVip.html">定价</a>
+                <a href="loginOrRegister.html" class="Lohin loginbtb">登录/注册</a><!--注册-->
+                <a href="userCenter.html" class="Lohin users"></a>
+                <ul>
+                    <li><a href="userCenter.html">我的账户</a></li>
+                    <li class="cu" onclick="loginout()">退出</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
 <div id="freeimg"></div>
+<div class="seach">
+    <div class="s_seach flex j-b">
+        <h1>免费背景</h1>
+        <div class="right"><input type="text" placeholder="搜索背景" onkeypress="seach(event)"><img src="static/seach.png"
+                                                                                                alt=""></div>
+    </div>
+    <p>皮卡智能picup.ai为您找到约 <span>1,797张</span> 免费背景图片，皮卡智能的**背景大全拥有海量精选高清图片，免费商用版权，为电商、设计师、动漫游戏提供抠图去背景换背景服务。</p>
+</div>
+<div class="tags flex j-b">
+    <div style="background-image: url('https://cdn.pixabay.com/photo/2017/04/24/13/37/architecture-2256489__340.jpg ')"><span>风景</span></div>
+    <div><span>室内</span></div>
+    <div><span>建筑</span></div>
+    <div><span>抽象绘画</span></div>
+    <div><span>会议室</span></div>
+    <div><span>家具</span></div>
+    <div><span>街道</span></div>
+    <div><span>壁纸</span></div>
+    <div><span>纹理</span></div>
+</div>
+<div id="contanin">
+    <div class=" flex f-w">
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="510" data-h="340">
+            <img
+                    loadsrc="https://cdn.pixabay.com/photo/2017/04/24/13/37/architecture-2256489__340.jpg , https://cdn.pixabay.com/photo/2017/04/24/13/37/architecture-2256489__480.jpg "
+                    src="static/loading.gif"
+                    alt="架构, 摩天楼, 玻璃幕墙, 现代, 正面, 天空, 建设, 杜塞尔多夫, 城市">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="602" data-h="340">
+            <img
+                    loadsrc="https://cdn.pixabay.com/photo/2016/01/29/16/57/prague-1168302__340.jpg , https://cdn.pixabay.com/photo/2016/01/29/16/57/prague-1168302__480.jpg "
+                    src="static/loading.gif"
+                    alt="布拉格, 捷克共和国, 城市, 河, 城堡, 建筑, 桥, 查理大桥, 光">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="510" data-h="340">
+            <img
+                    loadsrc="https://cdn.pixabay.com/photo/2016/10/10/06/45/architecture-1727807__340.jpg , https://cdn.pixabay.com/photo/2016/10/10/06/45/architecture-1727807__480.jpg "
+                    src="static/loading.gif"
+                    alt="架构, 摩天楼, 玻璃幕墙, 现代, 天际线, 城市, 摩天大楼, 正面, 天空">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="430" data-h="340">
+            <img
+                    loadsrc="https://cdn.pixabay.com/photo/2014/07/10/17/17/bedroom-389254__340.jpg , https://cdn.pixabay.com/photo/2014/07/10/17/17/bedroom-389254__480.jpg "
+                    src="static/loading.gif"
+                    alt="卧室, 建筑, 室内, 生活方式, 当代, 住宅, 设计, 生活, 卧室, 卧室">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="969" data-h="340">
+            <img
+                    loadsrc="https://cdn.pixabay.com/photo/2017/08/16/00/59/panorama-2646143__340.jpg , https://cdn.pixabay.com/photo/2017/08/16/00/59/panorama-2646143__480.jpg "
+                    src="static/loading.gif"
+                    alt="全景, 雷根斯堡, 历史中心, 多瑙河, 水, 德国, 城市, 房屋, 河, 云">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="511" data-h="340">
+            <img
+                    loadsrc="https://cdn.pixabay.com/photo/2014/09/07/21/52/urban-438393__340.jpg , https://cdn.pixabay.com/photo/2014/09/07/21/52/urban-438393__480.jpg "
+                    src="static/loading.gif"
+                    alt="城市, 人, 人群, 公民, 生活方式, 街, 走, 建筑物, 英格兰, 欧洲">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="604" data-h="340">
+            <img
+                    loadsrc="https://cdn.pixabay.com/photo/2016/03/09/09/42/buildings-1245953__340.jpg , https://cdn.pixabay.com/photo/2016/03/09/09/42/buildings-1245953__480.jpg "
+                    src="static/loading.gif"
+                    alt="建筑物, 夜, 城市, 霓虹灯, 凯迪拉克休息室, 开放, 结构, 人行道, 店">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="510" data-h="340">
+            <img
+                    loadsrc="https://cdn.pixabay.com/photo/2017/12/03/17/30/alley-2995354__340.jpg , https://cdn.pixabay.com/photo/2017/12/03/17/30/alley-2995354__480.jpg "
+                    src="static/loading.gif"
+                    alt="胡同, 历史中心, 历史, 老, 法国, 架构, 老建筑, 老房子, 正面, 空">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="604" data-h="340">
+            <img
+                    loadsrc="https://cdn.pixabay.com/photo/2017/01/18/16/46/hong-kong-1990268__340.jpg , https://cdn.pixabay.com/photo/2017/01/18/16/46/hong-kong-1990268__480.jpg "
+                    src="static/loading.gif"
+                    alt="香港, 城市, 摩天大楼, 建筑物, 现代, 交通, 凝结尾迹, 街道, 路">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="510" data-h="340">
+            <img
+                    loadsrc="https://cdn.pixabay.com/photo/2020/04/13/17/02/charles-bridge-5039256__340.jpg , https://cdn.pixabay.com/photo/2020/04/13/17/02/charles-bridge-5039256__480.jpg "
+                    src="static/loading.gif"
+                    alt="查理大桥, 布拉格, 黄昏, 城市, 建筑, 桥, 建筑, 建筑, 建筑, 建筑">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="510" data-h="340">
+            <img
+                    loadsrc="https://cdn.pixabay.com/photo/2016/07/11/20/34/lost-places-1510592__340.jpg , https://cdn.pixabay.com/photo/2016/07/11/20/34/lost-places-1510592__480.jpg "
+                    src="static/loading.gif"
+                    alt="丢失的地方, 工厂, 老, 失效, 建设, 大厅, 废墟, 弃, 工业建筑">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="511" data-h="340">
+            <img
+                    loadsrc="https://cdn.pixabay.com/photo/2014/09/07/21/52/urban-438393__340.jpg , https://cdn.pixabay.com/photo/2014/09/07/21/52/urban-438393__480.jpg "
+                    src="static/loading.gif"
+                    alt="城市, 人, 人群, 公民, 生活方式, 街, 走, 建筑物, 英格兰, 欧洲">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="604" data-h="340">
+            <img
+                    loadsrc="https://cdn.pixabay.com/photo/2016/03/09/09/42/buildings-1245953__340.jpg , https://cdn.pixabay.com/photo/2016/03/09/09/42/buildings-1245953__480.jpg "
+                    src="static/loading.gif"
+                    alt="建筑物, 夜, 城市, 霓虹灯, 凯迪拉克休息室, 开放, 结构, 人行道, 店">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="510" data-h="340">
+            <img
+                    loadsrc="https://cdn.pixabay.com/photo/2017/12/03/17/30/alley-2995354__340.jpg , https://cdn.pixabay.com/photo/2017/12/03/17/30/alley-2995354__480.jpg "
+                    src="static/loading.gif"
+                    alt="胡同, 历史中心, 历史, 老, 法国, 架构, 老建筑, 老房子, 正面, 空">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="965" data-h="340">
+            <img
+                    loadsrc="https://cdn.pixabay.com/photo/2015/07/28/20/24/hong-kong-864884__340.jpg , https://cdn.pixabay.com/photo/2015/07/28/20/24/hong-kong-864884__480.jpg "
+                    src="static/loading.gif"
+                    alt="香港, 天际线, 夜, 亚洲建筑, 摩天楼, 中国, 市中心, 全景图, 海港">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="510" data-h="340">
+            <img
+                    loadsrc="https://cdn.pixabay.com/photo/2018/01/21/01/46/architecture-3095716__340.jpg , https://cdn.pixabay.com/photo/2018/01/21/01/46/architecture-3095716__480.jpg "
+                    src="static/loading.gif"
+                    alt="架构, 克里斯汀, 城堡, 旅行, 建设, 历史建筑, 名胜古迹, 新天鹅堡">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="465" data-h="340">
+            <img
+                    loadsrc="https://cdn.pixabay.com/photo/2016/03/09/09/30/brick-wall-1245825__340.jpg , https://cdn.pixabay.com/photo/2016/03/09/09/30/brick-wall-1245825__480.jpg "
+                    src="static/loading.gif"
+                    alt="砖墙, 砖, 砖背景, 块, 墙, 红色, 砂浆, 模式, 矩形, 纹理, 建筑">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="510" data-h="340">
+            <img
+                    loadsrc="https://cdn.pixabay.com/photo/2016/07/28/19/38/lost-places-1549096__340.jpg , https://cdn.pixabay.com/photo/2016/07/28/19/38/lost-places-1549096__480.jpg "
+                    src="static/loading.gif"
+                    alt="丢失的地方, 老, 衰变, 废墟, 工厂, 行业, 弃, 失效, 建设, 残破">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="510" data-h="340">
+            <img
+                    src="static/loading.gif"
+                    data-lazy-loadsrc="https://cdn.pixabay.com/photo/2016/01/19/17/02/spiral-1149509__340.jpg , https://cdn.pixabay.com/photo/2016/01/19/17/02/spiral-1149509__480.jpg "
+                    data-lazy="https://cdn.pixabay.com/photo/2016/01/19/17/02/spiral-1149509__340.jpg"
+                    alt="螺旋, 楼梯, 结构, 室内, 设计, 白, 建设, 栏杆, 圆, 环路, 现代"
+                    loadsrc="https://cdn.pixabay.com/photo/2016/01/19/17/02/spiral-1149509__340.jpg , https://cdn.pixabay.com/photo/2016/01/19/17/02/spiral-1149509__480.jpg ">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="510" data-h="340">
+            <img
+                    src="static/loading.gif"
+                    data-lazy-loadsrc="https://cdn.pixabay.com/photo/2015/05/15/14/27/eiffel-tower-768501__340.jpg , https://cdn.pixabay.com/photo/2015/05/15/14/27/eiffel-tower-768501__480.jpg "
+                    data-lazy="https://cdn.pixabay.com/photo/2015/05/15/14/27/eiffel-tower-768501__340.jpg"
+                    alt="埃菲尔铁塔, 巴黎, 法国, 里程碑, 历史, 欧洲, 旅游, 纪念碑, 城市"
+                    loadsrc="https://cdn.pixabay.com/photo/2015/05/15/14/27/eiffel-tower-768501__340.jpg , https://cdn.pixabay.com/photo/2015/05/15/14/27/eiffel-tower-768501__480.jpg ">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="604" data-h="340">
+            <img
+                    src="static/loading.gif"
+                    data-lazy-loadsrc="https://cdn.pixabay.com/photo/2014/05/03/01/04/manhattan-336708__340.jpg , https://cdn.pixabay.com/photo/2014/05/03/01/04/manhattan-336708__480.jpg "
+                    data-lazy="https://cdn.pixabay.com/photo/2014/05/03/01/04/manhattan-336708__340.jpg"
+                    alt="曼哈顿, 帝国大厦, 纽约城, 纽约, 城市, 摩天大楼, 高楼林立, 建筑物"
+                    loadsrc="https://cdn.pixabay.com/photo/2014/05/03/01/04/manhattan-336708__340.jpg , https://cdn.pixabay.com/photo/2014/05/03/01/04/manhattan-336708__480.jpg ">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="430" data-h="340">
+            <img
+                    loadsrc="https://cdn.pixabay.com/photo/2014/07/10/17/17/bedroom-389254__340.jpg , https://cdn.pixabay.com/photo/2014/07/10/17/17/bedroom-389254__480.jpg "
+                    src="static/loading.gif"
+                    alt="卧室, 建筑, 室内, 生活方式, 当代, 住宅, 设计, 生活, 卧室, 卧室">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="969" data-h="340">
+            <img
+                    loadsrc="https://cdn.pixabay.com/photo/2017/08/16/00/59/panorama-2646143__340.jpg , https://cdn.pixabay.com/photo/2017/08/16/00/59/panorama-2646143__480.jpg "
+                    src="static/loading.gif"
+                    alt="全景, 雷根斯堡, 历史中心, 多瑙河, 水, 德国, 城市, 房屋, 河, 云">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="604" data-h="340">
+            <img
+                    loadsrc="https://cdn.pixabay.com/photo/2017/01/18/16/46/hong-kong-1990268__340.jpg , https://cdn.pixabay.com/photo/2017/01/18/16/46/hong-kong-1990268__480.jpg "
+                    src="static/loading.gif"
+                    alt="香港, 城市, 摩天大楼, 建筑物, 现代, 交通, 凝结尾迹, 街道, 路">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="511" data-h="340">
+            <img
+                    loadsrc="https://cdn.pixabay.com/photo/2014/09/07/21/52/urban-438393__340.jpg , https://cdn.pixabay.com/photo/2014/09/07/21/52/urban-438393__480.jpg "
+                    src="static/loading.gif"
+                    alt="城市, 人, 人群, 公民, 生活方式, 街, 走, 建筑物, 英格兰, 欧洲">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="604" data-h="340">
+            <img
+                    loadsrc="https://cdn.pixabay.com/photo/2016/03/09/09/42/buildings-1245953__340.jpg , https://cdn.pixabay.com/photo/2016/03/09/09/42/buildings-1245953__480.jpg "
+                    src="static/loading.gif"
+                    alt="建筑物, 夜, 城市, 霓虹灯, 凯迪拉克休息室, 开放, 结构, 人行道, 店">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="510" data-h="340">
+            <img
+                    loadsrc="https://cdn.pixabay.com/photo/2017/12/03/17/30/alley-2995354__340.jpg , https://cdn.pixabay.com/photo/2017/12/03/17/30/alley-2995354__480.jpg "
+                    src="static/loading.gif"
+                    alt="胡同, 历史中心, 历史, 老, 法国, 架构, 老建筑, 老房子, 正面, 空">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+        <div itemscope="" itemtype="schema.org/ImageObject" class="item" data-w="510" data-h="340">
+            <img
+                    loadsrc="https://cdn.pixabay.com/photo/2020/04/13/17/02/charles-bridge-5039256__340.jpg , https://cdn.pixabay.com/photo/2020/04/13/17/02/charles-bridge-5039256__480.jpg "
+                    src="static/loading.gif"
+                    alt="查理大桥, 布拉格, 黄昏, 城市, 建筑, 桥, 建筑, 建筑, 建筑, 建筑">
+            <div class="btn">使用该背景</div>
+            <div class="over">
+                <i>人</i>
+                <i>人物</i>
+                <i>室内</i>
+                <i>居家</i>
+                <i>家庭</i>
+                <i>美食</i>
+                <i>加拿大</i>
+            </div>
+        </div>
+    </div>
+    <div class="pages flex">
+        <div class="btns cu">上一页</div>
+        <div class="btns cu active">下一页</div>
+    </div>
+    <p>以上为<span>1797</span>免费会议室背景的搜索结果</p>
+</div>
+<div class="freeOther">
+    <h2>一键抠图换背景，海量高清背景素材，全部免费商用</h2>
+    <div class="headers">
+        <div class="margin flex a-i">
+            <div class="center">
+                <a href="http://www.picup.shop/people.html#/"><h2>人像抠图</h2>
+                    <p>单人多人正面侧面，怎么动都行</p>
+                    <span>立即使用</span>
+                    <img src="static/people.png" alt=""></a>
+            </div>
+            <div class="right">
+                <a href="http://www.picup.shop/objects.html#/"><h2>物体抠图</h2>
+                    <p> 猫狗汽车鞋包家居，通通能抠</p>
+                    <span>立即使用</span>
+                    <img src="static/object_i.png" alt=""></a>
+            </div>
+        </div>
+    </div>
+</div>
 <footer>
     <div class="margin flex">
         <div class="F_l">
@@ -101,10 +581,10 @@
         </div>
         <div>
             <h5>智能抠图</h5>
-            <a href="people.html">人像抠图</a>
-            <a href="objects.html">物体抠图</a>
-            <a href="docsify/#/apidoc_api.md">API</a>
-            <a href="userVip.html">定价</a>
+            <a href="people.html">人像抠图
+                <a href="objects.html">物体抠图
+                    <a href="docsify/#/apidoc_api.md">API</a>
+                    <a href="userVip.html">定价</a>
         </div>
         <div>
             <h5>功能应用</h5>
@@ -112,14 +592,14 @@
                 <img src="static/e1.png" alt="">
             </span>
             <span class="lv ewn cu" onclick="showEwm(1)">一键旅拍
-                <img src="static/e1.png" alt=""></span>
+                <img src="static/e2.png" alt=""></span>
             <a href="product.html">更多产品</a>
         </div>
         <div>
             <h5>关于我们</h5>
-            <a href="aboutUs.html">联系我们</a>
-            <a href="docsify/#/registerdoc_terms.md">服务和隐私</a>
-            <a href="copyright.html">版权</a>
+            <a href="aboutUs.html">联系我们
+                <a href="docsify/#/registerdoc_terms.md">服务和隐私</a>
+                <a href="copyright.html">版权</a>
         </div>
     </div>
 </footer>
@@ -127,5 +607,96 @@
     © 2018-2020皮卡智能PicUP.AI
 </div>
 <!-- built files will be auto injected -->
+<script src="static/jquery-1.11.3.min.js"></script>
+<script>
+    let oBtn = $( '.item .btn' ), token = localStorage.getItem( 'user_Token' );
+    oBtn.click( function () {
+        const editPictures = {
+            pro: '',
+            ori: '',
+            filename: '',
+            bgImg: $( this ).children( 'img' ).attr( 'loadsrc' ).split( ',' )[1],
+            fileId: '',
+            imageMsg: {}
+        }
+        localStorage.setItem( 'editImg', JSON.stringify( editPictures ) )
+        window.open( 'editPictures.html' )
+    } )
+    if (token) {
+        $( '.loginbtb' ).css( {display: 'none'} )
+        $.ajax( {
+            url: 'http://restapi.picup.shop/user/userInfo',
+            type: 'GET',
+            dataType: 'json',
+            headers: {token: token},
+            success(res) {
+                $( '.users' ).css( {display: 'inline-block'} )
+                $( '.users' ).text( res.data.mobile );
+            }
+        } )
+    } else {
+        $( '.loginbtb' ).css( {display: 'inline-block'} )
+        $( '.users' ).css( {display: 'none'} )
+    }
+
+    function loadImg() {
+        let allImg = $( '#contanin .item ' );
+        $.each( allImg, function (i, item) {
+            let selfH = $( item ).width(), cT = $( item ).offset().top - $( document ).scrollTop(),
+                cB = $( window ).height() - $( item ).offset().top + $( document ).scrollTop();
+            // console.log( cT, cB, i )
+            if (cB > 30 && cT > 0) {
+                ($( this ).find( 'img' )).attr( 'src', ($( this ).find( 'img' ).attr( 'loadsrc' )).split( ',' )[0] )
+            }
+        } )
+    }
+
+    function initDiv() {
+        var oItem = $( '#contanin .item' ), initH = 300, saveW = 0, Omainw = $( '#contanin > .flex' ).width(),
+            temporary = [];
+        $.each( oItem, function (i, v) {
+            let scale = $( v ).attr( 'data-w' ) / $( v ).attr( 'data-h' );
+            saveW += (initH * scale);
+            temporary.push( v )
+            if (saveW >= Omainw) {
+                console.log( saveW, temporary.length )
+                let hh = (Omainw - temporary.length * 10) * initH / saveW;
+                $.each( temporary, function (j, k) {
+                    $( k ).css( {
+                        width: parseInt( hh * $( k ).attr( 'data-w' ) / $( k ).attr( 'data-h' ) ),
+                        height: parseInt( hh )
+                    } )
+                } )
+                temporary = [];
+                saveW = 0;
+            }else if(i===oItem.length-1 && saveW<Omainw){
+                $.each( temporary, function (j, k) {
+                    $( k ).css( {
+                        width: parseInt( 300 * $( k ).attr( 'data-w' ) / $( k ).attr( 'data-h' ) ),
+                        height: 300
+                    } )
+                } )
+            }
+        } )
+    }
+
+    function seach(e) {
+        let ev = e || window.event
+        let code = e.keyCode || e.which;
+        if (code === 13) console.log( code )
+    }
+
+    function loginout() {
+        localStorage.removeItem( 'user_Token' );
+        window.location.reload();
+    }
+
+    var resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+
+    window.addEventListener( resizeEvt, initDiv, false );
+    window.addEventListener( 'scroll', loadImg, false );
+    initDiv()
+    loadImg()
+</script>
 </body>
 </html>

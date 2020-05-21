@@ -10,34 +10,15 @@ const filters={
     let hour= data.getHours()
     let min=data.getMinutes()
     let sec=data.getSeconds()
-    if(month.length<2){
-      month='0'+month
-    }
-    //console.log(year+'-'+month+'-'+day+' '+hour+':'+min+':'+sec)
-    // return year+'-'+month+'-'+day+' '+hour+':'+min+':'+sec
-    if(month<10){
-      month='0'+month
-    }
-    if(day<10){
-      day='0'+day
-    }
-    if(hour<10){
-      hour='0'+hour
-    }
-    if(min<10){
-      min='0'+min
-    }
-    if(sec<10){
-      sec='0'+sec
-    }
-    if(num){
-      return year+'-'+month+'-'+day +' '+hour+':'+min+':'+sec
-    }else{
-      return year+'-'+month+'-'+day
-    }
-  }else{
-    return ''
-  }
+    if(month.length<2) month='0'+month;
+    if(month<10) month='0'+month;
+    if(day<10) day='0'+day;
+    if(hour<10) hour='0'+hour;
+    if(min<10) min='0'+min;
+    if(sec<10) sec='0'+sec;
+    if(num) return year+'-'+month+'-'+day +' '+hour+':'+min+':'+sec;
+    else return year+'-'+month+'-'+day;
+  }else return '';
 },
     Calculation(val){
         let price=val.price

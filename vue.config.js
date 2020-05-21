@@ -1,6 +1,8 @@
 const webpack = require('webpack');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');//打包时，显示进度条插件
 // const UglifyJsPlugin = require('uglifyjs-webpack-plugin');//js压缩
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const Timestamp = new Date().getTime();//时间戳，解决缓存问题
 module.exports = {
     // publicPath: process.env.NODE_ENV === 'production' ? 'http://47.111.168.199:8080' : 'http://47.111.168.199:8080',
@@ -76,6 +78,27 @@ module.exports = {
             // 提取出来的通用 chunk 和 vendor chunk。
             // chunks: ['chunk-vendors', 'chunk-common', 'index']
         },
+        beautify:{
+            entry: 'src/views/beautify/index.js',
+            template:'public/beautify.html',
+            filename: 'beautify.html',
+            title: '一键美化',
+            // chunks: ['chunk-vendors', 'chunk-common', 'loginOrRegister']
+        },
+        intelligentRepair:{
+            entry: 'src/views/intelligentRepair/index.js',
+            template:'public/intelligentRepair.html',
+            filename: 'intelligentRepair.html',
+            title: '照片修复',
+            // chunks: ['chunk-vendors', 'chunk-common', 'loginOrRegister']
+        },
+        headCutout:{
+            entry: 'src/views/headCutout/index.js',
+            template:'public/headCutout.html',
+            filename: 'headCutout.html',
+            title: '头像抠图',
+            // chunks: ['chunk-vendors', 'chunk-common', 'loginOrRegister']
+        },
         loginOrRegister:{
             entry: 'src/views/login/login.js',
             template:'public/loginOrRegister.html',
@@ -149,7 +172,7 @@ module.exports = {
             entry: 'src/views/freeimg/index.js',
             template:'public/freeimg.html',
             filename: 'freeimg.html',
-            title: '免费PNG透明图',
+            title: '免费背景图',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
         },detail:{
             entry: 'src/views/detail/index.js',
@@ -169,8 +192,20 @@ module.exports = {
             filename: 'editPictures.html',
             title: '图片编辑',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
+        },downLoad:{
+            entry: 'src/views/downLoad/index.js',
+            template:'public/downLoad.html',
+            filename: 'downLoad.html',
+            title: '桌面端下载',
+            // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
         },
     },
+    // chainWebpack: config => {
+    //     config.resolve.alias
+    //         .set("@", resolve("src"))
+    //         .set("assets", resolve("src/assets"))
+    //         .set("components", resolve("src/components"))
+    // },
     configureWebpack: {
         plugins: [
             new webpack.ProvidePlugin({
@@ -179,6 +214,21 @@ module.exports = {
                 "windows.jQuery":"jquery"
             }),
             new ProgressBarPlugin(),
+            // new HtmlWebpackPlugin({
+            //     template: './public/index.html',
+            //     inject: true,
+            //     favicon:  path.join(__dirname,'./public/favicon.ico'),
+            //     minify: {
+            //         removeComments: true,
+            //         collapseWhitespace: true,
+            //         removeAttributeQuotes: true
+            //         // more options:
+            //         // https://github.com/kangax/html-minifier#options-quick-reference
+            //     }
+            //     // default sort mode uses toposort which cannot handle cyclic deps
+            //     // in certain cases, and in webpack 4, chunk order in HTML doesn't
+            //     // matter anyway
+            // }),
             // new UglifyJsPlugin()
         ],
         output: { // 输出重构  打包编译后的 文件名称  【模块名称.版本号.时间戳】
@@ -192,17 +242,16 @@ module.exports = {
         //         'views': '@/views',
         //     }
         // },
-
-        // pwa: {//配置网页小图标
-        //     iconPaths: {
-        //         favicon32: './plug_jchLogo.png',
-        //         favicon16: './plug_jchLogo.png',
-        //         appleTouchIcon: './plug_jchLogo.png',
-        //         maskIcon: './plug_jchLogo.png',
-        //         msTileImage: './plug_jchLogo.png'
-        //     }
-        // }
     },
+    // pwa: {//配置网页小图标
+    //     iconPaths: {
+    //         favicon32: './plug_jchLogo.png',
+    //         favicon16: './plug_jchLogo.png',
+    //         appleTouchIcon: './plug_jchLogo.png',
+    //         maskIcon: './plug_jchLogo.png',
+    //         msTileImage: './plug_jchLogo.png'
+    //     }
+    // }
     // configureWebpack: config => {//如果你需要基于环境有条件地配置行为，或者想要直接修改配置，那就换成一个函数 (该函数会在环境变量被设置之后懒执行)。该方法的第一个参数会收到已经解析好的配置。在函数内，你可以直接修改配置，或者返回一个将会被合并的对象：
     //     if (process.env.NODE_ENV === 'production') {
     //         // 为生产环境修改配置...

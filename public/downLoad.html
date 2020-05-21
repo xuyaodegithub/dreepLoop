@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-WG4BQ8P');
+    </script>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            // hm.src = "https://hm.baidu.com/hm.js?156c05f7319464c49127c703f9ed21df";
+            hm.src = "https://hm.baidu.com/hm.js?c4e46c993747640c7a9788bbd1879f39";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="applicable-device" content="pc">
+<!--    <link rel="icon" href="<%= BASE_URL %>favicon.ico">-->
+    <link rel="stylesheet" href="static/public.css">
+    <link rel="icon" href="smallLogo.jpg">
+<!--    <title>修改密码</title>-->
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <style>
+        body,html,.downInfo{
+            background-color: #fff;
+        }
+        footer {
+            background-color: #191919;
+            color: rgb(152, 152, 152);
+            font-size: 14px;
+            line-height: 22px;
+            padding: 40px 0 80px 0;
+            border-bottom: 1px solid rgb(152, 152, 152);
+        }
+
+        footer h5 {
+            line-height: 1;
+            font-size: 20px;
+            color: #fff;
+        }
+
+        footer .F_l {
+            width: 325px;
+            margin-right: 85px;
+        }
+
+        footer .F_l img, footer h5 {
+            margin-bottom: 25px;
+        }
+
+        footer .margin div a, footer .margin div span {
+            display: block;
+            color: rgb(152, 152, 152);
+            line-height: 30px;
+        }
+
+        footer .F_l ~ div {
+            margin-right: 120px;
+        }
+        footer .labelTages{
+            margin-top: 50px;
+            color: #354545;
+        }
+        footer .labelTages a{
+            color: #2a3030;
+            margin-right: 8px;
+        }
+        footer .labelTages span{
+            margin-left:15px ;
+        }
+        .f_last {
+            font-size: 16px;
+            color: rgb(152, 152, 152);
+            text-align: center;
+            line-height: 57px;
+            background-color: #191919;
+        }
+        .guo, .lv {
+            position: relative;
+        }
+
+        .guo:hover img, .lv:hover img {
+            display: block;
+        }
+
+        .guo img, .lv img {
+            position: absolute;
+            right: -100%;
+            bottom: 0;
+            background-color: #fff;
+            display: none;
+        }
+        .downInfo{
+            margin-top: 60px;
+            padding-top: 60px;
+            color: #333;
+            text-align: center;
+            line-height: 1;
+        }
+        .downInfo h2{
+            font-size: 48px;
+        }
+        .downInfo .margin > p{
+            font-size: 14px;
+            margin:20px 0 35px ;
+        }
+        .downBtn {
+            display: block;
+            width: 160px;
+            font-size: 18px;
+            line-height: 42px;
+            text-align: center;
+            background-color: #e82255;
+            color: #fff;
+            margin: 0 auto 44px;
+            border-radius: 21px;
+        }
+        .videos{
+            background: url("static/ba.png") no-repeat center bottom;
+        }
+        .videos video{
+            width: 690px;
+            display: block;
+            margin: 0 auto;
+            object-fit:fill;
+            box-shadow: 0 0 20px rgba(0,0,0,.2);
+        }
+        .step{
+            box-shadow: 0 0 30px rgba(0,0,0,.1);
+            border-radius: 15px;
+            padding: 96px 0;
+            position: relative;
+            z-index: 66;
+            background-color: #fff;
+        }
+        .step h3{
+            font-size: 32px;
+            margin-bottom: 78px;
+        }
+        .allstep{
+            justify-content: center;
+            font-size: 14px;
+            color: #e82255;
+        }
+        .allstep > .flex:nth-child(2){
+            margin: 0 170px;
+        }
+        .allstep i{
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            color: #fff;
+            font-size: 20px;
+            font-weight: 600;
+            margin-right: 15px;
+            background-color: #e82255;
+            border-radius: 50%;
+        }
+        .allstep > .flex div{
+            text-align: left;
+            line-height: 1;
+        }
+        .allstep h6{
+            font-size: 18px;
+        }
+        .allstep p{
+            font-size: 14px;
+            margin: 10px 0 18px;
+            color: #333;
+        }
+        .allstep  .button,.allstep  a{
+            display: inline-block;
+            font-size: 12px;
+            line-height: 20px;
+            padding: 0 15px;
+            border:1px solid  #e82255;
+            color: #e82255;
+            background-color: inherit;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+        .downInfo h1{
+            font-size: 32px;
+            margin: 100px 0 54px;
+        }
+        .downInfo .iill{
+            display: block;
+            width: 215px;
+            margin: 0 auto 120px;
+        }
+    </style>
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WG4BQ8P"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
+<div id="down"></div>
+<div class="downInfo">
+    <div class="margin">
+        <h2>一键批量抠图神器桌面端</h2>
+        <p>大批量图片背景去除:将它们拖到窗口中，就可以自动去除背景并保存到本地指定文件夹</p>
+        <div class="downBtn cu"  onclick="downLoad()">免费下载 > </div>
+        <div class="videos">
+            <video src="http://www.picup.shop/downLoad.mp4" muted ref="videoss" loop autoplay>
+                <source src="http://www.picup.shop/downLoad.mp4" type="video/mp4">
+                <!--                            <source :src="item" type="video/ogg">-->
+                <!--                            <source :src="item" type="video/webm">-->
+                你的游览器暂不支持视频播放，换一个试试吧！
+            </video>
+        </div>
+        <div class="step">
+            <h3>使用步骤</h3>
+            <div class="flex allstep">
+                <div class="flex">
+                    <i>1</i>
+                    <div>
+                        <h6>在PicUP注册</h6>
+                        <p>注册就赠送免费次数</p>
+                        <a href="register.html">立即注册</a>
+                    </div>
+                </div>
+                <div class="flex">
+                    <i>2</i>
+                    <div>
+                        <h6>下载桌面端</h6>
+                        <p>Mac/Win64/Win32</p>
+                        <strong class="button cu" onclick="downLoad()">立即下载</strong>
+                    </div>
+                </div>
+                <div class="flex">
+                    <i>3</i>
+                    <div>
+                        <h6>打开桌面端输入APIKey</h6>
+                        <p>在我的账户里复制API密钥，桌面端粘贴</p>
+                        <a href="userCenter.html#/userCenter/secret">前往API秘钥</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h1>有问题和更多需求，请联系我们</h1>
+        <img src="static/ewmm.jpg" alt="" class="iill">
+    </div>
+</div>
+<footer>
+    <div class="margin flex">
+        <div class="F_l">
+            <img src="static/logos.png" alt="">
+            <p>皮卡智能PicUP.AI利用人工智能和计算机视觉的力量，提供各种各样的产品、素材和API,为不同领域 的客户提供服务，包括设计行业、国内电商、跨境
+                电商、照片处理APP、表情制作小程序开发等，还包括新兴的POD（Print on demand）照片定制打印按需印刷业务。</p>
+        </div>
+        <div>
+            <h5>智能抠图</h5>
+            <a href="people.html">人像抠图</a>
+            <a href="objects.html">物体抠图</a>
+            <a href="docsify/#/apidoc_api.md">API</a>
+            <a href="userVip.html">定价</a>
+        </div>
+        <div>
+            <h5>功能应用</h5>
+            <span class="guo ewn cu">国庆同框
+                <img src="static/e1.png" alt="">
+            </span>
+            <span class="lv ewn cu">一键旅拍
+                <img src="static/e2.png" alt=""></span>
+            <a href="product.html">更多产品</a>
+        </div>
+        <div>
+            <h5>关于我们</h5>
+            <a href="aboutUs.html">联系我们</a>
+            <a href="docsify/#/registerdoc_terms.md">服务和隐私</a>
+            <a href="copyright.html">版权</a>
+        </div>
+    </div>
+    <div class="margin youqin">
+        友情链接：<a href="http://www.djcang.com/" target="_blank">大鲸云仓</a>
+    </div>
+    <div class="labelTages margin">
+        皮卡智能 <a href="index.html">抠图网站</a> 提供：
+        <a href="index.html" target="_blank">抠图软件</a>
+        <a href="index.html">抠图神器</a>
+        <a href="index.html">在线抠图</a>
+        <a href="index.html">自动抠图</a>
+        <a href="index.html">智能抠图软件</a>
+        <a href="people.html">人像抠图</a>
+        <a href="index.html">一键抠图</a>
+        <a href="people.html">人物抠图</a>
+        <a href="people.html">AI抠图</a>
+        <a href="index.html">在线一键抠图</a>
+        <a href="index.html">抠图神手</a>
+        <a href="index.html">免费抠图</a>
+        <a href="objects.html">透明物体抠图</a>
+        <a href="objects.html">汽车抠图</a>
+        <a href="index.html">电脑抠图软件</a>
+        <a href="index.html">在线抠图工具</a>
+        <span>免费背景素材：</span>
+        <a href="people.html">抠图背景图片</a>
+        <a href="people.html">抠图换背景</a>
+        <a href="people.html">抠图背景素材</a>
+        <a href="people.html">证件照背景</a>
+        <a href="people.html">证件照底色</a>
+        <a href="people.html">最美证件照</a>
+        <span>不用知道：</span>
+        <a href="index.html">抠图软件哪个好用</a>
+        <a href="index.html">ps抠图教程</a>
+        <a href="index.html">ps怎么抠图</a>
+        <a href="index.html">如何抠图</a>
+        <span>手机上也可以抠图：</span>
+        <a href="http://m.picup.ai">手机抠图软件</a>
+        <a href="http://m.picup.ai">抠图软件app</a>
+    </div>
+</footer>
+<div class="f_last">
+    © 2018-2020皮卡智能PicUP.AI
+</div>
+<!-- built files will be auto injected -->
+<script>
+    function downLoad(){
+        var  isMac= /macintosh|mac os x/i.test(navigator.userAgent), isWindows=/windows|win32/i.test(navigator.userAgent),oA=document.createElement('a');
+       if(isMac){
+           oA.href='https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/PicUP.AI-1.1.1.dmg'
+           oA.download='picup.ai_1.1.1.dmg'
+       }else{
+           // if(navigator.userAgent.includes('Win32')){
+               oA.href='https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/PicUP.AI_Setup1.1.1.exe'
+               oA.download='PicUP.AI_Setup_1.1.1.exe'
+           // }else{
+           //     oA.href='https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/picup.ai_win64_setup_1.0.2.exe'
+           //     oA.download='picup.ai_win64_setup_1.0.2.exe'
+           // }
+       }
+       console.log(oA)
+        oA.click()
+    }
+
+</script>
+</body>
+</html>

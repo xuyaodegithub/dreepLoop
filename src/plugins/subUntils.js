@@ -2,15 +2,19 @@ import Vue from 'vue'
 import '../assets/public.css';
 import '../element-variables.scss'
 import filters from '../filters/filters'
+require('promise.prototype.finally').shim();//使axios支持finally回调
 // import lang from 'element-ui/lib/locale/lang/en'
 // import locale from 'element-ui/lib/locale'
 // locale.use(lang)
+// window.addEventListener('beforeunload', e => {
+//     window.localStorage.removeItem('user_Token')
+// });
 Object.keys(filters).map((val,index)=>{
     Vue.filter(val,filters[val])
     // console.log(val,filters[val])
 })
 import {  Button, Input, Table, TableColumn,  Radio, RadioGroup, Dialog, Select, Option,Dropdown, DropdownMenu, DropdownItem, Message, Pagination, Loading, Checkbox,Scrollbar,ColorPicker,Upload,Notification,Switch,
-    Slider,MessageBox} from 'element-ui'
+    Slider,MessageBox,} from 'element-ui'
 Vue.component(Button.name, Button);
 Vue.component(Input.name, Input);
 Vue.component(Table.name, Table);

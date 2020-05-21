@@ -47,6 +47,9 @@ textarea{resize:none;}/*禁止多行文本输入框的拖动*/
 .a-i{
 align-items: center
 }
+.f-w{
+  flex-wrap: wrap;
+}
 
 .border-r{
   -webkit-border-radius: 50%;
@@ -54,4 +57,11 @@ align-items: center
   -ms-border-radius: 50%;
   -o-border-radius: 50%;
   border-radius: 50%;
+}
+.margin.youqin{
+  margin-top: 30px;
+}
+.youqin a{
+  color: rgb(152, 152, 152);
+  margin:0 10px;
 }

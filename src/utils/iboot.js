@@ -120,7 +120,7 @@
       width: comp.width
     })
 
-    this.ele.append(dom)
+    this.ele.append(dom)//容器元素
     // _this.ele.find('.iboot-item').eq(k).replaceWith(dom);
     var compW = this.innerData.nowItemWidth - this.ele.width()
 

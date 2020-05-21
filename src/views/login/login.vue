@@ -105,6 +105,7 @@
                                 setToken( token )
                                 setCookie( 'token', token )
                                 // setTimeout(()=>{
+                                console.log(document.referrer)
                                     if(window.history.length<3 || document.referrer.indexOf('register')>-1){window.location.replace('index.html')}
                                     else if (document.referrer.includes('docsify')) window.location.replace('docsify/#/apidoc_api.md')
                                     else window.location.replace(document.referrer)
