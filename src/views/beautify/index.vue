@@ -265,15 +265,15 @@
                 }
             },
             deepItem(item) {
-                this.imgUrl = item
+                this.imgUrl = item;
                 this.copyImgUrl()
             },
             userlogin(key) {
-                window.location.href = 'loginOrRegister.html'
+                window.location.href = 'loginOrRegister.html';
             },
             collectBg(obj) {
                 // this.limitIdx++;
-                this.allbgImg[obj.id] = obj
+                this.allbgImg[obj.id] = obj;
                 if (!getSecImgs( 3 )) {
                     this.sesImgsSet( this.allbgImg );
                     return
@@ -314,11 +314,6 @@
                     spinner: 'el-icon-loading',
                     background: 'rgba(0, 0, 0, 0.7)'
                 } );
-                if(!this.classType){
-                    const allSub=this.$refs.subs
-                    allSub.map((item)=>item.save(key,e,'all'))
-                    return
-                }
                 let allImgs = JSON.parse( JSON.stringify( this.allbgImg ) );
                 let arr = allImgs.filter( (val, index) => {
                     return val.img
@@ -357,10 +352,6 @@
                     let ctxs = cans.getContext( '2d' )
                     cans.width = objs.bgRemovedImg.width;
                     cans.height = objs.bgRemovedImg.height;
-                    if (this.classType === 2) {
-                        ctxs.fillStyle = this.selectColor;
-                        ctxs.fillRect( 0, 0, cans.width, cans.height )
-                    } else if (this.classType > 2) ctxs.putImageData( objs.dwonBg, 0, 0 );
                     ctxs.drawImage( objs.bgRemovedImg, 0, 0 );
                     let url = cans.toDataURL( "image/png" ); // 得到图片的base64编码数据 let url =
                     const name=objs.is.substring(0,objs.is.lastIndexOf('.')).replace(/\//g,'%')
@@ -390,7 +381,15 @@
                     }
                 }
                 for (let i = 0; i < arr.length; i++) {
-                    this.drawStyleBg( arr[i], this.classType, callback, arr[i].filename )
+                    let oImg=new Image()
+                    oImg.crossOrigin=''
+                    oImg.onload=()=>{
+                        callback( {
+                            bgRemovedImg: oImg,
+                            is: arr[i].filename//下载名称
+                        } )
+                    }
+                    oImg.src=arr[i].img + `?str=${Math.random()}`
                 }
             },
             copyImgUrl(url, k) {//粘贴图片链接确定
@@ -444,7 +443,7 @@
                 $( 'body,html' ).animate( {scrollTop: 620}, 500 );
             },
             toApi() {
-                window.location.href = this.basrUrls + '/docsify/#/apidoc_api.md'
+                window.location.href = 'apis.html'
             },
             imgUrlss(obj) {//rightImgList
                 let _self = this
@@ -486,7 +485,7 @@
                 let data = {
                     page: this.page,
                     pageSize: this.rows,
-                    mattingType: 1
+                    mattingType: 4
                 }
                 userHistoryList( data ).then( res => {
                     if (!res.code) {
@@ -501,47 +500,6 @@
             },
             closeHistory() {
                 this.showHistory = false
-            },
-            drawStyleBg(obj, key, callback, i) {//批量下载封装
-                let that = this
-                let imgLoaded = false;
-                let originalImgLoaded = false;
-                let img = new Image()
-                img.crossOrigin = '';
-                img.onload = function () {
-                    imgLoaded = true;
-                    if (imgLoaded && originalImgLoaded) {
-                        that.downOthers( {oldImg: originalImg, bgImg: img, name: obj.name}, key, callback, i )
-                    }
-                }
-                img.src = obj.img + `?str=${Math.random()}`;
-                let originalImg = new Image();
-                originalImg.crossOrigin = '';
-                originalImg.onload = function () {
-                    originalImgLoaded = true;
-                    if (imgLoaded && originalImgLoaded) {
-                        that.downOthers( {oldImg: originalImg, bgImg: img, name: obj.name}, key, callback, i )
-                    }
-                }
-                originalImg.src = obj.Original + `?str=${Math.random()}`;
-            },
-            downOthers(imgObjs, index, callback, i) {//效果图下载
-                let canvasTemp = document.createElement( 'canvas' );
-                canvasTemp.width = imgObjs.bgImg.width; //☜
-                canvasTemp.height = imgObjs.bgImg.height;
-                let ctx = canvasTemp.getContext( "2d" );
-                ctx.drawImage( imgObjs.oldImg, 0, 0, canvasTemp.width, canvasTemp.height );
-                let imgData = ctx.getImageData( 0, 0, canvasTemp.width, canvasTemp.height );
-                let newBg1 = imgData;
-                let newBg4 = ctx.getImageData( 0, 0, canvasTemp.width, canvasTemp.height );
-                JSManipulate.blur.filter( newBg1, {amount: 5.0} );
-                JSManipulate.grayscale.filter( newBg4 );
-                callback( {
-                    dwonBg: index === 3 ? newBg4 : newBg1,
-                    bgRemovedImg: imgObjs.bgImg,
-                    name: imgObjs.name,
-                    is: i//下载名称
-                } )
             },
             getmoveHis(e) {
                 let historyList = this.$refs.historyList, scrollTop = e.target.scrollTop;
@@ -893,7 +851,7 @@
 
                 h2 {
                     font-size: 34px;
-                    font-weight: 500;
+                    font-weight: bold;
                 }
 
                 & > p {

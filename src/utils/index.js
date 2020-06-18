@@ -222,3 +222,63 @@ export const findLastIdx = (list, is, fun) => {//寻找数组中最后出现的�
         if (fun( arr[i], i )) return i;
     }
 }
+export const initSmallTag = (e, txt) => {//点击小动画
+    let $i = $( '<span></span>' ).text( txt ), y = e.clientY - 30, x = e.clientX - 10;
+    $i.css( {
+        "z-index": 999,
+        "top": y,
+        "left": x,
+        'fontSize': '14px',
+        "position": "fixed",
+        "color": "rgb(" + (255 * Math.random()) + "," + (255 * Math.random()) + "," + (255 * Math.random()) + ")"
+    } );
+    $( "body" ).append( $i );
+    $i.animate( {
+            "top": y - 80,
+            "opacity": 0,
+        },
+        1500,
+        function () {
+            $i.remove();
+        } );
+}
+export const compressImg = (files, k) => {
+    return new Promise( (resolve, reject) => {
+        let [can, reader] = [document.createElement( 'canvas' ), new FileReader()];
+        let canTxt = can.getContext( '2d' );
+        if (!k) {
+            reader.readAsDataURL( files );
+            reader.onloadend = (e) => {
+                let oImg = new Image();
+                oImg.crossOrigin = '';
+                oImg.onload = () => {
+                    can.width = oImg.width > oImg.height ? (oImg.width > 2000 ? 2000 : oImg.width) : (oImg.height > 2000 ? oImg.width * 2000 / oImg.height : oImg.width);
+                    can.height = oImg.width > oImg.height ? (oImg.width > 2000 ? 2000 * oImg.height / oImg.width : oImg.height) : (oImg.height > 2000 ? 2000 : oImg.height);
+                    canTxt.drawImage( oImg, 0, 0, can.width, can.height )
+                    can.toBlob( (blob) => {
+                        resolve( blob )
+                    } )
+                };
+                oImg.src = reader.result;
+            }
+            reader.onerror = (err) => {
+                reject( err )
+            }
+        } else {
+            let oImg = new Image();
+            oImg.crossOrigin = '';
+            oImg.onload = () => {
+                can.width = oImg.width > oImg.height ? (oImg.width > 2000 ? 2000 : oImg.width) : (oImg.height > 2000 ? oImg.width * 2000 / oImg.height : oImg.width);
+                can.height = oImg.width > oImg.height ? (oImg.width > 2000 ? 2000 * oImg.height / oImg.width : oImg.height) : (oImg.height > 2000 ? 2000 : oImg.height);
+                canTxt.drawImage( oImg, 0, 0, can.width, can.height )
+                can.toBlob( (blob) => {
+                    resolve( blob )
+                } )
+            };
+            oImg.src = files + `?id=${Math.random()}`;
+            oImg.onerror = (err) => {
+                reject( err )
+            }
+        }
+    } )
+}

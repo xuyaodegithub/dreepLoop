@@ -80,6 +80,10 @@
                             </el-button>
                             <el-input v-model="imgUrl" class="upcas" placeholder="CTRL+V粘贴图像或者URL"
                                       @focus="$event.target.select()"></el-input>
+                            <div class="aList flex">
+                                <a href="//picup.shop/apidoc/_book/human.html" target="_blank">人体API></a>
+                                <a href="//picup.shop/apidoc/_book/human.html#%E4%BA%BA%E5%83%8F%E6%8A%A0%E5%9B%BE%E5%92%8C%E5%85%B3%E9%94%AE%E7%82%B9%E6%A3%80%E6%B5%8Bapi" target="_blank">人体API带人体关键点></a>
+                            </div>
                             <div class="titlips"><a href="https://www.google.cn/chrome/" target="_blank">推荐使用：谷歌游览器 <img src="@/assets/image/img1.png" alt="">，防止兼容问题</a></div>
                             <p>没有图像？试试以下图片看看效果</p>
                             <div class="flex a-i">
@@ -518,7 +522,7 @@
                 $( 'body,html' ).animate( {scrollTop: 620}, 500 );
             },
             toApi() {
-                window.location.href = this.basrUrls + '/docsify/#/apidoc_api.md'
+                window.location.href = 'apis.html'
             },
             imgUrlss(obj) {//rightImgList
                 let _self = this
@@ -967,7 +971,7 @@
 
                 h2 {
                     font-size: 34px;
-                    font-weight: 500;
+                    font-weight: bold;
                 }
 
                 & > p {
@@ -984,7 +988,16 @@
                     text-align: left;
                     width: 280px;
                     margin-left: 78px;
-
+                    &> .aList{
+                        font-size: 14px;
+                        justify-content: space-between;
+                        margin-bottom: 50px;
+                        padding-right: 20px;
+                       a{
+                           color: #333;
+                           &:hover{ color: #e82255;}
+                        }
+                    }
                     .el-button, .el-input {
                         display: block;
                         width: 100%;
@@ -1000,14 +1013,14 @@
                     }
 
                     .el-input {
-                        margin-bottom: 40px;
+                        margin-bottom: 15px;
                         background-color: rgb(243, 243, 243);
                     }
 
                     p {
                         font-size: 14px;
                         color: #999;
-                        line-height: 50px;
+                        line-height: 28px;
                     }
 
                     .flex div {

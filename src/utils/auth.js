@@ -1,5 +1,5 @@
-const [TokenKey,imgsKey,imgsKey2,imgsKey3,userAccount] = ['user_Token','secImgs','objectImgs','beautyImgs','userAccount'];
-const imgsesion=['',imgsKey,imgsKey2,imgsKey3]
+const [TokenKey,imgsKey,imgsKey2,imgsKey3,imgsKey4,userAccount] = ['user_Token','secImgs','objectImgs','beautyImgs','headerImgs','userAccount'];
+const imgsesion=['',imgsKey,imgsKey2,imgsKey3,imgsKey4]
 // const imgsKey='secImgs';
 // const imgsKey2='objectImgs';
 // const userAccount='userAccount';

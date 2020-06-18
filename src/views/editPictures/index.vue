@@ -12,19 +12,14 @@
             <div class="first" v-show="selectType===0">
                 <p>前景</p>
                 <div class="flex">
-                    <el-button round :class="{active : isClear}" @click="changeClear(1)">擦除</el-button>
-                    <el-button round :class="{active : !isClear}" @click="changeClear(2)">还原</el-button>
+                    <el-button round :class="{active : isClear}" @click="isClear=true">擦除</el-button>
+                    <el-button round :class="{active : !isClear}" @click="isClear=false">还原</el-button>
                 </div>
                 <p>画笔大小</p>
                 <div class="flex a-i">
                     <el-slider v-model="penSize" :max="30" :min="1" :show-tooltip="false"></el-slider>
                     <span>{{penSize}}px</span>
                 </div>
-                <!--                <div class="ships">-->
-                <!--                    温馨小贴士：<br>-->
-                <!--                    1、按住空格键可以拖动整个图片改变位置哦！<br>-->
-                <!--                    2、背景模式下前景的位置可以通过拖拽改变-->
-                <!--                </div>-->
             </div>
             <div class="second" v-show="selectType===1">
                 <p>背景</p>
@@ -74,7 +69,8 @@
                     <div><input type="number" v-model="pxHeight" @input="changeSize(2)"><i>高(px)</i></div>
                 </div>
                 <div>
-                    <el-button type="primary" style="background-color: #fff;color: #e82255;" @click="reloads">{{edrieImgInfo.type===1 ? '重新上传' : '重置'}}
+                    <el-button type="primary" style="background-color: #fff;color: #e82255;" @click="reloads">
+                        {{edrieImgInfo.type===1 ? '重新上传' : '重置'}}
                     </el-button>
                     <el-button type="primary" icon="el-icon-download">下载
                         <table class="downBtn">
@@ -152,7 +148,7 @@
 <script>
     // @ is an alias to /src
     import vHeader from '@/components/header'
-    import {myBrowser,findLastIdx} from '@/utils'
+    import {myBrowser, findLastIdx} from '@/utils'
     import one from '@/assets/image/e_o.png'
     import two from '@/assets/image/e_t.png'
     import three from '@/assets/image/e_th.png'
@@ -170,64 +166,63 @@
         mixins: [mixins],
         data() {
             return {
-                showDa: true,//canvas聚焦
+                showDa: true,//canvas聚焦，显示移动框
                 showBorder: false,//显示鼠标圆圈
-                trImg: scale,
-                opas: opacity,
+                trImg: scale,//放大缩小时的右上角操作按钮
+                opas: opacity,//初始化时背景
                 opacity: '',
-                e_btn_list: [
+                e_btn_list: [//左侧菜单按钮
                     {url: one, title: '擦除'},
                     {url: two, title: '背景'},
                     // {url: three, title: '文字'},
                     // {url: four, title: '形状'},
                 ],
-                selectType: 1,
-                isPattern: 0,//0无模式，1擦除模式，2还原模式，3移动模式，4放大缩小模式，5 canvas移动模式
-                isClear: true,
-                penSize: 10,
-                choseBack: 0,
-                showcolorList: false,
-                bgBtn: ['摄影', '手绘', '颜色',],
-                bgType: 0,
-                selectIdx: -1,
-                cWH: {cWidth: 0, cHeight: 0},//实际内容区
-                pxWidth: 500,//css canvas宽
-                pxHeight: 500,//css canvas高
-                canvasinitNum: 500,//初始化基数
+                selectType: 1,//当前左侧选中菜单的下标
+                isPattern: 0,// 操作模式 0无模式，1擦除模式，2还原模式，3图片移动模式，4放大缩小模式，5 canvas移动模式
+                isClear: true,//擦除模式下的 擦除模式
+                penSize: 10,//画笔大小
+                choseBack: 0,//背景模式下（ 透明 、纯色 、黑白、模糊）当前选中的下标
+                showcolorList: false,//是否显示颜色选择的弹框
+                bgBtn: ['摄影', '手绘', '颜色',],//更换背景的类型
+                bgType: 0,//更换背景的类型中当前选中的下标
+                selectIdx: -1,//当前选中背景的下标，初始化不选择背景   所以为-1
+                cWH: {cWidth: 0, cHeight: 0},//实际canvas  width、height属性值 （和css中width height不同）
+                pxWidth: 500,//初始化 canvas   css的宽（canvas的width、height属性和css中的width、height不同）此处是css表现大小
+                pxHeight: 500,//初始化 canvas   css的高（canvas的width、height属性和css中的width、height不同）此处是css表现大小
+                canvasinitNum: 500,//初始化基数  （控制canvas  css表现的大小  可以修改 如修改为600  则初始化时大于600的图片css会等比例缩放到600，小于600的会显示图片的尺寸）
                 cans: '',//前canvas
-                cansTxt: '',//前canvas
-                bgCans: '',//后canvas
-                bgCansTxt: '',//后canvas
-                proCans: '',//隐藏的预览图canvas
-                proCansTxt: '',//隐藏的预览图canvas
+                cansTxt: '',//前canvasTxt
+                bgCans: '',//背景canvas
+                bgCansTxt: '',//背景canvasTxt
+                proCans: '',//隐藏的预览图canvas，此canvas不做缩放处理，制作擦除还原处理
+                proCansTxt: '',//隐藏的预览图canvasTxt
                 Original: '',//原图片链接
-                OriginalObj: '',//原图片对象
-                imgUrl: '',//图片链接
-                preimgObj: '',//预览图加载后对象
-                secondobj: '',//涂抹后储存的图片对象
-                scale: '',//图片比例系数
-                Offsetxy: {x: 0, y: 0, cL: 0, cT: 0},//图片偏移量坐标和canvas定位偏移量
-                downxy: {x: 0, y: 0, pxx: 0, pxy: 0},//鼠标按下画布中坐标和在桌面上的css鼠标坐标
-                initwh: {w: 0, h: 0},//内容图片大小
+                OriginalObj: '',//原图片加载后的对象
+                imgUrl: '',//抠图后接口返回的图片链接
+                preimgObj: '',//抠图后接口返回的图片加载后的对象
+                secondobj: '',//每次切换菜单后，都需要吧隐藏的canvas导出图片储存加载后的对象
+                scale: '',//图片width/height比例系数
+                Offsetxy: {x: 0, y: 0, cL: 0, cT: 0},//canvas中显示图片区域相对canvas的偏移量坐标（x,y）和canvas 的offsetTop,offsetLeft的值（cL,cT）
+                downxy: {x: 0, y: 0, pxx: 0, pxy: 0},//鼠标按下画布中坐标(实际canvas中坐标)和在canvas css表现大小中的鼠标坐标
+                initwh: {w: 0, h: 0},//缩放后的图片大小、初始化时与canvas 画布相同大小
                 selfImg: '',//自定义背景对象
                 bgobj: '',//选中的背景对象
                 colorValue: '',//纯色背景
-                setScale: 0,//整体放大系数
-                oCantl: '',//
-                borderXy: {x: 0, y: 0, w: 0, h: 0},//跟随鼠标圆的位置
-                historyList: [],
-                historyListopa: [],//隐藏canvas记录
-                hisIdx: 0,
+                setScale: 0,//整体放大系数（css表现的width除以实际图片的width）
+                oCantl: '',//主要用于记录当前canvas相对于屏幕的位置
+                borderXy: {x: 0, y: 0, w: 0, h: 0},//跟随鼠标圆的位置和宽高
+                historyList: [],//存放上层canvas的历史记录
+                historyListopa: [],//存放隐藏canvas的历史记录
+                hisIdx: 0,//当前处于历史记录的哪个位置的对应记录id（储存记录时会存一个对应id）
                 downType: 0,//下载时的状态 0 初始状态 1 四种背景状态 2 背景图片状态
-                filename: 'picture',
-                downSpace: false,
-                edrieImgInfo: {imageMsg: {}},//本页面操作图片的信息
-                showUpload: true,
-                upType: 0,//上传图片的类型 0 背景  1人抠图 2物抠图
-                loading: {show: false, text: '处理中...'},
-                savepointList: [],//擦除还原点储存
-                // savepoint: null,//放大缩小点储存
-                loadingInstance: null
+                filename: 'picture',//文件名称，下载时要是源文件名称
+                downSpace: false,//是否按下了空格键
+                edrieImgInfo: {imageMsg: {}},//图片的信息（预览图尺寸，原图尺寸，下载按钮处显示的信息）
+                showUpload: true,//从背景库页面进入本页面时，要显示上传弹框
+                upType: 0,//从背景库页面进入本页面时，要显示上传弹框 ，上传图片的类型 0 自定义背景  1人抠图 2物抠图
+                loading: {show: false, text: '处理中...'},//loading
+                savepointList: [],//储存当前预览图进行擦除还原放大缩小操作的点的位置和操作类型  this.pointList方法内有详解
+                loadingInstance: null//下载时的loading效果
             }
         },
         components: {
@@ -235,63 +230,56 @@
         },
         computed: {
             ...mapGetters( ['userSubscribeData'] ),
-            ossId() {
-                return this.$route.query.ossId
-            },
-            noOperation() {//特效时不能操作图片
+            noOperation() {//这些情况下不能移动 缩放图片
                 if (!this.selectType) return false;
-                else if (this.selectType === 1 && this.choseBack === 2) return false;
-                else if (this.selectType === 1 && this.choseBack === 3) return false;
+                else if (this.selectType === 1 && [2, 3].includes( this.choseBack )) return false;
                 else return true;
             },
-            savepoint() {//找到储存点save前面最后一个type为3||4
-                let arr = JSON.parse(JSON.stringify(this.savepointList));
+            savepoint() {//找到储存点save前面最后一个type为3||4（当前状态最后一次缩放移动点，为下载原图使用）
+                let arr = JSON.parse( JSON.stringify( this.savepointList ) );
                 const idx = arr.findIndex( item => item.save );
-                if (idx > -1) arr.splice( idx, arr.length);
+                if (idx > -1) arr.splice( idx, arr.length );
                 const ix = arr.reverse().findIndex( item => [3, 4].includes( item.type ) )
                 if (ix > -1) return arr[ix];
                 else return null;
             },
-            pointLists() {
+            pointLists() {//过滤历史记录中当前状态前擦除还原的点，去掉放大缩小移动的点
                 const idx = this.savepointList.findIndex( item => item.save );
-                if (idx > -1)return this.savepointList.filter((item,ix)=>([1,2].includes(item.type) && ix<idx))
-                else return this.savepointList.filter((item,ix)=>([1,2].includes(item.type)))
-             },
+                if (idx > -1) return this.savepointList.filter( (item, ix) => ([1, 2].includes( item.type ) && ix < idx) )
+                else return this.savepointList.filter( (item, ix) => ([1, 2].includes( item.type )) )
+            },
         },
-        watch: {
-            // Offsetxy:{
-            //     handler(newVal,oldVal){
-            //         this.oriCansTxt.clearRect(0,0,this.oriCans.width,this.oriCans.height)
-            //         this.oriCansTxt.drawImage(this.OriginalObj,this.Offsetxy.x,this.Offsetxy.y,this.initwh.w,this.initwh.h)
-            //     },
-            //     // immediate: true,
-            //     deep:true
-            // },
+        filter: {
+            imgtitle(i) {//图片title
+                if (i === 0) return '背景透明';
+                else if (i === 1) return '纯色背景';
+                else if (i === 2) return '背景黑白';
+                else if (i === 3) return '背景模糊';
+            },
         },
         methods: {
             ...mapActions( [
                 'userGetscribe'
             ] ),
-            upLoad(k) {
+            upLoad(k) {//上传图片（k值0自定义背景，1人像抠图 2物体抠图）
                 this.upType = k;
                 this.$refs.selfImg.click()
             },
-            changeselfImg(e) {
-                const file = e.target.files[0]
-                if (!this.upType) this.initSelfImg( file )
-                else this.upimgsLoad( file )
+            changeselfImg(e) {//input chang事件
+                const file = e.target.files[0];
+                if (!this.upType) this.initSelfImg( file );
+                else this.upimgsLoad( file );
             },
-            upimgsLoad(file) {
-                console.log( file )
+            upimgsLoad(file) {//上传图片抠图
                 if (!file) return;
                 this.loading.show = true;
                 this.edrieImgInfo.filename = file.name;
                 let param = new FormData();
-                param.append( 'file', file, file.name )
-                param.set( 'mattingType', this.upType )
+                param.append( 'file', file );
+                param.set( 'mattingType', this.upType );
                 uploadImgApi( param ).then( res => {
                     if (!res.code) {
-                        this.edrieImgInfo.fileId = res.data.fileId;
+                        this.edrieImgInfo.fileId = res.data.fileId;//此次抠图的结果图id
                         if (res.data.status == 'success') {
                             this.edrieImgInfo.pro = res.data.bgRemovedPreview;
                             this.edrieImgInfo.ori = res.data.original;
@@ -299,12 +287,12 @@
                             this.initImgs( this.edrieImgInfo );
                             this.showUpload = false;
                             this.loading.show = false;
-                        } else setTimeout( this.pollingImg, 2000 )
+                        } else setTimeout( this.pollingImg, 2000 )//有排队情况，轮训查看（可以websocket）
                     }
                 } ).catch( re => this.loading.show = false )
             },
             pollingImg() {//轮询
-                getMattingInfo( {fileId: this.edrieImgInfo.fileId} ).then( res => {
+                getMattingInfo( {fileId: this.edrieImgInfo.fileId} ).then( res => {//根据id查询
                     if (!res.code) {
                         if (res.data.status === 'success') {
                             this.edrieImgInfo.pro = res.data.bgRemovedPreview;
@@ -320,151 +308,124 @@
                     }
                 } ).catch( re => this.loading.show = false )
             },
-            initSelfImg(file) {//自定义背景
+            initSelfImg(file) {//自定义背景加载后对象储存
                 let reader = new FileReader();
                 reader.readAsDataURL( file );
                 //监听文件读取结束后事件
                 reader.onloadend = (ev) => {
-                    let imgs = new Image()
-                    imgs.crossOrigin = ''
+                    let imgs = new Image();
+                    imgs.crossOrigin = '';
                     imgs.onload = () => {
-                        this.selfImg = imgs
+                        this.selfImg = imgs;
                         this.drawImgAfterFirst( this.secondobj, imgs, 1 );
-                        this.bgobj = ''
+                        this.bgobj = '';
                         this.downType = 2
                     }
                     imgs.src = ev.target.result
                 }
             },
-            goback(k) {
+            goback(k) {//前进(k=1)   返回(k=0)
                 if (this.historyList.length < 2) return;
                 const idx = this.historyList.findIndex( item => item.id === this.hisIdx );
-                if ((!k && idx - 1 < 0) || (k && idx + 1 > (this.historyList.length - 1))) return;
-                const nexidx = k ? idx + 1 : idx - 1;
+                if ((!k && idx < 1) || (k && idx + 1 > (this.historyList.length - 1))) return;
+                const nexidx = k ? idx + 1 : idx - 1;//下一个点或上一个点的下标
                 this.Offsetxy.x = this.historyList[nexidx].x;
                 this.Offsetxy.y = this.historyList[nexidx].y;
                 this.initwh.w = this.historyList[nexidx].w;
                 this.initwh.h = this.historyList[nexidx].h;
                 this.cansTxt.putImageData( this.historyList[nexidx].obj, 0, 0 );
                 this.proCansTxt.putImageData( this.historyListopa[nexidx].obj, 0, 0 );
-                this.initborder();
+                this.initborder();//重置移动框
                 this.hisIdx = this.historyList[nexidx].id;
                 const url = this.proCans.toDataURL();
                 let oImg = new Image();
                 oImg.crossOrigin = '';
-                oImg.onload = () => {
+                oImg.onload = () => {//储存返回后的图片
                     this.secondobj = oImg
                 };
-                oImg.src = url
-                let ix=this.savepointList.findIndex(item=>item.save),j;
-                if(!k){
-                    j=findLastIdx(this.savepointList,ix>-1 ? ix : this.savepointList.length,(item,i)=>item.node);
-                    // console.log(j,'++')
-                    this.savepointList[j].save=1
-                }else {
-                    if(ix>-1)this.savepointList[ix].save=0;
+                oImg.src = url;
+                let ix = this.savepointList.findIndex( item => item.save ), j;
+                if (!k) {
+                    j = findLastIdx( this.savepointList, ix > -1 ? ix : this.savepointList.length, (item, i) => item.node );//找到当前状态前上次操作开始点的下标
+                    this.savepointList[j].save = 1//此点变为当前状态点
+                } else {
+                    if (ix > -1) this.savepointList[ix].save = 0;//前进时把当前状态改为0
                 }
-                // console.log(ix,this.savepointList.length,this.savepointList.filter(item=>item.save).length)
             },
-            initMove(x, y) {//擦除还原模式下canvas拖拽
+            initMove(x, y) {//擦除还原模式下canvas拖拽（如果图片缩小了  则鼠标在图片和canvas边缘直接可以拖拽canvas）
                 if (x < this.Offsetxy.x || x > (this.Offsetxy.x + this.initwh.w) || y < this.Offsetxy.y || y > (this.Offsetxy.y + this.initwh.h)) return true;
                 else return false;
             },
-            toRepair(x, y) {//还原提取
-                this.cansTxt.save()
-                this.cansTxt.beginPath()
-                this.cansTxt.arc( x, y, 2 * this.penSize, 0, Math.PI * 2, false );
-                this.cansTxt.clip();
-                this.cansTxt.drawImage( this.OriginalObj, this.Offsetxy.x, this.Offsetxy.y, this.initwh.w, this.initwh.h )
-                this.cansTxt.restore()
-                //
-                this.proCansTxt.save()
-                this.proCansTxt.beginPath()
-                this.proCansTxt.arc( (x - this.Offsetxy.x) / this.initwh.w * this.cWH.cWidth, (y - this.Offsetxy.y) / this.initwh.h * this.cWH.cHeight, 2 * this.penSize / this.initwh.w * this.cWH.cWidth, 0, Math.PI * 2, false );
-                this.proCansTxt.clip();
-                this.proCansTxt.drawImage( this.OriginalObj, 0, 0, this.proCans.width, this.proCans.height )
-                this.proCansTxt.restore()
+            toRepair(x, y) {//还原提取//每次操作都需要操作2个canvas  除了背景canvas除外的两个
+                const list = [this.cansTxt, this.proCansTxt];
+                list.map( (item, idx) => {
+                    item.save();
+                    item.beginPath();
+                    if (!idx) item.arc( x, y, 2 * this.penSize, 0, Math.PI * 2, false );
+                    else item.arc( (x - this.Offsetxy.x) / this.initwh.w * this.cWH.cWidth, (y - this.Offsetxy.y) / this.initwh.h * this.cWH.cHeight, 2 * this.penSize / this.initwh.w * this.cWH.cWidth, 0, Math.PI * 2, false );
+                    item.clip();
+                    if (!idx) item.drawImage( this.OriginalObj, this.Offsetxy.x, this.Offsetxy.y, this.initwh.w, this.initwh.h );
+                    else item.drawImage( this.OriginalObj, 0, 0, this.proCans.width, this.proCans.height );
+                    item.restore();
+                } )
             },
-            toclear(x, y) {//擦除功能提取
-                this.cansTxt.save();
-                this.cansTxt.beginPath();
-                this.cansTxt.arc( x, y, 2 * this.penSize, 0, Math.PI * 2, false );
-                this.cansTxt.clip();
-                this.cansTxt.clearRect( 0, 0, this.cans.width, this.cans.height );
-                this.cansTxt.restore();
-                //
-                this.proCansTxt.save();
-                this.proCansTxt.beginPath();
-                this.proCansTxt.arc( (x - this.Offsetxy.x) / this.initwh.w * this.cWH.cWidth, (y - this.Offsetxy.y) / this.initwh.h * this.cWH.cHeight, 2 * this.penSize / this.initwh.w * this.cWH.cWidth, 0, Math.PI * 2, false );
-                this.proCansTxt.clip();
-                this.proCansTxt.clearRect( 0, 0, this.proCans.width, this.proCans.height );
-                this.proCansTxt.restore();
+            toclear(x, y) {//擦除功能提取//每次操作都需要操作2个canvas  除了背景canvas除外的两个
+                const list = [this.cansTxt, this.proCansTxt];
+                list.map( (item, idx) => {
+                    item.save();
+                    item.beginPath();
+                    if (!idx) item.arc( x, y, 2 * this.penSize, 0, Math.PI * 2, false );//圆的半径我放大了两倍
+                    //这步是根据点的位置  计算出 点在proCans上的位置 （相当于等比放大缩小）圆的半径也一样
+                    else item.arc( (x - this.Offsetxy.x) / this.initwh.w * this.cWH.cWidth, (y - this.Offsetxy.y) / this.initwh.h * this.cWH.cHeight, 2 * this.penSize / this.initwh.w * this.cWH.cWidth, 0, Math.PI * 2, false );
+                    item.clip();
+                    item.clearRect( 0, 0, this.cans.width, this.cans.height );
+                    // else item.clearRect( 0, 0, this.proCans.width, this.proCans.height );//两个canavs width height属性相同
+                    item.restore();
+                } )
             },
-            initborderXy(x, y) {//计算跟随圆的位置
-                this.borderXy.w = this.pxWidth * 4 * this.penSize / this.cWH.cWidth;
+            initborderXy(x, y) {//计算跟随圆的位置和宽高  相对于
+                this.borderXy.w = this.pxWidth * 4 * this.penSize / this.cWH.cWidth;//圆的半径我放大了两倍，所有w是penSize的4倍
                 this.borderXy.h = this.pxHeight * 4 * this.penSize / this.cWH.cHeight;
                 this.borderXy.x = x - this.borderXy.w / 2;
                 this.borderXy.y = y - this.borderXy.h / 2;
             },
             pointList(point, k) {//储存点提取，为了下载原图准备
                 const data = {
-                    x: point.x * this.OriginalObj.width / this.preimgObj.width,
-                    y: point.y * this.OriginalObj.height / this.preimgObj.height,
-                    offsetx: this.Offsetxy.x * this.OriginalObj.width / this.preimgObj.width,
-                    offsety: this.Offsetxy.y * this.OriginalObj.height / this.preimgObj.height,
-                    initw: this.initwh.w * this.OriginalObj.width / this.preimgObj.width,
-                    inith: this.initwh.h * this.OriginalObj.height / this.preimgObj.height,
-                    type: this.isPattern,
-                    r: this.penSize * this.OriginalObj.width / this.preimgObj.width,
-                    save: 0,
-                    node: k ? 1 : 0
+                    x: point.x * this.OriginalObj.width / this.preimgObj.width,//在原图中的x位置
+                    y: point.y * this.OriginalObj.height / this.preimgObj.height,//在原图中的y位置
+                    offsetx: this.Offsetxy.x * this.OriginalObj.width / this.preimgObj.width,//在原图中的x偏移量位置
+                    offsety: this.Offsetxy.y * this.OriginalObj.height / this.preimgObj.height,//在原图中的y偏移量位置
+                    initw: this.initwh.w * this.OriginalObj.width / this.preimgObj.width,//相对于原图大小缩放后的宽
+                    inith: this.initwh.h * this.OriginalObj.height / this.preimgObj.height,//相对于原图大小缩放后的高
+                    type: this.isPattern,//此点进行什么操作（1,2,3,4,5 isPattern的类型// ）
+                    r: this.penSize * this.OriginalObj.width / this.preimgObj.width,//此点半径
+                    save: 0,//1代表当前处理状态处于此点的位置
+                    node: k ? 1 : 0//每次按下时这个值都为1，因为每次返回前进都是每次操作的返回前进 而不是对点的  所有一次操作包含很多点  其中第一个点为开始点  node为1
                 }
-                if ([1, 2, 3, 4].includes( this.isPattern )) {
+                if ([1, 2, 3, 4].includes( this.isPattern )) {//每次push记录前都要确保save为1点以及后面的删掉在push
                     const idx = this.savepointList.findIndex( item => item.save );
                     if (idx > -1) this.savepointList.splice( idx, this.savepointList.length );
                     this.savepointList.push( data )
                 }
-                // else if ([3, 4].includes( this.isPattern )) {
-                //     this.savepoint = data
-                // }
             },
             down(e) {//鼠标按下
                 const ev = e || window.event;
-                this.oCantl = document.getElementById( `b_g` ).getBoundingClientRect()
-                this.downxy.x = (ev.clientX - this.oCantl.left) * this.cWH.cWidth / this.pxWidth
-                this.downxy.y = (ev.clientY - this.oCantl.top) * this.cWH.cHeight / this.pxHeight//每次鼠标按下的位置
-                this.downxy.pxx = ev.clientX - this.oCantl.left//每次鼠标按下的位置
-                this.downxy.pxy = ev.clientY - this.oCantl.top//每次鼠标按下的位置
+                this.oCantl = document.getElementById( `b_g` ).getBoundingClientRect();//记录当前canvas相对窗口的位置
+                this.downxy.x = (ev.clientX - this.oCantl.left) * this.cWH.cWidth / this.pxWidth;//计算当前鼠标在原图上的位置
+                this.downxy.y = (ev.clientY - this.oCantl.top) * this.cWH.cHeight / this.pxHeight// 计算当前鼠标在原图上的位置，每次鼠标按下的位置
+                this.downxy.pxx = ev.clientX - this.oCantl.left//计算在当前canvas每次鼠标按下的位置（相对css实际宽高的位置）
+                this.downxy.pxy = ev.clientY - this.oCantl.top//计算在当前canvas每次鼠标按下的位置（相对css实际宽高的位置）
                 this.Offsetxy.cL = this.$refs.canvasM.offsetLeft;
                 this.Offsetxy.cT = this.$refs.canvasM.offsetTop;
-                const bigit = !this.initMove( this.downxy.x, this.downxy.y ),//this.cansTxt.isPointInPath( this.downxy.x, this.downxy.y ),
-                    smallit = this.initfour( ev.clientX - this.oCantl.left, ev.clientY - this.oCantl.top );
-                if (this.downSpace) this.isPattern = 5;
-                else if (!this.selectType && this.isClear && !this.initMove( this.downxy.x, this.downxy.y )) this.isPattern = 1;
-                else if (!this.selectType && !this.isClear && !this.initMove( this.downxy.x, this.downxy.y )) this.isPattern = 2;
-                else if (!smallit && bigit && this.noOperation) this.isPattern = 3;
-                else if (smallit && this.noOperation) this.isPattern = 4;
+                const smallit = this.initfour( ev.clientX - this.oCantl.left, ev.clientY - this.oCantl.top );
+                if (this.downSpace) this.isPattern = 5;//如果空格键按下，则拖拽整个canvas
+                else if (!this.selectType && this.isClear && !this.initMove( this.downxy.x, this.downxy.y )) this.isPattern = 1;//如果在擦除模式下 且在图片显示区域内则是1
+                else if (!this.selectType && !this.isClear && !this.initMove( this.downxy.x, this.downxy.y )) this.isPattern = 2;//如果在还原模式下 且在图片显示区域内则是2
+                else if (!smallit && !this.initMove( this.downxy.x, this.downxy.y ) && this.noOperation) this.isPattern = 3;//如果不在缩放指针上 且在图片显示区域内 且图片能缩放移动 那么就是3
+                else if (smallit && this.noOperation) this.isPattern = 4;//如果在缩放指针上  且图片能缩放移动 那么就是4
                 else this.isPattern = 5;
-                // if ([1, 2].includes( this.isPattern )) this.initborderXy( this.downxy.pxx, this.downxy.pxy );
-                if (this.isPattern !== 5) {
-                    const idx = this.historyList.findIndex( item => item.id === this.hisIdx )
-                    if (this.hisIdx !== this.historyList[this.historyList.length - 1].id) {
-                        this.historyList.splice( idx + 1, this.historyList.length - 2 - idx );
-                        this.historyListopa.splice( idx + 1, this.historyListopa.length - 2 - idx );
-                    } else {
-                        this.historyList.splice( this.historyList.length - 1, 0, {
-                            obj: this.cansTxt.getImageData( 0, 0, this.cWH.cWidth, this.cWH.cHeight ),
-                            x: this.Offsetxy.x, y: this.Offsetxy.y, w: this.initwh.w, h: this.initwh.h,
-                            id: this.historyList.length > 1 ? this.historyList[this.historyList.length - 2].id + 1 : 1
-                        } )
-                        this.historyListopa.splice( this.historyListopa.length - 1, 0, {
-                            obj: this.proCansTxt.getImageData( 0, 0, this.proCans.width, this.proCans.height ),
-                            id: this.historyListopa.length > 1 ? this.historyListopa[this.historyListopa.length - 2].id + 1 : 1
-                        } )
-                    }
-                }
                 this.isPattern === 1 ? this.toclear( this.downxy.x, this.downxy.y ) : this.isPattern === 2 ? this.toRepair( this.downxy.x, this.downxy.y ) : '';
-                this.pointList( this.downxy, 1 )
+                this.pointList( this.downxy, 1 )//存点 下载原图使用
             },
             ups(e) {//鼠标弹起
                 const ev = e || window.event;
@@ -472,7 +433,7 @@
                     x: (ev.clientX - this.oCantl.left) * this.cWH.cWidth / this.pxWidth,
                     y: (ev.clientY - this.oCantl.top) * this.cWH.cHeight / this.pxHeight
                 }
-                if (this.isPattern === 3) {
+                if (this.isPattern === 3) {//图片移动后  要计算结束时的图片偏移量
                     let initw, inith
                     if ((this.Offsetxy.x + upxy.x - this.downxy.x) > (this.cWH.cWidth - this.initwh.w / 2)) initw = this.cWH.cWidth - this.initwh.w / 2;
                     else if ((this.Offsetxy.x + upxy.x - this.downxy.x) < -(this.initwh.w / 2)) initw = -(this.initwh.w / 2);
@@ -483,30 +444,32 @@
                     this.Offsetxy.x = initw;
                     this.Offsetxy.y = inith;
                     this.initborder( 0, 0 )
-                } else if (this.isPattern === 4) {
+                } else if (this.isPattern === 4) {//缩放后要计算结束后的图片实际宽高
                     const [w, h] = this.initsetwh( upxy );
                     this.Offsetxy.y = this.Offsetxy.y - h + this.initwh.h
                     this.initwh.w = w;
                     this.initwh.h = h;
                 }
-                if ([1, 2, 3, 4].includes( this.isPattern )) {
-                    this.hisIdx = 0
-                    this.historyList[this.historyList.length - 1] = {
+                if ([1, 2, 3, 4].includes( this.isPattern )) {//每次弹起都把当前状态存入历史
+                    const idx = this.historyList.findIndex( item => item.id === this.hisIdx );
+                    if (this.hisIdx !== this.historyList[this.historyList.length - 1].id) {//鼠标按下时的状态不在历史最后，那就删除后面的
+                        this.historyList.splice( idx + 1, this.historyList.length );
+                        this.historyListopa.splice( idx + 1, this.historyListopa.length );
+                    }
+                    this.historyList.push( {
                         obj: this.cansTxt.getImageData( 0, 0, this.cWH.cWidth, this.cWH.cHeight ),
-                        x: this.Offsetxy.x,
-                        y: this.Offsetxy.y,
-                        w: this.initwh.w,
-                        h: this.initwh.h,
-                        id: 0
-                    }
-                    this.historyListopa[this.historyListopa.length - 1] = {
+                        x: this.Offsetxy.x, y: this.Offsetxy.y, w: this.initwh.w, h: this.initwh.h,
+                        id: this.historyList[this.historyList.length - 1].id + 1
+                    } )
+                    this.historyListopa.push( {
                         obj: this.proCansTxt.getImageData( 0, 0, this.proCans.width, this.proCans.height ),
-                        id: 0
-                    }
+                        id: this.historyListopa[this.historyListopa.length - 1].id + 1
+                    } )
+                    this.hisIdx = this.historyList[this.historyList.length - 1].id
                 }
-                this.pointList( upxy );
-                this.isPattern = 0;
-                this.$nextTick( () => {
+                this.pointList( upxy );//存点 下载原图使用
+                this.isPattern = 0;//重置模式
+                this.$nextTick( () => {//重新储存canvas相对窗口的位置
                     this.oCantl = document.getElementById( `b_g` ).getBoundingClientRect()
                     this.initborderXy( e.clientX - this.oCantl.left, e.clientY - this.oCantl.top )
                 } )
@@ -518,7 +481,6 @@
                     y: (ev.clientY - this.oCantl.top) * this.cWH.cHeight / this.pxHeight
                 }
                 if (this.isPattern === 1) {
-                    console.log( 111 )
                     this.toclear( movexy.x, movexy.y );
                 } else if (this.isPattern === 2) this.toRepair( movexy.x, movexy.y );
                 else if (this.isPattern === 3) {//移动时开关
@@ -526,17 +488,16 @@
                     this.dropMove( x, y )
                 } else if (this.isPattern === 4) {//放大缩小时开关
                     let afterw, zoom = movexy.x - this.downxy.x > 0;
-                    if (zoom) {
-                        afterw = this.initwh.w + (movexy.x - this.downxy.x)//变化后宽度
-                    } else afterw = this.initwh.w - Math.abs( movexy.x - this.downxy.x )//变化后宽度
+                    if (zoom) afterw = this.initwh.w + (movexy.x - this.downxy.x)//变化后宽度
+                    else afterw = this.initwh.w - Math.abs( movexy.x - this.downxy.x )//变化后宽度
                     const [w, h] = [afterw, afterw * this.initwh.h / this.initwh.w]//缩放后宽//缩放后高
-                    this.cansTxt.clearRect( 0, 0, this.cWH.cWidth, this.cWH.cHeight )
-                    this.cansTxt.drawImage( this.secondobj, this.Offsetxy.x, this.Offsetxy.y - h + this.initwh.h, w, h )
-                    this.initborder( 0, -(h - this.initwh.h), w, h )
+                    this.cansTxt.clearRect( 0, 0, this.cWH.cWidth, this.cWH.cHeight );
+                    this.cansTxt.drawImage( this.secondobj, this.Offsetxy.x, this.Offsetxy.y - h + this.initwh.h, w, h );
+                    this.initborder( 0, -(h - this.initwh.h), w, h )//重置图片外框位置和大小和缩放指针位置
                 } else if (this.isPattern === 5) {//canvas移动cl为can的offsetleft px为每次鼠标按下的位置
                     const oCanvas = this.$refs.canvasM, oPares = document.getElementById( 'e_r' );
                     let cl, ct;
-                    if ((this.Offsetxy.cL + ev.clientX - this.oCantl.left - this.downxy.pxx) > (oPares.offsetWidth)) cl = oPares.offsetWidth;
+                    if ((this.Offsetxy.cL + ev.clientX - this.oCantl.left - this.downxy.pxx) > (oPares.offsetWidth)) cl = oPares.offsetWidth;//canvas不能超出视角50%  原canvas已transform:translate(-50%,-50%) 计算要注意
                     else if ((this.Offsetxy.cL + ev.clientX - this.oCantl.left - this.downxy.pxx) < 0) cl = 0;
                     else cl = this.Offsetxy.cL + (ev.clientX - this.oCantl.left - this.downxy.pxx);
                     if ((this.Offsetxy.cT + ev.clientY - this.oCantl.top - this.downxy.pxy) > (oPares.offsetHeight)) ct = oPares.offsetHeight;
@@ -545,16 +506,16 @@
                     oCanvas.style.left = cl + 'px'
                     oCanvas.style.top = ct + 'px'
                 }
-                if (!this.selectType && !this.initMove( movexy.x, movexy.y ) && this.isPattern !== 5) {
+                if (!this.selectType && !this.initMove( movexy.x, movexy.y ) && this.isPattern !== 5) {//如果在擦除还原模式下 移动了canvas  需要重置跟随圆位置
                     this.initborderXy( ev.clientX - this.oCantl.left, ev.clientY - this.oCantl.top )
                     this.showBorder = true;
                 } else this.showBorder = false;
                 this.pointList( movexy )
             },
             dropMove(x, y) {//移动提取
-                let initw, inith
+                let initw, inith;//偏移量
                 this.cansTxt.clearRect( 0, 0, this.cWH.cWidth, this.cWH.cHeight )
-                if ((this.Offsetxy.x + x) > (this.cWH.cWidth - this.initwh.w / 2)) initw = this.cWH.cWidth - this.initwh.w / 2;
+                if ((this.Offsetxy.x + x) > (this.cWH.cWidth - this.initwh.w / 2)) initw = this.cWH.cWidth - this.initwh.w / 2;//图片不能超出canvas 50%
                 else if ((this.Offsetxy.x + x) < -(this.initwh.w / 2)) initw = -(this.initwh.w / 2);
                 else initw = this.Offsetxy.x + x;
                 if ((this.Offsetxy.y + y) > (this.cWH.cHeight - this.initwh.h / 2)) inith = this.cWH.cHeight - this.initwh.h / 2;
@@ -570,7 +531,7 @@
                 return [w, h]
 
             },
-            initfour(x, y) {//计算鼠标是否再四个角范围内
+            initfour(x, y) {//计算鼠标是否在图片显示区域的右上角，操作缩放的指针上
                 const alldian = [[(this.Offsetxy.x + this.initwh.w) * this.pxWidth / this.cWH.cWidth - 26, this.Offsetxy.y * this.pxHeight / this.cWH.cHeight], [(this.Offsetxy.x + this.initwh.w) * this.pxWidth / this.cWH.cWidth, this.Offsetxy.y * this.pxHeight / this.cWH.cHeight + 26]];
                 let result = false;
                 for (let k in alldian) {
@@ -581,31 +542,28 @@
                 }
                 return result
             },
-            changeClear(k) {//切换擦除还原
-                this.isClear = k === 1 ? true : false;
-            },
-            choseBackColor(color, index) {//纯色背景切换
+            // changeClear(k) {//切换擦除还原
+            //     this.isClear = k === 1 ? true : false;
+            // },
+            choseBackColor(color, index) {//4种背景切换（透明、纯色、黑白、模糊）
                 if (index !== 1) {
-                    this.choseBack = index
+                    this.choseBack = index;
                     this.downType = 1
                 }
                 this.bgobj = '';
                 if (index !== 1) this.showcolorList = false;
-                if (index === 0) {
-                    this.drawImgAfterFirst( this.secondobj, this.opacity, 1 )
-                } else if (index === 2) this.drawStyleBg( this.OriginalObj, this.secondobj, 1 );
-                else if (index === 3) this.drawStyleBg( this.OriginalObj, this.secondobj, 2 );
-                else {
-                    this.showcolorList = !this.showcolorList
-                }
+                if (index === 0) this.drawImgAfterFirst( this.secondobj, this.opacity, 1 );//透明背景
+                else if (index === 2) this.drawStyleBg2( this.OriginalObj, this.secondobj, 1 );//背景黑白
+                else if (index === 3) this.drawStyleBg2( this.OriginalObj, this.secondobj, 2 );//背景模糊
+                else this.showcolorList = !this.showcolorList;//打开颜色面板
             },
             choseColor(color) {//选择颜色背景，颜色选择器
-                this.choseBack = 1
-                this.colorValue = color
-                this.downType = 1
+                this.choseBack = 1;
+                this.colorValue = color;
+                this.downType = 1;
                 this.drawImgAfterFirst( this.secondobj, color, 2 );
             },
-            changeSelecType(idx) {
+            changeSelecType(idx) {//每次切换菜单都把procan上的图片保存为图片对象
                 if (this.selectType === idx || !this.edrieImgInfo.pro) return;
                 this.selectType = idx;
                 const url = this.proCans.toDataURL()
@@ -614,26 +572,25 @@
                 oImg.onload = () => {
                     this.secondobj = oImg
                 }
-                oImg.src = url
-                if (idx) {
-                    this.initborder()
-                } else {
+                oImg.src = url;
+                if (idx) this.initborder();
+                else {
                     this.cansTxt.clearRect( 0, 0, this.cans.width, this.cans.height );
                     this.cansTxt.drawImage( this.secondobj, this.Offsetxy.x, this.Offsetxy.y, this.initwh.w, this.initwh.h );
                 }
                 // this.initborder()
             },
-            changeBgType(idx) {
+            changeBgType(idx) {//切换背景图片的类型
                 if (this.bgType === idx) return;
                 this.bgType = idx;
                 this.selectIdx = -1;
-                this.oneItemBg = []
+                this.oneItemBg = [];//防止网速慢图片转换不过来，所有先清空
                 this.$nextTick( () => {
                     this.oneItemBg = this.bgList[idx]
                 } )
             },
             selectBg(item, idx, z) {
-                this.selfImg = '';
+                this.selfImg = '';//清空自定义的背景图片
                 this.selectIdx = idx;
                 this.choseBack = 0;
                 this.downType = 2;
@@ -649,18 +606,14 @@
                 let oImg = new Image();
                 oImg.crossOrigin = '';
                 oImg.onload = () => {
-                    this.cans.width = oImg.width
-                    this.cans.height = oImg.height
-                    this.bgCans.width = oImg.width
-                    this.bgCans.height = oImg.height
-                    this.proCans.width = oImg.width
-                    this.proCans.height = oImg.height
-                    this.preimgObj = oImg;
-                    this.secondobj = oImg;
-                    this.scale = oImg.width / oImg.height
-                    this.cWH.cWidth = oImg.width
-                    this.cWH.cHeight = oImg.height
-                    this.initwh = {w: oImg.width, h: oImg.height}
+                    [this.cans.width,this.cans.height,this.bgCans.width] = [oImg.width,oImg.height,oImg.width];
+                    [this.bgCans.height,this.proCans.width,this.proCans.height] = [oImg.height, oImg.width,oImg.height];
+                    this.preimgObj = oImg;//预览图对象
+                    this.secondobj = oImg;//未操作也赋值预览图对象
+                    this.scale = oImg.width / oImg.height;
+                    this.cWH.cWidth = oImg.width;
+                    this.cWH.cHeight = oImg.height;
+                    this.initwh = {w: oImg.width, h: oImg.height};
                     if (oImg.width >= oImg.height) {
                         this.pxWidth = oImg.width >= this.canvasinitNum ? this.canvasinitNum : oImg.width;
                         this.pxHeight = oImg.width >= this.canvasinitNum ? this.canvasinitNum / this.scale : oImg.height;
@@ -668,11 +621,11 @@
                         this.pxHeight = oImg.height >= this.canvasinitNum ? this.canvasinitNum : oImg.height;
                         this.pxWidth = oImg.height >= this.canvasinitNum ? this.canvasinitNum * this.scale : oImg.width;
                     }
-                    this.cansTxt.drawImage( oImg, this.Offsetxy.x, this.Offsetxy.y, this.initwh.w, this.initwh.h )
-                    this.proCansTxt.drawImage( oImg, 0, 0, this.proCans.width, this.proCans.height )
-                    if (this.edrieImgInfo.bgImg) this.initBgInfo();
-                    else this.initBgimg( this.opacity, this.bgCans, this.bgCansTxt )
-                    this.historyList.push( {
+                    this.cansTxt.drawImage( oImg, this.Offsetxy.x, this.Offsetxy.y, this.initwh.w, this.initwh.h );
+                    this.proCansTxt.drawImage( oImg, 0, 0, this.proCans.width, this.proCans.height );
+                    if (this.edrieImgInfo.bgImg) this.initBgInfo();//存在背景就把背景画出来
+                    else this.initBgimg( this.opacity, this.bgCans, this.bgCansTxt );
+                    this.historyList.push( {//初始状态存入历史内
                         obj: this.cansTxt.getImageData( this.Offsetxy.x, this.Offsetxy.y, this.initwh.w, this.initwh.h ),
                         x: this.Offsetxy.x, y: this.Offsetxy.y, w: this.initwh.w, h: this.initwh.h, id: 0
                     } )
@@ -711,15 +664,12 @@
                 this.cansTxt.drawImage( img, this.Offsetxy.x, this.Offsetxy.y, this.initwh.w, this.initwh.h );
                 this.initborder()
             },
-            drawStyleBg(originalImgUrl, bgRemovedImgUrl, index, key, callback) {
-                if (!key) {
-                    this.drawStyleBg2( originalImgUrl, bgRemovedImgUrl, index )
-                } else if (key === 2) {
-                    this.downOthers( {oldImg: originalImg, bgImg: img}, 4, callback )
-                } else if (key === 3) {
-                    this.downOthers( {oldImg: originalImg, bgImg: img}, 5, callback )
-                }
-            },
+            // drawStyleBg(originalImgUrl, bgRemovedImgUrl, index, key, callback) {
+            //     if (!key) this.drawStyleBg2( originalImgUrl, bgRemovedImgUrl, index );
+            //      else if (key === 2) this.downOthers( {oldImg: originalImg, bgImg: img}, 4, callback );
+            //      else if (key === 3) this.downOthers( {oldImg: originalImg, bgImg: img}, 5, callback );
+            //
+            // },
             drawStyleBg2(originalImg, bgRemovedImg, index) {
                 let canvas = document.createElement( 'canvas' );
                 canvas.width = this.cans.width; //☜
@@ -747,7 +697,7 @@
                     spinner: 'el-icon-loading',
                     background: 'rgba(0, 0, 0, 0.7)'
                 } );
-                if (k) {
+                if (k) {//下载原图
                     downloadMattedImage( {fileId: this.edrieImgInfo.fileId} ).then( res => {
                         if (!res.code) {
                             this.initSmallTag( e, '次数 -1' );
@@ -756,30 +706,25 @@
                             const ct = c.getContext( '2d' ), cct = cc.getContext( '2d' );
                             oImg.crossOrigin = '';
                             oImg.onload = () => {
-                                c.width = oImg.width;
-                                cc.width = oImg.width;
-                                c.height = oImg.height;
-                                cc.height = oImg.height;
+                                [c.width,cc.width,c.height,cc.height] = [oImg.width,oImg.width,oImg.height,oImg.height];
                                 ct.drawImage( oImg, 0, 0 );
                                 this.pointLists.map( item => {//擦除还原只操作在原图上，放大缩小偏移  只需记住最后一次操作就好
-                                        ct.save();
-                                        ct.beginPath();
-                                        ct.arc( (item.x - item.offsetx) * oImg.width / item.initw, (item.y - item.offsety) * oImg.height / item.inith, 2 * (item.r * oImg.width / item.initw), 0, Math.PI * 2, false );
-                                        ct.clip();
-                                        if (item.type === 1) ct.clearRect( 0, 0, c.width, c.height );
-                                        else ct.drawImage( this.OriginalObj, 0, 0, oImg.width, oImg.height );
-                                        ct.restore();
+                                    ct.save();
+                                    ct.beginPath();
+                                    ct.arc( (item.x - item.offsetx) * oImg.width / item.initw, (item.y - item.offsety) * oImg.height / item.inith, 2 * (item.r * oImg.width / item.initw), 0, Math.PI * 2, false );
+                                    ct.clip();
+                                    if (item.type === 1) ct.clearRect( 0, 0, c.width, c.height );
+                                    else ct.drawImage( this.OriginalObj, 0, 0, oImg.width, oImg.height );
+                                    ct.restore();
                                 } )
-                                if (this.savepoint) {
+                                if (this.savepoint) {//这一步是吧最后一次放大缩小作用在原图上
                                     cct.clearRect( 0, 0, c.width, c.height );
                                     cct.putImageData( ct.getImageData( 0, 0, c.width, c.height ), 0, 0 );
                                     ct.clearRect( 0, 0, c.width, c.height );
                                     ct.drawImage( cc, this.savepoint.offsetx, this.savepoint.offsety, this.savepoint.initw, this.savepoint.inith );
                                 }
                                 const url = c.toDataURL();
-                                if (!this.downType || (this.downType === 1 && [0, 2, 3].includes( this.choseBack ))) this.downLoad( url );
-                                else if (this.downType === 1 && this.choseBack === 1) this.downLoad( url, this.colorValue );
-                                else this.selfImg ? this.downLoad( url, '', this.selfImg ) : this.downLoad( url, '', this.bgobj );
+                                this.whichDown(url)
                             }
                             oImg.src = res.data
                         }
@@ -787,6 +732,9 @@
                     return
                 }
                 const url = this.cans.toDataURL();
+               this.whichDown(url)
+            },
+            whichDown(url){//通用提起
                 if (!this.downType || (this.downType === 1 && [0, 2, 3].includes( this.choseBack ))) this.downLoad( url );
                 else if (this.downType === 1 && this.choseBack === 1) this.downLoad( url, this.colorValue );
                 else this.selfImg ? this.downLoad( url, '', this.selfImg ) : this.downLoad( url, '', this.bgobj );
@@ -800,10 +748,10 @@
                     cans.width = oImg.width;
                     cans.height = oImg.height;
                     if (color) {
-                        ctxs.fillStyle = color
-                        ctxs.fillRect( 0, 0, cans.width, cans.height )
+                        ctxs.fillStyle = color;
+                        ctxs.fillRect( 0, 0, cans.width, cans.height );
                     }
-                    if (bg) this.initBgimg( bg, cans, ctxs )
+                    if (bg) this.initBgimg( bg, cans, ctxs );
                     ctxs.drawImage( oImg, 0, 0, cans.width, cans.height );
                     if (myBrowser() === 'IE' || myBrowser() === 'Edge') {//ie下载图片
                         let url = cans.msToBlob();
@@ -829,8 +777,7 @@
                 }
                 oImg.src = url
             },
-            initImgs(data) {
-                console.log( data );
+            initImgs(data) {//储存原图对象
                 this.Original = data.ori;
                 this.imgUrl = data.pro;
                 this.filename = data.filename;
@@ -852,7 +799,7 @@
                 }
                 bgimg.src = this.edrieImgInfo.bgImg + `?str=${Math.random()}`;
             },
-            changeSize(k) {//+-号
+            changeSize(k) {//画布尺寸输入
                 if (k === 1) {
                     this.pxWidth = this.pxWidth >= this.cans.width ? this.cans.width : this.pxWidth;
                     this.pxHeight = this.pxWidth / this.scale;
@@ -863,7 +810,7 @@
                 if (this.noOperation) this.initborder()
             },
             wheelFun(e) {//滚轮事件
-                this.setScale = parseFloat( (this.pxWidth / this.preimgObj.width).toFixed( 1 ) ) - 1
+                this.setScale = parseFloat( (this.pxWidth / this.preimgObj.width).toFixed( 1 ) ) - 1;
                 if (e.deltaY < 0 && this.setScale >= 1) return;
                 if (e.deltaY > 0 && this.setScale <= -0.5) return;
                 if (e.deltaY < 0) this.setScale = parseFloat( (this.setScale + 0.1).toFixed( 1 ) );//放大
@@ -890,7 +837,7 @@
                     this.oCantl = document.getElementById( `b_g` ).getBoundingClientRect()
                 } )
             },
-            initRest() {
+            initRest() {//1:1
                 this.pxWidth = this.preimgObj.width;
                 this.pxHeight = this.preimgObj.height;
                 if (this.noOperation) this.initborder()
@@ -898,7 +845,7 @@
                     this.oCantl = document.getElementById( `b_g` ).getBoundingClientRect()
                 } )
             },
-            initborder(x = 0, y = 0, w, h) {//周边虚线和四个角
+            initborder(x = 0, y = 0, w, h) {//周边线和缩放指针位置
                 const [tw, th] = [w ? w : this.initwh.w, h ? h : this.initwh.h]
                 this.$refs.oIImg.style.left = (this.Offsetxy.x + tw + x) * this.pxWidth / this.cWH.cWidth - 26 + 'px'
                 this.$refs.oIImg.style.top = (this.Offsetxy.y + y) * this.pxHeight / this.cWH.cHeight + 'px'
@@ -907,29 +854,29 @@
                 this.$refs.dashed.style.width = tw / this.cWH.cWidth * this.pxWidth - 2 + 'px'
                 this.$refs.dashed.style.height = th / this.cWH.cHeight * this.pxHeight - 2 + 'px'
             },
-            initAllInfo() {//初始化时操作拖信息
+            initAllInfo() {//初始化时操作信息
                 this.edrieImgInfo = JSON.parse( localStorage.getItem( 'editImg' ) )
                 if (this.edrieImgInfo.bgImg) this.showUpload = true;
                 else {
                     this.showUpload = false;
                     this.initImgs( this.edrieImgInfo )
                 }
-                this.edrieImgInfo['type']=this.showUpload ? 1 : 2;//1代表背景过来的，2代表抠图后过来的
+                this.edrieImgInfo['type'] = this.showUpload ? 1 : 2;//1代表背景过来的，2代表抠图后过来的
             },
             reloads() {//重新上传
-                this.$confirm(`确定要${this.edrieImgInfo.type===1 ? '重新上传' : '重置'}, 是否继续?`, '提示', {
-                    showClose:false,
+                this.$confirm( `确定要${this.edrieImgInfo.type === 1 ? '重新上传' : '重置'}, 是否继续?`, '提示', {
+                    showClose: false,
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
-                }).then(() => {
+                } ).then( () => {
                     window.location.reload()
-                }).catch(() => {
+                } ).catch( () => {
 
-                });
+                } );
             }
         },
-        created() {
+        created() {//透明背景储存
             let oBg = new Image();
             oBg.crossOrigin = '';
             oBg.onload = () => {
@@ -937,7 +884,7 @@
             }
             oBg.src = this.opas
         },
-        mounted() {
+        mounted() {//初始化参数
             this.cans = document.getElementById( 'b_p' );
             this.bgCans = document.getElementById( 'b_g' );
             this.cansTxt = this.cans.getContext( '2d' );
@@ -1372,6 +1319,7 @@
             }
         }
     }
+
     .zheR {
         z-index: 888;
         position: absolute;
@@ -1379,22 +1327,27 @@
         top: 0;
         width: 100%;
         height: 100%;
+        padding-top: 0 !important;
         background-color: rgba(255, 255, 255, .1);
     }
-    @media screen and (max-width: 1500px){
-        .editPictures .e_r .ships{
+
+    @media screen and (max-width: 1500px) {
+        .editPictures .e_r .ships {
             bottom: 15%;
         }
-        .editPictures .dialogs{
+        .editPictures .dialogs {
             max-width: 380px;
-            .sons{
+
+            .sons {
                 padding: 50px 0;
-                .title{
+
+                .title {
                     margin: 40px 0;
                     font-size: 18px;
                 }
             }
-            .types img{
+
+            .types img {
                 width: 80px;
             }
         }

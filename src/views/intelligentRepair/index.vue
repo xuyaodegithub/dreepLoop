@@ -1,14 +1,14 @@
 <template>
     <div class="helloFirst">
-        <input type="file" style="display: none" ref="upImg" @change="changeImg($event)" :multiple="multiple"
+        <input type="file" style="display: none" ref="upImg" @change="changeImg($event)"
                accept="image/*"/>
         <header-sub></header-sub>
         <div class=" apps">
             <div class="Operator">
                 <h6><!--Local images-->本地图像</h6>
                 <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()"><!--Upload-->上传</el-button>
-                <p class="afterbtn" v-if="!LoginStatus"><span class="cu" @click="userlogin(0)">登录</span>
-                    <!--for batch upload-->后批量上传</p>
+<!--                <p class="afterbtn" v-if="!LoginStatus"><span class="cu" @click="userlogin(0)">登录</span>-->
+<!--                    &lt;!&ndash;for batch upload&ndash;&gt;后批量上传</p>-->
                 <div class="center">
                     <h5>Web 图片</h5>
                     <div style="position: relative;">
@@ -52,7 +52,7 @@
                             <h4>{{name | datafilter}}</h4>
                             <div class="flex a-i">
                                 <div v-for="(item,index) in value" :key="item.id">
-                                    <img :src="item.originalImage" alt="" class="cu" @click="addItem(item)">
+                                    <img :src="item.originalImage" alt="" class="cu" @click="deepItem(item.originalImage)">
                                 </div>
                             </div>
                         </div>
@@ -66,7 +66,7 @@
                     <h2>智能图像修复</h2>
                     <p>想修哪里修哪里、-秒抹去瑕疵、毫无痕迹</p>
                     <div class="flex">
-                        <div class="gif"><img src="../../assets/image/beauty.gif" alt=""></div>
+                        <div class="gif"><img src="../../assets/image/fix.gif" alt=""></div>
                         <div class="gifright">
                             <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()"><!--Upload-->
                                 上传图像
@@ -74,8 +74,9 @@
                             <el-input v-model="imgUrl" class="upcas" placeholder="CTRL+V粘贴图像或者URL"
                                       @focus="$event.target.select()"></el-input>
                             <div class="titlips">
-                                <a href="docsify/#/apidoc_api.md" target="_blank">人像API:可带人体关键点位置></a>
-                                <a href="https://www.google.cn/chrome/" target="_blank">推荐使用：谷歌游览器 <img src="@/assets/image/img1.png" alt="">，防止兼容问题</a>
+                                <!--                                <a href="docsify/#/apidoc_api.md" target="_blank">人像API:可带人体关键点位置></a>-->
+                                <a href="https://www.google.cn/chrome/" target="_blank">推荐使用：谷歌游览器 <img
+                                        src="@/assets/image/img1.png" alt="">，防止兼容问题</a>
                             </div>
                             <p>没有图像？试试以下图片看看效果</p>
                             <div class="flex a-i">
@@ -86,45 +87,10 @@
                         </div>
                     </div>
                 </div>
-                <div v-for="(item,index) in files" :key="item.name" class="imgRef"
-                     :id="item.name">
-                    <!--                    :class="{'active' : index===files.length-1}"-->
-                    <img-sub :files="item" @to-parse="collectBg" @close="closeItem" :index="index" ref="subs" @downall="downAllinit"></img-sub>
+                <div class="subList" v-for="(item,idx) in picDes" :key="idx">
+                    <pic-sub :data="item"/>
                 </div>
-                <pic-sub :data="picDes"/>
-            </div>
-            <div class="ImgLists" v-show="rightImgList.length>1">
-                <!--                <el-scrollbar>-->
-                <div class="imgs" id="niceScrolls">
-                    <div v-for="(item,index) in rightImgList" :key="index" :class="{'active' : selectImg ===index}"
-                         class="cu" @click="goThisImg(index)">
-                        <img :src="item.url" alt="">
-                    </div>
-                </div>
-                <!--                </el-scrollbar>-->
-                <div class="downBtn" @mouseenter="classType=0">
-                    <span><!--Download all-->下载全部</span>
-                    <div class="sizeChoses">
-                        <div class="flex a-i">
-                            <span>尺寸</span>
-                            <span>消耗次数</span>
-                        </div>
-                        <div class="flex a-i">
-                            <span>下载预览图</span>
-                            <span>0</span>
-                            <span class="cu" @click="saveMove(0,$event)">下载</span>
-                        </div>
-                        <div class="flex a-i ">
-                            <span>下载原图比例</span>
-                            <span>{{allbgImg.length}}</span>
-                            <span class="cu" @click="saveMove(1,$event)">下载</span>
-                        </div>
-                        <div>
-                            <!--                            当前可用次数： 0 <i class="cu">去充值</i>-->
-                        </div>
-                    </div>
-                </div>
-                <div class="deAll cu" @click="deleteAllImg">删除全部</div>
+
             </div>
         </div>
     </div>
@@ -132,49 +98,46 @@
 <script>
     import {mapGetters} from 'vuex'
     import {mapActions} from 'vuex'
-    import JSZip from 'jszip'
-    import {saveAs} from "file-saver";
     import headerSub from '@/components/header/index.vue'
-    import imgSub from '@/components/showImgSub/beauTy.vue'
-    import {getToken, getSecImgs, setSecImgs} from "../../utils/auth";
-    import {basrUrls} from "../../utils";
-    import imgSetSub from '@/components/setImgSub/index.vue'
-    import {getMattedImageMultiple, userHistoryList} from "../../apis";
-    import JSManipulate from '../../utils/jsmanipulate.js'
-    import {niceScroll} from 'jquery.nicescroll';
+    import {getToken} from "../../utils/auth";
+    import {compressImg} from "../../utils";
+    import { userHistoryList,uploadossBg} from "../../apis";
     import picSub from '@/components/picSub'
-    import m1 from '@/assets/image/move1.png'
-    import m2 from '@/assets/image/move2.png'
+    import m1 from '@/assets/image/1.1.jpg'
+    import m11 from '@/assets/image/1.jpg'
+    import m2 from '@/assets/image/2.1.jpg'
+    import m22 from '@/assets/image/2.jpg'
+    import m3 from '@/assets/image/3.1.jpg'
+    import m33 from '@/assets/image/3.jpg'
+    import m4 from '@/assets/image/4.1.jpg'
+    import m44 from '@/assets/image/4.jpg'
+    import m5 from '@/assets/image/5.1.jpg'
+    import m55 from '@/assets/image/5.jpg'
+
     export default {
         name: 'HelloWorld',
         data() {
             return {
                 initimgsList: [
-                    'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/05/13/1.jpg',
-                    'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/05/13/2.jpg',
-                    'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/05/13/3.jpg',
-                    'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/05/13/4.jpg',
+                    'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/06/12/1.png',
+                    'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/06/12/2.jpg',
+                    'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/06/12/3.png',
+                    'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/06/12/4.png',
                 ],
-                rightImgList: [],
-                selectImg: 0,
-                multiple: false,
-                imgMsg: {},
-                allbgImg: [],
-                basrUrls: basrUrls(),
                 historyList: {},
                 showHistory: false,
                 files: [],
                 imgUrl: '',//图片链接
                 page: 1,
                 rows: 30,
-                classType: 0,
                 stopUpdata: false,//停止滑动加载
-                Percentile: 0,
-                loading: null,
-                scrollStop: true,
-                selectColor: '',
-                baseList:[],//全部下载自定义
-                picDes:{title:'圖片去水印',des:'不论是文字水印，还是logo水印。1秒恢复加水印前的样子',arrm:[m1,m2,'',''],}
+                picDes: [
+                    {title: '图片去水印', des: '不论是文字水印，还是logo水印。1秒恢复加水印前的样子', arrm: [m1, m11, '', '']},
+                    {title: '老照片翻新', des: '时间是把杀猪刀，砍了爸妈的结婚证，我们萌萌的小脸，同学欢笑的时光。1秒抹平岁月的褶皱', arrm: [m2, m22, '', '']},
+                    {title: '去除皱纹和雀斑', des: '我们崇尚自然的美，也追求那定格的极致。1秒让美丽无痕', arrm: [m3, m33, '', '']},
+                    {title: '误入镜头的人物', des: '旅游的美好回忆，等了好久才拍的照片，有人闯了进来。1秒让回忆更加美好', arrm: [m4, m44, '', '']},
+                    {title: '去掉不需要的物体', des: '那些诗与远方，不应该有栏杆、垃圾桶、电线杆相伴。1秒让风景变纯粹。', arrm: [m5, m55, '', '']},
+                ]
             }
         },
         filters: {
@@ -189,15 +152,10 @@
                 else return val
             },
         },
-        watch: {
-
-        },
+        watch: {},
         mounted() {
-            this.stopPrevent()
-            this.getsesImgsSet()
+            this.stopPrevent();
             if (getToken()) this.userGetscribe();
-            window.addEventListener( 'scroll', this.scrollFun );
-            $( '#niceScrolls' ).niceScroll( {cursorcolor: '#999999'} );
             document.addEventListener( 'paste', (e) => {
                 let clipboardData = e.clipboardData,//谷歌
                     i = 0,
@@ -226,7 +184,7 @@
             // $('.hisimgs').niceScroll({cursorcolor :'#999999',boxzoom:true});
         },
         destroyed() {
-            window.removeEventListener( 'scroll', this.scrollFun )
+
         },
         computed: {
             ...mapGetters( [] ),
@@ -235,270 +193,73 @@
             },
         },
         components: {
-            headerSub, imgSub, imgSetSub,picSub
+            headerSub, picSub
         },
         methods: {
             ...mapActions( [
                 'userGetscribe'
             ] ),
-            downAllinit(objs,blogTitle='picture'){//下载全部自定义后的图片
-                const allNum=this.$refs.subs.length,_this=this;
-                let zip = new JSZip(),imgs = zip.folder( blogTitle );
-                const name=objs.filename.substring(0,objs.filename.lastIndexOf('.')).replace(/\//g,'%');
-                this.baseList.push( {name: name+'.png', img: objs.obj.substring( 22 )} );
-                this.Percentile += 1;
-                this.loading.text = this.Percentile + '/' + this.allbgImg.length + ' 已完成';
-                console.log(this.Percentile,this.allbgImg.length,'.....')
-                if (this.baseList.length === this.allbgImg.length) {
-                    if (this.baseList.length > 0) {
-                        this.loading.text = '打包中...'
-                        for (let k = 0; k < this.baseList.length; k++) {
-                            imgs.file( this.baseList[k].name, this.baseList[k].img, {
-                                base64: true
-                            } );
-                        }
-                        zip.generateAsync( {type: "blob"} ).then( function (content) {
-                            saveAs( content, blogTitle + ".zip" );
-                            _this.loading.close()
-                            _this.Percentile = 0
-                            _this.baseList = []
-                        } );
-                    } else {
-                        _this.$message.error( {
-                            title: "error",
-                            message: "没有图片可下载"
-                        } );
-                    }
-                }
-            },
             deepItem(item) {
-                this.imgUrl = item
-                this.copyImgUrl()
+                compressImg(item,1).then(blob=>{
+                    let fromData=new FormData();
+                    fromData.set('file',blob);
+                    uploadossBg(fromData).then(res=>{
+                        const data={
+                            img:res.data,
+                            name:item
+                        }
+                        window.localStorage.setItem('repairInfo',JSON.stringify(data));
+                        window.open('repairEdit.html');
+                    })
+                })
+                // let data={
+                //     img:item,
+                //     name:item
+                // }
+                // window.localStorage.setItem('repairInfo',JSON.stringify(data))
+                // window.open('repairEdit.html');
             },
             userlogin(key) {
                 window.location.href = 'loginOrRegister.html'
             },
-            collectBg(obj) {
-                // this.limitIdx++;
-                this.allbgImg[obj.id] = obj
-                if (!getSecImgs( 3 )) {
-                    this.sesImgsSet( this.allbgImg );
-                    return
-                }
-                let hasown = JSON.parse( getSecImgs( 3 ) ).some( (item) => {
-                    return item.fileId == obj.fileId
-                } );
-                if (!hasown) this.sesImgsSet( this.allbgImg )
-            },
-            closeItem(item) {
-                this.files.splice( item.index, 1 );
-                this.rightImgList.splice( item.index, 1 );
-                // console.log(this.$refs.imgRef)
-                this.allbgImg.map( (val, index) => {
-                    if (val.name === item.name || !val) this.allbgImg.splice( index, 1 )
-                } )
-                this.sesImgsSet( this.allbgImg )
-            },
             upLoadimg() {//点击上传
-                if (!getToken()) this.multiple = false;
-                else this.multiple = true;
                 this.$refs.upImg.value = '';
                 this.$nextTick( () => {
                     this.$refs.upImg.click()
                 } )
             },
-            //下载多张抠图
-            saveMove(key,e) {
-                let that = this
-                this.$message.closeAll()
-                if (this.files.length !== this.allbgImg.length) {
-                    this.$message( {type: 'warning', message: '正在处理中，请稍后...'} );
-                    return
-                }
-                this.loading = this.$loading( {
-                    lock: true,
-                    text: '0 已完成',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(0, 0, 0, 0.7)'
-                } );
-                if(!this.classType){
-                    const allSub=this.$refs.subs
-                    allSub.map((item)=>item.save(key,e,'all'))
-                    return
-                }
-                let allImgs = JSON.parse( JSON.stringify( this.allbgImg ) );
-                let arr = allImgs.filter( (val, index) => {
-                    return val.img
-                } );
-                // console.log(arr)
-                if (key === 0) this.StoreDowQrcode( arr );
-                else {
-                    let filedId = [];
-                    arr.map( (item, index) => {
-                        filedId.push( item.fileId )
-                    } );
-                    getMattedImageMultiple( filedId ).then( res => {
-                        if (!res.code) {
-                            let newArr = res.data;
-                            arr.map( (item, index) => {
-                                item.img = newArr[index]
-                            } );
-                            this.StoreDowQrcode( arr )
-                        } else {
-                            this.loading.close()
-                        }
-                    } )
-                }
-
-            },
-
-            //批量下载图片
-            StoreDowQrcode(arr, blogTitle = "pictures") {
-                console.log(arr)
-                let zip = new JSZip();
-                let imgs = zip.folder( blogTitle );
-                let baseList = [];
-                let _this = this;
-                let callback = (objs) => {
-                    let cans = document.createElement( 'canvas' )
-                    let ctxs = cans.getContext( '2d' )
-                    cans.width = objs.bgRemovedImg.width;
-                    cans.height = objs.bgRemovedImg.height;
-                    if (this.classType === 2) {
-                        ctxs.fillStyle = this.selectColor;
-                        ctxs.fillRect( 0, 0, cans.width, cans.height )
-                    } else if (this.classType > 2) ctxs.putImageData( objs.dwonBg, 0, 0 );
-                    ctxs.drawImage( objs.bgRemovedImg, 0, 0 );
-                    let url = cans.toDataURL( "image/png" ); // 得到图片的base64编码数据 let url =
-                    const name=objs.is.substring(0,objs.is.lastIndexOf('.')).replace(/\//g,'%')
-                    console.log(objs.is,name)
-                    baseList.push( {name: name+'.png', img: url.substring( 22 )} );
-                    _this.Percentile += 1
-                    _this.loading.text = _this.Percentile + '/' + arr.length + ' 已完成'
-                    if (baseList.length === arr.length) {
-                        if (baseList.length > 0) {
-                            _this.loading.text = '打包中...'
-                            for (let k = 0; k < baseList.length; k++) {
-                                imgs.file( baseList[k].name, baseList[k].img, {
-                                    base64: true
-                                } );
-                            }
-                            zip.generateAsync( {type: "blob"} ).then( function (content) {
-                                saveAs( content, blogTitle + ".zip" );
-                                _this.loading.close()
-                                _this.Percentile = 0
-                            } );
-                        } else {
-                            _this.$message.error( {
-                                title: "error",
-                                message: "没有图片可下载"
-                            } );
-                        }
-                    }
-                }
-                for (let i = 0; i < arr.length; i++) {
-                    this.drawStyleBg( arr[i], this.classType, callback, arr[i].filename )
-                }
-            },
             copyImgUrl(url, k) {//粘贴图片链接确定
-                if (!this.imgUrl && !url) {
-                    this.$message( {
-                        message: '图片地址不可为空',
-                        type: 'warning'
-                    } );
-                    return
-                }
-                k ? '' : this.toscroll();
-                let name = parseInt( Math.random() * 100000000000 );
-                this.files.unshift( {
-                    url: url ? url.url : this.imgUrl,
-                    name: name,
-                    filename:url ? (url.filename ? url.filename :  url.url) : this.imgUrl,
-                    type: 'copy',
-                    fileId: url ? url.fileId : ''
-                } )
-                this.imgUrlss( {
-                    url: url ? url.url : this.imgUrl,
-                    name: name,
-                    filename:url ? (url.filename ? url.filename :  url.url) : this.imgUrl,
-                    type: 'copy',
-                    fileId: url ? url.fileId : ''
-                } )
-                this.imgUrl = ''
+
             },
             changeImg(ev) {//图片上传
-                const e = ev.target
-                if (e.files.length > 30) {
-                    this.$message( {
-                        type: 'warning',
-                        message: '最多同时上传30张图片，请分批次进行上传。'
-                    } )
-                    return
-                }
-                this.toscroll();
-                for (let i = 0; i < e.files.length; i++) {
-                    this.files.unshift( {
-                        url: e.files[i],
-                        name: parseInt( Math.random() * 100000000000 ),
-                        type: 'file',
-                        filename:e.files[i].name
-                    } );
-                }
-                this.imgUrlss( e.files )
-            },
-            toscroll() {
-                // let oDiv = this.$refs.contentImg.offsetTop;
-                $( 'body,html' ).animate( {scrollTop: 620}, 500 );
+                const file = ev.target.files[0];
+                compressImg(file).then(blob=>{
+                    let fromData=new FormData();
+                    fromData.set('file',blob)
+                    uploadossBg(fromData).then(res=>{
+                        const data={
+                            img:res.data,
+                            name:file.name
+                        }
+                        window.localStorage.setItem('repairInfo',JSON.stringify(data))
+                        window.open('repairEdit.html');
+                    })
+                })
             },
             toApi() {
-                window.location.href = this.basrUrls + '/docsify/#/apidoc_api.md'
-            },
-            imgUrlss(obj) {//rightImgList
-                let _self = this
-                let newArr = new Array( obj.length ).fill( 0 );
-                if (obj.type === 'copy') {
-                    this.rightImgList.unshift( {url: obj.url, name: obj.name} )
-                    this.allbgImg = [0, ...this.allbgImg]
-                } else {
-                    for (let i = 0; i < obj.length; i++) {
-                        let reader = new FileReader();
-                        reader.readAsDataURL( obj[i] );
-                        //监听文件读取结束后事件
-                        reader.onloadend = function (e) {
-                            newArr[i] = {url: e.target.result, name: obj[i].name}
-                            let t = newArr.every( (item, index) => {
-                                return item !== 0
-                            } )
-                            if (t) _self.rightImgList = [...newArr.reverse(), ..._self.rightImgList]
-                            // console.log(_self.allbgImg,"11111111111111111111111")
-                        }
-                    }
-                    this.allbgImg = [...new Array( obj.length ).fill( 0 ), ...this.allbgImg]
-                }
-            },
-            goThisImg(index) {
-                let _self = this
-                this.scrollStop = false
-                this.selectImg = index;
-                let dome = document.getElementsByClassName( 'imgRef' );
-                $( 'body,html' ).animate( {scrollTop: dome[index].offsetTop - 75}, 500, () => {
-                    _self.scrollStop = true
-                } );
-                // setTimeout(()=>{
-                //
-                // },500)
+                window.location.href = 'apis.html'
             },
             openHistory() {
                 this.showHistory = true;
                 let data = {
                     page: this.page,
                     pageSize: this.rows,
-                    mattingType: 1
+                    mattingType:5
                 }
                 userHistoryList( data ).then( res => {
                     if (!res.code) {
                         this.historyList = res.data;
-                        let newArr = Object.keys( res.data ), num = 0
+                        let newArr = Object.keys( res.data ), num = 0;
                         for (let i = 0; i < newArr.length; i++) {
                             num += res.data[newArr[i]].length
                         }
@@ -509,47 +270,6 @@
             closeHistory() {
                 this.showHistory = false
             },
-            drawStyleBg(obj, key, callback, i) {//批量下载封装
-                let that = this
-                let imgLoaded = false;
-                let originalImgLoaded = false;
-                let img = new Image()
-                img.crossOrigin = '';
-                img.onload = function () {
-                    imgLoaded = true;
-                    if (imgLoaded && originalImgLoaded) {
-                        that.downOthers( {oldImg: originalImg, bgImg: img, name: obj.name}, key, callback, i )
-                    }
-                }
-                img.src = obj.img + `?str=${Math.random()}`;
-                let originalImg = new Image();
-                originalImg.crossOrigin = '';
-                originalImg.onload = function () {
-                    originalImgLoaded = true;
-                    if (imgLoaded && originalImgLoaded) {
-                        that.downOthers( {oldImg: originalImg, bgImg: img, name: obj.name}, key, callback, i )
-                    }
-                }
-                originalImg.src = obj.Original + `?str=${Math.random()}`;
-            },
-            downOthers(imgObjs, index, callback, i) {//效果图下载
-                let canvasTemp = document.createElement( 'canvas' );
-                canvasTemp.width = imgObjs.bgImg.width; //☜
-                canvasTemp.height = imgObjs.bgImg.height;
-                let ctx = canvasTemp.getContext( "2d" );
-                ctx.drawImage( imgObjs.oldImg, 0, 0, canvasTemp.width, canvasTemp.height );
-                let imgData = ctx.getImageData( 0, 0, canvasTemp.width, canvasTemp.height );
-                let newBg1 = imgData;
-                let newBg4 = ctx.getImageData( 0, 0, canvasTemp.width, canvasTemp.height );
-                JSManipulate.blur.filter( newBg1, {amount: 5.0} );
-                JSManipulate.grayscale.filter( newBg4 );
-                callback( {
-                    dwonBg: index === 3 ? newBg4 : newBg1,
-                    bgRemovedImg: imgObjs.bgImg,
-                    name: imgObjs.name,
-                    is: i//下载名称
-                } )
-            },
             getmoveHis(e) {
                 let historyList = this.$refs.historyList, scrollTop = e.target.scrollTop;
                 console.log( historyList.offsetHeight, historyList.scrollHeight )
@@ -559,9 +279,6 @@
                         this.openHistory()
                     }
                 }
-            },
-            addItem(item) {
-                this.copyImgUrl( {url: item.originalImage, fileId: item.id} )
             },
             stopPrevent() {//阻止游览器默认打开图片
                 let _self = this
@@ -586,81 +303,14 @@
                         let files = e.dataTransfer.files;
                         // console.log(files)
                         if (!files.length) return;
-                        if (!getToken() && files.length > 1) {
-                            console.log( files )
-                            _self.$message( {type: 'error', message: '登录后可批量上传'} )
+                        if (files.length > 1) {
+                            _self.$message( {type: 'error', message: '请单张图片上传'} )
                             return
                         }
-                        _self.toscroll();
-                        for (let i = 0; i < files.length; i++) {
-                            console.log(files)
-                            _self.files.unshift( {
-                                url: files[i],
-                                name: parseInt( Math.random() * 100000000000 ),
-                                type: 'file',
-                                filename:files[i].name
-                            } )
-                        }
-                        _self.imgUrlss( files )
+                        _self.changeImg({target:{files:[files[0]]}})
                     } )
                 }
             },
-            scrollFun() {
-                if (!this.scrollStop || this.rightImgList.length < 2) return;
-                let oDiv = document.getElementsByClassName( 'imgRef' )
-                // let oImg=document.querySelector('.ImgLists .imgs div')
-                if (oDiv.length < 2) return;
-                let _self = this
-                Array.prototype.slice.call( oDiv ).map( (item, index) => {
-                    let t = item.getBoundingClientRect().top;
-                    if (t > 0 && t < 100) {
-                        _self.selectImg = index;
-                        // console.log(document.querySelectorAll('.ImgLists .imgs > div')[index])
-                        let o = document.querySelectorAll( '.ImgLists .imgs > div' )[index].offsetTop;
-                        // console.log(document.querySelectorAll('.ImgLists .imgs > div')[index])
-                        $( "#niceScrolls" ).getNiceScroll( 0 ).doScrollTop( o );
-                        return
-                    }
-                } )
-            },
-            sesImgsSet(files) {
-                let arr = []
-                // console.log(this.allbgImg)
-                files.map( (item, index) => {
-                    if (!item.noSave) {
-                        arr.push( {Original: item.Original, fileId: item.fileId,filename:item.filename} )
-                    }
-                } )
-                setSecImgs( JSON.stringify( arr ), 3 )
-            },
-            getsesImgsSet() {
-                if (!getSecImgs( 3 )) return;
-                let arr = JSON.parse( getSecImgs( 3 ) ).reverse();
-                if (!arr) return;
-                arr.map( (item) => {
-                    this.copyImgUrl( {url: item.Original, fileId: item.fileId,filename:item.filename}, 1 )
-                } )
-            },
-            deleteAllImg(){//删除全部
-                this.$confirm('确定要删除全部么', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    this.files=[];
-                    this.rightImgList=[];
-                    // console.log(this.$refs.imgRef)
-                    this.allbgImg=[];
-                    this.sesImgsSet( this.allbgImg );
-                    $( 'body,html' ).animate( {scrollTop: 0}, 500 );
-                    this.$message({
-                        type: 'success',
-                        message: '删除成功!'
-                    });
-                }).catch(() => {
-
-                });
-            }
 
         },
         created() {
@@ -900,7 +550,7 @@
 
                 h2 {
                     font-size: 34px;
-                    font-weight: 500;
+                    font-weight: bold;
                 }
 
                 & > p {
@@ -917,10 +567,12 @@
                     text-align: left;
                     width: 280px;
                     margin-left: 78px;
-                    .el-button{
+
+                    .el-button {
                         background-color: $pic;
                         border-color: $pic;
                     }
+
                     .el-button, .el-input {
                         display: block;
                         width: 100%;
@@ -936,7 +588,7 @@
                     }
 
                     .el-input {
-                        margin-bottom: 40px;
+                        margin-bottom: 60px;
                         background-color: rgb(243, 243, 243);
                     }
 
@@ -953,9 +605,11 @@
                         border-radius: 5px;
                         margin-right: 12px;
                     }
-                    .titlips{
+
+                    .titlips {
                         font-size: 14px;
-                        a{
+
+                        a {
                             color: #999;
                             display: block;
                             line-height: 28px;
@@ -1022,7 +676,8 @@
                     display: block;
                 }
             }
-            .deAll{
+
+            .deAll {
                 display: block;
                 line-height: 16px;
                 font-size: 12px;

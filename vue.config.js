@@ -198,6 +198,12 @@ module.exports = {
             filename: 'downLoad.html',
             title: '桌面端下载',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
+        },repairEdit:{
+            entry: 'src/views/editPictures/repairEdit.js',
+            template:'public/repairEdit.html',
+            filename: 'repairEdit.html',
+            title: '图片修复',
+            // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
         },
     },
     // chainWebpack: config => {

@@ -78,6 +78,9 @@
                             <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()" style="background-color: #21a9e8;border-color: #21a9e8;"><!--Upload-->上传图像</el-button>
                             <el-input v-model="imgUrl"  placeholder="CTRL+V粘贴图像或者URL"
                                       @focus="$event.target.select()"></el-input>
+                            <div class="aList flex">
+                                <a href="//www.picup.shop/apidoc/_book/object.html#%E5%A4%B4%E5%83%8F%E6%8A%A0%E5%9B%BE%E8%BF%94%E5%9B%9Ebase64-api" target="_blank">物体API></a>
+                            </div>
                             <div class="titlips"><a href="https://www.google.cn/chrome/" target="_blank">推荐使用：谷歌游览器 <img src="@/assets/image/img1.png" alt="">，防止兼容问题</a></div>
                             <p>没有图像？试试以下图片看看效果</p>
                             <div class="flex a-i">
@@ -512,7 +515,7 @@
                 $( 'body,html' ).animate( {scrollTop: 620}, 500 );
             },
             toApi() {
-                window.location.href = this.basrUrls + '/docsify/#/apidoc_api.md'
+                window.location.href = 'apis.html'
             },
             imgUrlss(obj) {//rightImgList
                 let _self = this
@@ -953,7 +956,7 @@
                 margin-bottom: 15px;
                 h2{
                     font-size: 34px;
-                    font-weight: 500;
+                    font-weight: bold;
                 }
                 & > p{
                     font-size: 20px;
@@ -967,6 +970,16 @@
                     text-align: left;
                     width: 280px;
                     margin-left: 78px;
+                    &> .aList{
+                        font-size: 14px;
+                        justify-content: space-between;
+                        margin-bottom: 50px;
+                        padding-right: 20px;
+                        a{
+                            color: #333;
+                            &:hover{ color: #e82255;}
+                        }
+                    }
                     .el-button,.el-input{
                         display: block;
                         width: 100%;
@@ -980,7 +993,7 @@
                         }
                     }
                     .el-input{
-                        margin-bottom: 40px;
+                        margin-bottom: 15px;
                         background-color: rgb(243,243,243);
                     }
                     p{

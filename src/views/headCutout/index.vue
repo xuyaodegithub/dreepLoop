@@ -80,8 +80,11 @@
                             </el-button>
                             <el-input v-model="imgUrl" class="upcas" placeholder="CTRL+V粘贴图像或者URL"
                                       @focus="$event.target.select()"></el-input>
+                            <div class="aList flex">
+                                <a href="http://www.picup.shop/apidoc/_book/avatar.html" target="_blank">头像API></a>
+                                <a href="http://www.picup.shop/apidoc/_book/avatar.html#%E5%A4%B4%E5%83%8F%E6%8A%A0%E5%9B%BE%E5%B8%A6%E4%BA%BA%E8%84%B8%E5%85%B3%E9%94%AE%E7%82%B9%E6%A3%80%E6%B5%8Bapi" target="_blank">头像API带人脸关键点></a>
+                            </div>
                             <div class="titlips">
-                                <a href="docsify/#/apidoc_api.md" target="_blank">人像API:可带人体关键点位置></a>
                                 <a href="https://www.google.cn/chrome/" target="_blank">推荐使用：谷歌游览器 <img src="@/assets/image/img1.png" alt="">，防止兼容问题</a>
                             </div>
                             <p>没有图像？试试以下图片看看效果</p>
@@ -97,7 +100,7 @@
                      :id="item.name">
                     <!--                    :class="{'active' : index===files.length-1}"-->
                     <img-sub :files="item" @to-parse="collectBg" @close="closeItem" :index="index" ref="subs" @downall="downAllinit"
-                             @openImgSet="openImgSet"></img-sub>
+                             :type="3"></img-sub>
                 </div>
             </div>
             <div class="ImgLists" v-show="rightImgList.length>1">
@@ -351,11 +354,11 @@
             collectBg(obj) {
                 // this.limitIdx++;
                 this.allbgImg[obj.id] = obj
-                if (!getSecImgs( 1 )) {
+                if (!getSecImgs( 4 )) {
                     this.sesImgsSet( this.allbgImg );
                     return
                 }
-                let hasown = JSON.parse( getSecImgs( 1 ) ).some( (item) => {
+                let hasown = JSON.parse( getSecImgs( 4 ) ).some( (item) => {
                     return item.fileId == obj.fileId
                 } );
                 if (!hasown) this.sesImgsSet( this.allbgImg )
@@ -521,7 +524,7 @@
                 $( 'body,html' ).animate( {scrollTop: 620}, 500 );
             },
             toApi() {
-                window.location.href = this.basrUrls + '/docsify/#/apidoc_api.md'
+                window.location.href = 'apis.html'
             },
             imgUrlss(obj) {//rightImgList
                 let _self = this
@@ -563,7 +566,7 @@
                 let data = {
                     page: this.page,
                     pageSize: this.rows,
-                    mattingType: 1
+                    mattingType: 3
                 }
                 userHistoryList( data ).then( res => {
                     if (!res.code) {
@@ -694,17 +697,17 @@
                 } )
             },
             sesImgsSet(files) {
-                let arr = []
+                let arr = [];
                 files.map( (item, index) => {
                     if (!item.noSave) {
                         arr.push( {Original: item.Original, fileId: item.fileId,filename:item.filename} )
                     }
                 } )
-                setSecImgs( JSON.stringify( arr ), 1 )
+                setSecImgs( JSON.stringify( arr ), 4 )
             },
             getsesImgsSet() {
-                if (!getSecImgs( 1 )) return;
-                let arr = JSON.parse( getSecImgs( 1 ) ).reverse();
+                if (!getSecImgs( 4 )) return;
+                let arr = JSON.parse( getSecImgs( 4 ) ).reverse();
                 if (!arr) return;
                 arr.map( (item) => {
                     this.copyImgUrl( {url: item.Original, fileId: item.fileId,filename:item.filename}, 1 )
@@ -970,7 +973,7 @@
 
                 h2 {
                     font-size: 34px;
-                    font-weight: 500;
+                    font-weight: bold;
                 }
 
                 & > p {
@@ -987,6 +990,16 @@
                     text-align: left;
                     width: 280px;
                     margin-left: 78px;
+                    & > .aList{
+                        font-size: 14px;
+                        padding-right: 20px;
+                        margin-bottom: 50px;
+                        justify-content: space-between;
+                        a{
+                            color: #333;
+                            &:hover{ color: #e82255;}
+                        }
+                    }
                     .el-button{
                         background-color: $head;
                         border-color: $head;
@@ -1006,7 +1019,7 @@
                     }
 
                     .el-input {
-                        margin-bottom: 40px;
+                        margin-bottom: 15px;
                         background-color: rgb(243, 243, 243);
                     }
 
@@ -1014,7 +1027,6 @@
                         font-size: 14px;
                         color: #999;
                         line-height: 28px;
-                        margin-bottom: 8px;
                     }
 
                     .flex div {

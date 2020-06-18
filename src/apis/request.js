@@ -14,6 +14,11 @@ const instance  =axios.create({
   // timeout:10000,
   baseURL:process.env.VUE_APP_BASEURL,
   // headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'}
+  // validateStatus:  (status)=> {
+    // 更改状态码 不怎么用
+    // return status<500
+    // 此时设置成功状态码是404，所以就算地址错误，报404，但依旧会显示请求成功
+  // }
 });//自定义axios对象
 instance.interceptors.request.use(function (config) {//为自定义axios设置请求拦截器
   // console.log(config)
@@ -27,14 +32,14 @@ instance.interceptors.request.use(function (config) {//为自定义axios设置�
 instance.interceptors.response.use(function (response) {//为自定义axios设置响应拦截器
   // 对响应数据做点什么
   const res=response.data
+  // console.log(response)
   if(res.code===0){
     return res
   }else if(res.code==1100){
-    // setTimeout(()=>{
-      removeToken()
-      clearCookie('token')
-      window.location.href=`loginOrRegister.html`
-    // },15000)
+      removeToken();
+      clearCookie('token');
+      localStorage.setItem('backUrl',window.location.href);
+      window.location.href=`loginOrRegister.html`;
     return res
   } else{
     Notification({
@@ -46,7 +51,7 @@ instance.interceptors.response.use(function (response) {//为自定义axios设�
   }
 }, function (err) {
   // 对请求错误做些什么
-  // console.log('erererererer',err)
+  console.log('erererererer',err)
   if (!navigator.onLine) {
     Message({//网络异常，请查看你的网络状态
       type:'warning',

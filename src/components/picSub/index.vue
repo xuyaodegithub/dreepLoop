@@ -39,6 +39,7 @@
      text-align: center;
      line-height: 1;
      background-color: #fff;
+     margin-bottom: 20px;
      h2{
          font-size: 32px;
          font-weight: bold;

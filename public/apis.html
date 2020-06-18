@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html lang="">
+<head>
+    <meta charset="UTF-8">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title>快速开始 · GitBook</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="description" content="">
+    <link rel="icon" href="smallLogo.jpg" type="images/x-icon">
+
+    <link rel="stylesheet" href="static/public.css">
+    <link rel="stylesheet" href="static/css/freeimg.css">
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <style>
+        iframe{
+            width: 100%;
+            flex: 1;
+        }
+        .solt{
+            height: 60px;
+            width: 100%;
+        }
+        body{
+            flex-direction: column;
+        }
+        ul.flex,div.flex{
+            flex-shrink: 0;
+        }
+        .first{
+        }
+    </style>
+</head>
+<body class="flex">
+<header>
+    <div class="margins flex j-b a-i first">
+        <ul class="flex">
+            <li><a href="index.html"><img src="static/sureLogo.png" alt="" style="height: 30px;"></a></li>
+            <li>
+                <a href="index.html">首页</a></li><!--智能抠图-->
+            <li><a href="people.html">人像抠图</a></li><!--智能抠图-->
+            <li><a href="objects.html">物体抠图</a></li><!--智能抠图-->
+            <li><a href="headCutout.html">头像抠图</a></li><!--智能抠图-->
+            <li><a href="beautify.html">一键美化</a></li><!--智能抠图-->
+            <li><a href="intelligentRepair.html">图片修复</a></li><!--智能抠图-->
+
+            <!--            <li><a href="product.html">更多产品</a></li>-->
+            <!--                @click="toProduct()" @click="toAbout()"-->
+            <!--            <li><a href="aboutUs.html">关于我们</a></li>&lt;!&ndash;会员&ndash;&gt;-->
+            <!--            <li><a href="downLoad.html">下载桌面端</a></li>&lt;!&ndash;下载&ndash;&gt;-->
+            <li><a href="http://www.picup.shop/img/list">免费背景图</a></li><!--下载-->
+        </ul>
+        <div class="right">
+            <div>
+                <a href="downLoad.html">下载桌面端</a>
+                <a class="red" href="apis.html">API</a><!--登录-->
+                <a href="userVip.html">定价</a>
+                <a href="loginOrRegister.html" class="Lohin loginbtb">登录/注册</a><!--注册-->
+                <a href="userCenter.html" class="Lohin users"></a>
+                <ul>
+                    <li><a href="userCenter.html">我的账户</a></li>
+                    <li class="cu" onclick="loginout()">退出</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="solt"></div>
+<iframe src="//picup.shop/apidoc/_book/index.html" frameborder="0">
+</iframe>
+<script src="static/jquery-1.11.3.min.js"></script>
+<script src="static/index.js"></script>
+</body>
+</html>
+

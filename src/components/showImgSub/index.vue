@@ -57,12 +57,12 @@
                             <!--                        	Try picture that contains person, more categories will be supported in future-->
                         </p>
                     </div>
-                    <div v-show="bgOriginal.status===3" class="errmsg">
+                    <div v-show="[3,4].includes(bgOriginal.status)" class="errmsg">
                         <i class="el-icon-circle-close"></i>
-                        图片过大，暂时无法处理
+                        {{this.bgOriginal.status===3 ? '图片过大，暂时无法处理' : '本天限制次数已达上限'}}
                         <!--                        Error occured, the foreground can not be recognized-->
                         <p>
-                            请选择一个不超过15M的图片进行处理
+                            {{this.bgOriginal.status===3 ? '请选择一个不超过15M的图片进行处理' :  '未登录状态上传次数已达上限，请登录后继续操作！'}}
                             <!--                        	Try picture that contains person, more categories will be supported in future-->
                         </p>
                     </div>
@@ -75,7 +75,7 @@
                             <!--                            Sequence number: {{imageMsg.queueNumber}}-->
                         </p>
                     </div>
-                    <div class="close flex" v-show="![0,1,2,3].includes(bgOriginal.status)">
+                    <div class="close flex" v-show="![0,1,2,3,4 ].includes(bgOriginal.status)">
                         <i class="el-icon-loading"></i>
                         处理中...
                         <!--                        Processing...-->
@@ -131,7 +131,8 @@
         name: "imgsub",
         props: {
             files: Object,
-            index: Number
+            index: Number,
+            type:Number
         },
         mixins: [mixins],
         data() {
@@ -182,7 +183,7 @@
                 oDDiv: '',
                 oIImg: '',
                 initfirst: true,
-                showTag: false
+                showTag: false,
             }
         },
         watch: {
@@ -537,7 +538,7 @@
                         _self.Original = e.target.result
                         let param = new FormData();
                         param.append( 'file', file, file.name )
-                        param.set( 'mattingType', 1 )
+                        param.set( 'mattingType', _self.type ? _self.type : 1 )
                         uploadImgApi( param ).then( res => {
                             if (res.code == 0) {
                                 _self.fileId = res.data.fileId
@@ -569,7 +570,24 @@
                                     Original: _self.Original,
                                     filename: _self.filename
                                 } )
-                            } else {
+                            } else if(res.code ===4003){
+                                let obj = {
+                                    name: _self.imgname,
+                                    img: '',
+                                    status: 4,
+                                    fileId: _self.fileId
+                                }
+                                _self.$emit( 'to-parse', {
+                                    id: _self.index,
+                                    img: '',
+                                    color: 'add',
+                                    name: _self.files.name,
+                                    fileId: _self.fileId,
+                                    Original: _self.Original,
+                                    noSave: true
+                                } )
+                                _self.bgOriginal = obj
+                            }else {
                                 let obj = {
                                     name: _self.imgname,
                                     img: '',
@@ -611,7 +629,7 @@
             },
             getImgMsgByurl() {//通过粘贴请求
                 this.Original = this.file
-                let obj = {url: this.file, mattingType: 1}
+                let obj = {url: this.file, mattingType: this.type ? this.type : 1}
                 if (this.files.fileId) obj.fileId = this.files.fileId
                 copyUpload( obj ).then( res => {
                     if (res.code == 0) {
@@ -644,6 +662,23 @@
                             Original: this.Original,
                             filename: this.filename
                         } )
+                    }else if(res.code ===4003){
+                        let obj = {
+                            name: this.imgname,
+                            img: '',
+                            status: 4,
+                            fileId: this.fileId
+                        }
+                        this.$emit( 'to-parse', {
+                            id: this.index,
+                            img: '',
+                            color: 'add',
+                            name: this.files.name,
+                            fileId: this.fileId,
+                            Original: this.Original,
+                            noSave: true
+                        } )
+                        this.bgOriginal = obj
                     } else {
                         let obj = {
                             name: this.imgname,
@@ -663,7 +698,23 @@
                         this.bgOriginal = obj
                     }
                 } ).catch( err => {
-                    console.log( err )
+                    console.log( err ,this.fileId)
+                    let obj = {
+                        name: this.imgname,
+                        img: '',
+                        status: 3,
+                        fileId: this.fileId
+                    }
+                    this.$emit( 'to-parse', {
+                        id: this.index,
+                        img: '',
+                        color: 'add',
+                        name: this.files.name,
+                        fileId: this.fileId,
+                        Original: this.Original,
+                        noSave: true
+                    } )
+                    this.bgOriginal = obj
                 } )
             },
             choseBackColor(color, index) {//纯色背景切换
@@ -717,7 +768,7 @@
             },
             // 下载
             downOldImg(urls, all) {
-                // console.log(urls,this.choseBack)
+                console.log(urls,this.choseBack)
                 let urlss = urls + `?str=${Math.random()}`
                 let _self = this
                 let cans = document.createElement( 'canvas' );
@@ -861,9 +912,9 @@
                     if (imgLoaded && originalImgLoaded && !key) {
                         that.drawStyleBg2( originalImg, img, index )
                     } else if (imgLoaded && originalImgLoaded && key === 2) {
-                        that.downOthers( {oldImg: originalImg, bgImg: img}, 4, callback )
+                        that.downOthers( {oldImg: originalImg, bgImg: img}, 2, callback )
                     } else if (imgLoaded && originalImgLoaded && key === 3) {
-                        that.downOthers( {oldImg: originalImg, bgImg: img}, 5, callback )
+                        that.downOthers( {oldImg: originalImg, bgImg: img}, 3, callback )
                     }
                 }
                 img.src = bgRemovedImgUrl;
@@ -940,6 +991,7 @@
                 let newBg4 = ctx.getImageData( 0, 0, canvasTemp.width, canvasTemp.height );
                 JSManipulate.blur.filter( newBg1, {amount: 5.0} );
                 JSManipulate.grayscale.filter( newBg4 );
+                console.log(index,'pppp')
                 callback( {
                     dwonBg: index === 2 ? newBg4 : newBg1,
                     bgRemovedImg: imgObjs.bgImg

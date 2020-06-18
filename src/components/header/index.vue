@@ -8,9 +8,9 @@
                 <li class="cu" :class="{'red' : urls.indexOf('people')>-1}"><a href="people.html">人像抠图</a></li><!--智能抠图-->
                 <li class="cu" :class="{'reds' : urls.indexOf('objects')>-1}"><a href="objects.html">物体抠图</a></li><!--智能抠图-->
                 <li class="cu" :class="{'redH' : urls.indexOf('headCutout')>-1}"><a href="headCutout.html">头像抠图</a></li><!--智能抠图-->
-                <li class="cu" :class="{'redP' : urls.indexOf('intelligentRepair')>-1}"><a href="intelligentRepair.html">图片修复</a></li><!--智能抠图-->
                 <li class="cu" :class="{'redss' : urls.indexOf('beautify')>-1}"><a href="beautify.html">一键美化</a></li><!--智能抠图-->
-<!--                <li class="cu" :class="{'red' : urls.indexOf('product')>-1}"><a href="product.html">更多产品</a></li>-->
+                <li class="cu" :class="{'redP' : urls.indexOf('intelligentRepair')>-1}"><a href="intelligentRepair.html">图片修复</a></li><!--智能抠图-->
+                <!--                <li class="cu" :class="{'red' : urls.indexOf('product')>-1}"><a href="product.html">更多产品</a></li>-->
 <!--                @click="toProduct()" @click="toAbout()"-->
 <!--                <li class="cu" :class="{'red' : urls.indexOf('aboutUs')>-1}"><a href="aboutUs.html">关于我们</a></li>&lt;!&ndash;会员&ndash;&gt;-->
                 <li class="cu" :class="{'red' : urls.indexOf('img/list')>-1}"><a href="http://www.picup.shop/img/list">免费背景图</a></li><!--下载-->
@@ -21,13 +21,13 @@
             <div class="right">
                 <div v-if="!loginAfter">
                     <span :class="{'red' : urls.indexOf('downLoad')>-1}"><a href="downLoad.html">下载桌面端</a></span>
-                    <a href="docsify/#/apidoc_api.md"><span>API</span></a><!--登录-->
+                    <a href="apis.html"><span>API</span></a><!--登录-->
                     <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">定价</span>
                     <span @click="userlogin(0)" class="active">登录/注册</span><!--注册-->
                 </div>
                 <div class="cu" v-else>
                     <span :class="{'red' : urls.indexOf('downLoad')>-1}"><a href="downLoad.html">下载桌面端</a></span>
-                    <span><a href="docsify/#/apidoc_api.md">API</a></span><!--登录-->
+                    <span><a href="apis.html">API</a></span><!--登录-->
                     <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">定价</span>
                     <el-dropdown placement="bottom-end" @command="handleCommand">
                       <span class="el-dropdown-link" @click="toMyCount()">
@@ -78,12 +78,6 @@
             }
         },
         methods:{
-            goindex(){
-                window.location.href='index.html'
-            },
-            toApi(){
-                window.location.href=this.basrUrls+'/docsify/#/test.md'
-            },
             getUserinfo(){
                 if(!getToken()) return;
                 getUserInfo().then(res=>{

@@ -115,14 +115,14 @@
                     }else{
                         loginByMobile({mobile:this.username,validate_code:this.userpass}).then(res=>{
                             if (!res.code) {
-                                let token = res.data.token
-                                setToken( token )
-                                setCookie( 'token', token )
-                                // if (this.hasBack) window.history.go( -1 );
-                                // else window.location.replace( `${this.basrUrl}/index.html#/` )
-                                if(window.history.length<3 || document.referrer.indexOf('register')>-1){window.location.replace('index.html')}
-                                else if (document.referrer.includes('docsify')) window.location.replace('docsify/#/apidoc_api.md')
-                                else window.location.replace(document.referrer)
+                                let token = res.data.token;
+                                setToken( token );
+                                setCookie( 'token', token );
+                                const back=localStorage.getItem('backUrl');
+                                window.location.replace(back ? back : 'index.html');
+                                // if(window.history.length<3 || document.referrer.indexOf('register')>-1){window.location.replace('index.html')}
+                                // else if (document.referrer.includes('docsify')) window.location.replace('docsify/#/apidoc_api.md')
+                                // else window.location.replace(document.referrer)
                             }
                         })
                     }

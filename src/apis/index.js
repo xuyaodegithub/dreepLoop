@@ -201,6 +201,12 @@ export const userGetInvitation=(data)=>{
 export const userGetInvitationLogPage=(data)=>{
  return https.get('/user/listInvitationLogPage',data)
 }
+/**
+ *图片修复
+ **/
+export const redirMatting=(data)=>{
+ return https.upPost('/webMatting/predict',data)
+}
 //产品模块结束
 
 

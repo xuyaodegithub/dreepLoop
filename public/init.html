@@ -46,38 +46,36 @@
             margin-top: 60px;
             padding: 60px 0;
             line-height: 1;
+            text-align: center;
         }
 
-        .headers .margin > div {
+        .headers .margin > div > div {
             position: relative;
         }
 
-        .headers img {
-            display: block;
-            width: 380px;
-        }
-
-        .headers .center {
-            margin: 0 20px 0 66px;
+        .headers .margin .left {
+            margin-bottom: 60px;
         }
 
         .headers span {
-            position: absolute;
-            left: 26px;
-            bottom: 42px;
-            font-size: 18px;
-            line-height: 42px;
-            color: #e82255;
-            width: 140px;
-            background-color: #fff;
+            display: inline-block;
+            font-size: 16px;
+            line-height: 26px;
+            width: 90px;
             text-align: center;
-            border-radius: 21px;
+            border-radius: 13px;
             font-family: "Microsoft YaHei";
             font-weight: 600;
+            margin: 18px 0 28px;
+            background-color: #fff;
         }
 
         .headers .right span {
             color: #21a9e8;
+        }
+
+        .headers .flex {
+            justify-content: space-between;
         }
 
         .headers h1 {
@@ -89,18 +87,30 @@
             font-size: 24px;
         }
 
-        .headers .center h2, .headers .right h2, .headers .center p, .headers .right p {
-            position: absolute;
-            left: 26px;
-            top: 35px;
-            font-size: 30px;
-            font-weight: 500;
-            color: #fff;
+        .headers .item {
+            text-align: left;
+            width: 180px;
+            padding: 25px;
+            border-radius: 10px;
         }
 
-        .headers .center p, .headers .right p {
-            top: 75px;
-            font-size: 16px;
+        .headers .item img {
+            display: block;
+            width: 180px;
+        }
+
+        .headers .item h2 {
+            font-size: 26px;
+            font-weight: bold;
+            color: #fff;
+            line-height: 1;
+            margin-bottom: 12px;
+        }
+
+        .headers .item p {
+            font-size: 14px;
+            line-height: 22px;
+            color: rgba(255,255,255,.7);
         }
 
         .left p {
@@ -269,10 +279,11 @@
             margin: 30px auto 48px;
             border-radius: 21px;
         }
-        .API video{
+
+        .API video {
             height: 338px;
-            object-fit:fill;
-            box-shadow: 0 0 30px rgba(0,0,0,.1);
+            object-fit: fill;
+            box-shadow: 0 0 30px rgba(0, 0, 0, .1);
         }
 
         .anli {
@@ -309,6 +320,7 @@
             color: rgb(152, 152, 152);
             line-height: 30px;
         }
+
         footer .F_l ~ div {
             margin-right: 120px;
         }
@@ -359,22 +371,52 @@
 </noscript>
 <img src="slt.jpg" alt="" style="display: none">
 <div class="headers">
-    <div class="margin flex a-i">
+    <div class="margin">
         <div class="left">
             <h1>一键抠图神器</h1>
             <p>100%自动，免费，在线换背景</p>
         </div>
-        <div class="center">
-            <a href="people.html"><h2>人像抠图</h2>
-                <p>单人多人正面侧面，怎么动都行</p>
-                <span>立即使用</span>
-                <img src="static/people.png" alt=""></a>
-        </div>
-        <div class="right">
-            <a href="objects.html"><h2>物体抠图</h2>
-                <p> 猫狗汽车鞋包家居，通通能抠</p>
-                <span>立即使用</span>
-                <img src="static/object_i.png" alt=""></a>
+        <div class="flex a-i">
+            <a href="people.html">
+                <div class="item" style="background:linear-gradient(to bottom,#F13A7A,#E32450)">
+                    <h2>人像抠图</h2>
+                    <p>单人多人正面侧面，怎么动都行</p>
+                    <span style="color: #E32450;">上传人像</span>
+                    <img src="static/pgif.gif" alt="">
+                </div>
+            </a>
+            <a href="objects.html">
+                <div class="item" style="background:linear-gradient(to bottom,#38DEDE,#10A5E9)">
+                    <h2>物体抠图</h2>
+                    <p> 猫狗汽车鞋包家居，通通能抠</p>
+                    <span style="color: #10A5E9;">上传物体</span>
+                    <img src="static/ogif.gif" alt="">
+                </div>
+            </a>
+            <a href="headCutout.html">
+                <div class="item" style="background:linear-gradient(to bottom,#F36299,#F23D82)">
+                    <h2>头像抠图</h2>
+                    <p> 身份证、签证、卡通身体、 变大头照、POD最爱</p>
+                    <span style="color: #F23D82;">上传人像</span>
+                    <img src="static/headcount.gif" alt="">
+                </div>
+            </a>
+            <a href="beautify.html">
+                <div class="item" style="background:linear-gradient(to bottom,#3CE2B0,#1AD8AE)">
+                    <h2>一键美化</h2>
+                    <p> 键处理劣质图片生成精美图片</p>
+                    <span style="color: #1AD8AE;">上传图片</span>
+                    <img src="static/beauty.gif" alt="">
+                </div>
+            </a>
+            <a href="intelligentRepair.html">
+                <div class="item" style="background:linear-gradient(to bottom,#3979E5,#4057E1)">
+                    <h2>照片修复</h2>
+                    <p>想修哪里修哪里，一秒抹去瑕疵，亳无痕迹</p>
+                    <span style="color: #4057E1;">上传图片</span>
+                    <img src="static/fix.gif" alt="">
+                </div>
+            </a>
         </div>
     </div>
 </div>
@@ -439,8 +481,8 @@
         <a href="downLoad.html" class="downBtn cu">桌面端下载 > </a>
         <div class="flex item">
             <div class="left">
-                <video src="http://www.picup.shop/downLoad.mp4" muted ref="videoss" loop autoplay>
-                    <source src="http://www.picup.shop/downLoad.mp4" type="video/mp4">
+                <video src="//www.picup.shop/downLoad.mp4" muted ref="videoss" loop autoplay>
+                    <source src="//www.picup.shop/downLoad.mp4" type="video/mp4">
                     <!--                            <source :src="item" type="video/ogg">-->
                     <!--                            <source :src="item" type="video/webm">-->
                     你的游览器暂不支持视频播放，换一个试试吧！
@@ -488,7 +530,7 @@
             <h5>智能抠图</h5>
             <a href="people.html">人像抠图</a>
             <a href="objects.html">物体抠图</a>
-            <a href="docsify/#/apidoc_api.md">API</a>
+            <a href="apis.html">API</a>
             <a href="userVip.html">定价</a>
         </div>
         <div>

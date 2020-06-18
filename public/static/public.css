@@ -65,3 +65,6 @@ align-items: center
   color: rgb(152, 152, 152);
   margin:0 10px;
 }
+div.book-summary,div.book-body,.body-inner{
+  top: 60px;
+}
