@@ -1,48 +1,112 @@
 <template>
     <div class="editPictures flex">
-        <v-header></v-header>
+        <header class="header flex j-b a-i">
+            <img src="@/assets/image/sureLogo.png" alt="">
+            <div class="h_l flex">
+                <div @click.stop="goback(0)" :class="{'stops' : (historyList.length<2 || hisIdx===historyList[0].id)}"
+                     class="cu">
+                    <img src="../../assets/image/Revoke.png" alt="">
+                    <span>上一步</span>
+                </div>
+                <div @click.stop="goback(1)"
+                     :class="{'stops' : ( historyList.length<2 || hisIdx===historyList[historyList.length-1].id)}"
+                     class="cu">
+                    <img src="../../assets/image/Revoke.png" alt="" class="last">
+                    <span>下一步</span>
+                </div>
+                <div @click.stop="reloads" :class="{'stops' : !secondobj}" class="cu" style="margin-left: 30px">
+                    <i class="el-icon-refresh-right"
+                       style="font-size: 18px;display: inline-block;vertical-align: text-top;"></i>
+                    <span> {{edrieImgInfo.type===1 ? '重新上传' : '重置'}}</span>
+                </div>
+            </div>
+            <div class="hDown">
+                <!--                <el-button type="primary" style="background-color: #fff;color: #e82255;" @click="reloads">-->
+                <!--                    {{edrieImgInfo.type===1 ? '重新上传' : '重置'}}-->
+                <!--                </el-button>-->
+                <el-button type="primary" icon="el-icon-download">下载
+                    <table class="downBtn">
+                        <tr>
+                            <td>尺寸</td>
+                            <td>消耗次数</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>{{edrieImgInfo.imageMsg.previewWidth + ' X ' + edrieImgInfo.imageMsg.previewHeight}}
+                            </td>
+                            <td>0</td>
+                            <td>
+                                <el-button type="danger" round size="mini" @click="downLoadImg($event)">下载
+                                </el-button>
+                            </td>
+                        </tr>
+                        <tr v-if="edrieImgInfo.imageMsg.previewWidth!==edrieImgInfo.imageMsg.originalWidth || edrieImgInfo.imageMsg.previewHeight!==edrieImgInfo.imageMsg.originalHeight">
+                            <td>{{edrieImgInfo.imageMsg.originalWidth + ' X ' +
+                                edrieImgInfo.imageMsg.originalHeight}}
+                            </td>
+                            <td>1</td>
+                            <td>
+                                <el-button type="danger" round size="mini" @click="downLoadImg($event,1)">下载
+                                </el-button>
+                            </td>
+                        </tr>
+                        <tr>当前可用次数：{{userSubscribeData ? userSubscribeData.freeRemaining +
+                            userSubscribeData.monthRemaining : 0}} <a href="userVip.html" class="cu" target="_blank"
+                                                                      style="color: #a1a0a0;margin-left: 20px;border-bottom: 1px solid #a1a0a0;">去充值</a>
+                        </tr>
+                    </table>
+                </el-button>
+            </div>
+        </header>
         <div class="e_l">
             <div v-for="(item,idx) in e_btn_list" :key="idx" :class="{active : selectType===idx}"
                  @click="changeSelecType(idx)">
-                <img :src="item.url" alt="">
+                <i class="icon iconfont " :class="item.url"></i>
                 <span>{{item.title}}</span>
             </div>
         </div>
         <div class="e_c">
             <div class="first" v-show="selectType===0">
-                <p>前景</p>
-                <div class="flex">
-                    <el-button round :class="{active : isClear}" @click="isClear=true">擦除</el-button>
-                    <el-button round :class="{active : !isClear}" @click="isClear=false">还原</el-button>
-                </div>
-                <p>画笔大小</p>
-                <div class="flex a-i">
-                    <el-slider v-model="penSize" :max="30" :min="1" :show-tooltip="false"></el-slider>
-                    <span>{{penSize}}px</span>
+                <el-button type="primary" plain style="width: 100%" @click="upLoad(0)">上传</el-button>
+                <p>CTRL + V粘贴图片或者URL</p>
+                <div class="list flex f-w j-b">
+                    <div v-for="(it,idx) in 4" :key="idx">
+                        <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/resource/img/26/26129.png" alt="">
+                    </div>
                 </div>
             </div>
             <div class="second" v-show="selectType===1">
-                <p>背景</p>
-                <div class="flex smallBtn">
-                    <div v-for="(items,idx) in color" :key="idx"
+                <p>颜色背景</p>
+                <div class="flex smallBtn f-w">
+                    <div v-for="(items,idx) in initcolorList" :key="idx"
                          @click.stop="choseBackColor(items,idx)"
-                         class="cu" :class="{'bordershow' : idx===choseBack}">
-                        <div class="flex color_List" v-show="showcolorList && idx===1">
+                         class="cu" :class="{'bordershow' : idx===choseBack}"
+                         :style="{backgroundColor: `${idx>1 ? items : 'initial'}`}">
+                        <div class="flex color_List" v-if="showcolorList && idx===0">
                             <span v-for="(color,idxs) in colorList" :key="idxs" :style="{backgroundColor:color}"
                                   @click.stop="choseColor(color)"></span>
                         </div>
-                        <img :src="items" alt="" style="left: 0;top: 0;width: 28px;height: 28px;border-radius: 50%;"
-                             :title="idx | imgtitle">
+                        <img :src="items" alt="" v-if="idx<2"/>
                     </div>
                 </div>
-                <p>更换背景</p>
-                <el-button type="primary" plain style="width: 100%" @click="upLoad(0)">自定义背景</el-button>
+                <p>图片背景</p>
+                <el-button plain icon="el-icon-plus" style="width: 100%" @click="upLoad(0)">自定义背景</el-button>
                 <input type="file" name="file" accept="image/*" :multiple="false" ref="selfImg" @change="changeselfImg"
                        style="display: none;">
-                <div class="bgbtn flex">
-                    <el-button v-for="(item,idx) in bgBtn" :key="idx" :type="bgType===idx ? 'primary' : ''"
-                               @click="changeBgType(idx)">{{item}}
-                    </el-button>
+                <el-input v-model="seachWords" placeholder="搜索背景" suffix-icon="el-icon-search"></el-input>
+                <div class="bgbtn ">
+                    <!--                    <el-button v-for="(item,idx) in bgBtn" :key="idx" :type="bgType===idx ? 'primary' : ''"-->
+                    <!--                               @click="changeBgType(idx)">{{item}}-->
+                    <!--                    </el-button>-->
+                    <div class="flex" ref="bTypeList">
+                        <div v-for="(it,idx) in bTypeList" :key="idx" :class="{'active':bgType===idx}"
+                             @click="changeBgType(idx)">
+                            <img :src="it.img" alt="">
+                            <p>{{it.name}}</p>
+                        </div>
+                    </div>
+                    <i class="el-icon-arrow-left cu" @click="moveItem(0)"></i>
+                    <i class="el-icon-arrow-right cu" @click="moveItem(1)"></i>
                 </div>
                 <div class="flex a-i bgimgs f-w">
                     <div v-for="(item,idx) in oneItemBg" :key="idx" class="cu" :class="{active : selectIdx===idx}"
@@ -51,61 +115,31 @@
                     </div>
                 </div>
             </div>
-
-        </div>
-        <div class="e_r" id="e_r" @click="showDa=false">
-            <div class="r_h flex a-i">
-                <div class="h_l">
-                    <img src="../../assets/image/Revoke.png" alt="" class="cu"
-                         :class="{'stops' : (historyList.length<2 || hisIdx===historyList[0].id)}"
-                         @click.stop="goback(0)">
-                    <img src="../../assets/image/Revoke.png" alt="" class="cu"
-                         :class="{'stops' : ( historyList.length<2 || hisIdx===historyList[historyList.length-1].id)}"
-                         @click.stop="goback(1)">
-                </div>
-                <div class="flex c_input">
-                    <span>画布尺寸：</span>
-                    <div><input type="number" v-model="pxWidth" @input="changeSize(1)"><i>宽(px)</i></div>
-                    <div><input type="number" v-model="pxHeight" @input="changeSize(2)"><i>高(px)</i></div>
-                </div>
-                <div>
-                    <el-button type="primary" style="background-color: #fff;color: #e82255;" @click="reloads">
-                        {{edrieImgInfo.type===1 ? '重新上传' : '重置'}}
-                    </el-button>
-                    <el-button type="primary" icon="el-icon-download">下载
-                        <table class="downBtn">
-                            <tr>
-                                <td>尺寸</td>
-                                <td>消耗次数</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>{{edrieImgInfo.imageMsg.previewWidth + ' X ' + edrieImgInfo.imageMsg.previewHeight}}
-                                </td>
-                                <td>0</td>
-                                <td>
-                                    <el-button type="danger" round size="mini" @click="downLoadImg($event)">下载
-                                    </el-button>
-                                </td>
-                            </tr>
-                            <tr v-if="edrieImgInfo.imageMsg.previewWidth!==edrieImgInfo.imageMsg.originalWidth || edrieImgInfo.imageMsg.previewHeight!==edrieImgInfo.imageMsg.originalHeight">
-                                <td>{{edrieImgInfo.imageMsg.originalWidth + ' X ' +
-                                    edrieImgInfo.imageMsg.originalHeight}}
-                                </td>
-                                <td>1</td>
-                                <td>
-                                    <el-button type="danger" round size="mini" @click="downLoadImg($event,1)">下载
-                                    </el-button>
-                                </td>
-                            </tr>
-                            <tr>当前可用次数：{{userSubscribeData ? userSubscribeData.freeRemaining +
-                                userSubscribeData.monthRemaining : 0}} <a href="userVip.html" class="cu" target="_blank"
-                                                                          style="color: #a1a0a0;margin-left: 20px;border-bottom: 1px solid #a1a0a0;">去充值</a>
-                            </tr>
-                        </table>
-                    </el-button>
+            <div class="thred" v-show="selectType===2">
+                <el-button plain icon="el-icon-plus" class="addText" style="width: 100%" size="small">添加文本</el-button>
+                <p>字体样式</p>
+                <div class="fontList flex f-w j-b">
+                    <div v-for="(ite,idxs) in fontList" :key="idxs" class="cu">
+                        {{ite}}
+                    </div>
                 </div>
             </div>
+            <div class="fource" v-show="selectType===3">
+                <el-button plain icon="el-icon-plus" style="width: 100%">上传自己的照片</el-button>
+                <div class="Fbtn flex j-b">
+                    <span v-for="(item,idx) in Fbtn" :key="idx" :class="{'active' : !idx}" class="cu">
+                        {{item.name}}
+                    </span>
+                </div>
+                <div class="iconList flex f-w j-b">
+                    <div v-for="(son,ix) in iconList" :key="ix" class="cu">
+                        <i class="icon iconfont" :class="son"
+                           :style="{color:`${colorList[parseInt(Math.random()*colorList.length)]}`}"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="e_r" id="e_r" @click="showDa=false">
             <div class="canvas" ref="canvasM" :style="{width:`${pxWidth}px`,height:`${pxHeight}px`}"
                  @mousedown.stop="down" @click.stop="showDa=true"
                  :class="{active : showBorder,resiaze : (isPattern===5 || downSpace)}">
@@ -131,6 +165,27 @@
                 <img src="../../assets/image/preview.png" alt="" class="cu" @click="initRestore">
             </div>
         </div>
+        <div class="e_rLast">
+            <div class="initLast" v-show="showDa">
+                <h4>画布尺寸</h4>
+                <div class="flex c_input j-b">
+                    <div><input type="number" v-model="pxWidth" @input="changeSize(1)"><i>宽(px)</i></div>
+                    <div><input type="number" v-model="pxHeight" @input="changeSize(2)"><i>高(px)</i></div>
+                </div>
+                <h4>画布剪裁</h4>
+                <div class="jc cu">
+                    <img src="@/assets/image/jcai.png" alt="">
+                    <p>剪裁到边缘</p>
+                </div>
+                <div class="flex jcList j-b f-w">
+                    <div v-for="(item,idx) in jcList" :key="idx" class="cu">
+                        <i :class="item.icon"></i>
+                        <p>{{item.text}}</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
         <div class="dialogs" :style="{backgroundImage: `url(${edrieImgInfo.bgImg})`}" v-if="showUpload">
             <div class="sons">
                 <div class="title">请输入你需要替换背景的图片</div>
@@ -147,15 +202,12 @@
 
 <script>
     // @ is an alias to /src
-    import vHeader from '@/components/header'
     import {myBrowser, findLastIdx} from '@/utils'
-    import one from '@/assets/image/e_o.png'
-    import two from '@/assets/image/e_t.png'
-    import three from '@/assets/image/e_th.png'
-    import four from '@/assets/image/e_f.png'
     import scale from '../../assets/image/scale.png'
     import {mixins} from '@/minxins'
     import opacity from '@/assets/opacity.jpg'
+    import fupa from '@/assets/image/fopa.png'
+    import color from '@/assets/image/color.png'
     import JSManipulate from '@/utils/jsmanipulate.js'
     import {uploadImgApi, getMattingInfo, downloadMattedImage} from '@/apis'
     import {mapGetters, mapActions} from 'vuex'
@@ -171,20 +223,46 @@
                 trImg: scale,//放大缩小时的右上角操作按钮
                 opas: opacity,//初始化时背景
                 opacity: '',
+                initcolorList: [color, fupa, '#000', '#fff', '#BFBFBF', '#2862F4', '#FED835', '#28F5B4', '#F62897', '#F57B28', '#00FFFF', '#90C320'],
                 e_btn_list: [//左侧菜单按钮
-                    {url: one, title: '擦除'},
-                    {url: two, title: '背景'},
-                    // {url: three, title: '文字'},
-                    // {url: four, title: '形状'},
+                    {url: 'icon-shangchuan', title: '上传'},
+                    {url: 'icon-background', title: '背景'},
+                    {url: 'icon-wenzi', title: '文字'},
+                    {url: 'icon-tiezhi', title: '贴纸'},
+                ],
+                seachWords: '',
+                bTypeList: [{
+                    name: '风景',
+                    img: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/resource/img/22/22573.png'
+                }, {
+                    name: '抽象绘画',
+                    img: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/resource/img/16/16382.png'
+                }, {name: '建筑', img: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/resource/img/14/14209.png'}, {
+                    name: '户外',
+                    img: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/resource/img/24/24397.png'
+                }, {name: '街道', img: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/resource/img/19/19783.png'}, {
+                    name: '商场',
+                    img: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/resource/img/7/7505.png'
+                }, {name: '会议室', img: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/resource/img/6/6764.png'}],
+                jcList: [
+                    {icon: 'el-icon-picture', text: '原图'},
+                    {icon: 'el-icon-full-screen', text: '自定义'},
+                    {icon: 'el-icon-full-screen', text: '自定义'},
+                    {icon: 'el-icon-full-screen', text: '自定义'},
+                    {icon: 'el-icon-full-screen', text: '自定义'},
+                    {icon: 'el-icon-full-screen', text: '自定义'},
                 ],
                 selectType: 1,//当前左侧选中菜单的下标
+                fontList: ['描边', '阴影', '立体', '渐变', '鎏金', '抖音', '印章', '浮雕'],
+                Fbtn: [{name: '全部', type: 0}, {name: '卡通', type: 0}, {name: '形状', type: 0}, {name: '毕业照', type: 0},],
+                iconList: ['icon-shu', 'icon-shu1', 'icon-yinliao', 'icon-konglong', 'icon-yinliao1', 'icon-regou', 'icon-nvyisheng', 'icon-qiatongxingxiang', 'icon-qiatongtouxiang', 'icon-lanqiu', 'icon-icon-test', 'icon-nanhai',],
                 isPattern: 0,// 操作模式 0无模式，1擦除模式，2还原模式，3图片移动模式，4放大缩小模式，5 canvas移动模式
                 isClear: true,//擦除模式下的 擦除模式
                 penSize: 10,//画笔大小
                 choseBack: 0,//背景模式下（ 透明 、纯色 、黑白、模糊）当前选中的下标
                 showcolorList: false,//是否显示颜色选择的弹框
                 bgBtn: ['摄影', '手绘', '颜色',],//更换背景的类型
-                bgType: 0,//更换背景的类型中当前选中的下标
+                bgType: 1,//更换背景的类型中当前选中的下标
                 selectIdx: -1,//当前选中背景的下标，初始化不选择背景   所以为-1
                 cWH: {cWidth: 0, cHeight: 0},//实际canvas  width、height属性值 （和css中width height不同）
                 pxWidth: 500,//初始化 canvas   css的宽（canvas的width、height属性和css中的width、height不同）此处是css表现大小
@@ -214,7 +292,7 @@
                 historyList: [],//存放上层canvas的历史记录
                 historyListopa: [],//存放隐藏canvas的历史记录
                 hisIdx: 0,//当前处于历史记录的哪个位置的对应记录id（储存记录时会存一个对应id）
-                downType: 0,//下载时的状态 0 初始状态 1 四种背景状态 2 背景图片状态
+                downType: 0,//下载时的状态 0 初始状态 1 纯色背景 2 背景图片状态
                 filename: 'picture',//文件名称，下载时要是源文件名称
                 downSpace: false,//是否按下了空格键
                 edrieImgInfo: {imageMsg: {}},//图片的信息（预览图尺寸，原图尺寸，下载按钮处显示的信息）
@@ -225,9 +303,7 @@
                 loadingInstance: null//下载时的loading效果
             }
         },
-        components: {
-            vHeader
-        },
+        components: {},
         computed: {
             ...mapGetters( ['userSubscribeData'] ),
             noOperation() {//这些情况下不能移动 缩放图片
@@ -546,19 +622,24 @@
             //     this.isClear = k === 1 ? true : false;
             // },
             choseBackColor(color, index) {//4种背景切换（透明、纯色、黑白、模糊）
-                if (index !== 1) {
-                    this.choseBack = index;
-                    this.downType = 1
+                if (!index) this.showcolorList = !this.showcolorList;
+                else if (index === 1) this.drawImgAfterFirst( this.secondobj, this.opacity, 1 );//透明背景
+                else {
+                    this.colorValue = color;
+                    this.drawImgAfterFirst( this.secondobj, color, 2 );
                 }
-                this.bgobj = '';
-                if (index !== 1) this.showcolorList = false;
-                if (index === 0) this.drawImgAfterFirst( this.secondobj, this.opacity, 1 );//透明背景
-                else if (index === 2) this.drawStyleBg2( this.OriginalObj, this.secondobj, 1 );//背景黑白
-                else if (index === 3) this.drawStyleBg2( this.OriginalObj, this.secondobj, 2 );//背景模糊
-                else this.showcolorList = !this.showcolorList;//打开颜色面板
+                if (index) {
+                    this.showcolorList = false;
+                    this.choseBack = index;
+                }
+                console.log( this.showcolorList )
+                this.downType = index > 1 ? 1 : 0;
+                // else if (index === 2) this.drawStyleBg2( this.OriginalObj, this.secondobj, 1 );//背景黑白
+                // else if (index === 3) this.drawStyleBg2( this.OriginalObj, this.secondobj, 2 );//背景模糊
+                // else  this.showcolorList = !this.showcolorList;//打开颜色面板
             },
             choseColor(color) {//选择颜色背景，颜色选择器
-                this.choseBack = 1;
+                this.choseBack = 0;
                 this.colorValue = color;
                 this.downType = 1;
                 this.drawImgAfterFirst( this.secondobj, color, 2 );
@@ -588,6 +669,12 @@
                 this.$nextTick( () => {
                     this.oneItemBg = this.bgList[idx]
                 } )
+                this.$refs.bTypeList.style.left = -(this.bgType - 1) * 80 + 'px'
+            },
+            moveItem(k) {
+                if ((!k && !this.bgType) || (k && this.bgType === this.bTypeList.length - 1)) return;
+                this.bgType = k ? this.bgType + 1 : this.bgType - 1;
+                this.$refs.bTypeList.style.left = -(this.bgType - 1) * 80 + 'px'
             },
             selectBg(item, idx, z) {
                 this.selfImg = '';//清空自定义的背景图片
@@ -606,8 +693,8 @@
                 let oImg = new Image();
                 oImg.crossOrigin = '';
                 oImg.onload = () => {
-                    [this.cans.width,this.cans.height,this.bgCans.width] = [oImg.width,oImg.height,oImg.width];
-                    [this.bgCans.height,this.proCans.width,this.proCans.height] = [oImg.height, oImg.width,oImg.height];
+                    [this.cans.width, this.cans.height, this.bgCans.width] = [oImg.width, oImg.height, oImg.width];
+                    [this.bgCans.height, this.proCans.width, this.proCans.height] = [oImg.height, oImg.width, oImg.height];
                     this.preimgObj = oImg;//预览图对象
                     this.secondobj = oImg;//未操作也赋值预览图对象
                     this.scale = oImg.width / oImg.height;
@@ -706,7 +793,7 @@
                             const ct = c.getContext( '2d' ), cct = cc.getContext( '2d' );
                             oImg.crossOrigin = '';
                             oImg.onload = () => {
-                                [c.width,cc.width,c.height,cc.height] = [oImg.width,oImg.width,oImg.height,oImg.height];
+                                [c.width, cc.width, c.height, cc.height] = [oImg.width, oImg.width, oImg.height, oImg.height];
                                 ct.drawImage( oImg, 0, 0 );
                                 this.pointLists.map( item => {//擦除还原只操作在原图上，放大缩小偏移  只需记住最后一次操作就好
                                     ct.save();
@@ -724,7 +811,7 @@
                                     ct.drawImage( cc, this.savepoint.offsetx, this.savepoint.offsety, this.savepoint.initw, this.savepoint.inith );
                                 }
                                 const url = c.toDataURL();
-                                this.whichDown(url)
+                                this.whichDown( url )
                             }
                             oImg.src = res.data
                         }
@@ -732,9 +819,9 @@
                     return
                 }
                 const url = this.cans.toDataURL();
-               this.whichDown(url)
+                this.whichDown( url )
             },
-            whichDown(url){//通用提起
+            whichDown(url) {//通用提起
                 if (!this.downType || (this.downType === 1 && [0, 2, 3].includes( this.choseBack ))) this.downLoad( url );
                 else if (this.downType === 1 && this.choseBack === 1) this.downLoad( url, this.colorValue );
                 else this.selfImg ? this.downLoad( url, '', this.selfImg ) : this.downLoad( url, '', this.bgobj );
@@ -929,58 +1016,69 @@
 
         .e_l {
             width: 80px;
-            border-right: 1px solid #eee;
-            background-color: #fff;
+            background-color: #000;
             font-size: 12px;
+            color: #ADAEB2;
             text-align: center;
+            line-height: 1;
+            padding-top: 60px;
 
             & > div {
-                margin-bottom: 40px;
-                padding: 5px 0;
+                padding: 20px 0;
                 position: relative;
                 cursor: pointer;
+
+                i {
+                    font-size: 20px;
+                    margin: 0 auto 10px;
+                    display: block;
+                }
             }
 
-            .active:before {
-                height: 100%;
-                width: 8px;
-                content: '';
-                background-color: $co;
-                position: absolute;
-                top: 0;
-                left: 0;
-
-            }
-
-            img {
-                display: block;
-                margin: 0 auto;
-                width: 25px;
-                margin-bottom: 5px;
+            .active {
+                background-color: #2A2F35;
+                color: #fff;
             }
         }
 
         .e_c {
-            padding-left: 25px;
-            padding-right: 25px;
-            width: 225px;
-            border-right: 1px solid #eee;
-            background-color: #fff;
+            padding: 0 25px;
+            padding-top: 80px;
+            width: 230px;
+            background-color: #2A2F35;
+            color: #ADAEB2;
 
-            p:first-child {
-                margin-bottom: 20px;
-            }
+            .first {
+                font-size: 12px;
 
-            p:nth-child(3) {
-                color: #333;
-                margin: 40px 0 10px 0;
-            }
+                .el-button {
+                    background-color: $co;
+                    border-color: $co;
+                    color: #fff;
+                    margin-bottom: 10px;
+                }
 
-            .first .el-button {
-                width: 80px;
-                line-height: 30px;
-                height: 30px;
-                padding: 0 12px;
+                .list {
+                    margin-top: 30px;
+
+                    div {
+                        position: relative;
+                        width: 110px;
+                        height: 110px;
+                        overflow: hidden;
+                        border-radius: 10px;
+                        box-shadow: 0 0 2px #9c9c9c;
+                        margin-bottom: 10px;
+
+                        img {
+                            position: absolute;
+                            width: 100%;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                        }
+                    }
+                }
             }
 
             .active {
@@ -994,18 +1092,45 @@
             }
 
             .second {
+                .smallBtn {
+                    margin-top: 20px;
+                    margin-bottom: 35px;
+                    background-color: initial;
+                }
+
+                .el-button {
+                    border-color: $co;
+                    background-color: #2A2F35;
+                    color: $co;
+                    margin-top: 20px;
+                }
+
+                .el-input {
+                    margin-top: 15px;
+                }
+
                 .smallBtn > div {
-                    border-radius: 50%;
+                    border-radius: 5px;
                     width: 28px;
                     height: 28px;
-                    margin-right: 15px;
+                    margin-right: 10px;
+                    margin-bottom: 10px;
                     position: relative;
-                    box-shadow: 0 0 2px #444;
+
+                    img {
+                        display: block;
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 50%;
+                    }
+
+                    &:first-child, &:nth-child(2) {
+                        border-radius: 50%;
+                    }
                 }
 
                 & .bordershow.cu {
-                    border: 1px solid #e82255;
-                    color: $co;
+                    box-shadow: 0 0 10px $co;
                 }
 
                 .color_List {
@@ -1030,21 +1155,75 @@
                 }
 
                 .bgbtn {
-                    justify-content: space-between;
-                    margin-top: 16px;
+                    position: relative;
+                    height: 40px;
+                    overflow: hidden;
+                    margin: 15px 0 20px;
 
-                    .el-button {
-                        height: 30px;
-                        line-height: 30px;
-                        padding: 0 16px;
+                    & > i {
+                        position: absolute;
+                        font-size: 16px;
+                        color: #fff;
+                        z-index: 88;
+                        left: 0;
+                        top: 50%;
+                        transform: translateY(-50%);
+
+                        &:last-child {
+                            left: initial;
+                            right: 0px;
+                        }
+                    }
+
+                    & > div {
+                        transition: all .3s linear;
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        height: 100%;
+
+                        div {
+                            width: 70px;
+                            margin-right: 10px;
+                            border-radius: 5px;
+                            overflow: hidden;
+                            position: relative;
+
+                            &:after {
+                                position: absolute;
+                                width: 100%;
+                                height: 100%;
+                                z-index: 2;
+                                content: '';
+                                top: 0;
+                                left: 0;
+                                background-color: rgba(0, 0, 0, .4);
+                            }
+
+                            img {
+                                position: absolute;
+                                width: 100%;
+                                top: 50%;
+                                left: 0;
+                                transform: translateY(-50%);
+                            }
+
+                            p {
+                                line-height: 40px;
+                                text-align: center;
+                                position: relative;
+                                z-index: 10;
+                                color: #fff;
+                                font-weight: bold;
+                            }
+                        }
                     }
                 }
 
                 .bgimgs {
                     overflow-y: scroll;
                     justify-content: space-between;
-                    height: 350px;
-                    margin-top: 25px;
+                    height: 380px;
 
                     .active {
                         box-shadow: 0 0 10px $co;
@@ -1071,6 +1250,125 @@
                     color: $co;
                 }
             }
+
+            .thred {
+                .addText {
+                    background-color: #40444D;
+                    color: #e82255;
+                    margin-bottom: 50px;
+                }
+
+                & > p {
+                    font-size: 14px;
+                    margin-bottom: 20px;
+                }
+
+                .fontList {
+                    & > div {
+                        width: 110px;
+                        height: 110px;
+                        line-height: 110px;
+                        text-align: center;
+                        border-radius: 10px;
+                        background-color: #fff;
+                        font-size: 32px;
+                        margin-bottom: 10px;
+
+                        &:first-child {
+                            color: #fff;
+                            /*text-shadow: #000 1px 0 0, #000 0 1px 0, #000 -1px 0 0, #000 0 -1px 0;*/
+                            -webkit-text-stroke: 1px #333;
+                        }
+
+                        &:nth-child(2) {
+                            color: #000;
+                            text-shadow: 0 5px 5px #333;
+                        }
+
+                        &:nth-child(3) {
+                            color: #FFD300;
+                            text-shadow: 0px 0px 0 #b89800,
+                            1px -1px 0 #b39400,
+                            2px -2px 0 #ad8f00,
+                            3px -3px 0 #a88b00,
+                            4px -4px 0 #a38700,
+                            5px -5px 0 #9e8300,
+                            6px -6px 0 #997f00,
+                            7px -7px 0 #947a00,
+                            8px -8px 0 #8f7600,
+                            9px -9px 0 #8a7200,
+                            10px -10px 0 #856e00,
+                            11px -11px 0 #806a00,
+                            12px -12px 0 #7a6500,
+                            13px -13px 12px rgba(0, 0, 0, 0.55),
+                            13px -13px 1px rgba(0, 0, 0, 0.5);
+                        }
+
+                        &:nth-child(4) {
+                            background: linear-gradient(to right, #D7A003, $co);
+                            -webkit-background-clip: text;
+                            color: transparent;
+                            background-color: #fff;
+                        }
+
+                        &:nth-child(5) {
+                            color: #E2BE62;
+                            font-weight: bold;
+                        }
+
+                        &:nth-child(6) {
+                            color: #333;
+                            text-shadow: #E64FE8 -1px -3px, #2addfd 3px 0px; /*抖音字体效果*/
+                        }
+
+                        &:nth-child(8) {
+                            color: #2addfd;
+                            text-shadow: 1px 1px 1px #000, -1px -1px 1px #fff;
+                        }
+                    }
+                }
+            }
+
+            .fource {
+                .el-button {
+                    background-color: initial;
+                    border-color: $co;
+                    color: $co;
+                    margin-bottom: 20px;
+                }
+
+                .Fbtn {
+                    font-size: 14px;
+                    color: #ADAEB2;
+                    line-height: 32px;
+                    margin-bottom: 40px;
+
+                    span {
+                        padding: 0 5px;
+                    }
+
+                    .active {
+                        color: #fff;
+                        border-bottom: 2px solid #fff;
+                    }
+                }
+
+                .iconList {
+                    div {
+                        width: 70px;
+                        height: 70px;
+                        text-align: center;
+
+                        i {
+                            display: inline-block;
+                            line-height: 70px;
+                            font-size: 58px;
+                            max-width: 100%;
+                            overflow: hidden;
+                        }
+                    }
+                }
+            }
         }
 
         .e_r {
@@ -1079,101 +1377,6 @@
             position: relative;
             overflow: hidden;
 
-            .r_h {
-                padding-left: 25px;
-                height: 50px;
-                background-color: #fff;
-                justify-content: space-between;
-                position: relative;
-                z-index: 110;
-
-                img {
-                    width: 20px;
-
-                    &:last-child {
-                        margin-left: 30px;
-                        transform: rotateY(180deg);
-                    }
-
-                    &.stops {
-                        opacity: .4;
-                    }
-                }
-
-                .c_input {
-                    font-size: 14px;
-                    line-height: 28px;
-                    margin-left: -10%;
-
-                    input {
-                        width: 40px;
-                        border: none;
-                        margin-right: 15px;
-                    }
-
-                    & > div {
-                        padding: 0 15px;
-                        border: 1px solid #999;
-                        margin-right: 10px;
-                    }
-
-                    span {
-                        display: inline-block;
-                    }
-                }
-
-                .el-button {
-                    width: 150px;
-                    height: 36px;
-                    position: relative;
-                    border-radius: 18px;
-
-                    &:hover .downBtn {
-                        display: block;
-                    }
-
-                    .downBtn {
-                        display: none;
-                        text-align: left;
-                        padding: 10px 0;
-                        width: 250px;
-                        position: absolute;
-                        right: 0;
-                        bottom: 0;
-                        transform: translateY(100%);
-                        line-height: 30px;
-                        font-size: 12px;
-                        background-color: rgba(0, 0, 0, .8);
-                        border-radius: 5px;
-
-                        tr {
-                            padding: 0 20px;
-                            display: block;
-                            width: 100%;
-
-                            &:first-child, &:last-child {
-                                color: #a1a0a0;
-                            }
-
-                            &:hover {
-                                background-color: rgba(255, 255, 255, .2);
-                            }
-
-                            td {
-                                display: inline-block;
-                                padding: 0;
-                                width: 30%;
-
-                                .el-button {
-                                    width: 100%;
-                                    background-color: $co;
-                                    height: 26px;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
 
             .ships {
                 position: absolute;
@@ -1259,6 +1462,63 @@
                 }
             }
         }
+
+        .e_rLast {
+            width: 220px;
+            padding: 85px 20px 0;
+            background-color: #fff;
+
+            h4 {
+                font-size: 14px;
+                margin-bottom: 10px;
+            }
+
+            .c_input {
+                font-size: 12px;
+                line-height: 38px;
+                margin-bottom: 30px;
+
+                input {
+                    width: 40px;
+                    border: none;
+                    margin-right: 10px;
+                }
+
+                & > div {
+                    padding: 0 10px;
+                    border: 1px solid #E7E7E7;
+                }
+            }
+
+            .jc {
+                padding: 15px 0;
+                background-color: #eee;
+                text-align: center;
+                line-height: 1;
+                font-size: 12px;
+                color: #8a8a8a;
+                margin-bottom: 20px;
+
+                img {
+                    display: block;
+                    margin: 0 auto 5px;
+                }
+            }
+            .jcList > div{
+                width: 70px;
+                height: 70px;
+                background-color: #eee;
+                font-size: 12px;
+                color: #8a8a8a;
+                text-align: center;
+                margin-bottom: 5px;
+                i{
+                    display: inline-block;
+                    font-size: 24px;
+                    margin: 14px auto 8px;
+                }
+            }
+        }
     }
 
     .editPictures {
@@ -1316,6 +1576,105 @@
                 transform: translate(-50%, -50%);
                 border-radius: 10px;
                 margin-top: -40px;
+            }
+        }
+
+        .header {
+            height: 60px;
+            background-color: #fff;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 110;
+            box-shadow: 0 2px 2px #eee;
+
+            & > img {
+                width: 120px;
+                margin-left: 20px;
+            }
+
+            .hDown {
+                margin-right: 20px;
+            }
+
+            .h_l span {
+                display: inline-block;
+                line-height: 20px;
+                margin-left: 8px;
+            }
+
+            .h_l img {
+                display: inline-block;
+                width: 20px;
+                vertical-align: top;
+
+                &.last {
+                    margin-left: 30px;
+                    transform: rotateY(180deg);
+                }
+            }
+
+            .stops {
+                color: #9c9c9c;
+
+                img {
+                    opacity: .4;
+                }
+            }
+
+
+            .el-button {
+                width: 150px;
+                height: 36px;
+                position: relative;
+                border-radius: 18px;
+
+                &:hover .downBtn {
+                    display: block;
+                }
+
+                .downBtn {
+                    display: none;
+                    text-align: left;
+                    padding: 10px 0;
+                    width: 250px;
+                    position: absolute;
+                    right: 0;
+                    bottom: 0;
+                    transform: translateY(100%);
+                    line-height: 30px;
+                    font-size: 12px;
+                    background-color: rgba(0, 0, 0, .8);
+                    border-radius: 5px;
+
+                    tr {
+                        padding: 0 20px;
+                        display: block;
+                        width: 100%;
+
+                        &:first-child, &:last-child {
+                            color: #a1a0a0;
+                        }
+
+                        &:hover {
+                            background-color: rgba(255, 255, 255, .2);
+                        }
+
+                        td {
+                            display: inline-block;
+                            padding: 0;
+                            width: 30%;
+
+                            .el-button {
+                                width: 100%;
+                                background-color: $co;
+                                height: 26px;
+                            }
+                        }
+                    }
+                }
             }
         }
     }

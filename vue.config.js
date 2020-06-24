@@ -204,6 +204,12 @@ module.exports = {
             filename: 'repairEdit.html',
             title: '图片修复',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
+        },posterEditor:{
+            entry: 'src/views/editPictures/posterEditor.js',
+            template:'public/posterEditor.html',
+            filename: 'posterEditor.html',
+            title: '海报设计',
+            // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
         },
     },
     // chainWebpack: config => {

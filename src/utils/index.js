@@ -282,3 +282,8 @@ export const compressImg = (files, k) => {
         }
     } )
 }
+export const getTanDeg = (tan) => {//根据正切值返回角度
+    let result = Math.acos( tan ) / (Math.PI / 180);
+    result = Math.round( result );
+    return result;
+}

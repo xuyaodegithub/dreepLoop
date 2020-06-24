@@ -1,11 +1,10 @@
 import Vue from 'vue'
-import index from './index.vue'
+import index from './posterEditor.vue'
 import router from './router'
 import '@/plugins/subUntils.js'
-import '@/style/repairIcon/iconfont.css'
 import store from '@/store'
 new Vue({
     router,
     store,
     render: h => h(index)
-}).$mount('#editPictures')
+}).$mount('#posterEditor')
