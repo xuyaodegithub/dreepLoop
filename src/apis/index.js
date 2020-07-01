@@ -209,4 +209,15 @@ export const redirMatting=(data)=>{
 }
 //产品模块结束
 
-
+/**
+ *背景图片类目
+ **/
+export const imgListCat=(data)=>{
+ return https.get('/img/cat',data)
+}
+/**
+ *类目下背景图片
+ **/
+export const catImgList=(data)=>{
+ return https.get('/img/page',data)
+}

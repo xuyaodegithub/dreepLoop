@@ -111,15 +111,15 @@ input::-webkit-inner-spin-button {
 input[type="number"]{
   -moz-appearance: textfield;
 }
-.down_line{
-  text-decoration:underline;
-}
-.top_line{
-  text-decoration:overline;
-}
-.del_line{
-  text-decoration:line-through;
-}
+/*.down_line{*/
+/*   text-decoration:underline;*/
+/* }*/
+/*.top_line{*/
+/*  text-decoration:overline;*/
+/*}*/
+/*.del_line{*/
+/*  text-decoration:line-through;*/
+/*}*/
 /*css禁止用户选择*/
 /*body{*/
 /*  -webkit-touch-callout: none;*/

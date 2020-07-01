@@ -64,7 +64,7 @@
             <div class="OperatorRight drops">
                 <div class="newChunk">
                     <h2>智能图像修复</h2>
-                    <p>想修哪里修哪里、-秒抹去瑕疵、毫无痕迹</p>
+                    <p>想修哪里修哪里、一秒抹去瑕疵、毫无痕迹</p>
                     <div class="flex">
                         <div class="gif"><img src="../../assets/image/fix.gif" alt=""></div>
                         <div class="gifright">

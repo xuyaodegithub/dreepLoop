@@ -1,0 +1,471 @@
+<template>
+    <!--    描边 投影组件-->
+    <div class="mune">
+        <div class="header flex j-b">
+            <span class="cu" :class="{'active' : tabType===idx}" v-for="(item,idx) in tabList" @click="changeTab(idx)"
+                  :key="idx">{{item.name}}</span>
+        </div>
+        <div class="content">
+            <div class="t1" v-show="!tabType">
+                <h4>智能抠图模式</h4>
+                <div class="btns flex j-b f-w">
+                    <span class="cu" v-for="(it,idx) in btnList" :key="idx" :class="{'active' : btnType===idx }"
+                          @click="changBtn(it.type,idx)">
+                        {{it.name}}
+                    </span>
+                </div>
+                <h4>修复</h4>
+                <el-button plain @click="changBtn(-1)">手工修补</el-button>
+            </div>
+            <div class="t2 flex j-b f-w" v-show="tabType===1">
+                <div class="item cu" v-for="(it,idx) in filterList" :key="idx">
+                    <div v-loading="loading" @click="selectEdit(it,idx)" :class="{'active' : t2Idx===idx}">
+                        <img :src="it.src ? it.src : preImg " alt="">
+                    </div>
+                    <span>{{it.name}}</span>
+                </div>
+
+            </div>
+            <div class="t3" v-show="tabType===2">
+                <el-checkbox v-model="checked" size="medium">投影</el-checkbox>
+                <div class="flex a-i sec">
+                    <label>角度：</label>
+                    <div class="crils">
+                        <div :style="{transform:`rotateZ(${angle}deg)`}"><p></p></div>
+                    </div>
+                    <el-input v-model="angle" placeholder="请输入内容" size="mini" type="number"></el-input>
+                    度
+                </div>
+                <div class="flex a-i"><label>距离：</label>
+                    <el-slider :show-tooltip="false" v-model="sliderVal.distance" :min="0" :max="50"></el-slider>
+                    {{sliderVal.distance}}px
+                </div>
+                <div class="flex a-i"><label>透明：</label>
+                    <el-slider :show-tooltip="false" v-model="sliderVal.extend"></el-slider>
+                    {{sliderVal.extend}}%
+                </div>
+                <div class="flex a-i"><label>大小：</label>
+                    <el-slider :show-tooltip="false" v-model="sliderVal.size" :min="0" :max="50"></el-slider>
+                    {{sliderVal.size}}px
+                </div>
+                <div class="otherss">
+                    <el-checkbox v-model="checkedM" size="medium">描边</el-checkbox>
+                    <div class="flex a-i size"><label>大小：</label>
+                        <el-slider :show-tooltip="false" v-model="mSize" :min="0" :max="50"></el-slider>
+                        {{mSize}}px
+                    </div>
+                    <h4>描边颜色：</h4>
+                    <div class="flex a-i j-b colors">
+                        <span v-for="(item,idx) in colors" :key="idx" class="cu" @click="changeColor(item)"
+                              :style="{backgroundColor:item}"></span>
+                        <el-color-picker v-model="colorVal" @change="changeColor"></el-color-picker>
+                    </div>
+                </div>
+            </div>
+            <div class="t4" v-show="tabType===3">
+                <h4>一键处理劣质图片，生成精美图片</h4>
+                <el-button plain>一键美化</el-button>
+            </div>
+
+        </div>
+    </div>
+</template>
+
+<script>
+    import jsMulit from '@/utils/jsmanipulate.js';
+    import {uploadossBg} from '@/apis';
+
+    export default {
+        name: "index",
+        data() {
+            return {
+                tabList: [
+                    {name: '抠图', type: 1},
+                    {name: '特效', type: 2},
+                    {name: '阴影', type: 3},
+                    {name: '美化', type: 4},
+                ],
+                tabType: 0,
+                btnList: [
+                    {name: '通用', type: 0},
+                    {name: '人像', type: 1},
+                    {name: '头像', type: 3},
+                    {name: '物体', type: 2},
+                ],
+                btnType: 0,
+                filterList: [
+                    {name: '原图', src: '', url: ''},
+                    {name: '透明背景', src: '', url: ''},
+                    {name: '浮雕', src: '', url: ''},
+                    {name: '黑白', src: '', url: ''},
+                    {name: '油画', src: '', url: ''},
+                    {name: '水纹', src: '', url: ''},
+                    {name: '模糊', src: '', url: ''},
+                    {name: '素描', src: '', url: ''},
+                    {name: '扭曲', src: '', url: ''},
+                ],
+                proImgObj: null,
+                preImg: '',
+                checked: false,
+                checkedM: false,
+                angle: 90,//角度
+                sliderVal: {
+                    distance: 20,
+                    extend: 50,
+                    size: 30,
+                },
+                mSize: 20,
+                colors: ['', '#fff', '#FED835', '#2862F4', '#28F5B4'],
+                colorVal: '',
+                loading: false,
+                t2Idx: -1
+            }
+        },
+        mounted() {
+            // this.filterUrl()
+        },
+        watch: {
+            checked(newVal, oldVal) {
+                let oCan=this.initsliderVal(newVal);
+                this.$emit( 'effectsImg', oCan.toDataURL() );
+            },
+            sliderVal:{
+                handler(newVal, oldVal) {
+                    if (this.checked) {
+                        let oCan=this.initsliderVal(newVal);
+                        this.$emit( 'effectsImg', oCan.toDataURL() );
+                    }
+                },
+                deep: true
+            }
+        },
+        filters: {
+            filterName(k) {
+                const nameList = ['原图', '浮雕', '黑白', '油画', '水纹', '模糊', '素描', '扭曲',]
+                return nameList[k - 1]
+            }
+        },
+        methods: {
+            initsliderVal(k) {
+                let oCan = document.createElement( 'canvas' ), oCanTxt;
+                const [w, h] = [this.proImgObj.width, this.proImgObj.height];
+                oCanTxt = oCan.getContext( '2d' );
+                oCan.width = this.proImgObj.width;
+                oCan.height = this.proImgObj.height;
+                oCanTxt.drawImage( this.proImgObj, 0, 0 );
+                let imgData = oCanTxt.getImageData( 0, 0, oCan.width, oCan.height );
+                if (k) {
+                    for (let y = 0; y < h; y++) {
+                        for (let x = 0; x < w; x++) {
+                            let pixel = (y * w + x) * 4;
+                            if (imgData.data[pixel + 3] != 0) {
+                                imgData.data[pixel] = 0;
+                                imgData.data[pixel + 1] = 0;
+                                imgData.data[pixel + 2] = 0;
+                                imgData.data[pixel + 3] = this.sliderVal.extend / 100 *imgData.data[pixel + 3];
+                            }
+                        }
+                    }
+                    oCanTxt.clearRect( 0, 0, w, h );
+                    oCanTxt.putImageData( imgData, this.sliderVal.distance, 0 );
+                    oCanTxt.drawImage( this.proImgObj, 0, 0 )
+                }
+                return oCan
+            },
+            changeTab(idx) {
+                if (this.tabType === idx) return;
+                this.tabType = idx;
+            },
+            changBtn(type, idx) {
+                if (this.btnType === idx) return;
+                if (type !== -1) this.btnType = idx;
+                this.$emit( 'mattingImgs', type )
+            },
+            filterUrl(data) {
+                if (data.pro === this.preImg) return;
+                this.loading = true;
+                this.t2Idx = -1;
+                this.preImg = data.pro;
+                this.proImgObj = data.proObj;
+                let oCan = document.createElement( 'canvas' );
+                let oCanTxt = oCan.getContext( '2d' );
+                oCan.width = data.proObj.width;
+                oCan.height = data.proObj.height;
+                oCanTxt.drawImage( data.proObj, 0, 0 );
+                this.loadStatus( data, oCanTxt );
+
+            },
+            loadStatus(data, oCanTxt) {
+                this.filterList.map( (item, idx) => {
+                    const pro = oCanTxt.getImageData( 0, 0, data.proObj.width, data.proObj.height );
+                    item.url = '';
+                    if (!idx) {
+                        item.src = data.ori;
+                        item.url = data.ori;
+                    } else if (idx === 1) {
+                        item.src = data.pro;
+                        item.url = data.pro;
+                    } else if (idx === 2) item.src = this.jsMulitData( pro, 'emboss', );
+                    else if (idx === 3) item.src = this.jsMulitData( pro, 'grayscale', );
+                    else if (idx === 4) item.src = this.jsMulitData( pro, 'dither', );
+                    else if (idx === 5) item.src = this.jsMulitData( pro, 'triangleripple', );
+                    else if (idx === 6) item.src = this.jsMulitData( pro, 'blur', {amount: 5.0} );
+                    else if (idx === 7) item.src = this.jsMulitData( pro, 'threshold', {threshold: 100} );
+                    else if (idx === 8) item.src = this.jsMulitData( pro, 'twirl', {
+                        radius: data.proObj.width,
+                        angle: 90,
+                        centerX: 0.5,
+                        centerY: 0.5
+                    } );
+                    if (idx === this.filterList.length - 1) this.$nextTick( () => this.loading = false );
+                } )
+            },
+            jsMulitData(proData, name, obj = {}) {
+                let ocan = document.createElement( 'canvas' ), newImgdata = proData;
+                let ocanTxt = ocan.getContext( '2d' );
+                // console.log(newImgdata,proData)
+                jsMulit[name].filter( newImgdata, obj );
+                ocan.width = this.proImgObj.width;
+                ocan.height = this.proImgObj.height;
+                ocanTxt.putImageData( newImgdata, 0, 0 );
+                return ocan.toDataURL()
+            },
+            changeColor(color) {
+                this.colorVal = color;
+                console.log( color )
+            },
+            selectEdit(it, idx) {
+                if (idx === this.t2Idx) return;
+                this.t2Idx = idx;
+                if (it.url) {
+                    this.$emit( 'effectsImg', it.url );
+                    return
+                }
+                let oImg = new Image(), oCan = document.createElement( 'canvas' ), oCanTxt;
+                oCanTxt = oCan.getContext( '2d' );
+                oImg.crossOrigin = '';
+                oImg.onload = () => {
+                    oCan.width = oImg.width;
+                    oCan.height = oImg.height;
+                    oCanTxt.drawImage( oImg, 0, 0 );
+                    oCan.toBlob( bold => {
+                        let fromData = new FormData();
+                        fromData.append( 'file', bold );
+                        uploadossBg( fromData ).then( res => {
+                            this.filterList[idx].url = res.data;
+                            this.$emit( 'effectsImg', res.data );
+                        } )
+                    } )
+                };
+                oImg.src = it.src;
+            }
+        }
+    }
+</script>
+
+<style scoped lang="scss">
+    .header {
+        font-size: 14px;
+        color: #333;
+        line-height: 32px;
+        padding-top: 15px;
+        border-bottom: 1px solid #E9E9E9;
+
+        span {
+            position: relative;
+
+            &:after {
+                transition: all .2s linear;
+                position: absolute;
+                width: 0;
+                height: 2px;
+                content: '';
+                background-color: $co;
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: 0;
+            }
+
+            &.active {
+                color: $co;
+
+                &:after {
+                    width: 100%;
+                }
+            }
+        }
+
+    }
+
+    .content {
+        font-size: 14px;
+        line-height: 1;
+        color: #333;
+
+        .t1, .t4, .t3 {
+            padding-top: 30px;
+
+            h4 {
+                margin-bottom: 16px;
+            }
+
+            .btns {
+                margin-bottom: 20px;
+            }
+
+            .btns span {
+                width: 102px;
+                line-height: 40px;
+                border: 1px solid #e9e9e9;
+                text-align: center;
+                border-radius: 5px;
+                margin-bottom: 10px;
+
+                &.active {
+                    color: #fff;
+                    background-color: $co;
+                    border-color: $co;
+                }
+            }
+
+            .el-button {
+                border-color: $co;
+                color: $co;
+                width: 100%;
+            }
+        }
+
+        .t4 h4 {
+            color: #9C9C9C;
+        }
+
+        .t2 {
+            padding-top: 20px;
+
+            .item {
+                position: relative;
+                width: 100px;
+                text-align: center;
+                margin-bottom: 20px;
+
+                img {
+                    display: block;
+                    width: 100%;
+                }
+
+                & > div {
+                    margin-bottom: 10px;
+                }
+
+                .active {
+                    border: 1px solid $co;
+                }
+            }
+        }
+
+        .t3 {
+            .sec {
+                font-size: 12px;
+                color: #333;
+                margin: 35px 0;
+
+                .crils {
+                    /*label{*/
+                    /*    !*width: ;*!*/
+                    /*}*/
+                    border: 1px solid #9c9c9c;
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    position: relative;
+                    margin: 0 15px;
+
+                    &:after {
+                        position: absolute;
+                        content: '';
+                        width: 8px;
+                        height: 8px;
+                        background-color: #B2B2B2;
+                        left: 50%;
+                        top: 50%;
+                        transform: translate(-50%, -50%);
+                        border-radius: 50%;
+                    }
+
+                    div {
+                        width: 100%;
+                        height: 2px;
+                        position: absolute;
+                        top: 50%;
+                        left: 0;
+                        transform: translateY(-50%);
+
+                        p {
+                            width: 50%;
+                            height: 100%;
+                            background-color: #B2B2B2;
+                        }
+                    }
+                }
+
+                .el-input {
+                    width: 60px;
+                    line-height: 24px;
+                    height: 24px;
+                    background-color: #eee;
+                    margin-right: 8px;
+                }
+
+                & ~ div.flex {
+                    font-size: 12px;
+                    line-height: 38px;
+                    margin-bottom: 10px;
+                }
+            }
+
+            .otherss {
+                margin-top: 30px;
+                border-top: 1px solid #eee;
+                font-size: 12px;
+
+                .el-checkbox {
+                    font-size: 14px;
+                    margin-top: 30px;
+                }
+
+                .size {
+                    margin: 30px 0;
+                }
+
+                h4 {
+                    margin-bottom: 20px;
+                    line-height: 1;
+                }
+
+                .colors span {
+                    width: 28px;
+                    height: 28px;
+                    border: 1px solid #ECECEC;
+                    position: relative;
+
+                    &:first-child:after {
+                        position: absolute;
+                        width: 120%;
+                        height: 2px;
+                        background-color: $co;
+                        top: 50%;
+                        left: 0;
+                        content: '';
+                        transform: translateY(-50%) rotateZ(-45deg);
+                    }
+                }
+
+            }
+
+            .el-slider {
+                width: 50%;
+                margin: 10px;
+            }
+        }
+    }
+</style>

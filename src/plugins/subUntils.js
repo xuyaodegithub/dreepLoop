@@ -41,6 +41,9 @@ import {
     MessageBox,
     Carousel,
     CarouselItem,
+    InputNumber,
+    Popover,
+    Tooltip,
 } from 'element-ui'
 
 Vue.component( Button.name, Button );
@@ -65,6 +68,9 @@ Vue.component( Switch.name, Switch );
 Vue.component( Slider.name, Slider );
 Vue.component( Carousel.name, Carousel );
 Vue.component( CarouselItem.name, CarouselItem );
+Vue.component( InputNumber.name, InputNumber );
+Vue.component( Popover.name, Popover );
+Vue.component( Tooltip.name, Tooltip );
 Vue.prototype.$loading = Loading.service;
 Vue.use( Loading.directive );
 Vue.prototype.$notify = Notification;

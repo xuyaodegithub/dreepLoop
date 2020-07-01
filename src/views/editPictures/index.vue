@@ -14,7 +14,7 @@
                     <img src="../../assets/image/Revoke.png" alt="" class="last">
                     <span>下一步</span>
                 </div>
-                <div @click.stop="reloads" :class="{'stops' : !secondobj}" class="cu" style="margin-left: 30px">
+                <div @click.stop="reloads" class="cu" style="margin-left: 30px">
                     <i class="el-icon-refresh-right"
                        style="font-size: 18px;display: inline-block;vertical-align: text-top;"></i>
                     <span> {{edrieImgInfo.type===1 ? '重新上传' : '重置'}}</span>
@@ -99,20 +99,23 @@
                     <!--                               @click="changeBgType(idx)">{{item}}-->
                     <!--                    </el-button>-->
                     <div class="flex" ref="bTypeList">
-                        <div v-for="(it,idx) in bTypeList" :key="idx" :class="{'active':bgType===idx}"
-                             @click="changeBgType(idx)">
-                            <img :src="it.img" alt="">
-                            <p>{{it.name}}</p>
+                        <div v-for="(it,idx) in imgCatList" :key="idx" :class="{'active':bgType===idx}"
+                             @click="changeBgType(idx)" class="cu">
+                            <img :src="it.url" alt="">
+                            <p>{{it.category}}</p>
                         </div>
                     </div>
                     <i class="el-icon-arrow-left cu" @click="moveItem(0)"></i>
                     <i class="el-icon-arrow-right cu" @click="moveItem(1)"></i>
                 </div>
-                <div class="flex a-i bgimgs f-w">
-                    <div v-for="(item,idx) in oneItemBg" :key="idx" class="cu" :class="{active : selectIdx===idx}"
+                <div class="flex a-i bgimgs f-w" v-loading="oneItemBg2.length<1">
+                    <div v-for="(item,idx) in oneItemBg2" :key="idx" class="cu" :class="{active : selectIdx===idx}"
                          @click="selectBg(item,idx)">
-                        <img :src="item" alt="">
+                        <img :src="item.url" alt="">
                     </div>
+                    <p style="width: 100%;text-align: center;margin: 10px 0;">
+                        图片不够？试试精确搜索一下！
+                    </p>
                 </div>
             </div>
             <div class="thred" v-show="selectType===2">
@@ -139,23 +142,29 @@
                 </div>
             </div>
         </div>
-        <div class="e_r" id="e_r" @click="showDa=false">
-            <div class="canvas" ref="canvasM" :style="{width:`${pxWidth}px`,height:`${pxHeight}px`}"
-                 @mousedown.stop="down" @click.stop="showDa=true"
-                 :class="{active : showBorder,resiaze : (isPattern===5 || downSpace)}">
-                <canvas id="b_g">当前游览器不支持此功能，换一个试试吧！</canvas>
-                <canvas id="b_p">当前游览器不支持此功能，换一个试试吧！</canvas>
-                <div class="img" ref="oIImg" :style="{backgroundImage:`url(${trImg})`}"
-                     v-show="isPattern!==3 && noOperation && showDa">
-                    <!--                            <img src="../../assets/image/scale.png" alt="" style="border-radius: 0">-->
+        <div class="e_r" id="e_r" @click="blurAll">
+            <div class="subs"
+                 :style="{width:`${edrieImgInfo.imageMsg.previewWidth}px`,height:`${edrieImgInfo.imageMsg.previewHeight}px`}">
+                <div class="items" :class="{'hovers' : item.hover}" v-for="(item,idx) in parseSubs.subList"
+                     :style="item | subsStyle"
+                     v-drag @mousedown.stop="hoverThis(idx)" @mouseup="setData(idx)" @click.stop="hoverThis(idx,2)">
+                    <div v-if="item.type===2" :contenteditable="item.contenteditable" class="text"
+                         @blur="setBlur($event,idx)" @dblclick.stop="openSet(idx)">{{item.title}}
+                    </div>
+                    <div v-if="[1,3].includes(item.type)" class="Imgs">
+                        <img :src="item.useImg" alt="">
+                    </div>
+                    <div v-if="item.type===4" class="flex">
+                        <div class="text" v-show="item.title" @blur="setBlur($event,idx)" @dblclick.stop="openSet(idx)"
+                             :contenteditable="item.contenteditable">{{item.title}}
+                        </div>
+                        <div class="Imgs"><img :src="item.useImg" alt=""></div>
+                    </div>
+                    <span class="el-icon-refresh downIcon" v-show="item.hover"></span>
+                    <i v-for="it in 5" :key="'a'+it" v-show="item.hover"
+                       :class="{'iOne' : it===1,'iTwo' : it===2,'iTh' : it===3,'iFor' : it===4,'iFive' : it===5}"></i>
                 </div>
-                <div class="dashed" ref="dashed" v-show="isPattern!==3 && ![2,3].includes(choseBack) && showDa"
-                     :style="{left:`${Offsetxy.x/cWH.cWidth*pxWidth}px`,top:`${Offsetxy.y/cWH.cHeight*pxHeight}px`,width:`${initwh.w/cWH.cWidth*pxWidth-2}px`,height:`${initwh.h/cWH.cHeight*pxHeight-2}px`,}"></div>
-                <div class="borderShow" v-show="showBorder"
-                     :style="{width:`${borderXy.w}px`,height:`${borderXy.h}px`,left:`${borderXy.x}px`,top:`${borderXy.y}px`}"></div>
-            </div>
-            <div class="ships">
-                小提示：按住“空格键”拖动鼠标可以移动画板哦
+
             </div>
             <div class="nowMsg flex a-i">
                 <i class="el-icon-minus cu" @click="wheelFun({deltaY:1})"></i>
@@ -164,9 +173,10 @@
                 <span class="cu" @click="initRest">1:1</span>
                 <img src="../../assets/image/preview.png" alt="" class="cu" @click="initRestore">
             </div>
+            <div class="loadingss" v-if="loading.show">{{loading.text}}</div>
         </div>
         <div class="e_rLast">
-            <div class="initLast" v-show="showDa">
+            <div class="initLast" v-show="![0,1,2,3].includes(hoverSub.type)">
                 <h4>画布尺寸</h4>
                 <div class="flex c_input j-b">
                     <div><input type="number" v-model="pxWidth" @input="changeSize(1)"><i>宽(px)</i></div>
@@ -184,7 +194,9 @@
                     </div>
                 </div>
             </div>
-
+            <v-mune v-show="[1,3].includes(hoverSub.type)" ref="Munes" @mattingImgs="mattingImgs"
+                    @effectsImg="effectsImg" ></v-mune>
+            <f-mune v-show="hoverSub.type===2"></f-mune>
         </div>
         <div class="dialogs" :style="{backgroundImage: `url(${edrieImgInfo.bgImg})`}" v-if="showUpload">
             <div class="sons">
@@ -194,23 +206,33 @@
                     <img src="@/assets/edone.png" alt="" @click="upLoad(2)">
                 </div>
             </div>
-            <div class="loadingss" v-if="loading.show">{{loading.text}}</div>
         </div>
         <div class="zheR" v-if="showUpload"></div>
+        <el-dialog
+                :close-on-click-modal="false"
+                title="修复"
+                top="0vh"
+                :width=" openScreen ? '95%' : '1200px'"
+                :visible.sync="dialogVisible">
+            <matting-img :edrieImgInfo="hoverSub" @close="closeSetMap" v-if="dialogVisible" :openScreen="openScreen" @changeScree="openScreen=!openScreen"></matting-img>
+        </el-dialog>
     </div>
 </template>
 
 <script>
     // @ is an alias to /src
-    import {myBrowser, findLastIdx} from '@/utils'
-    import scale from '../../assets/image/scale.png'
-    import {mixins} from '@/minxins'
-    import opacity from '@/assets/opacity.jpg'
-    import fupa from '@/assets/image/fopa.png'
-    import color from '@/assets/image/color.png'
-    import JSManipulate from '@/utils/jsmanipulate.js'
-    import {uploadImgApi, getMattingInfo, downloadMattedImage} from '@/apis'
-    import {mapGetters, mapActions} from 'vuex'
+    import vMune from '@/components/editMune';
+    import fMune from '@/components/fontMune';
+    import mattingImg from '@/components/mattingImg';
+    import {myBrowser, findLastIdx} from '@/utils';
+    import scale from '../../assets/image/scale.png';
+    import {mixins} from '@/minxins';
+    import opacity from '@/assets/opacity.jpg';
+    import fupa from '@/assets/image/fopa.png';
+    import color from '@/assets/image/color.png';
+    import JSManipulate from '@/utils/jsmanipulate.js';
+    import {uploadImgApi, getMattingInfo, downloadMattedImage, catImgList, copyUpload} from '@/apis';
+    import {mapGetters, mapActions} from 'vuex';
     import {getToken} from "@/utils/auth";
 
     export default {
@@ -218,11 +240,7 @@
         mixins: [mixins],
         data() {
             return {
-                showDa: true,//canvas聚焦，显示移动框
-                showBorder: false,//显示鼠标圆圈
-                trImg: scale,//放大缩小时的右上角操作按钮
-                opas: opacity,//初始化时背景
-                opacity: '',
+                showDa: 0,//canvas聚焦，显示移动框  0失焦 1聚焦  2字体
                 initcolorList: [color, fupa, '#000', '#fff', '#BFBFBF', '#2862F4', '#FED835', '#28F5B4', '#F62897', '#F57B28', '#00FFFF', '#90C320'],
                 e_btn_list: [//左侧菜单按钮
                     {url: 'icon-shangchuan', title: '上传'},
@@ -256,56 +274,104 @@
                 fontList: ['描边', '阴影', '立体', '渐变', '鎏金', '抖音', '印章', '浮雕'],
                 Fbtn: [{name: '全部', type: 0}, {name: '卡通', type: 0}, {name: '形状', type: 0}, {name: '毕业照', type: 0},],
                 iconList: ['icon-shu', 'icon-shu1', 'icon-yinliao', 'icon-konglong', 'icon-yinliao1', 'icon-regou', 'icon-nvyisheng', 'icon-qiatongxingxiang', 'icon-qiatongtouxiang', 'icon-lanqiu', 'icon-icon-test', 'icon-nanhai',],
-                isPattern: 0,// 操作模式 0无模式，1擦除模式，2还原模式，3图片移动模式，4放大缩小模式，5 canvas移动模式
-                isClear: true,//擦除模式下的 擦除模式
-                penSize: 10,//画笔大小
                 choseBack: 0,//背景模式下（ 透明 、纯色 、黑白、模糊）当前选中的下标
                 showcolorList: false,//是否显示颜色选择的弹框
-                bgBtn: ['摄影', '手绘', '颜色',],//更换背景的类型
-                bgType: 1,//更换背景的类型中当前选中的下标
+                // bgType: 1,//更换背景的类型中当前选中的下标
                 selectIdx: -1,//当前选中背景的下标，初始化不选择背景   所以为-1
                 cWH: {cWidth: 0, cHeight: 0},//实际canvas  width、height属性值 （和css中width height不同）
                 pxWidth: 500,//初始化 canvas   css的宽（canvas的width、height属性和css中的width、height不同）此处是css表现大小
                 pxHeight: 500,//初始化 canvas   css的高（canvas的width、height属性和css中的width、height不同）此处是css表现大小
                 canvasinitNum: 500,//初始化基数  （控制canvas  css表现的大小  可以修改 如修改为600  则初始化时大于600的图片css会等比例缩放到600，小于600的会显示图片的尺寸）
-                cans: '',//前canvas
-                cansTxt: '',//前canvasTxt
-                bgCans: '',//背景canvas
-                bgCansTxt: '',//背景canvasTxt
-                proCans: '',//隐藏的预览图canvas，此canvas不做缩放处理，制作擦除还原处理
-                proCansTxt: '',//隐藏的预览图canvasTxt
-                Original: '',//原图片链接
                 OriginalObj: '',//原图片加载后的对象
-                imgUrl: '',//抠图后接口返回的图片链接
                 preimgObj: '',//抠图后接口返回的图片加载后的对象
-                secondobj: '',//每次切换菜单后，都需要吧隐藏的canvas导出图片储存加载后的对象
                 scale: '',//图片width/height比例系数
-                Offsetxy: {x: 0, y: 0, cL: 0, cT: 0},//canvas中显示图片区域相对canvas的偏移量坐标（x,y）和canvas 的offsetTop,offsetLeft的值（cL,cT）
-                downxy: {x: 0, y: 0, pxx: 0, pxy: 0},//鼠标按下画布中坐标(实际canvas中坐标)和在canvas css表现大小中的鼠标坐标
-                initwh: {w: 0, h: 0},//缩放后的图片大小、初始化时与canvas 画布相同大小
                 selfImg: '',//自定义背景对象
                 bgobj: '',//选中的背景对象
                 colorValue: '',//纯色背景
                 setScale: 0,//整体放大系数（css表现的width除以实际图片的width）
                 oCantl: '',//主要用于记录当前canvas相对于屏幕的位置
-                borderXy: {x: 0, y: 0, w: 0, h: 0},//跟随鼠标圆的位置和宽高
                 historyList: [],//存放上层canvas的历史记录
-                historyListopa: [],//存放隐藏canvas的历史记录
                 hisIdx: 0,//当前处于历史记录的哪个位置的对应记录id（储存记录时会存一个对应id）
                 downType: 0,//下载时的状态 0 初始状态 1 纯色背景 2 背景图片状态
                 filename: 'picture',//文件名称，下载时要是源文件名称
                 downSpace: false,//是否按下了空格键
-                edrieImgInfo: {imageMsg: {}},//图片的信息（预览图尺寸，原图尺寸，下载按钮处显示的信息）
+                edrieImgInfo: {imageMsg: {previewWidth: 500, previewHeight: 500}},//图片的信息（预览图尺寸，原图尺寸，下载按钮处显示的信息）
                 showUpload: true,//从背景库页面进入本页面时，要显示上传弹框
                 upType: 0,//从背景库页面进入本页面时，要显示上传弹框 ，上传图片的类型 0 自定义背景  1人抠图 2物抠图
                 loading: {show: false, text: '处理中...'},//loading
                 savepointList: [],//储存当前预览图进行擦除还原放大缩小操作的点的位置和操作类型  this.pointList方法内有详解
-                loadingInstance: null//下载时的loading效果
+                loadingInstance: null,//下载时的loading效果
+                dialogVisible: false,//修复弹框
+                openScreen:false,//是否全屏
+                parseSubs: {
+                    bW: 990,
+                    bH: 1500,
+                    subList: [
+                        {
+                            type: 0,//背景
+                            x: 0,
+                            y: 0,
+                            rotate: 0,
+                            hover: false,
+                            zIndex: 0,
+                            useImg: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/resource/img/25/25781.png',
+                            pro: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/resource/img/25/25781.png',
+                            ori: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/resource/img/25/25781.png',
+                            proObj:null,////抠图过加载后的对象
+                        },
+                        {
+                            type: 2,//文字组件
+                            title: '文字组件',
+                            fontFamily: 'initial',//文字类型
+                            size: 12,//大小
+                            letterSpace: 0,//字间距
+                            lineHeight: 40,//行高
+                            color: '#e82255',//颜色
+                            backgroundColor: '',//背景色
+                            fontStyle: false,//是否斜体
+                            textDecoration: '',//下划线，删除线
+                            textAlign: 'center',
+                            flexDirection: 1,//1代表横向，0代表竖向
+                            w: 120,
+                            h: 40,
+                            x: 0,
+                            y: 0,
+                            rotate: 0,
+                            hover: false,
+                            zIndex: 2,
+                            contenteditable: false,
+                        },
+                        {
+                            type: 3,//图片组件
+                            title: '图片组件',
+                            w: 80,
+                            h: 80,
+                            x: 0,
+                            y: 100,
+                            rotate: 0,
+                            useImg: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/resource/img/15/15866.png',
+                            pro: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/resource/img/15/15866.png',
+                            ori: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/resource/img/15/15866.png',
+                            proObj:null,////抠图过加载后的对象
+                            hover: false,
+                            zIndex: 3
+                        },
+                    ],
+                    fileId: '',//公用
+                }
             }
         },
-        components: {},
+        components: {vMune, fMune, mattingImg},
         computed: {
             ...mapGetters( ['userSubscribeData'] ),
+            hoverSub() {
+                const item = this.parseSubs.subList.find( item => item.hover )
+                return item ? item : {type: ''}
+            },
+            mainSub() {
+                const item = this.parseSubs.subList.find( item => item.type === 1 )
+                return item
+            },
             noOperation() {//这些情况下不能移动 缩放图片
                 if (!this.selectType) return false;
                 else if (this.selectType === 1 && [2, 3].includes( this.choseBack )) return false;
@@ -325,18 +391,73 @@
                 else return this.savepointList.filter( (item, ix) => ([1, 2].includes( item.type )) )
             },
         },
-        filter: {
-            imgtitle(i) {//图片title
-                if (i === 0) return '背景透明';
-                else if (i === 1) return '纯色背景';
-                else if (i === 2) return '背景黑白';
-                else if (i === 3) return '背景模糊';
-            },
+        filters: {
+            subsStyle(item) {
+                let data = {
+                    left: item.x + 'px',
+                    top: item.y + 'px',
+                    zIndex: item.zIndex,
+                    transform: `rotateZ(${item.rotate}deg)`,
+                    width: item.w + 'px',
+                    height: item.h + 'px',
+                };
+                if (item.type === 2) {
+                    data.fontSize = item.size + 'px';
+                    data.letterSpacing = item.letterSpace + 'px';
+                    data.lineHeight = item.lineHeight + 'px';
+                    data.color = item.color;
+                    data.fontFamily = item.fontFamily;
+                    data.backgroundColor = item.backgroundColor;
+                    data.fontStyle = item.fontStyle ? 'italic' : 'initial';//是否是斜体
+                    data.textDecoration = item.textDecoration ? item.textDecoration : 'initial';//是否是斜体
+                    data.textAlign = item.textAlign;//对齐方式
+                    data.width = item.flexDirection ? item.w + 'px' : item.size + 'px';//对齐方式
+                    data.padding = item.flexDirection ? 0 : '0 8px';
+                }
+                return data
+            }
         },
         methods: {
             ...mapActions( [
                 'userGetscribe'
             ] ),
+            hoverThis(idx, j) {
+                this.parseSubs.subList.map( item => item.hover = false );
+                this.parseSubs.subList[idx].hover = true;
+                if (j && [0, 1, 3].includes( this.parseSubs.subList[idx].type )){
+                    if(this.parseSubs.subList[idx].proObj) this.$refs.Munes.filterUrl( this.parseSubs.subList[idx] );
+                    else {
+                        let oImg=new Image();
+                        oImg.crossOrigin='';
+                        oImg.onload=()=>{
+                            this.parseSubs.subList[idx].proObj=oImg;
+                            this.$refs.Munes.filterUrl( this.parseSubs.subList[idx] )
+                        }
+                        oImg.src=this.parseSubs.subList[idx].pro+`?id=${Math.random()}`
+                    }
+                }
+                // console.log(this.parseSubs)
+            },
+            blurAll() {
+                this.parseSubs.subList.map( item => item.hover = false );
+            },
+            setData(idx) {
+
+            },
+            setBlur(e, idx) {
+
+            },
+            openSet(idx) {
+
+            },
+            mattingImgs(idx) {//抠图
+                if (idx === -1) this.dialogVisible = true;
+                else this.mattingbyUrl( idx )
+            },
+            effectsImg(url) {//添加特效
+                let idx = this.parseSubs.subList.findIndex(item=>item.hover);
+                if(idx>-1)this.parseSubs.subList[idx].useImg=url
+            },
             upLoad(k) {//上传图片（k值0自定义背景，1人像抠图 2物体抠图）
                 this.upType = k;
                 this.$refs.selfImg.click()
@@ -360,9 +481,10 @@
                             this.edrieImgInfo.pro = res.data.bgRemovedPreview;
                             this.edrieImgInfo.ori = res.data.original;
                             this.edrieImgInfo.imageMsg = res.data;
-                            this.initImgs( this.edrieImgInfo );
+                            this.initMainSub();
                             this.showUpload = false;
                             this.loading.show = false;
+                            this.loading.text = '处理中...';
                         } else setTimeout( this.pollingImg, 2000 )//有排队情况，轮训查看（可以websocket）
                     }
                 } ).catch( re => this.loading.show = false )
@@ -374,15 +496,70 @@
                             this.edrieImgInfo.pro = res.data.bgRemovedPreview;
                             this.edrieImgInfo.ori = res.data.original;
                             this.edrieImgInfo.imageMsg = res.data;
-                            this.initImgs( this.edrieImgInfo );
+                            this.initMainSub();
                             this.showUpload = false;
                             this.loading.show = false;
+                            this.loading.text = '处理中...';
                         } else {
                             this.loading.text = `当前排队位置为 ${res.data.queueNumber}，请稍后...`
                             setTimeout( this.pollingImg, 2000 )
                         }
                     }
                 } ).catch( re => this.loading.show = false )
+            },
+            pollingImg2() {//轮询
+                getMattingInfo( {fileId: this.fileId} ).then( res => {//根据id查询
+                    if (!res.code) {
+                        if (res.data.status === 'success') {
+                            const idx = this.parseSubs.subList.findIndex( item => item.hover );
+                            this.parseSubs.subList[idx].pro = res.data.bgRemovedPreview;
+                            this.parseSubs.subList[idx].useImg = res.data.bgRemovedPreview;
+                            this.parseSubs.subList[idx].proObj = null;
+                            this.loading ={show:false,text:'处理中...'};
+                            this.hoverThis(idx,1)//特效也需要替换
+                        } else {
+                            this.loading.text = `当前排队位置为 ${res.data.queueNumber}，请稍后...`
+                            setTimeout( this.pollingImg2, 2000 )
+                        }
+                    }
+                } ).catch( re => this.loading.show = false )
+            },
+            mattingbyUrl(type) {
+                this.loading.show = true;
+                let obj = {url: this.hoverSub.ori, mattingType: type};
+                copyUpload( obj ).then( res => {
+                    if (!res.code) {
+                        this.fileId = res.data.fileId;
+                        if (res.data.status == 'success') {
+                            const idx = this.parseSubs.subList.findIndex( item => item.hover );
+                            this.parseSubs.subList[idx].pro = res.data.bgRemovedPreview;
+                            this.parseSubs.subList[idx].useImg = res.data.bgRemovedPreview;
+                            this.parseSubs.subList[idx].proObj = null;
+                            this.loading ={show:false,text:'处理中...'};
+                            this.hoverThis(idx,1)//特效也需要替换
+                        } else setTimeout( this.pollingImg2, 2000 )//有排队情况，轮训查看（可以websocket）
+                    }
+                } ).catch( re => this.loading.show = false )
+            },
+            initMainSub() {
+                const idx = this.parseSubs.subList.findIndex( item => item.type === 1 ), data = {
+                    type: 1,//主图
+                    x: 0,
+                    y: 0,
+                    rotate: 0,
+                    w: this.edrieImgInfo.imageMsg.previewWidth,
+                    h: this.edrieImgInfo.imageMsg.previewHeight,
+                    hover: false,
+                    zIndex: 1,
+                    useImg: this.edrieImgInfo.pro,//显示用的
+                    ori: this.edrieImgInfo.ori,//原图
+                    pro: this.edrieImgInfo.pro,//抠图过后的
+                    proObj:null////抠图过加载后的对象
+                };
+
+                if (idx > -1) this.parseSubs.subList.splice( idx, 1, data );
+                else this.parseSubs.subList.push( data );
+                // this.$refs.Munes.filterUrl( this.edrieImgInfo )
             },
             initSelfImg(file) {//自定义背景加载后对象储存
                 let reader = new FileReader();
@@ -405,222 +582,8 @@
                 const idx = this.historyList.findIndex( item => item.id === this.hisIdx );
                 if ((!k && idx < 1) || (k && idx + 1 > (this.historyList.length - 1))) return;
                 const nexidx = k ? idx + 1 : idx - 1;//下一个点或上一个点的下标
-                this.Offsetxy.x = this.historyList[nexidx].x;
-                this.Offsetxy.y = this.historyList[nexidx].y;
-                this.initwh.w = this.historyList[nexidx].w;
-                this.initwh.h = this.historyList[nexidx].h;
-                this.cansTxt.putImageData( this.historyList[nexidx].obj, 0, 0 );
-                this.proCansTxt.putImageData( this.historyListopa[nexidx].obj, 0, 0 );
-                this.initborder();//重置移动框
-                this.hisIdx = this.historyList[nexidx].id;
-                const url = this.proCans.toDataURL();
-                let oImg = new Image();
-                oImg.crossOrigin = '';
-                oImg.onload = () => {//储存返回后的图片
-                    this.secondobj = oImg
-                };
-                oImg.src = url;
-                let ix = this.savepointList.findIndex( item => item.save ), j;
-                if (!k) {
-                    j = findLastIdx( this.savepointList, ix > -1 ? ix : this.savepointList.length, (item, i) => item.node );//找到当前状态前上次操作开始点的下标
-                    this.savepointList[j].save = 1//此点变为当前状态点
-                } else {
-                    if (ix > -1) this.savepointList[ix].save = 0;//前进时把当前状态改为0
-                }
-            },
-            initMove(x, y) {//擦除还原模式下canvas拖拽（如果图片缩小了  则鼠标在图片和canvas边缘直接可以拖拽canvas）
-                if (x < this.Offsetxy.x || x > (this.Offsetxy.x + this.initwh.w) || y < this.Offsetxy.y || y > (this.Offsetxy.y + this.initwh.h)) return true;
-                else return false;
-            },
-            toRepair(x, y) {//还原提取//每次操作都需要操作2个canvas  除了背景canvas除外的两个
-                const list = [this.cansTxt, this.proCansTxt];
-                list.map( (item, idx) => {
-                    item.save();
-                    item.beginPath();
-                    if (!idx) item.arc( x, y, 2 * this.penSize, 0, Math.PI * 2, false );
-                    else item.arc( (x - this.Offsetxy.x) / this.initwh.w * this.cWH.cWidth, (y - this.Offsetxy.y) / this.initwh.h * this.cWH.cHeight, 2 * this.penSize / this.initwh.w * this.cWH.cWidth, 0, Math.PI * 2, false );
-                    item.clip();
-                    if (!idx) item.drawImage( this.OriginalObj, this.Offsetxy.x, this.Offsetxy.y, this.initwh.w, this.initwh.h );
-                    else item.drawImage( this.OriginalObj, 0, 0, this.proCans.width, this.proCans.height );
-                    item.restore();
-                } )
-            },
-            toclear(x, y) {//擦除功能提取//每次操作都需要操作2个canvas  除了背景canvas除外的两个
-                const list = [this.cansTxt, this.proCansTxt];
-                list.map( (item, idx) => {
-                    item.save();
-                    item.beginPath();
-                    if (!idx) item.arc( x, y, 2 * this.penSize, 0, Math.PI * 2, false );//圆的半径我放大了两倍
-                    //这步是根据点的位置  计算出 点在proCans上的位置 （相当于等比放大缩小）圆的半径也一样
-                    else item.arc( (x - this.Offsetxy.x) / this.initwh.w * this.cWH.cWidth, (y - this.Offsetxy.y) / this.initwh.h * this.cWH.cHeight, 2 * this.penSize / this.initwh.w * this.cWH.cWidth, 0, Math.PI * 2, false );
-                    item.clip();
-                    item.clearRect( 0, 0, this.cans.width, this.cans.height );
-                    // else item.clearRect( 0, 0, this.proCans.width, this.proCans.height );//两个canavs width height属性相同
-                    item.restore();
-                } )
-            },
-            initborderXy(x, y) {//计算跟随圆的位置和宽高  相对于
-                this.borderXy.w = this.pxWidth * 4 * this.penSize / this.cWH.cWidth;//圆的半径我放大了两倍，所有w是penSize的4倍
-                this.borderXy.h = this.pxHeight * 4 * this.penSize / this.cWH.cHeight;
-                this.borderXy.x = x - this.borderXy.w / 2;
-                this.borderXy.y = y - this.borderXy.h / 2;
-            },
-            pointList(point, k) {//储存点提取，为了下载原图准备
-                const data = {
-                    x: point.x * this.OriginalObj.width / this.preimgObj.width,//在原图中的x位置
-                    y: point.y * this.OriginalObj.height / this.preimgObj.height,//在原图中的y位置
-                    offsetx: this.Offsetxy.x * this.OriginalObj.width / this.preimgObj.width,//在原图中的x偏移量位置
-                    offsety: this.Offsetxy.y * this.OriginalObj.height / this.preimgObj.height,//在原图中的y偏移量位置
-                    initw: this.initwh.w * this.OriginalObj.width / this.preimgObj.width,//相对于原图大小缩放后的宽
-                    inith: this.initwh.h * this.OriginalObj.height / this.preimgObj.height,//相对于原图大小缩放后的高
-                    type: this.isPattern,//此点进行什么操作（1,2,3,4,5 isPattern的类型// ）
-                    r: this.penSize * this.OriginalObj.width / this.preimgObj.width,//此点半径
-                    save: 0,//1代表当前处理状态处于此点的位置
-                    node: k ? 1 : 0//每次按下时这个值都为1，因为每次返回前进都是每次操作的返回前进 而不是对点的  所有一次操作包含很多点  其中第一个点为开始点  node为1
-                }
-                if ([1, 2, 3, 4].includes( this.isPattern )) {//每次push记录前都要确保save为1点以及后面的删掉在push
-                    const idx = this.savepointList.findIndex( item => item.save );
-                    if (idx > -1) this.savepointList.splice( idx, this.savepointList.length );
-                    this.savepointList.push( data )
-                }
-            },
-            down(e) {//鼠标按下
-                const ev = e || window.event;
-                this.oCantl = document.getElementById( `b_g` ).getBoundingClientRect();//记录当前canvas相对窗口的位置
-                this.downxy.x = (ev.clientX - this.oCantl.left) * this.cWH.cWidth / this.pxWidth;//计算当前鼠标在原图上的位置
-                this.downxy.y = (ev.clientY - this.oCantl.top) * this.cWH.cHeight / this.pxHeight// 计算当前鼠标在原图上的位置，每次鼠标按下的位置
-                this.downxy.pxx = ev.clientX - this.oCantl.left//计算在当前canvas每次鼠标按下的位置（相对css实际宽高的位置）
-                this.downxy.pxy = ev.clientY - this.oCantl.top//计算在当前canvas每次鼠标按下的位置（相对css实际宽高的位置）
-                this.Offsetxy.cL = this.$refs.canvasM.offsetLeft;
-                this.Offsetxy.cT = this.$refs.canvasM.offsetTop;
-                const smallit = this.initfour( ev.clientX - this.oCantl.left, ev.clientY - this.oCantl.top );
-                if (this.downSpace) this.isPattern = 5;//如果空格键按下，则拖拽整个canvas
-                else if (!this.selectType && this.isClear && !this.initMove( this.downxy.x, this.downxy.y )) this.isPattern = 1;//如果在擦除模式下 且在图片显示区域内则是1
-                else if (!this.selectType && !this.isClear && !this.initMove( this.downxy.x, this.downxy.y )) this.isPattern = 2;//如果在还原模式下 且在图片显示区域内则是2
-                else if (!smallit && !this.initMove( this.downxy.x, this.downxy.y ) && this.noOperation) this.isPattern = 3;//如果不在缩放指针上 且在图片显示区域内 且图片能缩放移动 那么就是3
-                else if (smallit && this.noOperation) this.isPattern = 4;//如果在缩放指针上  且图片能缩放移动 那么就是4
-                else this.isPattern = 5;
-                this.isPattern === 1 ? this.toclear( this.downxy.x, this.downxy.y ) : this.isPattern === 2 ? this.toRepair( this.downxy.x, this.downxy.y ) : '';
-                this.pointList( this.downxy, 1 )//存点 下载原图使用
-            },
-            ups(e) {//鼠标弹起
-                const ev = e || window.event;
-                const upxy = {
-                    x: (ev.clientX - this.oCantl.left) * this.cWH.cWidth / this.pxWidth,
-                    y: (ev.clientY - this.oCantl.top) * this.cWH.cHeight / this.pxHeight
-                }
-                if (this.isPattern === 3) {//图片移动后  要计算结束时的图片偏移量
-                    let initw, inith
-                    if ((this.Offsetxy.x + upxy.x - this.downxy.x) > (this.cWH.cWidth - this.initwh.w / 2)) initw = this.cWH.cWidth - this.initwh.w / 2;
-                    else if ((this.Offsetxy.x + upxy.x - this.downxy.x) < -(this.initwh.w / 2)) initw = -(this.initwh.w / 2);
-                    else initw = this.Offsetxy.x + upxy.x - this.downxy.x;
-                    if ((this.Offsetxy.y + upxy.y - this.downxy.y) > (this.cWH.cHeight - this.initwh.h / 2)) inith = this.cWH.cHeight - this.initwh.h / 2;
-                    else if ((this.Offsetxy.y + upxy.y - this.downxy.y) < -(this.initwh.h / 2)) inith = -this.initwh.h / 2;
-                    else inith = this.Offsetxy.y + (upxy.y - this.downxy.y);
-                    this.Offsetxy.x = initw;
-                    this.Offsetxy.y = inith;
-                    this.initborder( 0, 0 )
-                } else if (this.isPattern === 4) {//缩放后要计算结束后的图片实际宽高
-                    const [w, h] = this.initsetwh( upxy );
-                    this.Offsetxy.y = this.Offsetxy.y - h + this.initwh.h
-                    this.initwh.w = w;
-                    this.initwh.h = h;
-                }
-                if ([1, 2, 3, 4].includes( this.isPattern )) {//每次弹起都把当前状态存入历史
-                    const idx = this.historyList.findIndex( item => item.id === this.hisIdx );
-                    if (this.hisIdx !== this.historyList[this.historyList.length - 1].id) {//鼠标按下时的状态不在历史最后，那就删除后面的
-                        this.historyList.splice( idx + 1, this.historyList.length );
-                        this.historyListopa.splice( idx + 1, this.historyListopa.length );
-                    }
-                    this.historyList.push( {
-                        obj: this.cansTxt.getImageData( 0, 0, this.cWH.cWidth, this.cWH.cHeight ),
-                        x: this.Offsetxy.x, y: this.Offsetxy.y, w: this.initwh.w, h: this.initwh.h,
-                        id: this.historyList[this.historyList.length - 1].id + 1
-                    } )
-                    this.historyListopa.push( {
-                        obj: this.proCansTxt.getImageData( 0, 0, this.proCans.width, this.proCans.height ),
-                        id: this.historyListopa[this.historyListopa.length - 1].id + 1
-                    } )
-                    this.hisIdx = this.historyList[this.historyList.length - 1].id
-                }
-                this.pointList( upxy );//存点 下载原图使用
-                this.isPattern = 0;//重置模式
-                this.$nextTick( () => {//重新储存canvas相对窗口的位置
-                    this.oCantl = document.getElementById( `b_g` ).getBoundingClientRect()
-                    this.initborderXy( e.clientX - this.oCantl.left, e.clientY - this.oCantl.top )
-                } )
-            },
-            moves(e) {//鼠标移动
-                const ev = e || window.event;
-                const movexy = {
-                    x: (ev.clientX - this.oCantl.left) * this.cWH.cWidth / this.pxWidth,
-                    y: (ev.clientY - this.oCantl.top) * this.cWH.cHeight / this.pxHeight
-                }
-                if (this.isPattern === 1) {
-                    this.toclear( movexy.x, movexy.y );
-                } else if (this.isPattern === 2) this.toRepair( movexy.x, movexy.y );
-                else if (this.isPattern === 3) {//移动时开关
-                    const x = movexy.x - this.downxy.x, y = movexy.y - this.downxy.y;
-                    this.dropMove( x, y )
-                } else if (this.isPattern === 4) {//放大缩小时开关
-                    let afterw, zoom = movexy.x - this.downxy.x > 0;
-                    if (zoom) afterw = this.initwh.w + (movexy.x - this.downxy.x)//变化后宽度
-                    else afterw = this.initwh.w - Math.abs( movexy.x - this.downxy.x )//变化后宽度
-                    const [w, h] = [afterw, afterw * this.initwh.h / this.initwh.w]//缩放后宽//缩放后高
-                    this.cansTxt.clearRect( 0, 0, this.cWH.cWidth, this.cWH.cHeight );
-                    this.cansTxt.drawImage( this.secondobj, this.Offsetxy.x, this.Offsetxy.y - h + this.initwh.h, w, h );
-                    this.initborder( 0, -(h - this.initwh.h), w, h )//重置图片外框位置和大小和缩放指针位置
-                } else if (this.isPattern === 5) {//canvas移动cl为can的offsetleft px为每次鼠标按下的位置
-                    const oCanvas = this.$refs.canvasM, oPares = document.getElementById( 'e_r' );
-                    let cl, ct;
-                    if ((this.Offsetxy.cL + ev.clientX - this.oCantl.left - this.downxy.pxx) > (oPares.offsetWidth)) cl = oPares.offsetWidth;//canvas不能超出视角50%  原canvas已transform:translate(-50%,-50%) 计算要注意
-                    else if ((this.Offsetxy.cL + ev.clientX - this.oCantl.left - this.downxy.pxx) < 0) cl = 0;
-                    else cl = this.Offsetxy.cL + (ev.clientX - this.oCantl.left - this.downxy.pxx);
-                    if ((this.Offsetxy.cT + ev.clientY - this.oCantl.top - this.downxy.pxy) > (oPares.offsetHeight)) ct = oPares.offsetHeight;
-                    else if ((this.Offsetxy.cT + ev.clientY - this.oCantl.top - this.downxy.pxy) < 0) ct = 0;
-                    else ct = this.Offsetxy.cT + (ev.clientY - this.oCantl.top - this.downxy.pxy);
-                    oCanvas.style.left = cl + 'px'
-                    oCanvas.style.top = ct + 'px'
-                }
-                if (!this.selectType && !this.initMove( movexy.x, movexy.y ) && this.isPattern !== 5) {//如果在擦除还原模式下 移动了canvas  需要重置跟随圆位置
-                    this.initborderXy( ev.clientX - this.oCantl.left, ev.clientY - this.oCantl.top )
-                    this.showBorder = true;
-                } else this.showBorder = false;
-                this.pointList( movexy )
-            },
-            dropMove(x, y) {//移动提取
-                let initw, inith;//偏移量
-                this.cansTxt.clearRect( 0, 0, this.cWH.cWidth, this.cWH.cHeight )
-                if ((this.Offsetxy.x + x) > (this.cWH.cWidth - this.initwh.w / 2)) initw = this.cWH.cWidth - this.initwh.w / 2;//图片不能超出canvas 50%
-                else if ((this.Offsetxy.x + x) < -(this.initwh.w / 2)) initw = -(this.initwh.w / 2);
-                else initw = this.Offsetxy.x + x;
-                if ((this.Offsetxy.y + y) > (this.cWH.cHeight - this.initwh.h / 2)) inith = this.cWH.cHeight - this.initwh.h / 2;
-                else if ((this.Offsetxy.y + y) < -(this.initwh.h / 2)) inith = -this.initwh.h / 2;
-                else inith = this.Offsetxy.y + y;
-                this.cansTxt.drawImage( this.secondobj, initw, inith, this.initwh.w, this.initwh.h )
-            },
-            initsetwh(movexy) {//缩放后重置dx,dy,initw.inith
-                let afterw, zoom = movexy.x - this.downxy.x > 0;
-                if (zoom) afterw = this.initwh.w + movexy.x - this.downxy.x//变化后宽度
-                else afterw = this.initwh.w - Math.abs( movexy.x - this.downxy.x )//变化后宽度
-                const [w, h] = [afterw, afterw * this.initwh.h / this.initwh.w]//缩放后宽//缩放后高
-                return [w, h]
 
             },
-            initfour(x, y) {//计算鼠标是否在图片显示区域的右上角，操作缩放的指针上
-                const alldian = [[(this.Offsetxy.x + this.initwh.w) * this.pxWidth / this.cWH.cWidth - 26, this.Offsetxy.y * this.pxHeight / this.cWH.cHeight], [(this.Offsetxy.x + this.initwh.w) * this.pxWidth / this.cWH.cWidth, this.Offsetxy.y * this.pxHeight / this.cWH.cHeight + 26]];
-                let result = false;
-                for (let k in alldian) {
-                    if (x >= alldian[0][0] && x <= alldian[1][0] && y >= alldian[0][1] && y <= alldian[1][1]) {
-                        result = true
-                        break
-                    }
-                }
-                return result
-            },
-            // changeClear(k) {//切换擦除还原
-            //     this.isClear = k === 1 ? true : false;
-            // },
             choseBackColor(color, index) {//4种背景切换（透明、纯色、黑白、模糊）
                 if (!index) this.showcolorList = !this.showcolorList;
                 else if (index === 1) this.drawImgAfterFirst( this.secondobj, this.opacity, 1 );//透明背景
@@ -647,47 +610,42 @@
             changeSelecType(idx) {//每次切换菜单都把procan上的图片保存为图片对象
                 if (this.selectType === idx || !this.edrieImgInfo.pro) return;
                 this.selectType = idx;
-                const url = this.proCans.toDataURL()
-                let oImg = new Image()
-                oImg.crossOrigin = ''
-                oImg.onload = () => {
-                    this.secondobj = oImg
-                }
-                oImg.src = url;
-                if (idx) this.initborder();
-                else {
-                    this.cansTxt.clearRect( 0, 0, this.cans.width, this.cans.height );
-                    this.cansTxt.drawImage( this.secondobj, this.Offsetxy.x, this.Offsetxy.y, this.initwh.w, this.initwh.h );
-                }
-                // this.initborder()
+
             },
             changeBgType(idx) {//切换背景图片的类型
                 if (this.bgType === idx) return;
                 this.bgType = idx;
                 this.selectIdx = -1;
-                this.oneItemBg = [];//防止网速慢图片转换不过来，所有先清空
-                this.$nextTick( () => {
-                    this.oneItemBg = this.bgList[idx]
-                } )
+                this.oneItemBg2 = [];//防止网速慢图片转换不过来，所有先清空
+                if (this.imgList[this.bgType].length > 0) {
+                    this.$nextTick( () => {
+                        this.oneItemBg2 = this.imgList[idx]
+                    } )
+                } else {
+                    catImgList( {catId: this.imgCatList[this.bgType].id} ).then( res => {
+                        this.oneItemBg2 = res.data.content;
+                        this.imgList[this.bgType] = res.data.content;
+                    } )
+                }
                 this.$refs.bTypeList.style.left = -(this.bgType - 1) * 80 + 'px'
             },
             moveItem(k) {
-                if ((!k && !this.bgType) || (k && this.bgType === this.bTypeList.length - 1)) return;
-                this.bgType = k ? this.bgType + 1 : this.bgType - 1;
-                this.$refs.bTypeList.style.left = -(this.bgType - 1) * 80 + 'px'
+                if ((!k && !this.bgType) || (k && this.bgType === this.imgList.length - 1)) return;
+                const l = k ? this.bgType + 1 : this.bgType - 1;
+                this.changeBgType( l )
             },
             selectBg(item, idx, z) {
                 this.selfImg = '';//清空自定义的背景图片
                 this.selectIdx = idx;
                 this.choseBack = 0;
                 this.downType = 2;
-                let bgimg = new Image();
-                bgimg.crossOrigin = '';
-                bgimg.onload = () => {
-                    this.bgobj = bgimg;
-                    this.drawImgAfterFirst( this.secondobj, bgimg, 1 );
-                }
-                bgimg.src = z ? this.bgList[item][idx] : item;
+                // let bgimg = new Image();
+                // bgimg.crossOrigin = '';
+                // bgimg.onload = () => {
+                //     this.bgobj = bgimg;
+                //     this.drawImgAfterFirst( this.secondobj, bgimg, 1 );
+                // }
+                // bgimg.src = z ? this.bgList[item][idx] : item;
             },
             initCans(data) {//初始化画布
                 let oImg = new Image();
@@ -723,6 +681,7 @@
                     this.$nextTick( () => {
                         this.oCantl = document.getElementById( `b_g` ).getBoundingClientRect()
                     } )
+                    // this.$refs.Munes.filterUrl( this.preimgObj, this.Original )
                 }
                 oImg.src = this.imgUrl + `?str=${Math.random()}`;
                 // oImg.src = 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2019/12/11/71a5d7d2b3334c9c841e89e888f359b0.png';
@@ -864,18 +823,6 @@
                 }
                 oImg.src = url
             },
-            initImgs(data) {//储存原图对象
-                this.Original = data.ori;
-                this.imgUrl = data.pro;
-                this.filename = data.filename;
-                let orige = new Image();
-                orige.crossOrigin = '';
-                orige.onload = () => {
-                    this.OriginalObj = orige;
-                    this.initCans( data );
-                }
-                orige.src = this.Original + `?str=${Math.random()}`
-            },
             initBgInfo() {//初始化时背景初始化
                 this.downType = 2;
                 let bgimg = new Image();
@@ -946,7 +893,7 @@
                 if (this.edrieImgInfo.bgImg) this.showUpload = true;
                 else {
                     this.showUpload = false;
-                    this.initImgs( this.edrieImgInfo )
+                    // this.initImgs( this.edrieImgInfo )
                 }
                 this.edrieImgInfo['type'] = this.showUpload ? 1 : 2;//1代表背景过来的，2代表抠图后过来的
             },
@@ -961,42 +908,38 @@
                 } ).catch( () => {
 
                 } );
+            },
+            closeSetMap(data) {
+                const idx=this.parseSubs.subList.findIndex(item=>item.hover);
+                this.savepointList=data.hisList;
+                this.parseSubs.subList[idx].useImg=data.img;
+                this.parseSubs.subList[idx].pro=data.img;
+                this.parseSubs.subList[idx].proObj=null;
+                this.dialogVisible=false;
+                this.hoverThis(idx,1)
             }
         },
         created() {//透明背景储存
-            let oBg = new Image();
-            oBg.crossOrigin = '';
-            oBg.onload = () => {
-                this.opacity = oBg
-            }
-            oBg.src = this.opas
+
         },
         mounted() {//初始化参数
-            this.cans = document.getElementById( 'b_p' );
-            this.bgCans = document.getElementById( 'b_g' );
-            this.cansTxt = this.cans.getContext( '2d' );
-            this.bgCansTxt = this.bgCans.getContext( '2d' );
-            this.proCans = document.createElement( 'canvas' );
-            this.proCansTxt = this.proCans.getContext( '2d' );
-            this.initAllInfo()
+            // this.initAllInfo()
             if (getToken()) this.userGetscribe();
             // this.oCantl = document.getElementById( `b_g` ).getBoundingClientRect()
-            document.getElementById( 'e_r' ).addEventListener( 'wheel', this.wheelFun )
-            document.addEventListener( 'mousemove', this.moves )
-            document.addEventListener( 'mouseup', this.ups, true )
+            // document.getElementById( 'e_r' ).addEventListener( 'wheel', this.wheelFun )
             document.addEventListener( 'click', () => {
                 this.showcolorList = false
             } )
-            document.addEventListener( 'keydown', (e) => {
-                const keynum = window.event ? e.keyCode : e.which;
-                // console.log(keynum)
-                if (keynum === 32) this.downSpace = true;
-            } )
-            document.addEventListener( 'keyup', (e) => {
-                this.downSpace = false;
-                // const  keynum = window.event ? e.keyCode : e.which;
-                // if(keynum===32)this.downSpace=true;
-            } )
+            // document.addEventListener( 'keydown', (e) => {
+            //     const keynum = window.event ? e.keyCode : e.which;
+            //     // console.log(keynum)
+            //     if (keynum === 32) this.downSpace = true;
+            // } )
+            // document.addEventListener( 'keyup', (e) => {
+            //     this.downSpace = false;
+            //     // const  keynum = window.event ? e.keyCode : e.which;
+            //     // if(keynum===32)this.downSpace=true;
+            // } )
         }
     }
 </script>
@@ -1276,8 +1219,8 @@
 
                         &:first-child {
                             color: #fff;
-                            /*text-shadow: #000 1px 0 0, #000 0 1px 0, #000 -1px 0 0, #000 0 -1px 0;*/
-                            -webkit-text-stroke: 1px #333;
+                            text-shadow: #000 1px 0 0, #000 0 1px 0, #000 -1px 0 0, #000 0 -1px 0;
+                            /*-webkit-text-stroke: 1px #333;*/
                         }
 
                         &:nth-child(2) {
@@ -1319,6 +1262,11 @@
                         &:nth-child(6) {
                             color: #333;
                             text-shadow: #E64FE8 -1px -3px, #2addfd 3px 0px; /*抖音字体效果*/
+                        }
+
+                        &:nth-child(7) {
+                            color: #333;
+                            font-family: "qwer";
                         }
 
                         &:nth-child(8) {
@@ -1377,14 +1325,21 @@
             position: relative;
             overflow: hidden;
 
-
-            .ships {
+            .loadingss {
                 position: absolute;
+                top: 50%;
+                color: #fff;
                 left: 50%;
-                bottom: 12%;
-                transform: translateX(-50%);
-                color: $co;
-                font-size: 12px;
+                padding: 15px;
+                font-size: 14px;
+                line-height: 24px;
+                background-color: rgba(0, 0, 0, .6);
+                text-align: center;
+                max-width: 70%;
+                transform: translate(-50%, -50%);
+                border-radius: 10px;
+                margin-top: -40px;
+                z-index: 99;
             }
 
             .nowMsg {
@@ -1409,64 +1364,154 @@
                 }
             }
 
-            .canvas {
+            .subs {
                 position: absolute;
-                top: 50%;
                 left: 50%;
+                top: 50%;
                 transform: translate(-50%, -50%);
-                overflow: hidden;
-                z-index: 99;
+                box-shadow: 0 0 15px #9c9c9c;
+                /*overflow: hidden;*/
 
-                &.active {
-                    cursor: none;
-                }
-
-                &.resiaze {
-                    cursor: all-scroll;
-                }
-
-                .img {
+                i {
                     position: absolute;
-                    z-index: 33;
+                    width: 8px;
+                    height: 8px;
+                    border: 1px solid #3a8ee6;
                     background-color: #fff;
-                    background-position: center;
-                    background-repeat: no-repeat;
-                    right: 0;
-                    top: 0;
-                    width: 26px;
-                    height: 26px;
+                    border-radius: 50%;
+                    transform: translate(-50%, -50%);
+                    cursor: nesw-resize;
+                    z-index: 66;
 
-                    &:hover {
-                        cursor: nesw-resize;
+                    &.iOne {
+                        top: 0;
+                        left: 50%;
+                        cursor: n-resize;
+                    }
+
+                    &.iTwo {
+                        top: 50%;
+                        right: 0;
+                        cursor: e-resize;
+                        transform: translate(50%, -50%);
+                    }
+
+                    &.iTh {
+                        bottom: 0;
+                        left: 50%;
+                        cursor: n-resize;
+                        transform: translate(-50%, 50%);
+                    }
+
+                    &.iFor {
+                        top: 50%;
+                        left: 0;
+                        cursor: e-resize;
+                    }
+
+                    &:last-child {
+                        top: 0;
+                        right: 0;
+                        transform: translate(50%, -50%);
                     }
                 }
 
-                canvas {
+                span.downIcon {
                     position: absolute;
-                    top: 0;
-                    left: 0;
+                    left: 50%;
+                    bottom: -25px;
+                    transform: translate(-50%, 0);
+                    border: none;
+                    background-color: initial;
+                    color: #3a8ee6;
+                    font-size: 18px;
+                    cursor: url(../../assets/image/rotate.svg) 11 9, pointer
+                }
+
+                & > img {
+                    display: block;
+                }
+
+                & > .initBack {
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                }
+
+                .initBack img {
+                    display: block;
                     width: 100%;
                     height: 100%;
                 }
 
-                .borderShow {
-                    border: 1px solid $co;
-                    border-radius: 50%;
-                    position: absolute;
-                    box-shadow: 0 0 10px $co inset;
-                }
+                & > div {
+                    &:after {
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        content: '';
+                        left: 0;
+                        top: 0;
+                    }
 
-                .dashed {
                     position: absolute;
-                    border: 1px solid #999;
+                    text-align: center;
+
+                    .Imgs {
+                        position: relative;
+                        flex: 1;
+
+                        img {
+                            position: absolute;
+                            width: 100%;
+                            height: 100%;
+                            left: 0;
+                            top: 0;
+                        }
+                    }
+
+
+                    .flex {
+                        flex-direction: column;
+                        height: 100%;
+
+                        img {
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+
+                    & > .Imgs {
+                        height: 100%;
+                    }
+
+                    &.hovers {
+                        cursor: move;
+
+                        &:after {
+                            border: 1px dashed #3a8ee6;
+                        }
+                    }
+
+                    .text {
+                        cursor: text;
+                        position: relative;
+                        z-index: 22;
+                    }
                 }
             }
+
         }
 
         .e_rLast {
             width: 220px;
-            padding: 85px 20px 0;
+            padding: 60px 20px 0;
             background-color: #fff;
+
+            .initLast {
+                padding-top: 25px;
+            }
 
             h4 {
                 font-size: 14px;
@@ -1504,7 +1549,8 @@
                     margin: 0 auto 5px;
                 }
             }
-            .jcList > div{
+
+            .jcList > div {
                 width: 70px;
                 height: 70px;
                 background-color: #eee;
@@ -1512,7 +1558,9 @@
                 color: #8a8a8a;
                 text-align: center;
                 margin-bottom: 5px;
-                i{
+                border-radius: 5px;
+
+                i {
                     display: inline-block;
                     font-size: 24px;
                     margin: 14px auto 8px;
@@ -1525,9 +1573,9 @@
 
         .dialogs {
             padding-top: 0;
-            z-index: 1111;
+            z-index: 88;
             width: 500px;
-            margin-left: 178px;
+            margin-left: 48px;
             background-color: initial;
             position: fixed;
             top: 50%;
@@ -1561,21 +1609,6 @@
                     margin: 0 30px;
                     cursor: pointer;
                 }
-            }
-
-            .loadingss {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                padding: 8px 15px;
-                font-size: 14px;
-                line-height: 24px;
-                background-color: rgba(255, 255, 255, .6);
-                text-align: center;
-                max-width: 70%;
-                transform: translate(-50%, -50%);
-                border-radius: 10px;
-                margin-top: -40px;
             }
         }
 
@@ -1679,8 +1712,12 @@
         }
     }
 
+    .el-dialog {
+        border-radius: 15px;
+    }
+
     .zheR {
-        z-index: 888;
+        z-index: 77;
         position: absolute;
         left: 0;
         top: 0;

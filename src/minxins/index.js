@@ -76,7 +76,7 @@ import color from '@/assets/image/color.png'
 import fopa from '@/assets/image/fopa.png'
 import mohu1 from '@/assets/image/mohu1.png'
 import mohu2 from '@/assets/image/mohu2.png'
-import { downloadMattedImage } from "@/apis";
+import { imgListCat,catImgList } from "@/apis";
 export const mixins={
   data(){
     return {
@@ -100,6 +100,11 @@ export const mixins={
         '#ccf0fe','#d3e2ff','#d9c8fe','#efcafe','#f9d3e0','#fedbd9','#ffe3d7','#feedd3','#fff1d4','#fffdde','#f7fadd','#e0eed5',
       ],//色板
       color: [fopa, color,mohu2,mohu1],
+      imgCatList:[],//类目
+      imgList:[],//图片list
+      oneItemBg2:[],
+      bgType: 1,
+      imgPage:1
     }
   },
   methods:{
@@ -113,25 +118,21 @@ export const mixins={
         fileId:this.fileId,
         imageMsg:this.imageMsg
       }
-      // if(!k){
         localStorage.setItem('editImg',JSON.stringify(editPictures))
         window.open('editPictures.html')
-      // } else{
-      //   if( this.imageMUrl){
-      //     editPictures.pro=this.imageMUrl
-      //     localStorage.setItem('editImg',JSON.stringify(editPictures))
-      //     window.open('editPictures.html')
-      //     return
-      //   }
-      //   downloadMattedImage({fileId: this.fileId}).then(res => {
-      //     if (!res.code) {
-      //       this.imageMUrl = res.data
-      //       editPictures.pro=res.data
-      //       localStorage.setItem('editImg',JSON.stringify(editPictures))
-      //       window.open('editPictures.html')
-      //     }
-      //   })
-      // }
+    },
+    initCats(){
+      imgListCat().then(res=>{
+        this.imgCatList=res.data;
+        this.imgList=Array.from({length:this.imgCatList.length},v=>[]);
+        let data={
+          catId:this.imgCatList[this.bgType].id
+        }
+        catImgList(data).then(res=>{
+          this.oneItemBg2=res.data.content;
+          this.imgList[this.bgType]=res.data.content;
+        })
+      })
     },
     initSmallTag(e,txt) {//点击小动画
       let $i = $( '<span></span>' ).text( txt ), y = e.clientY - 30, x = e.clientX - 10;
@@ -155,7 +156,7 @@ export const mixins={
     }
   },
   mounted(){
-
+    this.initCats();
   },
   created(){
 

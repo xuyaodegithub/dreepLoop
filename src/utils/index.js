@@ -252,8 +252,8 @@ export const compressImg = (files, k) => {
                 let oImg = new Image();
                 oImg.crossOrigin = '';
                 oImg.onload = () => {
-                    can.width = oImg.width > oImg.height ? (oImg.width > 2000 ? 2000 : oImg.width) : (oImg.height > 2000 ? oImg.width * 2000 / oImg.height : oImg.width);
-                    can.height = oImg.width > oImg.height ? (oImg.width > 2000 ? 2000 * oImg.height / oImg.width : oImg.height) : (oImg.height > 2000 ? 2000 : oImg.height);
+                    can.width = oImg.width > oImg.height ? (oImg.width > 1024 ? 1024 : oImg.width) : (oImg.height > 1024 ? oImg.width * 1024 / oImg.height : oImg.width);
+                    can.height = oImg.width > oImg.height ? (oImg.width > 1024 ? 1024 * oImg.height / oImg.width : oImg.height) : (oImg.height > 1024 ? 1024 : oImg.height);
                     canTxt.drawImage( oImg, 0, 0, can.width, can.height )
                     can.toBlob( (blob) => {
                         resolve( blob )
@@ -268,8 +268,8 @@ export const compressImg = (files, k) => {
             let oImg = new Image();
             oImg.crossOrigin = '';
             oImg.onload = () => {
-                can.width = oImg.width > oImg.height ? (oImg.width > 2000 ? 2000 : oImg.width) : (oImg.height > 2000 ? oImg.width * 2000 / oImg.height : oImg.width);
-                can.height = oImg.width > oImg.height ? (oImg.width > 2000 ? 2000 * oImg.height / oImg.width : oImg.height) : (oImg.height > 2000 ? 2000 : oImg.height);
+                can.width = oImg.width > oImg.height ? (oImg.width > 1024 ? 1024 : oImg.width) : (oImg.height > 1024 ? oImg.width * 1024 / oImg.height : oImg.width);
+                can.height = oImg.width > oImg.height ? (oImg.width > 1024 ? 1024 * oImg.height / oImg.width : oImg.height) : (oImg.height > 1024 ? 1024 : oImg.height);
                 canTxt.drawImage( oImg, 0, 0, can.width, can.height )
                 can.toBlob( (blob) => {
                     resolve( blob )

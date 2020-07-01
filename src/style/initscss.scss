@@ -6,3 +6,41 @@ $to:#21a9e8;
 $head:#F75191;
 $pic:#4254E6;
 $be:#2ED8B4;
+.down_line{
+  text-decoration:underline;
+}
+.top_line{
+  text-decoration:overline;
+}
+.del_line{
+  text-decoration:line-through;
+}
+.otherss   .el-color-picker{
+  width: 28px;
+  height:28px;
+  border: 1px solid #ececec;
+}
+.otherss  .el-color-picker__trigger,.fmune   .el-color-picker__trigger{
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+}
+.otherss .el-color-picker__color,.fmune  .el-color-picker__color{
+  border: none;
+}
+.fmune .el-color-picker{
+  height: 20px;
+}
+.fmune .el-color-picker .el-icon-arrow-down:before{
+  content: '';
+}
+div.el-popper.te{
+  margin-top: 30px;
+}
+.editPictures .el-dialog__body{
+  padding: 0;
+}
+.matting .el-slider__runway{
+  margin: 10px 0;
+}
