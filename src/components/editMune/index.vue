@@ -1,6 +1,6 @@
 <template>
     <!--    描边 投影组件-->
-    <div class="mune">
+    <div class="mune"  v-loading="loading">
         <div class="header flex j-b">
             <span class="cu" :class="{'active' : tabType===idx}" v-for="(item,idx) in tabList" @click="changeTab(idx)"
                   :key="idx">{{item.name}}</span>
@@ -19,7 +19,7 @@
             </div>
             <div class="t2 flex j-b f-w" v-show="tabType===2">
                 <div class="item cu" v-for="(it,idx) in filterList" :key="idx">
-                    <div v-loading="loading" @click="selectEdit(it,idx)" :class="{'active' : t2Idx===idx}">
+                    <div @click="selectEdit(it,idx)" :class="{'active' : t2Idx===idx}">
                         <img :src="it.src ? it.src : preImg " alt="">
                     </div>
                     <span>{{it.name}}</span>
@@ -34,7 +34,7 @@
                         <div :style="{transform:`rotateZ(${angle}deg)`}"><p></p></div>
                     </div>
                     <el-input v-model="angle" placeholder="请输入内容" size="mini" type="number"
-                              @input="initsliderVal"></el-input>
+                              @input="changeAngle"></el-input>
                     度
                 </div>
                 <div class="flex a-i"><label>距离：</label>
@@ -123,7 +123,8 @@
                 },
                 colors: ['#fff', '#FED835', '#2862F4', '#28F5B4'],
                 loading: false,
-                t2Idx: 1
+                t2Idx: 1,
+                closeWatch:false,//每次切換組件時，不需要重复watch
             }
         },
         mounted() {
@@ -132,13 +133,14 @@
         watch: {
             sliderVal: {
                 handler(newVal, oldVal) {
-                    this.initsliderVal();
+                    if(!this.closeWatch)this.initsliderVal();
                 },
                 deep: true
             },
             showDowVal: {
                 handler(newVal, oldVal) {
-                    this.initsliderVal();
+                    if(!this.closeWatch)this.initsliderVal();
+
                 },
                 deep: true
             },
@@ -205,7 +207,8 @@
                         oCan.width = w + this.showDowVal.mSize * 2;
                         oCan.height = (w + this.showDowVal.mSize * 2) * h / w;
                     }
-
+                    // oCan.width = w+this.showDowVal.mSize * 2;
+                    // oCan.height = h+this.showDowVal.mSize * 2;
                     oCanTxt.drawImage( oImg, 0, 0, oCan.width, oCan.height );
                     imgData2 = oCanTxt.getImageData( 0, 0, oCan.width, oCan.height );
                     for (let y = 0; y < oCan.height; y++) {
@@ -231,6 +234,25 @@
             }
         },
         methods: {
+            changeAngle(){
+                if(this.angle>360)this.angle=360;
+                else if(this.angle<0)this.angle=0;
+                this.initsliderVal()
+            },
+            initCanshu(data){
+                this.closeWatch=true;
+                let keys=Object.keys({...this.sliderVal,...this.showDowVal,checked:this.checked,checkedM:this.checkedM,t2Idx:this.t2Idx,mattingType:this.btnType});
+                keys.map(item=>{
+                    if(data.hasOwnProperty(item) && this.sliderVal.hasOwnProperty(item))this.sliderVal[item]=data[item];
+                    else if(data.hasOwnProperty(item) && this.showDowVal.hasOwnProperty(item))this.showDowVal[item]=data[item];
+                    else if(data.hasOwnProperty(item) && ['checked','checkedM','t2Idx'].includes(item))this[item]=data[item];
+                    else if(data.hasOwnProperty(item) && item==='mattingType')this['btnType']=this.btnList.findIndex(item=>item.type===data['mattingType']);
+                    else [this.checked,this.checkedM]=[false,false]
+                } )
+               this.$nextTick(()=>{
+                   this.closeWatch=false;
+               })
+            },
             initsliderVal() {
                 let oCan = document.createElement( 'canvas' ), oCanTxt;
                 oCanTxt=oCan.getContext('2d');
@@ -239,7 +261,7 @@
                 if (this.checked) oCanTxt.drawImage( this.resliderVal, this.initAngleDistance.x, this.initAngleDistance.y );
                 if (this.checkedM) oCanTxt.drawImage( this.initshowDowVal, -(this.initshowDowVal.width-this.resliderVal.width)/2, -(this.initshowDowVal.height - this.resliderVal.height) / 2, this.initshowDowVal.width, this.initshowDowVal.height );//重复同位置putimgData会覆盖，需要画上去
                 oCanTxt.drawImage( this.filterList[this.t2Idx].loadObj, 0, 0, oCan.width, oCan.height );
-                this.$emit( 'effectsImg', oCan.toDataURL() );
+                this.$emit( 'effectsImg', {useImg:oCan.toDataURL(),...this.sliderVal,...this.showDowVal,checked:this.checked,checkedM:this.checkedM} );
             },
             changeTab(idx) {
                 if (this.tabType === idx) return;
@@ -254,6 +276,7 @@
                 if (data.pro === this.preImg) return;
                 this.loading = true;
                 this.t2Idx = 1;
+                this.initCanshu(data);
                 this.preImg = data.pro;
                 this.proImgObj = data.proObj;
                 let oCan = document.createElement( 'canvas' );
@@ -261,7 +284,10 @@
                 oCan.width = data.proObj.width;
                 oCan.height = data.proObj.height;
                 oCanTxt.drawImage( data.proObj, 0, 0 );
-                this.loadStatus( data, oCanTxt );
+                this.$nextTick(()=>{
+                    this.loadStatus( data, oCanTxt )
+                })
+                // this.loadStatus( data, oCanTxt );
 
             },
             loadStatus(data, oCanTxt) {
@@ -305,10 +331,10 @@
             selectEdit(it, idx) {
                 if (idx === this.t2Idx) return;
                 this.t2Idx = idx;
-                this.checked = false;
-                this.checkedM = false;
+                this.checked= false;
+                this.checkedM= false;
                 if (it.url && it.loadObj) {
-                    this.$emit( 'effectsImg', it.url );
+                    this.$emit( 'effectsImg', {useImg:it.url,t2Idx:this.t2Idx,checked: false,checkedM: false} );
                     return
                 }
                 let oImg = new Image(), oCan = document.createElement( 'canvas' ), oCanTxt;
@@ -324,7 +350,7 @@
                         uploadossBg( fromData ).then( res => {
                             this.filterList[idx].url = res.data;
                             this.filterList[idx].loadObj = oImg;
-                            this.$emit( 'effectsImg', res.data );
+                            this.$emit( 'effectsImg', {useImg:res.data,t2Idx:this.t2Idx,checked:false,checkedM:false} );
                         } )
                     } )
                 };

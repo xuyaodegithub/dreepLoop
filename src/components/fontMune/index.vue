@@ -1,5 +1,5 @@
 <template>
-<!--    文字组件-->
+    <!--    文字组件-->
     <div class="fmune">
         <el-select v-model="fValue" placeholder="请选择" @change="changeFont">
             <el-option
@@ -11,33 +11,36 @@
             >
             </el-option>
         </el-select>
-        <el-input-number v-model="fontSize" controls-position="right" :min="1" :max="60" @input="setFont({fontSize})"></el-input-number>
+        <el-input-number v-model="fontSize" controls-position="right" :min="1" :max="60"
+                         @input="setFont({fontSize})"></el-input-number>
         <div class="flex a-i colors">
             <span>字体颜色</span>
             <el-color-picker v-model="color" @change="setFont({color})"></el-color-picker>
         </div>
         <div class="flex a-i colors">
             <span>背景颜色</span>
-            <el-color-picker v-model="backgroundColor" show-alpha @change="setFont({backgroundColor})"></el-color-picker>
+            <el-color-picker v-model="backgroundColor" show-alpha
+                             @change="setFont({backgroundColor})"></el-color-picker>
         </div>
-        <el-popover
-                placement="left"
-                width="290"
-                trigger="click">
-            <div class="popovers flex f-w">
-                <div class="cu" style="font-size: 14px;">无样式</div>
-                <div v-for="(item,idx) in fontStyleList" :key="idx" :style="{textShadow:item.shadow}" class="cu">样式
-                </div>
-            </div>
-            <div class="flex a-i colors fstyle cu" slot="reference">
-                <span>字体样式</span>
-                <i :class="showFontStyle ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
-            </div>
-        </el-popover>
-        <div class="fontFa flex">
+        <!--        <el-popover-->
+        <!--                placement="left"-->
+        <!--                width="290"-->
+        <!--                trigger="click">-->
+        <!--            <div class="popovers flex f-w">-->
+        <!--                <div class="cu" style="font-size: 14px;">无样式</div>-->
+        <!--                <div v-for="(item,idx) in fontStyleList" :key="idx" :style="{textShadow:item.shadow}" class="cu">样式-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--            <div class="flex a-i colors fstyle cu" slot="reference">-->
+        <!--                <span>字体样式</span>-->
+        <!--                <i :class="showFontStyle ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>-->
+        <!--            </div>-->
+        <!--        </el-popover>-->
+        <div class="fontFa flex lineStyle">
             <el-tooltip :content="item.mean" placement="top" v-for="(item,idx) in firstList" :key="idx">
                 <span class="cu"
-                      :class="{'active' : selectCom.lineType===item.type,'down_line' : idx===2,'del_line' : idx===3}">{{item.text}}</span>
+                      :class="{'active' : selectCom.includes(item.type),'down_line' : idx===2,'del_line' : idx===3}"
+                      @click="addLine(idx)">{{item.text}}</span>
             </el-tooltip>
         </div>
         <div class="fontFa flex">
@@ -46,18 +49,27 @@
                         v-if="item.type!==6"
                         placement="bottom"
                         :width="!idx ? 80 : 220"
-                        trigger="click"
+                        trigger="manual"
+                        v-model="styleType===item.type"
                         :popper-class="[7,8].includes(item.type) ? 'te' : ''">
                     <ul class="liList" v-if="item.type===5">
                         <li>文字对齐</li>
-                        <li v-for="(it,ix) in item.itemList" :key="ix" class="cu flex a-i" :class="{'active' : selectCom.alignmentType===it.sonType}"><i class="icon iconfont" :class="it.icon"></i>{{it.text}}</li>
+                        <li v-for="(it,ix) in item.itemList" :key="ix" class="cu flex a-i" @click="setAlign(it.sonType)"
+                            :class="{'active' : alignType===it.sonType}"><i class="icon iconfont" :class="it.icon"></i>
+                            {{it.text}}
+                        </li>
                     </ul>
                     <div v-if="[7,8].includes(item.type)" class="flex a-i slids">
                         <label>{{item.type===7 ? '字间距' : '行高'}}</label>
-                        <el-slider :show-tooltip="false" v-model="letterSpace" :min="0" :max="150"></el-slider>{{letterSpace}}px
+                            <el-slider :show-tooltip="false" v-model="letterSpace" :min="0" :max="50"  v-show="item.type===7"
+                                       @input="setFont({letterSpace})"></el-slider>
+                            <el-slider :show-tooltip="false" v-model="lineHeight" :min="0" :max="150"  v-show="item.type===8"
+                                       @input="setFont({lineHeight})"></el-slider>
+                            {{item.type===7? letterSpace : lineHeight}}px
+
                     </div>
                     <div class="flex" slot="reference">
-                        <i class="icon iconfont cu" :class="item.icon"></i>
+                        <i class="icon iconfont cu" :class="item.icon" @click="styleType=item.type"></i>
                     </div>
                 </el-popover>
                 <i class="icon iconfont cu" :class="item.icon" v-else></i>
@@ -89,10 +101,10 @@
                 backgroundColor: 'rgba(250,250,250,1)',
                 showFontStyle: false,
                 styleList: [
-                    {text: 'B', type: 1, mean: '加粗'},
-                    {text: 'I', type: 2, mean: '倾斜'},
-                    {text: 'U', type: 3, mean: '下划线'},
-                    {text: 'A', type: 4, mean: '删除线'},
+                    {text: 'B', type: 1, mean: '加粗', val: 'bold', key: 'fontWeight'},
+                    {text: 'I', type: 2, mean: '倾斜', val: 'italic', key: 'fontStyle'},
+                    {text: 'U', type: 3, mean: '下划线', val: 'underline', key: 'textDecoration'},
+                    {text: 'A', type: 4, mean: '删除线', val: 'line-through', key: 'textDecoration'},
                     {
                         icon: 'icon-juzhongduiqi',
                         type: 5,
@@ -107,8 +119,11 @@
                     {icon: 'icon-zijianju', type: 7, mean: '字间距'},
                     {icon: 'icon--zitihanggao', type: 8, mean: '行高'},
                 ],
-                selectCom: {lineType: 2,alignmentType:1},//当前选中的组件
-                letterSpace:0,//行高、字间距
+                styleType:-1,
+                selectCom: [],//当前选中的组件
+                alignType: 1,
+                letterSpace: 0,//字间距
+                lineHeight: 0,//字间距
             }
         },
         mounted() {
@@ -128,11 +143,33 @@
                 let oInput = document.querySelector( '.el-select .el-input__inner' );
                 oInput.style.fontFamily = item.value;
                 oInput.style.fontWeight = item.h ? 'bold' : 'normal';
-                this.$emit('initFont',{fontFamily:item.value,fontWeight:item.h ? 'bold' : 'normal'})
+                this.$emit( 'initFont', {fontFamily: item.value, fontWeight: item.h ? 'bold' : 'normal'} )
             },
-            setFont(data){
-                console.log(data,111)
-                this.$emit('initFont',data)
+            setFont(data) {
+                this.$emit( 'initFont', data );
+            },
+            addLine(idx) {
+                const ix=this.selectCom.indexOf(this.firstList[idx].type);
+                if(ix>-1)this.selectCom.splice(ix,1);
+                else this.selectCom.push(this.firstList[idx].type);
+                const [ix2,ix3]=[this.selectCom.indexOf(3),this.selectCom.indexOf(4)];
+                if(ix2>-1 && ix3>-1){
+                    const i=ix3>ix2 ? ix2 : ix3;
+                    this.selectCom.splice(i,1)
+                }
+                let data=this.selectCom.reduce((pre,item,idx)=>{
+                    const val=this.firstList.find(it=>it.type===item);
+                    pre[val.key]=val.val;
+                    return pre
+                },{fontWeight:'initial',fontStyle:'initial',textDecoration:'initial'})
+                this.$emit( 'initFont', data )
+            },
+            setAlign(type){
+                if(this.alignType===type)return;
+                this.alignType=type;
+                const a=['left','center','right'];
+                this.$emit( 'initFont', {textAlign:a[this.alignType-1]} )
+                this.styleType=-1;
             },
             changeColor() {
                 this.$refs.colorSelect.click()
@@ -180,6 +217,10 @@
             }
         }
 
+        .lineStyle {
+            margin-top: 100px;
+        }
+
         .fontFa {
             line-height: 1;
             padding: 20px 25px;
@@ -200,34 +241,40 @@
             }
         }
     }
-    .slids{
+
+    .slids {
         font-size: 12px;
-        .el-slider{
+        .el-slider {
             width: 40%;
             margin: 0 20px;
         }
     }
-    .liList{
+
+    .liList {
         font-size: 12px;
         color: #333;
         line-height: 30px;
-        i{
+
+        i {
             display: inline-block;
             margin-right: 15px;
             font-size: 18px;
         }
 
-        li:first-child{
+        li:first-child {
             color: #9c9c9c;
             border-bottom: 1px solid #e9e9e9;
-            & ~ li:hover{
+
+            & ~ li:hover {
                 background-color: #eee;
             }
         }
-        .active{
+
+        .active {
             color: $co;
         }
     }
+
     .popovers {
         padding: 10px;
         font-size: 24px;

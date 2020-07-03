@@ -62,7 +62,7 @@
                         {{this.bgOriginal.status===3 ? '图片过大，暂时无法处理' : '本天限制次数已达上限'}}
                         <!--                        Error occured, the foreground can not be recognized-->
                         <p>
-                            {{this.bgOriginal.status===3 ? '请选择一个不超过15M的图片进行处理' :  '未登录状态上传次数已达上限，请登录后继续操作！'}}
+                            {{this.bgOriginal.status===3 ? '请选择一个不超过15M的图片进行处理' : '未登录状态上传次数已达上限，请登录后继续操作！'}}
                             <!--                        	Try picture that contains person, more categories will be supported in future-->
                         </p>
                     </div>
@@ -132,7 +132,7 @@
         props: {
             files: Object,
             index: Number,
-            type:Number
+            type: Number
         },
         mixins: [mixins],
         data() {
@@ -570,7 +570,7 @@
                                     Original: _self.Original,
                                     filename: _self.filename
                                 } )
-                            } else if(res.code ===4003){
+                            } else if (res.code === 4003) {
                                 let obj = {
                                     name: _self.imgname,
                                     img: '',
@@ -587,7 +587,7 @@
                                     noSave: true
                                 } )
                                 _self.bgOriginal = obj
-                            }else {
+                            } else {
                                 let obj = {
                                     name: _self.imgname,
                                     img: '',
@@ -662,7 +662,7 @@
                             Original: this.Original,
                             filename: this.filename
                         } )
-                    }else if(res.code ===4003){
+                    } else if (res.code === 4003) {
                         let obj = {
                             name: this.imgname,
                             img: '',
@@ -698,7 +698,7 @@
                         this.bgOriginal = obj
                     }
                 } ).catch( err => {
-                    console.log( err ,this.fileId)
+                    console.log( err, this.fileId )
                     let obj = {
                         name: this.imgname,
                         img: '',
@@ -768,7 +768,7 @@
             },
             // 下载
             downOldImg(urls, all) {
-                console.log(urls,this.choseBack)
+                console.log( urls, this.choseBack )
                 let urlss = urls + `?str=${Math.random()}`
                 let _self = this
                 let cans = document.createElement( 'canvas' );
@@ -991,7 +991,7 @@
                 let newBg4 = ctx.getImageData( 0, 0, canvasTemp.width, canvasTemp.height );
                 JSManipulate.blur.filter( newBg1, {amount: 5.0} );
                 JSManipulate.grayscale.filter( newBg4 );
-                console.log(index,'pppp')
+                console.log( index, 'pppp' )
                 callback( {
                     dwonBg: index === 2 ? newBg4 : newBg1,
                     bgRemovedImg: imgObjs.bgImg

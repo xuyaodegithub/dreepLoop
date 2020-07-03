@@ -145,10 +145,10 @@
         <div class="e_r" id="e_r" @click="blurAll">
             <div class="subs"
                  :style="{width:`${edrieImgInfo.imageMsg.previewWidth}px`,height:`${edrieImgInfo.imageMsg.previewHeight}px`}">
-                <div class="items" :class="{'hovers' : item.hover}" v-for="(item,idx) in parseSubs.subList"
+                <div class="items" :class="{'hovers' : item.hovering}" v-for="(item,idx) in parseSubs.subList"
                      :style="item | subsStyle"
-                     v-drag @mousedown.stop="hoverThis(idx)" @mouseup="setData(idx)" @click.stop="hoverThis(idx,2)">
-                    <div v-if="item.type===2" :contenteditable="item.contenteditable" class="text"
+                     v-drag @mouseup="setData(idx)" @click.stop="hoverThis(idx)">
+                    <div v-if="item.type===2" :contenteditable="item.contenteditable" class="text" style="font-weight:inherit"
                          @blur="setBlur($event,idx)">{{item.title}}
                     </div>
                     <div v-if="[1,3].includes(item.type)" class="Imgs">
@@ -160,8 +160,8 @@
 <!--                        </div>-->
 <!--                        <div class="Imgs"><img :src="item.useImg" alt=""></div>-->
 <!--                    </div>-->
-                    <span class="el-icon-refresh downIcon" v-show="item.hover"></span>
-                    <i v-for="it in 5" :key="'a'+it" v-show="item.hover"
+                    <span class="el-icon-refresh downIcon" v-show="item.hovering"></span>
+                    <i v-for="it in 5" :key="'a'+it" v-show="item.hovering"
                        :class="{'iOne' : it===1,'iTwo' : it===2,'iTh' : it===3,'iFor' : it===4,'iFive' : it===5}"></i>
                 </div>
 
@@ -249,19 +249,6 @@
                     {url: 'icon-tiezhi', title: '贴纸'},
                 ],
                 seachWords: '',
-                bTypeList: [{
-                    name: '风景',
-                    img: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/resource/img/22/22573.png'
-                }, {
-                    name: '抽象绘画',
-                    img: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/resource/img/16/16382.png'
-                }, {name: '建筑', img: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/resource/img/14/14209.png'}, {
-                    name: '户外',
-                    img: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/resource/img/24/24397.png'
-                }, {name: '街道', img: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/resource/img/19/19783.png'}, {
-                    name: '商场',
-                    img: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/resource/img/7/7505.png'
-                }, {name: '会议室', img: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/resource/img/6/6764.png'}],
                 jcList: [
                     {icon: 'el-icon-picture', text: '原图'},
                     {icon: 'el-icon-full-screen', text: '自定义'},
@@ -312,32 +299,35 @@
                             x: 0,
                             y: 0,
                             rotate: 0,
-                            hover: false,
+                            hovering: false,
                             zIndex: 0,
                             useImg: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/resource/img/25/25781.png',
                             pro: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/resource/img/25/25781.png',
                             ori: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/resource/img/25/25781.png',
                             proObj:null,////抠图过加载后的对象
+                            hasproobj:false,
+                            mattingType:0
                         },
                         {
                             type: 2,//文字组件
                             title: '文字组件',
-                            fontFamily: 'initial',//文字类型
+                            fontFamily: 'Arial',//文字类型
                             fontSize: 12,//大小
                             letterSpace: 0,//字间距
                             lineHeight: 40,//行高
                             color: '#e82255',//颜色
                             backgroundColor: '',//背景色
-                            fontStyle: false,//是否斜体
-                            textDecoration: '',//下划线，删除线
+                            fontStyle: 'initial',//是否斜体
+                            textDecoration: 'initial',//下划线，删除线
                             textAlign: 'center',
                             flexDirection: 1,//1代表横向，0代表竖向
+                            fontWeight:'initial',
                             w: 120,
                             h: 40,
                             x: 0,
                             y: 0,
                             rotate: 0,
-                            hover: false,
+                            hovering: false,
                             zIndex: 2,
                             contenteditable: true,
                         },
@@ -353,8 +343,10 @@
                             pro: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/resource/img/15/15866.png',
                             ori: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/resource/img/15/15866.png',
                             proObj:null,////抠图过加载后的对象
-                            hover: false,
-                            zIndex: 3
+                            hasproobj:false,
+                            hovering: false,
+                            zIndex: 3,
+                            mattingType:0,//抠图模式
                         },
                     ],
                     fileId: '',//公用
@@ -365,8 +357,8 @@
         computed: {
             ...mapGetters( ['userSubscribeData'] ),
             hoverSub() {
-                const item = this.parseSubs.subList.find( item => item.hover )
-                return item ? item : {type: ''}
+                const item = this.parseSubs.subList.find( item => item.hovering );
+                return item ? item : {type: ''};
             },
             mainSub() {
                 const item = this.parseSubs.subList.find( item => item.type === 1 )
@@ -409,8 +401,8 @@
                     data.color = item.color;
                     data.fontFamily = item.fontFamily;
                     data.backgroundColor = item.backgroundColor;
-                    data.fontStyle = item.fontStyle ? 'italic' : 'initial';//是否是斜体
-                    data.textDecoration = item.textDecoration ? item.textDecoration : 'initial';//是否是斜体
+                    data.fontStyle = item.fontStyle;//是否是斜体
+                    data.textDecoration = item.textDecoration;//画线
                     data.textAlign = item.textAlign;//对齐方式
                     data.width = item.flexDirection ? item.w + 'px' : item.size + 'px';//对齐方式
                     data.padding = item.flexDirection ? 0 : '0 8px';
@@ -422,11 +414,11 @@
             ...mapActions( [
                 'userGetscribe'
             ] ),
-            hoverThis(idx, j) {
-                this.parseSubs.subList.map( item => item.hover = false );
-                this.parseSubs.subList[idx].hover = true;
-                // if(this.parseSubs.subList[idx].type===2)this.parseSubs.subList[idx].contenteditable=true;
-                if (j && [0, 1, 3].includes( this.parseSubs.subList[idx].type )){
+            hoverThis(idx) {
+                console.log(this.parseSubs.subList[idx].hovering)
+                this.parseSubs.subList.map( item => item.hovering = false );
+                this.parseSubs.subList[idx].hovering = true;
+                if ([0, 1, 3].includes( this.parseSubs.subList[idx].type )){
                     if(this.parseSubs.subList[idx].proObj) this.$refs.Munes.filterUrl( this.parseSubs.subList[idx] );
                     else {
                         let oImg=new Image();
@@ -440,14 +432,15 @@
                 }
             },
             blurAll() {
-                this.parseSubs.subList.map( item => item.hover = false );
+                this.parseSubs.subList.map( item => item.hovering = false );
             },
             setData(idx) {
 
             },
             initFont(data){//设置字体组件
-                console.log(data,222)
-                const list=Object.keys(data),idx=this.parseSubs.subList.findIndex(item=>item.hover);
+                // console.log(data)
+                const list=Object.keys(data),idx=this.parseSubs.subList.findIndex(item=>item.hovering);
+                if(idx<0)return;
                 list.map(item=>{
                     this.parseSubs.subList[idx][item]=data[item]
                 })
@@ -460,9 +453,14 @@
                 if (idx === -1) this.dialogVisible = true;
                 else this.mattingbyUrl( idx )
             },
-            effectsImg(url) {//添加特效
-                let idx = this.parseSubs.subList.findIndex(item=>item.hover);
-                if(idx>-1)this.parseSubs.subList[idx].useImg=url;
+            effectsImg(data) {//添加特效
+                let idx = this.parseSubs.subList.findIndex(item=>item.hovering),list=Object.keys(data);
+                if(idx>-1){
+                    list.map(item=>{
+                        this.parseSubs.subList[idx][item]=data[item]
+                    })
+                    // this.parseSubs.subList[idx].useImg=data.url;
+                }
 
             },
             upLoad(k) {//上传图片（k值0自定义背景，1人像抠图 2物体抠图）
@@ -518,12 +516,13 @@
                 getMattingInfo( {fileId: this.fileId} ).then( res => {//根据id查询
                     if (!res.code) {
                         if (res.data.status === 'success') {
-                            const idx = this.parseSubs.subList.findIndex( item => item.hover );
+                            const idx = this.parseSubs.subList.findIndex( item => item.hovering );
                             this.parseSubs.subList[idx].pro = res.data.bgRemovedPreview;
                             this.parseSubs.subList[idx].useImg = res.data.bgRemovedPreview;
                             this.parseSubs.subList[idx].proObj = null;
+                            this.parseSubs.subList[idx].mattingType = type;
                             this.loading ={show:false,text:'处理中...'};
-                            this.hoverThis(idx,1)//特效也需要替换
+                            this.hoverThis(idx)//特效也需要替换
                         } else {
                             this.loading.text = `当前排队位置为 ${res.data.queueNumber}，请稍后...`
                             setTimeout( this.pollingImg2, 2000 )
@@ -538,12 +537,13 @@
                     if (!res.code) {
                         this.fileId = res.data.fileId;
                         if (res.data.status == 'success') {
-                            const idx = this.parseSubs.subList.findIndex( item => item.hover );
+                            const idx = this.parseSubs.subList.findIndex( item => item.hovering );
                             this.parseSubs.subList[idx].pro = res.data.bgRemovedPreview;
                             this.parseSubs.subList[idx].useImg = res.data.bgRemovedPreview;
                             this.parseSubs.subList[idx].proObj = null;
+                            this.parseSubs.subList[idx].mattingType = type;
                             this.loading ={show:false,text:'处理中...'};
-                            this.hoverThis(idx,1)//特效也需要替换
+                            this.hoverThis(idx)//特效也需要替换
                         } else setTimeout( this.pollingImg2, 2000 )//有排队情况，轮训查看（可以websocket）
                     }
                 } ).catch( re => this.loading.show = false )
@@ -556,17 +556,17 @@
                     rotate: 0,
                     w: this.edrieImgInfo.imageMsg.previewWidth,
                     h: this.edrieImgInfo.imageMsg.previewHeight,
-                    hover: false,
+                    hovering: false,
                     zIndex: 1,
                     useImg: this.edrieImgInfo.pro,//显示用的
                     ori: this.edrieImgInfo.ori,//原图
                     pro: this.edrieImgInfo.pro,//抠图过后的
-                    proObj:null////抠图过加载后的对象
+                    proObj:null,////抠图过加载后的对象
+                    hasproobj:false,
+                    mattingType:0
                 };
-
                 if (idx > -1) this.parseSubs.subList.splice( idx, 1, data );
                 else this.parseSubs.subList.push( data );
-                // this.$refs.Munes.filterUrl( this.edrieImgInfo )
             },
             initSelfImg(file) {//自定义背景加载后对象储存
                 let reader = new FileReader();
@@ -688,7 +688,6 @@
                     this.$nextTick( () => {
                         this.oCantl = document.getElementById( `b_g` ).getBoundingClientRect()
                     } )
-                    // this.$refs.Munes.filterUrl( this.preimgObj, this.Original )
                 }
                 oImg.src = this.imgUrl + `?str=${Math.random()}`;
                 // oImg.src = 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2019/12/11/71a5d7d2b3334c9c841e89e888f359b0.png';
@@ -917,13 +916,13 @@
                 } );
             },
             closeSetMap(data) {
-                const idx=this.parseSubs.subList.findIndex(item=>item.hover);
+                const idx=this.parseSubs.subList.findIndex(item=>item.hovering);
                 this.savepointList=data.hisList;
                 this.parseSubs.subList[idx].useImg=data.img;
                 this.parseSubs.subList[idx].pro=data.img;
                 this.parseSubs.subList[idx].proObj=null;
                 this.dialogVisible=false;
-                this.hoverThis(idx,1)
+                this.hoverThis(idx)
             }
         },
         created() {//透明背景储存
@@ -1429,6 +1428,7 @@
                     bottom: -25px;
                     transform: translate(-50%, 0);
                     border: none;
+                    letter-spacing: 0 !important;
                     background-color: initial;
                     color: #3a8ee6;
                     font-size: 18px;

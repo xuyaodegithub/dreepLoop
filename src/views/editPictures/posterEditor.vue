@@ -127,8 +127,10 @@
         methods: {
             hoverThis(idx) {
                 this.parseSubs.hover=false;
+                console.log(this.parseSubs.subList[idx].hover)
                 this.parseSubs.subList.map( item => item.hover = false )
                 this.parseSubs.subList[idx].hover = true
+                console.log(this.parseSubs.subList[idx].hover)
                 // console.log(this.parseSubs)
             },
             downPinat(i) {
