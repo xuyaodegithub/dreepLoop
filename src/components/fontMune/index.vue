@@ -11,14 +11,14 @@
             >
             </el-option>
         </el-select>
-        <el-input-number v-model="fSize" controls-position="right" :min="1" :max="60"></el-input-number>
+        <el-input-number v-model="fontSize" controls-position="right" :min="1" :max="60" @input="setFont({fontSize})"></el-input-number>
         <div class="flex a-i colors">
             <span>字体颜色</span>
-            <el-color-picker v-model="colorVal"></el-color-picker>
+            <el-color-picker v-model="color" @change="setFont({color})"></el-color-picker>
         </div>
         <div class="flex a-i colors">
             <span>背景颜色</span>
-            <el-color-picker v-model="backVal" show-alpha></el-color-picker>
+            <el-color-picker v-model="backgroundColor" show-alpha @change="setFont({backgroundColor})"></el-color-picker>
         </div>
         <el-popover
                 placement="left"
@@ -84,9 +84,9 @@
                     {label: '小可黄油体', value: 'xkhy'},
                     {label: '贤二体', value: 'xer'},
                 ],
-                fSize: 24,
-                colorVal: '#333333',
-                backVal: 'rgba(250,250,250,0)',
+                fontSize: 24,
+                color: '#333333',
+                backgroundColor: 'rgba(250,250,250,1)',
                 showFontStyle: false,
                 styleList: [
                     {text: 'B', type: 1, mean: '加粗'},
@@ -128,6 +128,11 @@
                 let oInput = document.querySelector( '.el-select .el-input__inner' );
                 oInput.style.fontFamily = item.value;
                 oInput.style.fontWeight = item.h ? 'bold' : 'normal';
+                this.$emit('initFont',{fontFamily:item.value,fontWeight:item.h ? 'bold' : 'normal'})
+            },
+            setFont(data){
+                console.log(data,111)
+                this.$emit('initFont',data)
             },
             changeColor() {
                 this.$refs.colorSelect.click()

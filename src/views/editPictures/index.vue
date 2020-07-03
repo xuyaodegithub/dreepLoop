@@ -149,17 +149,17 @@
                      :style="item | subsStyle"
                      v-drag @mousedown.stop="hoverThis(idx)" @mouseup="setData(idx)" @click.stop="hoverThis(idx,2)">
                     <div v-if="item.type===2" :contenteditable="item.contenteditable" class="text"
-                         @blur="setBlur($event,idx)" @dblclick.stop="openSet(idx)">{{item.title}}
+                         @blur="setBlur($event,idx)">{{item.title}}
                     </div>
                     <div v-if="[1,3].includes(item.type)" class="Imgs">
                         <img :src="item.useImg" alt="">
                     </div>
-                    <div v-if="item.type===4" class="flex">
-                        <div class="text" v-show="item.title" @blur="setBlur($event,idx)" @dblclick.stop="openSet(idx)"
-                             :contenteditable="item.contenteditable">{{item.title}}
-                        </div>
-                        <div class="Imgs"><img :src="item.useImg" alt=""></div>
-                    </div>
+<!--                    <div v-if="item.type===4" class="flex">-->
+<!--                        <div class="text" v-show="item.title" @blur="setBlur($event,idx)" @dblclick.stop="openSet(idx)"-->
+<!--                             :contenteditable="item.contenteditable">{{item.title}}-->
+<!--                        </div>-->
+<!--                        <div class="Imgs"><img :src="item.useImg" alt=""></div>-->
+<!--                    </div>-->
                     <span class="el-icon-refresh downIcon" v-show="item.hover"></span>
                     <i v-for="it in 5" :key="'a'+it" v-show="item.hover"
                        :class="{'iOne' : it===1,'iTwo' : it===2,'iTh' : it===3,'iFor' : it===4,'iFive' : it===5}"></i>
@@ -196,7 +196,7 @@
             </div>
             <v-mune v-show="[1,3].includes(hoverSub.type)" ref="Munes" @mattingImgs="mattingImgs"
                     @effectsImg="effectsImg" ></v-mune>
-            <f-mune v-show="hoverSub.type===2"></f-mune>
+            <f-mune v-show="hoverSub.type===2" @initFont="initFont"></f-mune>
         </div>
         <div class="dialogs" :style="{backgroundImage: `url(${edrieImgInfo.bgImg})`}" v-if="showUpload">
             <div class="sons">
@@ -323,7 +323,7 @@
                             type: 2,//文字组件
                             title: '文字组件',
                             fontFamily: 'initial',//文字类型
-                            size: 12,//大小
+                            fontSize: 12,//大小
                             letterSpace: 0,//字间距
                             lineHeight: 40,//行高
                             color: '#e82255',//颜色
@@ -339,7 +339,7 @@
                             rotate: 0,
                             hover: false,
                             zIndex: 2,
-                            contenteditable: false,
+                            contenteditable: true,
                         },
                         {
                             type: 3,//图片组件
@@ -402,7 +402,8 @@
                     height: item.h + 'px',
                 };
                 if (item.type === 2) {
-                    data.fontSize = item.size + 'px';
+                    data.fontSize = item.fontSize + 'px';
+                    data.fontWeight = item.fontWeight;
                     data.letterSpacing = item.letterSpace + 'px';
                     data.lineHeight = item.lineHeight + 'px';
                     data.color = item.color;
@@ -424,6 +425,7 @@
             hoverThis(idx, j) {
                 this.parseSubs.subList.map( item => item.hover = false );
                 this.parseSubs.subList[idx].hover = true;
+                // if(this.parseSubs.subList[idx].type===2)this.parseSubs.subList[idx].contenteditable=true;
                 if (j && [0, 1, 3].includes( this.parseSubs.subList[idx].type )){
                     if(this.parseSubs.subList[idx].proObj) this.$refs.Munes.filterUrl( this.parseSubs.subList[idx] );
                     else {
@@ -436,7 +438,6 @@
                         oImg.src=this.parseSubs.subList[idx].pro+`?id=${Math.random()}`
                     }
                 }
-                // console.log(this.parseSubs)
             },
             blurAll() {
                 this.parseSubs.subList.map( item => item.hover = false );
@@ -444,11 +445,16 @@
             setData(idx) {
 
             },
-            setBlur(e, idx) {
-
+            initFont(data){//设置字体组件
+                console.log(data,222)
+                const list=Object.keys(data),idx=this.parseSubs.subList.findIndex(item=>item.hover);
+                list.map(item=>{
+                    this.parseSubs.subList[idx][item]=data[item]
+                })
             },
-            openSet(idx) {
-
+            setBlur(e, idx) {
+                const detail=e.target.innerHTML;
+                // this.parseSubs.subList[idx].contenteditable=true;
             },
             mattingImgs(idx) {//抠图
                 if (idx === -1) this.dialogVisible = true;
@@ -456,7 +462,8 @@
             },
             effectsImg(url) {//添加特效
                 let idx = this.parseSubs.subList.findIndex(item=>item.hover);
-                if(idx>-1)this.parseSubs.subList[idx].useImg=url
+                if(idx>-1)this.parseSubs.subList[idx].useImg=url;
+
             },
             upLoad(k) {//上传图片（k值0自定义背景，1人像抠图 2物体抠图）
                 this.upType = k;
@@ -526,7 +533,7 @@
             },
             mattingbyUrl(type) {
                 this.loading.show = true;
-                let obj = {url: this.hoverSub.ori, mattingType: type};
+                let obj = {url: type===4 ? this.hoverSub.pro : this.hoverSub.ori, mattingType: type};
                 copyUpload( obj ).then( res => {
                     if (!res.code) {
                         this.fileId = res.data.fileId;

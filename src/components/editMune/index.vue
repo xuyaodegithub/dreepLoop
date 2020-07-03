@@ -17,7 +17,7 @@
                 <h4>修复</h4>
                 <el-button plain @click="changBtn(-1)">手工修补</el-button>
             </div>
-            <div class="t2 flex j-b f-w" v-show="tabType===1">
+            <div class="t2 flex j-b f-w" v-show="tabType===2">
                 <div class="item cu" v-for="(it,idx) in filterList" :key="idx">
                     <div v-loading="loading" @click="selectEdit(it,idx)" :class="{'active' : t2Idx===idx}">
                         <img :src="it.src ? it.src : preImg " alt="">
@@ -26,45 +26,46 @@
                 </div>
 
             </div>
-            <div class="t3" v-show="tabType===2">
-                <el-checkbox v-model="checked" size="medium">投影</el-checkbox>
+            <div class="t3" v-show="tabType===3">
+                <el-checkbox v-model="checked" size="medium" @change="initsliderVal">投影</el-checkbox>
                 <div class="flex a-i sec">
                     <label>角度：</label>
                     <div class="crils">
                         <div :style="{transform:`rotateZ(${angle}deg)`}"><p></p></div>
                     </div>
-                    <el-input v-model="angle" placeholder="请输入内容" size="mini" type="number"></el-input>
+                    <el-input v-model="angle" placeholder="请输入内容" size="mini" type="number"
+                              @input="initsliderVal"></el-input>
                     度
                 </div>
                 <div class="flex a-i"><label>距离：</label>
-                    <el-slider :show-tooltip="false" v-model="sliderVal.distance" :min="0" :max="50"></el-slider>
+                    <el-slider :show-tooltip="false" v-model="sliderVal.distance" :min="0" :max="200"></el-slider>
                     {{sliderVal.distance}}px
                 </div>
                 <div class="flex a-i"><label>透明：</label>
                     <el-slider :show-tooltip="false" v-model="sliderVal.extend"></el-slider>
                     {{sliderVal.extend}}%
                 </div>
-                <div class="flex a-i"><label>大小：</label>
-                    <el-slider :show-tooltip="false" v-model="sliderVal.size" :min="0" :max="50"></el-slider>
-                    {{sliderVal.size}}px
+                <div class="flex a-i"><label>模糊：</label>
+                    <el-slider :show-tooltip="false" v-model="sliderVal.size" :min="0" :max="100"></el-slider>
+                    {{sliderVal.size}}%
                 </div>
                 <div class="otherss">
-                    <el-checkbox v-model="checkedM" size="medium">描边</el-checkbox>
+                    <el-checkbox v-model="checkedM" size="medium" @change="initsliderVal">描边</el-checkbox>
                     <div class="flex a-i size"><label>大小：</label>
-                        <el-slider :show-tooltip="false" v-model="mSize" :min="0" :max="50"></el-slider>
-                        {{mSize}}px
+                        <el-slider :show-tooltip="false" v-model="showDowVal.mSize" :min="1" :max="100"></el-slider>
+                        {{showDowVal.mSize}}px
                     </div>
                     <h4>描边颜色：</h4>
                     <div class="flex a-i j-b colors">
                         <span v-for="(item,idx) in colors" :key="idx" class="cu" @click="changeColor(item)"
                               :style="{backgroundColor:item}"></span>
-                        <el-color-picker v-model="colorVal" @change="changeColor"></el-color-picker>
+                        <el-color-picker v-model="showDowVal.colorVal" @change="changeColor"></el-color-picker>
                     </div>
                 </div>
             </div>
-            <div class="t4" v-show="tabType===3">
+            <div class="t4" v-show="tabType===1">
                 <h4>一键处理劣质图片，生成精美图片</h4>
-                <el-button plain>一键美化</el-button>
+                <el-button plain @click="changBtn(4)">一键美化</el-button>
             </div>
 
         </div>
@@ -74,6 +75,8 @@
 <script>
     import jsMulit from '@/utils/jsmanipulate.js';
     import {uploadossBg} from '@/apis';
+    import {setRad, colorRgb} from '@/utils'
+    import * as StackBlur from 'stackblur-canvas';
 
     export default {
         name: "index",
@@ -81,9 +84,9 @@
             return {
                 tabList: [
                     {name: '抠图', type: 1},
-                    {name: '特效', type: 2},
-                    {name: '阴影', type: 3},
-                    {name: '美化', type: 4},
+                    {name: '美化', type: 2},
+                    {name: '特效', type: 3},
+                    {name: '阴影', type: 4},
                 ],
                 tabType: 0,
                 btnList: [
@@ -94,49 +97,131 @@
                 ],
                 btnType: 0,
                 filterList: [
-                    {name: '原图', src: '', url: ''},
-                    {name: '透明背景', src: '', url: ''},
-                    {name: '浮雕', src: '', url: ''},
-                    {name: '黑白', src: '', url: ''},
-                    {name: '油画', src: '', url: ''},
-                    {name: '水纹', src: '', url: ''},
-                    {name: '模糊', src: '', url: ''},
-                    {name: '素描', src: '', url: ''},
-                    {name: '扭曲', src: '', url: ''},
+                    {name: '原图', src: '', url: '', loadObj: ''},
+                    {name: '透明背景', src: '', url: '', loadObj: ''},
+                    {name: '浮雕', src: '', url: '', loadObj: ''},
+                    {name: '黑白', src: '', url: '', loadObj: ''},
+                    {name: '油画', src: '', url: '', loadObj: ''},
+                    {name: '水纹', src: '', url: '', loadObj: ''},
+                    {name: '模糊', src: '', url: '', loadObj: ''},
+                    {name: '素描', src: '', url: '', loadObj: ''},
+                    {name: '扭曲', src: '', url: '', loadObj: ''},
                 ],
                 proImgObj: null,
                 preImg: '',
                 checked: false,
                 checkedM: false,
-                angle: 90,//角度
+                angle: 180,//角度
                 sliderVal: {
                     distance: 20,
                     extend: 50,
-                    size: 30,
+                    size: 10,
                 },
-                mSize: 20,
-                colors: ['', '#fff', '#FED835', '#2862F4', '#28F5B4'],
-                colorVal: '',
+                showDowVal: {
+                    mSize: 20,
+                    colorVal: '#fff',
+                },
+                colors: ['#fff', '#FED835', '#2862F4', '#28F5B4'],
                 loading: false,
-                t2Idx: -1
+                t2Idx: 1
             }
         },
         mounted() {
             // this.filterUrl()
         },
         watch: {
-            checked(newVal, oldVal) {
-                let oCan=this.initsliderVal(newVal);
-                this.$emit( 'effectsImg', oCan.toDataURL() );
-            },
-            sliderVal:{
+            sliderVal: {
                 handler(newVal, oldVal) {
-                    if (this.checked) {
-                        let oCan=this.initsliderVal(newVal);
-                        this.$emit( 'effectsImg', oCan.toDataURL() );
-                    }
+                    this.initsliderVal();
                 },
                 deep: true
+            },
+            showDowVal: {
+                handler(newVal, oldVal) {
+                    this.initsliderVal();
+                },
+                deep: true
+            },
+        },
+        computed: {
+            initAngleDistance() {
+                if (this.angle == 0 || this.angle == 360) return {x: -this.sliderVal.distance, y: 0};
+                else if (this.angle > 0 && this.angle < 90) return {
+                    x: -Math.cos( setRad( this.angle ) ) * this.sliderVal.distance,
+                    y: -Math.sin( setRad( this.angle ) ) * this.sliderVal.distance
+                };
+                else if (this.angle == 90) return {x: 0, y: -this.sliderVal.distance};
+                else if (this.angle > 90 && this.angle < 180) return {
+                    x: Math.cos( setRad( 180 - this.angle ) ) * this.sliderVal.distance,
+                    y: -Math.sin( setRad( 180 - this.angle ) ) * this.sliderVal.distance
+                };
+                else if (this.angle == 180) return {x: this.sliderVal.distance, y: 0};
+                else if (this.angle > 180 && this.angle < 270) return {
+                    x: Math.cos( setRad( this.angle - 180 ) ) * this.sliderVal.distance,
+                    y: Math.sin( setRad( this.angle - 180 ) ) * this.sliderVal.distance
+                };
+                else if (this.angle == 270) return {x: 0, y: this.sliderVal.distance};
+                else if (this.angle > 270 && this.angle < 360) return {
+                    x: -Math.cos( setRad( 360 - this.angle ) ) * this.sliderVal.distance,
+                    y: Math.sin( setRad( 360 - this.angle ) ) * this.sliderVal.distance
+                };
+                // else return{x:-Math.cos(360-this.angle)*this.sliderVal.distance,y:Math.sin(360-this.angle)*this.sliderVal.distance};
+            },
+            resliderVal() {
+                let oCan = document.createElement( 'canvas' ), oCanTxt, oImg = this.filterList[this.t2Idx].loadObj;
+                const [w, h] = [this.proImgObj.width, this.proImgObj.height];
+                oCanTxt = oCan.getContext( '2d' );
+                oCan.width = w;
+                oCan.height = h;
+                oCanTxt.drawImage( oImg, 0, 0, w, h );
+                let imgData = oCanTxt.getImageData( 0, 0, oCan.width, oCan.height );
+                if (this.checked) {
+                    for (let y = 0; y < h; y++) {
+                        for (let x = 0; x < w; x++) {
+                            let pixel = (y * w + x) * 4;
+                            if (imgData.data[pixel + 3] != 0) {
+                                imgData.data[pixel] = 0;
+                                imgData.data[pixel + 1] = 0;
+                                imgData.data[pixel + 2] = 0;
+                                imgData.data[pixel + 3] = (1 - this.sliderVal.extend / 100) * imgData.data[pixel + 3];
+                            }
+                        }
+                    }
+                    if (this.sliderVal.size > 0) StackBlur.imageDataRGBA( imgData, 0, 0, imgData.width, imgData.height, this.sliderVal.size );
+                }
+                oCanTxt.clearRect( 0, 0, w, h )
+                oCanTxt.putImageData( imgData, 0, 0 )
+                return oCan
+            },
+            initshowDowVal() {
+                let oCan = document.createElement( 'canvas' ), oCanTxt, oImg = this.filterList[this.t2Idx].loadObj, imgData2;
+                const [w, h] = [this.proImgObj.width, this.proImgObj.height], rgb = colorRgb( this.showDowVal.colorVal );
+                oCanTxt = oCan.getContext( '2d' );
+                if (this.checkedM) {
+                    if(w>=h){
+                        oCan.width = (h+this.showDowVal.mSize * 2)*w/h;
+                        oCan.height = h+this.showDowVal.mSize * 2
+                    }else{
+                        oCan.width = w + this.showDowVal.mSize * 2;
+                        oCan.height = (w + this.showDowVal.mSize * 2) * h / w;
+                    }
+
+                    oCanTxt.drawImage( oImg, 0, 0, oCan.width, oCan.height );
+                    imgData2 = oCanTxt.getImageData( 0, 0, oCan.width, oCan.height );
+                    for (let y = 0; y < oCan.height; y++) {
+                        for (let x = 0; x < oCan.width; x++) {
+                            let pixel = (y * oCan.width + x) * 4;
+                            if (imgData2.data[pixel + 3] != 0) {
+                                imgData2.data[pixel] = rgb[0];
+                                imgData2.data[pixel + 1] = rgb[1];
+                                imgData2.data[pixel + 2] = rgb[2];
+                                // imgData2.data[pixel + 3] = 1;
+                            }
+                        }
+                    }
+                    oCanTxt.putImageData( imgData2, 0, 0 )
+                }
+                return oCan
             }
         },
         filters: {
@@ -146,45 +231,29 @@
             }
         },
         methods: {
-            initsliderVal(k) {
+            initsliderVal() {
                 let oCan = document.createElement( 'canvas' ), oCanTxt;
-                const [w, h] = [this.proImgObj.width, this.proImgObj.height];
-                oCanTxt = oCan.getContext( '2d' );
-                oCan.width = this.proImgObj.width;
-                oCan.height = this.proImgObj.height;
-                oCanTxt.drawImage( this.proImgObj, 0, 0 );
-                let imgData = oCanTxt.getImageData( 0, 0, oCan.width, oCan.height );
-                if (k) {
-                    for (let y = 0; y < h; y++) {
-                        for (let x = 0; x < w; x++) {
-                            let pixel = (y * w + x) * 4;
-                            if (imgData.data[pixel + 3] != 0) {
-                                imgData.data[pixel] = 0;
-                                imgData.data[pixel + 1] = 0;
-                                imgData.data[pixel + 2] = 0;
-                                imgData.data[pixel + 3] = this.sliderVal.extend / 100 *imgData.data[pixel + 3];
-                            }
-                        }
-                    }
-                    oCanTxt.clearRect( 0, 0, w, h );
-                    oCanTxt.putImageData( imgData, this.sliderVal.distance, 0 );
-                    oCanTxt.drawImage( this.proImgObj, 0, 0 )
-                }
-                return oCan
+                oCanTxt=oCan.getContext('2d');
+                oCan.width=this.proImgObj.width;
+                oCan.height=this.proImgObj.height;
+                if (this.checked) oCanTxt.drawImage( this.resliderVal, this.initAngleDistance.x, this.initAngleDistance.y );
+                if (this.checkedM) oCanTxt.drawImage( this.initshowDowVal, -(this.initshowDowVal.width-this.resliderVal.width)/2, -(this.initshowDowVal.height - this.resliderVal.height) / 2, this.initshowDowVal.width, this.initshowDowVal.height );//重复同位置putimgData会覆盖，需要画上去
+                oCanTxt.drawImage( this.filterList[this.t2Idx].loadObj, 0, 0, oCan.width, oCan.height );
+                this.$emit( 'effectsImg', oCan.toDataURL() );
             },
             changeTab(idx) {
                 if (this.tabType === idx) return;
                 this.tabType = idx;
             },
-            changBtn(type, idx) {
+            changBtn(type, idx) {//抠图按钮
                 if (this.btnType === idx) return;
-                if (type !== -1) this.btnType = idx;
+                if (![-1, 4].includes( type )) this.btnType = idx;
                 this.$emit( 'mattingImgs', type )
             },
-            filterUrl(data) {
+            filterUrl(data) {//初始化特效
                 if (data.pro === this.preImg) return;
                 this.loading = true;
-                this.t2Idx = -1;
+                this.t2Idx = 1;
                 this.preImg = data.pro;
                 this.proImgObj = data.proObj;
                 let oCan = document.createElement( 'canvas' );
@@ -205,6 +274,7 @@
                     } else if (idx === 1) {
                         item.src = data.pro;
                         item.url = data.pro;
+                        item.loadObj = data.proObj;
                     } else if (idx === 2) item.src = this.jsMulitData( pro, 'emboss', );
                     else if (idx === 3) item.src = this.jsMulitData( pro, 'grayscale', );
                     else if (idx === 4) item.src = this.jsMulitData( pro, 'dither', );
@@ -223,7 +293,6 @@
             jsMulitData(proData, name, obj = {}) {
                 let ocan = document.createElement( 'canvas' ), newImgdata = proData;
                 let ocanTxt = ocan.getContext( '2d' );
-                // console.log(newImgdata,proData)
                 jsMulit[name].filter( newImgdata, obj );
                 ocan.width = this.proImgObj.width;
                 ocan.height = this.proImgObj.height;
@@ -231,13 +300,14 @@
                 return ocan.toDataURL()
             },
             changeColor(color) {
-                this.colorVal = color;
-                console.log( color )
+                this.showDowVal.colorVal = color;
             },
             selectEdit(it, idx) {
                 if (idx === this.t2Idx) return;
                 this.t2Idx = idx;
-                if (it.url) {
+                this.checked = false;
+                this.checkedM = false;
+                if (it.url && it.loadObj) {
                     this.$emit( 'effectsImg', it.url );
                     return
                 }
@@ -253,12 +323,13 @@
                         fromData.append( 'file', bold );
                         uploadossBg( fromData ).then( res => {
                             this.filterList[idx].url = res.data;
+                            this.filterList[idx].loadObj = oImg;
                             this.$emit( 'effectsImg', res.data );
                         } )
                     } )
                 };
-                oImg.src = it.src;
-            }
+                oImg.src = idx ? it.src : it.src + `?id=${Math.random()}`;
+            },
         }
     }
 </script>
@@ -448,16 +519,16 @@
                     border: 1px solid #ECECEC;
                     position: relative;
 
-                    &:first-child:after {
-                        position: absolute;
-                        width: 120%;
-                        height: 2px;
-                        background-color: $co;
-                        top: 50%;
-                        left: 0;
-                        content: '';
-                        transform: translateY(-50%) rotateZ(-45deg);
-                    }
+                    /*&:first-child:after {*/
+                    /*    position: absolute;*/
+                    /*    width: 120%;*/
+                    /*    height: 2px;*/
+                    /*<!--    background-color: $co;-->*/
+                    /*top: 50%;*/
+                    /*left: 0;*/
+                    /*content: '';*/
+                    /*<!--transform: translateY(-50%) rotateZ(-45deg);-->*/
+                    /*}*/
                 }
 
             }
