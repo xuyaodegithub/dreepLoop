@@ -12,7 +12,7 @@
             </el-option>
         </el-select>
         <el-input-number v-model="fontSize" controls-position="right" :min="1" :max="60"
-                         @input="setFont({fontSize})"></el-input-number>
+                         @change="setFont({fontSize})"></el-input-number>
         <div class="flex a-i colors">
             <span>字体颜色</span>
             <el-color-picker v-model="color" @change="setFont({color})"></el-color-picker>
@@ -50,18 +50,18 @@
                         placement="bottom"
                         :width="!idx ? 80 : 220"
                         trigger="manual"
-                        v-model="styleType===item.type"
+                        v-model="item.open"
                         :popper-class="[7,8].includes(item.type) ? 'te' : ''">
                     <ul class="liList" v-if="item.type===5">
                         <li>文字对齐</li>
-                        <li v-for="(it,ix) in item.itemList" :key="ix" class="cu flex a-i" @click="setAlign(it.sonType)"
+                        <li v-for="(it,ix) in item.itemList" :key="ix" class="cu flex a-i" @click="setAlign(it.sonType,idx)"
                             :class="{'active' : alignType===it.sonType}"><i class="icon iconfont" :class="it.icon"></i>
                             {{it.text}}
                         </li>
                     </ul>
                     <div v-if="[7,8].includes(item.type)" class="flex a-i slids">
                         <label>{{item.type===7 ? '字间距' : '行高'}}</label>
-                            <el-slider :show-tooltip="false" v-model="letterSpace" :min="0" :max="50"  v-show="item.type===7"
+                            <el-slider :show-tooltip="false" v-model="letterSpace" :min="0" :max="100"  v-show="item.type===7"
                                        @input="setFont({letterSpace})"></el-slider>
                             <el-slider :show-tooltip="false" v-model="lineHeight" :min="0" :max="150"  v-show="item.type===8"
                                        @input="setFont({lineHeight})"></el-slider>
@@ -69,10 +69,10 @@
 
                     </div>
                     <div class="flex" slot="reference">
-                        <i class="icon iconfont cu" :class="item.icon" @click="styleType=item.type"></i>
+                        <i class="icon iconfont cu" :class="item.icon" @click="openThis(idx)"></i>
                     </div>
                 </el-popover>
-                <i class="icon iconfont cu" :class="item.icon" v-else></i>
+                <i class="icon iconfont cu" :class="item.icon" v-else @click="setDrec"></i>
             </el-tooltip>
         </div>
 
@@ -109,6 +109,7 @@
                         icon: 'icon-juzhongduiqi',
                         type: 5,
                         mean: '对齐方式',
+                        open:false,
                         itemList: [{text: '左对齐', icon: 'icon-juzuoduiqi', sonType: 1}, {
                             text: '居中对齐',
                             icon: 'icon-juzhongduiqi',
@@ -116,10 +117,10 @@
                         }, {text: '右对齐', icon: 'icon-juyouduiqi', sonType: 3},]
                     },
                     {icon: 'icon-wenzigongju-shupai', type: 6, mean: '文字方向'},
-                    {icon: 'icon-zijianju', type: 7, mean: '字间距'},
-                    {icon: 'icon--zitihanggao', type: 8, mean: '行高'},
+                    {icon: 'icon-zijianju', type: 7, mean: '字间距',open:false,},
+                    {icon: 'icon--zitihanggao', type: 8, mean: '行高',open:false,},
                 ],
-                styleType:-1,
+                flexDirection:0,
                 selectCom: [],//当前选中的组件
                 alignType: 1,
                 letterSpace: 0,//字间距
@@ -139,10 +140,31 @@
         },
         filters: {},
         methods: {
+            openThis(idx){
+                this.styleList.map(item=>{
+                    if(item.hasOwnProperty('open'))item.open=false
+                })
+                this.styleList[idx+4].open=true;
+                console.log(this.secondList)
+            },
+            initCanshu(data){
+                const  a=['left','center','right'],keys=Object.keys(data);
+                this.selectCom=[];
+                keys.map(item=>{
+                    if(item==='fontFamily')this.fValue=this.fList.find(it=>it.value===data[item]);
+                    else if(['fontSize','color','backgroundColor','flexDirection','letterSpace','lineHeight'].includes(item))this[item]=data[item];
+                    else if(['fontWeight','fontStyle'].includes(item) && data[item]!=='initial')this.selectCom.push(this.firstList.find(it=>it.key===item).type);
+                    else if(item==='textDecoration' && data[item]!=='initial') data[item]==='underline' ? this.selectCom.push(3) : this.selectCom.push(4);
+                    else if(item==='textAlign')this.alignType=a.indexOf(data[item])+1;
+                })
+            },
             changeFont(item) {
                 let oInput = document.querySelector( '.el-select .el-input__inner' );
                 oInput.style.fontFamily = item.value;
                 oInput.style.fontWeight = item.h ? 'bold' : 'normal';
+                const idx=this.selectCom.indexOf(1);
+                if(!item.h && idx>-1)this.selectCom.splice(idx,1);
+                else if(item.h && idx<0)this.selectCom.push(1);
                 this.$emit( 'initFont', {fontFamily: item.value, fontWeight: item.h ? 'bold' : 'normal'} )
             },
             setFont(data) {
@@ -164,12 +186,16 @@
                 },{fontWeight:'initial',fontStyle:'initial',textDecoration:'initial'})
                 this.$emit( 'initFont', data )
             },
-            setAlign(type){
+            setAlign(type,idx){
                 if(this.alignType===type)return;
                 this.alignType=type;
                 const a=['left','center','right'];
                 this.$emit( 'initFont', {textAlign:a[this.alignType-1]} )
-                this.styleType=-1;
+                this.styleList[idx+4].open=false;
+            },
+            setDrec(){
+                this.flexDirection=this.flexDirection ? 0 : 1;
+                this.$emit( 'initFont', {flexDirection:this.flexDirection} );
             },
             changeColor() {
                 this.$refs.colorSelect.click()

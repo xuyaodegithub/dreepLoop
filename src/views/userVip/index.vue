@@ -126,7 +126,7 @@
                 subscriptionPlans().then(res=>{
                     if(!res.code){
                         this.choseList=res.data
-                        this.radio2=res.data[0].id
+                        this.radio2=res.data[2].id
                         this.changeRadio2(this.radio2)
                     }
                 })

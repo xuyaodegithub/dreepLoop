@@ -209,7 +209,7 @@
                             name:item
                         }
                         window.localStorage.setItem('repairInfo',JSON.stringify(data));
-                        window.open('repairEdit.html');
+                        window.location.href='repairEdit.html';
                     })
                 })
                 // let data={
@@ -242,7 +242,7 @@
                             name:file.name
                         }
                         window.localStorage.setItem('repairInfo',JSON.stringify(data))
-                        window.open('repairEdit.html');
+                        window.location.href='repairEdit.html';
                     })
                 })
             },

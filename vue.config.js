@@ -244,8 +244,8 @@ module.exports = {
             // new UglifyJsPlugin()
         ],
         output: { // 输出重构  打包编译后的 文件名称  【模块名称.版本号.时间戳】
-            filename: `js/[name].${Timestamp}.js`,
-            chunkFilename: `js/[name].${Timestamp}.js`
+            filename: `js/[name].js?v=${Timestamp}`,
+            chunkFilename: `js/[name].js?v=${Timestamp}`
         },
         // resolve: {//设置路径别名
         //     alias: {

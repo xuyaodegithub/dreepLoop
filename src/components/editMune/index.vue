@@ -77,7 +77,7 @@
     import {uploadossBg} from '@/apis';
     import {setRad, colorRgb} from '@/utils'
     import * as StackBlur from 'stackblur-canvas';
-
+    import {mapGetters} from 'vuex'
     export default {
         name: "index",
         data() {
@@ -146,6 +146,9 @@
             },
         },
         computed: {
+            ...mapGetters([
+                'effectsImgList'
+            ]),
             initAngleDistance() {
                 if (this.angle == 0 || this.angle == 360) return {x: -this.sliderVal.distance, y: 0};
                 else if (this.angle > 0 && this.angle < 90) return {
@@ -246,9 +249,10 @@
                     if(data.hasOwnProperty(item) && this.sliderVal.hasOwnProperty(item))this.sliderVal[item]=data[item];
                     else if(data.hasOwnProperty(item) && this.showDowVal.hasOwnProperty(item))this.showDowVal[item]=data[item];
                     else if(data.hasOwnProperty(item) && ['checked','checkedM','t2Idx'].includes(item))this[item]=data[item];
-                    else if(data.hasOwnProperty(item) && item==='mattingType')this['btnType']=this.btnList.findIndex(item=>item.type===data['mattingType']);
-                    else [this.checked,this.checkedM]=[false,false]
+                    else if(data.hasOwnProperty(item) && item==='mattingType')this.btnType=this.btnList.findIndex(item=>item.type===data['mattingType']);
                 } )
+                if(!data.hasOwnProperty('checked'))this.checked=false;
+                if(!data.hasOwnProperty('checkedM'))this.checkedM=false;
                this.$nextTick(()=>{
                    this.closeWatch=false;
                })
@@ -274,19 +278,29 @@
             },
             filterUrl(data) {//初始化特效
                 if (data.pro === this.preImg) return;
-                this.loading = true;
                 this.t2Idx = 1;
                 this.initCanshu(data);
                 this.preImg = data.pro;
                 this.proImgObj = data.proObj;
-                let oCan = document.createElement( 'canvas' );
-                let oCanTxt = oCan.getContext( '2d' );
-                oCan.width = data.proObj.width;
-                oCan.height = data.proObj.height;
-                oCanTxt.drawImage( data.proObj, 0, 0 );
-                this.$nextTick(()=>{
-                    this.loadStatus( data, oCanTxt )
+                const list=this.effectsImgList.find(item=>item.id===data.id).list;
+                this.filterList.map(item=>{
+                    item.loadObj='';
+                    item.url='';
                 })
+                list.map((item,idx)=>this.filterList[idx].src=item);
+                this.filterList[0].url=data.ori;
+                this.filterList[0].src=data.ori;
+                this.filterList[1].url=data.pro;
+                this.filterList[1].src=data.pro;
+                this.filterList[1].loadObj=data.proObj;
+                // let oCan = document.createElement( 'canvas' );
+                // let oCanTxt = oCan.getContext( '2d' );
+                // oCan.width = data.proObj.width;
+                // oCan.height = data.proObj.height;
+                // oCanTxt.drawImage( data.proObj, 0, 0 );
+                // this.$nextTick(()=>{
+                //     this.loadStatus( data, oCanTxt )
+                // })
                 // this.loadStatus( data, oCanTxt );
 
             },
@@ -330,10 +344,11 @@
             },
             selectEdit(it, idx) {
                 if (idx === this.t2Idx) return;
+                this.$emit('loadings',true)
                 this.t2Idx = idx;
                 this.checked= false;
                 this.checkedM= false;
-                if (it.url && it.loadObj) {
+                if ((it.url && it.loadObj) || !idx) {
                     this.$emit( 'effectsImg', {useImg:it.url,t2Idx:this.t2Idx,checked: false,checkedM: false} );
                     return
                 }
@@ -351,6 +366,7 @@
                             this.filterList[idx].url = res.data;
                             this.filterList[idx].loadObj = oImg;
                             this.$emit( 'effectsImg', {useImg:res.data,t2Idx:this.t2Idx,checked:false,checkedM:false} );
+                            this.$emit('loadings',false);
                         } )
                     } )
                 };
@@ -361,6 +377,10 @@
 </script>
 
 <style scoped lang="scss">
+    .mune{
+        height: 100%;
+        overflow-y: auto;
+    }
     .header {
         font-size: 14px;
         color: #333;
