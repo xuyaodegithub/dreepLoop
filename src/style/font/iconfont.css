@@ -34,3 +34,39 @@
   font-style: normal;
   font-weight: normal;
 }
+@font-face {
+  font-family: "aliph";
+  src: url('Alibaba-PuHuiTi-Medium.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "zkkh";
+  src: url('zkkh.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "zkwy";
+  src: url('zkwy.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "ysyrxk";
+  src: url('ysyrxk.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "ysbth";
+  src: url('YouSheBiaoTiHei-2.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "pft";
+  src: url('PingFang-Heavy-2.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}

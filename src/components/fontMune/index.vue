@@ -69,7 +69,7 @@
 
                     </div>
                     <div class="flex" slot="reference">
-                        <i class="icon iconfont cu" :class="item.icon" @click="openThis(idx)"></i>
+                        <i class="icon iconfont cu" :class="item.icon" @click.stop="openThis(idx)"></i>
                     </div>
                 </el-popover>
                 <i class="icon iconfont cu" :class="item.icon" v-else @click="setDrec"></i>
@@ -89,12 +89,18 @@
             return {
                 fValue: {label: '思源黑体 粗体', value: 'Arial', h: 1},
                 fList: [
-                    {label: '演示佛系体', value: 'foxi'},
                     {label: '思源黑体 粗体', value: 'Arial', h: 1},
+                    {label: '阿里巴巴普惠体', value: 'aliph'},
+                    {label: '站酷酷黑', value: 'zkkh'},
+                    {label: '站酷文艺体', value: 'zkwy'},
+                    {label: '演示悠然小楷', value: 'ysyrxk'},
+                    {label: '苹方体', value: 'pft'},
+                    {label: '优设标题黑', value: 'ysbth'},
                     {label: '思源宋体 常规', value: 'systi'},
                     {label: '思源宋体 粗体', value: 'systc', h: 1},
                     {label: '小可黄油体', value: 'xkhy'},
                     {label: '贤二体', value: 'xer'},
+                    {label: '演示佛系体', value: 'foxi'},
                 ],
                 fontSize: 24,
                 color: '#333333',
@@ -129,6 +135,11 @@
         },
         mounted() {
             // this.filterUrl()
+            document.addEventListener('click',()=>{
+                this.styleList.map(item=>{
+                    if(item.hasOwnProperty('open'))item.open=false
+                })
+            })
         },
         computed: {
             firstList() {

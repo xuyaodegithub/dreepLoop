@@ -115,3 +115,7 @@ Vue.directive( 'drag', (event) => {
     }
 
 } )
+Vue.directive('Range',(event)=>{
+      let oDiv=event.querySelector('.text')
+    if(oDiv)oDiv.focus()
+})
