@@ -24,37 +24,37 @@
                 <!--                <el-button type="primary" style="background-color: #fff;color: #e82255;" @click="reloads">-->
                 <!--                    {{edrieImgInfo.type===1 ? '重新上传' : '重置'}}-->
                 <!--                </el-button>-->
-                <el-button type="primary" icon="el-icon-download">下载
-                    <table class="downBtn">
-                        <tr>
-                            <td>尺寸</td>
-                            <td>消耗次数</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>{{edrieImgInfo.imageMsg.previewWidth + ' X ' + edrieImgInfo.imageMsg.previewHeight}}
-                            </td>
-                            <td>0</td>
-                            <td>
-                                <el-button type="danger" round size="mini" @click="downLoadImg($event)">下载
-                                </el-button>
-                            </td>
-                        </tr>
-                        <tr v-if="edrieImgInfo.imageMsg.previewWidth!==edrieImgInfo.imageMsg.originalWidth || edrieImgInfo.imageMsg.previewHeight!==edrieImgInfo.imageMsg.originalHeight">
-                            <td>{{edrieImgInfo.imageMsg.originalWidth + ' X ' +
-                                edrieImgInfo.imageMsg.originalHeight}}
-                            </td>
-                            <td>1</td>
-                            <td>
-                                <el-button type="danger" round size="mini" @click="downLoadImg($event,1)">下载
-                                </el-button>
-                            </td>
-                        </tr>
-                        <tr>当前可用次数：{{userSubscribeData ? userSubscribeData.freeRemaining +
-                            userSubscribeData.monthRemaining : 0}} <a href="userVip.html" class="cu" target="_blank"
-                                                                      style="color: #a1a0a0;margin-left: 20px;border-bottom: 1px solid #a1a0a0;">去充值</a>
-                        </tr>
-                    </table>
+                <el-button type="primary" icon="el-icon-download" @click="downLoadImg">下载
+                    <!--                    <table class="downBtn">-->
+                    <!--                        <tr>-->
+                    <!--                            <td>尺寸</td>-->
+                    <!--                            <td>消耗次数</td>-->
+                    <!--                            <td></td>-->
+                    <!--                        </tr>-->
+                    <!--                        <tr>-->
+                    <!--                            <td>{{edrieImgInfo.imageMsg.previewWidth + ' X ' + edrieImgInfo.imageMsg.previewHeight}}-->
+                    <!--                            </td>-->
+                    <!--                            <td>0</td>-->
+                    <!--                            <td>-->
+                    <!--                                <el-button type="danger" round size="mini" @click="downLoadImg($event)">下载-->
+                    <!--                                </el-button>-->
+                    <!--                            </td>-->
+                    <!--                        </tr>-->
+                    <!--                        <tr v-if="edrieImgInfo.imageMsg.previewWidth!==edrieImgInfo.imageMsg.originalWidth || edrieImgInfo.imageMsg.previewHeight!==edrieImgInfo.imageMsg.originalHeight">-->
+                    <!--                            <td>{{edrieImgInfo.imageMsg.originalWidth + ' X ' +-->
+                    <!--                                edrieImgInfo.imageMsg.originalHeight}}-->
+                    <!--                            </td>-->
+                    <!--                            <td>1</td>-->
+                    <!--                            <td>-->
+                    <!--                                <el-button type="danger" round size="mini" @click="downLoadImg($event,1)">下载-->
+                    <!--                                </el-button>-->
+                    <!--                            </td>-->
+                    <!--                        </tr>-->
+                    <!--                        <tr>当前可用次数：{{userSubscribeData ? userSubscribeData.freeRemaining +-->
+                    <!--                            userSubscribeData.monthRemaining : 0}} <a href="userVip.html" class="cu" target="_blank"-->
+                    <!--                                                                      style="color: #a1a0a0;margin-left: 20px;border-bottom: 1px solid #a1a0a0;">去充值</a>-->
+                    <!--                        </tr>-->
+                    <!--                    </table>-->
                 </el-button>
             </div>
         </header>
@@ -94,7 +94,7 @@
                 <input type="file" name="file" accept="image/*" :multiple="false" ref="selfImg" @change="changeselfImg"
                        style="display: none;">
                 <el-input v-model="seachWords" placeholder="搜索背景" suffix-icon="el-icon-search"
-                          @keydown.enter="seachBack"></el-input>
+                          @keydown.native.enter="seachBack"></el-input>
                 <div class="bgbtn ">
                     <div class="flex" ref="bTypeList">
                         <div v-for="(it,idx) in imgCatList" :key="idx" :class="{'active':bgType===idx}"
@@ -106,7 +106,8 @@
                     <i class="el-icon-arrow-left cu" @click="moveItem(0)"></i>
                     <i class="el-icon-arrow-right cu" @click="moveItem(1)"></i>
                 </div>
-                <div class="flex a-i bgimgs f-w" v-loading="oneItemBg2.length<1">
+                <div class="flex a-i bgimgs f-w" v-loading="oneItemBg2.length<1" ref="oneItemBg2"
+                     @scroll="moveoneItemBg2">
                     <div v-for="(item,idx) in oneItemBg2" :key="idx" class="cu"
                          :class="{active : backSub.useImg===item.url}"
                          @click="selectBg(item,idx)">
@@ -204,7 +205,8 @@
             <div class="initLast" v-show="![0,1,2,3].includes(hoverSub.type)">
                 <h4>画布尺寸</h4>
                 <div class="flex c_input j-b">
-                    <div><input type="number" v-model="parseSubs.oriW" @input="changeSize({w:parseSubs.oriW,h:parseSubs.oriH})"><i>宽(px)</i>
+                    <div><input type="number" v-model="parseSubs.oriW"
+                                @input="changeSize({w:parseSubs.oriW,h:parseSubs.oriH})"><i>宽(px)</i>
                     </div>
                     <div><input type="number" v-model="parseSubs.oriH"
                                 @input="changeSize({w:parseSubs.oriW,h:parseSubs.oriH})"><i>高(px)</i></div>
@@ -250,7 +252,7 @@
     import {myBrowser, findLastIdx, setRad} from '@/utils';
     import scale from '../../assets/image/scale.png';
     import {mixins} from '@/minxins';
-    import {getTanDeg} from '@/utils'
+    import {getTanDeg, letterText} from '@/utils'
     import opacity from '@/assets/opacity.jpg';
     import fupa from '@/assets/image/fopa.png';
     import color from '@/assets/image/color.png';
@@ -300,7 +302,7 @@
                 selectType: 1,//当前左侧选中菜单的下标
                 fontList: [{
                     title: '描边',
-                    val: {textShadow: '#000 1px 0 0, #000 0 1px 0, #000 -1px 0 0, #000 0 -1px 0'}
+                    val: {textShadow: '#333 1px 0 0, #333 0 1px 0, #333 -1px 0 0, #333 0 -1px 0'}
                 }, {title: '阴影', val: {textShadow: '0 5px 5px #333'}}],//'立体', '渐变', '鎏金', '抖音', '印章', '浮雕'
                 iconList: [],
                 choseBack: 0,//背景模式下（ 透明 、纯色 、黑白、模糊）当前选中的下标
@@ -342,33 +344,26 @@
                     bW: 0,
                     bH: 0,
                     scale: 1,
-                    oriW:0,
-                    oriH:0,
+                    oriW: 0,
+                    oriH: 0,
                     subList: [],
                 },
                 SubsDataList: [],
                 openBack: true,
                 hisIdx: -1,//当前处于历史记录的哪个位置的对应记录id（储存记录时会存一个对应id）
                 mattingMsg: {id: '', type: ''},//公用
+                page: 1,
+                stopUpdata: true,
             }
         },
         watch: {
             subsLength: {
                 handler(n, o) {
-                    console.log( 2222 )
                     if (this.parseSubs.subList[this.parseSubs.subList.length - 1].type !== 2) this.parseSubs.subList.map( item => item.hovering = false );
                     if (!this.openBack) return;
                     this.initsave()
                 }
             }
-            // 'parseSubs.subList': {
-            //     handler(n, o) {
-            //         if (!o.bW || !o.bH || !this.openBack) return;
-            //         console.log(111)
-            //
-            //     },
-            //     deep: true
-            // }
         },
         components: {vMune, fMune, mattingImg},
         computed: {
@@ -644,6 +639,31 @@
                 this.$refs.selfImg.click()
                 // }
             },
+            seachBack() {
+                if (!this.seachWords) return;
+                this.stopUpdata = false;
+                this.oneItemBg2 = [];
+                this.page = 1;
+                this.initseach();
+            },
+            initseach() {
+                let data = {
+                    label: this.seachWords,
+                    page: this.page
+                }
+                catImgList( data ).then( res => {
+                    this.oneItemBg2 = data.page === 1 ? res.data.content : [...this.oneItemBg2, ...res.data.content];
+                    this.stopUpdata = res.data.content.length < 60 ? true : false;
+                } )
+            },
+            moveoneItemBg2() {
+                let h = this.$refs.oneItemBg2.offsetHeight, sc = this.$refs.oneItemBg2.scrollTop,
+                    fh = this.$refs.oneItemBg2.scrollHeight;
+                if (h + sc >= fh - 20 && !this.stopUpdata) {
+                    this.page += 1;
+                    this.initseach();
+                }
+            },
             changeselfImg(e) {//input chang事件
                 const file = e.target.files[0];
                 if (!file) return;
@@ -811,7 +831,6 @@
                 } )
             },
             loadStatus(data, k) {//加载特效，并保存store
-                console.log( data )
                 let oCan = document.createElement( 'canvas' ), list = Array.from( {length: 9}, v => '' );
                 let oCanTxt = oCan.getContext( '2d' );
                 oCan.width = data.proObj.width;
@@ -954,6 +973,8 @@
             changeBgType(idx) {//切换背景图片的类型
                 if (this.bgType === idx) return;
                 this.bgType = idx;
+                this.stopUpdata = true;
+                this.seachWords = '';
                 this.oneItemBg2 = [];//防止网速慢图片转换不过来，所有先清空
                 if (this.imgList[this.bgType].length > 0) {
                     this.$nextTick( () => {
@@ -1094,85 +1115,120 @@
                     spinner: 'el-icon-loading',
                     background: 'rgba(0, 0, 0, 0.7)'
                 } );
-                if (k) {//下载原图
-                    downloadMattedImage( {fileId: this.edrieImgInfo.fileId} ).then( res => {
-                        if (!res.code) {
-                            this.initSmallTag( e, '次数 -1' );
-                            let oImg = new Image(), c = document.createElement( 'canvas' ),
-                                cc = document.createElement( 'canvas' );
-                            const ct = c.getContext( '2d' ), cct = cc.getContext( '2d' );
-                            oImg.crossOrigin = '';
-                            oImg.onload = () => {
-                                [c.width, cc.width, c.height, cc.height] = [oImg.width, oImg.width, oImg.height, oImg.height];
-                                ct.drawImage( oImg, 0, 0 );
-                                this.pointLists.map( item => {//擦除还原只操作在原图上，放大缩小偏移  只需记住最后一次操作就好
-                                    ct.save();
-                                    ct.beginPath();
-                                    ct.arc( (item.x - item.offsetx) * oImg.width / item.initw, (item.y - item.offsety) * oImg.height / item.inith, 2 * (item.r * oImg.width / item.initw), 0, Math.PI * 2, false );
-                                    ct.clip();
-                                    if (item.type === 1) ct.clearRect( 0, 0, c.width, c.height );
-                                    else ct.drawImage( this.OriginalObj, 0, 0, oImg.width, oImg.height );
-                                    ct.restore();
+                let imgSubs = this.parseSubs.subList.reduce( (pre,item, idx) => {
+                    if ([0, 1, 3].includes( item.type ) && !item.backColor) pre.push({...item, lastidx: idx});
+                    return pre
+                },[] ), reg = /^data:image*$/;
+                imgSubs.map( item => {
+                    let oImg = new Image();
+                    oImg.crossOrigin = '';
+                    oImg.onload = () => {
+                        this.parseSubs.subList[item.lastidx]['lastObj'] = oImg;
+                        if (this.parseSubs.subList.filter( items => [0, 1, 3].includes( items.type ) && !item.backColor).every( it => it['lastObj'] )) this.initCanImg()
+                    };
+                    oImg.src = reg.test( item.useImg ) ? item.useImg : item.useImg + `?id=${Math.random()}`
+                } )
+
+            },
+            initCanImg() {
+                let prolist3 = ['x', 'y', 'w', 'h', 'fontSize', 'lineHeight', 'letterSpacing'],
+                    oCan = document.createElement( 'canvas' ), oCanTxt, scale;
+                oCanTxt = oCan.getContext( '2d' );
+                oCanTxt.textBaseline = 'top';
+                oCan.width = this.parseSubs.oriW;
+                oCan.height = this.parseSubs.oriH;
+                scale = this.parseSubs.scale;
+                this.parseSubs.subList.map( item => {
+                    if ([0, 1, 3].includes( item.type ) && !item.backColor) {
+                        oCanTxt.translate( item.x / scale + item.w / scale / 2, item.y / scale + item.h / scale / 2 );
+                        oCanTxt.rotate( item.rotate * Math.PI / 180 );
+                        oCanTxt.translate( -(item.x / scale + item.w / scale / 2), -(item.y / scale + item.h / scale / 2) );
+                        oCanTxt.drawImage( item.lastObj, item.x / scale, item.y / scale, item.w / scale, item.h / scale );
+                        oCanTxt.setTransform( 1, 0, 0, 1, 0, 0 );
+                    } else if (item.type == 0 && item.backColor) {
+                        oCanTxt.fillStyle = item.backColor;
+                        oCanTxt.fillRect( 0, 0, oCan.width, oCan.height );
+                    } else if (item.type == 2) {
+                        // data.letterSpacing = item.letterSpace + 'px';
+                        // data.textDecoration = item.textDecoration;//画线
+                        // data.textAlign = item.textAlign;//对齐方式
+                        const [w, h, x, y, size, lineHeight, letterSpacing] = [item.w / scale, item.h / scale, item.x / scale, item.y / scale, item.fontSize / scale, item.lineHeight / scale, item.letterSpacing / scale],
+                            textDecoration = ['underline', 'line-through'];
+                        oCanTxt.font = `${item.fontStyle} ${item.fontWeight} ${size}/${lineHeight} ${item.fontFamily}`;
+                        if (item.textShadow && item.textShadow.split( ',' ).length > 1) {
+                            oCanTxt.strokeStyle = item.color;
+                            // ctx.strokeText("空心文字:stroke",10,200);
+                        } else if (item.textShadow && item.textShadow.split( ',' ).length ===1){
+                            oCanTxt.shadowColor = '#333';
+                            oCanTxt.shadowOffsetY = 5;
+                            oCanTxt.shadowOffsetX = 5;
+                            oCanTxt.fillStyle = item.color;
+                        }
+                        oCanTxt.translate( x + w / 2, y + h / 2 );
+                        oCanTxt.rotate( item.rotate * Math.PI / 180 );
+                        oCanTxt.translate( -(x + w / 2), -(y + h / 2) );
+                        if (item.backgroundColor) oCanTxt.fillRect( x, y, w, h );
+                        if (!item.flexDirection) {
+                            console.log(1111)
+                            let content = this.initfontList( oCanTxt, item.title, letterSpacing, w, h ),
+                                line_size = lineHeight / 2 - size / 2;
+                            if (item.textAlign === 'left') {
+                                content.map( (itemSon, idx) => {
+                                    oCanTxt.letterSpacingText( itemSon.str, x, y + idx * lineHeight + line_size, letterSpacing )
                                 } )
-                                if (this.savepoint) {//这一步是吧最后一次放大缩小作用在原图上
-                                    cct.clearRect( 0, 0, c.width, c.height );
-                                    cct.putImageData( ct.getImageData( 0, 0, c.width, c.height ), 0, 0 );
-                                    ct.clearRect( 0, 0, c.width, c.height );
-                                    ct.drawImage( cc, this.savepoint.offsetx, this.savepoint.offsety, this.savepoint.initw, this.savepoint.inith );
+                            } else {
+                                if (content.length === 1) {
+                                    item.textAlign === 'center' ? oCanTxt.letterSpacingText( content[0].str, x + w / 2 - content[0].len / 2, y + line_size, letterSpacing ) : oCanTxt.letterSpacingText( content[0].str, x + w - content[0].len, y + line_size, letterSpacing );
+                                } else {
+                                    const last = content[content.length - 1];
+                                    content.map( (item, idx) => {
+                                        if (idx !== content.length - 1) oCanTxt.letterSpacingText( item, x, y + idx * lineHeight + line_size, letterSpacing )
+                                    } )
+                                    item.textAlign === 'center' ? oCanTxt.letterSpacingText( last.str, x + w / 2 - last.len / 2, y + (content.length - 1) * lineHeight + line_size, letterSpacing ) : oCanTxt.letterSpacingText( last.str, x + w  - last.len , y + (content.length - 1) * lineHeight + line_size, letterSpacing )
                                 }
-                                const url = c.toDataURL();
-                                this.whichDown( url )
                             }
-                            oImg.src = res.data
+
                         }
-                    } )
-                    return
-                }
-                const url = this.cans.toDataURL();
-                this.whichDown( url )
-            },
-            whichDown(url) {//通用提起
-                if (!this.downType || (this.downType === 1 && [0, 2, 3].includes( this.choseBack ))) this.downLoad( url );
-                else if (this.downType === 1 && this.choseBack === 1) this.downLoad( url, this.colorValue );
-                else this.selfImg ? this.downLoad( url, '', this.selfImg ) : this.downLoad( url, '', this.bgobj );
-            },
-            downLoad(url, color, bg) {
-                let cans = document.createElement( 'canvas' );
-                let ctxs = cans.getContext( '2d' );
-                let oImg = new Image();
-                oImg.crossOrigin = "";
-                oImg.onload = () => {
-                    cans.width = oImg.width;
-                    cans.height = oImg.height;
-                    if (color) {
-                        ctxs.fillStyle = color;
-                        ctxs.fillRect( 0, 0, cans.width, cans.height );
+                        oCanTxt.setTransform( 1, 0, 0, 1, 0, 0 );
                     }
-                    if (bg) this.initBgimg( bg, cans, ctxs );
-                    ctxs.drawImage( oImg, 0, 0, cans.width, cans.height );
-                    if (myBrowser() === 'IE' || myBrowser() === 'Edge') {//ie下载图片
-                        let url = cans.msToBlob();
-                        let blobObj = new Blob( [url] );
-                        window.navigator.msSaveOrOpenBlob( blobObj, this.filename.substring( 0, this.filename.lastIndexOf( '.' ) ) + ".png" );
-                        this.loadingInstance.close()
-                    } else {
-                        let url = cans.toDataURL( "image/png" );
-                        let arr = url.split( ',' ), mime = arr[0].match( /:(.*?);/ )[1], bstr = atob( arr[1] ),
-                            n = bstr.length, u8arr = new Uint8Array( n );
-                        while (n--) {
-                            u8arr[n] = bstr.charCodeAt( n );
-                        }
-                        let objurl = URL.createObjectURL( new Blob( [u8arr], {type: mime} ) );
-                        let save_link = document.createElement( 'a' );
-                        save_link.href = objurl;
-                        save_link.download = this.filename.substring( 0, this.filename.lastIndexOf( '.' ) ) + ".png";
-                        let event = document.createEvent( 'MouseEvents' );
-                        event.initMouseEvent( 'click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null );
-                        save_link.dispatchEvent( event );
-                        this.loadingInstance.close()
+                } )
+                console.log(222)
+                this.downLoad(oCan)
+            },
+            initfontList(oCanTxt, str, letterspace, w, h) {
+                let arr = str.split( '' ), brr;
+                brr = arr.reduce( (pre, item, idx) => {
+                    const w1 = oCanTxt.measureText( item ).width, w2 = oCanTxt.measureText( pre.str ).width;
+                    if (w2 + letterspace + w1 > w || idx === arr.length - 1) {
+                        pre.list.push( {str: pre.str, len: w2} );
+                        pre.str = item;
+                    } else pre.str + item;
+                    return pre
+                }, {str: '', list: []} )
+                return brr.list
+            },
+            downLoad(cans) {
+                if (myBrowser() === 'IE' || myBrowser() === 'Edge') {//ie下载图片
+                    let url = cans.msToBlob();
+                    let blobObj = new Blob( [url] );
+                    window.navigator.msSaveOrOpenBlob( blobObj, this.edrieImgInfo.filename.substring( 0, this.filename.lastIndexOf( '.' ) ) + ".png" );
+                    this.loadingInstance.close()
+                } else {
+                    let url = cans.toDataURL( "image/png" );
+                    let arr = url.split( ',' ), mime = arr[0].match( /:(.*?);/ )[1], bstr = atob( arr[1] ),
+                        n = bstr.length, u8arr = new Uint8Array( n );
+                    while (n--) {
+                        u8arr[n] = bstr.charCodeAt( n );
                     }
+                    let objurl = URL.createObjectURL( new Blob( [u8arr], {type: mime} ) );
+                    let save_link = document.createElement( 'a' );
+                    save_link.href = objurl;
+                    save_link.download = this.edrieImgInfo.filename.substring( 0, this.edrieImgInfo.filename.lastIndexOf( '.' ) ) + ".png";
+                    let event = document.createEvent( 'MouseEvents' );
+                    event.initMouseEvent( 'click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null );
+                    save_link.dispatchEvent( event );
+                    this.loadingInstance.close()
                 }
-                oImg.src = url
             },
             initBgInfo() {//初始化时背景初始化
                 this.downType = 2;
@@ -1185,7 +1241,7 @@
                 bgimg.src = this.edrieImgInfo.bgImg + `?str=${Math.random()}`;
             },
             changeSize(item) {//画布尺寸输入
-                if(item.w===this.parseSubs.oriW && item.h===this.parseSubs.oriH)return;
+                if (item.w === this.parseSubs.oriW && item.h === this.parseSubs.oriH) return;
                 let oH = document.getElementById( 'e_r' ).offsetHeight * 0.6,
                     oW = document.getElementById( 'e_r' ).offsetWidth * 0.6,
                     prolist = ['w', 'fontSize', 'letterSpacing'],
@@ -1199,10 +1255,10 @@
                 this.parseSubs.subList.map( items => {
                     const afterw = item.w - ww, afterh = item.h - hh;
                     Object.keys( items ).map( it => {
-                       if(prolist.includes(it))items[it]=items[it]*ww/w*this.parseSubs.scale;
-                       if(prolist2.includes(it))items[it]=items[it]*hh/h*this.parseSubs.scale;
-                       if(it==='x')items[it]=(items[it]*ww/w+afterw/2)*this.parseSubs.scale;
-                       if(it==='y')items[it]=(items[it]*hh/h+afterh/2)*this.parseSubs.scale;
+                        if (prolist.includes( it )) items[it] = items[it] * ww / w * this.parseSubs.scale;
+                        if (prolist2.includes( it )) items[it] = items[it] * hh / h * this.parseSubs.scale;
+                        if (it === 'x') items[it] = (items[it] * ww / w + afterw / 2) * this.parseSubs.scale;
+                        if (it === 'y') items[it] = (items[it] * hh / h + afterh / 2) * this.parseSubs.scale;
                     } )
                 } )
                 // const idx = this.parseSubs.subList.findIndex( item => item.type === 0 );
@@ -1212,18 +1268,18 @@
                 // }
                 this.initsave()
             },
-            wheelFun(k){
-                let scale=parseFloat(this.parseSubs.scale),newscale,data, prolist3 = ['x', 'y', 'w', 'h', 'fontSize', 'lineHeight', 'letterSpacing'];
-                if(!k && scale-0.1<=0.15)newscale=0.15;
-                else if(k && scale+0.1>=1)newscale=1;
-                else newscale= k? scale+0.1 : scale-0.1;
-                console.log(scale,newscale,2222222222222)
-                this.parseSubs.bW = this.parseSubs.oriW*newscale;
-                this.parseSubs.bH = this.parseSubs.oriH*newscale;
-                this.parseSubs.scale =newscale;
+            wheelFun(k) {
+                let scale = parseFloat( this.parseSubs.scale ), newscale, data,
+                    prolist3 = ['x', 'y', 'w', 'h', 'fontSize', 'lineHeight', 'letterSpacing'];
+                if (!k && scale - 0.1 <= 0.15) newscale = 0.15;
+                else if (k && scale + 0.1 >= 1) newscale = 1;
+                else newscale = k ? scale + 0.1 : scale - 0.1;
+                this.parseSubs.bW = this.parseSubs.oriW * newscale;
+                this.parseSubs.bH = this.parseSubs.oriH * newscale;
+                this.parseSubs.scale = newscale;
                 this.parseSubs.subList.map( items => {
                     Object.keys( items ).map( it => {
-                        if(prolist3.includes(it))items[it]=items[it]/scale*newscale
+                        if (prolist3.includes( it )) items[it] = items[it] / scale * newscale
                     } )
                 } )
                 const idx = this.parseSubs.subList.findIndex( item => item.type === 0 );
@@ -1365,6 +1421,7 @@
             document.addEventListener( 'click', () => {
                 this.showcolorList = false
             } )
+            letterText()//字间距
             // document.addEventListener( 'keydown', (e) => {
             //     const keynum = window.event ? e.keyCode : e.which;
             //     // console.log(keynum)

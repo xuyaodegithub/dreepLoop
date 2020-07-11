@@ -162,8 +162,12 @@
                 const  a=['left','center','right'],keys=Object.keys(data);
                 this.selectCom=[];
                 keys.map(item=>{
-                    if(item==='fontFamily')this.fValue=this.fList.find(it=>it.value===data[item]);
-                    else if(['fontSize','color','backgroundColor','flexDirection','letterSpace','lineHeight'].includes(item))this[item]=data[item];
+                    if(item==='fontFamily'){
+                        this.fValue=this.fList.find(it=>it.value===data[item]);
+                        let oInput = document.querySelector( '.el-select .el-input__inner' );
+                        oInput.style.fontFamily = this.fValue.value;
+                        oInput.style.fontWeight = this.fValue.h ? 'bold' : 'normal';
+                    } else if(['fontSize','color','backgroundColor','flexDirection','letterSpace','lineHeight'].includes(item))this[item]=data[item];
                     else if(['fontWeight','fontStyle'].includes(item) && data[item]!=='initial')this.selectCom.push(this.firstList.find(it=>it.key===item).type);
                     else if(item==='textDecoration' && data[item]!=='initial') data[item]==='underline' ? this.selectCom.push(3) : this.selectCom.push(4);
                     else if(item==='textAlign')this.alignType=a.indexOf(data[item])+1;

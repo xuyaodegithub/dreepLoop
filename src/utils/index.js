@@ -144,6 +144,100 @@ export const setCanvasText = () => {
         context.fillText( line, x, y );
     };
 }
+export const letterText = () => { //支持字间距
+    CanvasRenderingContext2D.prototype.letterSpacingText = function (text, x, y, letterSpacing) {
+        var context = this;
+        var canvas = context.canvas;
+
+        if (!letterSpacing && canvas) {
+            letterSpacing = parseFloat( window.getComputedStyle( canvas ).letterSpacing );
+        }
+        if (!letterSpacing) {
+            return this.fillText( text, x, y );
+        }
+
+        var arrText = text.split( '' );
+        var align = context.textAlign || 'left';
+
+        // 这里仅考虑水平排列
+        var originWidth = context.measureText( text ).width;
+        // 应用letterSpacing占据宽度
+        var actualWidth = originWidth + letterSpacing * (arrText.length - 1);
+        // 根据水平对齐方式确定第一个字符的坐标
+        if (align == 'center') {
+            x = x - actualWidth / 2;
+        } else if (align == 'right') {
+            x = x - actualWidth;
+        }
+
+        // 临时修改为文本左对齐
+        context.textAlign = 'left';
+        // 开始逐字绘制
+        arrText.forEach( function (letter) {
+            var letterWidth = context.measureText( letter ).width;
+            context.fillText( letter, x, y );
+            // 确定下一个字符的横坐标
+            x = x + letterWidth + letterSpacing;
+        } );
+        // 对齐方式还原
+        context.textAlign = align;
+    }
+};
+export const verticalText = () => { //支持竖排
+
+    CanvasRenderingContext2D.prototype.fillTextVertical = function (text, x, y) {
+        var context = this;
+        var canvas = context.canvas;
+
+        var arrText = text.split( '' );
+        var arrWidth = arrText.map( function (letter) {
+            return context.measureText( letter ).width;
+        } );
+
+        var align = context.textAlign;
+        var baseline = context.textBaseline;
+
+        if (align == 'left') {
+            x = x + Math.max.apply( null, arrWidth ) / 2;
+        } else if (align == 'right') {
+            x = x - Math.max.apply( null, arrWidth ) / 2;
+        }
+        if (baseline == 'bottom' || baseline == 'alphabetic' || baseline == 'ideographic') {
+            y = y - arrWidth[0] / 2;
+        } else if (baseline == 'top' || baseline == 'hanging') {
+            y = y + arrWidth[0] / 2;
+        }
+
+        context.textAlign = 'center';
+        context.textBaseline = 'middle';
+
+        // 开始逐字绘制
+        arrText.forEach( function (letter, index) {
+            // 确定下一个字符的纵坐标位置
+            var letterWidth = arrWidth[index];
+            // 是否需要旋转判断
+            var code = letter.charCodeAt( 0 );
+            if (code <= 256) {
+                context.translate( x, y );
+                // 英文字符，旋转90°
+                context.rotate( 90 * Math.PI / 180 );
+                context.translate( -x, -y );
+            } else if (index > 0 && text.charCodeAt( index - 1 ) < 256) {
+                // y修正
+                y = y + arrWidth[index - 1] / 2;
+            }
+            context.fillText( letter, x, y );
+            // 旋转坐标系还原成初始态
+            context.setTransform( 1, 0, 0, 1, 0, 0 );
+            // 确定下一个字符的纵坐标位置
+            var letterWidth = arrWidth[index];
+            y = y + letterWidth;
+        } );
+        // 水平垂直对齐方式还原
+        context.textAlign = align;
+        context.textBaseline = baseline;
+    }
+};
 //判断类型
 export const JudgmentType = (val) => {
     return Object.prototype.toString.call( val ).split( ' ' )[1].split( ']' )[0]
@@ -287,27 +381,27 @@ export const getTanDeg = (tan) => {//根据正切值返回角度
     result = Math.round( result );
     return result;
 }
-export const setRad=(angle)=>{//根据角度返回弧度
-    return angle*Math.PI/180;
+export const setRad = (angle) => {//根据角度返回弧度
+    return angle * Math.PI / 180;
 }
-export const colorRgb=(colors)=>{//16进制转rgb
+export const colorRgb = (colors) => {//16进制转rgb
     // 16进制颜色值的正则
     var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
     // 把颜色值变成小写
     var color = colors.toLowerCase();
-    if (reg.test(color)) {
+    if (reg.test( color )) {
         // 如果只有三位的值，需变成六位，如：#fff => #ffffff
         if (color.length === 4) {
             var colorNew = "#";
             for (var i = 1; i < 4; i += 1) {
-                colorNew += color.slice(i, i + 1).concat(color.slice(i, i + 1));
+                colorNew += color.slice( i, i + 1 ).concat( color.slice( i, i + 1 ) );
             }
             color = colorNew;
         }
         // 处理六位的颜色值，转为RGB
         var colorChange = [];
         for (var i = 1; i < 7; i += 2) {
-            colorChange.push(parseInt("0x" + color.slice(i, i + 2)));
+            colorChange.push( parseInt( "0x" + color.slice( i, i + 2 ) ) );
         }
         return colorChange;
     } else {
