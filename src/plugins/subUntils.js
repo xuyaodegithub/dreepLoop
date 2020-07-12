@@ -119,3 +119,44 @@ Vue.directive('Range',(event)=>{
       let oDiv=event.querySelector('.text')
     if(oDiv)oDiv.focus()
 })
+Vue.directive('dfocus',(edit)=>{
+    edit.onfocus = function () {
+
+        window.setTimeout(function () {
+
+            var sel, range;
+
+            if (window.getSelection && document.createRange) {
+
+                range = document.createRange();
+
+                range.selectNodeContents(edit);
+
+                range.collapse(true);
+
+                range.setEnd(edit, edit.childNodes.length);
+
+                range.setStart(edit, edit.childNodes.length);
+
+                sel = window.getSelection();
+
+                sel.removeAllRanges();
+
+                sel.addRange(range);
+
+            } else if (document.body.createTextRange) {
+
+                range = document.body.createTextRange();
+
+                range.moveToElementText(edit);
+
+                range.collapse(true);
+
+                range.select();
+
+            }
+
+        }, 1)
+
+    }
+})

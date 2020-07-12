@@ -61,11 +61,11 @@
                     </ul>
                     <div v-if="[7,8].includes(item.type)" class="flex a-i slids">
                         <label>{{item.type===7 ? '字间距' : '行高'}}</label>
-                            <el-slider :show-tooltip="false" v-model="letterSpace" :min="0" :max="100"  v-show="item.type===7"
-                                       @input="setFont({letterSpace})"></el-slider>
+                            <el-slider :show-tooltip="false" v-model="letterSpacing" :min="0" :max="100"  v-show="item.type===7"
+                                       @input="setFont({letterSpacing})"></el-slider>
                             <el-slider :show-tooltip="false" v-model="lineHeight" :min="0" :max="150"  v-show="item.type===8"
                                        @input="setFont({lineHeight})"></el-slider>
-                            {{item.type===7? letterSpace : lineHeight}}px
+                            {{item.type===7? letterSpacing : lineHeight}}px
 
                     </div>
                     <div class="flex" slot="reference">
@@ -129,7 +129,7 @@
                 flexDirection:0,
                 selectCom: [],//当前选中的组件
                 alignType: 1,
-                letterSpace: 0,//字间距
+                letterSpacing: 0,//字间距
                 lineHeight: 0,//字间距
             }
         },
@@ -167,9 +167,9 @@
                         let oInput = document.querySelector( '.el-select .el-input__inner' );
                         oInput.style.fontFamily = this.fValue.value;
                         oInput.style.fontWeight = this.fValue.h ? 'bold' : 'normal';
-                    } else if(['fontSize','color','backgroundColor','flexDirection','letterSpace','lineHeight'].includes(item))this[item]=data[item];
-                    else if(['fontWeight','fontStyle'].includes(item) && data[item]!=='initial')this.selectCom.push(this.firstList.find(it=>it.key===item).type);
-                    else if(item==='textDecoration' && data[item]!=='initial') data[item]==='underline' ? this.selectCom.push(3) : this.selectCom.push(4);
+                    } else if(['fontSize','color','backgroundColor','flexDirection','letterSpacing','lineHeight'].includes(item))this[item]=data[item];
+                    else if(['fontWeight','fontStyle'].includes(item) && data[item]!=='normal')this.selectCom.push(this.firstList.find(it=>it.key===item).type);
+                    else if(item==='textDecoration' && data[item]!=='none') data[item]==='underline' ? this.selectCom.push(3) : this.selectCom.push(4);
                     else if(item==='textAlign')this.alignType=a.indexOf(data[item])+1;
                 })
             },
@@ -183,6 +183,7 @@
                 this.$emit( 'initFont', {fontFamily: item.value, fontWeight: item.h ? 'bold' : 'normal'} )
             },
             setFont(data) {
+                console.log(data,2222)
                 this.$emit( 'initFont', data );
             },
             addLine(idx) {
@@ -198,7 +199,7 @@
                     const val=this.firstList.find(it=>it.type===item);
                     pre[val.key]=val.val;
                     return pre
-                },{fontWeight:'initial',fontStyle:'initial',textDecoration:'initial'})
+                },{fontWeight:'normal',fontStyle:'normal',textDecoration:'none'})
                 this.$emit( 'initFont', data )
             },
             setAlign(type,idx){
