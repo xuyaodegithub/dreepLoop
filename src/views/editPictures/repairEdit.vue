@@ -221,6 +221,7 @@
                 fromData.set( 'height', this.oriImgObg.height );
                 fromData.set( 'flag', 1 );
                 fromData.set( 'image', this.imageInfo );
+                fromData.set( 'name', this.imgName );
                 this.hideCan.toBlob( (blob) => {
                     fromData.set( 'mask', blob );
                     redirMatting( fromData ).then( res => {
@@ -283,6 +284,7 @@
                 fromData.set( 'height', this.oriImgObg.height );
                 fromData.set( 'flag', 0 );
                 fromData.set( 'image', this.imageInfo );
+                fromData.set( 'name', this.imgName );
                 // this.can.toBlob( (blob) => {
                 //     fromData.set( 'image', blob );
                 //     if (fromData.has( 'mask' )) this.upImg( fromData );

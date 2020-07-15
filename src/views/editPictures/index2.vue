@@ -1,7 +1,7 @@
 <template>
     <div class="editPictures flex">
         <header class="header flex j-b a-i">
-            <a href="index.html"><img src="@/assets/image/sureLogo.png" alt=""></a>
+            <img src="@/assets/image/sureLogo.png" alt="">
             <div class="h_l flex">
                 <div @click.stop="goback(0)" :class="{'stops' : hisIdx<1}"
                      class="cu">
@@ -137,7 +137,7 @@
                         {{item.title}}
                     </span>
                 </div>
-                <div class="iconList flex f-w j-b a-i">
+                <div class="iconList flex f-w j-b">
                     <div v-for="(son,ix) in tzList" :key="ix" class="cu" @click="addImgsSub(son)">
                         <img :src="son" alt="">
                     </div>
@@ -238,8 +238,8 @@
             <div class="sons">
                 <div class="title">请输入你需要替换背景的图片</div>
                 <div class="flex types">
-                    <!--                    <img src="@/assets/edtwo.png" alt="" @click="upLoad(1)">-->
-                    <!--                    <img src="@/assets/edone.png" alt="" @click="upLoad(2)">-->
+<!--                    <img src="@/assets/edtwo.png" alt="" @click="upLoad(1)">-->
+<!--                    <img src="@/assets/edone.png" alt="" @click="upLoad(2)">-->
                     <el-button @click="upLoad(2)" type="primary">上传图片</el-button>
                 </div>
             </div>
@@ -1996,15 +1996,11 @@
 
                 .iconList {
                     div {
-                        width: 50px;
-                        height:50px;
+                        width: 70px;
+                        height: 70px;
                         position: relative;
                         margin-bottom: 10px;
                         overflow: hidden;
-                        margin: 10px 0;
-                        &:nth-child(2n){
-                            margin:0 10px;
-                        }
 
                         img {
                             position: absolute;
@@ -2084,18 +2080,15 @@
                     &.icon-shanchu {
                         top: 10px;
                         right: -25px;
-                        background-color: #fff;
                     }
 
                     &.icon-dashujukeshihuaico-1 {
                         top: 40px;
-                        background-color: #fff;
                         right: -25px;
                     }
 
                     &.icon-dashujukeshihuaico- {
                         top: 70px;
-                        background-color: #fff;
                         right: -25px;
                     }
                 }
@@ -2399,7 +2392,7 @@
             z-index: 110;
             box-shadow: 0 2px 2px #eee;
 
-            & > a img {
+            & > img {
                 width: 120px;
                 margin-left: 20px;
             }

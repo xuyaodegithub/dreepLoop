@@ -44,6 +44,8 @@ import {
     InputNumber,
     Popover,
     Tooltip,
+    Collapse,
+    CollapseItem,
 } from 'element-ui'
 
 Vue.component( Button.name, Button );
@@ -71,6 +73,8 @@ Vue.component( CarouselItem.name, CarouselItem );
 Vue.component( InputNumber.name, InputNumber );
 Vue.component( Popover.name, Popover );
 Vue.component( Tooltip.name, Tooltip );
+Vue.component( Collapse.name, Collapse );
+Vue.component( CollapseItem.name, CollapseItem );
 Vue.prototype.$loading = Loading.service;
 Vue.use( Loading.directive );
 Vue.prototype.$notify = Notification;
@@ -120,43 +124,26 @@ Vue.directive('Range',(event)=>{
     if(oDiv)oDiv.focus()
 })
 Vue.directive('dfocus',(edit)=>{
-    edit.onfocus = function () {
-
-        window.setTimeout(function () {
-
-            var sel, range;
-
-            if (window.getSelection && document.createRange) {
-
-                range = document.createRange();
-
-                range.selectNodeContents(edit);
-
-                range.collapse(true);
-
-                range.setEnd(edit, edit.childNodes.length);
-
-                range.setStart(edit, edit.childNodes.length);
-
-                sel = window.getSelection();
-
-                sel.removeAllRanges();
-
-                sel.addRange(range);
-
-            } else if (document.body.createTextRange) {
-
-                range = document.body.createTextRange();
-
-                range.moveToElementText(edit);
-
-                range.collapse(true);
-
-                range.select();
-
+    edit.addEventListener( 'paste', (e) => {
+        let clipboardData = e.clipboardData,//谷歌
+            i = 0,
+            items, item, types;
+        if (clipboardData) {
+            items = clipboardData.items;
+            if (!items) {
+                return;
             }
-
-        }, 1)
-
-    }
+            item = items[0];
+            types = clipboardData.types || [];
+            for (; i < types.length; i++) {
+                if (types[i] === 'Files') {
+                    item = items[i];
+                    break;
+                }
+            }
+            if (item && item.kind === 'string' && item.type.match( /^text\//i )) {
+                edit.innerText=clipboardData.getData( "Text" )
+            }
+        }
+    } )
 })

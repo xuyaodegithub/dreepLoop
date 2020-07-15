@@ -145,7 +145,7 @@ export const setCanvasText = () => {
     };
 }
 export const letterText = () => { //支持字间距
-    CanvasRenderingContext2D.prototype.letterSpacingText = function (text, x, y, letterSpacing) {
+    CanvasRenderingContext2D.prototype.letterSpacingText = function (text, x, y, letterSpacing,k) {
         var context = this;
         var canvas = context.canvas;
 
@@ -153,7 +153,7 @@ export const letterText = () => { //支持字间距
             letterSpacing = parseFloat( window.getComputedStyle( canvas ).letterSpacing );
         }
         if (!letterSpacing) {
-            return this.fillText( text, x, y );
+            return k===1? this.fillText( text, x, y ) : this.strokeText( text, x, y );
         }
 
         var arrText = text.split( '' );
@@ -175,7 +175,7 @@ export const letterText = () => { //支持字间距
         // 开始逐字绘制
         arrText.forEach( function (letter) {
             var letterWidth = context.measureText( letter ).width;
-            context.fillText( letter, x, y );
+            k===1? context.fillText( letter, x, y ) : context.strokeText( letter, x, y );
             // 确定下一个字符的横坐标
             x = x + letterWidth + letterSpacing;
         } );
