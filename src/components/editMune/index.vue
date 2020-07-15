@@ -90,10 +90,10 @@
                 ],
                 tabType: 0,
                 btnList: [
-                    {name: '通用', type: 0},
+                    {name: '通用', type: 2},
                     {name: '人像', type: 1},
                     {name: '头像', type: 3},
-                    {name: '物体', type: 2},
+                    // {name: '物体', type: 2},
                 ],
                 btnType: 0,
                 filterList: [

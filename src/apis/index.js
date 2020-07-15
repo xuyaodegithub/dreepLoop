@@ -133,7 +133,7 @@ export const userHistoryList=(data)=>{
  * 获取订阅列表
  **/
 export const subscriptionPlans=(data)=>{
- return https.get('/pay/findProductAll',data)
+ return https.get('/pay/findProductAllByType',data)
 }
 /**
  *我的订阅

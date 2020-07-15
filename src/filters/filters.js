@@ -20,10 +20,10 @@ const filters={
     else return year+'-'+month+'-'+day;
   }else return '';
 },
-    Calculation(val){
-        let price=val.price
-        let creditsPerMonth=val.num
-        return (price/creditsPerMonth).toFixed(3)
+    Calculation(val,k){
+        let price=val.price;
+        let creditsPerMonth=val.num;
+        return k===12? (price/creditsPerMonth*0.9).toFixed(3) : (price/creditsPerMonth).toFixed(3)
     },
     imgtitle(i){//图片title
         if (i===0)return '背景透明';

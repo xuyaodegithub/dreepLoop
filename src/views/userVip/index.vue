@@ -8,15 +8,16 @@
                 <div class="left">
                     <div class="title">免费账号</div><!--订阅计划-->
                     <p>邀请好友注册可获得5次免费下载赠送</p>
-                    <div class="Lbtn">立即邀请</div>
+                    <div class="Lbtn"><a href="userCenter.html#/userCenter/invitation">立即邀请</a></div>
                     <p>填写好友邀请码可获得5次免费下载赠送</p>
-                    <div class="Lbtn">立即填写</div>
+                    <div class="Lbtn"><a href="register.html">立即填写</a></div>
                     <p>微信扫一扫关注公众号获取5次免费下载赠送</p>
                     <img src="@/assets/image/wechatEwm.jpg" alt="">
                 </div>
                 <div class="center">
-                    <div class="title">包月用不完，转结5个月</div><!--订阅计划-->
-                    <div class="price" v-show="radio!=='other'"><span>￥{{selectRadio | Calculation}}</span>/次</div>
+                    <div class="title">包月用不完，累积5个月</div><!--订阅计划-->
+                    <div class="price" v-show="radio!=='other'"><span>￥{{selectRadio | Calculation(radio3)}}</span>/次
+                    </div>
                     <!--图像-->
                     <div class="price" v-show="radio==='other'"><span>其他方案</span></div><!--图像-->
                     <div class="raidos">
@@ -30,8 +31,8 @@
                             </el-radio>
                             <el-radio label="other">
                             <span class="clear">
-                                <span>多QPS包月，请联系技术顾问，<i @click.native.stop="dialogVisible2=true"
-                                                        style="color: #21a9e8;border-bottom: 1px solid #21a9e8;">什么是QPS</i></span>
+                                <span>多QPS包月，请联系技术顾问<!--<i @click.stop="dialogVisible2=true"
+                                                        style="color: #21a9e8;border-bottom: 1px solid #21a9e8;position: absolute;">什么是QPS</i>--></span>
                             </span>
                             </el-radio>
                             <!--                        <el-radio :label="99">企业-联系我们</el-radio>-->
@@ -39,12 +40,13 @@
                     </div>
                     <div class="raidos2">
                         <el-radio-group v-model="radio3">
-                            <el-radio :label="1">按月付费</el-radio>
-                            <el-radio :label="2">按年付费</el-radio>
+                            <el-radio :label="1"><span>按月付费</span></el-radio>
+                            <el-radio :label="12"><span>按年付费</span> <span style="color: #e82255;">节省10%</span></el-radio>
                         </el-radio-group>
                     </div>
-                    <el-button type="primary" round @click="tobuyitem">{{radio2!=='other' ? '立即购买' : '联系我们'}}
+                    <el-button type="primary" round @click="tobuyitem(1)">{{radio!=='other' ? '立即购买' : '联系我们'}}
                     </el-button><!--立即购买-->
+                    <img src="@/assets/chaozhi.png" class="chaozhi" alt="">
                 </div>
                 <div class="right">
                     <div class="title">按次购买，永久使用</div><!--订阅计划-->
@@ -53,7 +55,7 @@
                     <div class="price" v-show="radio2==='other'"><span>其他方案</span></div><!--图像-->
                     <div class="raidos">
                         <el-radio-group v-model="radio2" @change="changeRadio2">
-                            <el-radio :label="item.id" v-for="(item,index) in choseList" :key="index">
+                            <el-radio :label="item.id" v-for="(item,index) in choseList2" :key="index">
                             <span class="clear">
                                 <span>{{item.num}}次</span><!--能量/月-->
                                 <span>￥{{item.price}}</span>
@@ -68,7 +70,7 @@
                             <!--                        <el-radio :label="99">企业-联系我们</el-radio>-->
                         </el-radio-group>
                     </div>
-                    <el-button type="primary" round @click="tobuyitem">{{radio2!=='other' ? '立即购买' : '联系我们'}}
+                    <el-button type="primary" round @click="tobuyitem(2)">{{radio2!=='other' ? '立即购买' : '联系我们'}}
                     </el-button><!--立即购买-->
                     <!--                    <div class="lasts">-->
                     <!--                        <p>* 购买的次数没有使用时间限制</p>-->
@@ -96,35 +98,40 @@
                         </el-collapse-item>
                         <el-collapse-item title="可以升级或降级包月吗？" name="5">
                             <div>
-                                在你包月用完时，你可以随时升级更多的包月，例如你包月100次用完了，可以升级包月1000次的，并且马上生效。降级就是你购买下个月小一点的套餐，这个月用不完的，也可以累积到下个月去的。
+                                在你包月用完时，你可以随时升级更多的包月，例如你包月100次用完了，可以升级包月1000次的，并且马上生效。降级就是你购买下个月小一点的套餐，这个月用不完的，也可以累积到下个月去的，只是5倍的累计量是按最新的套餐计算，降级后100每月，那最多可以再叠加500，100+500
+                                = 600
                             </div>
                         </el-collapse-item>
                         <el-collapse-item title="可以取消包月吗？" name="6">
                             <div>只要不续费，包月就会自动取消，但是之前累积的5个月抠图次数，也会自动清空。</div>
                         </el-collapse-item>
                         <el-collapse-item title="包月用不完怎么办？" name="7">
-                            <div>如果到月底您还没有用完包月次数，剩余的 次数 将会结转至下个月——因此您完全不需担心会被浪费。</div>
-                            <div>您可以结转最多 5 倍的每月预存包月次数至下个月。持续包月就可以累积到下个月继续使用，最多可以累积5个月。例如，如果您订阅的是每月 500 的次数，则每月可获得 500 点
-                                次数，除此以外，您还可以从前一个月转存最多 2,500 次到这个月。
+                            <div>如果到月底您还没有用完包月次数，剩余的次数将会结转至下个月——因此您完全不需担心会被浪费。</div>
+                            <div>您可以结转最多 5 倍的每月预存包月次数至下个月。持续包月就可以累积到下个月继续使用，最多可以累积5个月。例如，如果您的包月是 500 的次数，则每月可获得 500 点
+                                次数，除此以外，您还可以从前一个月转存最多 2,500 次到这个月，一共是 3000次。
                             </div>
                         </el-collapse-item>
                         <el-collapse-item title="包月后充值的次数会保留吗？" name="8">
                             <div>充值的次数依然保留。优先扣除付费点数，例如：在抠图次数剩余10张情况下，包月100张，优先扣除按月付费100张，再扣除按次付费的10张。</div>
                         </el-collapse-item>
                         <el-collapse-item title="API是干什么的？" name="9">
-                            <div>如果你有网站、APP、小程序、H5页面等想要集成抠图的能力，就可以使用API。这个是API文档链接</div>
-                            <div>我们的Windows、Mac客户端也是基于API制作的。</div>
+                            <div>如果你有网站、APP、小程序、H5页面等想要集成抠图的能力，就可以使用API。这个是 <a href="apis.html" style="color: #e82255;">API文档链接</a>
+                            </div>
+                            <div>我们的Windows、Mac <a href="downLoad.html" style="color: #e82255;">客户端</a>也是基于API制作的。</div>
                         </el-collapse-item>
                         <el-collapse-item title="可以批量抠图吗？" name="10">
                             <div>网站、客户端，都支持批量抠图。多选文件进入即可。 网站一次性可以放30张。 客户端可以一次性放入100张。每秒处理1张。如果有更大的并发需求，可以联系我们。</div>
                         </el-collapse-item>
-                        <el-collapse-item title="QPS是什么？" name="11">
-                            <div>QPS指每秒钟能向抠图服务 API 发起的请求次数。QPS越高，同一时段内能够处理的业务量就越多。例如：购买调用QPS为1的抠图服务，则在1秒钟内可以进行1次抠图。
-                                用QPS计算器，可以轻松计算调用量和QPS需求的关系。
-                            </div>
-                            <div>如果您仍有疑惑，可以联系技术顾问</div>
-                        </el-collapse-item>
+<!--                        <el-collapse-item title="QPS是什么？" name="11">-->
+<!--                            <div>QPS指每秒钟能向抠图服务 API 发起的请求次数。QPS越高，同一时段内能够处理的业务量就越多。例如：购买调用QPS为1的抠图服务，则在1秒钟内可以进行1次抠图。-->
+<!--                                用QPS计算器，可以轻松计算调用量和QPS需求的关系。-->
+<!--                            </div>-->
+<!--                        </el-collapse-item>-->
                     </el-collapse>
+                    <div style="font-size: 24px;margin-top: 46px;text-align: center;">如果您仍有疑惑，可以 <span class="cu"
+                                                                                                       @click="openConcat"
+                                                                                                       style="color: #e82255;">联系技术顾问</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -136,11 +143,10 @@
                 :visible.sync="dialogVisible"
                 width="400px">
             <div class="Dcontent">
-                <div class="title">{{selectRadio2!=='other' ? `充值账户：${selectRadio2.num} 次` : '联系我们私聊哦~'}}</div>
-                <!--订阅计划-{{selectRadio2.creditsPerMonth}}能量/月-->
-                <div class="price" v-if="selectRadio2!=='other'">￥{{selectRadio2.price}}</div>
+                <div class="title">{{lastSelect!=='other' ? `${lastSelect.productType===2 ? '充值账户' : '包月套餐'}：${lastSelect.num} 次` : '联系我们私聊哦~'}}</div>
+                <div class="price" v-if="lastSelect!=='other'">{{lastSelect.productType===2 ? '' : '按月支付：'}}￥{{orderMSg.price}}</div>
                 <img :src="ermUrl" alt="" :class="{imgs : ermUrl!==successImg}">
-                <p v-if="selectRadio2!=='other' && ermUrl!==successImg">微信扫码支付</p>
+                <p v-if="lastSelect!=='other' && ermUrl!==successImg">微信扫码支付</p>
                 <!--                <p>time</p>-->
                 <el-button @click="goUserCenter" v-show="ermUrl===successImg">立即查看</el-button><!--继续-->
             </div>
@@ -157,7 +163,7 @@
                 <p>QPS计算器</p>
                 <div style="margin-top: 15px;">
                     <el-input placeholder="请输入每天大概调用次数" type="number" v-model="input2">
-                        <el-button slot="append" style="border-radius: 0">计算QPS</el-button>
+                        <el-button slot="append" style="border-radius: 0" @click="getres">计算QPS</el-button>
                     </el-input>
                 </div>
                 <div class="result" v-show="result">
@@ -177,7 +183,7 @@
     import {subscriptionPlans, userCreatePayment, judgeIsPaly, getQrCode} from "../../apis";
     import {getToken} from "../../utils/auth";
     import {basrUrls} from "../../utils";
-    import ewm from '../../assets/image/buyEwm.png'
+    import ewm from '../../assets/caoewm.png'
     import successImg from '../../assets/image/paySuccess.png'
 
     export default {
@@ -187,6 +193,7 @@
                 ewm,
                 successImg,
                 choseList: [],
+                choseList2: [],
                 feedbackList: [
                     // {name:'王女士',tag:'跨境店铺店主',content:'他能帮我快速处理图片背景，节约了我大量的时间，让我有更多的时间运营我的店铺，并且他处理图片背景的效果非常强大。',img:'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3677209778,3519789803&fm=27&gp=0.jpg'},
                     // {name:'王女士',tag:'跨境店铺店主',content:'他能帮我快速处理图片背景，节约了我大量的时间，让我有更多的时间运营我的店铺，并且他处理图片背景的效果非常强大。',img:'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3677209778,3519789803&fm=27&gp=0.jpg'},
@@ -212,10 +219,10 @@
                 ],
                 radio: 1,
                 radio2: 1,
-                radio3: 2,
+                radio3: 1,
                 input2: '',
                 dialogVisible: false,
-                dialogVisible2: true,
+                dialogVisible2: false,
                 value: '1',
                 options: [
                     {label: '中国', value: '1'},
@@ -227,9 +234,10 @@
                 ],
                 selectRadio2: {},
                 selectRadio: {},
+                lastSelect: {},
                 basrUrls: basrUrls(),
                 ermUrl: '',
-                orderId: '',
+                orderMSg: '',
                 timer: '',
                 result: 0
             }
@@ -246,20 +254,27 @@
             },
             changeRadio2(e) {
                 if (e === 'other') this.selectRadio2 = 'other';
-                else this.selectRadio2 = this.choseList.filter( val => val.id == e )[0]
+                else this.selectRadio2 = this.choseList2.filter( val => val.id == e )[0]
             },
             getPlansList() {
-                subscriptionPlans().then( res => {
+                subscriptionPlans( {productType: 3} ).then( res => {
                     if (!res.code) {
-                        this.choseList = res.data
-                        this.radio2 = res.data[2].id
-                        this.changeRadio2( this.radio2 )
+                        this.choseList = res.data;
+                        this.radio = res.data[2].id;
+                        this.changeRadio( this.radio );
+                    }
+                } )
+                subscriptionPlans( {productType: 2} ).then( res => {
+                    if (!res.code) {
+                        this.choseList2 = res.data;
+                        this.radio2 = res.data[2].id;
+                        this.changeRadio2( this.radio2 );
                     }
                 } )
             },
             userRegest() {
                 if (getToken()) {
-                    this.$message( {message: '您已经注册过啦！', type: 'success'} )
+                    this.$message( {message: '您已经注册过啦！', type: 'success'} );
                     return
                 }
                 window.location.href = `${this.basrUrls}/register.html`
@@ -281,23 +296,29 @@
                     } )
                 }
             },
-            tobuyitem() {
-                if (this.radio2 === 'other') {
-                    this.dialogVisible = true
-                    this.ermUrl = this.ewm
+            tobuyitem(k) {
+
+                if ((this.radio2 === 'other' && k === 2) || (this.radio === 'other' && k === 1)) {
+                    this.lastSelect = 'other';
+                    this.dialogVisible = true;
+                    this.ermUrl = this.ewm;
                     return
                 }
                 if (!getToken()) window.location.href = 'loginOrRegister.html';
                 else {
+                    let data = {};
+                    this.lastSelect = k === 1 ? this.selectRadio : this.selectRadio2;
                     const loading = this.$loading( {
                         lock: true,
                         text: '订单生成中...',
                         spinner: 'el-icon-loading',
                         background: 'rgba(0, 0, 0, 0.7)'
                     } );
-                    userCreatePayment( {productId: this.selectRadio2.id} ).then( res => {
+                    data['productId'] = this.lastSelect.id;
+                    if (k === 1) data['num'] = this.radio3;
+                    userCreatePayment( data ).then( res => {
                         if (!res.code) {
-                            this.orderId = res.data.orderId
+                            this.orderMSg = res.data;
                             getQrCode( {codeUrl: res.data.codeURL} ).then( res => {
                                 if (!res.code) {
                                     this.ermUrl = res.data;
@@ -307,13 +328,13 @@
                                 }
                             } )
                         }
-                    } )
+                    } ).catch( err => loading.close() )
                     // this.dialogVisible=true
                 }
             },
             checkStatus() {
-                judgeIsPaly( {orderId: this.orderId} ).then( res => {
-                    if (res.data) this.ermUrl = this.successImg
+                judgeIsPaly( {orderId: this.orderMSg.orderId} ).then( res => {
+                    if (res.data) this.ermUrl = this.successImg;
                     else {
                         this.timer = setTimeout( () => {
                             this.checkStatus()
@@ -327,6 +348,14 @@
             goUserCenter() {
                 window.location.href = 'userCenter.html'
             },
+            openConcat() {
+                this.lastSelect = 'other';
+                this.ermUrl = this.ewm;
+                this.dialogVisible = true;
+            },
+            getres() {
+
+            }
         },
         components: {
             headerSub, footerSub
@@ -349,7 +378,6 @@
             font-family: "Microsoft YaHei";
             font-size: 44px;
             color: #333;
-            font-weight: 500;
             margin-bottom: 28px;
         }
 
@@ -361,12 +389,13 @@
 
         .left, .center, .right {
             width: 500px;
-            overflow: hidden;
+            /*overflow: hidden;*/
             border-radius: 15px;
             text-align: center;
             background-color: #fff;
             padding-bottom: 30px;
             min-height: 570px;
+            position: relative;
 
             .title {
                 font-size: 24px;
@@ -375,8 +404,10 @@
             }
 
             .raidos2 {
-                margin: 25px 0;
-
+                margin: 20px 0;
+                span{
+                    color: #333;
+                }
                 .el-radio-group {
                     display: flex;
                     justify-content: center;
@@ -393,6 +424,7 @@
                 color: #e82255;
                 margin-bottom: 34px;
                 line-height: 1;
+                font-weight: bold;
 
                 span {
                     font-size: 30px;
@@ -466,6 +498,11 @@
                 color: #333;
                 margin-bottom: 55px;
             }
+            & > .chaozhi{
+                position: absolute;
+                top: -8px;
+                right: -8px;
+            }
         }
 
         .center {
@@ -507,7 +544,12 @@
                 border: 1px solid $co;
                 line-height: 30px;
                 border-radius: 15px;
-                color: $co;
+
+                a {
+                    display: block;
+                    width: 100%;
+                    color: $co;
+                }
             }
 
             & > p {
@@ -621,7 +663,9 @@
 <style lang="scss">
     .vip .el-collapse {
         background-color: initial;
+        border: none;
     }
+
     .vip .el-collapse .el-collapse-item__header, .vip .el-collapse .el-collapse-item__wrap {
         background-color: rgba(0, 0, 0, 0);
         border-color: #999;
@@ -631,7 +675,11 @@
         font-size: 24px;
         line-height: 84px;
         height: 84px;
-        border: none;
+        border-bottom: 1px solid #999;
+    }
+
+    .vip .el-collapse .is-active .el-collapse-item__header {
+        border-bottom: none;
     }
 
     .vip .right .clear span {
@@ -645,6 +693,10 @@
     .vip .el-radio__input.is-checked .el-radio__inner {
         border-color: #e82255;
         background-color: #e82255;
+    }
+
+    .vip .el-radio__input .el-radio__inner {
+        border-color: #666;
     }
 
     .vip .el-dialog__body {

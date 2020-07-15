@@ -21,9 +21,6 @@
                 </div>
             </div>
             <div class="hDown">
-                <!--                <el-button type="primary" style="background-color: #fff;color: #e82255;" @click="reloads">-->
-                <!--                    {{edrieImgInfo.type===1 ? '重新上传' : '重置'}}-->
-                <!--                </el-button>-->
                 <el-button type="primary" icon="el-icon-download" @click="downLoadImg">下载
                     <!--                    <table class="downBtn">-->
                     <!--                        <tr>-->
@@ -61,7 +58,7 @@
         <div class="e_l">
             <div v-for="(item,idx) in e_btn_list" :key="idx" :class="{active : selectType===idx}"
                  @click="changeSelecType(idx)">
-                <i class="icon iconfont " :class="item.url"></i>
+                <img :src="selectType===idx ? item.securl : item.url"/>
                 <span>{{item.title}}</span>
             </div>
         </div>
@@ -119,12 +116,19 @@
                 </div>
             </div>
             <div class="thred" v-show="selectType===2">
+                <p>点击添加到页面的文本</p>
                 <el-button plain icon="el-icon-plus" class="addText" style="width: 100%" size="small"
-                           @click="addTextSub">添加文本
+                           @click="addTextSub(3)">点击添加标题
+                </el-button>
+                <el-button plain icon="el-icon-plus" class="addText" style="width: 100%" size="small"
+                           @click="addTextSub(2)">点击添加副标题
+                </el-button>
+                <el-button plain icon="el-icon-plus" class="addText" style="width: 100%" size="small"
+                           @click="addTextSub(1)">点击添加正文
                 </el-button>
                 <p>字体样式</p>
                 <div class="fontList flex f-w j-b">
-                    <div v-for="(ite,idxs) in fontList" :key="idxs" class="cu" @click="addTextSub(ite.val)">
+                    <div v-for="(ite,idxs) in fontList" :key="idxs" class="cu" @click="addTextSub(1,ite.val,idxs)">
                         {{ite.title}}
                     </div>
                 </div>
@@ -148,7 +152,7 @@
             <div class="subs opas"
                  :style="{width:`${parseSubs.bW}px`,height:`${parseSubs.bH}px`,opacity:'.4',overflow:'initial'}"
                  v-if="edrieImgInfo.pro && selectType===1 && !backSub.backColor">
-                <div class="items" :class="{'hovers' : backSub.hovering}" :style="backSub | subsStyle"
+                <div class="items" :class="{'hovers' : backSub.hovering}" :style="backSub | subsStyle"  @mouseenter="borderFun(backSub.idx)" @mouseleave="borderFun(backSub.idx,1)"
                      @click.stop="hoverThis(backSub.idx)" v-if="backSub.idx>-1"
                      @mousedown.stop="moveBack($event,backSub.idx)">
                     <img :src="backSub.useImg" alt="">
@@ -159,13 +163,15 @@
                  :style="{width:`${parseSubs.bW}px`,height:`${parseSubs.bH}px`,backgroundColor:`${backSub.backColor ? backSub.backColor : ''}`}">
                 <div class="items upss" :class="{'hovers' : item.hovering}" v-for="(item,idx) in parseSubs.subList"
                      :style="item | subsStyle"
-                     @mousedown.stop="moveBack($event,idx)" @click.stop="hoverThis(idx)">
-                    <div v-if="item.type===2" :contenteditable="item.contenteditable" class="text"
-                         style="font-weight:inherit;border: 0;width:auto;height: auto;"
-                         @dblclick="writeText(idx)"
-                         @input="setBlur($event,idx)"
-                         @blur="setBlur($event,idx,1)"><div>{{item.title}}</div>
-                    </div>
+                     @mousedown.stop="moveBack($event,idx)" @click.stop="hoverThis(idx)" @mouseenter="borderFun(idx)" @mouseleave="borderFun(idx,1)">
+                    <el-tooltip class="item" effect="dark" content="双击修改文字" placement="top">
+                        <div v-if="item.type===2" :contenteditable="item.contenteditable" class="text"
+                             style="font-weight:inherit;border: 0;width:auto;height: auto;"
+                             @dblclick="writeText(idx)"
+                             @input="setBlur($event,idx)"
+                             @blur="setBlur($event,idx,1)"><div>{{item.title}}</div>
+                        </div>
+                    </el-tooltip>
                     <!--<el-input-->
                     <!--v-if="item.type===2"-->
                     <!--class="text"-->
@@ -181,26 +187,31 @@
                     </div>
                 </div>
                 <div class="items initBack" :class="{'hovers' : backSub.hovering}" :style="backSub | subsStyle"
-                     @click.stop="hoverThis(backSub.idx)" v-if="backSub.idx>-1 && !backSub.backColor"
+                     @click.stop="hoverThis(backSub.idx)" v-if="backSub.idx>-1 && !backSub.backColor"  @mouseenter="borderFun(idx)" @mouseleave="borderFun(idx,1)"
                      @mousedown.stop="moveBack($event,backSub.idx)">
                     <img :src="backSub.useImg" alt="">
                 </div>
             </div>
+<!--            操作框，放大缩小，-->
             <div class="fivePoint"
                  @mousedown.stop="moveBack($event,hoverSub.idx)"
                  @click.stop="hoverThis(hoverSub.idx)"
                  v-if="hoverSub.idx>-1"
                  :style="{left:`${mainx.x+hoverSub.x}px`,top:`${mainx.y+hoverSub.y}px`,width:`${parseInt(hoverSub.w)}px`,height:`${parseInt(hoverSub.h)}px`,transform:`rotateZ(${hoverSub.rotate}deg)`}">
-                <span class="el-icon-refresh downIcon" style="z-index: 666"></span>
                 <!--                         :style="{left:`${parseInt(mainx.x+hoverSub.x+hoverSub.w/2-9)}px`,top:`${parseInt(mainx.y+hoverSub.y+hoverSub.h+16)}px`,transformOrigin:`9px ${-(hoverSub.h/2+16)}px`,transform:`${rotateHover}`}"></span>-->
                 <!--                :style=" pointStyle(it)"-->
-                <i v-for="it in 8" :key="'a'+it"
-                   class="teI icon iconfont"
-                   @click.stop="setOImg(it)"
-                   :class="{'iOne' : it===1,'iTwo' : it===2,'iTh' : it===3,'iFor' : it===4,'iFive' : it===5,'icon-shanchu' : it===6,'icon-dashujukeshihuaico-1':it===7,'icon-dashujukeshihuaico-' : it===8}"
-                   style="z-index: 666"
-                   :style="pointcursor(it)"></i>
+                <div>
+                    <span class="el-icon-refresh downIcon" style="z-index: 666"></span>
+                    <i v-for="it in 8" :key="'a'+it"
+                       class="teI icon iconfont"
+                       @click.stop="setOImg(it)"
+                       :class="{'iOne' : it===1,'iTwo' : it===2,'iTh' : it===3,'iFor' : it===4,'iFive' : it===5,'icon-shanchu' : it===6,'icon-dashujukeshihuaico-1':it===7,'icon-dashujukeshihuaico-' : it===8}"
+                       style="z-index: 666"
+                       :style="pointcursor(it)"></i>
+                </div>
             </div>
+<!--            //框框-->
+            <div v-show="enterIdx>-1 && enterIdx!==hoverSub.idx" class="borderK"  :style="{left:`${mainx.x+enterSub.x}px`,top:`${mainx.y+enterSub.y}px`,width:`${parseInt(enterSub.w)}px`,height:`${parseInt(enterSub.h)}px`,transform:`rotateZ(${enterSub.rotate}deg)`}"></div>
             <div class="nowMsg flex a-i">
                 <i class="el-icon-minus cu" @click="wheelFun(0)"></i>
                 <span>{{parseInt(parseSubs.scale*100)}}%</span>
@@ -226,7 +237,7 @@
                 <h4>选择画布尺寸(px)</h4>
                 <div class="jc">
                     <div v-for="(item,idx) in cansSize" :key="idx" class="cu" :class="{'active' : sizeType===idx}"
-                         @click="changeSize(item)"><span>{{item.text}}</span>{{item.w +'*'+ item.h}}
+                         @click="changeSize(item,idx)"><span>{{item.text}}</span>{{item.w +'*'+ item.h}}
                     </div>
                 </div>
             </div>
@@ -263,10 +274,18 @@
     import fMune from '@/components/fontMune';
     import mattingImg from '@/components/mattingImg';
     import {myBrowser, findLastIdx, setRad} from '@/utils';
-    import scale from '../../assets/image/scale.png';
     import {mixins} from '@/minxins';
     import {getTanDeg, letterText} from '@/utils'
-    import opacity from '@/assets/opacity.jpg';
+    import _1 from '@/assets/image/1.png';
+    import _11 from '@/assets/image/11.png';
+    import _2 from '@/assets/image/2.png';
+    import _22 from '@/assets/image/22.png';
+    import _3 from '@/assets/image/3.png';
+    import _33 from '@/assets/image/33.png';
+    import _4 from '@/assets/image/4.png';
+    import _44 from '@/assets/image/44.png';
+    import _5 from '@/assets/image/5.png';
+    import _55 from '@/assets/image/55.png';
     import fupa from '@/assets/image/fopa.png';
     import color from '@/assets/image/color.png';
     import jsMulit from '@/utils/jsmanipulate.js';
@@ -284,10 +303,11 @@
                 openclearAll: true,
                 initcolorList: [color, fupa, '#000', '#fff', '#BFBFBF', '#2862F4', '#FED835', '#28F5B4', '#F62897', '#F57B28', '#00FFFF', '#90C320'],
                 e_btn_list: [//左侧菜单按钮
-                    {url: 'icon-shangchuan', title: '上传'},
-                    {url: 'icon-background', title: '背景'},
-                    {url: 'icon-wenzi', title: '文字'},
-                    {url: 'icon-tiezhi', title: '贴纸'},
+                    {url: _1,securl:_11, title: '上传'},
+                    {url: _2, securl:_22,title: '背景'},
+                    {url: _3,securl:_33, title: '文字'},
+                    {url: _4,securl:_44, title: '贴纸'},
+                    // {url: '_5',securl:'_55', title: '贴纸'},
                 ],
                 seachWords: '',
                 cansSize: [
@@ -359,7 +379,7 @@
                     scale: 1,
                     oriW: 0,
                     oriH: 0,
-                    subList: [],
+                    subList: [{type:0}],
                 },
                 oriW: 0,
                 oriH: 0,
@@ -369,6 +389,7 @@
                 mattingMsg: {id: '', type: ''},//公用
                 page: 1,
                 stopUpdata: true,
+                enterIdx:-1
             }
         },
         watch: {
@@ -399,6 +420,10 @@
                 const idx = this.parseSubs.subList.findIndex( item => item.hovering );
                 const item = idx > -1 ? this.parseSubs.subList[idx] : {type: ''};
                 return {...item, idx: idx}
+            },
+            enterSub(){//鼠标移入组件
+                const item = this.enterIdx >-1 ? this.parseSubs.subList[this.enterIdx] : {};
+                return item
             },
             rotateHover() {//旋转的hover组件
                 const a = Math.cos( setRad( this.hoverSub.rotate ) ), b = Math.sin( setRad( this.hoverSub.rotate ) ),
@@ -808,7 +833,7 @@
                         ori: this.edrieImgInfo.ori,//原图
                         pro: this.edrieImgInfo.pro,//抠图过后的
                         proObj: null,////抠图过加载后的对象
-                        mattingType: 0
+                        mattingType: 2
                     }, oH = document.getElementById( 'e_r' ).offsetHeight * 0.6,
                     oW = document.getElementById( 'e_r' ).offsetWidth * 0.6;
                 let oImg = new Image();
@@ -817,7 +842,7 @@
                     data.proObj = oImg;
                     this.parseSubs.bW = loadImg.width > loadImg.height ? (loadImg.width > oW ? oW : loadImg.width) : (loadImg.height > oH ? oH * loadImg.width / loadImg.height : loadImg.width);
                     this.parseSubs.bH = loadImg.width > loadImg.height ? (loadImg.width > oW ? oW * loadImg.height / loadImg.width : loadImg.height) : (loadImg.height > oH ? oH : loadImg.height);
-                    this.parseSubs.scale = parseFloat( this.parseSubs.bW / loadImg.width ).toFixed( 2 );
+                    this.parseSubs.scale = parseFloat( this.parseSubs.bW / loadImg.width );
                     data.w = this.edrieImgInfo.imageMsg.originalWidth * parseFloat( this.parseSubs.scale );
                     data.h = this.edrieImgInfo.imageMsg.originalHeight * parseFloat( this.parseSubs.scale );
                     data.x = (this.parseSubs.bW / 2 - data.w / 2);
@@ -948,7 +973,7 @@
                 this.parseSubs.subList[idx].hover = true;
                 let oDiv = this.parseSubs.subList[idx].type ? document.querySelector( `.otherSubs .items:nth-child(${idx + 1})` ) : document.querySelector( '.initBack' );
                 let [x, y] = [ev.clientX - oDiv.offsetLeft, ev.clientY - oDiv.offsetTop];
-                let [w, h, top, left] = [oDiv.offsetWidth, oDiv.offsetHeight, oDiv.offsetTop, oDiv.offsetLeft];
+                let [w, h, top, left,size] = [oDiv.offsetWidth, oDiv.offsetHeight, oDiv.offsetTop, oDiv.offsetLeft,this.parseSubs.subList[idx].type===2 ? this.parseSubs.subList[idx].fontSize : 0 ];
                 let isMove = false;
                 document.onmousemove = (e) => {
                     isMove = true;
@@ -980,6 +1005,9 @@
                         this.parseSubs.subList[idx].w = w - (mx2 - mx);
                         this.parseSubs.subList[idx].h = (w - (mx2 - mx)) * h / w;
                         this.parseSubs.subList[idx].y = top + (h - (w - (mx2 - mx)) * h / w);
+                        if(this.parseSubs.subList[idx].type===2){
+                            this.parseSubs.subList[idx].fontSize=size*this.parseSubs.subList[idx].w/w;
+                        }
                     } else {
                         if(this.parseSubs.subList[idx].type===2 && this.parseSubs.subList[idx].contenteditable)return;
                         this.parseSubs.subList[idx].x = l;
@@ -999,7 +1027,14 @@
                         this.openclearAll = true;
                     } )
                 }
-
+            },
+            borderFun(idx,k){
+                if(k){
+                    this.enterIdx=-1;
+                    return
+                }
+                if(!k && idx===this.enterIdx) return;
+                this.enterIdx=idx;
             },
             choseColor(color) {//选择颜色背景，颜色选择器
                 this.choseBack = 0;
@@ -1072,15 +1107,15 @@
                 };
                 oImg.src = item.url + `?id=${Math.random()}`;
             },
-            addTextSub(item) {
+            addTextSub(k,item,i) {
                 let data = {
                     type: 2,//文字组件
                     title: '双击编辑',
                     fontFamily: 'systi',//文字类型
-                    fontSize: 14,//大小
+                    fontSize: k===1 ? 14 : (k===2 ? 24: 36),//大小
                     letterSpacing: 0,//字间距
-                    lineHeight: 30,//行高
-                    color: '#333',//颜色
+                    lineHeight: k===1 ? 30 : (k===2 ? 36: 48),//行高
+                    color:i===0 ? '#fff' : '#333',//颜色
                     backgroundColor: '',//背景色
                     fontStyle: 'normal',//是否斜体
                     textDecoration: 'none',//下划线，删除线
@@ -1088,8 +1123,8 @@
                     flexDirection: 0,//0代表横向，1代表竖向
                     fontWeight: 'normal',
                     textShadow: 'none',
-                    w: 120,
-                    h: 30,
+                    w: 200,
+                    h: k===1 ? 30 : (k===2 ? 36: 48),
                     id: `text${Math.random()}`,
                     rotate: 0,
                     hovering: false,
@@ -1433,7 +1468,7 @@
                 }
                 bgimg.src = this.edrieImgInfo.bgImg + `?str=${Math.random()}`;
             },
-            changeSize(item) {//画布尺寸输入
+            changeSize(item,idx) {//画布尺寸输入
                 console.log( item, this.parseSubs )
                 if (item.w === this.parseSubs.oriW && item.h === this.parseSubs.oriH) return;
                 let oH = document.getElementById( 'e_r' ).offsetHeight * 0.6,
@@ -1462,6 +1497,7 @@
                 //     this.parseSubs.subList[idx].x = this.parseSubs.bW / 2 - this.parseSubs.subList[idx].w / 2;
                 //     this.parseSubs.subList[idx].y = this.parseSubs.bH / 2 - this.parseSubs.subList[idx].h / 2;
                 // }
+                this.sizeType=(idx || idx===0) ? idx : -1;
                 this.initsave()
             },
             wheelFun(k) {
@@ -1572,7 +1608,7 @@
                         proObj: null,////抠图过加载后的对象
                         hovering: false,
                         // zIndex: this.parseSubs.subList[this.parseSubs.subList.length - 1].zIndex + 1,
-                        mattingType: 0,//抠图模式
+                        mattingType: -1,//抠图模式
                     }, oImg = new Image();
                     oImg.crossOrigin = '';
                     oImg.onload = () => {
@@ -1661,8 +1697,7 @@
                 position: relative;
                 cursor: pointer;
 
-                i {
-                    font-size: 20px;
+                img {
                     margin: 0 auto 10px;
                     display: block;
                 }
@@ -1889,9 +1924,26 @@
 
             .thred {
                 .addText {
-                    background-color: #40444D;
-                    color: #e82255;
-                    margin-bottom: 50px;
+                    background-color: rgba(250,250,250,.1);
+                    color: #fff;
+                    margin-bottom: 14px;
+                    margin-left: 0;
+                    border: none;
+                    &:hover{
+                        border-color: #fff;
+                    }
+                    &:first-child{
+                        font-size: 28px;
+                        line-height: 52px;
+                    }
+                    &:nth-child(2){
+                        font-size: 20px;
+                        line-height: 40px;
+                    }
+                    &:nth-child(3){
+                        font-size: 14px;
+                        line-height: 32px;
+                    }
                 }
 
                 & > p {
@@ -2026,7 +2078,7 @@
 
             .fivePoint {
                 position: absolute;
-                border: 1px solid #3a8ee6;
+                border: 2px solid $co;
                 pointer-events: none;
 
                 i {
@@ -2034,7 +2086,7 @@
                     position: absolute;
                     width: 8px;
                     height: 8px;
-                    border: 1px solid #3a8ee6;
+                    border: 1px solid $co;
                     background-color: #fff;
                     border-radius: 50%;
                     transform: translate(-50%, -50%);
@@ -2109,17 +2161,22 @@
                     border: none;
                     letter-spacing: 0 !important;
                     background-color: initial;
-                    color: #3a8ee6;
+                    color: $co;
                     font-size: 18px;
                     cursor: url(../../assets/image/rotate.svg) 11 9, pointer
                 }
+            }
+            .borderK{
+                position: absolute;
+                border: 1px solid $co;
+                pointer-events: none;
             }
 
             i.teI {
                 position: absolute;
                 width: 12px;
                 height: 12px;
-                border: 1px solid #3a8ee6;
+                border: 1px solid $co;
                 background-color: #fff;
                 border-radius: 50%;
                 cursor: nesw-resize;
@@ -2139,6 +2196,9 @@
 
                 &.iFor {
                     cursor: e-resize;
+                    & ~ i::before{
+                        background-color: #fff;
+                    }
                 }
             }
 
@@ -2189,7 +2249,6 @@
                     margin: 0 25px;
                 }
             }
-
             .subs {
                 position: absolute;
                 left: 50%;
@@ -2303,7 +2362,7 @@
             }
 
             .jc {
-                padding: 15px 30px;
+                padding: 15px 0;
                 border: 1px solid #eee;
                 text-align: left;
                 line-height: 32px;
@@ -2318,11 +2377,19 @@
 
                 .active {
                     color: $co;
+                    background-color: #eee;
                 }
 
                 img {
                     display: block;
                     margin: 0 auto 5px;
+                }
+                & > div{
+                    padding: 0 30px;
+                }
+                & > div:hover{
+                    color: $co;
+                    background-color: #eee;
                 }
             }
 

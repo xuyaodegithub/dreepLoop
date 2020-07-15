@@ -2,7 +2,7 @@
     <div class="invitation">
         <h3>邀请好友，获取免费次数</h3>
         <div class="seclabel">
-            邀请好友注册，你和好友都获赠20次大图
+            邀请好友注册，填写邀请码，你和好友都获赠5次大图
         </div>
         <div class="smally">
             将下面邀请码复制给好友，分享越多，获得次数越多
