@@ -22,20 +22,20 @@
             <el-color-picker v-model="backgroundColor" show-alpha
                              @change="setFont({backgroundColor})"></el-color-picker>
         </div>
-        <!--        <el-popover-->
-        <!--                placement="left"-->
-        <!--                width="290"-->
-        <!--                trigger="click">-->
-        <!--            <div class="popovers flex f-w">-->
-        <!--                <div class="cu" style="font-size: 14px;">无样式</div>-->
-        <!--                <div v-for="(item,idx) in fontStyleList" :key="idx" :style="{textShadow:item.shadow}" class="cu">样式-->
-        <!--                </div>-->
-        <!--            </div>-->
-        <!--            <div class="flex a-i colors fstyle cu" slot="reference">-->
-        <!--                <span>字体样式</span>-->
-        <!--                <i :class="showFontStyle ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>-->
-        <!--            </div>-->
-        <!--        </el-popover>-->
+                <el-popover
+                        placement="left"
+                        width="290"
+                        trigger="click">
+                    <div class="popovers flex f-w">
+                        <div class="cu" style="font-size: 14px;">无样式</div>
+                        <div v-for="(item,idx) in fontStyleList" :key="idx" :style="{textShadow:item.shadow}" class="cu">样式
+                        </div>
+                    </div>
+                    <div class="flex a-i colors fstyle cu" slot="reference">
+                        <span>字体样式</span>
+                        <i :class="showFontStyle ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
+                    </div>
+                </el-popover>
         <div class="fontFa flex lineStyle">
             <el-tooltip :content="item.mean" placement="top" v-for="(item,idx) in firstList" :key="idx">
                 <span class="cu"

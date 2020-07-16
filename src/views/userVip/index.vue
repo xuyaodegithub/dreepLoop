@@ -144,7 +144,8 @@
                 width="400px">
             <div class="Dcontent">
                 <div class="title">{{lastSelect!=='other' ? `${lastSelect.productType===2 ? '充值账户' : '包月套餐'}：${lastSelect.num} 次` : '联系我们私聊哦~'}}</div>
-                <div class="price" v-if="lastSelect!=='other'">{{lastSelect.productType===2 ? '' : '按月支付：'}}￥{{orderMSg.price}}</div>
+                <div class="price" v-if="lastSelect!=='other'">{{lastSelect.productType===2 ? '' : (radio3===1 ? '按月支付：' : '按年付费：')}}￥{{orderMSg.price}}</div>
+                <p style="margin-bottom: 0;" v-if="lastSelect.productType===3 && radio3===12">月费￥{{lastSelect.price}} X 12个月 X 0.9折扣</p>
                 <img :src="ermUrl" alt="" :class="{imgs : ermUrl!==successImg}">
                 <p v-if="lastSelect!=='other' && ermUrl!==successImg">微信扫码支付</p>
                 <!--                <p>time</p>-->

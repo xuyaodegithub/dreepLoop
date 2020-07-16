@@ -16,7 +16,7 @@
           </div>
           <!--                <el-input v-model="usersurepass" placeholder="确认您的密码" type="password" v-if="btnType==1"  @keyup.enter.native="regestUser()" ></el-input>-->
           <el-input v-model="userMima" placeholder="请设置密码" type="password"></el-input>
-          <el-input v-model="yqma" placeholder="（可不填）邀请码，可以增加20次免费下载" style="margin-bottom: 0" class="yqma"></el-input>
+          <el-input v-model="yqma" placeholder="（可不填）邀请码，可以增加5次免费下载" style="margin-bottom: 0" class="yqma"></el-input>
           <span style="color: #3d8fd1;margin-bottom: 20px;display: inline-block;" class="cu" @click="dialogVisible=true">如何获取邀请码？</span>
           <p>完成此注册，即表明您同意了我们的<span class="cu" @click="selfXy()">使用条款和隐私策略</span></p>
 

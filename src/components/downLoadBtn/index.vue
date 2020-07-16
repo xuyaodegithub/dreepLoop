@@ -25,8 +25,7 @@
                     <span class="cu" @click="save(1,$event)">下载</span>
                 </div>
                 <div>
-                    当前可用次数： {{userSubscribeData ? userSubscribeData.freeRemaining +
-                    userSubscribeData.monthRemaining : 0}} <a href="userVip.html" class="cu">去充值</a>
+                    当前可用次数： {{(userSubscribeData && userSubscribeData.monthRemaining) > 0 ?  userSubscribeData.monthRemaining : userSubscribeData.freeRemaining}} <a href="userVip.html" class="cu">去充值</a>
                 </div>
             </div>
         </div>

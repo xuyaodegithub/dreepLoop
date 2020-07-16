@@ -33,7 +33,7 @@
                             <img src="../../assets/image/wx.png" alt="">
                             <p>roymind</p>
                             <img src="../../assets/image/ewm.png" alt="" style="margin-left: 20px;margin-right: 0;">
-                            <img src="../../assets/image/wxl.png" alt="" class="noC">
+                            <img src="../../assets/image/wxl.png" alt="" class="noC" style="width:120px;">
                         </div>
                         <div class="flex a-i cu">
                             <img src="../../assets/image/img3.png" alt="">

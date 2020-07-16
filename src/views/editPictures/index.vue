@@ -98,8 +98,7 @@
                                     </el-button>
                                 </td>
                             </tr>
-                            <tr>当前可用次数：{{userSubscribeData ? userSubscribeData.freeRemaining +
-                                userSubscribeData.monthRemaining : 0}} <a href="userVip.html" class="cu" target="_blank"
+                            <tr>当前可用次数：{{(userSubscribeData && userSubscribeData.monthRemaining) > 0 ?  userSubscribeData.monthRemaining : userSubscribeData.freeRemaining}} <a href="userVip.html" class="cu" target="_blank"
                                                                           style="color: #a1a0a0;margin-left: 20px;border-bottom: 1px solid #a1a0a0;">去充值</a>
                             </tr>
                         </table>
