@@ -25,10 +25,11 @@
                 <el-popover
                         placement="left"
                         width="290"
+                        v-model="hiddenFstyle"
                         trigger="click">
                     <div class="popovers flex f-w">
-                        <div class="cu" style="font-size: 14px;">无样式</div>
-                        <div v-for="(item,idx) in fontStyleList" :key="idx" :style="{textShadow:item.shadow}" class="cu">样式
+                        <div class="cu" style="font-size: 14px;" @click="addShadow()">无样式</div>
+                        <div v-for="(item,idx) in fontStyleList" :key="idx" @click="addShadow(item)" :style="{textShadow:item.textShadow,color:idx? '#333' : '#fff'}" class="cu">样式
                         </div>
                     </div>
                     <div class="flex a-i colors fstyle cu" slot="reference">
@@ -90,11 +91,11 @@
                 fValue: {label: '思源黑体 粗体', value: 'Arial', h: 1},
                 fList: [
                     {label: '思源黑体 粗体', value: 'Arial', h: 1},
-                    {label: '阿里巴巴普惠体', value: 'aliph'},
+                    // {label: '阿里巴巴普惠体', value: 'aliph'},
                     {label: '站酷酷黑', value: 'zkkh'},
                     {label: '站酷文艺体', value: 'zkwy'},
                     {label: '演示悠然小楷', value: 'ysyrxk'},
-                    {label: '苹方体', value: 'pft'},
+                    // {label: '苹方体', value: 'pft'},
                     {label: '优设标题黑', value: 'ysbth'},
                     {label: '思源宋体 常规', value: 'systi'},
                     {label: '思源宋体 粗体', value: 'systc', h: 1},
@@ -131,6 +132,7 @@
                 alignType: 1,
                 letterSpacing: 0,//字间距
                 lineHeight: 0,//字间距
+                hiddenFstyle:false
             }
         },
         mounted() {
@@ -163,11 +165,12 @@
                 this.selectCom=[];
                 keys.map(item=>{
                     if(item==='fontFamily'){
-                        this.fValue=this.fList.find(it=>it.value===data[item]);
+                        this.fValue=this.fList.find(it=>it.value===data[item]) ? this.fList.find(it=>it.value===data[item]) :  {label: '思源宋体 常规', value: 'systi'};
                         let oInput = document.querySelector( '.el-select .el-input__inner' );
                         oInput.style.fontFamily = this.fValue.value;
                         oInput.style.fontWeight = this.fValue.h ? 'bold' : 'normal';
-                    } else if(['fontSize','color','backgroundColor','flexDirection','letterSpacing','lineHeight'].includes(item))this[item]=data[item];
+                    } else if(['fontSize','letterSpacing','lineHeight'].includes(item))this[item]=parseInt(data[item]);
+                    else if(['color','backgroundColor','flexDirection'].includes(item))this[item]=data[item];
                     else if(['fontWeight','fontStyle'].includes(item) && data[item]!=='normal')this.selectCom.push(this.firstList.find(it=>it.key===item).type);
                     else if(item==='textDecoration' && data[item]!=='none') data[item]==='underline' ? this.selectCom.push(3) : this.selectCom.push(4);
                     else if(item==='textAlign')this.alignType=a.indexOf(data[item])+1;
@@ -183,7 +186,6 @@
                 this.$emit( 'initFont', {fontFamily: item.value, fontWeight: item.h ? 'bold' : 'normal'} )
             },
             setFont(data) {
-                console.log(data,2222)
                 this.$emit( 'initFont', data );
             },
             addLine(idx) {
@@ -215,7 +217,15 @@
             },
             changeColor() {
                 this.$refs.colorSelect.click()
-            }
+            },
+            addShadow(item){
+                let data={
+                    textShadow: item ? item.textShadow : 'none',
+                }
+                if(item && item.textShadow.split(',').length>1)data['color']='#fff';
+                this.$emit( 'initFont', data );
+                this.hiddenFstyle=false;
+            },
         }
     }
 </script>

@@ -1,6 +1,6 @@
 <template>
     <!--    描边 投影组件-->
-    <div class="mune"  v-loading="loading">
+    <div class="mune" v-loading="loading">
         <div class="header flex j-b">
             <span class="cu" :class="{'active' : tabType===idx}" v-for="(item,idx) in tabList" @click="changeTab(idx)"
                   :key="idx">{{item.name}}</span>
@@ -14,10 +14,10 @@
                         {{it.name}}
                     </span>
                 </div>
-                <h4>修复</h4>
-                <el-button plain @click="changBtn(-1)">手工修补</el-button>
+                <h4 v-show="mattingType!==3">修复</h4>
+                <el-button plain @click="changBtn(-1)" v-show="mattingType!==3">手工修补</el-button>
             </div>
-            <div class="t2 flex j-b f-w" v-show="tabType===2">
+            <div class="t2 flex j-b f-w" v-show="tabType===1">
                 <div class="item cu" v-for="(it,idx) in filterList" :key="idx">
                     <div @click="selectEdit(it,idx)" :class="{'active' : t2Idx===idx}">
                         <img :src="it.src ? it.src : preImg " alt="">
@@ -26,11 +26,11 @@
                 </div>
 
             </div>
-            <div class="t3" v-show="tabType===3">
+            <div class="t3" v-show="tabType===2">
                 <el-checkbox v-model="checked" size="medium" @change="initsliderVal">投影</el-checkbox>
                 <div class="flex a-i sec">
                     <label>角度：</label>
-                    <div class="crils">
+                    <div class="crils" @mousedown="moveAngle">
                         <div :style="{transform:`rotateZ(${angle}deg)`}"><p></p></div>
                     </div>
                     <el-input v-model="angle" placeholder="请输入内容" size="mini" type="number"
@@ -63,7 +63,7 @@
                     </div>
                 </div>
             </div>
-            <div class="t4" v-show="tabType===1">
+            <div class="t4" v-show="tabType===3">
                 <h4>一键处理劣质图片，生成精美图片</h4>
                 <el-button plain @click="changBtn(4)">一键美化</el-button>
             </div>
@@ -78,20 +78,25 @@
     import {setRad, colorRgb} from '@/utils'
     import * as StackBlur from 'stackblur-canvas';
     import {mapGetters} from 'vuex'
+
     export default {
         name: "index",
+        props:{
+            mattingType:Number
+        },
         data() {
             return {
                 tabList: [
                     {name: '抠图', type: 1},
-                    {name: '美化', type: 2},
+                    // {name: '美化', type: 2},
                     {name: '特效', type: 3},
                     {name: '阴影', type: 4},
                 ],
                 tabType: 0,
                 btnList: [
-                    {name: '通用', type: 2},
+                    {name: '通用', type: 6},
                     {name: '人像', type: 1},
+                    {name: '物体', type: 2},
                     {name: '头像', type: 3},
                     // {name: '物体', type: 2},
                 ],
@@ -124,7 +129,7 @@
                 colors: ['#fff', '#FED835', '#2862F4', '#28F5B4'],
                 loading: false,
                 t2Idx: 1,
-                closeWatch:false,//每次切換組件時，不需要重复watch
+                closeWatch: false,//每次切換組件時，不需要重复watch
             }
         },
         mounted() {
@@ -133,22 +138,22 @@
         watch: {
             sliderVal: {
                 handler(newVal, oldVal) {
-                    if(!this.closeWatch)this.initsliderVal();
+                    if (!this.closeWatch) this.initsliderVal();
                 },
                 deep: true
             },
             showDowVal: {
                 handler(newVal, oldVal) {
-                    if(!this.closeWatch)this.initsliderVal();
+                    if (!this.closeWatch) this.initsliderVal();
 
                 },
                 deep: true
             },
         },
         computed: {
-            ...mapGetters([
+            ...mapGetters( [
                 'effectsImgList'
-            ]),
+            ] ),
             initAngleDistance() {
                 if (this.angle == 0 || this.angle == 360) return {x: -this.sliderVal.distance, y: 0};
                 else if (this.angle > 0 && this.angle < 90) return {
@@ -199,14 +204,16 @@
                 return oCan
             },
             initshowDowVal() {
-                let oCan = document.createElement( 'canvas' ), oCanTxt, oImg = this.filterList[this.t2Idx].loadObj, imgData2;
-                const [w, h] = [this.proImgObj.width, this.proImgObj.height], rgb = colorRgb( this.showDowVal.colorVal );
+                let oCan = document.createElement( 'canvas' ), oCanTxt, oImg = this.filterList[this.t2Idx].loadObj,
+                    imgData2;
+                const [w, h] = [this.proImgObj.width, this.proImgObj.height],
+                    rgb = colorRgb( this.showDowVal.colorVal );
                 oCanTxt = oCan.getContext( '2d' );
                 if (this.checkedM) {
-                    if(w>=h){
-                        oCan.width = (h+this.showDowVal.mSize * 2)*w/h;
-                        oCan.height = h+this.showDowVal.mSize * 2
-                    }else{
+                    if (w >= h) {
+                        oCan.width = (h + this.showDowVal.mSize * 2) * w / h;
+                        oCan.height = h + this.showDowVal.mSize * 2
+                    } else {
                         oCan.width = w + this.showDowVal.mSize * 2;
                         oCan.height = (w + this.showDowVal.mSize * 2) * h / w;
                     }
@@ -237,35 +244,47 @@
             }
         },
         methods: {
-            changeAngle(){
-                if(this.angle>360)this.angle=360;
-                else if(this.angle<0)this.angle=0;
+            changeAngle() {
+                if (this.angle > 360) this.angle = 360;
+                else if (this.angle < 0) this.angle = 0;
                 this.initsliderVal()
             },
-            initCanshu(data){
-                this.closeWatch=true;
-                let keys=Object.keys({...this.sliderVal,...this.showDowVal,checked:this.checked,checkedM:this.checkedM,t2Idx:this.t2Idx,mattingType:this.btnType});
-                keys.map(item=>{
-                    if(data.hasOwnProperty(item) && this.sliderVal.hasOwnProperty(item))this.sliderVal[item]=data[item];
-                    else if(data.hasOwnProperty(item) && this.showDowVal.hasOwnProperty(item))this.showDowVal[item]=data[item];
-                    else if(data.hasOwnProperty(item) && ['checked','checkedM','t2Idx'].includes(item))this[item]=data[item];
-                    else if(data.hasOwnProperty(item) && item==='mattingType')this.btnType=this.btnList.findIndex(item=>item.type===data['mattingType']);
+            initCanshu(data) {
+                this.closeWatch = true;
+                let keys = Object.keys( {
+                    ...this.sliderVal, ...this.showDowVal,
+                    checked: this.checked,
+                    checkedM: this.checkedM,
+                    t2Idx: this.t2Idx,
+                    mattingType: this.btnType,
+                    angle:this.angle
+                } );
+                keys.map( item => {
+                    if (data.hasOwnProperty( item ) && this.sliderVal.hasOwnProperty( item )) this.sliderVal[item] = data[item];
+                    else if (data.hasOwnProperty( item ) && this.showDowVal.hasOwnProperty( item )) this.showDowVal[item] = data[item];
+                    else if (data.hasOwnProperty( item ) && ['checked', 'checkedM', 't2Idx','angle'].includes( item )) this[item] = data[item];
+                    else if (data.hasOwnProperty( item ) && item === 'mattingType') this.btnType = this.btnList.findIndex( item => item.type === data['mattingType'] );
                 } )
-                if(!data.hasOwnProperty('checked'))this.checked=false;
-                if(!data.hasOwnProperty('checkedM'))this.checkedM=false;
-               this.$nextTick(()=>{
-                   this.closeWatch=false;
-               })
+                if (!data.hasOwnProperty( 'checked' )) this.checked = false;
+                if (!data.hasOwnProperty( 'checkedM' )) this.checkedM = false;
+                if (!data.hasOwnProperty( 'angle' )) this.angle = 180;
+                this.$nextTick( () => {
+                    this.closeWatch = false;
+                } )
             },
             initsliderVal() {
                 let oCan = document.createElement( 'canvas' ), oCanTxt;
-                oCanTxt=oCan.getContext('2d');
-                oCan.width=this.proImgObj.width;
-                oCan.height=this.proImgObj.height;
+                oCanTxt = oCan.getContext( '2d' );
+                oCan.width = this.proImgObj.width;
+                oCan.height = this.proImgObj.height;
                 if (this.checked) oCanTxt.drawImage( this.resliderVal, this.initAngleDistance.x, this.initAngleDistance.y );
-                if (this.checkedM) oCanTxt.drawImage( this.initshowDowVal, -(this.initshowDowVal.width-this.resliderVal.width)/2, -(this.initshowDowVal.height - this.resliderVal.height) / 2, this.initshowDowVal.width, this.initshowDowVal.height );//重复同位置putimgData会覆盖，需要画上去
+                if (this.checkedM) oCanTxt.drawImage( this.initshowDowVal, -(this.initshowDowVal.width - this.resliderVal.width) / 2, -(this.initshowDowVal.height - this.resliderVal.height) / 2, this.initshowDowVal.width, this.initshowDowVal.height );//重复同位置putimgData会覆盖，需要画上去
                 oCanTxt.drawImage( this.filterList[this.t2Idx].loadObj, 0, 0, oCan.width, oCan.height );
-                this.$emit( 'effectsImg', {useImg:oCan.toDataURL(),...this.sliderVal,...this.showDowVal,checked:this.checked,checkedM:this.checkedM} );
+                this.$emit( 'effectsImg', {
+                    useImg: oCan.toDataURL(), ...this.sliderVal, ...this.showDowVal,angle:this.angle,
+                    checked: this.checked,
+                    checkedM: this.checkedM
+                } );
             },
             changeTab(idx) {
                 if (this.tabType === idx) return;
@@ -279,20 +298,20 @@
             filterUrl(data) {//初始化特效
                 if (data.pro === this.preImg) return;
                 this.t2Idx = 1;
-                this.initCanshu(data);
+                this.initCanshu( data );
                 this.preImg = data.pro;
                 this.proImgObj = data.proObj;
-                const list=this.effectsImgList.find(item=>item.id===data.id).list;
-                this.filterList.map(item=>{
-                    item.loadObj='';
-                    item.url='';
-                })
-                list.map((item,idx)=>this.filterList[idx].src=item);
-                this.filterList[0].url=data.ori;
-                this.filterList[0].src=data.ori;
-                this.filterList[1].url=data.pro;
-                this.filterList[1].src=data.pro;
-                this.filterList[1].loadObj=data.proObj;
+                const list = this.effectsImgList.find( item => item.id === data.id ).list;
+                this.filterList.map( item => {
+                    item.loadObj = '';
+                    item.url = '';
+                } )
+                list.map( (item, idx) => this.filterList[idx].src = item );
+                this.filterList[0].url = data.ori;
+                this.filterList[0].src = data.ori;
+                this.filterList[1].url = data.pro;
+                this.filterList[1].src = data.pro;
+                this.filterList[1].loadObj = data.proObj;
                 // let oCan = document.createElement( 'canvas' );
                 // let oCanTxt = oCan.getContext( '2d' );
                 // oCan.width = data.proObj.width;
@@ -344,12 +363,12 @@
             },
             selectEdit(it, idx) {
                 if (idx === this.t2Idx) return;
-                this.$emit('loadings',true)
+                this.$emit( 'loadings', true )
                 this.t2Idx = idx;
-                this.checked= false;
-                this.checkedM= false;
+                this.checked = false;
+                this.checkedM = false;
                 if ((it.url && it.loadObj) || !idx) {
-                    this.$emit( 'effectsImg', {useImg:it.url,t2Idx:this.t2Idx,checked: false,checkedM: false} );
+                    this.$emit( 'effectsImg', {useImg: it.url, t2Idx: this.t2Idx, checked: false, checkedM: false} );
                     return
                 }
                 let oImg = new Image(), oCan = document.createElement( 'canvas' ), oCanTxt;
@@ -365,22 +384,55 @@
                         uploadossBg( fromData ).then( res => {
                             this.filterList[idx].url = res.data;
                             this.filterList[idx].loadObj = oImg;
-                            this.$emit( 'effectsImg', {useImg:res.data,t2Idx:this.t2Idx,checked:false,checkedM:false} );
-                            this.$emit('loadings',false);
+                            this.$emit( 'effectsImg', {
+                                useImg: res.data,
+                                t2Idx: this.t2Idx,
+                                checked: false,
+                                checkedM: false
+                            } );
+                            this.$emit( 'loadings', false );
                         } )
                     } )
                 };
                 oImg.src = idx ? it.src : it.src + `?id=${Math.random()}`;
             },
+            moveAngle(ev) {
+                const oDiv = document.querySelector( '.crils' );
+                const oLT = oDiv.getBoundingClientRect();
+                const [x, y, ex, ey] = [oLT.left + oDiv.offsetWidth / 2, oLT.top + oDiv.offsetHeight / 2, ev.clientX, ev.clientY];
+                this.moves( x, y, ex, ey )
+                document.onmousemove = (e) => {
+                    this.moves( x, y, e.clientX, e.clientY )
+                }
+                document.onmouseup = (e) => {
+                    document.onmousemove = null;
+                    document.onmouseup = null;
+                }
+
+            },
+            moves(x, y, ex, ey) {
+                let result, ta;
+                ta = Math.abs( ey - y ) / Math.abs( ex - x )
+                result = Math.atan( ta ) / (Math.PI / 180);
+                console.log(result)
+                if (ex - x < 0 && ey - y > 0) result = 360 - result;
+                else if (ex - x > 0 && ey - y > 0) result = 180 + result;
+                else if (ex - x < 0 && ey - y < 0) result = result;
+                else if (ex - x > 0 && ey - y < 0) result = 180 - result;
+                else if(ex - x === 0 && ey - y > 0)result = 270;
+                this.angle = parseInt(result);
+                this.initsliderVal()
+            }
         }
     }
 </script>
 
 <style scoped lang="scss">
-    .mune{
+    .mune {
         height: 100%;
         overflow-y: auto;
     }
+
     .header {
         font-size: 14px;
         color: #333;

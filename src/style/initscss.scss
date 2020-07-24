@@ -44,3 +44,8 @@ div.el-popper.te{
 .matting .el-slider__runway{
   margin: 10px 0;
 }
+.el-scrollbar__wrap {
+  overflow: scroll;
+  height: 100%;
+  overflow-x: hidden;
+}

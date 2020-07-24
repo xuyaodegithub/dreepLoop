@@ -2,23 +2,38 @@
     <header>
         <div class="margins flex j-b a-i first">
             <ul class="flex">
-                <li><a href="index.html"><img src="../../assets/image/sureLogo.png" alt="" style="height: 30px;"></a></li>
+                <li><a href="index.html"><img src="../../assets/image/sureLogo.png" alt="" style="height: 30px;"></a>
+                </li>
                 <li class="cu" :class="{'red' : urls.indexOf('index')>-1 || urls.indexOf('/#/')>-1}">
                     <a href="index.html">首页</a></li><!--智能抠图-->
-                <li class="cu" :class="{'red' : urls.indexOf('people')>-1}"><a href="people.html">人像抠图</a></li><!--智能抠图-->
-                <li class="cu" :class="{'reds' : urls.indexOf('objects')>-1}"><a href="objects.html">物体抠图</a></li><!--智能抠图-->
-                <li class="cu" :class="{'redH' : urls.indexOf('headCutout')>-1}"><a href="headCutout.html">头像抠图</a></li><!--智能抠图-->
-                <li class="cu" :class="{'redss' : urls.indexOf('beautify')>-1}"><a href="beautify.html">一键美化</a></li><!--智能抠图-->
-                <li class="cu" :class="{'redP' : urls.indexOf('intelligentRepair')>-1}"><a href="intelligentRepair.html">图片修复</a></li><!--智能抠图-->
-                <!--                <li class="cu" :class="{'red' : urls.indexOf('product')>-1}"><a href="product.html">更多产品</a></li>-->
-<!--                @click="toProduct()" @click="toAbout()"-->
-<!--                <li class="cu" :class="{'red' : urls.indexOf('aboutUs')>-1}"><a href="aboutUs.html">关于我们</a></li>&lt;!&ndash;会员&ndash;&gt;-->
-                <li class="cu" :class="{'red' : urls.indexOf('img/list')>-1}"><a href="http://www.picup.shop/img/list">免费背景图</a></li><!--下载-->
-<!--                <li>|</li>-->
-<!--                <li class="cu" :class="{'red' : urls.indexOf('freeimg')>-1}"><a href="freeimg.html">免费PNG透明图</a></li>-->
-                <!--            <li class="cu">登录</li>-->
+                <li class="cu hove" :class="{'redPS' : piliangList.findIndex(item=>urls.includes(item))>-1}">批量抠图 <i
+                        class="el-icon-caret-bottom"></i>
+                    <transition name="el-zoom-in-top">
+                        <div class="link">
+                            <a :href="item+'.html'" v-for="(item,idx) in piliangList" :key="idx"
+                               :class="{'red' : urls.includes(item)}">{{nameList[idx]}}</a>
+                        </div>
+                    </transition>
+                </li>
+                <li class="cu hove" :class="{'redPS' : beauList.findIndex(item=>urls.includes(item))>-1}">美化修复 <i
+                        class="el-icon-caret-bottom"></i>
+                    <div class="link">
+                        <a :href="item+'.html'" v-for="(item,idx) in beauList" :key="idx"
+                           :class="{'red' : urls.includes(item)}">{{['一键美化','图片修复'][idx]}}</a>
+                    </div>
+                </li>
+                <li class="cu" :class="{'red' : urls.indexOf('img/list')>-1}"><a href="http://www.picup.shop/img/list">免费背景图</a>
+                </li><!--下载-->
             </ul>
-            <div class="right">
+            <div class="right flex">
+                <div style="padding:0 15px;"><a href="https://mp.weixin.qq.com/s/AsVjcACbusdKXcheF_HHtw" target="_blank"><img src="../../assets/image/freeGet.gif" alt=""></a></div>
+                <div class="mobiles">手机端
+                    <i class="el-icon-caret-bottom"></i>
+                    <div>
+                        <img src="../../assets/image/wechatEwm.jpg" alt="" />
+                        <p>关注公众号送下载次数</p>
+                    </div>
+                </div>
                 <div v-if="!loginAfter">
                     <span :class="{'red' : urls.indexOf('downLoad')>-1}"><a href="downLoad.html">下载桌面端</a></span>
                     <a href="apis.html"><span>API</span></a><!--登录-->
@@ -33,10 +48,10 @@
                       <span class="el-dropdown-link" @click="toMyCount()">
                        {{userInfo.mobile}}
                       </span>
-                      <el-dropdown-menu slot="dropdown">
-                         <el-dropdown-item command="1">我的账户</el-dropdown-item>
-                         <el-dropdown-item command="0">退出</el-dropdown-item>
-                      </el-dropdown-menu>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item command="1">我的账户</el-dropdown-item>
+                            <el-dropdown-item command="0">退出</el-dropdown-item>
+                        </el-dropdown-menu>
                     </el-dropdown>
                 </div>
             </div>
@@ -49,88 +64,89 @@
 </template>
 
 <script>
-    import { toRouter } from '@/utils'
+    import {toRouter} from '@/utils'
     import {setToken, getToken, removeToken, clearCookie} from "../../utils/auth";
-    import { getUserInfo } from "../../apis";
-    import { basrUrls } from "../../utils";
+    import {getUserInfo} from "../../apis";
 
     export default {
         name: "index",
-        props:{
-            userData:{type:Object}
+        props: {
+            userData: {type: Object}
         },
-        data(){
+        data() {
             return {
-                loginAfter:false,
-                userInfo:'',
-                basrUrls:basrUrls(),
-                navList:['index','product','aboutUs','userVip'],
-                urls:window.location.href
+                loginAfter: false,
+                userInfo: '',
+                navList: ['index', 'product', 'aboutUs', 'userVip'],
+                urls: window.location.href,
+                piliangList: ['currency', 'people', 'headCutout', 'objects'],
+                nameList: ['通用抠图', '人像抠图', '头像抠图', '物体抠图'],
+                beauList: ['beautify', 'intelligentRepair'],
             }
         },
-        watch:{
-            userData(newVal,oldVal){
-                if(newVal!=={}){
-                    this.userInfo=newVal
-                    this.loginAfter=true
-                    this.$emit('to-parses',newVal)
+        watch: {
+            userData(newVal, oldVal) {
+                if (newVal !== {}) {
+                    this.userInfo = newVal
+                    this.loginAfter = true
+                    this.$emit( 'to-parses', newVal )
                 }
             }
         },
-        methods:{
-            getUserinfo(){
-                if(!getToken()) return;
-                getUserInfo().then(res=>{
-                    if(!res.code){
-                        this.userInfo=res.data;
-                        this.loginAfter=true;
-                        this.$emit('to-parses',res.data)
-                    }else{
-                        this.loginAfter=false
+        methods: {
+            getUserinfo() {
+                if (!getToken()) return;
+                getUserInfo().then( res => {
+                    if (!res.code) {
+                        this.userInfo = res.data;
+                        this.loginAfter = true;
+                        this.$emit( 'to-parses', res.data )
+                    } else {
+                        this.loginAfter = false
                         // removeToken()
                         // clearCookie('token')
                     }
-                })
+                } )
             },
-             backindex(){
-                 let url=window.location.href
-                 if(url.indexOf('people') > -1) return;
-                 else toRouter('people')
+            backindex() {
+                let url = window.location.href
+                if (url.indexOf( 'people' ) > -1) return;
+                else toRouter( 'people' )
             },
-            userlogin(key){
-                let urls = window.location.href.split('#/')[0]
-                let baseUrl = urls.substring(0,urls.lastIndexOf('/'))
-                let url=window.location.href
-                if(url.indexOf('login')>-1 || url.indexOf('Register')>-1) window.location.replace(baseUrl+'/loginOrRegister.html#/?type='+key)
-                else window.location.href=baseUrl+'/loginOrRegister.html#/?type='+key
+            userlogin(key) {
+                let urls = window.location.href.split( '#/' )[0]
+                let baseUrl = urls.substring( 0, urls.lastIndexOf( '/' ) )
+                let url = window.location.href
+                if (url.indexOf( 'login' ) > -1 || url.indexOf( 'Register' ) > -1) window.location.replace( baseUrl + '/loginOrRegister.html#/?type=' + key )
+                else window.location.href = baseUrl + '/loginOrRegister.html#/?type=' + key
             },
-            userCenter(){
-                if(window.location.href.indexOf('userVip')>-1) return;
-                toRouter('userVip')
+            userCenter() {
+                if (window.location.href.indexOf( 'userVip' ) > -1) return;
+                toRouter( 'userVip' )
             },
-            toProduct(){
-                if(window.location.href.indexOf('product')>-1) return;
-                toRouter('product')
+            toProduct() {
+                if (window.location.href.indexOf( 'product' ) > -1) return;
+                toRouter( 'product' )
             },
-            toAbout(){
-                if(window.location.href.indexOf('aboutUs')>-1) return;
-                toRouter('aboutUs')
+            toAbout() {
+                if (window.location.href.indexOf( 'aboutUs' ) > -1) return;
+                toRouter( 'aboutUs' )
             },
-            handleCommand(ev){
-                 let url=window.location.href
-                 if( ev==1 && url.indexOf('userCenter') > -1 ) return;
-                 if(ev==1) toRouter('userCenter')
-                 else {
-                     removeToken()
-                     clearCookie('token')
-                     // if(){}
-                     toRouter('index')
-                 }
+            handleCommand(ev) {
+                let url = window.location.href
+                if (ev == 1 && url.indexOf( 'userCenter' ) > -1) return;
+                if (ev == 1) toRouter( 'userCenter' )
+                else {
+                    removeToken()
+                    clearCookie( 'token' )
+                    // if(){}
+                    toRouter( 'index' )
+                }
             },
-            toMyCount(){
-                let url=window.location.href
-                if(url.indexOf('userCenter') > -1 ) return
-                toRouter('userCenter')
+            toMyCount() {
+                let url = window.location.href
+                if (url.indexOf( 'userCenter' ) > -1) return
+                toRouter( 'userCenter' )
             }
         },
         mounted() {
@@ -144,67 +160,155 @@
         cursor: pointer;
         color: #e82255;
     }
-    header{
+
+    header {
         z-index: 1100;
         position: fixed;
         top: 0;
         left: 0;
-       box-shadow: 0 2px 2px rgba(0,0,0,0.06);
+        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.06);
         font-size: 14px;
         color: #333;
-        line-height:60px ;
+        line-height: 60px;
         background-color: #fff;
         width: 100%;
         font-weight: 500;
         /*background: url("static/images/back.jpg") no-repeat center;*/
-        .margins{
+        .margins {
             padding: 0 30px 0;
         }
     }
-    header li{
+
+    header li {
         margin: 0 20px;
-        a{
+        position: relative;
+
+        a {
             display: block;
+            color: #333;
         }
-        &.reds a{
+
+        &.reds a {
             color: $to;
         }
-        &.redss a{
-        color: $be;
-    }
-        &.redH a{
-        color: $head;
-    }
-      &.redP a{
-        color: $pic;
-    }
-        &.red{
+
+        &.redss a {
+            color: $be;
+        }
+
+        &.redH a {
+            color: $head;
+        }
+
+        &.redP a {
+            color: $pic;
+        }
+
+        &.red {
             color: #e82255;
-            a{
+
+            a {
                 color: #e82255;
             }
         }
+
+        &.redPS {
+            color: #e82255;
+        }
+
+        .red, .link a:hover {
+            color: #e82255;
+            background-color: #F9EDEF;
+        }
+
+        &.hove:hover .link {
+            display: block;
+        }
+
+        &.hove:hover i {
+            display: inline-block;
+            transform: rotateZ(180deg);
+        }
+
+        .link {
+            transition: all .3s linear;
+            display: none;
+            text-align: center;
+            position: absolute;
+            left: -15px;
+            bottom: 0;
+            transform: translateY(100%);
+            background-color: #fff;
+            border: 1px solid #eee;
+
+            a {
+                padding: 0 15px;
+                display: block;
+                line-height: 40px;
+            }
+        }
     }
-    header .right .red{
+
+    header .right .red {
         color: #e82255;
-        a{
+
+        a {
             color: #e82255;
         }
     }
-    header .right span{
+
+    header .right span {
         display: inline-block;
         padding: 0 15px;
         line-height: 32px;
-        cursor:pointer;
+        cursor: pointer;
     }
-    header .right span.active{
+
+    header .right span.active {
         border: 1px solid #e82255;
         border-radius: 16px;
         margin-left: 10px;
         color: #e82255;
     }
-    header li:first-child{
+
+    header li:first-child {
         margin-left: 0;
         margin-right: 65px;
+    }
+
+    header .right .mobiles {
+        cursor: pointer;
+        position: relative;
+        padding: 0 15px;
+        &:hover{
+            div{
+                display: block;
+            }
+            i{
+                display: inline-block;
+                transform: rotateZ(180deg);
+            }
+        }
+        & > div {
+            display: none;
+            background-color: #fff;
+            left: 50%;
+            bottom: 0;
+            transform: translate(-50%,100%);
+            position: absolute;
+            width: 120px;
+            padding: 15px;
+            border: 1px solid #eee;
+            line-height: 1;
+            font-size: 12px;
+            color: $co;
+            text-align: center;
+
+            img {
+                display: block;
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
     }
 </style>

@@ -12,15 +12,17 @@ oBtn.click( function () {
     window.open( 'editPictures.html' )
 } )
 if (token) {
-    $( '.loginbtb' ).css( {display: 'none'} )
     $.ajax( {
         url: '//restapi.picup.shop/user/userInfo',
         type: 'GET',
         dataType: 'json',
         headers: {token: token},
         success(res) {
-            $( '.users' ).css( {display: 'inline-block'} )
-            $( '.users' ).text( res.data.mobile );
+            if(!res.code){
+                $( '.loginbtb' ).css( {display: 'none'} )
+                $( '.users' ).css( {display: 'inline-block'} )
+                $( '.users' ).text( res.data.mobile );
+            }
         }
     } )
 } else {

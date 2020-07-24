@@ -46,6 +46,7 @@ import {
     Tooltip,
     Collapse,
     CollapseItem,
+    Image,
 } from 'element-ui'
 
 Vue.component( Button.name, Button );
@@ -75,6 +76,7 @@ Vue.component( Popover.name, Popover );
 Vue.component( Tooltip.name, Tooltip );
 Vue.component( Collapse.name, Collapse );
 Vue.component( CollapseItem.name, CollapseItem );
+Vue.component( Image.name, Image );
 Vue.prototype.$loading = Loading.service;
 Vue.use( Loading.directive );
 Vue.prototype.$notify = Notification;

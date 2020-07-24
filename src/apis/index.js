@@ -221,3 +221,15 @@ export const imgListCat=(data)=>{
 export const catImgList=(data)=>{
  return https.get('/img/page',data)
 }
+/**
+ *模板分类
+ **/
+export const templateList=(data)=>{
+ return https.get('/poster/templateList',data)
+}
+/**
+ *模板详情
+ **/
+export const templateDetial=(data)=>{
+ return https.get('/poster/template',data)
+}

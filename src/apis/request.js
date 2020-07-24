@@ -23,7 +23,7 @@ const instance  =axios.create({
 instance.interceptors.request.use(function (config) {//为自定义axios设置请求拦截器
   // console.log(config)
   // 在发送请求之前做些什么config是axios请求实例 里面包含axios各种配置项和相关属性信息
-  if(getToken()) config.headers['token']=getToken()
+  if(getToken()) config.headers['token']=getToken();
   return config
 }, function (error) {
   // 对请求错误做些什么
@@ -46,8 +46,8 @@ instance.interceptors.response.use(function (response) {//为自定义axios设�
       type:'error',
       message:response.data.msg
     })
-    return res
-    // return Promise.reject(response.data)
+    // return res
+    return Promise.reject(response.data)
   }
 }, function (err) {
   // 对请求错误做些什么

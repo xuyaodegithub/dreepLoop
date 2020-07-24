@@ -27,13 +27,13 @@
     </script>
     <meta charset="utf-8">
     <!--//设置不缓存-->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
     <meta http-equiv="Cache" content="no-cache">
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<!--    <meta name="viewport" content="width=device-width,initial-scale=1.0">-->
+    <!--    <meta name="viewport" content="width=device-width,initial-scale=1.0">-->
     <meta name="applicable-device" content="pc">
     <meta name="Description" content="picup.ai提供一键在线抠图,AI抠图,智能抠图,人像抠图服务，图片风格迁移，帮助设计师和PS使用者加速图片处理">
     <meta name="Keywords" content="在线抠图,AI抠图,智能抠图,人像抠图,在线人像抠图,人物抠图,在线人物抠图,发丝抠图,一键抠图,ps抠图"/>
@@ -48,19 +48,33 @@
     <!--    <title>会员中心</title>-->
     <title>一键抠图人像在线抠图物体抠图软件PicUP.Ai</title>
     <style>
-        .headers {
+        .titleHeader {
+            font-size: 24px;
+            color: #333;
+            line-height: 1;
+            text-align: center;
             margin-top: 60px;
-            padding: 60px 0;
+            padding: 86px 0 72px;
+            background-image: url("static/bg20200721154800.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #fff;
+        }
+
+        .titleHeader h1 {
+            font-size: 58px;
+            margin-bottom: 25px;
+        }
+
+        .headers {
+            padding: 40px 0;
             line-height: 1;
             text-align: center;
         }
 
         .headers .margin > div > div {
             position: relative;
-        }
-
-        .headers .margin .left {
-            margin-bottom: 60px;
         }
 
         .headers span {
@@ -72,8 +86,9 @@
             border-radius: 13px;
             font-family: "Microsoft YaHei";
             font-weight: 600;
-            margin: 18px 0 28px;
-            background-color: #fff;
+            margin-top: 15px;
+            color: #fff;
+            background-color: #e82255;
         }
 
         .headers .right span {
@@ -84,31 +99,46 @@
             justify-content: space-between;
         }
 
-        .headers h1 {
-            font-size: 58px;
-            margin-bottom: 25px;
-        }
-
         .headers p {
             font-size: 24px;
         }
 
         .headers .item {
+            justify-content: space-between;
             text-align: left;
-            width: 180px;
+            width: 340px;
             padding: 25px;
             border-radius: 10px;
+            background-color: #fff;
+            color: #333;
+            margin-bottom: 20px;
         }
-
+        .headers .item .itemL{
+            width: 156px;
+        }
+        .headers .item i{
+            font-size: 18px;
+            margin-top: 15px;
+            line-height: 26px;
+        }
+        .headers .item span{
+            display: none;
+        }
+        .headers .item:hover i{
+            display: none;
+        }
+        .headers .item:hover span{
+            display: block;
+        }
         .headers .item img {
             display: block;
-            width: 180px;
+            width: 150px;
+            height: 150px;
         }
 
         .headers .item h2 {
             font-size: 26px;
             font-weight: bold;
-            color: #fff;
             line-height: 1;
             margin-bottom: 12px;
         }
@@ -116,11 +146,7 @@
         .headers .item p {
             font-size: 14px;
             line-height: 22px;
-            color: rgba(255,255,255,.7);
-        }
-
-        .left p {
-            color: rgb(103, 103, 103);
+            color: #9c9c9c;
         }
 
         .loop, .bgchange, .API, .anli {
@@ -376,50 +402,76 @@
             height="0" width="0" style="display:none;visibility:hidden"></iframe>
 </noscript>
 <img src="slt.jpg" alt="" style="display: none">
+<div class="titleHeader">
+    <h1>一键抠图神器</h1>
+    <p>100%自动，免费，在线换背景</p>
+</div>
 <div class="headers">
     <div class="margin">
-        <div class="left">
-            <h1>一键抠图神器</h1>
-            <p>100%自动，免费，在线换背景</p>
-        </div>
-        <div class="flex a-i">
+        <div class="flex a-i f-w">
+            <a href="currency.html">
+                <div class="item flex">
+                    <div class="itemL">
+                        <h2>批量通用抠图</h2>
+                        <p>人像、商品、卡通、动物全部搞定</p>
+                        <i class="el-icon-right"></i>
+                        <span style="background-color: #E32450;">上传图片</span>
+                    </div>
+                    <img src="static/images/tygif.gif" alt="">
+                </div>
+            </a>
             <a href="people.html">
-                <div class="item" style="background:linear-gradient(to bottom,#F13A7A,#E32450)">
-                    <h2>人像抠图</h2>
-                    <p>单人多人正面侧面，怎么动都行</p>
-                    <span style="color: #E32450;">上传人像</span>
+                <div class="item flex">
+                    <div class="itemL">
+                        <h2>批量人像抠图</h2>
+                        <p>单人多人正面侧面，怎么动都行</p>
+                        <i class="el-icon-right"></i>
+                        <span style="background-color: #E32450;">上传人像</span>
+                    </div>
                     <img src="static/pgif.gif" alt="">
                 </div>
             </a>
             <a href="objects.html">
-                <div class="item" style="background:linear-gradient(to bottom,#38DEDE,#10A5E9)">
-                    <h2>物体抠图</h2>
-                    <p> 猫狗汽车鞋包家居，通通能抠</p>
-                    <span style="color: #10A5E9;">上传物体</span>
+                <div class="item flex">
+                    <div class="itemL">
+                        <h2>批量物体抠图</h2>
+                        <p> 猫狗汽车鞋包家居，通通能抠</p>
+                        <i class="el-icon-right"></i>
+                        <span style="background-color: #10A5E9;">上传物体</span>
+                    </div>
                     <img src="static/ogif.gif" alt="">
                 </div>
             </a>
             <a href="headCutout.html">
-                <div class="item" style="background:linear-gradient(to bottom,#F36299,#F23D82)">
-                    <h2>头像抠图</h2>
-                    <p> 身份证、签证、卡通身体、 变大头照、POD最爱</p>
-                    <span style="color: #F23D82;">上传人像</span>
+                <div class="item flex">
+                    <div class="itemL">
+                        <h2>批量头像抠图</h2>
+                        <p>身份证、签证、卡通身体、变大头照、POD最爱</p>
+                        <i class="el-icon-right"></i>
+                        <span style="background-color: #F23D82;">上传人像</span>
+                    </div>
                     <img src="static/headcount.gif" alt="">
                 </div>
             </a>
             <a href="beautify.html">
-                <div class="item" style="background:linear-gradient(to bottom,#3CE2B0,#1AD8AE)">
-                    <h2>一键美化</h2>
-                    <p> 键处理劣质图片生成精美图片</p>
-                    <span style="color: #1AD8AE;">上传图片</span>
+                <div class="item flex">
+                    <div class="itemL">
+                        <h2>一键美化</h2>
+                        <p> 键处理劣质图片生成精美图片</p>
+                        <i class="el-icon-right"></i>
+                        <span style="background-color: #1AD8AE;">上传图片</span>
+                    </div>
                     <img src="static/beauty.gif" alt="">
                 </div>
             </a>
             <a href="intelligentRepair.html">
-                <div class="item" style="background:linear-gradient(to bottom,#3979E5,#4057E1)">
-                    <h2>照片修复</h2>
-                    <p>想修哪里修哪里，一秒抹去瑕疵，亳无痕迹</p>
-                    <span style="color: #4057E1;">上传图片</span>
+                <div class="item flex">
+                    <div class="itemL">
+                        <h2>照片修复</h2>
+                        <p>想修哪里修哪里，一秒抹去瑕疵，亳无痕迹</p>
+                        <i class="el-icon-right"></i>
+                        <span style="background-color: #4057E1;">上传图片</span>
+                    </div>
                     <img src="static/fix.gif" alt="">
                 </div>
             </a>
@@ -428,7 +480,7 @@
 </div>
 <section class="loop">
     <div class="margin">
-        <h1>人人必备的抠图工具</h1>
+        <h1>人人必备的在线抠图工具</h1>
         <p>不必专业PS，新手小白都能用</p>
         <div class="flex a-i item">
             <div class="flex a-i cu active">
@@ -458,7 +510,7 @@
 </section>
 <div class="bgchange">
     <div class="margin">
-        <h1>免费换背景图片</h1>
+        <h1>在线抠图免费换背景图片</h1>
         <p>小编精选景点、卡通、海报等背景，轻松选择</p>
         <div class="bgBig">
             <div class="first">
@@ -520,7 +572,7 @@
 </div>
 <div class="anli">
     <div class="margin">
-        <h1>图片案例</h1>
+        <h1>在线抠图图片案例</h1>
         <p>前景识别类型不断丰富，边缘细节不断精细</p>
         <div id="init"></div>
     </div>

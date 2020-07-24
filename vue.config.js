@@ -99,6 +99,13 @@ module.exports = {
             title: '头像抠图',
             // chunks: ['chunk-vendors', 'chunk-common', 'loginOrRegister']
         },
+        currency:{
+            entry: 'src/views/currency/index.js',
+            template:'public/currency.html',
+            filename: 'currency.html',
+            title: '通用抠图',
+            // chunks: ['chunk-vendors', 'chunk-common', 'loginOrRegister']
+        },
         loginOrRegister:{
             entry: 'src/views/login/login.js',
             template:'public/loginOrRegister.html',

@@ -1,5 +1,7 @@
 <template>
     <div class="editPictures flex">
+        <input type="file" name="file" accept="image/*" :multiple="false" ref="tihuan" @change="changetihuan"
+               style="display: none;">
         <header class="header flex j-b a-i">
             <a href="index.html"><img src="@/assets/image/sureLogo.png" alt=""></a>
             <div class="h_l flex">
@@ -72,7 +74,36 @@
                 <!--                    </div>-->
                 <!--                </div>-->
             </div>
-            <div class="second" v-show="selectType===1">
+            <div class="first2" v-show="selectType===1">
+                <div class="flex bnts">
+                    <el-button type="primary" plain @click="mbType=0" :class="{active : mbType===0}">商用</el-button>
+                    <el-button type="primary" plain @click="mbType=1" :class="{active : mbType===1}">个人</el-button>
+                </div>
+                <div class="flex ownTitle" v-show="mbType">
+                    <span v-for="(item,idx) in ownTitlelist" :key="idx" class="cu" :class="{active : ownType===idx}"
+                          @click="changeownType(idx)">{{item.title}}</span>
+                </div>
+                <div class="lists" v-if="!mbType">
+                    <div v-for="(item,idx) in subList" :key="idx" class="listsson">
+                        <h4>{{item.title}}:</h4>
+                        <div class="flex f-w">
+                            <div v-for="(it,ix) in item.list" :key="ix" @click="choseTrme(it,ix)" class="cu itemT" :class="{active : loadId===it.id}">
+                                <el-image style="width: 100%;" :src="it.cover" fit="contain"></el-image>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lists flex f-w" v-else>
+                    <div v-for="(item,idx) in mobanList" :key="idx" @click="choseTrme(item,idx)" class="cu itemT" :class="{noZhen : item.isOwnTwo,active : loadId===item.id}" :style="{backgroundColor:item.isOwnTwo? item.subList.find(it=>!it.type).backColor : ''}">
+                        <el-image style="width: 100%;" :src="item.cover" fit="contain"></el-image>
+                        <div v-show="item.isOwnTwo" class="name">
+                            <p>{{item.title}}</p>
+                            <p>{{item.oriW}} X {{item.oriH}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="second" v-show="selectType===2">
                 <p>颜色背景</p>
                 <div class="flex smallBtn f-w">
                     <div v-for="(items,idx) in initcolorList" :key="idx"
@@ -115,7 +146,7 @@
                     </p>
                 </div>
             </div>
-            <div class="thred" v-show="selectType===2">
+            <div class="thred" v-show="selectType===3">
                 <p>点击添加到页面的文本</p>
                 <el-button plain icon="el-icon-plus" class="addText" style="width: 100%" size="small"
                            @click="addTextSub(3)">点击添加标题
@@ -133,7 +164,7 @@
                     </div>
                 </div>
             </div>
-            <div class="fource" v-show="selectType===3">
+            <div class="fource" v-show="selectType===4">
                 <el-button plain icon="el-icon-plus" style="width: 100%" @click="upLoad(0)">上传自己的照片</el-button>
                 <div class="Fbtn flex j-b">
                     <span v-for="(item,idx) in ttList" :key="idx" :class="{'active' : tzType===idx}" class="cu"
@@ -151,25 +182,30 @@
         <div class="e_r" id="e_r" @mouseup="blurAll">
             <div class="subs opas"
                  :style="{width:`${parseSubs.bW}px`,height:`${parseSubs.bH}px`,opacity:'.4',overflow:'initial'}"
-                 v-if="edrieImgInfo.pro && selectType===1 && !backSub.backColor">
-                <div class="items" :class="{'hovers' : backSub.hovering}" :style="backSub | subsStyle"  @mouseenter="borderFun(backSub.idx)" @mouseleave="borderFun(backSub.idx,1)"
+                 v-if="edrieImgInfo.pro && selectType===2 && !backSub.backColor">
+                <div class="items" :class="{'hovers' : backSub.hovering}" :style="backSub | subsStyle"
+                     @mouseenter="borderFun(backSub.idx)" @mouseleave="borderFun(backSub.idx,1)"
                      @click.stop="hoverThis(backSub.idx)" v-if="backSub.idx>-1"
                      @mousedown.stop="moveBack($event,backSub.idx)">
                     <img :src="backSub.useImg" alt="">
                 </div>
             </div>
+            <!--            ,margin:`${-parseSubs.bH/2}px 0 0 ${-parseSubs.bW/2}px`-->
             <div class="subs otherSubs"
                  v-if="edrieImgInfo.pro"
-                 :style="{width:`${parseSubs.bW}px`,height:`${parseSubs.bH}px`,backgroundColor:`${backSub.backColor ? backSub.backColor : ''}`}">
+                 :style="{width:`${parseSubs.bW}px`,height:`${parseSubs.bH}px`,...colorOrbImg}">
                 <div class="items upss" :class="{'hovers' : item.hovering}" v-for="(item,idx) in parseSubs.subList"
                      :style="item | subsStyle"
-                     @mousedown.stop="moveBack($event,idx)" @click.stop="hoverThis(idx)" @mouseenter="borderFun(idx)" @mouseleave="borderFun(idx,1)">
-                    <el-tooltip class="item" effect="dark" content="双击修改文字" placement="top">
+                     @mousedown.stop="moveBack($event,idx)" @click.stop="hoverThis(idx)" @mouseenter="borderFun(idx)"
+                     @mouseleave="borderFun(idx,1)">
+                    <el-tooltip class="item" effect="dark" content="双击修改文字" placement="top"
+                                :disabled="moveNum>0 || hoverSub.contenteditable">
                         <div v-if="item.type===2" :contenteditable="item.contenteditable" class="text"
                              style="font-weight:inherit;border: 0;width:auto;height: auto;"
                              @dblclick="writeText(idx)"
                              @input="setBlur($event,idx)"
-                             @blur="setBlur($event,idx,1)"><div>{{item.title}}</div>
+                             @blur="setBlur($event,idx,1)">
+                            <div>{{item.title}}</div>
                         </div>
                     </el-tooltip>
                     <!--<el-input-->
@@ -182,22 +218,26 @@
                     <!--v-model="item.title"-->
                     <!--@input="setBlur($event,idx)">{{item.title}}>-->
                     <!--</el-input>-->
-                    <div v-if="[1,3].includes(item.type)" class="Imgs">
-                        <img :src="item.useImg" alt="">
-                    </div>
+                    <el-tooltip class="item" effect="dark" content="双击替换图片" placement="top"
+                                :disabled="moveNum>0">
+                        <div v-if="[1,3].includes(item.type)" class="Imgs" @dblclick="writeText(idx)">
+                            <img :src="item.useImg" alt="">
+                        </div>
+                    </el-tooltip>
                 </div>
                 <div class="items initBack" :class="{'hovers' : backSub.hovering}" :style="backSub | subsStyle"
-                     @click.stop="hoverThis(backSub.idx)" v-if="backSub.idx>-1 && !backSub.backColor"  @mouseenter="borderFun(idx)" @mouseleave="borderFun(idx,1)"
+                     @click.stop="hoverThis(backSub.idx)" v-if="backSub.idx>-1 && !backSub.backColor "
+                     @mouseenter="borderFun(idx)" @mouseleave="borderFun(idx,1)"
                      @mousedown.stop="moveBack($event,backSub.idx)">
                     <img :src="backSub.useImg" alt="">
                 </div>
             </div>
-<!--            操作框，放大缩小，-->
+            <!--            操作框，放大缩小，-->
             <div class="fivePoint"
                  @mousedown.stop="moveBack($event,hoverSub.idx)"
                  @click.stop="hoverThis(hoverSub.idx)"
                  v-if="hoverSub.idx>-1"
-                 :style="{left:`${mainx.x+hoverSub.x}px`,top:`${mainx.y+hoverSub.y}px`,width:`${parseInt(hoverSub.w)}px`,height:`${parseInt(hoverSub.h)}px`,transform:`rotateZ(${hoverSub.rotate}deg)`}">
+                 :style="{left:`${mainx.x+hoverSub.x}px`,top:`${mainx.y+hoverSub.y}px`,width:`${parseInt(hoverSub.w)-4}px`,height:`${parseInt(hoverSub.h)-4}px`,transform:`rotateZ(${hoverSub.rotate}deg)`,backgroundColor:fivePoint? 'rgba(250,250,250,.7)' : 'initial'}">
                 <!--                         :style="{left:`${parseInt(mainx.x+hoverSub.x+hoverSub.w/2-9)}px`,top:`${parseInt(mainx.y+hoverSub.y+hoverSub.h+16)}px`,transformOrigin:`9px ${-(hoverSub.h/2+16)}px`,transform:`${rotateHover}`}"></span>-->
                 <!--                :style=" pointStyle(it)"-->
                 <div>
@@ -210,14 +250,15 @@
                        :style="pointcursor(it)"></i>
                 </div>
             </div>
-<!--            //框框-->
-            <div v-show="enterIdx>-1 && enterIdx!==hoverSub.idx" class="borderK"  :style="{left:`${mainx.x+enterSub.x}px`,top:`${mainx.y+enterSub.y}px`,width:`${parseInt(enterSub.w)}px`,height:`${parseInt(enterSub.h)}px`,transform:`rotateZ(${enterSub.rotate}deg)`}"></div>
+            <!--            //框框-->
+            <div v-show="enterIdx>-1 && enterIdx!==hoverSub.idx" class="borderK"
+                 :style="{left:`${mainx.x+enterSub.x}px`,top:`${mainx.y+enterSub.y}px`,width:`${parseInt(enterSub.w)-2}px`,height:`${parseInt(enterSub.h)-2}px`,transform:`rotateZ(${enterSub.rotate}deg)`}"></div>
             <div class="nowMsg flex a-i">
                 <i class="el-icon-minus cu" @click="wheelFun(0)"></i>
                 <span>{{parseInt(parseSubs.scale*100)}}%</span>
                 <i class="el-icon-plus cu" @click="wheelFun(1)"></i>
-                <span class="cu" @click="initRest">1:1</span>
-                <img src="../../assets/image/preview.png" alt="" class="cu" @click="initRestore">
+                <!--                <span class="cu" @click="initRest">1:1</span>-->
+                <!--                <img src="../../assets/image/preview.png" alt="" class="cu" @click="initRestore">-->
             </div>
             <div class="loadingss" v-if="loading.show">
                 <i class="el-icon-loading" style="display: block;font-size: 24px;margin:0 auto 6px;"></i>
@@ -242,7 +283,7 @@
                 </div>
             </div>
             <v-mune v-if="[0,1,3].includes(hoverSub.type)" ref="Munes" @mattingImgs="mattingImgs"
-                    @effectsImg="effectsImg" @loading="loadings"></v-mune>
+                    @effectsImg="effectsImg" @loading="loadings" :mattingType="hoverSub.mattingType ? hoverSub.mattingType : 0"></v-mune>
             <f-mune v-show="hoverSub.type===2" @initFont="initFont" ref="fontMune"></f-mune>
         </div>
         <div class="dialogs" :style="{backgroundImage: `url(${edrieImgInfo.bgImg})`}" v-if="showUpload">
@@ -251,11 +292,12 @@
                 <div class="flex types">
                     <!--                    <img src="@/assets/edtwo.png" alt="" @click="upLoad(1)">-->
                     <!--                    <img src="@/assets/edone.png" alt="" @click="upLoad(2)">-->
-                    <el-button @click="upLoad(2)" type="primary">上传图片</el-button>
+                    <el-button @click="upLoad(6)" type="primary">上传图片</el-button>
                 </div>
             </div>
         </div>
-        <div class="zheR" v-if="showUpload"></div>
+        <!--                <div class="zheR" v-if="showUpload || loading.show"></div>-->
+                        <div class="zheR" v-if="loading.show"></div>
         <el-dialog
                 :close-on-click-modal="false"
                 title="修复"
@@ -273,7 +315,7 @@
     import vMune from '@/components/editMune';
     import fMune from '@/components/fontMune';
     import mattingImg from '@/components/mattingImg';
-    import {myBrowser, findLastIdx, setRad} from '@/utils';
+    import {myBrowser, findLastIdx, setRad,verticalText} from '@/utils';
     import {mixins} from '@/minxins';
     import {getTanDeg, letterText} from '@/utils'
     import _1 from '@/assets/image/1.png';
@@ -286,27 +328,31 @@
     import _44 from '@/assets/image/44.png';
     import _5 from '@/assets/image/5.png';
     import _55 from '@/assets/image/55.png';
+    import opacity from '@/assets/opacity.jpg'
     import fupa from '@/assets/image/fopa.png';
     import color from '@/assets/image/color.png';
     import jsMulit from '@/utils/jsmanipulate.js';
-
-    import {uploadImgApi, getMattingInfo, downloadMattedImage, catImgList, copyUpload, uploadossBg} from '@/apis';
+    // import {niceScroll} from 'jquery.nicescroll';
+    import {uploadImgApi, getMattingInfo, downloadMattedImage, catImgList, copyUpload, uploadossBg,templateList,templateDetial} from '@/apis';
     import {mapGetters, mapActions} from 'vuex';
     import {getToken} from "@/utils/auth";
-
+    import {subList1} from './subList1';
+    import {subList2} from './subList2';
+    import {subList3} from './subList3';
     export default {
         name: 'editPictures',
         mixins: [mixins],
         data() {
             return {
-                textVal: '',
+                subList:[],
                 openclearAll: true,
                 initcolorList: [color, fupa, '#000', '#fff', '#BFBFBF', '#2862F4', '#FED835', '#28F5B4', '#F62897', '#F57B28', '#00FFFF', '#90C320'],
                 e_btn_list: [//左侧菜单按钮
-                    {url: _1,securl:_11, title: '上传'},
-                    {url: _2, securl:_22,title: '背景'},
-                    {url: _3,securl:_33, title: '文字'},
-                    {url: _4,securl:_44, title: '贴纸'},
+                    {url: _1, securl: _11, title: '上传'},
+                    {url: _5, securl: _55, title: '模板'},
+                    {url: _2, securl: _22, title: '背景'},
+                    {url: _3, securl: _33, title: '文字'},
+                    {url: _4, securl: _44, title: '贴纸'},
                     // {url: '_5',securl:'_55', title: '贴纸'},
                 ],
                 seachWords: '',
@@ -320,6 +366,7 @@
                     {text: '广告banner', w: 900, h: 800},
                     {text: '电商全屏海报', w: 1920, h: 700},
                 ],
+                ownTitlelist: [{title: '卡通', list: []}, {title: '证件照', list: subList3}],//, {title: '工牌', list: ['']}
                 ttList: [
                     {
                         title: '卡通', list: ['https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/07/kt/kt1.png']
@@ -330,8 +377,10 @@
                         list: ['https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/07/xzhuang/1.png']
                     },
                 ],
+                loadId:-1,//当前加载的模板下标
+                ownType: 0,//个人模板type
+                mbType: 0,//模板type
                 tzType: 0,
-                sizeType: -1,
                 selectType: 1,//当前左侧选中菜单的下标
                 fontList: [{
                     title: '描边',
@@ -341,15 +390,7 @@
                 choseBack: 0,//背景模式下（ 透明 、纯色 、黑白、模糊）当前选中的下标
                 showcolorList: false,//是否显示颜色选择的弹框
                 // bgType: 1,//更换背景的类型中当前选中的下标
-                cWH: {cWidth: 0, cHeight: 0},//实际canvas  width、height属性值 （和css中width height不同）
                 scale: '',//图片width/height比例系数
-                selfImg: '',//自定义背景对象
-                bgobj: '',//选中的背景对象
-                colorValue: '',//纯色背景
-                setScale: 0,//整体放大系数（css表现的width除以实际图片的width）
-                oCantl: '',//主要用于记录当前canvas相对于屏幕的位置
-                historyList: [],//存放上层canvas的历史记录
-                downType: 0,//下载时的状态 0 初始状态 1 纯色背景 2 背景图片状态
                 edrieImgInfo: {
                     imageMsg: {
                         "previewHeight": "346",
@@ -363,9 +404,10 @@
                         "previewWidth": "520"
                     },
                     pro: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_preview/2020/07/06/e6fe04b2e45b424faaaecc216706f973.png',
-                    ori: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2020/07/06/b9d0c7af5a5d44b4a3edb2ffeb204488.jpg'
+                    ori: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2020/07/06/b9d0c7af5a5d44b4a3edb2ffeb204488.jpg',
+                    filename:'皮卡智能'
                 },//图片的信息（预览图尺寸，原图尺寸，下载按钮处显示的信息）
-                showUpload: true,//从背景库页面进入本页面时，要显示上传弹框
+                showUpload: false,//从背景库页面进入本页面时，要显示上传弹框
                 upType: 0,//从背景库页面进入本页面时，要显示上传弹框 ，上传图片的类型 0 自定义背景  1人抠图 2物抠图
                 loading: {show: false, text: '处理中...'},//loading
                 savepointList: [],//储存当前预览图进行擦除还原放大缩小操作的点的位置和操作类型  this.pointList方法内有详解
@@ -379,7 +421,11 @@
                     scale: 1,
                     oriW: 0,
                     oriH: 0,
-                    subList: [{type:0}],
+                    subList: [{
+                        type: 0, useImg: '',
+                        pro: '',
+                        ori: '',
+                    }],
                 },
                 oriW: 0,
                 oriH: 0,
@@ -389,22 +435,24 @@
                 mattingMsg: {id: '', type: ''},//公用
                 page: 1,
                 stopUpdata: true,
-                enterIdx:-1
+                enterIdx: -1,
+                fivePoint: false,
+                moveNum: 0,
+                loadSubing: 0,//加载模板进度
             }
         },
         watch: {
             subsLength: {
                 handler(n, o) {
-                    if (this.parseSubs.subList[this.parseSubs.subList.length - 1].type !== 2) this.parseSubs.subList.map( item => item.hovering = false );
-                    console.log( this.openBack, 1212121212 )
+                    if (this.parseSubs.subList.length > 0 && this.parseSubs.subList[this.parseSubs.subList.length - 1].type !== 2) this.parseSubs.subList.map( item => item.hovering = false );
                     if (!this.openBack) return;
-                    this.initsave()
+                    this.initsave();
                 }
             }
         },
         components: {vMune, fMune, mattingImg},
         computed: {
-            ...mapGetters( ['userSubscribeData'] ),
+            ...mapGetters( ['userSubscribeData', 'effectsImgList'] ),
             subsLength() {
                 return this.parseSubs.subList.length;
             },
@@ -421,8 +469,8 @@
                 const item = idx > -1 ? this.parseSubs.subList[idx] : {type: ''};
                 return {...item, idx: idx}
             },
-            enterSub(){//鼠标移入组件
-                const item = this.enterIdx >-1 ? this.parseSubs.subList[this.enterIdx] : {};
+            enterSub() {//鼠标移入组件
+                const item = this.enterIdx > -1 ? this.parseSubs.subList[this.enterIdx] : {};
                 return item
             },
             rotateHover() {//旋转的hover组件
@@ -441,24 +489,30 @@
                 // let oDiv_w=document.getElementById('e_r').offsetWidth;
                 return {x: this.oDiv_w.w / 2 - this.parseSubs.bW / 2, y: this.oDiv_w.h / 2 - this.parseSubs.bH / 2}
             },
-            noOperation() {//这些情况下不能移动 缩放图片
-                if (!this.selectType) return false;
-                else if (this.selectType === 1 && [2, 3].includes( this.choseBack )) return false;
-                else return true;
+            colorOrbImg() {//opacity
+                if (this.backSub.backColor) return {backgroundColor: this.backSub.backColor};
+                else return {backgroundImage: `url(${opacity})`, backgroundRepeat: 'repeat'};
             },
-            savepoint() {//找到储存点save前面最后一个type为3||4（当前状态最后一次缩放移动点，为下载原图使用）
-                let arr = JSON.parse( JSON.stringify( this.savepointList ) );
-                const idx = arr.findIndex( item => item.save );
-                if (idx > -1) arr.splice( idx, arr.length );
-                const ix = arr.reverse().findIndex( item => [3, 4].includes( item.type ) )
-                if (ix > -1) return arr[ix];
-                else return null;
+            // savepoint() {//找到储存点save前面最后一个type为3||4（当前状态最后一次缩放移动点，为下载原图使用）
+            //     let arr = JSON.parse( JSON.stringify( this.savepointList ) );
+            //     const idx = arr.findIndex( item => item.save );
+            //     if (idx > -1) arr.splice( idx, arr.length );
+            //     const ix = arr.reverse().findIndex( item => [3, 4].includes( item.type ) )
+            //     if (ix > -1) return arr[ix];
+            //     else return null;
+            // },
+            // pointLists() {//过滤历史记录中当前状态前擦除还原的点，去掉放大缩小移动的点
+            //     const idx = this.savepointList.findIndex( item => item.save );
+            //     if (idx > -1) return this.savepointList.filter( (item, ix) => ([1, 2].includes( item.type ) && ix < idx) )
+            //     else return this.savepointList.filter( (item, ix) => ([1, 2].includes( item.type )) )
+            // },
+            sizeType() {
+                const i = this.cansSize.findIndex( item => (item.w === parseInt( this.parseSubs.oriW ) && item.h === parseInt( this.parseSubs.oriH )) )
+                return i
             },
-            pointLists() {//过滤历史记录中当前状态前擦除还原的点，去掉放大缩小移动的点
-                const idx = this.savepointList.findIndex( item => item.save );
-                if (idx > -1) return this.savepointList.filter( (item, ix) => ([1, 2].includes( item.type ) && ix < idx) )
-                else return this.savepointList.filter( (item, ix) => ([1, 2].includes( item.type )) )
-            },
+            mobanList(){
+                return this.ownTitlelist[this.ownType].list;
+            }
         },
         filters: {
             subsStyle(item) {
@@ -473,6 +527,7 @@
                     // marginTop:`-${item.type ? 0 : item.h/2}px`,
                 };
                 if (item.type === 2) {
+                    // if(item.hovering)data.top =-(parseInt( item.y )+parseInt(item.h)) + 'px';
                     data.fontSize = item.fontSize + 'px';
                     data.fontWeight = item.fontWeight;
                     data.letterSpacing = item.letterSpacing + 'px';
@@ -500,6 +555,11 @@
             ...mapActions( [
                 'userGetscribe'
             ] ),
+            changeownType(idx){
+                if(this.ownType===idx)return;
+                this.ownType=idx;
+                console.log(this.ownType)
+            },
             initsave() {//储存公用方法
                 if (this.hisIdx !== this.SubsDataList.length - 1) {
                     this.SubsDataList.splice( this.hisIdx + 1, this.SubsDataList.length )
@@ -566,16 +626,45 @@
             //         transform: this.rotateHover,
             //     };
             // },
-            writeText(idx){
-                if (this.parseSubs.subList[idx].type === 2) this.parseSubs.subList[idx].contenteditable = true;
-                this.$nextTick( () => {
-                    let oDiv = document.querySelector( `.otherSubs .items:nth-child(${idx + 1}) .text` );
-                    oDiv.focus();
+            changetihuan(e) {
+                let file = e.target.files[0], formData = new FormData(), oImg = new Image();
+                if (!file) return;
+                this.loading.show = true;
+                formData.append( 'file', file );
+                uploadossBg( formData ).then( res => {
+                    this.parseSubs.subList[this.hoverSub.idx].ori = res.data;
+                    this.parseSubs.subList[this.hoverSub.idx].pro = res.data;
+                    this.parseSubs.subList[this.hoverSub.idx].proObj = '';
+                    this.$refs.tihuan.value='';
+                    if ([1, 2, 3, 6].includes( this.parseSubs.subList[this.hoverSub.idx].mattingType )) {
+                        this.mattingbyUrl( this.parseSubs.subList[this.hoverSub.idx].mattingType )
+                    } else {
+                        this.parseSubs.subList[this.hoverSub.idx].useImg = res.data;
+                        oImg.crossOrigin = '';
+                        oImg.onload = () => {
+                            this.parseSubs.subList[this.hoverSub.idx].proObj = oImg;
+                            this.parseSubs.subList[this.hoverSub.idx].id = `img${Math.random()}`;
+                            this.loadStatus( this.parseSubs.subList[this.hoverSub.idx], this.hoverSub.idx )
+                        };
+                        oImg.src = res.data + `?id=${Math.random()}`
+                    }
                 } )
+            },
+            writeText(idx) {
+                if (this.parseSubs.subList[idx].type === 2) {
+                    this.parseSubs.subList[idx].contenteditable = true;
+                    this.$nextTick( () => {
+                        let oDiv = document.querySelector( `.otherSubs .items:nth-child(${idx + 1}) .text` );
+                        oDiv.focus();
+                    } )
+                } else if ([1, 3].includes( this.parseSubs.subList[idx].type )) {
+                    this.$refs.tihuan.click()
+                }
+
             },
             hoverThis(idx) {
                 this.parseSubs.subList.map( item => item.hovering = false );
-                this.parseSubs.subList[idx].hovering = true;
+                if (!(!this.parseSubs.subList[idx].type && this.parseSubs.subList[idx].backColor)) this.parseSubs.subList[idx].hovering = true;
                 // if (this.parseSubs.subList[idx].type === 2) this.parseSubs.subList[idx].contenteditable = true;
                 if ([0, 1, 3].includes( this.parseSubs.subList[idx].type )) {
                     this.$nextTick( () => {
@@ -605,19 +694,19 @@
                         this.parseSubs.subList[idx].h = w;
                     }
                 } )
-                this.$nextTick(()=>{
+                this.$nextTick( () => {
                     let oDiv = document.querySelector( `.otherSubs .items:nth-child(${idx + 1}) .text` );
-                    this.setBlur(oDiv,idx)
-                })
+                    this.setBlur( oDiv, idx )
+                } )
             },
             setBlur(e, idx, l) {
                 let oDiv = document.querySelector( `.otherSubs .items:nth-child(${idx + 1}) .text` );
-                const [detail, w, h] = [oDiv.innerText,oDiv.offsetWidth, oDiv.offsetHeight];
+                const [detail, w, h] = [oDiv.innerText, oDiv.offsetWidth, oDiv.offsetHeight];
                 this.parseSubs.subList[idx].w = w;
                 this.parseSubs.subList[idx].h = h;
-                if (l){
+                if (l) {
                     this.parseSubs.subList[idx].title = detail;
-                    this.parseSubs.subList[idx].contenteditable=false;
+                    this.parseSubs.subList[idx].contenteditable = false;
                     // let oDiv = document.querySelector( `.otherSubs .items:nth-child(${idx + 1}) .text` );
                     // oDiv.innerText=detail;
                 }
@@ -725,6 +814,8 @@
             changeselfImg(e) {//input chang事件
                 const file = e.target.files[0];
                 if (!file) return;
+                this.showUpload = false;
+                this.loading.show = true;
                 if (this.upType === -1) this.initSelfImg( file );
                 else {
                     // this.parseSubs.subList = [];
@@ -733,7 +824,6 @@
             },
             upimgsLoad(file) {//上传图片抠图
                 if (!file) return;
-                this.loading.show = true;
                 if (this.upType === 0) {
                     this.initUpImgs( file )
                     return
@@ -783,6 +873,7 @@
                             oImg.crossOrigin = '';
                             oImg.onload = () => {
                                 this.parseSubs.subList[idx].proObj = oImg;
+                                this.parseSubs.subList[idx].id = `img${Math.random()}`;
                                 this.loadStatus( this.parseSubs.subList[idx], idx )
                             };
                             oImg.src = res.data.bgRemovedPreview + `?id=${Math.random()}`;
@@ -798,6 +889,7 @@
                 this.loading.show = true;
                 this.mattingMsg.type = type;
                 let obj = {url: type === 4 ? this.hoverSub.pro : this.hoverSub.ori, mattingType: type};
+                if(type===3)obj['crop']=1;
                 copyUpload( obj ).then( res => {
                     if (!res.code) {
                         this.mattingMsg.id = res.data.fileId;
@@ -810,6 +902,14 @@
                             oImg.crossOrigin = '';
                             oImg.onload = () => {
                                 this.parseSubs.subList[idx].proObj = oImg;
+                                this.parseSubs.subList[idx].w=oImg.width*this.parseSubs.subList[idx].h/oImg.height;
+                                this.parseSubs.subList[idx].id = `img${Math.random()}`;
+                                if(this.parseSubs.isOwnTwo){////证件照替换时需要调整x位置
+                                    this.parseSubs.subList[idx].x=this.parseSubs.bW/2-this.parseSubs.subList[idx].w/2;
+                                }
+                                // else if([1,2,6].includes(type)){
+                                //     this.parseSubs.subList[idx].w=oImg.width*this.parseSubs.subList[idx].h/oImg.height;
+                                // }
                                 this.loadStatus( this.parseSubs.subList[idx], idx )
                             };
                             oImg.src = res.data.bgRemovedPreview + `?id=${Math.random()}`;
@@ -833,7 +933,7 @@
                         ori: this.edrieImgInfo.ori,//原图
                         pro: this.edrieImgInfo.pro,//抠图过后的
                         proObj: null,////抠图过加载后的对象
-                        mattingType: 2
+                        mattingType: 6
                     }, oH = document.getElementById( 'e_r' ).offsetHeight * 0.6,
                     oW = document.getElementById( 'e_r' ).offsetWidth * 0.6;
                 let oImg = new Image();
@@ -856,7 +956,7 @@
             },
             initSelfImg(file) {//自定义背景加载后对象储存
                 this.openBack = false;
-                this.loading.show = true;
+                // this.loading.show = true;
                 let formData = new FormData(), yw = this.parseSubs.bW + 100, yh = this.parseSubs.bH + 100;
                 formData.append( 'file', file );
                 uploadossBg( formData ).then( res => {
@@ -888,13 +988,12 @@
                             this.initsave();
                             this.openBack = true;
                         } )
-                        console.log( this.parseSubs.subList )
                         this.loadStatus( data );
                     };
                     oImg.src = res.data;
                 } )
             },
-            loadStatus(data, k) {//加载特效，并保存store
+            loadStatus(data, k, len, mItems) {//加载特效，并保存store
                 let oCan = document.createElement( 'canvas' ), list = Array.from( {length: 9}, v => '' );
                 let oCanTxt = oCan.getContext( '2d' );
                 oCan.width = data.proObj.width;
@@ -918,8 +1017,17 @@
                     } );
                     if (!list.some( item => item === '' )) {
                         this.$store.commit( 'SET_EFFECTSIMG', {id: data.id, list: list} );
-                        if (k > -1) this.hoverThis( k );
-                        this.loading = {show: false, text: '处理中...'}
+                        if (!len) {
+                            if (k > -1) this.hoverThis( k );
+                            this.loading = {show: false, text: '处理中...'}
+                        } else {
+                            this.loadSubing += 1;
+                            if (len === this.loadSubing) {
+                                this.parseSubs = mItems;
+                                this.loading = {show: false, text: '处理中...'}
+                            }
+                        }
+
                     }
                 } )
             },
@@ -969,13 +1077,15 @@
                 const oDivs = document.querySelector( `.otherSubs` ),
                     oSubs = document.querySelector( `.otherSubs .items:nth-child(${idx + 1})` ),
                     oright = document.getElementById( 'e_r' ).getBoundingClientRect();
-                this.parseSubs.subList.map( item => item.hover = false );
-                this.parseSubs.subList[idx].hover = true;
+                this.parseSubs.subList.map( item => item.hovering = false );
+                if (!(!this.parseSubs.subList[idx].type && this.parseSubs.subList[idx].backColor)) this.parseSubs.subList[idx].hovering = true;
+                else return;
                 let oDiv = this.parseSubs.subList[idx].type ? document.querySelector( `.otherSubs .items:nth-child(${idx + 1})` ) : document.querySelector( '.initBack' );
                 let [x, y] = [ev.clientX - oDiv.offsetLeft, ev.clientY - oDiv.offsetTop];
-                let [w, h, top, left,size] = [oDiv.offsetWidth, oDiv.offsetHeight, oDiv.offsetTop, oDiv.offsetLeft,this.parseSubs.subList[idx].type===2 ? this.parseSubs.subList[idx].fontSize : 0 ];
+                let [w, h, top, left, size, lineHeight, letterSpacing] = [oDiv.offsetWidth, oDiv.offsetHeight, oDiv.offsetTop, oDiv.offsetLeft, this.parseSubs.subList[idx].type === 2 ? this.parseSubs.subList[idx].fontSize : 0, this.parseSubs.subList[idx].type === 2 ? this.parseSubs.subList[idx].lineHeight : 0, this.parseSubs.subList[idx].type === 2 ? this.parseSubs.subList[idx].letterSpacing : 0];
                 let isMove = false;
                 document.onmousemove = (e) => {
+                    this.moveNum = 1;
                     isMove = true;
                     const xx = oSubs.offsetLeft + oDivs.offsetLeft - this.parseSubs.bW / 2 + this.parseSubs.subList[idx].w / 2,
                         yy = oSubs.offsetTop + oDivs.offsetTop - this.parseSubs.bH / 2 + this.parseSubs.subList[idx].h / 2;
@@ -1005,36 +1115,41 @@
                         this.parseSubs.subList[idx].w = w - (mx2 - mx);
                         this.parseSubs.subList[idx].h = (w - (mx2 - mx)) * h / w;
                         this.parseSubs.subList[idx].y = top + (h - (w - (mx2 - mx)) * h / w);
-                        if(this.parseSubs.subList[idx].type===2){
-                            this.parseSubs.subList[idx].fontSize=size*this.parseSubs.subList[idx].w/w;
+                        if (this.parseSubs.subList[idx].type === 2) {
+                            this.parseSubs.subList[idx].fontSize = parseInt( size * this.parseSubs.subList[idx].w / w );
+                            this.parseSubs.subList[idx].lineHeight = parseInt( lineHeight * this.parseSubs.subList[idx].w / w );
+                            this.parseSubs.subList[idx].letterSpacing = parseInt( letterSpacing * this.parseSubs.subList[idx].w / w );
                         }
                     } else {
-                        if(this.parseSubs.subList[idx].type===2 && this.parseSubs.subList[idx].contenteditable)return;
+                        if (this.parseSubs.subList[idx].type === 2 && this.parseSubs.subList[idx].contenteditable) return;
                         this.parseSubs.subList[idx].x = l;
                         this.parseSubs.subList[idx].y = t;
                     }
-
+                    this.fivePoint = true;
                 }
                 document.onmouseup = (e) => {
                     document.onmousemove = null;
                     document.onmouseup = null;
                     if (isMove) this.initsave();
+                    this.fivePoint = false;
                     this.$nextTick( () => {
-                        if(this.parseSubs.subList[idx].type===2){
+                        this.moveNum = 0;
+                        if (this.parseSubs.subList[idx].type === 2) {
                             let oDiv = document.querySelector( `.otherSubs .items:nth-child(${idx + 1}) .text` );
-                            this.setBlur(oDiv,idx)
+                            if (oDiv) this.setBlur( oDiv, idx )
                         }
                         this.openclearAll = true;
                     } )
                 }
             },
-            borderFun(idx,k){
-                if(k){
-                    this.enterIdx=-1;
+            borderFun(idx, k) {
+                if (k) {
+                    this.enterIdx = -1;
                     return
                 }
-                if(!k && idx===this.enterIdx) return;
-                this.enterIdx=idx;
+                if (!k && idx === this.enterIdx) return;
+                if (!this.parseSubs.subList[idx].type && this.parseSubs.subList[idx].backColor) return;
+                this.enterIdx = idx;
             },
             choseColor(color) {//选择颜色背景，颜色选择器
                 this.choseBack = 0;
@@ -1061,8 +1176,10 @@
                     } )
                 } else {
                     catImgList( {catId: this.imgCatList[this.bgType].id} ).then( res => {
-                        this.oneItemBg2 = res.data.content;
-                        this.imgList[this.bgType] = res.data.content;
+                        this.$nextTick( () => {
+                            this.oneItemBg2 = res.data.content;
+                            this.imgList[this.bgType] = res.data.content;
+                        } )
                     } )
                 }
                 this.$refs.bTypeList.style.left = -(this.bgType - 1) * 80 + 'px'
@@ -1088,7 +1205,7 @@
                     ori: item.url,
                     proObj: null,////抠图过加载后的对象
                     mattingType: -1,
-                    id: idx > -1 ? this.parseSubs.subList[idx].id : this.parseSubs.subList[this.parseSubs.subList.length - 1].id + 1
+                    id: `img${Math.random()}`
                 }, oImg = new Image();
                 oImg.crossOrigin = '';
                 oImg.onload = () => {
@@ -1107,15 +1224,15 @@
                 };
                 oImg.src = item.url + `?id=${Math.random()}`;
             },
-            addTextSub(k,item,i) {
+            addTextSub(k, item, i) {
                 let data = {
                     type: 2,//文字组件
                     title: '双击编辑',
                     fontFamily: 'systi',//文字类型
-                    fontSize: k===1 ? 14 : (k===2 ? 24: 36),//大小
+                    fontSize: k === 1 ? 14 : (k === 2 ? 24 : 36),//大小
                     letterSpacing: 0,//字间距
-                    lineHeight: k===1 ? 30 : (k===2 ? 36: 48),//行高
-                    color:i===0 ? '#fff' : '#333',//颜色
+                    lineHeight: k === 1 ? 30 : (k === 2 ? 36 : 48),//行高
+                    color: i === 0 ? '#fff' : '#333',//颜色
                     backgroundColor: '',//背景色
                     fontStyle: 'normal',//是否斜体
                     textDecoration: 'none',//下划线，删除线
@@ -1124,7 +1241,7 @@
                     fontWeight: 'normal',
                     textShadow: 'none',
                     w: 200,
-                    h: k===1 ? 30 : (k===2 ? 36: 48),
+                    h: k === 1 ? 30 : (k === 2 ? 36 : 48),
                     id: `text${Math.random()}`,
                     rotate: 0,
                     hovering: false,
@@ -1163,12 +1280,10 @@
                         const d = list.findIndex( item => item.idx > this.hoverSub.idx ),
                             e = JSON.parse( JSON.stringify( this.hoverSub ) );
                         e.proObj = this.hoverSub.proObj;
-                        console.log( this.hoverSub.idx, list )
                         this.parseSubs.subList.splice( this.hoverSub.idx, 1 );
                         if (d < 0) {
                             this.parseSubs.subList.splice( list[list.length - 1].idx, 0, e );
                         } else {
-                            console.log( list[d - 1].idx, list[d - 1] )
                             this.parseSubs.subList.splice( list[d - 1].idx, 0, e );
                         }
                     }
@@ -1219,19 +1334,28 @@
                     background: 'rgba(0, 0, 0, 0.7)'
                 } );
                 let imgSubs = this.parseSubs.subList.reduce( (pre, item, idx) => {
-                    if ([0, 1, 3].includes( item.type ) && !item.backColor) pre.push( {...item, lastidx: idx} );
+                    if ([0, 1, 3].includes( item.type ) && !item.backColor && item.useImg) pre.push( {
+                        ...item,
+                        lastidx: idx
+                    } );
                     return pre
                 }, [] ), reg = /^http*$/;
                 this.parseSubs.subList.map( item => {
                     if ([0, 1, 3].includes( item.type )) item['lastObj'] = '';
                 } )
+                if (imgSubs.length < 1) {
+                    this.initCanImg();
+                }
                 imgSubs.map( item => {
                     let oImg = new Image();
                     oImg.crossOrigin = '';
                     oImg.onload = () => {
                         this.parseSubs.subList[item.lastidx]['lastObj'] = oImg;
                         const next = this.parseSubs.subList.reduce( (pre, item, idx) => {
-                            if ([0, 1, 3].includes( item.type ) && !item.backColor) pre.push( {...item, lastidx: idx} );
+                            if ([0, 1, 3].includes( item.type ) && !item.backColor && item.useImg) pre.push( {
+                                ...item,
+                                lastidx: idx
+                            } );
                             return pre
                         }, [] )
                         if (next.every( it => it['lastObj'] )) this.initCanImg()
@@ -1246,9 +1370,12 @@
                 oCan.width = this.parseSubs.oriW;
                 oCan.height = this.parseSubs.oriH;
                 scale = this.parseSubs.scale;
-                console.log( this.parseSubs.subList )
                 this.parseSubs.subList.map( item => {
-                    if ([0, 1, 3].includes( item.type ) && !item.backColor) {
+                    if ([0, 1, 3].includes( item.type ) && !item.backColor && item.useImg) {
+                        oCanTxt.shadowColor = '';
+                        oCanTxt.shadowBlur = 0;
+                        oCanTxt.shadowOffsetY = 0;
+                        oCanTxt.shadowOffsetX = 0;
                         oCanTxt.translate( item.x / scale + item.w / scale / 2, item.y / scale + item.h / scale / 2 );
                         oCanTxt.rotate( item.rotate * Math.PI / 180 );
                         oCanTxt.translate( -(item.x / scale + item.w / scale / 2), -(item.y / scale + item.h / scale / 2) );
@@ -1258,13 +1385,10 @@
                         oCanTxt.fillStyle = item.backColor;
                         oCanTxt.fillRect( 0, 0, oCan.width, oCan.height );
                     } else if (item.type == 2) {
-                        // data.letterSpacing = item.letterSpacing + 'px';
-                        // data.textDecoration = item.textDecoration;//画线
-                        // oCanTxt.textAlign = item.textAlign;//对齐方式
                         oCanTxt.textBaseline = 'top';
                         const [w, h, x, y, size, lineHeight, letterSpacing] = [item.w / scale, item.h / scale, item.x / scale, item.y / scale, parseInt( item.fontSize / scale ), parseInt( item.lineHeight / scale ), item.letterSpacing / scale],
                             textDecoration = ['none', 'underline', 'line-through'].indexOf( item.textDecoration );
-                        console.log( item.fontStyle, item.fontWeight, size, lineHeight, item.fontFamily, `${item.fontStyle} ${item.fontWeight} ${size}px/${lineHeight}px ${item.fontFamily}` )
+                        // console.log( item.fontStyle, item.fontWeight, size, lineHeight, item.fontFamily, `${item.fontStyle} ${item.fontWeight} ${size}px/${lineHeight}px ${item.fontFamily}`, textDecoration )
                         oCanTxt.font = `${item.fontStyle} ${item.fontWeight} ${size}px/${lineHeight}px ${item.fontFamily}`;
                         oCanTxt.translate( x + w / 2, y + h / 2 );
                         oCanTxt.rotate( item.rotate * Math.PI / 180 );
@@ -1299,7 +1423,7 @@
                                 } else {
                                     const last = content[content.length - 1];
                                     content.map( (itemSon, idx) => {
-                                        const  xx=item.textAlign === 'center' ? x+ w/2-itemSon.len/2: x;
+                                        const xx = item.textAlign === 'center' ? x + w / 2 - itemSon.len / 2 : x;
                                         if (idx !== content.length - 1) oCanTxt.letterSpacingText( itemSon.str, xx, y + idx * lineHeight + line_size, letterSpacing, stroke );
                                         this.initLineTo( oCanTxt, size, x, y, idx, lineHeight, itemSon, w, item.textAlign, textDecoration )
                                     } )
@@ -1307,36 +1431,40 @@
                                 }
                             }
                         } else {
-                            let content = this.initfontList( oCanTxt, item.title, letterSpacing, w, h, item.flexDirection, size ),
+                            let content = this.initfontList( oCanTxt, item.title, letterSpacing, w, h, item.flexDirection, size ),regExt=/[a-zA-Z]/g,
                                 line_size = lineHeight / 2 - size / 2;
                             if (item.textAlign === 'left') {
                                 content.map( (itemSon, idx) => {
                                     itemSon.str.split( '' ).map( (it, ix) => {
-                                        stroke === 1 ? oCanTxt.fillText( it, x + w - (lineHeight - line_size) - idx * lineHeight, y + ix * letterSpacing + ix * size ) : oCanTxt.strokeText( it, x + w - idx * lineHeight + line_size, y + ix * letterSpacing + ix * size );
+                                        oCanTxt.fillTextVertical(it, x + w - (lineHeight - line_size) - idx * lineHeight, y + ix * letterSpacing + ix * size,stroke)
+                                        // stroke === 1 ? oCanTxt.fillText( it, x + w - (lineHeight - line_size) - idx * lineHeight, y + ix * letterSpacing + ix * size ) : oCanTxt.strokeText( it, x + w - idx * lineHeight + line_size, y + ix * letterSpacing + ix * size );
                                     } )
-                                    this.initLineTo2( oCanTxt, size, x, y, idx, lineHeight, itemSon, w, h, item.textAlign, textDecoration )
+                                    this.initLineTo2( oCanTxt, size, x, y, idx, lineHeight, line_size, itemSon, w, h, item.textAlign, textDecoration )
                                 } )
                             } else {
                                 if (content.length === 1) {
                                     content[0].str.split( '' ).map( (it, ix) => {
                                         const yc = item.textAlign === 'center' ? y + ix * letterSpacing + ix * size + h / 2 - content[0].len / 2 : y + ix * letterSpacing + ix * size;
-                                        stroke === 1 ? oCanTxt.fillText( it, x + w - (lineHeight - line_size), yc ) : oCanTxt.strokeText( it, x + w + line_size, yc );
+                                        oCanTxt.fillTextVertical(it, x + w - (lineHeight - line_size), yc ,stroke)
+                                        // stroke === 1 ? oCanTxt.fillText( it, x + w - (lineHeight - line_size), yc ) : oCanTxt.strokeText( it, x + w + line_size, yc );
                                     } )
-                                    this.initLineTo2( oCanTxt, size, x, y, 0, lineHeight, content[0], w, h, item.textAlign, textDecoration )
+                                    this.initLineTo2( oCanTxt, size, x, y, 0, lineHeight, line_size, content[0], w, h, item.textAlign, textDecoration )
                                 } else {
                                     const last = content[content.length - 1];
                                     content.map( (itemSon, idx) => {
                                         if (idx !== content.length - 1) {
                                             itemSon.str.split( '' ).map( (it, ix) => {
                                                 const yc = item.textAlign === 'center' ? y + ix * letterSpacing + ix * size + h / 2 - content[0].len / 2 : y + ix * letterSpacing + ix * size;
-                                                stroke === 1 ? oCanTxt.fillText( it, x + w - (lineHeight - line_size) - idx * lineHeight, yc ) : oCanTxt.strokeText( it, x + w - idx * lineHeight + line_size, yc );
+                                                oCanTxt.fillTextVertical(it, x + w - (lineHeight - line_size) - idx * lineHeight, yc,stroke)
+                                                // stroke === 1 ? oCanTxt.fillText( it, x + w - (lineHeight - line_size) - idx * lineHeight, yc ) : oCanTxt.strokeText( it, x + w - idx * lineHeight + line_size, yc );
                                             } )
                                         }
                                         this.initLineTo2( oCanTxt, size, x, y, idx, lineHeight, line_size, itemSon, w, h, item.textAlign, textDecoration )
                                     } )
                                     last.str.split( '' ).map( (it, ix) => {
                                         const ys = item.textAlign === 'center' ? y + ix * letterSpacing + ix * size + h / 2 - last.len / 2 : y + ix * letterSpacing + ix * size;
-                                        stroke === 1 ? oCanTxt.fillText( it, x + w - (lineHeight - line_size) - (content.length - 1) * lineHeight, ys ) : oCanTxt.strokeText( it, x + w - (content.length - 1) * lineHeight + line_size, ys );
+                                        oCanTxt.fillTextVertical(it, x + w - (lineHeight - line_size) - (content.length - 1) * lineHeight, ys,stroke)
+                                        // stroke === 1 ? oCanTxt.fillText( it, x + w - (lineHeight - line_size) - (content.length - 1) * lineHeight, ys ) : oCanTxt.strokeText( it, x + w - (content.length - 1) * lineHeight + line_size, ys );
                                     } )
                                 }
                             }
@@ -1411,6 +1539,7 @@
                 oCanTxt.stroke();
             },
             initLineTo2(oCanTxt, size, x, y, idx, lineHeight, line_size, itemSon, w, h, textAlign, textDecoration) {
+                // console.log( textDecoration )
                 if (!textDecoration) return;
                 oCanTxt.beginPath();
                 oCanTxt.lineWidth = 2;
@@ -1458,18 +1587,8 @@
                     this.loadingInstance.close()
                 }
             },
-            initBgInfo() {//初始化时背景初始化
-                this.downType = 2;
-                let bgimg = new Image();
-                bgimg.crossOrigin = '';
-                bgimg.onload = () => {
-                    this.bgobj = bgimg;
-                    this.initBgimg( this.bgobj, this.bgCans, this.bgCansTxt );
-                }
-                bgimg.src = this.edrieImgInfo.bgImg + `?str=${Math.random()}`;
-            },
-            changeSize(item,idx) {//画布尺寸输入
-                console.log( item, this.parseSubs )
+            changeSize(item, idx) {//画布尺寸输入
+                // console.log( item, this.parseSubs )
                 if (item.w === this.parseSubs.oriW && item.h === this.parseSubs.oriH) return;
                 let oH = document.getElementById( 'e_r' ).offsetHeight * 0.6,
                     oW = document.getElementById( 'e_r' ).offsetWidth * 0.6,
@@ -1492,12 +1611,6 @@
                         if (it === 'y') items[it] = (items[it] * hh / h + afterh / 2) * this.parseSubs.scale;
                     } )
                 } )
-                // const idx = this.parseSubs.subList.findIndex( item => item.type === 0 );
-                // if (idx > -1) {
-                //     this.parseSubs.subList[idx].x = this.parseSubs.bW / 2 - this.parseSubs.subList[idx].w / 2;
-                //     this.parseSubs.subList[idx].y = this.parseSubs.bH / 2 - this.parseSubs.subList[idx].h / 2;
-                // }
-                this.sizeType=(idx || idx===0) ? idx : -1;
                 this.initsave()
             },
             wheelFun(k) {
@@ -1514,34 +1627,6 @@
                         if (prolist3.includes( it )) items[it] = items[it] / scale * newscale
                     } )
                 } )
-                const idx = this.parseSubs.subList.findIndex( item => item.type === 0 );
-                // if (idx > -1) {
-                //     this.parseSubs.subList[idx].x = this.parseSubs.bW / 2 - this.parseSubs.subList[idx].w / 2;
-                //     this.parseSubs.subList[idx].y = this.parseSubs.bH / 2 - this.parseSubs.subList[idx].h / 2;
-                // }
-            },
-            initRestore() {//重置按钮
-
-                // this.$confirm( `确定要重新制作么, 是否继续?`, '提示', {
-                //     showClose: false,
-                //     confirmButtonText: '确定',
-                //     cancelButtonText: '取消',
-                //     type: 'warning'
-                // } ).then( () => {
-                //     const item=this.parseSubs.subList.find(item=>item.type===1);
-                //     this.parseSubs.subList=[item]
-                //     console.log(this.parseSubs.subList)
-                // } ).catch( () => {
-                // } );
-
-            },
-            initRest() {//1:1
-                // this.pxWidth = this.preimgObj.width;
-                // this.pxHeight = this.preimgObj.height;
-                // if (this.noOperation) this.initborder()
-                // this.$nextTick( () => {
-                //     this.oCantl = document.getElementById( `b_g` ).getBoundingClientRect()
-                // } )
             },
             initAllInfo() {//初始化时操作信息
                 this.edrieImgInfo = JSON.parse( localStorage.getItem( 'editImg' ) )
@@ -1559,12 +1644,17 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 } ).then( () => {
-                    const item = this.parseSubs.subList.find( item => item.type === 1 );
+                    // const item = this.parseSubs.subList.find( item => item.type === 1 );
+                    this.loading = {show: true, text: '处理中...'}
                     this.openBack = false;
-                    this.parseSubs.subList = [item];
+                    this.parseSubs.subList = [];
+                    this.hisIdx = -1;
                     this.SubsDataList = [];
+                    this.initSize();
+                    this.$store.commit( 'SET_EFFECTSIMG', {id: data.id, list: list, clear: 1} );
                     this.$nextTick( () => {
                         this.openBack = true;
+                        this.loading = {show: false, text: '处理中...'}
                     } )
                 } ).catch( () => {
 
@@ -1585,6 +1675,7 @@
                 oImg.crossOrigin = '';
                 oImg.onload = () => {
                     this.parseSubs.subList[idx].proObj = oImg;
+                    this.parseSubs.subList[idx].id = `img${Math.random()}`;
                     this.loadStatus( this.parseSubs.subList[idx], k );
                 };
                 oImg.src = this.parseSubs.subList[idx].useImg + `?id=${Math.random()}`;
@@ -1642,30 +1733,100 @@
                 };
                 oImg.src = this.edrieImgInfo.ori + `?id=${Math.random()}`
             },
+            choseTrme(it,idx){
+                this.$confirm( `确定要选择此模板替换当前模板, 是否继续?`, '提示', {
+                    showClose: false,
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                } ).then( () => {
+                    this.loadId=it.id;
+                    this.loading={show:true,text:'加载中...'};
+                    templateDetial({id:this.loadId}).then(res=>{
+                        console.log(JSON.parse(res.data.data))
+                        this.loadSubs(JSON.parse(res.data.data))
+                    })
+
+                } ).catch( () => {
+
+                } );
+
+            },
+            loadSubs(item) {
+                let mItems = JSON.parse(JSON.stringify(item)), imgsList = item.subList.filter( item => ([0, 1, 3].includes( item.type ) && item.useImg) ),
+                    oH = document.getElementById( 'e_r' ).offsetHeight * 0.6,
+                    oW = document.getElementById( 'e_r' ).offsetWidth * 0.6;
+                ;
+                mItems['bW'] = mItems.oriW > mItems.oriH ? (mItems.oriW > oW ? oW : mItems.oriW) : (mItems.oriH > oH ? oH * mItems.oriW / mItems.oriH : mItems.oriW);
+                mItems['bH'] = mItems.oriW > mItems.oriH ? (mItems.oriW > oW ? oW * mItems.oriH / mItems.oriW : mItems.oriH) : (mItems.oriH > oH ? oH : mItems.oriH);
+                mItems['scale'] = parseFloat( mItems.bW / mItems.oriW );
+                const keyList = ['w', 'h', 'x', 'y', 'fontSize', 'letterSpacing', 'lineHeight']
+                mItems.subList.map( (item, idx) => {
+                    Object.keys( item ).map( it => {
+                        if (keyList.includes( it )) {
+                            mItems.subList[idx][it] = mItems.subList[idx][it] * mItems['scale']
+                        }
+                        if(it==='textShadow') mItems.subList[idx][it]=['none','#333 1px 0 0, #333 0 1px 0, #333 -1px 0 0, #333 0 -1px 0','0 5px 5px #333'][mItems.subList[idx][it]]
+                    } )
+                } )
+                this.loadSubing = 0;
+                this.oriW = mItems.oriW;
+                this.oriH = mItems.oriH;
+                mItems.subList.map( (item, idx) => {
+                    if ([0, 1, 3].includes( item.type ) && item.useImg) {
+                        mItems.subList[idx]['id'] = `img${Math.random()}`;
+                        mItems.subList[idx]['proObj'] = ``;
+                        let oImg = new Image();
+                        oImg.crossOrigin = '';
+                        oImg.onload = () => {
+                            mItems.subList[idx]['proObj'] = oImg;
+                            this.loadStatus( mItems.subList[idx], idx, imgsList.length, mItems )
+                        };
+                        oImg.src = mItems.subList[idx].useImg + `?id=${Math.random()}`
+
+                    }
+                } )
+            },
+            inittemplteList(idx){
+                const typeList=['avatar','ebusiness','mobile']
+                let data={
+                    category:typeList[idx],
+                    page:1,
+                    pageSize:100
+                }
+                templateList(data).then(res=>{
+                    if(!idx)this.ownTitlelist[0].list=[...res.data.list];
+                    else this.subList.push({title:idx==1 ? '电商海报' :'手机海报',list:res.data.list})
+                })
+            }
         },
         created() {//透明背景储存
-
+            this.inittemplteList(0);
+            this.inittemplteList(1);
+            this.inittemplteList(2);
         },
         mounted() {//初始化参数
             const oDiv = document.getElementById( 'e_r' )
             this.oDiv_w = {w: oDiv.offsetWidth, h: oDiv.offsetHeight};
             if (getToken()) this.userGetscribe();
-            // this.oCantl = document.getElementById( `b_g` ).getBoundingClientRect()
-            // document.getElementById( 'e_r' ).addEventListener( 'wheel', this.wheelFun )
+            // $( '#e_r' ).niceScroll( {cursorcolor: '#999999'} );
             document.addEventListener( 'click', () => {
                 this.showcolorList = false
             } )
             letterText()//字间距
-            // document.addEventListener( 'keydown', (e) => {
-            //     const keynum = window.event ? e.keyCode : e.which;
-            //     // console.log(keynum)
-            //     if (keynum === 32) this.downSpace = true;
-            // } )
-            // document.addEventListener( 'keyup', (e) => {
-            //     this.downSpace = false;
-            //     // const  keynum = window.event ? e.keyCode : e.which;
-            //     // if(keynum===32)this.downSpace=true;
-            // } )
+            verticalText()//字间距
+            document.addEventListener( 'keydown', (e) => {
+                const keynum = window.event ? e.keyCode : e.which;
+                const idx = this.hoverSub.idx, type = this.hoverSub.type;
+                if (idx < 0) return;
+                if (keynum === 8 && !this.hoverSub.contenteditable) this.parseSubs.subList.splice( idx, 1 );
+            } )
+            window.addEventListener( 'resize', () => {
+                const oDiv = document.getElementById( 'e_r' )
+                this.oDiv_w = {w: oDiv.offsetWidth, h: oDiv.offsetHeight};
+            } )
+            this.initCats();
+
         }
     }
 </script>
@@ -1747,6 +1908,91 @@
                             top: 50%;
                             left: 50%;
                             transform: translate(-50%, -50%);
+                        }
+                    }
+                }
+            }
+
+            .first2 {
+                .bnts {
+                    justify-content: space-between;
+                    margin-bottom: 15px;
+
+                    .el-button {
+                        width: 106px;
+                        background-color: rgba(250, 250, 250, .2);
+                        border: none;
+                        color: #fff;
+
+                        &.active {
+                            background-color: $co;
+                        }
+                    }
+                }
+
+                .ownTitle {
+                    /*justify-content: space-between;*/
+                    font-size: 14px;
+                    color: #AFB3B6;
+                    line-height: 42px;
+                    border-bottom: 1px solid #3F464C;
+                    margin-bottom: 20px;
+                    span{
+                        margin-right: 30px;
+                    }
+                    .active {
+                        color: $co;
+                        border-bottom: 2px solid $co;
+                    }
+                }
+
+                .lists {
+                    height: 650px;
+                    overflow-x: auto;
+                    padding: 15px 0;
+                    .listsson{
+                        margin-bottom: 10px;
+                    }
+                    h4{
+                        margin-bottom: 10px;
+                    }
+                    .noZhen:after{
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        left: 0;
+                        top: 0;
+                        content: '';
+                        background-color: rgba(0,0,0,.4);
+                    }
+                    &  .itemT.active{
+                        box-shadow: 0 0 2px $co inset;
+                    }
+                    & .itemT {
+                        position: relative;
+                        width: 100px;
+                        margin:0 10px 10px 0;
+                        overflow: hidden;
+                        &:nth-child(2n){
+                            margin-right: 0;
+                        }
+                        /*<!--img {-->*/
+                        /*<!--    position: absolute;-->*/
+                        /*<!--    width: 100%;-->*/
+                        /*<!--    left: 0;-->*/
+                        /*<!--    top: 50%;-->*/
+                        /*<!--    transform: translateY(-50%);-->*/
+                        /*<!--}-->*/
+                        & > .name{
+                            position: absolute;
+                            width: 100%;
+                            left: 50%;
+                            top: 50%;
+                            transform: translate(-50%,-50%);
+                            font-size: 14px;
+                            color: #fff;
+                            text-align: center;
+                            z-index: 3;
                         }
                     }
                 }
@@ -1924,23 +2170,27 @@
 
             .thred {
                 .addText {
-                    background-color: rgba(250,250,250,.1);
+                    background-color: rgba(250, 250, 250, .1);
                     color: #fff;
                     margin-bottom: 14px;
                     margin-left: 0;
                     border: none;
-                    &:hover{
+
+                    &:hover {
                         border-color: #fff;
                     }
-                    &:first-child{
+
+                    &:first-child {
                         font-size: 28px;
                         line-height: 52px;
                     }
-                    &:nth-child(2){
+
+                    &:nth-child(2) {
                         font-size: 20px;
                         line-height: 40px;
                     }
-                    &:nth-child(3){
+
+                    &:nth-child(3) {
                         font-size: 14px;
                         line-height: 32px;
                     }
@@ -2049,13 +2299,14 @@
                 .iconList {
                     div {
                         width: 50px;
-                        height:50px;
+                        height: 50px;
                         position: relative;
                         margin-bottom: 10px;
                         overflow: hidden;
                         margin: 10px 0;
-                        &:nth-child(2n){
-                            margin:0 10px;
+
+                        &:nth-child(2n) {
+                            margin: 0 10px;
                         }
 
                         img {
@@ -2074,7 +2325,7 @@
             padding-top: 60px;
             flex: 1;
             position: relative;
-            overflow: hidden;
+            overflow: auto;
 
             .fivePoint {
                 position: absolute;
@@ -2166,7 +2417,8 @@
                     cursor: url(../../assets/image/rotate.svg) 11 9, pointer
                 }
             }
-            .borderK{
+
+            .borderK {
                 position: absolute;
                 border: 1px solid $co;
                 pointer-events: none;
@@ -2196,7 +2448,8 @@
 
                 &.iFor {
                     cursor: e-resize;
-                    & ~ i::before{
+
+                    & ~ i::before {
                         background-color: #fff;
                     }
                 }
@@ -2237,8 +2490,9 @@
                 padding: 0 20px;
                 line-height: 38px;
                 border-radius: 19px;
-                background-color: rgba(0, 0, 0, .6);
-                color: #fff;
+                background-color: #fff;
+                box-shadow: 0 0 2px #666;
+                color: #333;
                 z-index: 111;
 
                 img {
@@ -2249,6 +2503,7 @@
                     margin: 0 25px;
                 }
             }
+
             .subs {
                 position: absolute;
                 left: 50%;
@@ -2285,6 +2540,16 @@
                     .Imgs {
                         position: relative;
                         flex: 1;
+                        z-index: 2;
+
+                        &:after {
+                            position: absolute;
+                            width: 100%;
+                            height: 100%;
+                            content: '';
+                            left: 0;
+                            top: 0;
+                        }
 
                         img {
                             position: absolute;
@@ -2384,10 +2649,12 @@
                     display: block;
                     margin: 0 auto 5px;
                 }
-                & > div{
+
+                & > div {
                     padding: 0 30px;
                 }
-                & > div:hover{
+
+                & > div:hover {
                     color: $co;
                     background-color: #eee;
                 }
@@ -2416,7 +2683,7 @@
 
         .dialogs {
             padding-top: 0;
-            z-index: 88;
+            z-index: 440;
             width: 500px;
             margin-left: 48px;
             background-color: initial;
@@ -2559,14 +2826,14 @@
     }
 
     .zheR {
-        z-index: 77;
+        z-index: 220;
         position: absolute;
         left: 0;
         top: 0;
         width: 100%;
         height: 100%;
         padding-top: 0 !important;
-        background-color: rgba(255, 255, 255, .1);
+        background-color: rgba(255, 255, 255, 0);
     }
 
     @media screen and (max-width: 1500px) {

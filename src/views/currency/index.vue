@@ -70,10 +70,10 @@
             </div>
             <div class="OperatorRight drops">
                 <div class="newChunk">
-                    <h2>人像抠图</h2>
-                    <p>单人多人正面侧面，怎么动都行</p>
+                    <h2>通用抠图</h2>
+                    <p>人像、商品、卡通、动物全部搞定</p>
                     <div class="flex a-i">
-                        <div class="gif"><img src="../../assets/image/pgif.gif" alt=""></div>
+                        <div class="gif"><img src="../../assets/image/tygif.gif" alt=""></div>
                         <div class="gifright">
                             <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()"><!--Upload-->
                                 上传图像
@@ -81,10 +81,11 @@
                             <el-input v-model="imgUrl" class="upcas" placeholder="CTRL+V粘贴图像或者URL"
                                       @focus="$event.target.select()"></el-input>
                             <div class="aList flex">
-                                <a href="//picup.shop/apidoc/_book/human.html" target="_blank">人体API></a>
-                                <a href="//picup.shop/apidoc/_book/human.html#%E4%BA%BA%E5%83%8F%E6%8A%A0%E5%9B%BE%E5%92%8C%E5%85%B3%E9%94%AE%E7%82%B9%E6%A3%80%E6%B5%8Bapi" target="_blank">人体API带人体关键点></a>
+                                <!--                                <a href="//picup.shop/apidoc/_book/human.html" target="_blank">人体API></a>-->
+                                <!--                                <a href="//picup.shop/apidoc/_book/human.html#%E4%BA%BA%E5%83%8F%E6%8A%A0%E5%9B%BE%E5%92%8C%E5%85%B3%E9%94%AE%E7%82%B9%E6%A3%80%E6%B5%8Bapi" target="_blank">人体API带人体关键点></a>-->
                             </div>
-                            <div class="titlips"><a href="https://www.google.cn/chrome/" target="_blank">推荐使用：谷歌游览器 <img src="@/assets/image/img1.png" alt="">，防止兼容问题</a></div>
+                            <div class="titlips"><a href="https://www.google.cn/chrome/" target="_blank">推荐使用：谷歌游览器 <img
+                                    src="@/assets/image/img1.png" alt="">，防止兼容问题</a></div>
                             <p>没有图像？试试以下图片看看效果</p>
                             <div class="flex a-i">
                                 <div :style="{backgroundImage:`url(${item})`,backgroundSize:'cover',backgroundPosition:'center'}"
@@ -97,8 +98,9 @@
                 <div v-for="(item,index) in files" :key="item.name" class="imgRef"
                      :id="item.name">
                     <!--                    :class="{'active' : index===files.length-1}"-->
-                    <img-sub :files="item" @to-parse="collectBg" @close="closeItem" :index="index" ref="subs" @downall="downAllinit"
-                             @openImgSet="openImgSet"></img-sub>
+                    <img-sub :files="item" @to-parse="collectBg" @close="closeItem" :index="index" ref="subs"
+                             @downall="downAllinit"
+                             :type="6"></img-sub>
                 </div>
             </div>
             <div class="ImgLists" v-show="rightImgList.length>1">
@@ -179,10 +181,10 @@
         data() {
             return {
                 initimgsList: [
-                    'http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2019/11/15/89e18986c9d04b22bf4298e510b92efd.png',
-                    'http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2019/11/15/aad243c8df764979961ab4e905f63bd9.jpg',
-                    'http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2019/11/15/19708509c8c9440db6d92d91a916892e.png',
-                    'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200722/c8450198680249f584ef7c28fcc014dd.png',
+                    'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200721/6ed6a205f75d4f4c88fb403700712191.jpg',
+                    'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200721/117ec41b300c4e7e9ec22a1af76ca5e5.jpg',
+                    'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200721/395180e142634ee78e2a23d0b160f95e.jpg',
+                    'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200721/33f148ed018c49ad87b00a25b19deec3.jpg',
                 ],
                 rightImgList: [],
                 selectImg: 0,
@@ -198,7 +200,7 @@
                 imgUrl: '',//图片链接
                 page: 1,
                 rows: 30,
-                color: [init,opacity, bscolor, mohu2, mohu1],
+                color: [init, opacity, bscolor, mohu2, mohu1],
                 classType: 0,
                 stopUpdata: false,//停止滑动加载
                 Percentile: 0,
@@ -218,7 +220,7 @@
                     '#ccf0fe', '#d3e2ff', '#d9c8fe', '#efcafe', '#f9d3e0', '#fedbd9', '#ffe3d7', '#feedd3', '#fff1d4', '#fffdde', '#f7fadd', '#e0eed5',
                 ],//色板
                 selectColor: '',
-                baseList:[]//全部下载自定义
+                baseList: []//全部下载自定义
             }
         },
         filters: {
@@ -302,14 +304,14 @@
             ...mapActions( [
                 'userGetscribe'
             ] ),
-            downAllinit(objs,blogTitle='picture'){//下载全部自定义后的图片
-                const allNum=this.$refs.subs.length,_this=this;
-                let zip = new JSZip(),imgs = zip.folder( blogTitle );
-                const name=objs.filename.substring(0,objs.filename.lastIndexOf('.')).replace(/\//g,'%')
-                this.baseList.push( {name: name+'.png', img: objs.obj.substring( 22 )} );
+            downAllinit(objs, blogTitle = 'picture') {//下载全部自定义后的图片
+                const allNum = this.$refs.subs.length, _this = this;
+                let zip = new JSZip(), imgs = zip.folder( blogTitle );
+                const name = objs.filename.substring( 0, objs.filename.lastIndexOf( '.' ) ).replace( /\//g, '%' )
+                this.baseList.push( {name: name + '.png', img: objs.obj.substring( 22 )} );
                 this.Percentile += 1;
                 this.loading.text = this.Percentile + '/' + this.allbgImg.length + ' 已完成';
-                console.log(this.Percentile,this.allbgImg.length,'.....')
+                console.log( this.Percentile, this.allbgImg.length, '.....' )
                 if (this.baseList.length === this.allbgImg.length) {
                     if (this.baseList.length > 0) {
                         this.loading.text = '打包中...'
@@ -379,7 +381,7 @@
                 } )
             },
             //下载多张抠图
-            saveMove(key,e) {
+            saveMove(key, e) {
                 let that = this
                 this.$message.closeAll()
                 if (this.files.length !== this.allbgImg.length) {
@@ -392,9 +394,9 @@
                     spinner: 'el-icon-loading',
                     background: 'rgba(0, 0, 0, 0.7)'
                 } );
-                if(!this.classType){
-                    const allSub=this.$refs.subs
-                    allSub.map((item)=>item.save(key,e,'all'))
+                if (!this.classType) {
+                    const allSub = this.$refs.subs
+                    allSub.map( (item) => item.save( key, e, 'all' ) )
                     return
                 }
                 let allImgs = JSON.parse( JSON.stringify( this.allbgImg ) );
@@ -425,7 +427,7 @@
 
             //批量下载图片
             StoreDowQrcode(arr, blogTitle = "pictures") {
-                console.log(arr)
+                console.log( arr )
                 let zip = new JSZip();
                 let imgs = zip.folder( blogTitle );
                 let baseList = [];
@@ -441,9 +443,9 @@
                     } else if (this.classType > 2) ctxs.putImageData( objs.dwonBg, 0, 0 );
                     ctxs.drawImage( objs.bgRemovedImg, 0, 0 );
                     let url = cans.toDataURL( "image/png" ); // 得到图片的base64编码数据 let url =
-                    const name=objs.is.substring(0,objs.is.lastIndexOf('.')).replace(/\//g,'%')
-                    console.log(objs.is,name)
-                    baseList.push( {name: name+'.png', img: url.substring( 22 )} );
+                    const name = objs.is.substring( 0, objs.is.lastIndexOf( '.' ) ).replace( /\//g, '%' )
+                    console.log( objs.is, name )
+                    baseList.push( {name: name + '.png', img: url.substring( 22 )} );
                     _this.Percentile += 1
                     _this.loading.text = _this.Percentile + '/' + arr.length + ' 已完成'
                     if (baseList.length === arr.length) {
@@ -484,14 +486,14 @@
                 this.files.unshift( {
                     url: url ? url.url : this.imgUrl,
                     name: name,
-                    filename:url ? (url.filename ? url.filename :  url.url) : this.imgUrl,
+                    filename: url ? (url.filename ? url.filename : url.url) : this.imgUrl,
                     type: 'copy',
                     fileId: url ? url.fileId : ''
                 } )
                 this.imgUrlss( {
                     url: url ? url.url : this.imgUrl,
                     name: name,
-                    filename:url ? (url.filename ? url.filename :  url.url) : this.imgUrl,
+                    filename: url ? (url.filename ? url.filename : url.url) : this.imgUrl,
                     type: 'copy',
                     fileId: url ? url.fileId : ''
                 } )
@@ -512,7 +514,7 @@
                         url: e.files[i],
                         name: parseInt( Math.random() * 100000000000 ),
                         type: 'file',
-                        filename:e.files[i].name
+                        filename: e.files[i].name
                     } );
                 }
                 this.imgUrlss( e.files )
@@ -564,7 +566,7 @@
                 let data = {
                     page: this.page,
                     pageSize: this.rows,
-                    mattingType: 1
+                    mattingType: 6
                 }
                 userHistoryList( data ).then( res => {
                     if (!res.code) {
@@ -664,12 +666,12 @@
                         }
                         _self.toscroll();
                         for (let i = 0; i < files.length; i++) {
-                            console.log(files)
+                            console.log( files )
                             _self.files.unshift( {
                                 url: files[i],
                                 name: parseInt( Math.random() * 100000000000 ),
                                 type: 'file',
-                                filename:files[i].name
+                                filename: files[i].name
                             } )
                         }
                         _self.imgUrlss( files )
@@ -698,38 +700,38 @@
                 let arr = []
                 files.map( (item, index) => {
                     if (!item.noSave) {
-                        arr.push( {Original: item.Original, fileId: item.fileId,filename:item.filename} )
+                        arr.push( {Original: item.Original, fileId: item.fileId, filename: item.filename} )
                     }
                 } )
-                setSecImgs( JSON.stringify( arr ), 1 )
+                setSecImgs( JSON.stringify( arr ), 5 )
             },
             getsesImgsSet() {
-                if (!getSecImgs( 1 )) return;
-                let arr = JSON.parse( getSecImgs( 1 ) ).reverse();
+                if (!getSecImgs( 5 )) return;
+                let arr = JSON.parse( getSecImgs( 5 ) ).reverse();
                 if (!arr) return;
                 arr.map( (item) => {
-                    this.copyImgUrl( {url: item.Original, fileId: item.fileId,filename:item.filename}, 1 )
+                    this.copyImgUrl( {url: item.Original, fileId: item.fileId, filename: item.filename}, 1 )
                 } )
             },
-            deleteAllImg(){//删除全部
-                this.$confirm('确定要删除全部么', '提示', {
+            deleteAllImg() {//删除全部
+                this.$confirm( '确定要删除全部么', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
-                }).then(() => {
-                    this.files=[];
-                    this.rightImgList=[];
+                } ).then( () => {
+                    this.files = [];
+                    this.rightImgList = [];
                     // console.log(this.$refs.imgRef)
-                    this.allbgImg=[];
+                    this.allbgImg = [];
                     this.sesImgsSet( this.allbgImg );
                     $( 'body,html' ).animate( {scrollTop: 0}, 500 );
-                    this.$message({
+                    this.$message( {
                         type: 'success',
                         message: '删除成功!'
-                    });
-                }).catch(() => {
+                    } );
+                } ).catch( () => {
 
-                });
+                } );
             }
 
         },
@@ -988,16 +990,22 @@
                     text-align: left;
                     width: 280px;
                     margin-left: 78px;
-                    &> .aList{
+
+                    & > .aList {
                         font-size: 14px;
                         justify-content: space-between;
                         margin-bottom: 50px;
                         padding-right: 20px;
-                       a{
-                           color: #333;
-                           &:hover{ color: #e82255;}
+
+                        a {
+                            color: #333;
+
+                            &:hover {
+                                color: #e82255;
+                            }
                         }
                     }
+
                     .el-button, .el-input {
                         display: block;
                         width: 100%;
@@ -1029,9 +1037,11 @@
                         border-radius: 5px;
                         margin-right: 12px;
                     }
-                    .titlips{
+
+                    .titlips {
                         font-size: 14px;
-                        a{
+
+                        a {
                             color: #999;
                         }
                     }
@@ -1096,7 +1106,8 @@
                     display: block;
                 }
             }
-            .deAll{
+
+            .deAll {
                 display: block;
                 line-height: 16px;
                 font-size: 12px;

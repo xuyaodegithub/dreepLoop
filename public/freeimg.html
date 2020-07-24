@@ -53,16 +53,36 @@
             <li><a href="index.html"><img src="static/sureLogo.png" alt="" style="height: 30px;"></a></li>
             <li>
                 <a href="index.html">首页</a></li><!--智能抠图-->
-            <li><a href="people.html">人像抠图</a></li><!--智能抠图-->
-            <li><a href="objects.html">物体抠图</a></li><!--智能抠图-->
-<!--            <li><a href="product.html">更多产品</a></li>-->
-            <!--                @click="toProduct()" @click="toAbout()"-->
-<!--            <li><a href="aboutUs.html">关于我们</a></li>&lt;!&ndash;会员&ndash;&gt;-->
-<!--            <li><a href="downLoad.html">下载桌面端</a></li>&lt;!&ndash;下载&ndash;&gt;-->
+            <li class="cu hove">批量抠图 <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200722/6cc7c06469404c758e62cfe32adf4367.png"
+                                          class="dbottom"/>
+                <transition name="el-zoom-in-top">
+                    <div class="link">
+                        <a href="currency.html">通用抠图</a>
+                        <a href="people.html">人像抠图</a>
+                        <a href="headCutout.html">头像抠图</a>
+                        <a href="objects.html">物体抠图</a>
+                    </div>
+                </transition>
+            </li>
+            <li class="cu hove">美化修复 <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200722/6cc7c06469404c758e62cfe32adf4367.png"
+                                          class="dbottom"/>
+                <div class="link">
+                    <a href="beautify.html">一键美化</a>
+                    <a href="intelligentRepair.html">图片修复</a>
+                </div>
+            </li>
             <li class="red"><a href="freeimg.html">免费背景图</a></li><!--下载-->
         </ul>
         <div class="right">
             <div>
+                <div class="mobiles">手机端
+                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200722/6cc7c06469404c758e62cfe32adf4367.png"
+                         class="dbottom"/>
+                    <div>
+                        <img src="static/images/wechatEwm.jpg" alt="" />
+                        <p>关注公众号送下载次数</p>
+                    </div>
+                </div>
                 <a href="downLoad.html">下载桌面端</a>
                 <a href="apis.html">API</a><!--登录-->
                 <a href="userVip.html">定价</a>
@@ -659,13 +679,14 @@
         window.open( 'editPictures.html' )
     } )
     if (token) {
-        $( '.loginbtb' ).css( {display: 'none'} )
         $.ajax( {
             url: 'http://restapi.picup.shop/user/userInfo',
             type: 'GET',
             dataType: 'json',
             headers: {token: token},
             success(res) {
+                if(res.code)return;
+                $( '.loginbtb' ).css( {display: 'none'} )
                 $( '.users' ).css( {display: 'inline-block'} )
                 $( '.users' ).text( res.data.mobile );
             }

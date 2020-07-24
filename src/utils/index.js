@@ -185,7 +185,7 @@ export const letterText = () => { //支持字间距
 };
 export const verticalText = () => { //支持竖排
 
-    CanvasRenderingContext2D.prototype.fillTextVertical = function (text, x, y) {
+    CanvasRenderingContext2D.prototype.fillTextVertical = function (text, x, y,k) {
         var context = this;
         var canvas = context.canvas;
 
@@ -226,7 +226,7 @@ export const verticalText = () => { //支持竖排
                 // y修正
                 y = y + arrWidth[index - 1] / 2;
             }
-            context.fillText( letter, x, y );
+            k===1 ? context.fillText( letter, x, y ) : context.strokeText( letter, x, y );
             // 旋转坐标系还原成初始态
             context.setTransform( 1, 0, 0, 1, 0, 0 );
             // 确定下一个字符的纵坐标位置

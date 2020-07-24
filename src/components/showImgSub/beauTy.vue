@@ -64,8 +64,9 @@
                             </el-button>
                         </td>
                     </tr>
-                    <tr>当前可用次数：{{userSubscribeData ? userSubscribeData.freeRemaining +
-                        userSubscribeData.monthRemaining : 0}} <a href="userVip.html" class="cu" target="_blank"
+                    <tr>{{(userSubscribeData.monthExpireDate && userSubscribeData.monthExpireDate>noeTime &&
+                        userSubscribeData.monthRemaining>0) ? `包月剩余次数:${userSubscribeData.monthRemaining}` :
+                        `永久剩余次数:${userSubscribeData.freeRemaining >0 ? userSubscribeData.freeRemaining : 0 }`}} <a href="userVip.html" class="cu" target="_blank"
                                                                   style="color: #a1a0a0;margin-left: 20px;border-bottom: 1px solid #a1a0a0;">去充值</a>
                     </tr>
                 </table>
@@ -95,7 +96,8 @@
                 filename:'',
                 imgname:'',
                 Original:'',
-                fileId:''
+                fileId:'',
+                noeTime: new Date().getTime()
             }
         },
         watch: {

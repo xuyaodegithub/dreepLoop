@@ -156,7 +156,7 @@ export const mixins={
     }
   },
   mounted(){
-    this.initCats();
+
   },
   created(){
 
