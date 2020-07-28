@@ -107,7 +107,7 @@
                         <down-btn v-if="bgOriginal.img" :imageMsg="imageMsg" @edireThis="edireThis" @save="save"
                                   :type="1"></down-btn>
                         <down-btn v-if="bgOriginal.img" :imageMsg="imageMsg" @edireThis="edireThis" @save="save"
-                                  :type="1" down></down-btn>
+                                  :type="1" down  :mattingType="type ? type : 1"></down-btn>
                     </div>
                 </div>
             </div>

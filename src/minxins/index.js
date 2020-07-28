@@ -76,7 +76,7 @@ import color from '@/assets/image/color.png'
 import fopa from '@/assets/image/fopa.png'
 import mohu1 from '@/assets/image/mohu1.png'
 import mohu2 from '@/assets/image/mohu2.png'
-import { imgListCat,catImgList } from "@/apis";
+import { imgListCat,catImgList,getUserInfo } from "@/apis";
 export const mixins={
   data(){
     return {
@@ -108,7 +108,7 @@ export const mixins={
     }
   },
   methods:{
-    edireThis(down){
+    edireThis(down,mattingType){
       if(!down)return;
       const editPictures={
         pro:this.bgOriginal.img,
@@ -116,10 +116,11 @@ export const mixins={
         filename:this.filename,
         bgImg:'',
         fileId:this.fileId,
-        imageMsg:this.imageMsg
+        imageMsg:this.imageMsg,
+        mattingType: mattingType ? mattingType : 0
       }
         localStorage.setItem('editImg',JSON.stringify(editPictures))
-        window.open('editPictures.html')
+        window.open('posterEditor.html')
     },
     initCats(){
       imgListCat().then(res=>{

@@ -275,11 +275,14 @@
             initsliderVal() {
                 let oCan = document.createElement( 'canvas' ), oCanTxt;
                 oCanTxt = oCan.getContext( '2d' );
-                oCan.width = this.proImgObj.width;
-                oCan.height = this.proImgObj.height;
-                if (this.checked) oCanTxt.drawImage( this.resliderVal, this.initAngleDistance.x, this.initAngleDistance.y );
-                if (this.checkedM) oCanTxt.drawImage( this.initshowDowVal, -(this.initshowDowVal.width - this.resliderVal.width) / 2, -(this.initshowDowVal.height - this.resliderVal.height) / 2, this.initshowDowVal.width, this.initshowDowVal.height );//重复同位置putimgData会覆盖，需要画上去
-                oCanTxt.drawImage( this.filterList[this.t2Idx].loadObj, 0, 0, oCan.width, oCan.height );
+                oCan.width = this.checkedM? this.initshowDowVal.width : this.proImgObj.width;
+                oCan.height =this.checkedM? this.initshowDowVal.height : this.proImgObj.height;
+                const [x,y]=[this.checkedM ? (this.initshowDowVal.width - this.resliderVal.width)/2+this.initAngleDistance.x : this.initAngleDistance.x,this.checkedM ? (this.initshowDowVal.height - this.resliderVal.height)/2+this.initAngleDistance.y : this.initAngleDistance.y]
+                if (this.checked) oCanTxt.drawImage( this.resliderVal, x,y );
+                if (this.checkedM) oCanTxt.drawImage( this.initshowDowVal, 0, 0, this.initshowDowVal.width, this.initshowDowVal.height );//重复同位置putimgData会覆盖，需要画上去
+                const [xx,yy]=[this.checkedM ? (this.initshowDowVal.width - this.resliderVal.width)/2 : 0,this.checkedM ? (this.initshowDowVal.height - this.resliderVal.height)/2 : 0]
+                console.log(xx,yy)
+                oCanTxt.drawImage( this.filterList[this.t2Idx].loadObj, xx, yy, this.proImgObj.width, this.proImgObj.height );
                 this.$emit( 'effectsImg', {
                     useImg: oCan.toDataURL(), ...this.sliderVal, ...this.showDowVal,angle:this.angle,
                     checked: this.checked,

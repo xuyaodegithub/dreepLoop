@@ -233,3 +233,9 @@ export const templateList=(data)=>{
 export const templateDetial=(data)=>{
  return https.get('/poster/template',data)
 }
+/**
+ *保存模板
+ **/
+export const saveTemplate=(data)=>{
+ return https.post('/admin/poster/saveTemplate',data)
+}

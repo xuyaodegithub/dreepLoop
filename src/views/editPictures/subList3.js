@@ -4,12 +4,13 @@ export const subList3 = [
         oriW: 243,
         oriH: 153,
         isOwnTwo:1,//证件照替换时需要调整x位置
+        id:'is1',
         cover: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png',
         subList: [{
             type:0,
             backColor:'#FF0000'
         },{
-            "type": 3,
+            "type": 1,
             "title": "图片组件",
             "w": 892 / 1088*153,
             "h":  153,
@@ -26,6 +27,7 @@ export const subList3 = [
     {
         title: '小一寸',
         isOwnTwo:1,
+        id:'is2',
         oriW: 260,
         oriH: 378,
         cover: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png',
@@ -33,7 +35,7 @@ export const subList3 = [
             type:0,
             backColor:'#FF0000'
         },{
-            "type": 3,
+            "type": 1,
             "title": "图片组件",
             "w": 892 / 1088*378,
             "h":  378,
@@ -50,6 +52,7 @@ export const subList3 = [
     {
         title: '一寸照',
         isOwnTwo:1,
+        id:'is3',
         oriW: 295,
         oriH: 413,
         cover: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png',
@@ -57,7 +60,7 @@ export const subList3 = [
             type:0,
             backColor:'#FF0000'
         },{
-            "type": 3,
+            "type": 1,
             "title": "图片组件",
             "w": 892 / 1088*413,
             "h":  413,
@@ -74,6 +77,7 @@ export const subList3 = [
     {
         title: '大一寸',
         isOwnTwo:1,
+        id:'is4',
         oriW: 390,
         oriH: 569,
         cover: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png',
@@ -81,7 +85,7 @@ export const subList3 = [
             type:0,
             backColor:'#FF0000'
         },{
-            "type": 3,
+            "type": 1,
             "title": "图片组件",
             "w": 892 / 1088*569,
             "h":  569,
@@ -98,6 +102,7 @@ export const subList3 = [
     {
         title: '小二寸',
         isOwnTwo:1,
+        id:'is5',
         oriW: 413,
         oriH: 531,
         cover: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png',
@@ -105,7 +110,7 @@ export const subList3 = [
             type:0,
             backColor:'#FF0000'
         },{
-            "type": 3,
+            "type": 1,
             "title": "图片组件",
             "w": 892 / 1088*531,
             "h":  531,
@@ -122,6 +127,7 @@ export const subList3 = [
     {
         title: '二寸照',
         isOwnTwo:1,
+        id:'is6',
         oriW: 413,
         oriH: 579,
         cover: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png',
@@ -129,7 +135,7 @@ export const subList3 = [
             type:0,
             backColor:'#FF0000'
         },{
-            "type": 3,
+            "type": 1,
             "title": "图片组件",
             "w": 892 / 1088*579,
             "h":  579,
@@ -146,6 +152,7 @@ export const subList3 = [
     {
         title: '大二寸',
         isOwnTwo:1,
+        id:'is7',
         oriW: 413,
         oriH: 626,
         cover: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png',
@@ -153,7 +160,7 @@ export const subList3 = [
             type:0,
             backColor:'#FF0000'
         },{
-            "type": 3,
+            "type": 1,
             "title": "图片组件",
             "w": 892 / 1088*626,
             "h":  626,
@@ -170,6 +177,7 @@ export const subList3 = [
     {
         title: '港澳通行证',
         isOwnTwo:1,
+        id:'is8',
         oriW: 390,
         oriH: 569,
         cover: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png',
@@ -177,7 +185,7 @@ export const subList3 = [
             type:0,
             backColor:'#00bff3'
         },{
-            "type": 3,
+            "type": 1,
             "title": "图片组件",
             "w": 892 / 1088*569,
             "h":  569,
@@ -194,6 +202,7 @@ export const subList3 = [
     {
         title: '赴美签证',
         isOwnTwo:1,
+        id:'is9',
         oriW: 591,
         oriH: 591,
         cover: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png',
@@ -201,7 +210,7 @@ export const subList3 = [
             type:0,
             backColor:'#00bff3'
         },{
-            "type": 3,
+            "type": 1,
             "title": "图片组件",
             "w": 892 / 1088*591,
             "h":  591,
@@ -218,6 +227,7 @@ export const subList3 = [
     {
         title: '日本签证',
         isOwnTwo:1,
+        id:'is10',
         oriW: 531,
         oriH: 531,
         cover: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png',
@@ -225,7 +235,7 @@ export const subList3 = [
             type:0,
             backColor:'#00bff3'
         },{
-            "type": 3,
+            "type": 1,
             "title": "图片组件",
             "w": 892 / 1088*531,
             "h":  531,
@@ -242,6 +252,7 @@ export const subList3 = [
     {
         title: '驾照',
         isOwnTwo:1,
+        id:'is11',
         oriW: 248,
         oriH: 307,
         cover: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png',
@@ -249,7 +260,7 @@ export const subList3 = [
             type:0,
             backColor:'#fff'
         },{
-            "type": 3,
+            "type": 1,
             "title": "图片组件",
             "w": 892 / 1088*307,
             "h":  307,
@@ -266,6 +277,7 @@ export const subList3 = [
     {
         title: '车照',
         isOwnTwo:1,
+        id:'is12',
         oriW: 709,
         oriH: 1075,
         cover: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png',
@@ -273,7 +285,7 @@ export const subList3 = [
             type:0,
             backColor:'#fff'
         },{
-            "type": 3,
+            "type": 1,
             "title": "图片组件",
             "w": 892 / 1088*1075,
             "h":  1075,

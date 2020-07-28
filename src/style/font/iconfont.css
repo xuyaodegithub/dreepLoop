@@ -70,3 +70,93 @@
   font-style: normal;
   font-weight: normal;
 }
+@font-face {
+  font-family: "hxbns";
+  src: url('HuXiaoBoNanShenTi-2.otf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "Muyao-Softbrush";
+  src: url('Muyao-Softbrush.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "NotoSansCJK-Black-7";
+  src: url('NotoSansCJK-Black-7.otf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "NotoSansCJK-Medium-5";
+  src: url('NotoSansCJK-Medium-5.otf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "PangMenZhengDaoBiaoTiTi-1";
+  src: url('PangMenZhengDaoBiaoTiTi-1.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "PangMenZhengDaoQingSongTi-2";
+  src: url('PangMenZhengDaoQingSongTi-2.otf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "SourceHanSerifCN-Medium-6";
+  src: url('SourceHanSerifCN-Medium-6.otf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "SourceHanSerifCN-Bold-2";
+  src: url('SourceHanSerifCN-Bold-2.otf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "ZCOOL Addict Italic 01";
+  src: url('ZCOOL Addict Italic 01.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "jxzk";
+  src: url('jxzk.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "lhzt";
+  src: url('lhzt.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "yrdzst";
+  src: url('yrdzst.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "zkklt";
+  src: url('zkklt.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "zkqkhyt";
+  src: url('zkqkhyt.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "zkxwlgt";
+  src: url('zkxwlgt.otf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}

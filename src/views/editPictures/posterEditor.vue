@@ -19,41 +19,22 @@
                 <div @click.stop="reloads" class="cu" style="margin-left: 30px">
                     <i class="el-icon-refresh-right"
                        style="font-size: 18px;display: inline-block;vertical-align: text-top;"></i>
-                    <span> {{edrieImgInfo.type===1 ? '重新上传' : '重置'}}</span>
+                    <span> <!--{{edrieImgInfo.type===1 ? '重新上传' : '重置'}}-->重置</span>
                 </div>
             </div>
             <div class="hDown">
-                <el-button type="primary" icon="el-icon-download" @click="downLoadImg">下载
-                    <!--                    <table class="downBtn">-->
-                    <!--                        <tr>-->
-                    <!--                            <td>尺寸</td>-->
-                    <!--                            <td>消耗次数</td>-->
-                    <!--                            <td></td>-->
-                    <!--                        </tr>-->
-                    <!--                        <tr>-->
-                    <!--                            <td>{{edrieImgInfo.imageMsg.previewWidth + ' X ' + edrieImgInfo.imageMsg.previewHeight}}-->
-                    <!--                            </td>-->
-                    <!--                            <td>0</td>-->
-                    <!--                            <td>-->
-                    <!--                                <el-button type="danger" round size="mini" @click="downLoadImg($event)">下载-->
-                    <!--                                </el-button>-->
-                    <!--                            </td>-->
-                    <!--                        </tr>-->
-                    <!--                        <tr v-if="edrieImgInfo.imageMsg.previewWidth!==edrieImgInfo.imageMsg.originalWidth || edrieImgInfo.imageMsg.previewHeight!==edrieImgInfo.imageMsg.originalHeight">-->
-                    <!--                            <td>{{edrieImgInfo.imageMsg.originalWidth + ' X ' +-->
-                    <!--                                edrieImgInfo.imageMsg.originalHeight}}-->
-                    <!--                            </td>-->
-                    <!--                            <td>1</td>-->
-                    <!--                            <td>-->
-                    <!--                                <el-button type="danger" round size="mini" @click="downLoadImg($event,1)">下载-->
-                    <!--                                </el-button>-->
-                    <!--                            </td>-->
-                    <!--                        </tr>-->
-                    <!--                        <tr>当前可用次数：{{userSubscribeData ? userSubscribeData.freeRemaining +-->
-                    <!--                            userSubscribeData.monthRemaining : 0}} <a href="userVip.html" class="cu" target="_blank"-->
-                    <!--                                                                      style="color: #a1a0a0;margin-left: 20px;border-bottom: 1px solid #a1a0a0;">去充值</a>-->
-                    <!--                        </tr>-->
-                    <!--                    </table>-->
+                <el-button type="primary" icon="el-icon-folder" @click="saveSubItem"
+                           v-if="userInfo.userType==='admin' && loadSubObj">保存
+                </el-button>
+                <el-button class="doo" type="primary" icon="el-icon-download" @click="downLoadImg()">下载
+                    <table class="downBtn">
+                        <tr>{{(userSubscribeData.monthExpireDate && userSubscribeData.monthExpireDate>noeTime &&
+                            userSubscribeData.monthRemaining>0) ? `包月剩余次数:${userSubscribeData.monthRemaining}` :
+                            `永久剩余次数:${userSubscribeData.freeRemaining >0 ? userSubscribeData.freeRemaining : 0 }`}} <a
+                                    href="userVip.html" class="cu" target="_blank"
+                                    style="color: #a1a0a0;margin-left: 20px;border-bottom: 1px solid #a1a0a0;">去充值</a>
+                        </tr>
+                    </table>
                 </el-button>
             </div>
         </header>
@@ -65,7 +46,7 @@
             </div>
         </div>
         <div class="e_c">
-            <div class="first" v-show="selectType===0">
+            <div class="first" v-show="selectType===4">
                 <el-button type="primary" plain style="width: 100%" @click="upLoad(0)">上传</el-button>
                 <!--                <p>CTRL + V粘贴图片或者URL</p>-->
                 <!--                <div class="list flex f-w">-->
@@ -74,36 +55,61 @@
                 <!--                    </div>-->
                 <!--                </div>-->
             </div>
-            <div class="first2" v-show="selectType===1">
-                <div class="flex bnts">
-                    <el-button type="primary" plain @click="mbType=0" :class="{active : mbType===0}">商用</el-button>
-                    <el-button type="primary" plain @click="mbType=1" :class="{active : mbType===1}">个人</el-button>
+            <div class="first2" v-show="selectType===0">
+                <div v-if="moveIdx<0">
+                    <div class="selfMoren" v-show="edrieImgInfo.pro">
+                        <h4 style="color: #fff;">默认</h4>
+                        <div class="selfMoren cu" style="width: 100px;margin-top: 15px;padding: 0"
+                             :class="{active : loadId===-1}"
+                             :style="{backgroundImage:`url(${opacity})`}" @click="reloads(1)">
+                            <!--                            <i v-if="loadId===-1" class="el-icon-finished"></i>-->
+                            <img style="width: 100%;" :src="edrieImgInfo.pro" fit="contain"/>
+                        </div>
+                    </div>
+                    <div class="lists">
+                        <el-scrollbar style="height: 630px;overflow-x: hidden;">
+                            <div v-for="(item,idx) in filterSubList" :key="idx" class="listsson">
+                                <h4>{{item.title}}<span @click="getmove(idx)">更多 <i
+                                        class="el-icon-arrow-right"></i></span>
+                                </h4>
+                                <div class="flex f-w">
+                                    <div v-for="(it,ix) in item.list" :key="ix" @click="choseTrme(it,ix,idx)"
+                                         class="cu itemT"
+                                         :class="{active : loadId===it.id,noZhen : it.isOwnTwo}"
+                                         :style="{backgroundColor:it.isOwnTwo? it.subList.find(its=>!its.type).backColor : ''}">
+                                        <el-image style="width: 100%;" :src="it.cover" fit="contain"></el-image>
+                                        <!--                                        <i v-if="loadId===it.id" class="el-icon-finished"></i>-->
+                                        <div v-show="it.isOwnTwo" class="name">
+                                            <p>{{it.title}}</p>
+                                            <p>{{it.oriW}} X {{it.oriH}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </el-scrollbar>
+                    </div>
                 </div>
-                <div class="flex ownTitle" v-show="mbType">
-                    <span v-for="(item,idx) in ownTitlelist" :key="idx" class="cu" :class="{active : ownType===idx}"
-                          @click="changeownType(idx)">{{item.title}}</span>
-                </div>
-                <div class="lists" v-if="!mbType">
-                    <div v-for="(item,idx) in subList" :key="idx" class="listsson">
-                        <h4>{{item.title}}:</h4>
+                <div class="moveSub lists" v-else>
+                    <h4 @click="moveIdx=-1" class="cu" style="margin-bottom: 15px;"><i
+                            class="el-icon-arrow-left"></i> {{subList[moveIdx].title}}</h4>
+                    <el-scrollbar style="height: 650px;overflow-x: hidden;">
                         <div class="flex f-w">
-                            <div v-for="(it,ix) in item.list" :key="ix" @click="choseTrme(it,ix)" class="cu itemT" :class="{active : loadId===it.id}">
+                            <div v-for="(it,ix) in subList[moveIdx].list" :key="ix" @click="choseTrme(it,ix,moveIdx)"
+                                 class="cu itemT"
+                                 :class="{active : loadId===it.id,noZhen : it.isOwnTwo}"
+                                 :style="{backgroundColor:it.isOwnTwo? it.subList.find(its=>!its.type).backColor : ''}">
                                 <el-image style="width: 100%;" :src="it.cover" fit="contain"></el-image>
+                                <!--                                <i v-if="loadId===it.id" class="el-icon-finished"></i>-->
+                                <div v-show="it.isOwnTwo" class="name">
+                                    <p>{{it.title}}</p>
+                                    <p>{{it.oriW}} X {{it.oriH}}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="lists flex f-w" v-else>
-                    <div v-for="(item,idx) in mobanList" :key="idx" @click="choseTrme(item,idx)" class="cu itemT" :class="{noZhen : item.isOwnTwo,active : loadId===item.id}" :style="{backgroundColor:item.isOwnTwo? item.subList.find(it=>!it.type).backColor : ''}">
-                        <el-image style="width: 100%;" :src="item.cover" fit="contain"></el-image>
-                        <div v-show="item.isOwnTwo" class="name">
-                            <p>{{item.title}}</p>
-                            <p>{{item.oriW}} X {{item.oriH}}</p>
-                        </div>
-                    </div>
+                    </el-scrollbar>
                 </div>
             </div>
-            <div class="second" v-show="selectType===2">
+            <div class="second" v-show="selectType===1">
                 <p>颜色背景</p>
                 <div class="flex smallBtn f-w">
                     <div v-for="(items,idx) in initcolorList" :key="idx"
@@ -146,7 +152,7 @@
                     </p>
                 </div>
             </div>
-            <div class="thred" v-show="selectType===3">
+            <div class="thred" v-show="selectType===2">
                 <p>点击添加到页面的文本</p>
                 <el-button plain icon="el-icon-plus" class="addText" style="width: 100%" size="small"
                            @click="addTextSub(3)">点击添加标题
@@ -164,7 +170,7 @@
                     </div>
                 </div>
             </div>
-            <div class="fource" v-show="selectType===4">
+            <div class="fource" v-show="selectType===3">
                 <el-button plain icon="el-icon-plus" style="width: 100%" @click="upLoad(0)">上传自己的照片</el-button>
                 <div class="Fbtn flex j-b">
                     <span v-for="(item,idx) in ttList" :key="idx" :class="{'active' : tzType===idx}" class="cu"
@@ -181,18 +187,23 @@
         </div>
         <div class="e_r" id="e_r" @mouseup="blurAll">
             <div class="subs opas"
-                 :style="{width:`${parseSubs.bW}px`,height:`${parseSubs.bH}px`,opacity:'.4',overflow:'initial'}"
-                 v-if="edrieImgInfo.pro && selectType===2 && !backSub.backColor">
+                 :style="{width:`${parseSubs.bW}px`,height:`${parseSubs.bH}px`,opacity:'.4',overflow:'initial'}">
+                <div class="items upss" :class="{'hovers' : item.hovering}" v-for="(item,idx) in parseSubs.subList"
+                     :style="item | subsStyle"
+                     @mousedown.stop="moveBack($event,idx)" @click.stop="hoverThis(idx)" @mouseenter="borderFun(idx)"
+                     @mouseleave="borderFun(idx,1)">
+                </div>
                 <div class="items" :class="{'hovers' : backSub.hovering}" :style="backSub | subsStyle"
+                     v-if="selectType===1 && !backSub.backColor && backSub.idx>-1"
                      @mouseenter="borderFun(backSub.idx)" @mouseleave="borderFun(backSub.idx,1)"
-                     @click.stop="hoverThis(backSub.idx)" v-if="backSub.idx>-1"
+                     @click.stop="hoverThis(backSub.idx)"
                      @mousedown.stop="moveBack($event,backSub.idx)">
                     <img :src="backSub.useImg" alt="">
                 </div>
             </div>
             <!--            ,margin:`${-parseSubs.bH/2}px 0 0 ${-parseSubs.bW/2}px`-->
             <div class="subs otherSubs"
-                 v-if="edrieImgInfo.pro"
+                 v-if="parseSubs.bW>0 && parseSubs.bH>0"
                  :style="{width:`${parseSubs.bW}px`,height:`${parseSubs.bH}px`,...colorOrbImg}">
                 <div class="items upss" :class="{'hovers' : item.hovering}" v-for="(item,idx) in parseSubs.subList"
                      :style="item | subsStyle"
@@ -208,16 +219,6 @@
                             <div>{{item.title}}</div>
                         </div>
                     </el-tooltip>
-                    <!--<el-input-->
-                    <!--v-if="item.type===2"-->
-                    <!--class="text"-->
-                    <!--type="textarea"-->
-                    <!--autosize-->
-                    <!--style="font-weight:inherit;border: 0;width:auto;height: auto;background-color: rgba(0,0,0,0)"-->
-                    <!--placeholder="请输入内容"-->
-                    <!--v-model="item.title"-->
-                    <!--@input="setBlur($event,idx)">{{item.title}}>-->
-                    <!--</el-input>-->
                     <el-tooltip class="item" effect="dark" content="双击替换图片" placement="top"
                                 :disabled="moveNum>0">
                         <div v-if="[1,3].includes(item.type)" class="Imgs" @dblclick="writeText(idx)">
@@ -238,16 +239,20 @@
                  @click.stop="hoverThis(hoverSub.idx)"
                  v-if="hoverSub.idx>-1"
                  :style="{left:`${mainx.x+hoverSub.x}px`,top:`${mainx.y+hoverSub.y}px`,width:`${parseInt(hoverSub.w)-4}px`,height:`${parseInt(hoverSub.h)-4}px`,transform:`rotateZ(${hoverSub.rotate}deg)`,backgroundColor:fivePoint? 'rgba(250,250,250,.7)' : 'initial'}">
-                <!--                         :style="{left:`${parseInt(mainx.x+hoverSub.x+hoverSub.w/2-9)}px`,top:`${parseInt(mainx.y+hoverSub.y+hoverSub.h+16)}px`,transformOrigin:`9px ${-(hoverSub.h/2+16)}px`,transform:`${rotateHover}`}"></span>-->
-                <!--                :style=" pointStyle(it)"-->
                 <div>
-                    <span class="el-icon-refresh downIcon" style="z-index: 666"></span>
-                    <i v-for="it in 8" :key="'a'+it"
-                       class="teI icon iconfont"
-                       @click.stop="setOImg(it)"
-                       :class="{'iOne' : it===1,'iTwo' : it===2,'iTh' : it===3,'iFor' : it===4,'iFive' : it===5,'icon-shanchu' : it===6,'icon-dashujukeshihuaico-1':it===7,'icon-dashujukeshihuaico-' : it===8}"
-                       style="z-index: 666"
-                       :style="pointcursor(it)"></i>
+                    <el-tooltip effect="dark" content="旋转" placement="top" :enterable="false" :disabled="moveNum>0">
+                        <span class="el-icon-refresh downIcon" style="z-index: 666"></span>
+                    </el-tooltip>
+                    <el-tooltip effect="dark" :content="it===6? '删除' : (it===7 ? '上一层' : '下一层')" placement="top"
+                                v-for="it in 8" :key="'a'+it"
+                                :disabled="it<6" :enterable="false">
+                        <i class="teI icon iconfont"
+                           @click.stop="setOImg(it)"
+                           :class="{'iOne' : it===1,'iTwo' : it===2,'iTh' : it===3,'iFor' : it===4,'iFive' : it===5,'icon-shanchu' : it===6,'icon-dashujukeshihuaico-1':it===7,'icon-dashujukeshihuaico-' : it===8}"
+                           style="z-index: 666"
+                           v-show="!(([1,3].includes(it) && hoverSub.type===2 && !hoverSub.flexDirection) || ([2,4].includes(it) && hoverSub.type===2 && hoverSub.flexDirection) || ([7,8].includes(it) && !hoverSub.type))"
+                           :style="pointcursor(it)"></i>
+                    </el-tooltip>
                 </div>
             </div>
             <!--            //框框-->
@@ -283,7 +288,8 @@
                 </div>
             </div>
             <v-mune v-if="[0,1,3].includes(hoverSub.type)" ref="Munes" @mattingImgs="mattingImgs"
-                    @effectsImg="effectsImg" @loading="loadings" :mattingType="hoverSub.mattingType ? hoverSub.mattingType : 0"></v-mune>
+                    @effectsImg="effectsImg" @loading="loadings"
+                    :mattingType="hoverSub.mattingType ? hoverSub.mattingType : 0"></v-mune>
             <f-mune v-show="hoverSub.type===2" @initFont="initFont" ref="fontMune"></f-mune>
         </div>
         <div class="dialogs" :style="{backgroundImage: `url(${edrieImgInfo.bgImg})`}" v-if="showUpload">
@@ -296,8 +302,8 @@
                 </div>
             </div>
         </div>
-        <!--                <div class="zheR" v-if="showUpload || loading.show"></div>-->
-                        <div class="zheR" v-if="loading.show"></div>
+        <div class="zheR" v-if="showUpload || loading.show"></div>
+        <div class="zheR" v-if="loading.show"></div>
         <el-dialog
                 :close-on-click-modal="false"
                 title="修复"
@@ -315,7 +321,7 @@
     import vMune from '@/components/editMune';
     import fMune from '@/components/fontMune';
     import mattingImg from '@/components/mattingImg';
-    import {myBrowser, findLastIdx, setRad,verticalText} from '@/utils';
+    import {myBrowser, findLastIdx, setRad, verticalText} from '@/utils';
     import {mixins} from '@/minxins';
     import {getTanDeg, letterText} from '@/utils'
     import _1 from '@/assets/image/1.png';
@@ -332,27 +338,40 @@
     import fupa from '@/assets/image/fopa.png';
     import color from '@/assets/image/color.png';
     import jsMulit from '@/utils/jsmanipulate.js';
-    // import {niceScroll} from 'jquery.nicescroll';
-    import {uploadImgApi, getMattingInfo, downloadMattedImage, catImgList, copyUpload, uploadossBg,templateList,templateDetial} from '@/apis';
+    import {niceScroll} from 'jquery.nicescroll';
+    import {getUserInfo, saveTemplate} from "@/apis";
+    import {
+        uploadImgApi,
+        getMattingInfo,
+        downloadMattedImage,
+        catImgList,
+        copyUpload,
+        uploadossBg,
+        templateList,
+        templateDetial
+    } from '@/apis';
     import {mapGetters, mapActions} from 'vuex';
     import {getToken} from "@/utils/auth";
-    import {subList1} from './subList1';
-    import {subList2} from './subList2';
     import {subList3} from './subList3';
+
     export default {
         name: 'editPictures',
         mixins: [mixins],
         data() {
             return {
-                subList:[],
+                noeTime: new Date().getTime(),
+                userInfo: {},
+                opacity,
+                subList: [{title: '证件照', list: subList3}],
+                moveIdx: -1,
                 openclearAll: true,
                 initcolorList: [color, fupa, '#000', '#fff', '#BFBFBF', '#2862F4', '#FED835', '#28F5B4', '#F62897', '#F57B28', '#00FFFF', '#90C320'],
                 e_btn_list: [//左侧菜单按钮
-                    {url: _1, securl: _11, title: '上传'},
                     {url: _5, securl: _55, title: '模板'},
                     {url: _2, securl: _22, title: '背景'},
                     {url: _3, securl: _33, title: '文字'},
                     {url: _4, securl: _44, title: '贴纸'},
+                    {url: _1, securl: _11, title: '上传'},
                     // {url: '_5',securl:'_55', title: '贴纸'},
                 ],
                 seachWords: '',
@@ -366,7 +385,6 @@
                     {text: '广告banner', w: 900, h: 800},
                     {text: '电商全屏海报', w: 1920, h: 700},
                 ],
-                ownTitlelist: [{title: '卡通', list: []}, {title: '证件照', list: subList3}],//, {title: '工牌', list: ['']}
                 ttList: [
                     {
                         title: '卡通', list: ['https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/07/kt/kt1.png']
@@ -377,11 +395,10 @@
                         list: ['https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/07/xzhuang/1.png']
                     },
                 ],
-                loadId:-1,//当前加载的模板下标
-                ownType: 0,//个人模板type
-                mbType: 0,//模板type
+                loadId: -1,//当前加载的模板下标
+                loadSubObj: '',
                 tzType: 0,
-                selectType: 1,//当前左侧选中菜单的下标
+                selectType: 0,//当前左侧选中菜单的下标
                 fontList: [{
                     title: '描边',
                     val: {textShadow: '#333 1px 0 0, #333 0 1px 0, #333 -1px 0 0, #333 0 -1px 0'}
@@ -392,25 +409,15 @@
                 // bgType: 1,//更换背景的类型中当前选中的下标
                 scale: '',//图片width/height比例系数
                 edrieImgInfo: {
-                    imageMsg: {
-                        "previewHeight": "346",
-                        "original": "http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2020/07/06/b9d0c7af5a5d44b4a3edb2ffeb204488.jpg",
-                        "originalHeight": "346",
-                        "bgRemovedPreview": "http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_preview/2020/07/06/e6fe04b2e45b424faaaecc216706f973.png",
-                        "queueNumber": "-1",
-                        "originalWidth": "520",
-                        "status": "success",
-                        "fileId": "705694",
-                        "previewWidth": "520"
-                    },
-                    pro: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_preview/2020/07/06/e6fe04b2e45b424faaaecc216706f973.png',
-                    ori: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2020/07/06/b9d0c7af5a5d44b4a3edb2ffeb204488.jpg',
-                    filename:'皮卡智能'
+                    imageMsg: {},
+                    oriObj: '',
+                    pro: '',
+                    ori: '',
+                    filename: '皮卡智能'
                 },//图片的信息（预览图尺寸，原图尺寸，下载按钮处显示的信息）
                 showUpload: false,//从背景库页面进入本页面时，要显示上传弹框
                 upType: 0,//从背景库页面进入本页面时，要显示上传弹框 ，上传图片的类型 0 自定义背景  1人抠图 2物抠图
-                loading: {show: false, text: '处理中...'},//loading
-                savepointList: [],//储存当前预览图进行擦除还原放大缩小操作的点的位置和操作类型  this.pointList方法内有详解
+                loading: {show: false, text: '处理中...', which: 0},//loading
                 loadingInstance: null,//下载时的loading效果
                 dialogVisible: false,//修复弹框
                 openScreen: false,//是否全屏
@@ -439,6 +446,7 @@
                 fivePoint: false,
                 moveNum: 0,
                 loadSubing: 0,//加载模板进度
+                loadIdx:[],
             }
         },
         watch: {
@@ -493,25 +501,18 @@
                 if (this.backSub.backColor) return {backgroundColor: this.backSub.backColor};
                 else return {backgroundImage: `url(${opacity})`, backgroundRepeat: 'repeat'};
             },
-            // savepoint() {//找到储存点save前面最后一个type为3||4（当前状态最后一次缩放移动点，为下载原图使用）
-            //     let arr = JSON.parse( JSON.stringify( this.savepointList ) );
-            //     const idx = arr.findIndex( item => item.save );
-            //     if (idx > -1) arr.splice( idx, arr.length );
-            //     const ix = arr.reverse().findIndex( item => [3, 4].includes( item.type ) )
-            //     if (ix > -1) return arr[ix];
-            //     else return null;
-            // },
-            // pointLists() {//过滤历史记录中当前状态前擦除还原的点，去掉放大缩小移动的点
-            //     const idx = this.savepointList.findIndex( item => item.save );
-            //     if (idx > -1) return this.savepointList.filter( (item, ix) => ([1, 2].includes( item.type ) && ix < idx) )
-            //     else return this.savepointList.filter( (item, ix) => ([1, 2].includes( item.type )) )
-            // },
             sizeType() {
                 const i = this.cansSize.findIndex( item => (item.w === parseInt( this.parseSubs.oriW ) && item.h === parseInt( this.parseSubs.oriH )) )
                 return i
             },
-            mobanList(){
-                return this.ownTitlelist[this.ownType].list;
+            filterSubList() {
+                let a = this.subList.reduce( (pre, item, idx) => {
+                    let it = {...item, list: []};
+                    it.list = item.list.filter( (im, ix) => ix < 2 );
+                    pre.push( it )
+                    return pre;
+                }, [] )
+                return a
             }
         },
         filters: {
@@ -555,11 +556,6 @@
             ...mapActions( [
                 'userGetscribe'
             ] ),
-            changeownType(idx){
-                if(this.ownType===idx)return;
-                this.ownType=idx;
-                console.log(this.ownType)
-            },
             initsave() {//储存公用方法
                 if (this.hisIdx !== this.SubsDataList.length - 1) {
                     this.SubsDataList.splice( this.hisIdx + 1, this.SubsDataList.length )
@@ -626,6 +622,9 @@
             //         transform: this.rotateHover,
             //     };
             // },
+            getmove(idx) {
+                this.moveIdx = idx;
+            },
             changetihuan(e) {
                 let file = e.target.files[0], formData = new FormData(), oImg = new Image();
                 if (!file) return;
@@ -635,7 +634,7 @@
                     this.parseSubs.subList[this.hoverSub.idx].ori = res.data;
                     this.parseSubs.subList[this.hoverSub.idx].pro = res.data;
                     this.parseSubs.subList[this.hoverSub.idx].proObj = '';
-                    this.$refs.tihuan.value='';
+                    this.$refs.tihuan.value = '';
                     if ([1, 2, 3, 6].includes( this.parseSubs.subList[this.hoverSub.idx].mattingType )) {
                         this.mattingbyUrl( this.parseSubs.subList[this.hoverSub.idx].mattingType )
                     } else {
@@ -769,22 +768,8 @@
                 this.loading.show = v;
             },
             upLoad(k) {//上传图片（k值0自定义背景，1人像抠图 2物体抠图）
-                // if (k === 0) {
-                //     this.$confirm( `确定要重新上传主图重新制作么, 是否继续?`, '提示', {
-                //         showClose: false,
-                //         confirmButtonText: '确定',
-                //         cancelButtonText: '取消',
-                //         type: 'warning'
-                //     } ).then( () => {
-                //         this.upType = k;
-                //         this.$refs.selfImg.click()
-                //     } ).catch( () => {
-                //
-                //     } );
-                // } else {
                 this.upType = k;
                 this.$refs.selfImg.click()
-                // }
             },
             seachBack() {
                 if (!this.seachWords) return;
@@ -842,7 +827,7 @@
                             this.initSize();
                             this.showUpload = false;
                         } else setTimeout( this.pollingImg, 2000 )//有排队情况，轮训查看（可以websocket）
-                    }
+                    } else this.loading.show = false;
                 } ).catch( re => this.loading.show = false )
             },
             pollingImg() {//轮询
@@ -858,7 +843,7 @@
                             this.loading.text = `当前排队位置为 ${res.data.queueNumber}，请稍后...`
                             setTimeout( this.pollingImg, 2000 )
                         }
-                    }
+                    } else this.loading.show = false;
                 } ).catch( re => this.loading.show = false )
             },
             pollingImg2() {//轮询
@@ -882,14 +867,14 @@
                             this.loading.text = `当前排队位置为 ${res.data.queueNumber}，请稍后...`
                             setTimeout( this.pollingImg2, 2000 )
                         }
-                    }
+                    } else this.loading.show = false;
                 } ).catch( re => this.loading.show = false )
             },
             mattingbyUrl(type) {
                 this.loading.show = true;
                 this.mattingMsg.type = type;
                 let obj = {url: type === 4 ? this.hoverSub.pro : this.hoverSub.ori, mattingType: type};
-                if(type===3)obj['crop']=1;
+                if (type === 3) obj['crop'] = 1;
                 copyUpload( obj ).then( res => {
                     if (!res.code) {
                         this.mattingMsg.id = res.data.fileId;
@@ -902,10 +887,10 @@
                             oImg.crossOrigin = '';
                             oImg.onload = () => {
                                 this.parseSubs.subList[idx].proObj = oImg;
-                                this.parseSubs.subList[idx].w=oImg.width*this.parseSubs.subList[idx].h/oImg.height;
+                                this.parseSubs.subList[idx].w = oImg.width * this.parseSubs.subList[idx].h / oImg.height;
                                 this.parseSubs.subList[idx].id = `img${Math.random()}`;
-                                if(this.parseSubs.isOwnTwo){////证件照替换时需要调整x位置
-                                    this.parseSubs.subList[idx].x=this.parseSubs.bW/2-this.parseSubs.subList[idx].w/2;
+                                if (this.parseSubs.isOwnTwo) {////证件照替换时需要调整x位置
+                                    this.parseSubs.subList[idx].x = this.parseSubs.bW / 2 - this.parseSubs.subList[idx].w / 2;
                                 }
                                 // else if([1,2,6].includes(type)){
                                 //     this.parseSubs.subList[idx].w=oImg.width*this.parseSubs.subList[idx].h/oImg.height;
@@ -915,7 +900,7 @@
                             oImg.src = res.data.bgRemovedPreview + `?id=${Math.random()}`;
                             // this.hoverThis( idx )//特效也需要替换
                         } else setTimeout( this.pollingImg2, 2000 )//有排队情况，轮训查看（可以websocket）
-                    }
+                    } else this.loading.show = false;
                 } ).catch( re => this.loading.show = false )
             },
             initMainSub(loadImg) {
@@ -933,9 +918,9 @@
                         ori: this.edrieImgInfo.ori,//原图
                         pro: this.edrieImgInfo.pro,//抠图过后的
                         proObj: null,////抠图过加载后的对象
-                        mattingType: 6
-                    }, oH = document.getElementById( 'e_r' ).offsetHeight * 0.6,
-                    oW = document.getElementById( 'e_r' ).offsetWidth * 0.6;
+                        mattingType: this.edrieImgInfo.mattingType ? this.edrieImgInfo.mattingType : 6
+                    }, oH = document.getElementById( 'e_r' ).offsetHeight * 0.7,
+                    oW = document.getElementById( 'e_r' ).offsetWidth * 0.7;
                 let oImg = new Image();
                 oImg.crossOrigin = '';
                 oImg.onload = () => {
@@ -943,6 +928,11 @@
                     this.parseSubs.bW = loadImg.width > loadImg.height ? (loadImg.width > oW ? oW : loadImg.width) : (loadImg.height > oH ? oH * loadImg.width / loadImg.height : loadImg.width);
                     this.parseSubs.bH = loadImg.width > loadImg.height ? (loadImg.width > oW ? oW * loadImg.height / loadImg.width : loadImg.height) : (loadImg.height > oH ? oH : loadImg.height);
                     this.parseSubs.scale = parseFloat( this.parseSubs.bW / loadImg.width );
+                    if (this.edrieImgInfo.bgImg) {
+                        this.loading.which = 1;
+                        this.loading.text = '背景加载中...'
+                        this.selectBg( {url: this.edrieImgInfo.bgImg} );//有背景图，加载背景图
+                    }
                     data.w = this.edrieImgInfo.imageMsg.originalWidth * parseFloat( this.parseSubs.scale );
                     data.h = this.edrieImgInfo.imageMsg.originalHeight * parseFloat( this.parseSubs.scale );
                     data.x = (this.parseSubs.bW / 2 - data.w / 2);
@@ -1019,12 +1009,19 @@
                         this.$store.commit( 'SET_EFFECTSIMG', {id: data.id, list: list} );
                         if (!len) {
                             if (k > -1) this.hoverThis( k );
-                            this.loading = {show: false, text: '处理中...'}
+                            if (this.loading.which === 1) this.loading.which = 0;
+                            else this.loading = {show: false, text: '处理中...'}
                         } else {
                             this.loadSubing += 1;
                             if (len === this.loadSubing) {
                                 this.parseSubs = mItems;
-                                this.loading = {show: false, text: '处理中...'}
+                                this.loading = {show: false, text: '处理中...'};
+                                this.$nextTick( _ => {
+                                    this.SubsDataList = [];
+                                    this.hisIdx = -1;
+                                    this.initsave();//模板加载后，重新存下数据
+                                    this.openBack = true;
+                                } )
                             }
                         }
 
@@ -1209,6 +1206,7 @@
                 }, oImg = new Image();
                 oImg.crossOrigin = '';
                 oImg.onload = () => {
+                    this.loading.text = '背景加载中...'
                     data.w = yw > yh ? yw : yh * oImg.width / oImg.height;
                     data.h = yw > yh ? yw * oImg.height / oImg.width : yh;
                     data.x = this.parseSubs.bW / 2 - data.w / 2;
@@ -1219,6 +1217,7 @@
                     this.initsave();
                     this.$nextTick( () => {
                         this.openBack = true;
+                        this.edrieImgInfo.bgImg = '';
                     } )
                     this.loadStatus( data );
                 };
@@ -1326,8 +1325,8 @@
                     ctx.drawImage( oBg, bw, 0, oBg.width - 2 * bw, oBg.height, 0, 0, can.width, can.height );
                 }
             },
-            downLoadImg(e, k) {
-                this.loadingInstance = this.$loading( {
+            downLoadImg(k) {
+                if(!k)this.loadingInstance = this.$loading( {
                     lock: true,
                     text: '处理中，请稍后......',
                     spinner: 'el-icon-loading',
@@ -1339,12 +1338,12 @@
                         lastidx: idx
                     } );
                     return pre
-                }, [] ), reg = /^http*$/;
+                }, [] ), reg = /^http*$/,dOrr=k ? k :'';
                 this.parseSubs.subList.map( item => {
                     if ([0, 1, 3].includes( item.type )) item['lastObj'] = '';
                 } )
                 if (imgSubs.length < 1) {
-                    this.initCanImg();
+                    this.initCanImg(dOrr);
                 }
                 imgSubs.map( item => {
                     let oImg = new Image();
@@ -1358,12 +1357,12 @@
                             } );
                             return pre
                         }, [] )
-                        if (next.every( it => it['lastObj'] )) this.initCanImg()
+                        if (next.every( it => it['lastObj'] )) this.initCanImg(dOrr)
                     };
                     oImg.src = item.useImg.includes( 'http' ) ? item.useImg + `?id=${Math.random()}` : item.useImg;
                 } )
             },
-            initCanImg() {
+            initCanImg(dOrr) {
                 let prolist3 = ['x', 'y', 'w', 'h', 'fontSize', 'lineHeight', 'letterSpacing'],
                     oCan = document.createElement( 'canvas' ), oCanTxt, scale;
                 oCanTxt = oCan.getContext( '2d' );
@@ -1406,6 +1405,11 @@
                             oCanTxt.shadowBlur = 5;
                             oCanTxt.shadowOffsetY = 5;
                             oCanTxt.shadowOffsetX = 5;
+                        } else {
+                            oCanTxt.shadowColor = '';
+                            oCanTxt.shadowBlur = 0;
+                            oCanTxt.shadowOffsetY = 0;
+                            oCanTxt.shadowOffsetX = 0;
                         }
                         let stroke = (item.textShadow !== 'none' && item.textShadow.split( ',' ).length > 1) ? 2 : 1;//2描边  1填充
                         if (!item.flexDirection) {
@@ -1431,12 +1435,13 @@
                                 }
                             }
                         } else {
-                            let content = this.initfontList( oCanTxt, item.title, letterSpacing, w, h, item.flexDirection, size ),regExt=/[a-zA-Z]/g,
+                            let content = this.initfontList( oCanTxt, item.title, letterSpacing, w, h, item.flexDirection, size ),
+                                regExt = /[a-zA-Z]/g,
                                 line_size = lineHeight / 2 - size / 2;
                             if (item.textAlign === 'left') {
                                 content.map( (itemSon, idx) => {
                                     itemSon.str.split( '' ).map( (it, ix) => {
-                                        oCanTxt.fillTextVertical(it, x + w - (lineHeight - line_size) - idx * lineHeight, y + ix * letterSpacing + ix * size,stroke)
+                                        oCanTxt.fillTextVertical( it, x + w - (lineHeight - line_size) - idx * lineHeight + size / 2, y + ix * letterSpacing + size, stroke )
                                         // stroke === 1 ? oCanTxt.fillText( it, x + w - (lineHeight - line_size) - idx * lineHeight, y + ix * letterSpacing + ix * size ) : oCanTxt.strokeText( it, x + w - idx * lineHeight + line_size, y + ix * letterSpacing + ix * size );
                                     } )
                                     this.initLineTo2( oCanTxt, size, x, y, idx, lineHeight, line_size, itemSon, w, h, item.textAlign, textDecoration )
@@ -1444,8 +1449,9 @@
                             } else {
                                 if (content.length === 1) {
                                     content[0].str.split( '' ).map( (it, ix) => {
-                                        const yc = item.textAlign === 'center' ? y + ix * letterSpacing + ix * size + h / 2 - content[0].len / 2 : y + ix * letterSpacing + ix * size;
-                                        oCanTxt.fillTextVertical(it, x + w - (lineHeight - line_size), yc ,stroke)
+                                        const yc = item.textAlign === 'center' ? y + ix * letterSpacing + oCanTxt.measureText( content[0].str.substring( 0, ix ) ).width + h / 2 - content[0].len / 2 : y + ix * letterSpacing + oCanTxt.measureText( content[0].str.substring( 0, ix ) ).width;
+                                        console.log( yc, oCanTxt.measureText( content[0].str.substring( 0, ix ) ).width, ix * size, 22222 )
+                                        oCanTxt.fillTextVertical( it, x + w - (lineHeight - line_size) + size / 2, yc, stroke )
                                         // stroke === 1 ? oCanTxt.fillText( it, x + w - (lineHeight - line_size), yc ) : oCanTxt.strokeText( it, x + w + line_size, yc );
                                     } )
                                     this.initLineTo2( oCanTxt, size, x, y, 0, lineHeight, line_size, content[0], w, h, item.textAlign, textDecoration )
@@ -1454,16 +1460,16 @@
                                     content.map( (itemSon, idx) => {
                                         if (idx !== content.length - 1) {
                                             itemSon.str.split( '' ).map( (it, ix) => {
-                                                const yc = item.textAlign === 'center' ? y + ix * letterSpacing + ix * size + h / 2 - content[0].len / 2 : y + ix * letterSpacing + ix * size;
-                                                oCanTxt.fillTextVertical(it, x + w - (lineHeight - line_size) - idx * lineHeight, yc,stroke)
+                                                const yc = item.textAlign === 'center' ? y + ix * letterSpacing + oCanTxt.measureText( content[0].str.substring( 0, ix ) ).width + h / 2 - content[0].len / 2 : y + ix * letterSpacing + oCanTxt.measureText( content[0].str.substring( 0, ix ) ).width;
+                                                oCanTxt.fillTextVertical( it, x + w - (lineHeight - line_size) - idx * lineHeight + size / 2, yc, stroke )
                                                 // stroke === 1 ? oCanTxt.fillText( it, x + w - (lineHeight - line_size) - idx * lineHeight, yc ) : oCanTxt.strokeText( it, x + w - idx * lineHeight + line_size, yc );
                                             } )
                                         }
                                         this.initLineTo2( oCanTxt, size, x, y, idx, lineHeight, line_size, itemSon, w, h, item.textAlign, textDecoration )
                                     } )
                                     last.str.split( '' ).map( (it, ix) => {
-                                        const ys = item.textAlign === 'center' ? y + ix * letterSpacing + ix * size + h / 2 - last.len / 2 : y + ix * letterSpacing + ix * size;
-                                        oCanTxt.fillTextVertical(it, x + w - (lineHeight - line_size) - (content.length - 1) * lineHeight, ys,stroke)
+                                        const ys = item.textAlign === 'center' ? y + ix * letterSpacing + oCanTxt.measureText( content[0].str.substring( 0, ix ) ).width + h / 2 - last.len / 2 : y + ix * letterSpacing + oCanTxt.measureText( content[0].str.substring( 0, ix ) ).width;
+                                        oCanTxt.fillTextVertical( it, x + w - (lineHeight - line_size) - (content.length - 1) * lineHeight + size / 2, ys, stroke )
                                         // stroke === 1 ? oCanTxt.fillText( it, x + w - (lineHeight - line_size) - (content.length - 1) * lineHeight, ys ) : oCanTxt.strokeText( it, x + w - (content.length - 1) * lineHeight + line_size, ys );
                                     } )
                                 }
@@ -1472,7 +1478,19 @@
                         oCanTxt.setTransform( 1, 0, 0, 1, 0, 0 );
                     }
                 } )
-                this.downLoad( oCan )
+                if(!dOrr)this.downLoad( oCan )
+                else {
+                    let formData=new FormData();
+                    oCan.toBlob(blob=>{
+                        formData.append('file',blob);
+                        uploadossBg(formData).then(res=>{
+                            // nowSub.cover=res.data;
+                            this.subList[this.loadIdx[0]].list[this.loadIdx[1]].cover=res.data;
+                            console.log( {...dOrr,cover:res.data})
+                            this.saveTempelteSub( {...dOrr,cover:res.data},res.data )
+                        })
+                    })
+                }
             },
             initfontList(oCanTxt, str, letterSpacing, w, h, flexDirection, size) {
                 let arr = str.split( '' ), brr, brr2;
@@ -1629,32 +1647,40 @@
                 } )
             },
             initAllInfo() {//初始化时操作信息
-                this.edrieImgInfo = JSON.parse( localStorage.getItem( 'editImg' ) )
+                const obj = localStorage.getItem( 'editImg' );
+                if (!obj) return;
+                this.edrieImgInfo = {...this.edrieImgInfo, ...JSON.parse( obj )}
+                console.log( this.edrieImgInfo)
+                // this.edrieImgInfo.pro = 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200727/e8924b0ecc1049d99db0467ae5aa1e41.png';//默认图片
                 if (this.edrieImgInfo.bgImg) this.showUpload = true;
                 else {
                     this.showUpload = false;
-                    // this.initImgs( this.edrieImgInfo )
+                    this.loading.show = true;
+                    this.loading.text = '加载中...';
+                    this.initSize()
                 }
                 this.edrieImgInfo['type'] = this.showUpload ? 1 : 2;//1代表背景过来的，2代表抠图后过来的
             },
-            reloads() {//重新上传
-                this.$confirm( `确定要重置, 是否继续?`, '提示', {
+            reloads(k) {//重新上传
+                const msg = k ? '确定要选择此模板替换当前模板, 是否继续?' : '确定要重置, 是否继续?';
+                this.$confirm( msg, '提示', {
                     showClose: false,
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 } ).then( () => {
                     // const item = this.parseSubs.subList.find( item => item.type === 1 );
-                    this.loading = {show: true, text: '处理中...'}
+                    this.loading.show = true;
                     this.openBack = false;
                     this.parseSubs.subList = [];
                     this.hisIdx = -1;
+                    this.loadId = -1;
                     this.SubsDataList = [];
                     this.initSize();
-                    this.$store.commit( 'SET_EFFECTSIMG', {id: data.id, list: list, clear: 1} );
+                    this.$store.commit( 'SET_EFFECTSIMG', {clear: 1} );
                     this.$nextTick( () => {
                         this.openBack = true;
-                        this.loading = {show: false, text: '处理中...'}
+                        // this.loading.show=false;
                     } )
                 } ).catch( () => {
 
@@ -1662,7 +1688,6 @@
             },
             closeSetMap(data) {
                 const idx = this.parseSubs.subList.findIndex( item => item.hovering );
-                this.savepointList = data.hisList;
                 this.parseSubs.subList[idx].useImg = data.img;
                 this.parseSubs.subList[idx].pro = data.img;
                 this.parseSubs.subList[idx].proObj = null;
@@ -1726,6 +1751,7 @@
                     this.oriW = oImg.width;
                     this.parseSubs.oriH = oImg.height;
                     this.oriH = oImg.height;
+                    this.edrieImgInfo.oriObj = oImg;
                     // this.parseSubs.bW = oImg.width > oImg.height ? (oImg.width > oW ? oW : oImg.width) : (oImg.height > oH ? oH * oImg.width / oImg.height : oImg.width);
                     // this.parseSubs.bH = oImg.width > oImg.height ? (oImg.width > oW ? oW * oImg.height / oImg.width : oImg.height) : (oImg.height > oH ? oH : oImg.height);
                     // this.parseSubs.scale = parseFloat( this.parseSubs.bW / oImg.width ).toFixed( 2 );
@@ -1733,19 +1759,80 @@
                 };
                 oImg.src = this.edrieImgInfo.ori + `?id=${Math.random()}`
             },
-            choseTrme(it,idx){
+            saveSubItem() {
+                if (!this.loadSubObj) return;
+                this.loading.show = true;
+                let nowSub = JSON.parse( JSON.stringify( this.parseSubs ) ),
+                    prolist3 = ['x', 'y', 'w', 'h', 'fontSize', 'lineHeight', 'letterSpacing'], reg = /^\http/,
+                    upNum = 0, dataImg;
+                nowSub.subList.map( (item, idx) => {
+                    Object.keys( item ).map( it => {
+                        if (prolist3.includes( it )) nowSub.subList[idx][it] = item[it] / nowSub.scale;
+                        if (it === 'textShadow') {
+                            nowSub.subList[idx][it] = ['none', '#333 1px 0 0, #333 0 1px 0, #333 -1px 0 0, #333 0 -1px 0', '0 5px 5px #333'].indexOf( item[it] )
+                        }
+                    } )
+                } )
+                // dataImg=nowSub.subList.filter(item=>(item.type!==2 && !reg.test(item.useImg) && item.useImg && !item.backColor));
+                // console.log(dataImg.length)
+                // if(dataImg.length>0){
+                //     dataImg.map(item=>{
+                //         let oCan=document.createElement('canvas'),oCantxt,oImg=new Image(),formData=new FormData(),idx=nowSub.subList.findIndex(it=>it.id===item.id);
+                //         oCantxt=oCan.getContext('2d')
+                //         oImg.crossOrigin='';
+                //         oImg.onload=()=>{
+                //             oCan.width=oImg.width;
+                //             oCan.height=oImg.height;
+                //             oCantxt.drawImage(oImg,0,0)
+                //             oCan.toBlob(blob=>{
+                //                 formData.append('file',blob);
+                //                 uploadossBg(formData).then(res=>{
+                //                     upNum+=1;
+                //                     nowSub.subList[idx].useImg=res.data;
+                //                     if(upNum===dataImg.length) this.saveTempelteSub(nowSub)
+                //                 })
+                //             })
+                //         };
+                //         oImg.src=item.useImg;
+                //     })
+                // }else this.saveTempelteSub(nowSub)
+                this.downLoadImg(nowSub);
+            },
+            saveTempelteSub(nowSub,url) {
+                let data = {
+                    ...this.loadSubObj,
+                    width: this.parseSubs.oriW,
+                    height: this.parseSubs.oriH,
+                    cover:url,
+                    data: JSON.stringify( nowSub )
+                }
+                saveTemplate( data ).then( res => {
+                    if (!res.code) this.$message( {message: '保存成功', type: 'success'} )
+                } ).finally( _ => this.loading.show = false )
+            },
+            choseTrme(it,ix, idx) {
                 this.$confirm( `确定要选择此模板替换当前模板, 是否继续?`, '提示', {
                     showClose: false,
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 } ).then( () => {
-                    this.loadId=it.id;
-                    this.loading={show:true,text:'加载中...'};
-                    templateDetial({id:this.loadId}).then(res=>{
-                        console.log(JSON.parse(res.data.data))
-                        this.loadSubs(JSON.parse(res.data.data))
-                    })
+                    this.openBack = false;
+                    this.loading = {show: true, text: '加载中...'};
+                    this.loadId = it.id;
+                    if (it.isOwnTwo) {
+                        this.$store.commit( 'SET_EFFECTSIMG', {clear: 1} );
+                        this.loadSubObj = '';
+                        this.loadIdx=[];
+                        this.loadSubs( it );
+                        return;
+                    }
+                    templateDetial( {id: this.loadId} ).then( res => {
+                        this.$store.commit( 'SET_EFFECTSIMG', {clear: 1} );
+                        this.loadSubObj = res.data;
+                        this.loadIdx=[idx,ix];
+                        this.loadSubs( JSON.parse( res.data.data ) )
+                    } )
 
                 } ).catch( () => {
 
@@ -1753,20 +1840,32 @@
 
             },
             loadSubs(item) {
-                let mItems = JSON.parse(JSON.stringify(item)), imgsList = item.subList.filter( item => ([0, 1, 3].includes( item.type ) && item.useImg) ),
+                let mItems = JSON.parse( JSON.stringify( item ) ),
+                    mainSubidx = item.subList.findIndex( it => it.type === 1 ),
+                    imgsList = item.subList.filter( it => ([0, 1, 3].includes( it.type ) && it.useImg) ),
                     oH = document.getElementById( 'e_r' ).offsetHeight * 0.6,
                     oW = document.getElementById( 'e_r' ).offsetWidth * 0.6;
-                ;
                 mItems['bW'] = mItems.oriW > mItems.oriH ? (mItems.oriW > oW ? oW : mItems.oriW) : (mItems.oriH > oH ? oH * mItems.oriW / mItems.oriH : mItems.oriW);
                 mItems['bH'] = mItems.oriW > mItems.oriH ? (mItems.oriW > oW ? oW * mItems.oriH / mItems.oriW : mItems.oriH) : (mItems.oriH > oH ? oH : mItems.oriH);
                 mItems['scale'] = parseFloat( mItems.bW / mItems.oriW );
+                if (mainSubidx > -1 && this.edrieImgInfo.pro) {
+                    const [x, y, w, h] = [mItems.subList[mainSubidx].x, mItems.subList[mainSubidx].y, mItems.subList[mainSubidx].w, mItems.subList[mainSubidx].h];
+                    mItems.subList[mainSubidx].w = w > h ? w : this.edrieImgInfo.oriObj.width / this.edrieImgInfo.oriObj.height * h;
+                    mItems.subList[mainSubidx].h = w > h ? w * this.edrieImgInfo.oriObj.height / this.edrieImgInfo.oriObj.width : h;
+                    mItems.subList[mainSubidx].ori = this.edrieImgInfo.ori;
+                    mItems.subList[mainSubidx].pro = this.edrieImgInfo.pro;
+                    mItems.subList[mainSubidx].useImg = this.edrieImgInfo.pro;
+                    mItems.subList[mainSubidx].mattingType = this.edrieImgInfo.mattingType;
+                    mItems.subList[mainSubidx].x = mItems.subList[mainSubidx].w > w ? x - (mItems.subList[mainSubidx].w - w) / 2 : x + (w - mItems.subList[mainSubidx].w) / 2;
+                    mItems.subList[mainSubidx].y = mItems.subList[mainSubidx].h > h ? y - (mItems.subList[mainSubidx].h - h) / 2 : y + (h - mItems.subList[mainSubidx].h) / 2;
+                }
                 const keyList = ['w', 'h', 'x', 'y', 'fontSize', 'letterSpacing', 'lineHeight']
                 mItems.subList.map( (item, idx) => {
                     Object.keys( item ).map( it => {
                         if (keyList.includes( it )) {
                             mItems.subList[idx][it] = mItems.subList[idx][it] * mItems['scale']
                         }
-                        if(it==='textShadow') mItems.subList[idx][it]=['none','#333 1px 0 0, #333 0 1px 0, #333 -1px 0 0, #333 0 -1px 0','0 5px 5px #333'][mItems.subList[idx][it]]
+                        if (it === 'textShadow') mItems.subList[idx][it] = ['none', '#333 1px 0 0, #333 0 1px 0, #333 -1px 0 0, #333 0 -1px 0', '0 5px 5px #333'][mItems.subList[idx][it]]
                     } )
                 } )
                 this.loadSubing = 0;
@@ -1787,29 +1886,40 @@
                     }
                 } )
             },
-            inittemplteList(idx){
-                const typeList=['avatar','ebusiness','mobile']
-                let data={
-                    category:typeList[idx],
-                    page:1,
-                    pageSize:100
+            inittemplteList(idx) {
+                const typeList = ['avatar', 'ebusiness', 'mobile']
+                let data = {
+                    category: typeList[idx],
+                    page: 1,
+                    pageSize: 100
                 }
-                templateList(data).then(res=>{
-                    if(!idx)this.ownTitlelist[0].list=[...res.data.list];
-                    else this.subList.push({title:idx==1 ? '电商海报' :'手机海报',list:res.data.list})
-                })
+                templateList( data ).then( res => {
+                    if (!idx) this.subList.splice( this.subList.length - 1, 0, {title: '卡通', list: res.data.list} );
+                    else this.subList.splice( this.subList.length - 1, 0, {
+                        title: idx == 1 ? '电商海报' : '手机海报',
+                        list: res.data.list
+                    } )
+                } )
+            },
+            initUserinfo() {
+                getUserInfo().then( res => {
+                    this.userInfo = res.data;
+                } )
             }
         },
         created() {//透明背景储存
-            this.inittemplteList(0);
-            this.inittemplteList(1);
-            this.inittemplteList(2);
+            this.inittemplteList( 0 );
+            this.inittemplteList( 1 );
+            this.inittemplteList( 2 );
         },
         mounted() {//初始化参数
             const oDiv = document.getElementById( 'e_r' )
             this.oDiv_w = {w: oDiv.offsetWidth, h: oDiv.offsetHeight};
-            if (getToken()) this.userGetscribe();
-            // $( '#e_r' ).niceScroll( {cursorcolor: '#999999'} );
+            if (getToken()) {
+                this.userGetscribe();
+                this.initUserinfo();
+            }
+            $( '#e_r' ).niceScroll( {cursorcolor: '#999999'} );
             document.addEventListener( 'click', () => {
                 this.showcolorList = false
             } )
@@ -1826,7 +1936,7 @@
                 this.oDiv_w = {w: oDiv.offsetWidth, h: oDiv.offsetHeight};
             } )
             this.initCats();
-
+            this.initAllInfo();
         }
     }
 </script>
@@ -1876,6 +1986,7 @@
             width: 230px;
             background-color: #2A2F35;
             color: #ADAEB2;
+            overflow: hidden;
 
             .first {
                 font-size: 12px;
@@ -1914,68 +2025,73 @@
             }
 
             .first2 {
-                .bnts {
-                    justify-content: space-between;
-                    margin-bottom: 15px;
+                .selfMoren {
+                    padding: 15px 0;
+                    position: relative;
 
-                    .el-button {
-                        width: 106px;
-                        background-color: rgba(250, 250, 250, .2);
-                        border: none;
-                        color: #fff;
-
-                        &.active {
-                            background-color: $co;
-                        }
+                    &.active {
+                        box-shadow: 0 0 15px $co;
                     }
-                }
 
-                .ownTitle {
-                    /*justify-content: space-between;*/
-                    font-size: 14px;
-                    color: #AFB3B6;
-                    line-height: 42px;
-                    border-bottom: 1px solid #3F464C;
-                    margin-bottom: 20px;
-                    span{
-                        margin-right: 30px;
-                    }
-                    .active {
-                        color: $co;
-                        border-bottom: 2px solid $co;
+                    i {
+                        font-weight: bold;
+                        position: absolute;
+                        font-size: 24px;
+                        top: 0;
+                        right: 0;
+                        color: #e82255;
+                        z-index: 99;
                     }
                 }
 
                 .lists {
-                    height: 650px;
-                    overflow-x: auto;
+                    height: 600px;
                     padding: 15px 0;
-                    .listsson{
+
+                    .listsson {
                         margin-bottom: 10px;
                     }
-                    h4{
+
+                    h4 {
                         margin-bottom: 10px;
+                        position: relative;
+                        color: #fff;
+
+                        span {
+                            color: #ADAEB2;
+                            font-size: 12px;
+                            position: absolute;
+                            right: 10px;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            cursor: pointer;
+                        }
                     }
-                    .noZhen:after{
+
+                    .noZhen:after {
                         position: absolute;
                         width: 100%;
                         height: 100%;
                         left: 0;
                         top: 0;
                         content: '';
-                        background-color: rgba(0,0,0,.4);
+                        background-color: rgba(0, 0, 0, .4);
                     }
-                    &  .itemT.active{
-                        box-shadow: 0 0 2px $co inset;
+
+                    & .itemT.active {
+                        box-shadow: 0 0 15px $co;
                     }
+
                     & .itemT {
                         position: relative;
-                        width: 100px;
-                        margin:0 10px 10px 0;
+                        width: 110px;
+                        margin: 0 10px 10px 0;
                         overflow: hidden;
-                        &:nth-child(2n){
+
+                        &:nth-child(2n) {
                             margin-right: 0;
                         }
+
                         /*<!--img {-->*/
                         /*<!--    position: absolute;-->*/
                         /*<!--    width: 100%;-->*/
@@ -1983,12 +2099,12 @@
                         /*<!--    top: 50%;-->*/
                         /*<!--    transform: translateY(-50%);-->*/
                         /*<!--}-->*/
-                        & > .name{
+                        & > .name {
                             position: absolute;
                             width: 100%;
                             left: 50%;
                             top: 50%;
-                            transform: translate(-50%,-50%);
+                            transform: translate(-50%, -50%);
                             font-size: 14px;
                             color: #fff;
                             text-align: center;
@@ -2335,18 +2451,19 @@
                 i {
                     pointer-events: initial;
                     position: absolute;
-                    width: 8px;
-                    height: 8px;
                     border: 1px solid $co;
                     background-color: #fff;
-                    border-radius: 50%;
                     transform: translate(-50%, -50%);
                     cursor: nesw-resize;
                     z-index: 66;
                     font-size: 24px;
                     color: #000;
+                    overflow: hidden;
+                    border-radius: 4px;
 
                     &.iOne {
+                        width: 14px;
+                        height: 6px;
                         top: 0;
                         left: 50%;
                         cursor: n-resize;
@@ -2355,6 +2472,8 @@
                     &.iTwo {
                         top: 50%;
                         right: 0;
+                        width: 6px;
+                        height: 14px;
                         cursor: e-resize;
                         transform: translate(50%, -50%);
                     }
@@ -2362,6 +2481,8 @@
                     &.iTh {
                         bottom: 0;
                         left: 50%;
+                        width: 14px;
+                        height: 6px;
                         cursor: n-resize;
                         transform: translate(-50%, 50%);
                     }
@@ -2369,41 +2490,54 @@
                     &.iFor {
                         top: 50%;
                         left: 0;
+                        width: 6px;
+                        height: 14px;
                         cursor: e-resize;
                     }
 
                     &.iFive {
                         top: 0;
                         right: 0;
+                        width: 12px;
+                        height: 12px;
                         transform: translate(50%, -50%);
+                        border-radius: 50%;
 
                         & ~ i {
-                            background-color: initial;
                             border: none;
                             cursor: pointer;
+                            width: 20px;
+                            height: 20px;
+                            text-align: center;
+                            border-radius: 50%;
+                            box-shadow: 0 0 1px #666;
+                            font-size: 16px;
+                            line-height: 20px;
                         }
                     }
 
                     &.icon-shanchu {
                         top: 10px;
-                        right: -25px;
+                        right: -40px;
+                        font-size: 18px;
                         background-color: #fff;
                     }
 
                     &.icon-dashujukeshihuaico-1 {
                         top: 40px;
                         background-color: #fff;
-                        right: -25px;
+                        right: -40px;
                     }
 
                     &.icon-dashujukeshihuaico- {
                         top: 70px;
                         background-color: #fff;
-                        right: -25px;
+                        right: -40px;
                     }
                 }
 
                 span.downIcon {
+                    background-color: #fff;
                     pointer-events: initial;
                     position: absolute;
                     left: 50%;
@@ -2411,7 +2545,7 @@
                     transform: translate(-50%, 0);
                     border: none;
                     letter-spacing: 0 !important;
-                    background-color: initial;
+                    border-radius: 50%;
                     color: $co;
                     font-size: 18px;
                     cursor: url(../../assets/image/rotate.svg) 11 9, pointer
@@ -2426,11 +2560,8 @@
 
             i.teI {
                 position: absolute;
-                width: 12px;
-                height: 12px;
                 border: 1px solid $co;
                 background-color: #fff;
-                border-radius: 50%;
                 cursor: nesw-resize;
                 z-index: 66;
 
@@ -2483,9 +2614,9 @@
             }
 
             .nowMsg {
-                position: absolute;
-                right: 5%;
-                bottom: 5%;
+                position: fixed;
+                right: 15%;
+                bottom: 10%;
                 font-size: 14px;
                 padding: 0 20px;
                 line-height: 38px;
@@ -2773,7 +2904,7 @@
                 position: relative;
                 border-radius: 18px;
 
-                &:hover .downBtn {
+                &.doo:hover .downBtn {
                     display: block;
                 }
 
@@ -2781,7 +2912,7 @@
                     display: none;
                     text-align: left;
                     padding: 10px 0;
-                    width: 250px;
+                    width: 200px;
                     position: absolute;
                     right: 0;
                     bottom: 0;

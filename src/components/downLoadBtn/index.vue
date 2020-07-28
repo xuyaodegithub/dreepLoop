@@ -45,7 +45,8 @@
         props: {
             imageMsg: Object,
             type: Number,
-            down: Boolean
+            down: Boolean,
+            mattingType:Number
         },
         data() {
             return {
@@ -67,7 +68,7 @@
         },
         methods: {
             edireThis(k) {
-                this.$emit( 'edireThis', k )
+                this.$emit( 'edireThis', k,this.mattingType )
             },
             save(k, e) {
                 this.$emit( 'save', k, e )
