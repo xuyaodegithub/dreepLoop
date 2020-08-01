@@ -59,10 +59,11 @@
                     </div>
                     <div v-show="[3,4].includes(bgOriginal.status)" class="errmsg">
                         <i class="el-icon-circle-close"></i>
-                        {{this.bgOriginal.status===3 ? '图片过大，暂时无法处理' : '本天限制次数已达上限'}}
+                        {{this.bgOriginal.status===3 ? '网络出现中断，请重试' : '次数受限'}}
                         <!--                        Error occured, the foreground can not be recognized-->
                         <p>
-                            {{this.bgOriginal.status===3 ? '请选择一个不超过15M的图片进行处理' : '未登录状态上传次数已达上限，请登录后继续操作！'}}
+                            {{this.bgOriginal.status===3 ? '请选择一个不超过15M的图片进行处理' : '未登录使用次数已达上限，'}}<br>
+                            <span v-show="bgOriginal.status===4">请 <a href="loginOrRegister.html" style="color: #e82255">登录</a> 后继续操作！</span>
                             <!--                        	Try picture that contains person, more categories will be supported in future-->
                         </p>
                     </div>

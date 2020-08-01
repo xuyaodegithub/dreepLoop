@@ -18,36 +18,6 @@
                 <el-button type="primary" style="background-color: #fff;color: #e82255;" @click="reloads">重新上传
                 </el-button>
                 <el-button type="primary" icon="el-icon-download" @click="downLoadImg($event)">下载
-                    <!--                    <table class="downBtn">-->
-                    <!--                        <tr>-->
-                    <!--                            <td>尺寸</td>-->
-                    <!--                            <td>消耗次数</td>-->
-                    <!--                            <td></td>-->
-                    <!--                        </tr>-->
-                    <!--                        <tr>-->
-                    <!--                            <td>{{edrieImgInfo.imageMsg.previewWidth + ' X ' + edrieImgInfo.imageMsg.previewHeight}}-->
-                    <!--                            </td>-->
-                    <!--                            <td>0</td>-->
-                    <!--                            <td>-->
-                    <!--                                <el-button type="danger" round size="mini" @click="downLoadImg($event)">下载-->
-                    <!--                                </el-button>-->
-                    <!--                            </td>-->
-                    <!--                        </tr>-->
-                    <!--                        <tr v-if="edrieImgInfo.imageMsg.previewWidth!==edrieImgInfo.imageMsg.originalWidth || edrieImgInfo.imageMsg.previewHeight!==edrieImgInfo.imageMsg.originalHeight">-->
-                    <!--                            <td>{{edrieImgInfo.imageMsg.originalWidth + ' X ' +-->
-                    <!--                                edrieImgInfo.imageMsg.originalHeight}}-->
-                    <!--                            </td>-->
-                    <!--                            <td>1</td>-->
-                    <!--                            <td>-->
-                    <!--                                <el-button type="danger" round size="mini" @click="downLoadImg($event,1)">下载-->
-                    <!--                                </el-button>-->
-                    <!--                            </td>-->
-                    <!--                        </tr>-->
-                    <!--                        <tr>当前可用次数：{{userSubscribeData ? userSubscribeData.freeRemaining +-->
-                    <!--                            userSubscribeData.monthRemaining : 0}} <a href="userVip.html" class="cu" target="_blank"-->
-                    <!--                                                                      style="color: #a1a0a0;margin-left: 20px;border-bottom: 1px solid #a1a0a0;">去充值</a>-->
-                    <!--                        </tr>-->
-                    <!--                    </table>-->
                 </el-button>
             </div>
         </div>
@@ -94,6 +64,7 @@
                     <span>{{initBl}}</span>
                     <i class="el-icon-plus cu" @click="wheelFun({deltaY:-1})"></i>
                 </div>
+                <aside>提示：图片修复下载需消耗2个点数</aside>
             </div>
         </div>
 
@@ -563,7 +534,13 @@
                 background-color: #F5F5F5;
                 position: relative;
                 overflow: hidden;
-
+                aside{
+                    position: absolute;
+                    top: 0;
+                    right: 10px;
+                    color: #999;
+                    line-height: 40px;
+                }
                 .content {
                     position: absolute;
                     left: 50%;

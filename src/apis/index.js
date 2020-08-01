@@ -239,3 +239,18 @@ export const templateDetial=(data)=>{
 export const saveTemplate=(data)=>{
  return https.post('/admin/poster/saveTemplate',data)
 }
+
+/**
+ *默认模板
+ **/
+export const templateCategoryList=(data)=>{
+ return https.get('/poster/templateCategoryList',data)
+}
+
+/**
+ *模板下载
+ **/
+export const templatedownload=(data)=>{
+ return https.get('/poster/download',data)
+}
+

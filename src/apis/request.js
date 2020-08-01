@@ -31,11 +31,11 @@ instance.interceptors.request.use(function (config) {//为自定义axios设置�
 });
 instance.interceptors.response.use(function (response) {//为自定义axios设置响应拦截器
   // 对响应数据做点什么
-  const res=response.data
+  const res=response.data;
   // console.log(response)
   if(res.code===0){
     return res
-  }else if(res.code==1100){
+  }else if(res.code==1100 && !response.config.url.includes('/poster/download')){
       removeToken();
       clearCookie('token');
       localStorage.setItem('backUrl',window.location.href);
@@ -46,8 +46,8 @@ instance.interceptors.response.use(function (response) {//为自定义axios设�
       type:'error',
       message:response.data.msg
     })
-    // return res
-    return Promise.reject(response.data)
+    return res
+    // return Promise.reject(response.data)
   }
 }, function (err) {
   // 对请求错误做些什么

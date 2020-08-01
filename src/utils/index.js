@@ -153,7 +153,9 @@ export const letterText = () => { //支持字间距
             letterSpacing = parseFloat( window.getComputedStyle( canvas ).letterSpacing );
         }
         if (!letterSpacing) {
-            return k===1? this.fillText( text, x, y ) : this.strokeText( text, x, y );
+            this.fillText( text, x, y )
+            if(k===2)this.strokeText( text, x, y );
+            return
         }
 
         var arrText = text.split( '' );
@@ -175,7 +177,8 @@ export const letterText = () => { //支持字间距
         // 开始逐字绘制
         arrText.forEach( function (letter) {
             var letterWidth = context.measureText( letter ).width;
-            k===1? context.fillText( letter, x, y ) : context.strokeText( letter, x, y );
+            context.fillText( letter, x, y )
+            if(k===2)context.strokeText( letter, x, y );
             // 确定下一个字符的横坐标
             x = x + letterWidth + letterSpacing;
         } );
@@ -226,7 +229,9 @@ export const verticalText = () => { //支持竖排
                 // y修正
                 y = y + arrWidth[index - 1] / 2;
             }
-            k===1 ? context.fillText( letter, x, y ) : context.strokeText( letter, x, y );
+            // k===1 ? context.fillText( letter, x, y ) : context.strokeText( letter, x, y );
+            context.fillText( letter, x, y )
+            if(k===2)context.strokeText( letter, x, y );
             // 旋转坐标系还原成初始态
             context.setTransform( 1, 0, 0, 1, 0, 0 );
             // 确定下一个字符的纵坐标位置
