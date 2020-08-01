@@ -211,7 +211,7 @@
                      @mouseleave="borderFun(idx,1)">
                     <el-tooltip class="item" effect="dark" content="双击修改文字" placement="top"
                                 :disabled="moveNum>0 || hoverSub.contenteditable">
-                        <div v-if="item.type===2" :contenteditable="item.contenteditable" class="text"
+                        <div v-if="item.type===2" :contenteditable="item.contenteditable" class="text" :class="{texsst : item.contenteditable}"
                              style="font-weight:inherit;border: 0;width:auto;height: auto;"
                              @dblclick="writeText(idx)"
                              @input="setBlur($event,idx)"
@@ -2775,7 +2775,6 @@
                     }
 
                     .text {
-                        cursor: text;
                         position: relative;
                         z-index: 22;
                         /*width: 100%;*/
@@ -2783,6 +2782,9 @@
 
                         &:focus {
                             outline: none;
+                        }
+                        &.texsst{
+                            cursor: text;
                         }
                     }
                 }
