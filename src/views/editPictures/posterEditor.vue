@@ -24,7 +24,7 @@
             </div>
             <div class="hDown">
                 <el-button type="primary" icon="el-icon-folder" @click="saveSubItem"
-                           v-if="userInfo.userType==='admin' && loadSubObj">模板保存
+                           v-if="urlStr && loadSubObj">模板保存
                 </el-button>
                 <el-button class="doo" type="primary" icon="el-icon-download" @click="downLoadImg()">下载
                     <table class="downBtn">
@@ -292,17 +292,7 @@
                     :mattingType="hoverSub.mattingType ? hoverSub.mattingType : 0"></v-mune>
             <f-mune v-show="hoverSub.type===2" @initFont="initFont" ref="fontMune"></f-mune>
         </div>
-<!--        <div class="dialogs" :style="{backgroundImage: `url(${edrieImgInfo.bgImg})`}" v-if="showUpload">-->
-<!--            <div class="sons">-->
-<!--                <div class="title">请输入你需要替换背景的图片</div>-->
-<!--                <div class="flex types">-->
-<!--                    &lt;!&ndash;                    <img src="@/assets/edtwo.png" alt="" @click="upLoad(1)">&ndash;&gt;-->
-<!--                    &lt;!&ndash;                    <img src="@/assets/edone.png" alt="" @click="upLoad(2)">&ndash;&gt;-->
-<!--                    <el-button @click="upLoad(6)" type="primary">上传图片</el-button>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-        <div class="zheR" v-if="showUpload || loading.show"></div>
+        <div class="zheR" v-if="loading.show"></div>
         <div class="zheR" v-if="loading.show"></div>
         <el-dialog
                 :close-on-click-modal="false"
@@ -425,7 +415,6 @@
                     ori: '',
                     filename: '皮卡智能'
                 },//图片的信息（预览图尺寸，原图尺寸，下载按钮处显示的信息）
-                showUpload: false,//从背景库页面进入本页面时，要显示上传弹框
                 upType: 0,//从背景库页面进入本页面时，要显示上传弹框 ，上传图片的类型 0 自定义背景  1人抠图 2物抠图
                 loading: {show: false, text: '处理中...', which: 0},//loading
                 loadingInstance: null,//下载时的loading效果
@@ -827,7 +816,6 @@
             changeselfImg(e) {//input chang事件
                 const file = e.target.files[0];
                 if (!file) return;
-                this.showUpload = false;
                 this.loading.show = true;
                 if (this.upType === -1) this.initSelfImg( file );
                 else {
@@ -854,7 +842,6 @@
                             this.edrieImgInfo.ori = res.data.original;
                             this.edrieImgInfo.imageMsg = res.data;
                             this.initSize();
-                            this.showUpload = false;
                         } else setTimeout( this.pollingImg, 2000 )//有排队情况，轮训查看（可以websocket）
                     } else this.loading.show = false;
                 } ).catch( re => this.loading.show = false )
@@ -867,7 +854,6 @@
                             this.edrieImgInfo.ori = res.data.original;
                             this.edrieImgInfo.imageMsg = res.data;
                             this.initSize();
-                            this.showUpload = false;
                         } else {
                             this.loading.text = `当前排队位置为 ${res.data.queueNumber}，请稍后...`
                             setTimeout( this.pollingImg, 2000 )
@@ -1731,10 +1717,9 @@
                     };
                     oImg.src = this.edrieImgInfo.bgImg + `?id=${Math.random()}`
                 } else {
-                    this.showUpload = false;
                     this.initSize()
                 }
-                this.edrieImgInfo['type'] = this.showUpload ? 1 : 2;//1代表背景过来的，2代表抠图后过来的
+                this.edrieImgInfo['type'] = this.edrieImgInfo.bgImg ? 1 : 2;//1代表背景过来的，2代表抠图后过来的
             },
             reloads(k) {//重新上传
                 const msg = k ? '确定要选择此模板替换当前模板, 是否继续?' : '确定要重置, 是否继续?';
