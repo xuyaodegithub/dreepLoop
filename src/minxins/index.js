@@ -112,7 +112,7 @@ export const mixins={
       if(!down)return;
       const editPictures={
         pro:this.bgOriginal.img,
-        ori:this.Original,
+        ori:mattingType===3 ? this.bgOriginal.img : this.Original,
         filename:this.filename,
         bgImg:'',
         fileId:this.fileId,

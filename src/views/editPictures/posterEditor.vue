@@ -730,6 +730,8 @@
                 if (l) {
                     this.parseSubs.subList[idx].title = detail;
                     this.parseSubs.subList[idx].contenteditable = false;
+                    // oDiv.innerHTML=this.parseSubs.subList[idx].title;
+                    // oDiv.innerHTML=this.parseSubs.subList[idx].title
                     // let oDiv = document.querySelector( `.otherSubs .items:nth-child(${idx + 1}) .text` );
                     // oDiv.innerText=detail;
                 }
@@ -961,8 +963,9 @@
                     //     this.loading.text = '背景加载中...'
                     //     this.selectBg( {url: this.edrieImgInfo.bgImg} );//有背景图，加载背景图
                     // }
-                    data.w = this.edrieImgInfo.imageMsg.originalWidth * parseFloat( this.parseSubs.scale );
-                    data.h = this.edrieImgInfo.imageMsg.originalHeight * parseFloat( this.parseSubs.scale );
+                    console.log(this.parseSubs.bW,this.parseSubs.bH,this.parseSubs.scale)
+                    data.w = this.edrieImgInfo.mattingType===3 ?  oImg.width*parseFloat( this.parseSubs.scale ):this.edrieImgInfo.imageMsg.originalWidth * parseFloat( this.parseSubs.scale );
+                    data.h = this.edrieImgInfo.mattingType===3 ?  oImg.height*parseFloat( this.parseSubs.scale ):this.edrieImgInfo.imageMsg.originalHeight * parseFloat( this.parseSubs.scale );
                     data.x = (this.parseSubs.bW / 2 - data.w / 2);
                     data.y = (this.parseSubs.bH / 2 - data.h / 2);
                     if (idx > -1) this.parseSubs.subList.splice( idx, 1, data );
@@ -1679,9 +1682,9 @@
                 this.parseSubs.bW = this.parseSubs.oriW * newscale;
                 this.parseSubs.bH = this.parseSubs.oriH * newscale;
                 this.parseSubs.scale = newscale;
-                this.parseSubs.subList.map( items => {
+                this.parseSubs.subList.map( (items,idx) => {
                     Object.keys( items ).map( it => {
-                        if (prolist3.includes( it )) items[it] = items[it] / scale * newscale
+                        if (prolist3.includes( it )) this.parseSubs.subList[idx][it] = this.parseSubs.subList[idx][it] / scale * newscale
                     } )
                 } )
             },

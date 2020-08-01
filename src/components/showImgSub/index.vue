@@ -81,7 +81,7 @@
                         处理中...
                         <!--                        Processing...-->
                     </div>
-                    <div class="otherBtn flex a-i" v-if="bgOriginal.img">
+                    <div class="otherBtn flex a-i" v-if="bgOriginal.img && type!==3">
                         <span><!--Background-->背景</span>
                         <div v-for="(items,indexs) in color" :key="indexs"
                              @click.stop="choseBackColor(items,indexs)"
@@ -540,6 +540,7 @@
                         let param = new FormData();
                         param.append( 'file', file, file.name )
                         param.set( 'mattingType', _self.type ? _self.type : 1 )
+                        if(_self.type && _self.type===3)param.set( 'crop', 1 )
                         uploadImgApi( param ).then( res => {
                             if (res.code == 0) {
                                 _self.fileId = res.data.fileId
@@ -631,6 +632,7 @@
             getImgMsgByurl() {//通过粘贴请求
                 this.Original = this.file
                 let obj = {url: this.file, mattingType: this.type ? this.type : 1}
+                if(this.type && this.type===3)obj['crop']=1;
                 if (this.files.fileId) obj.fileId = this.files.fileId
                 copyUpload( obj ).then( res => {
                     if (res.code == 0) {
