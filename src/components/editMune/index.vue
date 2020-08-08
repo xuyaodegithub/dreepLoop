@@ -211,34 +211,12 @@
             initshowDowVal() {
                 let oCan = document.createElement( 'canvas' ), oCanTxt, oImg = this.filterList[this.t2Idx].loadObj,
                     imgData2;
-                const [w, h] = [this.proImgObj.width, this.proImgObj.height],
-                    rgb = colorRgb( this.showDowVal.colorVal );
-                oCanTxt = oCan.getContext( '2d' );
-                if (this.checkedM) {
-                    if (w >= h) {
-                        oCan.width = (h + this.showDowVal.mSize * 2) * w / h;
-                        oCan.height = h + this.showDowVal.mSize * 2
-                    } else {
-                        oCan.width = w + this.showDowVal.mSize * 2;
-                        oCan.height = (w + this.showDowVal.mSize * 2) * h / w;
-                    }
-                    // oCan.width = w+this.showDowVal.mSize * 2;
-                    // oCan.height = h+this.showDowVal.mSize * 2;
-                    oCanTxt.drawImage( oImg, 0, 0, oCan.width, oCan.height );
-                    imgData2 = oCanTxt.getImageData( 0, 0, oCan.width, oCan.height );
-                    for (let y = 0; y < oCan.height; y++) {
-                        for (let x = 0; x < oCan.width; x++) {
-                            let pixel = (y * oCan.width + x) * 4;
-                            if (imgData2.data[pixel + 3] != 0) {
-                                imgData2.data[pixel] = rgb[0];
-                                imgData2.data[pixel + 1] = rgb[1];
-                                imgData2.data[pixel + 2] = rgb[2];
-                                // imgData2.data[pixel + 3] = 1;
-                            }
-                        }
-                    }
-                    oCanTxt.putImageData( imgData2, 0, 0 )
-                }
+                 [oCan.width, oCan.height] = [this.proImgObj.width, this.proImgObj.height];
+                oCanTxt=oCan.getContext('2d');
+                oCanTxt.drawImage(oImg,0,0,oCan.width, oCan.height);
+                jsMulit['strokeBorder'].filter(oCan,oCanTxt.getImageData(0,0,oCan.width, oCan.height),this.showDowVal.mSize,this.showDowVal.colorVal);
+                // oCanTxt.drawImage(oImg,0,0,oCan.width, oCan.height);
+                    // rgb = colorRgb( this.showDowVal.colorVal );
                 return oCan
             }
         },
@@ -286,7 +264,7 @@
                 if (this.checked) oCanTxt.drawImage( this.resliderVal, x, y );
                 if (this.checkedM) oCanTxt.drawImage( this.initshowDowVal, 0, 0, this.initshowDowVal.width, this.initshowDowVal.height );//重复同位置putimgData会覆盖，需要画上去
                 const [xx, yy] = [this.checkedM ? (this.initshowDowVal.width - this.resliderVal.width) / 2 : 0, this.checkedM ? (this.initshowDowVal.height - this.resliderVal.height) / 2 : 0]
-                console.log( xx, yy )
+                // console.log( xx, yy )
                 oCanTxt.drawImage( this.filterList[this.t2Idx].loadObj, xx, yy, this.proImgObj.width, this.proImgObj.height );
                 this.$emit( 'effectsImg', {
                     useImg: oCan.toDataURL(), ...this.sliderVal, ...this.showDowVal, angle: this.angle,

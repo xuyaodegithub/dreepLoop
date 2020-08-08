@@ -252,8 +252,9 @@
             //     }
         },
         mounted() {
-            this.stopPrevent()
-            this.getsesImgsSet()
+            this.stopPrevent();
+            this.getsesImgsSet();
+            this.initindexImg();
             if (getToken()) this.userGetscribe();
             window.addEventListener( 'scroll', this.scrollFun );
             $( '#niceScrolls' ).niceScroll( {cursorcolor: '#999999'} );
@@ -732,6 +733,13 @@
                 } ).catch( () => {
 
                 } );
+            },
+            initindexImg(){//接收从首页过来的图片
+                let imgUrl=window.localStorage.getItem('initImg');
+                if(imgUrl){
+                    window.localStorage.removeItem('initImg');
+                    this.deepItem(imgUrl)
+                }
             }
 
         },

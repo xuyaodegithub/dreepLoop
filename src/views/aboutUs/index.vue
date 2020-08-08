@@ -13,7 +13,8 @@
 <!--                    image search niche or generic image classification, detection, or semantic segmentation task, we-->
 <!--                    will cater to your need. Together, let’s make humanity smarter!-->
 <!--                </p>-->
-                <p>有了一群技术狂人，picup ai利用人工智能和计算机视觉的力量，提供各种各样的产品，使您的生活更容易，工作更富有成效。无论是人像裁剪、风格转换、绘画、图像增强、逆向图像搜索利基或通用图像分类、检测或语义分割任务，我们都能满足您的需求。让我们一起让人类变得更聪明！</p>
+                <p style="margin-bottom: 15px">皮卡智能（英文名：PicUP.AI）是杭州王道起兮科技有限公司旗下产品</p>
+                <p>皮卡智能利用人工智能和计算机视觉的力量，提供各种各样的产品，使您的生活更容易，工作更富有成效。无论是人像裁剪、风格转换、绘画、图像增强、逆向图像搜索利基或通用图像分类、检测或语义分割任务，我们都能满足您的需求。让我们一起让人类变得更聪明！</p>
                 <h4>联系我们</h4>
                 <div class="flex a-i cu ac">
                     <img src="../../assets/image/wx.png" alt="">
@@ -21,9 +22,19 @@
                     <img src="../../assets/image/ewm.png" alt="" style="margin-left: 20px;margin-right: 0;">
                     <img src="../../assets/image/wxl.png" alt="" class="noC" style="width:120px;">
                 </div>
-                <div class="flex a-i">
+                <div class="flex a-i addac">
                     <img src="../../assets/image/img3.png" alt="">
                     <a href="mailto:pikachu@picup.ai">pikachu@picup.ai</a>
+                </div>
+                <div class="flex a-i addac">
+                    <img src="../../assets/image/phone.png" alt="">
+                    <p>4001180827</p>
+                </div>
+                <div class="flex addac" style="padding-right: 20px;line-height: 24px;">
+                    <div>
+                        <img src="../../assets/image/local.png" alt="">
+                    </div>
+                    <p>浙江省杭州市滨江区长河街道众创路355号云际创新中心1幢1601室</p>
                 </div>
             </div>
         </div>
@@ -63,6 +74,13 @@
         justify-content: space-between;
         .aboutRight{
             width: 536px;
+            .addac{
+                font-size: 16px;
+                margin-bottom: 15px;
+                p{
+                    margin-left: 20px;
+                }
+            }
             .ac{
                 position: relative;
                 margin-bottom: 15px;
@@ -101,7 +119,7 @@
             a{
                 font-size: 16px;
                 color: #333;
-                margin-left: 16px;
+                margin-left: 20px;
             }
         }
     }

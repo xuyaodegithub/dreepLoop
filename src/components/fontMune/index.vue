@@ -171,7 +171,6 @@
                     if(item.hasOwnProperty('open'))item.open=false
                 })
                 this.styleList[idx+4].open=true;
-                console.log(this.secondList)
             },
             initCanshu(data){
                 const  a=['left','center','right'],keys=Object.keys(data);

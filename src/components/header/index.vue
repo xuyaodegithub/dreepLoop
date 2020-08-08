@@ -6,6 +6,8 @@
                 </li>
                 <li class="cu" :class="{'red' : urls.indexOf('index')>-1 || urls.indexOf('/#/')>-1}">
                     <a href="index.html">首页</a></li><!--智能抠图-->
+<!--                <li class="cu" :class="{'red' : urls.indexOf('transitionPage')>-1 }">-->
+<!--                    <a href="transitionPage.html">一键抠图</a></li>&lt;!&ndash;智能抠图&ndash;&gt;-->
                 <li class="cu hove" :class="{'redPS' : piliangList.findIndex(item=>urls.includes(item))>-1}">批量抠图 <i
                         class="el-icon-caret-bottom"></i>
                     <transition name="el-zoom-in-top">
@@ -22,18 +24,17 @@
                            :class="{'red' : urls.includes(item)}">{{['一键美化','图片修复'][idx]}}</a>
                     </div>
                 </li>
-                <li class="cu" :class="{'red' : urls.indexOf('img/list')>-1}"><a href="http://www.picup.shop/img/list">免费背景图</a>
-                </li><!--下载-->
+                <li class="cu"><a href="http://matting.deeplor.com/blog" target="_blank">使用案例</a></li>
             </ul>
             <div class="right flex">
                 <div style="padding:0 15px;"><a href="https://mp.weixin.qq.com/s/AsVjcACbusdKXcheF_HHtw" target="_blank"><img src="../../assets/image/freeGet.gif" alt=""></a></div>
-                <div class="mobiles">手机端
-                    <i class="el-icon-caret-bottom"></i>
-                    <div>
-                        <img src="../../assets/image/wechatEwm.jpg" alt="" />
-                        <p>关注公众号送下载次数</p>
-                    </div>
-                </div>
+<!--                <div class="mobiles">手机端-->
+<!--                    <i class="el-icon-caret-bottom"></i>-->
+<!--                    <div>-->
+<!--                        <img src="../../assets/image/wechatEwm.jpg" alt="" />-->
+<!--                        <p>关注公众号送下载次数</p>-->
+<!--                    </div>-->
+<!--                </div>-->
                 <div v-if="!loginAfter">
                     <span :class="{'red' : urls.indexOf('downLoad')>-1}"><a href="downLoad.html">下载桌面端</a></span>
                     <a href="apis.html"><span>API</span></a><!--登录-->
@@ -45,7 +46,7 @@
                     <span><a href="apis.html">API</a></span><!--登录-->
                     <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">定价</span>
                     <el-dropdown placement="bottom-end" @command="handleCommand">
-                      <span class="el-dropdown-link" @click="toMyCount()">
+                      <span class="el-dropdown-link" @click="toMyCount()" style="color:#e82255;">
                        {{userInfo.mobile}}
                       </span>
                         <el-dropdown-menu slot="dropdown">
@@ -67,6 +68,7 @@
     import {toRouter} from '@/utils'
     import {setToken, getToken, removeToken, clearCookie} from "../../utils/auth";
     import {getUserInfo} from "../../apis";
+    import { sha256, sha224 } from 'js-sha256';
 
     export default {
         name: "index",
@@ -150,7 +152,8 @@
             }
         },
         mounted() {
-            this.getUserinfo()
+            this.getUserinfo();
+            console.log(sha256('你是啥'))
         }
     }
 </script>
@@ -248,7 +251,11 @@
             }
         }
     }
-
+    header .right {
+        a,span{
+            color: #333;
+        }
+    }
     header .right .red {
         color: #e82255;
 
@@ -280,6 +287,7 @@
         cursor: pointer;
         position: relative;
         padding: 0 15px;
+        color: #333;
         &:hover{
             div{
                 display: block;

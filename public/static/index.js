@@ -13,7 +13,7 @@ oBtn.click( function () {
 } )
 if (token) {
     $.ajax( {
-        url: '//restapi.picup.shop/user/userInfo',
+        url: baseUrl+'/user/userInfo',
         type: 'GET',
         dataType: 'json',
         headers: {token: token},

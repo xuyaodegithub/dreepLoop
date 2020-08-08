@@ -20,10 +20,10 @@
                 </div>
                 <div class="flex a-i j-b"
                      v-if="imageMsg.previewWidth!==imageMsg.originalWidth || imageMsg.previewHeight!==imageMsg.originalHeight">
-                    <span>{{imageMsg.originalWidth + ' X ' + imageMsg.originalHeight}}</span>
+                    <span>{{imageMsg.originalWidth + ' X ' + imageMsg.originalHeight}} <i style="font-size: 12px" v-if="imageMsg.originalWidth*imageMsg.originalHeight >4000000 && mattingType!==3">(高清)</i></span>
                     <span>1</span>
                     <!--                    <p @click="edireThis(1)">编辑</p>-->
-                    <span class="cu" @click="save(1,$event)">下载</span>
+                    <span class="cu" @click="save(1,$event,imageMsg.originalWidth*imageMsg.originalHeight >4000000 ? mattingType : '')">下载</span>
                 </div>
                 <div>
                     {{(userSubscribeData.monthExpireDate && userSubscribeData.monthExpireDate>noeTime &&
@@ -64,14 +64,14 @@
                     border: '1px solid #e82255',
                     borderColor: this.type === 1 ? '#e82255' : '#21a9e8',
                 }
-            }
+            },
         },
         methods: {
             edireThis(k) {
                 this.$emit( 'edireThis', k,this.mattingType )
             },
-            save(k, e) {
-                this.$emit( 'save', k, e )
+            save(k, e,mattingType) {
+                this.$emit( 'save', k, e,'', mattingType)
             }
         }
     }
@@ -151,7 +151,7 @@
                 }
 
                 span {
-                    width: 100px;
+                    width: 120px;
 
                     &:nth-child(2) {
                         width: 80px;

@@ -106,10 +106,11 @@
                     </div>
                     <div class="flex">
                         <down-btn v-if="bgOriginal.img" :imageMsg="imageMsg" @edireThis="edireThis" @save="save"
-                                  :type="2"></down-btn>
+                                  :type="2" :mattingType="2"></down-btn>
                         <down-btn v-if="bgOriginal.img" :imageMsg="imageMsg" @edireThis="edireThis" @save="save"
                                   :type="2" down  :mattingType="2"></down-btn>
                     </div>
+                    <loading-sub text="为了更好的高清边缘细节，我们正在努力为你处理中" v-if="showLoading" color="#21a9e8"></loading-sub>
                 </div>
             </div>
         </div>
@@ -126,6 +127,7 @@
     import {mapGetters} from 'vuex'
     import {mixins} from '@/minxins'
     import downBtn from '../downLoadBtn'
+    import loadingSub from '../loadingSub'
 
     export default {
         name: "imgsub",
@@ -182,6 +184,7 @@
                 oDDiv: '',
                 oIImg: '',
                 initfirst: true,
+                showLoading: false
             }
         },
         watch: {
@@ -215,7 +218,7 @@
             }
         },
         components: {
-            downBtn
+            downBtn,loadingSub
         },
         created() {
             // this.initsub()
@@ -744,7 +747,7 @@
                 this.drawImgAfterFirst( this.loadImg );
                 this.backg = {background: this.colorValue}
             },
-            save(index, e, all) {//保存下载
+            save(index, e, all, mattingType) {//保存下载
                 if (index === 0) {
                     let url = this.bgOriginal.img
                     this.initSmallTag( e, '免费 :）' )
@@ -755,12 +758,18 @@
                         this.downOldImg( this.imageMUrl, all )
                         return
                     }
-                    downloadMattedImage( {fileId: this.fileId} ).then( res => {
+                    let data = {fileId: this.fileId};
+                    console.log(mattingType)
+                    if (mattingType && mattingType !== 3) {
+                        this.showLoading = true;
+                        data['highQuality'] = 1;//高清下载
+                    }
+                    downloadMattedImage( data ).then( res => {
                         if (!res.code) {
                             this.initSmallTag( e, '次数 -1' )
                             this.imageMUrl = res.data
                             this.downOldImg( res.data, all )
-                        }
+                        }else this.showLoading = false;
                     } )
                 }
             },
@@ -801,6 +810,7 @@
                 oImg.src = urlss
             },
             downFunc(cans, all) {//下载方法提取
+                this.showLoading = false;
                 if (myBrowser() === 'IE' || myBrowser() === 'Edge') {//ie下载图片
                     let url = cans.msToBlob();
                     let blobObj = new Blob( [url] );

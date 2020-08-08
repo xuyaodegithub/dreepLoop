@@ -2261,6 +2261,146 @@ function WaterRippleFilter(){
 		filterUtils.transformFilter(inputData,transInverse,width,height);
 	};
 }
+function setBorder() {
+	this.tempCanvas=document.createElement('canvas');
+	this.removeTransparency=(canvas) =>{
+		var ctx = canvas.getContext('2d');
+		var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+		var nPixels = imageData.data.length;
+		for (var i = 3; i < nPixels; i += 4) {
+			if (imageData.data[i] > 0) {
+				imageData.data[i] = 255;
+			}
+		}
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.putImageData(imageData, 0, 0);
+		return canvas;
+	}
+
+	this.filter=(canvas,imageData,size,color)=> {
+		var nPixels = imageData.data.length;
+		// var size = this.getAttr('borderSize') || 0;
+		// - first set correct dimensions for canvases
+		canvas.width = imageData.width;
+		canvas.height = imageData.height;
+		this.tempCanvas.width = imageData.width;
+		this.tempCanvas.height = imageData.height;
+		// - the draw original shape into temp canvas
+		this.tempCanvas.getContext('2d').putImageData(imageData, 0, 0);
+		// - then we need to remove alpha chanel, because it will affect shadow (transparent shapes has smaller shadow)
+		this.removeTransparency(this.tempCanvas);
+		var ctx = canvas.getContext('2d');
+		// var color = this.getAttr('borderColor') || 'black';
+		// 3. we will use shadow as border
+		// so we just need apply shadow on the original image
+		ctx.save();
+		ctx.shadowColor = color;
+		ctx.shadowBlur = size;
+		ctx.drawImage(this.tempCanvas, 0, 0);
+		ctx.restore();
+		// - Then we will dive in into image data of [original image + shadow]
+		// and remove transparency from shadow
+		var tempImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+		var SMOOTH_MIN_THRESHOLD = 3;
+		var SMOOTH_MAX_THRESHOLD = 10;
+		let val, hasValue;
+		var offset = 3;
+		for (var i = 3; i < nPixels; i += 4) {
+			// skip opaque pixels
+			if (imageData.data[i] === 255) {
+				continue;
+			}
+			val = tempImageData.data[i];
+			hasValue = val !== 0;
+			if (!hasValue) {
+				continue;
+			}
+			if (val > SMOOTH_MAX_THRESHOLD) {
+				val = 255;
+			} else if (val < SMOOTH_MIN_THRESHOLD) {
+				val = 0;
+			} else {
+				val =
+					((val - SMOOTH_MIN_THRESHOLD) /
+						(SMOOTH_MAX_THRESHOLD - SMOOTH_MIN_THRESHOLD)) *
+					255;
+			}
+			tempImageData.data[i] = val;
+		}
+		// draw resulted image (original + shadow without opacity) into canvas
+		ctx.putImageData(tempImageData, 0, 0);
+		// then fill whole image with color (after that shadow is colored)
+		ctx.save();
+		ctx.globalCompositeOperation = 'source-in';
+		ctx.fillStyle = color;
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+		ctx.restore();
+		// then we need to copy colored shadow into original imageData
+		var newImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+		var indexesToProcess = [];
+		for (var i = 3; i < nPixels; i += 4) {
+			var hasTransparentOnTop =
+				imageData.data[i - imageData.width * 4 * offset] === 0;
+			var hasTransparentOnTopRight =
+				imageData.data[i - (imageData.width * 4 + 4) * offset] === 0;
+			var hasTransparentOnTopLeft =
+				imageData.data[i - (imageData.width * 4 - 4) * offset] === 0;
+			var hasTransparentOnRight = imageData.data[i + 4 * offset] === 0;
+			var hasTransparentOnLeft = imageData.data[i - 4 * offset] === 0;
+			var hasTransparentOnBottom =
+				imageData.data[i + imageData.width * 4 * offset] === 0;
+			var hasTransparentOnBottomRight =
+				imageData.data[i + (imageData.width * 4 + 4) * offset] === 0;
+			var hasTransparentOnBottomLeft =
+				imageData.data[i + (imageData.width * 4 - 4) * offset] === 0;
+			var hasTransparentAround =
+				hasTransparentOnTop ||
+				hasTransparentOnRight ||
+				hasTransparentOnLeft ||
+				hasTransparentOnBottom ||
+				hasTransparentOnTopRight ||
+				hasTransparentOnTopLeft ||
+				hasTransparentOnBottomRight ||
+				hasTransparentOnBottomLeft;
+			// if pixel presented in original image - skip it
+			// because we need to change only shadow area
+			if (
+				imageData.data[i] === 255 ||
+				(imageData.data[i] && !hasTransparentAround)
+			) {
+				continue;
+			}
+			if (!newImageData.data[i]) {
+				// skip transparent pixels
+				continue;
+			}
+			indexesToProcess.push(i);
+		}
+		for (var index = 0; index < indexesToProcess.length; index += 1) {
+			var i = indexesToProcess[index];
+
+			var alpha = imageData.data[i] / 255;
+
+			if (alpha > 0 && alpha < 1) {
+				var aa = 1 + 1;
+			}
+			imageData.data[i] = newImageData.data[i];
+			imageData.data[i - 1] =
+				newImageData.data[i - 1] * (1 - alpha) +
+				imageData.data[i - 1] * alpha;
+			imageData.data[i - 2] =
+				newImageData.data[i - 2] * (1 - alpha) +
+				imageData.data[i - 2] * alpha;
+			imageData.data[i - 3] =
+				newImageData.data[i - 3] * (1 - alpha) +
+				imageData.data[i - 3] * alpha;
+
+			if (newImageData.data[i] < 255 && alpha > 0) {
+				var bb = 1 + 1;
+			}
+		}
+	}
+}
 /**
  * A collection of all the filters.
  */
@@ -2306,7 +2446,8 @@ var JSManipulate = {
 	triangleripple : new TriangleRippleFilter(),
 	twirl : new TwirlFilter(),
 	vignette : new VignetteFilter(),
-	waterripple : new WaterRippleFilter()
+	waterripple : new WaterRippleFilter(),
+	strokeBorder : new setBorder(),
 };
 
 // module.exports = JSManipulate

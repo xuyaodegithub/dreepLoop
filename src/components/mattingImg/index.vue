@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="mright">
-                <div class="opacity" :style="{width:`${initW}px`,height:`${initH}px`,left:canXy.x,top:canXy.y}">
+                <div class="opacity" :style="{width:`${initW}px`,height:`${initH}px`,left:canXy.x,top:canXy.y}"  @mousedown="downs($event,3)" >
                     <canvas id="pre"></canvas>
                     <span class="bords"
                           :style="{width:`${borderWh.w}px`,height:`${borderWh.h}px`,left:`${arcXy.x}px`,top:`${arcXy.y}px`}"></span>
@@ -158,7 +158,7 @@
                 oImg.src = this.edrieImgInfo.ori + `?str=${Math.random()}`;
             },
             initoriUp(){
-                const [w,h]=[this.oPre.width,this.oPre.height]
+                const [w,h]=[this.oPre.width,this.oPre.height];
                 let imgData = this.oPreTxt.getImageData(0,0,this.oPre.width,this.oPre.height);
                 for (let y = 0; y < h; y++) {
                     for (let x = 0; x < w; x++) {
@@ -216,7 +216,7 @@
                 this.arcXy.x = x - this.borderWh.w / 2;
                 this.arcXy.y = y - this.borderWh.h / 2;
             },
-            downs(e) {
+            downs(e,k) {
                 const ev = e || window.event;
                 this.oDivContent = document.querySelector( '.mleft .nowCans' ).getBoundingClientRect();
                 this.downXy.x = (ev.clientX - this.oDivContent.left) * this.preObj.width / this.initW;//计算当前鼠标在原图上的位置
@@ -225,7 +225,7 @@
                 this.downXy.pxy = ev.clientY - this.oDivContent.top;
                 this.downXy.ol = this.$refs.parseDiv.offsetLeft;
                 this.downXy.ot = this.$refs.parseDiv.offsetTop;
-                if(this.downSpace){
+                if(this.downSpace || k){
                     this.isPaint=3;
                     return;
                 }
@@ -457,6 +457,9 @@
                 background-image: url("../../assets/opacity.jpg");
                 background-size: cover;
                 background-position: center;
+                &:hover{
+                    cursor: url("http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200803/35a4756d972544b9aca3959a99f04e20.png") ,auto;
+                }
             }
 
             & > div {
@@ -476,7 +479,8 @@
                 .bords {
                     position: absolute;
                     border-radius: 50%;
-                    background-color: rgba(230, 48, 60, 0.4);
+                    background-color: rgba(230, 48, 60, 0.6);
+                    box-shadow: 0 0 10px rgba(18, 241, 6, 1) inset;
                 }
             }
         }

@@ -51,12 +51,11 @@
     <style>
         .titleHeader {
             font-size: 24px;
-            color: #333;
             line-height: 1;
             text-align: center;
             margin-top: 60px;
             padding: 86px 0 72px;
-            background-image: url("static/bg20200721154800.jpg");
+            background-image: url("static/bg20200803113146.jpg");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -67,7 +66,27 @@
             font-size: 58px;
             margin-bottom: 25px;
         }
-
+        .titleHeader .oA{
+            display: block;
+            margin: 40px auto 0;
+            width: 350px;
+            line-height: 60px;
+            background-color: #fff;
+            color: #e82255;
+            text-align: center;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .titleHeader .oA img{
+            vertical-align: baseline;
+            margin-right: 15px;
+        }
+        .titleHeader p:last-child{
+            font-size: 14px;
+            color: #F8CFD2;
+            margin-top: 15px;
+        }
         .headers {
             padding: 40px 0;
             line-height: 1;
@@ -395,6 +414,31 @@
             background-color: #fff;
             display: none;
         }
+        .zhezhao {
+            display: none;
+            position: fixed;
+            z-index: 2222;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, .1);
+        }
+
+        .loading {
+            display: none;
+            position: fixed;
+            padding: 10px;
+            width: 80px;
+            line-height: 28px;
+            font-size: 12px;
+            border-radius: 15px;
+            text-align: center;
+            background-color: rgba(250, 250, 250, .8);
+            color: #333;
+            z-index: 3333;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
     </style>
 </head>
 <body>
@@ -403,9 +447,14 @@
             height="0" width="0" style="display:none;visibility:hidden"></iframe>
 </noscript>
 <img src="slt.jpg" alt="" style="display: none">
+<input type="file" name="" id="loadIn" accept="image/*" multiple="false" style="display: none" onchange="changeImg(event)">
 <div class="titleHeader">
     <h1>一键抠图神器</h1>
     <p>100%自动，免费，在线换背景</p>
+    <div class="oA">
+        <img src="static/ico_20200803113312.png" alt="">上传图像
+    </div>
+    <p>CTRL+V粘贴图像或者URL，也可拖拽图像到此页面</p>
 </div>
 <div class="headers">
     <div class="margin">
@@ -600,10 +649,11 @@
             <span class="lv ewn cu" onclick="showEwm(1)">一键旅拍
                 <img src="static/e2.png" alt="一键抠图，人像抠图"></span>
             <a href="product.html">更多产品</a>
+            <a href="http://www.picup.shop/img/list">免费背景图</a>
         </div>
         <div>
             <h5>关于我们</h5>
-            <a href="aboutUs.html">联系我们</a>
+            <a href="aboutUs.html">关于我们</a>
             <a href="docsify/#/registerdoc_terms.md">服务和隐私</a>
             <a href="copyright.html">版权</a>
         </div>
@@ -646,18 +696,23 @@
         <a href="http://m.picup.ai">抠图软件app</a>
     </div>
 </footer>
+<div class="zhezhao"></div>
+<div class="loading">
+    处理中...
+</div>
 <div class="f_last">
     © 2018-2020皮卡智能PicUP.AI
     &nbsp;&nbsp;&nbsp;&nbsp;
     <a href="http://beian.miit.gov.cn/" target="_blank">浙ICP备16000297号-11</a>
 </div>
 <!-- built files will be auto injected -->
+<script src="static/jquery-1.11.3.min.js"></script>
 <script type="text/javascript">
-    let oLoop = document.querySelectorAll( '.loop .item .cu' )
-    let oLoopImg = document.querySelectorAll( '.loop .rel img' )
+    let oLoop = document.querySelectorAll( '.loop .item .cu' ),oAd=document.querySelector('.oA');
+    let oLoopImg = document.querySelectorAll( '.loop .rel img' ),oFile=document.getElementById('loadIn')
     let oBt = document.querySelectorAll( '.bgchange .bt div' )
     let oBgImg = document.querySelectorAll( '.bgchange .first img:first-child' )[0]
-    let idx = 1, closeTimer = false
+    let idx = 1, closeTimer = false;
     for (let i = 0; i < oLoop.length; i++) {
         oLoop[i].addEventListener( 'mouseover', function () {
             Array.prototype.slice.call( oLoop ).map( function (v, i) {
@@ -706,6 +761,206 @@
     //     if(!oEwm[i].style.display || oEwm[i].style.display==='none')oEwm[i].style.display='block';
     //     else oEwm[i].style.display='none';
     // }
+    oAd.onclick=function(){
+        oFile.click();
+        // window.location.href='transitionPage.html'
+    }
+    let fileId, imgData, token = localStorage.getItem( 'user_Token' ), fileMsg,
+        devbase = '<%= VUE_APP_BASEURL %>';//模板内取得webpack环境变量
+    console.log(devbase)
+    // devbase = '//restapi.picup.shop';
+    function changeImg(e) {
+        fileMsg = e.target.files[0];
+        if (fileMsg) dreepByFile( fileMsg );
+    }
+
+    function stopPrevent() {//阻止游览器默认打开图片
+        document.addEventListener( "drop", function (e) {  //拖离
+            e.preventDefault();
+        } );
+        document.addEventListener( "dragleave", function (e) {  //拖后放
+            e.preventDefault();
+        } );
+        document.addEventListener( "dragenter", function (e) {  //拖进
+            e.preventDefault();
+        } );
+        document.addEventListener( "dragover", function (e) {  //拖来拖去
+            e.preventDefault();
+        } );
+        // let oDrops = document.getElementsByClassName( 'upLoad' );
+        // for (let i = 0; i < oDrops.length; i++) {
+            document.addEventListener( "drop", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                let files = e.dataTransfer.files;
+                if (!files.length) return;
+                if (files.length > 1) {
+                    loading( '请每次处理一张图片' )
+                    return
+                }
+                fileMsg = files[0];
+                dreepByFile( files[0] )
+            } )
+        // }
+    }
+
+    document.addEventListener( 'paste', (e) => {
+        console.log(e)
+        let clipboardData = e.clipboardData,//谷歌
+            i = 0,
+            items, item, types;
+        if (clipboardData) {
+            items = clipboardData.items;
+            if (!items) {
+                return;
+            }
+            item = items[0];
+            types = clipboardData.types || [];
+            for (; i < types.length; i++) {
+                if (types[i] === 'Files') {
+                    item = items[i];
+                    break;
+                }
+            }
+            if (item && item.kind === 'string' && item.type.match( /^text\//i )) {
+                fileMsg={name:clipboardData.getData( "Text" )}
+                this.dreepByurl( clipboardData.getData( "Text" ) )
+            }
+            if (item && item.kind === 'file' && item.type.match( /^image\//i )) {
+                fileMsg = item.getAsFile();
+                this.dreepByFile( item.getAsFile() )
+            }
+        }
+    } )
+
+
+    function dreepByurl(url) {
+        // console.log(url)
+        toPostEdior(url)
+        // setLoading( 1 )
+        // let data = {url, mattingType: 6};
+        // $.ajax( {
+        //     url: devbase+'/webMatting/mattingByUrl2',
+        //     type: 'post',
+        //     dataType: 'json',
+        //     xhrFields: {
+        //         withCredentials: true
+        //     },
+        //     headers: {token: token},
+        //     data: data,
+        //     success(res) {
+        //         if (!res.code) {
+        //             fileId = res.data.fileId;
+        //             if (res.data.status === 'success') {
+        //                 toPostEdior( res.data )
+        //             } else {
+        //                 $( '.loading' ).text( `当前排队位置` + res.data.queueNumber )
+        //                 setTimeout( pollingImg, 2000 )
+        //             }
+        //         } else if (res.code === 4003) {
+        //             localStorage.setItem( 'backUrl', window.location.href );
+        //             window.location.href = `loginOrRegister.html`;
+        //         } else loading( res.msg )
+        //     }
+        // } )
+    }
+
+    //
+    function dreepByFile(file) {
+        setLoading( 1 )
+        let formData = new FormData();
+        formData.append( 'file', file );
+        // formData.set( 'mattingType', 6 );
+        $.ajax( {
+            // url: devbase+'/webMatting/matting2',
+            url: devbase+'/oss/upload',
+            type: 'post',
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            xhrFields: {
+                withCredentials: true
+            },
+            headers: {token: token},
+            data: formData,
+            success(res) {
+                if (!res.code) {
+                    toPostEdior(res.data)
+                    // fileId = res.data.fileId;
+                    // if (res.data.status === 'success') toPostEdior( res.data );
+                    // else {
+                    //     $( '.loading' ).text( `当前排队位置` + res.data.queueNumber )
+                    //     setTimeout( pollingImg, 2000 )
+                    // }
+                } else if (res.code === 4003) {
+                    localStorage.setItem( 'backUrl', window.location.href );
+                    window.location.href = `loginOrRegister.html`;
+                } else loading( res.msg )
+            }
+        } )
+    }
+
+    //
+    function pollingImg() {
+        let data = {fileId: fileId};
+        $.ajax( {
+            url: devbase+'/webMatting/getMattingInfo',
+            type: 'get',
+            dataType: 'json',
+            headers: {token: token},
+            data: data,
+            success(res) {
+                if (!res.code) {
+                    if (res.data.status === 'success') toPostEdior( res.data );
+                    else {
+                        $( '.loading' ).text( `当前排队位置` + res.data.queueNumber )
+                        setTimeout( pollingImg, 2000 )
+                    }
+                } else loading( res.msg )
+            }
+        } )
+    }
+
+
+    function loading(str) {
+        $( '.loading' ).text( str );
+        $( '.loading' ).css( 'display', 'block' );
+        setTimeout( function () {
+            $( '.loading' ).text( '处理中...' );
+            $( '.loading' ).css( 'display', 'none' );
+            $( '.zhezhao' ).css( 'display', 'none' );
+        }, 2000 )
+
+    }
+
+    function setLoading(k) {
+        if (k) {
+            $( '.loading' ).text( '处理中...' );
+            $( '.loading' ).css( 'display', 'block' );
+            $( '.zhezhao' ).css( 'display', 'block' );
+        } else {
+            $( '.loading' ).css( 'display', 'none' );
+            $( '.zhezhao' ).css( 'display', 'none' );
+        }
+    }
+
+    // dreepByurl('http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2020/08/03/5ee809a7d730479db5828519fea6fcf1.jpg')
+    function toPostEdior(url) {
+        // imgData = res;
+        // const editPictures = {
+        //     pro: res.bgRemovedPreview,
+        //     ori: res.original,
+        //     filename: fileMsg.name,
+        //     bgImg: '',
+        //     fileId: fileId,
+        //     imageMsg: imgData,
+        //     mattingType: 6
+        // }
+        localStorage.setItem( 'initImg', url )
+        setLoading()
+        window.location.href = 'currency.html';
+    }
+    stopPrevent()
 </script>
 </body>
 </html>

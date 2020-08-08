@@ -217,6 +217,18 @@ module.exports = {
             filename: 'posterEditor.html',
             title: '海报设计',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
+        },transitionPage:{
+            entry: 'src/views/index/transitionPage.js',
+            template:'public/transitionPage.html',
+            filename: 'transitionPage.html',
+            title: '一键抠图',
+            // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
+        },apis:{
+            entry: 'src/views/index/apis.js',
+            template:'public/apis.html',
+            filename: 'apis.html',
+            title: 'apis',
+            // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
         },
     },
     // chainWebpack: config => {
