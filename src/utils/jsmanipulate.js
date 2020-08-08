@@ -2261,7 +2261,7 @@ function WaterRippleFilter(){
 		filterUtils.transformFilter(inputData,transInverse,width,height);
 	};
 }
-function setBorder() {
+function setBorder() {//描边效果
 	this.tempCanvas=document.createElement('canvas');
 	this.removeTransparency=(canvas) =>{
 		var ctx = canvas.getContext('2d');
