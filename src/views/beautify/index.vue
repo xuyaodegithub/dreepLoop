@@ -133,7 +133,7 @@
     import headerSub from '@/components/header/index.vue'
     import imgSub from '@/components/showImgSub/beauTy.vue'
     import {getToken, getSecImgs, setSecImgs} from "../../utils/auth";
-    import {basrUrls} from "../../utils";
+    import {basrUrls,setVsource} from "../../utils";
     import imgSetSub from '@/components/setImgSub/index.vue'
     import {getMattedImageMultiple, userHistoryList} from "../../apis";
     import JSManipulate from '../../utils/jsmanipulate.js'
@@ -186,6 +186,7 @@
 
         },
         mounted() {
+            setVsource()
             this.stopPrevent()
             this.getsesImgsSet()
             if (getToken()) this.userGetscribe();

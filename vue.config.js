@@ -229,6 +229,18 @@ module.exports = {
             filename: 'apis.html',
             title: 'apis',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
+        },idPhoto:{
+            entry: 'src/views/idPhoto/index.js',
+            template:'public/idPhoto.html',
+            filename: 'idPhoto.html',
+            title: '证件照',
+            // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
+        },idPhotoEdit:{
+            entry: 'src/views/editPictures/idPhotoEdit.js',
+            template:'public/idPhotoEdit.html',
+            filename: 'idPhotoEdit.html',
+            title: '证件照编辑器',
+            // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
         },
     },
     // chainWebpack: config => {

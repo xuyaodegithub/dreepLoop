@@ -165,7 +165,7 @@
     import headerSub from '@/components/header/index.vue'
     import imgSub from '@/components/showImgSub/index.vue'
     import {getToken, getSecImgs, setSecImgs} from "../../utils/auth";
-    import {basrUrls} from "../../utils";
+    import {basrUrls,setVsource} from "../../utils";
     import imgSetSub from '@/components/setImgSub/index.vue'
     import {getMattedImageMultiple, userHistoryList} from "../../apis";
     import mohu1 from '@/assets/image/mohu1.png'
@@ -252,6 +252,7 @@
             //     }
         },
         mounted() {
+            setVsource()
             this.stopPrevent()
             this.getsesImgsSet()
             if (getToken()) this.userGetscribe();

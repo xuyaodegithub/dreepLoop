@@ -413,3 +413,15 @@ export const colorRgb = (colors) => {//16进制转rgb
         return color;
     }
 }
+export const  setVsource=()=>{
+    var seaCats=queryStringUrl('vsource');
+    if(seaCats)sessionStorage.setItem('vsource',seaCats)
+}
+export const queryStringUrl=(name)=>{
+    var reg=new RegExp("(^|$)"+name+"=([^&]*)(&|$)")
+    var r=window.location.search.substr(1).match(reg)
+    if(r!=null){
+        return decodeURI(r[2])
+    }
+    return null
+}

@@ -1,0 +1,358 @@
+.helloFirst {
+    background-color: #f5f5f6;
+}
+
+.helloFirst div.OperatorRight {
+    margin: 76px 0 0 260px;
+    flex: 1;
+    background-color: initial;
+    padding: 0;
+}
+.OperatorRight .tops,.OperatorRight .sect{
+    padding: 40px 0 40px 50px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    background-color: #fff;
+}
+.helloFirst .OperatorRight .cList {
+    flex-wrap: wrap;
+}
+
+.helloFirst .OperatorRight .cList p {
+    font-size: 14px;
+    color: #000;
+    line-height: 44px;
+    font-weight: bold;
+    width: 235px;
+}
+
+
+.helloFirst .Operator {
+    line-height: 1;
+    color: #333;
+    width: 244px;
+    background-color: #fff;
+    font-size: 14px;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 60px;
+    z-index: 666 ;
+}
+
+.Operator .btns {
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+    line-height: 40px;
+    width: 180px;
+    background-color: #e82255;
+    margin: 30px auto 10px;
+}
+
+.Operator .btns.te {
+    background-color: #fff;
+    color: #e82255;
+    border: 1px solid #e82255;
+    line-height: 38px;
+    margin: 0 auto;
+}
+
+.apps.tactive {
+    padding-right: 85px;
+}
+
+.Operator .bottonLast {
+    padding: 30px 0 30px 34px;
+    font-size: 14px;
+    /*font-weight: 600;*/
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.Operator h4 {
+    line-height: 1;
+    font-size: 14px;
+    color: #333;
+    margin: 25px 0 20px;
+    /*text-align: center;*/
+    padding: 0 30px;
+}
+
+.bottonLast .flex img {
+    margin-right: 10px;
+}
+
+.bottonLast > div:first-child {
+    margin-bottom: 30px;
+}
+
+.bottonLast h5 {
+    margin-bottom: 24px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #666;
+}
+
+.bottonLast .fixedB {
+    position: absolute;
+    left: 34px;
+    bottom: 100px;
+}
+
+.Operator .diops {
+    text-align: center;
+    font-size: 12px;
+    margin-bottom: 24px;
+}
+
+.Operator .diops img {
+    margin-right: 10px;
+}
+
+.Operator .photoHisList {
+    overflow: auto;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.Operator .photoHisList .itmes {
+    cursor: pointer;
+    margin: 0 8px 8px 0;
+    width: 88px;
+    height: auto;
+}
+
+.Operator .photoHisList .itmes img {
+    display: block;
+    width: 100%;
+}
+
+.fixedB .flex {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.fixedB .flex .noC {
+    position: absolute;
+    bottom: 0;
+    right: -116px;
+    display: none;
+}
+
+.fixedB .flex:hover .noC {
+    display: block;
+}
+
+.fixedB a {
+    color: #333;
+}
+
+.OperatorRight .sizeClass {
+    font-size: 34px;
+    color: #333;
+    font-weight: bold;
+}
+
+.OperatorRight .sizeClass input {
+    position: relative;
+    width: 400px;
+    margin-left: 60px;
+    line-height: 40px;
+    text-indent: 1em;
+    border: 1px solid #9c9c9c;
+    border-radius: 5px;
+}
+
+.sizeClass img {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    left: -60px;
+}
+
+.OperatorRight .sect > label {
+    position: relative;
+    text-indent: 1em;
+    display: block;
+    margin-top: 42px;
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 20px;
+    line-height: 1;
+    font-weight: bold;
+}
+
+.OperatorRight .oLeft {
+    width: 690px;
+    line-height: 1;
+}
+
+.oLeft .icons {
+    margin-bottom: 30px;
+}
+.oLeft h6{
+    font-size: 14px;
+    color: #333;
+    line-height: 1;
+}
+.mar{
+    margin: 10px 0;
+}
+.twoBtns {
+    margin-bottom: 40px;
+}
+
+.twoBtns span {
+    cursor: pointer;
+    width: 160px;
+    line-height: 48px;
+    background-color: #e82255;
+    color: #fff;
+    text-align: center;
+    border-radius: 10px;
+    margin-right: 15px;
+    border: 1px solid #e82255;
+}
+
+.twoBtns span:last-child {
+    background-color: #fff;
+    color: #e82255;
+}
+
+.twoBtns span img {
+    display: inline-block;
+    width: 20px;
+    margin-right: 8px;
+}
+
+.OperatorRight .oLeft h1 {
+    font-size: 38px;
+    margin-bottom: 24px;
+}
+
+.OperatorRight .oLeft .icons p {
+    font-size: 16px;
+    margin-bottom: 16px;
+    color: #9c9c9c;
+}
+.oLeft > p{
+    font-size: 12px !important;
+    line-height: 1;
+    color: #737373;
+}
+.oright{
+    margin-left: auto;
+    margin-right: 140px;
+}
+.OperatorRight .oLeft p:nth-child(1), .OperatorRight .oLeft p:nth-child(3) {
+    width: 40%;
+}
+
+.OperatorRight .oLeft img {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.OperatorRight .sect > label:before {
+    position: absolute;
+    content: '';
+    width: 6px;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: #e82255;
+}
+
+.OperatorRight .cList > div {
+    margin: 0 20px 30px 0;
+}
+
+.OperatorRight .cList .its {
+    position: relative;
+    width: 235px;
+    height: 235px;
+    box-shadow: 0 0 5px #9e9e9e;
+    border-radius: 5px;
+}
+
+.OperatorRight .cList .its > div {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+}
+
+.OperatorRight .cList .its img {
+    position: absolute;
+    height: 100%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.diglog{
+    position: fixed;
+    padding: 40px 60px;
+    background-color: #fff;
+    display: none;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    z-index: 699;
+    border-radius: 15px;
+}
+.diglog h4{
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 20px;
+}
+.diglog img{
+    display: block;
+    width: 140px;
+    margin: 0 auto 20px;
+}
+.diglog p{
+    font-size: 14px;
+    color: #9c9c9c;
+}
+.diglog i{
+    position: absolute;
+    font-size: 24px;
+    width: 20px;
+    height: 20px;
+    top: 10px;
+    right: 10px;
+    background: url("http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200812/5e3d6826bc0045a4b8808d4fb1d50724.png") no-repeat center;
+
+}
+.zhezhao{
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 688;
+    background-color: rgba(0,0,0,.4);
+}
+.loading {
+    display: none;
+    position: fixed;
+    padding: 10px;
+    width: 80px;
+    line-height: 28px;
+    font-size: 12px;
+    border-radius: 15px;
+    text-align: center;
+    background-color: rgba(250, 250, 250, .8);
+    color: #333;
+    z-index: 888;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}

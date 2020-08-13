@@ -113,7 +113,9 @@
                             }
                         } )
                     }else{
-                        loginByMobile({mobile:this.username,validate_code:this.userpass}).then(res=>{
+                        let data={mobile:this.username,validate_code:this.userpass},vsource=sessionStorage.getItem('vsource');
+                        if(vsource)data.vsource=vsource;
+                        loginByMobile(data).then(res=>{
                             if (!res.code) {
                                 let token = res.data.token;
                                 setToken( token );

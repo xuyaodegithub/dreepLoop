@@ -8,7 +8,6 @@ export const getAccount=()=>{
   return JSON.parse(window.localStorage.getItem(userAccount))
 }
 export const setAccount=(data)=>{
-  console.log(userAccount)
   return window.localStorage.setItem(userAccount,JSON.stringify(data))
 }
 export const reAccount=()=>{

@@ -35,7 +35,7 @@ instance.interceptors.response.use(function (response) {//为自定义axios设�
   // console.log(response)
   if(res.code===0){
     return res
-  }else if(res.code==1100 && !window.location.href.includes('posterEditor')){
+  }else if(res.code==1100 && !window.location.href.includes('posterEditor') && !window.location.href.includes('idPhotoEdit')){
       removeToken();
       clearCookie('token');
       localStorage.setItem('backUrl',window.location.href);

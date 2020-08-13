@@ -455,6 +455,7 @@
                 touchContrl: false,
                 copyId: '',//ctrl+c时复制组件
                 pointList:[],//历史记录
+                xiuafter:null,
             }
         },
         watch: {
@@ -638,6 +639,14 @@
                     this.parseSubs.subList[this.hoverSub.idx].pro = res.data;
                     this.parseSubs.subList[this.hoverSub.idx].proObj = '';
                     this.$refs.tihuan.value = '';
+                    if(this.hoverSub.type===1){//保存替换主图后的原图对象
+                        let oImg2 = new Image();
+                        oImg2.crossOrigin = '';
+                        oImg2.onload = () => {
+                            this.xiuafter=oImg2
+                        };
+                        oImg2.src = res.data + `?id=${Math.random()}`;
+                    }
                     if ([1, 2, 3, 6].includes( this.hoverSub.mattingType )) {
                         this.mattingbyUrl( this.hoverSub.mattingType )
                     } else {
@@ -929,7 +938,7 @@
                         id: 0,
                         fileId:this.edrieImgInfo.fileId,
                         rotate: 0,
-                        hovering: true,
+                        hovering: false,
                         useImg: this.edrieImgInfo.pro,//显示用的
                         ori: this.edrieImgInfo.ori,//原图
                         pro: this.edrieImgInfo.pro,//抠图过后的
@@ -956,7 +965,7 @@
                     data.y = (this.parseSubs.bH / 2 - data.h / 2);
                     if (idx > -1) this.parseSubs.subList.splice( idx, 1, data );
                     else this.parseSubs.subList.push( data );
-                    this.loadStatus( data )
+                    this.loadStatus( data,idx > -1? idx : this.parseSubs.subList.length-1 )
                 };
                 oImg.src = this.edrieImgInfo.pro + `?id=${Math.random()}`;
 
@@ -1345,7 +1354,7 @@
                         cansTxt.arc( item.x, item.y , 2 * item.r , 0, Math.PI * 2, false );
                         cansTxt.clip();
                         if (item.type === 1) cansTxt.clearRect( 0, 0, oImg.width, oImg.height );
-                        else cansTxt.drawImage(  this.edrieImgInfo.oriObj, 0, 0, oImg.width, oImg.height );
+                        else cansTxt.drawImage(  this.xiuafter ? this.xiuafter : this.edrieImgInfo.oriObj, 0, 0, oImg.width, oImg.height );
                         cansTxt.restore();
                     } )
                     this.parseSubs.subList[idx].useImg=cans.toDataURL("image/png");
@@ -1723,6 +1732,7 @@
                 // this.edrieImgInfo.pro = 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200727/e8924b0ecc1049d99db0467ae5aa1e41.png';//默认图片
                 this.loading.show = true;
                 this.loading.text = '加载中...';
+                this.xiuafter = null;
                 if (this.edrieImgInfo.bgImg) {
                     this.openBack = false;
                     let oImg = new Image(), oH = document.getElementById( 'e_r' ).offsetHeight * 0.6,
@@ -1924,6 +1934,7 @@
                     this.loading = {show: true, text: '加载中...'};
                     this.loadId = it.id;
                     this.parseSubs.subList = [];
+                    this.xiuafter = null;
                     if (it.isOwnTwo) {
                         this.$store.commit( 'SET_EFFECTSIMG', {clear: 1} );
                         this.loadSubObj = '';

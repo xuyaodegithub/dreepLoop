@@ -117,6 +117,8 @@
             password:this.userMima,
             validate_code:this.userpass,
           }
+          const vsource=sessionStorage.getItem('vsource')
+          if(vsource)data.vsource=vsource;
           if(this.yqma)data.invitation=this.yqma;
           userRegister( data ).then( res => {
             if (!res.code) {
