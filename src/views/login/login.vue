@@ -37,7 +37,7 @@
     import {toRouter, basrUrls} from '@/utils'
     import {setToken, getToken, setCookie, getAccount, setAccount, reAccount} from "../../utils/auth";
     import {usercheckEmail, userLogin,loginByMobile,sendCode} from "../../apis";
-
+    import Cookies from 'js-cookie';
     export default {
         name: 'login',
         data() {
@@ -113,8 +113,9 @@
                             }
                         } )
                     }else{
-                        let data={mobile:this.username,validate_code:this.userpass},vsource=sessionStorage.getItem('vsource');
+                        let data={mobile:this.username,validate_code:this.userpass},vsource=Cookies.get('vsource');
                         if(vsource)data.vsource=vsource;
+                        else data.vsource=document.referrer;
                         loginByMobile(data).then(res=>{
                             if (!res.code) {
                                 let token = res.data.token;

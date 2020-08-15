@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 export const toRouter = (url) => {
     let urls = window.location.href.split( '#/' )[0]
     let urlss = urls.substring( 0, urls.lastIndexOf( '/' ) )
@@ -415,7 +416,9 @@ export const colorRgb = (colors) => {//16进制转rgb
 }
 export const  setVsource=()=>{
     var seaCats=queryStringUrl('vsource');
-    if(seaCats)sessionStorage.setItem('vsource',seaCats)
+    if(!seaCats && document.referrer.includes('picup')) return;
+    if(seaCats)Cookies.set('vsource',seaCats)
+    else Cookies.set('vsource',document.referrer)
 }
 export const queryStringUrl=(name)=>{
     var reg=new RegExp("(^|$)"+name+"=([^&]*)(&|$)")

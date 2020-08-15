@@ -58,16 +58,16 @@
             </div>
             <label>换正装</label>
             <div class="fource">
-                <div class="Fbtn flex j-b">
-                    <span v-for="(item,idx) in ttList" :key="idx" :class="{'active' : tzType===idx}" class="cu"
-                          @click="changetz(idx)">
-                        {{item.title}}
-                    </span>
-                </div>
+<!--                <div class="Fbtn flex j-b">-->
+<!--                    <span v-for="(item,idx) in ttList" :key="idx" :class="{'active' : tzType===idx}" class="cu"-->
+<!--                          @click="changetz(idx)">-->
+<!--                        {{item.title}}-->
+<!--                    </span>-->
+<!--                </div>-->
                 <el-scrollbar style="overflow-x: hidden;" :style="{height:`${listH*0.4}px`,overflowY: 'auto'}">
                     <div class="iconList flex f-w j-b a-i">
-                        <div v-for="(son,ix) in tzList" :key="ix" class="cu" @click="addImgsSub(son)">
-                            <img :src="son" alt="">
+                        <div v-for="(son,ix) in ttList[tzType].list" :key="ix" class="cu" @click="addImgsSub(son)">
+                            <img :src="son.cover" alt="">
                         </div>
                     </div>
                 </el-scrollbar>
@@ -161,14 +161,14 @@
             </div>
         </div>
         <div class="e_rLast">
-            <h4>智能抠图模式</h4>
-            <div class="btns flex j-b f-w">
-                    <span class="cu" v-for="(it,idx) in btnList" :key="idx"
-                          :class="{'active' : hoverSub.mattingType===it.type }"
-                          @click="mattingbyUrl(it.type)">
-                        {{it.name}}
-                    </span>
-            </div>
+            <!--            <h4>智能抠图模式</h4>-->
+            <!--            <div class="btns flex j-b f-w">-->
+            <!--                    <span class="cu" v-for="(it,idx) in btnList" :key="idx"-->
+            <!--                          :class="{'active' : hoverSub.mattingType===it.type }"-->
+            <!--                          @click="mattingbyUrl(it.type)">-->
+            <!--                        {{it.name}}-->
+            <!--                    </span>-->
+            <!--            </div>-->
             <h4>修复</h4>
             <el-button plain @click="repireImg">手工修补</el-button>
         </div>
@@ -202,7 +202,6 @@
     import {mixins} from '@/minxins';
     import {getTanDeg, letterText} from '@/utils'
     import opacity from '@/assets/opacity.jpg'
-    import jsMulit from '@/utils/jsmanipulate.js';
     import {niceScroll} from 'jquery.nicescroll';
     import {getUserInfo, saveTemplate} from "@/apis";
     import {
@@ -218,40 +217,48 @@
     import {mapGetters, mapActions} from 'vuex';
     import {getToken} from "@/utils/auth";
     import {idPhotolist} from './subList3';
-
+    import { clothList} from './clothersList'
     export default {
         name: 'editPictures',
         mixins: [mixins],
         data() {
             return {
                 idPhotolist,
-                btnList: [
-                    {name: '通用', type: 6},
-                    {name: '人像', type: 1},
-                    {name: '物体', type: 2},
-                    {name: '头像', type: 3},
-                    // {name: '物体', type: 2},
-                ],
-                btnType: 6,
+                // btnList: [
+                //     {name: '通用', type: 6},
+                //     {name: '人像', type: 1},
+                //     {name: '物体', type: 2},
+                //     {name: '头像', type: 3},
+                //     // {name: '物体', type: 2},
+                // ],
                 listH: document.documentElement.clientHeight,
                 colorType: 1,
                 noeTime: new Date().getTime(),
                 userInfo: {},
-                photoSize:{color: "#fff",
+                photoSize: {
+                    color: "#fff",
                     height: 591,
                     name: "印度签证（51*51mm）",
-                    width: 591},
+                    width: 591
+                },
                 opacity,
                 openclearAll: true,
                 ttList: [
                     {
-                        title: '男士', list: ['https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/07/kt/kt1.png']
+                        title: '男士',
+                        list: clothList
                     },
-                    {title: '女士', list: ['https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/07/ktC/1.jpg']},
-                    {
-                        title: '儿童',
-                        list: ['https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/07/xzhuang/1.png']
-                    },
+                    {title: '女士', list: [{
+                            cover: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200815/548932edc25b461eb80a9396cdd4bedb.png',
+                            list: ['http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200815/c55de12fe1fe48dc9b81c6e7bccc5c7b.png', 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200815/2602e70ccaf6407d8119d05786499e4b.png']
+                        }]},
+                    // {
+                    //     title: '儿童',
+                    //     list: [{
+                    //         cover: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200815/548932edc25b461eb80a9396cdd4bedb.png',
+                    //         list: ['http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200815/c55de12fe1fe48dc9b81c6e7bccc5c7b.png', 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200815/2602e70ccaf6407d8119d05786499e4b.png']
+                    //     }]
+                    // },
                 ],
                 loadSubObj: '',
                 tzType: 0,
@@ -297,7 +304,6 @@
                 enterIdx: -1,
                 fivePoint: false,//移动时 透明
                 moveNum: 0,
-                loadSubing: 0,//加载模板进度
                 statusCode: 0,//每次掉接口的code
                 touchContrl: false,
                 copyId: '',//ctrl+c时复制组件
@@ -479,12 +485,12 @@
                         let oImg2 = new Image();
                         oImg2.crossOrigin = '';
                         oImg2.onload = () => {
-                            this.edrieImgInfo.oriObj=oImg2;
-                            this.edrieImgInfo.ori=res.data;
+                            this.edrieImgInfo.oriObj = oImg2;
+                            this.edrieImgInfo.ori = res.data;
                         };
                         oImg2.src = res.data + `?id=${Math.random()}`;
                     }
-                    if ([1, 2, 3, 6].includes( this.hoverSub.mattingType )) {
+                    if ([1, 2, 3, 6, 8].includes( this.hoverSub.mattingType )) {
                         this.mattingbyUrl( this.hoverSub.mattingType )//1额外参数表示  替换时传参
                     } else {
                         this.parseSubs.subList[this.hoverSub.idx].useImg = res.data;
@@ -533,32 +539,41 @@
                 if (this.tzType === idx) return;
                 this.tzType = idx;
             },
-            addImgsSub(url) {
+            addImgsSub(son) {
                 this.loading.show = true;
+                this.parseSubs.subList=this.parseSubs.subList.filter(ite=>[0,1].includes(ite.type));
                 let oImg = new Image();
                 oImg.crossOrigin = '';
                 oImg.onload = () => {
-                    const [w, h] = [this.parseSubs.bW * 0.4, this.parseSubs.bW * 0.4 * oImg.height / oImg.width]
-                    let data = {
-                        type: 3,//图片组件
-                        title: '图片组件',
-                        w,
-                        h,
-                        x: this.parseSubs.bW / 2 - w / 2,
-                        y: this.parseSubs.bH / 2 - h / 2,
-                        id: `img${Math.random()}`,
-                        rotate: 0,
-                        useImg: url,
-                        pro: url,
-                        ori: url,
-                        proObj: oImg,////抠图过加载后的对象
-                        hovering: false,
-                        mattingType: -1,//抠图模式
-                    }
-                    this.parseSubs.subList.push( data );
+                    const mainSub=this.parseSubs.subList.find(item=>item.type===1);//主图组件
+                    const mainIdx=this.parseSubs.subList.findIndex(item=>item.type===1);//主图组件下标
+                    const headW=mainSub.w*(this.edrieImgInfo.headData.right-this.edrieImgInfo.headData.left)/this.edrieImgInfo.originalWidth;//人物头宽度
+                    const [w, h] = [headW* 0.5*oImg.width/(son.right-son.left), headW* 0.5*oImg.width/(son.right-son.left) * oImg.height / oImg.width];//衣服变化后宽高
+                    son.list.map((item,ix)=>{
+                        let data = {
+                            type: 3,//图片组件
+                            title: '图片组件',
+                            w,
+                            h,
+                            x: this.parseSubs.bW / 2 -((son.right-son.left)/2+son.left)*w/oImg.width,
+                            y: mainSub.h*this.edrieImgInfo.headData.mouseY/this.edrieImgInfo.originalHeight+mainSub.y,
+                            id: `img${Math.random()}`,
+                            rotate: 0,
+                            useImg: item,
+                            pro: item,
+                            ori: item,
+                            proObj: oImg,////抠图过加载后的对象
+                            hovering: false,
+                            mattingType: -1,//抠图模式
+                        }
+                        console.log(data)
+                        if(!ix)this.parseSubs.subList.splice(mainIdx,0, data );
+                        else this.parseSubs.subList.push( data );
+                    })
+
                     this.loading.show = false;
                 };
-                oImg.src = url + `?id=${Math.random()}`
+                oImg.src = son.list[0] + `?id=${Math.random()}`
 
             },
             upLoad(k) {//上传图片（k值0自定义背景，1人像抠图 2物体抠图）
@@ -576,28 +591,21 @@
                             this.parseSubs.subList[idx].mattingType = this.mattingMsg.type;
                             if (this.parseSubs.subList[idx].type === 1) {
                                 this.parseSubs.subList[idx].fileId = res.data.fileId;
-                                this.edrieImgInfo.fileId= res.data.fileId;
-                                this.edrieImgInfo.pro=res.data.bgRemovedPreview;
+                                this.edrieImgInfo.fileId = res.data.fileId;
+                                this.edrieImgInfo.pro = res.data.bgRemovedPreview;
+                                this.edrieImgInfo = {...this.edrieImgInfo, ...res.data};
+                                const [ww, hh] = [parseFloat( this.edrieImgInfo.w ), parseFloat( this.edrieImgInfo.h )];
+                                let scaleW = 0.55 * hh / ww;
+                                let iw = ww * scaleW * this.edrieImgInfo.originalWidth / (this.edrieImgInfo.headData.right - this.edrieImgInfo.headData.left);//缩放后的图片宽
+                                let ih = iw * this.edrieImgInfo.originalHeight / this.edrieImgInfo.originalWidth;
+                                let top = -(ih * this.edrieImgInfo.headData.top / this.edrieImgInfo.originalHeight) + hh * 0.05;
+                                let left = ww / 2 - ((this.edrieImgInfo.headData.right - this.edrieImgInfo.headData.left) / 2 + this.edrieImgInfo.headData.left) * iw / this.edrieImgInfo.originalWidth;
+                                this.parseSubs.subList[idx].w = iw * this.parseSubs.scale;
+                                this.parseSubs.subList[idx].h = ih * this.parseSubs.scale;
+                                this.parseSubs.subList[idx].x = left * this.parseSubs.scale;
+                                this.parseSubs.subList[idx].y = top * this.parseSubs.scale;
                             }
-                            let oImg = new Image();
-                            oImg.crossOrigin = '';
-                            oImg.onload = () => {
-                                this.parseSubs.subList[idx].w = oImg.width * this.parseSubs.subList[idx].h / oImg.height;
-                                this.parseSubs.subList[idx].x = this.parseSubs.subList[idx].x + w / 2 - this.parseSubs.subList[idx].w / 2;//组件中心和上一个一致
-                                this.parseSubs.subList[idx].proObj = oImg;
-                                this.parseSubs.subList[idx].id = `img${Math.random()}`;
-                                const onlyMain = this.parseSubs.subList.every( item => [0, 1].includes( item.type ) );
-                                const onlyN = this.parseSubs.subList.every( item => !item.type ? (!item.backColor && !item.useImg) : item.useImg );
-                                if (onlyMain && onlyN) {//在只有主图的时候，需要尺寸都改变
-                                    this.parseSubs.oriW = res.data.originalWidth;
-                                    this.parseSubs.oriH = res.data.originalHeight;
-                                    this.parseSubs.bW = this.parseSubs.subList[idx].w;
-                                    this.parseSubs.bH = this.parseSubs.subList[idx].h;
-                                    this.parseSubs.subList[idx].x = 0;
-                                }
-                                this.loading.show = false;
-                            };
-                            oImg.src = res.data.bgRemovedPreview + `?id=${Math.random()}`;
+                            this.loading.show = false;
                         } else {
                             this.loading.text = `当前排队位置为 ${res.data.queueNumber}，请稍后...`
                             setTimeout( this.pollingImg2, 2000 )
@@ -614,40 +622,33 @@
                 this.mattingMsg.type = type;
                 let obj = {url: type === 4 ? this.hoverSub.pro : this.hoverSub.ori, mattingType: type};
                 if (type === 3) obj['crop'] = 1;
+                if (type === 8) obj['bodyData'] = 1;
                 copyUpload( obj ).then( res => {
                     this.statusCode = res.code;
                     if (!res.code) {
                         this.mattingMsg.id = res.data.fileId;
                         if (res.data.status == 'success') {
-                            const idx = this.parseSubs.subList.findIndex( item => item.hovering ),
-                                w = this.parseSubs.subList[idx].w;
+                            const idx = this.parseSubs.subList.findIndex( item => item.hovering );
                             this.parseSubs.subList[idx].mattingType = type;
                             this.parseSubs.subList[idx].pro = res.data.bgRemovedPreview;
                             this.parseSubs.subList[idx].useImg = res.data.bgRemovedPreview;
                             if (this.parseSubs.subList[idx].type === 1) {
                                 this.parseSubs.subList[idx].fileId = res.data.fileId;
-                                this.edrieImgInfo.fileId= res.data.fileId;
-                                this.edrieImgInfo.pro=res.data.bgRemovedPreview
+                                this.edrieImgInfo.fileId = res.data.fileId;
+                                this.edrieImgInfo.pro = res.data.bgRemovedPreview;
+                                this.edrieImgInfo = {...this.edrieImgInfo, ...res.data};
+                                const [ww, hh] = [parseFloat( this.edrieImgInfo.w ), parseFloat( this.edrieImgInfo.h )];
+                                let scaleW = 0.55 * hh / ww;
+                                let iw = ww * scaleW * this.edrieImgInfo.originalWidth / (this.edrieImgInfo.headData.right - this.edrieImgInfo.headData.left);//缩放后的图片宽
+                                let ih = iw * this.edrieImgInfo.originalHeight / this.edrieImgInfo.originalWidth;
+                                let top = -(ih * this.edrieImgInfo.headData.top / this.edrieImgInfo.originalHeight) + hh * 0.05;
+                                let left = ww / 2 - ((this.edrieImgInfo.headData.right - this.edrieImgInfo.headData.left) / 2 + this.edrieImgInfo.headData.left) * iw / this.edrieImgInfo.originalWidth;
+                                this.parseSubs.subList[idx].w = iw * this.parseSubs.scale;
+                                this.parseSubs.subList[idx].h = ih * this.parseSubs.scale;
+                                this.parseSubs.subList[idx].x = left * this.parseSubs.scale;
+                                this.parseSubs.subList[idx].y = top * this.parseSubs.scale;
                             }
-                            let oImg = new Image();
-                            oImg.crossOrigin = '';
-                            oImg.onload = () => {
-                                this.parseSubs.subList[idx].proObj = oImg;
-                                this.parseSubs.subList[idx].w = oImg.width * this.parseSubs.subList[idx].h / oImg.height;//高度不变   宽度自适应
-                                this.parseSubs.subList[idx].x = this.parseSubs.subList[idx].x + w / 2 - this.parseSubs.subList[idx].w / 2;//组件中心和上一个一致
-                                this.parseSubs.subList[idx].id = `img${Math.random()}`;
-                                const onlyMain = this.parseSubs.subList.every( item => [0, 1].includes( item.type ) );
-                                const onlyN = this.parseSubs.subList.every( item => !item.type ? (!item.backColor && !item.useImg) : item.useImg );
-                                if (onlyMain && onlyN) {
-                                    this.parseSubs.oriW = res.data.originalWidth;
-                                    this.parseSubs.oriH = res.data.originalHeight;
-                                    this.parseSubs.bW = this.parseSubs.subList[idx].w;
-                                    this.parseSubs.bH = this.parseSubs.subList[idx].h;
-                                    this.parseSubs.subList[idx].x = 0;
-                                }
-                                this.loading.show = false;
-                            };
-                            oImg.src = res.data.bgRemovedPreview + `?id=${Math.random()}`;
+                            this.loading.show = false;
                         } else setTimeout( this.pollingImg2, 2000 )//有排队情况，轮训查看（可以websocket）
                     } else this.loading.show = false;
                 } ).catch( re => this.loading.show = false )
@@ -695,17 +696,53 @@
                         let deg = getTanDeg( c / a ), d;
                         if (dx - xx > 0) d = -deg * 2;
                         else d = deg * 2;
-                        this.parseSubs.subList[idx].rotate = d;
+                        if(this.parseSubs.subList[idx].type === 3){
+                            this.parseSubs.subList.map((item,i)=>{
+                                if(item.type===3){
+                                    item.rotate = d;
+                                }
+                            })
+                        }else this.parseSubs.subList[idx].rotate = d;
                     } else if (cn.includes( 'iOne' )) {
-                        this.parseSubs.subList[idx].h = h - (mx2 - mx);
-                        this.parseSubs.subList[idx].y = top + (mx2 - mx);
+                        if(this.parseSubs.subList[idx].type === 3){
+                            this.parseSubs.subList.map((item,i)=>{
+                                if(item.type===3){
+                                    item.h = h - (mx2 - mx);
+                                    item.y = top + (mx2 - mx);
+                                }
+                            })
+                        }else{
+                            this.parseSubs.subList[idx].h = h - (mx2 - mx);
+                            this.parseSubs.subList[idx].y = top + (mx2 - mx);
+                        }
                     } else if (cn.includes( 'iTwo' )) {
-                        this.parseSubs.subList[idx].w = w - (mx2 - mx);
+                        if(this.parseSubs.subList[idx].type === 3){
+                            this.parseSubs.subList.map((item,i)=>{
+                                if(item.type===3){
+                                    item.w = w - (mx2 - mx);
+                                }
+                            })
+                        }else this.parseSubs.subList[idx].w = w - (mx2 - mx);
                     } else if (cn.includes( 'iTh' )) {
-                        this.parseSubs.subList[idx].h = h - (mx2 - mx);
+                        if(this.parseSubs.subList[idx].type === 3){
+                            this.parseSubs.subList.map((item,i)=>{
+                                if(item.type===3){
+                                    item.h = h - (mx2 - mx);
+                                }
+                            })
+                        }else this.parseSubs.subList[idx].h = h - (mx2 - mx);
                     } else if (cn.includes( 'iFor' )) {
-                        this.parseSubs.subList[idx].w = w - (mx2 - mx);
-                        this.parseSubs.subList[idx].x = left + (mx2 - mx);
+                        if(this.parseSubs.subList[idx].type === 3){
+                            this.parseSubs.subList.map((item,i)=>{
+                                if(item.type===3){
+                                    item.w = w - (mx2 - mx);
+                                    item.x = left + (mx2 - mx);
+                                }
+                            })
+                        }else{
+                            this.parseSubs.subList[idx].w = w - (mx2 - mx);
+                            this.parseSubs.subList[idx].x = left + (mx2 - mx);
+                        }
                     } else if (['iFive', 'iSix', 'iSeven', 'iEight'].some( item => cn.includes( item ) )) {
                         let idxss = ['iFive', 'iSix', 'iSeven', 'iEight'].findIndex( item => cn.includes( item ) ),
                             lx = left, ly = top;
@@ -715,19 +752,35 @@
                             ly = top + (h - (w - (mx2 - mx)) * h / w);
                             lx = left + mx2 - mx;
                         }
-                        this.parseSubs.subList[idx].w = w - (mx2 - mx);
-                        this.parseSubs.subList[idx].h = (w - (mx2 - mx)) * h / w;
-                        this.parseSubs.subList[idx].y = ly;
-                        this.parseSubs.subList[idx].x = lx;
-                        if (this.parseSubs.subList[idx].type === 2) {
-                            this.parseSubs.subList[idx].fontSize = size * this.parseSubs.subList[idx].w / w;
-                            this.parseSubs.subList[idx].lineHeight = lineHeight * this.parseSubs.subList[idx].w / w;
-                            this.parseSubs.subList[idx].letterSpacing = letterSpacing * this.parseSubs.subList[idx].w / w;
+                        if(this.parseSubs.subList[idx].type === 3){
+                            this.parseSubs.subList.map((item,i)=>{
+                                if(item.type===3){
+                                    item.w = w - (mx2 - mx);
+                                    item.h = (w - (mx2 - mx)) * h / w;
+                                    item.y = ly;
+                                    item.x = lx;
+                                }
+                            })
+                        }else{
+                            this.parseSubs.subList[idx].w = w - (mx2 - mx);
+                            this.parseSubs.subList[idx].h = (w - (mx2 - mx)) * h / w;
+                            this.parseSubs.subList[idx].y = ly;
+                            this.parseSubs.subList[idx].x = lx;
                         }
                     } else {
                         if (this.parseSubs.subList[idx].type === 2 && this.parseSubs.subList[idx].contenteditable) return;
-                        this.parseSubs.subList[idx].x = l;
-                        this.parseSubs.subList[idx].y = t;
+                        if(this.parseSubs.subList[idx].type === 3){
+                            this.parseSubs.subList.map((item,i)=>{
+                                if(item.type===3){
+                                    item.x = l;
+                                    item.y = t;
+                                }
+                            })
+                        }else{
+                            this.parseSubs.subList[idx].x=l;
+                            this.parseSubs.subList[idx].y=t;
+                        }
+
                     }
                     this.fivePoint = true;
                 }
@@ -803,11 +856,10 @@
                         cansTxt.arc( item.x, item.y, 2 * item.r, 0, Math.PI * 2, false );
                         cansTxt.clip();
                         if (item.type === 1) cansTxt.clearRect( 0, 0, oImg.width, oImg.height );
-                        else cansTxt.drawImage(this.edrieImgInfo.oriObj, 0, 0, oImg.width, oImg.height );
+                        else cansTxt.drawImage( this.edrieImgInfo.oriObj, 0, 0, oImg.width, oImg.height );
                         cansTxt.restore();
                     } )
                     this.parseSubs.subList[idx].useImg = cans.toDataURL( "image/png" );
-                    console.log( this.parseSubs.subList[idx].useImg );
                     this.downLoadImg2();
                 };
                 oImg.src = url + `?id=${Math.random()}`;
@@ -1125,18 +1177,18 @@
                 }
             },
             changeSize(val) {//画布尺寸输入
-                const item=this.idPhotolist.find(it=>it.name===val)
+                const item = this.idPhotolist.find( it => it.name === val )
                 let data = {
                     w: item.width,
                     h: item.height,
                     pro: this.edrieImgInfo.pro,
                     ori: this.edrieImgInfo.ori,
-                    color:item.color,
+                    color: item.color,
                     filename: item.name,
                     fileId: this.edrieImgInfo.fileId,
-                    mattingType: 1
+                    mattingType: 8
                 }
-                this.initAllInfo(data)
+                this.initAllInfo( data )
             },
             wheelFun(k) {
                 let scale = parseFloat( this.parseSubs.scale ), newscale, data,
@@ -1154,21 +1206,24 @@
                 } )
             },
             initAllInfo(data) {//初始化时操作信息
-                const obj = data ? data : JSON.parse(localStorage.getItem( 'photoMsg' ));
+                const obj = data ? data : JSON.parse( localStorage.getItem( 'photoMsg' ) );
                 if (!obj) return;
-                this.edrieImgInfo = {...this.edrieImgInfo, ... obj };
-                // this.edrieImgInfo.pro = 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200727/e8924b0ecc1049d99db0467ae5aa1e41.png';//默认图片
+                this.edrieImgInfo = {...this.edrieImgInfo, ...obj};
                 this.loading.show = true;
                 this.loading.text = '加载中...';
-                // let it = JSON.parse( JSON.stringify( subList3[1] ) );
                 this.openBack = false;
                 this.parseSubs.subList = [];
                 this.loadSubObj = '';
                 let oImg = new Image();
                 oImg.crossOrigin = '';
                 oImg.onload = () => {
-                    const [w,h]=[parseFloat(this.edrieImgInfo.w),parseFloat(this.edrieImgInfo.h)];
+                    const [w, h] = [parseFloat( this.edrieImgInfo.w ), parseFloat( this.edrieImgInfo.h )];
                     this.edrieImgInfo.oriObj = oImg;
+                    let scaleW = 0.55 * h / w;
+                    let iw = w * scaleW * this.edrieImgInfo.originalWidth / (this.edrieImgInfo.headData.right - this.edrieImgInfo.headData.left);//缩放后的图片宽
+                    let ih = iw * this.edrieImgInfo.originalHeight / this.edrieImgInfo.originalWidth;
+                    let top = -(ih * this.edrieImgInfo.headData.top / this.edrieImgInfo.originalHeight) + h * 0.05;
+                    let left = w / 2 - ((this.edrieImgInfo.headData.right - this.edrieImgInfo.headData.left) / 2 + this.edrieImgInfo.headData.left) * iw / this.edrieImgInfo.originalWidth;
                     let it = {
                         title: this.edrieImgInfo.filename,
                         oriW: w,
@@ -1183,19 +1238,21 @@
                         }, {
                             "type": 1,
                             "title": "图片组件",
-                            "w": oImg.width / oImg.height * h,
-                            "h": h,
-                            "x": w / 2 - oImg.width / oImg.height * h / 2,
-                            "y": 0,
+                            "w": iw,
+                            "h": ih,
+                            "x": left,
+                            "y": top,
                             "rotate": 0,
                             "useImg": this.edrieImgInfo.pro,
                             "pro": this.edrieImgInfo.pro,
                             "ori": this.edrieImgInfo.ori,
                             "hovering": false,
-                            "mattingType": 6
+                            "mattingType": 8,
+                            fileId: this.edrieImgInfo.fileId
                         }]
                     }
-                    this.photoSize=this.idPhotolist.find(item=>item.name===it.title).name;
+                    this.photoSize = this.idPhotolist.find( item => item.name === it.title ).name;
+                    this.colorType = ['#FF0000', '#00BFF3', '#fff'].indexOf( this.edrieImgInfo.color ) + 1;
                     this.loadSubs( it );
                 };
                 oImg.src = this.edrieImgInfo.ori + `?id=${Math.random()}`
@@ -1331,47 +1388,13 @@
                     if (!res.code) this.$message( {message: '保存成功', type: 'success'} )
                 } ).finally( _ => this.loading.show = false )
             },
-            choseTrme(it, ix, idx) {
-                this.$confirm( `确定要选择此模板替换当前模板, 是否继续?`, '提示', {
-                    showClose: false,
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                } ).then( () => {
-                    this.openBack = false;
-                    this.loading = {show: true, text: '加载中...'};
-                    this.parseSubs.subList = [];
-                    if (it.isOwnTwo) {
-                        this.loadSubObj = '';
-                        this.loadSubs( it );
-                        return;
-                    }
-                } ).catch( () => {
-
-                } );
-
-            },
             loadSubs(item) {
                 let mItems = JSON.parse( JSON.stringify( item ) ),
-                    mainSubidx = item.subList.findIndex( it => it.type === 1 ),
-                    imgsList = item.subList.filter( it => ([0, 1, 3].includes( it.type ) && it.useImg) ),
                     oH = document.getElementById( 'e_r' ).offsetHeight * 0.6,
                     oW = document.getElementById( 'e_r' ).offsetWidth * 0.6;
                 mItems['bW'] = mItems.oriW > mItems.oriH ? (mItems.oriW > oW ? oW : mItems.oriW) : (mItems.oriH > oH ? oH * mItems.oriW / mItems.oriH : mItems.oriW);
                 mItems['bH'] = mItems.oriW > mItems.oriH ? (mItems.oriW > oW ? oW * mItems.oriH / mItems.oriW : mItems.oriH) : (mItems.oriH > oH ? oH : mItems.oriH);
                 mItems['scale'] = parseFloat( mItems.bW / mItems.oriW );
-                if (mainSubidx > -1 && this.edrieImgInfo.pro && !this.urlStr) {
-                    const [x, y, w, h] = [mItems.subList[mainSubidx].x, mItems.subList[mainSubidx].y, mItems.subList[mainSubidx].w, mItems.subList[mainSubidx].h];
-                    mItems.subList[mainSubidx].w = w > h ? w : this.edrieImgInfo.oriObj.width / this.edrieImgInfo.oriObj.height * h;
-                    mItems.subList[mainSubidx].h = w > h ? w * this.edrieImgInfo.oriObj.height / this.edrieImgInfo.oriObj.width : h;
-                    mItems.subList[mainSubidx].ori = this.edrieImgInfo.ori;
-                    mItems.subList[mainSubidx].pro = this.edrieImgInfo.pro;
-                    mItems.subList[mainSubidx].useImg = this.edrieImgInfo.pro;
-                    mItems.subList[mainSubidx].fileId = this.edrieImgInfo.fileId;
-                    mItems.subList[mainSubidx].mattingType = this.edrieImgInfo.mattingType;
-                    mItems.subList[mainSubidx].x = mItems.subList[mainSubidx].w > w ? x - (mItems.subList[mainSubidx].w - w) / 2 : x + (w - mItems.subList[mainSubidx].w) / 2;
-                    mItems.subList[mainSubidx].y = mItems.subList[mainSubidx].h > h ? y - (mItems.subList[mainSubidx].h - h) / 2 : y + (h - mItems.subList[mainSubidx].h) / 2;
-                }
                 const keyList = ['w', 'h', 'x', 'y', 'fontSize', 'letterSpacing', 'lineHeight']
                 mItems.subList.map( (item, idx) => {
                     Object.keys( item ).map( it => {
@@ -1381,33 +1404,17 @@
                         if (it === 'textShadow') mItems.subList[idx][it] = ['none', '#333 1px 0 0, #333 0 1px 0, #333 -1px 0 0, #333 0 -1px 0', '0 5px 5px #333'][mItems.subList[idx][it]]
                     } )
                 } )
-                this.loadSubing = 0;
                 this.oriW = mItems.oriW;
                 this.oriH = mItems.oriH;
-                mItems.subList.map( (item, idx) => {
-                    if ([0, 1, 3].includes( item.type ) && item.useImg) {
-                        mItems.subList[idx]['id'] = `img${Math.random()}`;
-                        mItems.subList[idx]['proObj'] = ``;
-                        let oImg = new Image();
-                        oImg.crossOrigin = '';
-                        oImg.onload = () => {
-                            mItems.subList[idx]['proObj'] = oImg;
-                            this.loadSubing += 1;
-                            if (this.loadSubing === imgsList.length) {
-                                this.parseSubs = mItems;
-                                this.loading = {show: false, text: '处理中...'};
-                                this.$nextTick( _ => {
-                                    this.SubsDataList = [];
-                                    this.hisIdx = -1;
-                                    this.initsave();//模板加载后，重新存下数据
-                                    this.openBack = true;
-                                } )
-                            }
-                        };
-                        oImg.src = mItems.subList[idx].useImg + `?id=${Math.random()}`
-
-                    }
+                this.parseSubs = mItems;
+                this.loading = {show: false, text: '处理中...'};
+                this.$nextTick( _ => {
+                    this.SubsDataList = [];
+                    this.hisIdx = -1;
+                    this.initsave();//模板加载后，重新存下数据
+                    this.openBack = true;
                 } )
+
             },
             initUserinfo() {
                 getUserInfo().then( res => {
@@ -1429,6 +1436,7 @@
             verticalText()//字间距
             document.addEventListener( 'keydown', (e) => {//键盘事件
                 const keynum = window.event ? e.keyCode : e.which;
+                console.log(keynum)
                 const idx = this.hoverSub.idx, type = this.hoverSub.type;
                 if (keynum === 17) this.touchContrl = true;
                 if (keynum === 8 && !this.hoverSub.contenteditable) {

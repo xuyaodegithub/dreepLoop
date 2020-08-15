@@ -26,10 +26,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0" id="view">
     <meta name="applicable-device" content="pc">
     <link rel="mobile-agent" content="format=html5;url=http://m.picup.shop"/>
-    <meta name="Description" content="皮卡智能免费自动视频抠图软件,在线一键视频去背景,无需视频抠图教程,轻松换背景,制作哔哩哔哩/快手/抖音短视频,淘宝/京东/亚马逊电商短视频">
-    <meta name="Keywords" content="视频抠图,视频抠图软件,视频抠像软件,视频怎么抠图,视频ps软件"/>
+    <meta name="Description" content="皮卡智能证件照免费在线制作,一寸/二寸各种证件照尺寸,软件一键换背景蓝底/白底/红底,手机拍摄就可以轻松制作最美证件照/结婚证件照/电子证件照">
+    <meta name="Keywords" content="最美证件照,证件照尺寸,结婚证件照,蓝底证件照,白底证件照,证件照换背景"/>
     <!--  <title>AI智能抠图</title>-->
-    <title>免费自动视频抠图免PS在线一键视频去背景-皮卡智能PicUP.AI</title>
+    <title>智能证件照免费在线制作多尺寸换背景-皮卡智能抠图PicUP.AI</title>
     <link rel="stylesheet" href="static/public.css">
     <link rel="stylesheet" href="static/css/idPhoto.css">
     <link rel="icon" href="smallLogo.jpg" type="images/x-icon">
@@ -112,41 +112,40 @@
             <!--            <div class="diops"><img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/57183a4dc95e48dd851ebfbe2894ad67.png" alt="">照片请上传正面照，露耳朵</div>-->
             <h4>示例证件照</h4>
             <div class="photoHisList flex" style="overflow-y:auto;max-height: 300px;">
-                <div class="itmes"
-                     imgSrc="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200812/4b849b1376264d6b93ed93f3cf13af94.png">
-                    <img
-                            src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200812/6c2eb1d94a9b40d9aa8ed2d20e6bc67d.png"
-                            alt=""></div>
-                <div class="itmes"
-                     imgSrc="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200812/2cd47d20091940fba60779acc2a8eb44.png">
-                    <img
-                            src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200812/fbe7c6d879ff4398aa9205b583b69e75.png"
-                            alt=""></div>
-                <div class="itmes"
-                     imgSrc="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200812/0be6528a029242a4a815000f5ff8d1d9.png">
-                    <img
-                            src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200812/978cbe8884594473a002f0f2014f65ed.png"
-                            alt=""></div>
-                <div class="itmes"
-                     imgSrc="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200812/018aff83e9124238970fdaa7ba5d8ae8.png">
-                    <img
-                            src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200812/31a162162311444db8e9278c077cea0f.png"
-                            alt=""></div>
+                <div class="itmes">
+                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200814/47cc44489a054ca285d585436c71fdf9.jpg"
+                         alt=""></div>
+                <div class="itmes">
+                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200814/cc92e0ae76474eb0bcefcf5a05f8ed3d.png"
+                         alt=""></div>
+                <div class="itmes">
+                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200814/1e2955d0d68a479b9c9e36ec4ebc2dc2.jpg"
+                         alt=""></div>
+                <div class="itmes">
+                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200814/e152ec2436294da0a1241b42b4d3e01b.png"
+                         alt=""></div>
             </div>
-            <h4>证件照上传记录</h4>
-            <div class="photoHisList flex" style="overflow-y:auto;max-height: 300px;">
-                <div class="itmes"><img
-                        src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2020/08/11/0bc49d7dc82742dc80ef15e99898e861.png"
-                        alt=""></div>
-                <div class="itmes"><img
-                        src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2020/08/11/0bc49d7dc82742dc80ef15e99898e861.png"
-                        alt=""></div>
-                <div class="itmes"><img
-                        src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2020/08/11/0bc49d7dc82742dc80ef15e99898e861.png"
-                        alt=""></div>
-                <div class="itmes"><img
-                        src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2020/08/11/0bc49d7dc82742dc80ef15e99898e861.png"
-                        alt=""></div>
+            <h4 onclick="showHisList(1)" class="cu">证件照上传记录</h4>
+            <div class="photoHisList hisList" style="overflow-y:auto;" onscroll="scrollHis(event)">
+                <h5>暂无记录</h5>
+                <i class="cu" onclick="showHisList()"></i>
+                <!--                <div class="hisItems">-->
+                <!--                    <h3>2020-08-24</h3>-->
+                <!--                    <div class="flex a-i">-->
+                <!--                        <div class="itmes"><img-->
+                <!--                                src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2020/08/11/0bc49d7dc82742dc80ef15e99898e861.png"-->
+                <!--                                alt=""></div>-->
+                <!--                        <div class="itmes"><img-->
+                <!--                                src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2020/08/11/0bc49d7dc82742dc80ef15e99898e861.png"-->
+                <!--                                alt=""></div>-->
+                <!--                        <div class="itmes"><img-->
+                <!--                                src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2020/08/11/0bc49d7dc82742dc80ef15e99898e861.png"-->
+                <!--                                alt=""></div>-->
+                <!--                        <div class="itmes"><img-->
+                <!--                                src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2020/08/11/0bc49d7dc82742dc80ef15e99898e861.png"-->
+                <!--                                alt=""></div>-->
+                <!--                    </div>-->
+                <!--                </div>-->
             </div>
             <div class="bottonLast">
                 <div class="fixedB">
@@ -205,110 +204,167 @@
             </div>
             <div class="sect">
                 <div class="sizeClass flex a-i">
-                    <label>证件照尺寸选择</label> <input placeholder="输入规格名称，如：一寸照"/><img
+                    <label>证件照尺寸选择</label> <input placeholder="输入规格名称，如：一寸照" onkeypress="seach(event)"/><img
                         src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/b98b8c15147e4cfea40f6a1a9ad99550.png"
                         alt="">
                 </div>
-                <label>常用尺寸:</label>
-                <div class="cList flex">
-                    <div class="cu">
-                        <div class="its">
-                            <div w="295" h="413" color="#e82255">
-                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
-                                     alt="">
+                <div class="initList one">
+                    <label>常用尺寸:</label>
+                    <div class="cList flex">
+                        <div class="cu">
+                            <div class="its">
+                                <div w="295" h="413" color="#FF0000">
+                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
+                                         alt="">
+                                </div>
                             </div>
+                            <p class="over">一寸（25*35mm）</p>
                         </div>
-                        <p class="over">一寸（25*35mm）</p>
+                        <div class="cu">
+                            <div class="its">
+                                <div w="413" h="579" color="#FF0000">
+                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
+                                         alt="">
+                                </div>
+                            </div>
+                            <p class="over">二寸（35*49mm）</p>
+                        </div>
+                        <div class="cu">
+                            <div class="its">
+                                <div w="649" h="991" color="#FF0000" name="三寸（55*84mm）">
+                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
+                                         alt="">
+                                </div>
+                            </div>
+                            <p class="over">三寸（55*84mm）</p>
+                        </div>
+                        <div class="cu">
+                            <div class="its">
+                                <div w="898" h="1205" color="#FF0000" name="四寸（76*102mm）">
+                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
+                                         alt="">
+                                </div>
+                            </div>
+                            <p class="over">四寸（76*102mm）</p>
+                        </div>
+                        <div class="cu">
+                            <div class="its">
+                                <div w="1050" h="1499" color="#FF0000" name="五寸（89*127mm）"
+                                     style="width: 148.149px; height: 211.5px; background-color: rgb(232, 34, 85);">
+                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
+                                         alt="">
+                                </div>
+                            </div>
+                            <p class="over">五寸（89*127mm）</p>
+                        </div>
                     </div>
-                    <div class="cu">
-                        <div class="its">
-                            <div w="413" h="579" color="#e82255">
-                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
-                                     alt="">
+                    <label>热门证件照尺寸:</label>
+                    <div class="cList flex contents">
+                        <div class="cu">
+                            <div class="its">
+                                <div w="295" h="413" color="#FF0000">
+                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
+                                         alt="">
+                                </div>
                             </div>
+                            <p class="over">一寸（25*35mm）</p>
                         </div>
-                        <p class="over">二寸（35*49mm）</p>
-                    </div>
-                    <div class="cu">
-                        <div class="its">
-                            <div w="649" h="991" color="#e82255" name="三寸（55*84mm）">
-                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png" alt="">
+                        <div class="cu">
+                            <div class="its">
+                                <div w="260" h="378" color="#FF0000">
+                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
+                                         alt="">
+                                </div>
                             </div>
+                            <p class="over">小一寸（22*32mm）</p>
                         </div>
-                        <p class="over">三寸（55*84mm）</p>
-                    </div>
-                    <div class="cu">
-                        <div class="its">
-                            <div w="898" h="1205" color="#e82255" name="四寸（76*102mm）">
-                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png" alt="">
+                        <div class="cu">
+                            <div class="its">
+                                <div w="390" h="569" color="#00BFF3">
+                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
+                                         alt="">
+                                </div>
                             </div>
+                            <p class="over">大一寸（33*48）</p>
                         </div>
-                        <p class="over">四寸（76*102mm）</p>
-                    </div>
-                    <div class="cu">
-                        <div class="its">
-                            <div w="1050" h="1499" color="#e82255" name="五寸（89*127mm）" style="width: 148.149px; height: 211.5px; background-color: rgb(232, 34, 85);">
-                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png" alt="">
+                        <div class="cu">
+                            <div class="its">
+                                <div w="413" h="579" color="#FF0000">
+                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
+                                         alt="">
+                                </div>
                             </div>
+                            <p class="over">二寸（35*49mm）</p>
                         </div>
-                        <p class="over">五寸（89*127mm）</p>
+                        <div class="cu">
+                            <div class="its">
+                                <div w="260" h="378" color="#FF0000">
+                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
+                                         alt="">
+                                </div>
+                            </div>
+                            <p class="over">小二寸（35*45mm）</p>
+                        </div>
+                        <div class="cu">
+                            <div class="its">
+                                <div w="413" h="626" color="#FF0000">
+                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
+                                         alt="">
+                                </div>
+                            </div>
+                            <p class="over">大二寸（35*53mm）</p>
+                        </div>
                     </div>
                 </div>
-                <label>热门证件照尺寸:</label>
-                <div class="cList flex contents">
-                    <div class="cu">
-                        <div class="its">
-                            <div w="295" h="413" color="#e82255">
-                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
-                                     alt="">
+                <div class="initList two">
+                    <label>搜索结果:</label>
+                    <div class="cList flex content">
+                        <div class="cu">
+                            <div class="its">
+                                <div w="295" h="413" color="#FF0000">
+                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
+                                         alt="">
+                                </div>
                             </div>
+                            <p class="over">一寸（25*35mm）</p>
                         </div>
-                        <p class="over">一寸（25*35mm）</p>
-                    </div>
-                    <div class="cu">
-                        <div class="its">
-                            <div w="260" h="378" color="#e82255">
-                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
-                                     alt="">
+                        <div class="cu">
+                            <div class="its">
+                                <div w="413" h="579" color="#FF0000">
+                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
+                                         alt="">
+                                </div>
                             </div>
+                            <p class="over">二寸（35*49mm）</p>
                         </div>
-                        <p class="over">小一寸（22*32mm）</p>
-                    </div>
-                    <div class="cu">
-                        <div class="its">
-                            <div w="390" h="569" color="#00BFF3">
-                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
-                                     alt="">
+                        <div class="cu">
+                            <div class="its">
+                                <div w="649" h="991" color="#FF0000" name="三寸（55*84mm）">
+                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
+                                         alt="">
+                                </div>
                             </div>
+                            <p class="over">三寸（55*84mm）</p>
                         </div>
-                        <p class="over">大一寸（33*48）</p>
-                    </div>
-                    <div class="cu">
-                        <div class="its">
-                            <div w="413" h="579" color="#e82255">
-                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
-                                     alt="">
+                        <div class="cu">
+                            <div class="its">
+                                <div w="898" h="1205" color="#FF0000" name="四寸（76*102mm）">
+                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
+                                         alt="">
+                                </div>
                             </div>
+                            <p class="over">四寸（76*102mm）</p>
                         </div>
-                        <p class="over">二寸（35*49mm）</p>
-                    </div>
-                    <div class="cu">
-                        <div class="its">
-                            <div w="260" h="378" color="#e82255">
-                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
-                                     alt="">
+                        <div class="cu">
+                            <div class="its">
+                                <div w="1050" h="1499" color="#FF0000" name="五寸（89*127mm）"
+                                     style="width: 148.149px; height: 211.5px; background-color: rgb(232, 34, 85);">
+                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
+                                         alt="">
+                                </div>
                             </div>
+                            <p class="over">五寸（89*127mm）</p>
                         </div>
-                        <p class="over">小二寸（35*45mm）</p>
-                    </div>
-                    <div class="cu">
-                        <div class="its">
-                            <div w="413" h="626" color="#e82255">
-                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
-                                     alt="">
-                            </div>
-                        </div>
-                        <p class="over">大二寸（35*53mm）</p>
                     </div>
                 </div>
             </div>
@@ -326,8 +382,9 @@
     处理中...
 </div>
 <script>
-    // var baseUrl = '<%= VUE_APP_BASEURL %>',urlhref='<%= NODE_ENV %>'==='development' ? 'http://wwwdev.picup.shop' : 'http://www.picup.shop';
-    var baseUrl = '<%= VUE_APP_BASEURL %>',urlhref='http://wwwdev.picup.shop';
+    var baseUrl = '<%= VUE_APP_BASEURL %>',
+        urlhref = '<%= NODE_ENV %>' === 'development' ? 'http://wwwdev.picup.shop' : 'http://www.picup.shop';
+    // var baseUrl = '<%= VUE_APP_BASEURL %>',urlhref='http://wwwdev.picup.shop';
 </script>
 <script src="static/idPhoto.js"></script>
 <script src="static/jquery-1.11.3.min.js"></script>
@@ -336,32 +393,48 @@
     var token = localStorage.getItem( 'user_Token' ), fileId, mattingMsg = {
         bgRemovedPreview: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png',
         original: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png',
-        mattingType: 1
-    },taskFlag,timer;
-    var qrcode = new QRCode(document.getElementById("qrcode"), {
+        mattingType: 8,
+        originalWidth: 892, originalHeight: 1088,
+        headData: {top: 200, left: 280, bottom: 590, right: 610},
+    }, taskFlag, timer, page = 1, pageSize = 20;
+    var qrcode = new QRCode( document.getElementById( "qrcode" ), {
         text: urlhref + "/uploadBymobile.html",
         width: 128,
         height: 128,
-        colorDark : "#000000",
-        colorLight : "#ffffff",
-        correctLevel : QRCode.CorrectLevel.H
-    });
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    } );
 
     function initItems() {
         var oItem = $( '.cList .its > div' ), scnum = 235;
         $.each( oItem, function (idx, item) {
             let w = parseFloat( $( item ).attr( 'w' ) ), h = parseFloat( $( item ).attr( 'h' ) ),
                 c = $( item ).attr( 'color' );
+            let pw = w > h ? scnum * 0.9 : w * (scnum * 0.9) / h, ph = w > h ? h * (scnum * 0.9) / w : scnum * 0.9,
+                oImg = $( this ).find( 'img' );
+            let scaleW = 0.55 * ph / pw;
+            let iw = pw * scaleW * mattingMsg.originalWidth / (mattingMsg.headData.right - mattingMsg.headData.left);//缩放后的图片宽
+            let ih = iw * mattingMsg.originalHeight / mattingMsg.originalWidth;
+            let top = -(ih * mattingMsg.headData.top / mattingMsg.originalHeight) + ph * 0.05;
+            let left = pw / 2 - ((mattingMsg.headData.right - mattingMsg.headData.left) / 2 + mattingMsg.headData.left) * iw / mattingMsg.originalWidth;
+            oImg.css( {
+                width: iw,
+                top: top + ih < ph ? ph - ih : top,
+                left: left,
+                transform: 'translate(0,0)',
+                height: ih
+            } )
             $( this ).css( {
-                width: w > h ? scnum * 0.9 : w * (scnum * 0.9) / h,
-                height: w > h ? h * (scnum * 0.9) / w : scnum * 0.9,
+                width: pw,
+                height: ph,
                 backgroundColor: c
             } )
         } )
     }
 
     function upbymobile() {
-        $.ajax({
+        $.ajax( {
             url: baseUrl + '/oss/newUploadTask',
             type: 'get',
             dataType: 'json',
@@ -372,16 +445,17 @@
             data: {},
             success(res) {
                 if (!res.code) {
-                    taskFlag=res.data;
-                    qrcode.makeCode(urlhref+"/uploadBymobile.html?taskFlag="+res.data);
+                    taskFlag = res.data;
+                    qrcode.makeCode( urlhref + "/uploadBymobile.html?taskFlag=" + res.data );
                     setDiog( 1 );
                     lunxun()
                 } else loading( res.msg )
             }
-        })
+        } )
     }
-    function lunxun(){
-        $.ajax({
+
+    function lunxun() {
+        $.ajax( {
             url: baseUrl + '/oss/getUploadTask',
             type: 'get',
             dataType: 'json',
@@ -392,16 +466,17 @@
             data: {taskFlag},
             success(res) {
                 if (!res.code) {
-                   if(res.data.status===2) {
-                       setDiog()
-                       dreepByurl( res.data.url );
-                   } else timer=setTimeout(lunxun,2000)
+                    if (res.data.status === 2) {
+                        setDiog()
+                        dreepByurl( res.data.url );
+                    } else timer = setTimeout( lunxun, 2000 )
                 } else loading( res.msg )
             }
-        })
+        } )
     }
-    function setDiog(k){
-        clearTimeout(timer)
+
+    function setDiog(k) {
+        clearTimeout( timer )
         if (k) {
             $( '.diglog' ).css( 'display', 'block' );
             $( '.zhezhao' ).css( 'display', 'block' );
@@ -460,9 +535,10 @@
         } )
     }
 
-    function dreepByurl(url) {
+    function dreepByurl(url, id) {//抠图
         setLoading( 1 )
-        let data = {url, mattingType: 1};
+        let data = {url, mattingType: 8, bodyData: 1};
+        if (id) data.fileId = id;
         $.ajax( {
             url: baseUrl + '/webMatting/mattingByUrl2',
             type: 'post',
@@ -478,6 +554,7 @@
                     if (res.data.status === 'success') {
                         $( '.cList .its img' ).attr( 'src', res.data.bgRemovedPreview );
                         mattingMsg = res.data;
+                        initItems()
                         setLoading()
                     } else {
                         $( '.loading' ).text( `当前排队位置` + res.data.queueNumber )
@@ -491,7 +568,7 @@
         } )
     }
 
-    function pollingImg() {
+    function pollingImg() {//轮训
         let data = {fileId: fileId};
         $.ajax( {
             url: baseUrl + '/webMatting/getMattingInfo',
@@ -504,6 +581,7 @@
                     if (res.data.status === 'success') {
                         $( '.cList .its img' ).attr( 'src', res.data.bgRemovedPreview );
                         mattingMsg = res.data;
+                        initItems()
                         setLoading()
                     } else {
                         $( '.loading' ).text( `当前排队位置` + res.data.queueNumber )
@@ -514,31 +592,35 @@
         } )
     }
 
-    function clickDiv() {
-        $( '.cList .cu' ).click( function () {
+    function clickDiv() {//添加点击事件
+        $( '.cList .cu' ).on( 'click', function () {
             let data = {
+                ...mattingMsg,
+                ori:mattingMsg.original,
+                pro:mattingMsg.bgRemovedPreview,
                 w: $( this ).find( '.its > div' ).attr( 'w' ),
                 h: $( this ).find( '.its > div' ).attr( 'h' ),
-                pro: mattingMsg.bgRemovedPreview,
-                ori: mattingMsg.original,
-                color:$( this ).find( '.its > div' ).attr( 'color' ),
+                color: $( this ).find( '.its > div' ).attr( 'color' ),
                 filename: $( this ).find( 'p' ).text(),
                 fileId: fileId ? fileId : '',
-                mattingType: 1
+                mattingType:8
             }
             localStorage.setItem( 'photoMsg', JSON.stringify( data ) );
             window.location.href = 'idPhotoEdit.html';
         } )
     }
 
-    $( '.photoHisList .itmes' ).click( function () {
-        $( '.cList .its img' ).attr( 'src', $( this ).attr( 'imgSrc' ) );
-        mattingMsg.bgRemovedPreview= $( this ).attr( 'imgSrc' );
-        mattingMsg.original= $( this ).attr( 'imgSrc' );
+
+    $( '.photoHisList.flex .itmes' ).click( function () {
+        var url = $( this ).find( 'img' ).attr( 'src' );
+        dreepByurl(url)
     } )
+
+
     initList();
     initItems();
     clickDiv();
+    inithisList();
 
 
 </script>

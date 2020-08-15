@@ -11,8 +11,8 @@
                     <div class="Lbtn"><a href="userCenter.html#/userCenter/invitation">立即邀请</a></div>
                     <p>填写好友邀请码可获得5次免费下载赠送</p>
                     <div class="Lbtn"><a href="register.html">立即填写</a></div>
-<!--                    <p>微信扫一扫关注公众号获取5次免费下载赠送</p>-->
-<!--                    <img src="@/assets/image/wechatEwm.jpg" alt="">-->
+                    <p>微信扫一扫关注公众号获取5次免费下载赠送</p>
+                    <img src="@/assets/image/wechatEwm.jpg" alt="">
                 </div>
                 <div class="center">
                     <div class="title">包月用不完，累积5个月</div><!--订阅计划-->
