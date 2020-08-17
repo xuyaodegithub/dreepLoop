@@ -23,8 +23,7 @@
                 </div>
             </div>
             <div class="hDown">
-                <el-button type="primary" icon="el-icon-folder" @click="saveSubItem"
-                           v-if="urlStr && loadSubObj">模板保存
+                <el-button class="up"  @click="reupload">重新上传
                 </el-button>
                 <el-button class="doo" type="primary" icon="el-icon-download" @click="downLoadImg()">下载
                     <table class="downBtn">
@@ -66,7 +65,7 @@
 <!--                </div>-->
                 <el-scrollbar style="overflow-x: hidden;" :style="{height:`${listH*0.4}px`,overflowY: 'auto'}">
                     <div class="iconList flex f-w j-b a-i">
-                        <div v-for="(son,ix) in ttList[tzType].list" :key="ix" class="cu" @click="addImgsSub(son)">
+                        <div v-for="(son,ix) in ttList[tzType].list" :key="ix" class="cu" @click="addImgsSub(son,ix)" :class="{active : tzSonType===ix}">
                             <img :src="son.cover" alt="">
                         </div>
                     </div>
@@ -262,6 +261,7 @@
                 ],
                 loadSubObj: '',
                 tzType: 0,
+                tzSonType: 0,
                 selectType: 0,//当前左侧选中菜单的下标
                 fontList: [{
                     title: '描边',
@@ -516,6 +516,9 @@
                 }
 
             },
+            reupload(){
+
+            },
             hoverThis(idx) {
                 this.parseSubs.subList.map( item => item.hovering = false );
                 if (!(!this.parseSubs.subList[idx].type && this.parseSubs.subList[idx].backColor)) this.parseSubs.subList[idx].hovering = true;
@@ -539,7 +542,13 @@
                 if (this.tzType === idx) return;
                 this.tzType = idx;
             },
-            addImgsSub(son) {
+            addImgsSub(son,ix) {
+                if(this.tzSonType===ix)return;
+                this.tzSonType=ix;
+                if(!ix){
+                    this.parseSubs.subList=this.parseSubs.subList.filter(item=>item.type!==3)
+                    return
+                }
                 this.loading.show = true;
                 this.parseSubs.subList=this.parseSubs.subList.filter(ite=>[0,1].includes(ite.type));
                 let oImg = new Image();
@@ -556,7 +565,7 @@
                             w,
                             h,
                             x: this.parseSubs.bW / 2 -((son.right-son.left)/2+son.left)*w/oImg.width,
-                            y: mainSub.h*this.edrieImgInfo.headData.mouseY/this.edrieImgInfo.originalHeight+mainSub.y,
+                            y: mainSub.h*this.edrieImgInfo.headData.mouseY/this.edrieImgInfo.originalHeight+mainSub.y+this.parseSubs.bH*0.03,
                             id: `img${Math.random()}`,
                             rotate: 0,
                             useImg: item,
@@ -1439,10 +1448,10 @@
                 console.log(keynum)
                 const idx = this.hoverSub.idx, type = this.hoverSub.type;
                 if (keynum === 17) this.touchContrl = true;
-                if (keynum === 8 && !this.hoverSub.contenteditable) {
-                    this.enterIdx = -1;//删除前先隐藏框框，移出鼠标
-                    this.parseSubs.subList.splice( idx, 1 );
-                }
+                // if (keynum === 8 && this.hoverSub.type===3) {
+                //     this.enterIdx = -1;//删除前先隐藏框框，移出鼠标
+                //     this.parseSubs.subList.splice( idx, 1 );
+                // }
                 if (this.touchContrl && keynum === 90) this.goback( 0 );
                 if (this.touchContrl && keynum === 89) this.goback( 1 );
                 if (this.touchContrl && keynum === 67) {
@@ -1564,24 +1573,22 @@
 
                 .iconList {
                     div {
-                        width: 50px;
-                        height: 50px;
+                        width: 100px;
                         position: relative;
                         margin-bottom: 10px;
                         overflow: hidden;
                         margin: 10px 0;
-
+                        background: url("http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/b80c2dd51d2b49e5885f8d4aff5032c6.jpg") no-repeat center;
                         &:nth-child(2n) {
                             margin: 0 10px;
                         }
-
                         img {
-                            position: absolute;
+                            display: block;
                             width: 100%;
-                            left: 0;
-                            top: 50%;
-                            transform: translateY(-50%);
                         }
+                    }
+                    .active{
+                        box-shadow:0 0 15px $co;
                     }
                 }
             }
@@ -2007,6 +2014,10 @@
 
             .hDown {
                 margin-right: 20px;
+                .up{
+                    border: 1px solid $co;
+                    color: $co;
+                }
             }
 
             .h_l span {

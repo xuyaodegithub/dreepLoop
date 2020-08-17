@@ -24,7 +24,7 @@
                            :class="{'red' : urls.includes(item)}">{{['一键美化','图片修复'][idx]}}</a>
                     </div>
                 </li>
-<!--                <li class="cu"><a href="http://matting.deeplor.com/blog" target="_blank">使用案例</a></li>-->
+                <li class="cu"><a href="http://matting.deeplor.com/blog" target="_blank">使用案例</a></li>
             </ul>
             <div class="right flex">
                 <div style="padding:0 15px;"><a href="https://mp.weixin.qq.com/s/AsVjcACbusdKXcheF_HHtw" target="_blank"><img src="../../assets/image/freeGet.gif" alt=""></a></div>

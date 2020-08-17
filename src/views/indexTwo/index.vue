@@ -154,7 +154,6 @@
     import headerSub from '@/components/header/index.vue'
     import imgSub from '@/components/showImgSub/object.vue'
     import {getToken, getSecImgs, setSecImgs} from "../../utils/auth";
-    import {basrUrls} from "../../utils";
     import imgSetSub from '@/components/setImgSub/index.vue'
     import {getMattedImageMultiple, userHistoryList} from "../../apis";
     import mohu1 from '@/assets/image/mohu1.png'
@@ -181,7 +180,6 @@
                 imgMsg: {},
                 showSetImg: false,
                 allbgImg: [],
-                basrUrls: basrUrls(),
                 sizeArr: [],
                 historyList: {},
                 showHistory: false,

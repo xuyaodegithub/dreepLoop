@@ -1,22 +1,22 @@
 <template>
   <section>
     <header-sub></header-sub>
-    <div class="flex">
-      <move-chunk :imgss="arrm"></move-chunk>
-      <move-chunk :imgss="arrm1"></move-chunk>
-      <move-chunk :imgss="arrm2"></move-chunk>
-      <move-chunk :imgss="arrm3"></move-chunk>
-      <move-chunk :imgss="arrm4"></move-chunk>
-      <move-chunk :imgss="arrm5"></move-chunk>
-      <move-chunk :imgss="arrm6"></move-chunk>
-      <move-chunk :imgss="arrm7"></move-chunk>
-      <move-chunk :imgss="arrm8"></move-chunk>
-      <move-chunk :imgss="arrm9"></move-chunk>
-      <move-chunk :imgss="arrm10"></move-chunk>
-      <move-chunk :imgss="arrm11"></move-chunk>
-      <move-chunk :imgss="arrm12"></move-chunk>
-      <move-chunk :imgss="arrm13"></move-chunk>
-    </div>
+<!--    <div class="flex">-->
+<!--      <move-chunk :imgss="arrm"></move-chunk>-->
+<!--      <move-chunk :imgss="arrm1"></move-chunk>-->
+<!--      <move-chunk :imgss="arrm2"></move-chunk>-->
+<!--      <move-chunk :imgss="arrm3"></move-chunk>-->
+<!--      <move-chunk :imgss="arrm4"></move-chunk>-->
+<!--      <move-chunk :imgss="arrm5"></move-chunk>-->
+<!--      <move-chunk :imgss="arrm6"></move-chunk>-->
+<!--      <move-chunk :imgss="arrm7"></move-chunk>-->
+<!--      <move-chunk :imgss="arrm8"></move-chunk>-->
+<!--      <move-chunk :imgss="arrm9"></move-chunk>-->
+<!--      <move-chunk :imgss="arrm10"></move-chunk>-->
+<!--      <move-chunk :imgss="arrm11"></move-chunk>-->
+<!--      <move-chunk :imgss="arrm12"></move-chunk>-->
+<!--      <move-chunk :imgss="arrm13"></move-chunk>-->
+<!--    </div>-->
   </section>
 </template>
 

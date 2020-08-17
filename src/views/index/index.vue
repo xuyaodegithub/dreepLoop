@@ -190,7 +190,6 @@
                 imgMsg: {},
                 showSetImg: false,
                 allbgImg: [],
-                basrUrls: basrUrls(),
                 sizeArr: [],
                 historyList: {},
                 showHistory: false,

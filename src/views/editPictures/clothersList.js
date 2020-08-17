@@ -1,5 +1,10 @@
 export const clothList = [
     {
+        cover: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/383da4667d7142eca1fcb3195684e16d.jpg',
+        right: 462,
+        left: 284,
+        list: ['http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200815/c55de12fe1fe48dc9b81c6e7bccc5c7b.png', 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200815/2602e70ccaf6407d8119d05786499e4b.png']
+    },  {
         cover: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200815/548932edc25b461eb80a9396cdd4bedb.png',
         right: 462,
         left: 284,

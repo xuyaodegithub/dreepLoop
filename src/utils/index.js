@@ -11,6 +11,7 @@ export const basrUrls = () => {
 }
 export const myBrowser = () => {//判断浏览器类型
     let userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+    console.log(navigator.userAgent,userAgent.indexOf( "compatible" ) > -1 , userAgent.indexOf( "MSIE" ) > -1)
     if (userAgent.indexOf( "Opera" ) > -1) return "Opera"; //判断是否Opera浏览器
     if (userAgent.indexOf( "Firefox" ) > -1) return "FF";//判断是否Firefox浏览器
     if (userAgent.indexOf( "Chrome" ) > -1 && userAgent.indexOf( "Edge" ) < 0 && userAgent.indexOf( "QQBrowser" ) < 0) return "Chrome";//谷歌
@@ -417,8 +418,8 @@ export const colorRgb = (colors) => {//16进制转rgb
 export const  setVsource=()=>{
     var seaCats=queryStringUrl('vsource');
     if(!seaCats && document.referrer.includes('picup')) return;
-    if(seaCats)Cookies.set('vsource',seaCats)
-    else Cookies.set('vsource',document.referrer)
+    if(seaCats)Cookies.set('vsource',seaCats,{ expires: 7 });
+    else if(document.referrer && !seaCats)Cookies.set('vsource',document.referrer,{ expires: 7 });
 }
 export const queryStringUrl=(name)=>{
     var reg=new RegExp("(^|$)"+name+"=([^&]*)(&|$)")

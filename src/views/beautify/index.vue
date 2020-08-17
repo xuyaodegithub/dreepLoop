@@ -144,7 +144,7 @@
         data() {
             return {
                 initimgsList: [
-                    'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/05/13/1.jpg',
+                    'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/ea6d4bdaac3844879fe7f6c1c9183b12.png',
                     'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/05/13/2.jpg',
                     'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/05/13/3.jpg',
                     'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/05/13/4.jpg',

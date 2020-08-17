@@ -228,7 +228,7 @@
         }
     }
 
-    document.addEventListener( 'paste', (e) => {
+    document.addEventListener( 'paste', function(e) {
         let clipboardData = e.clipboardData,//谷歌
             i = 0,
             items, item, types;

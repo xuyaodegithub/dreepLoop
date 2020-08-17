@@ -11,7 +11,7 @@
             j = d.createElement( s ), dl = l != 'dataLayer' ? '&l=' + l : '';
         j.async = true;
         j.src =
-            'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            'https://www.googvaragmanager.com/gtm.js?id=' + i + dl;
         f.parentNode.insertBefore( j, f );
     })( window, document, 'script', 'dataLayer', 'GTM-WG4BQ8P' );
     </script>
@@ -66,7 +66,8 @@
             font-size: 58px;
             margin-bottom: 25px;
         }
-        .titleHeader .oA{
+
+        .titleHeader .oA {
             display: block;
             margin: 40px auto 0;
             width: 350px;
@@ -78,15 +79,54 @@
             font-weight: bold;
             cursor: pointer;
         }
-        .titleHeader .oA img{
+
+        .titleHeader .oA img {
             vertical-align: baseline;
             margin-right: 15px;
         }
-        .titleHeader p:last-child{
+
+        .titleHeader .lp {
             font-size: 14px;
             color: #F8CFD2;
             margin-top: 15px;
         }
+
+        .titleHeader .lizi {
+            text-align: left;
+            font-size: 14px;
+            margin-top: 32px;
+            color: rgba(255, 255, 255, .7);
+            font-weight: 600;
+            line-height: 20px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .titleHeader .lizi .photoHisList {
+            margin-left: 20px;
+        }
+
+        .titleHeader .lizi .itmes {
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border: 1px solid #eee;
+            overflow: hidden;
+            position: relative;
+            margin-right: 10px;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .titleHeader .lizi img {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+
         .headers {
             padding: 40px 0;
             line-height: 1;
@@ -133,23 +173,29 @@
             color: #333;
             margin-bottom: 20px;
         }
-        .headers .item .itemL{
+
+        .headers .item .itemL {
             width: 156px;
         }
-        .headers .item i{
+
+        .headers .item i {
             font-size: 18px;
             margin-top: 15px;
             line-height: 26px;
         }
-        .headers .item span{
+
+        .headers .item span {
             display: none;
         }
-        .headers .item:hover i{
+
+        .headers .item:hover i {
             display: none;
         }
-        .headers .item:hover span{
+
+        .headers .item:hover span {
             display: block;
         }
+
         .headers .item img {
             display: block;
             width: 150px;
@@ -223,6 +269,49 @@
 
         .loop .rel img:first-child {
             display: block;
+        }
+
+        .loop .idIn {
+            text-align: left;
+            justify-content: center;
+            line-height: 1;
+            align-items: center;
+        }
+
+        .loop .idIn > img {
+            margin-right: 75px;
+        }
+
+        .loop .idIn h3 {
+            font-size: 30px;
+            margin-bottom: 24px;
+        }
+        .loop .idIn p{
+            font-size: 16px;
+            color: #999;
+        }
+        .loop .idIn .btn{
+            font-weight: 600;
+            font-size: 16px;
+            width: 160px;
+            line-height: 48px;
+            color: #e82255;
+            border: 1px solid #e82255;
+            border-radius: 5px;
+            text-align: center;
+            margin: 40px 0 24px 0;
+        }
+        .loop .idIn .btn img{
+            vertical-align: text-top;
+            height: 20px;
+            margin-right: 10px;
+        }
+        .loop .idIn p:last-child img{
+            vertical-align: text-top;
+            margin-right: 10px;
+        }
+        .loop .idIn p:last-child{
+            font-size: 12px;
         }
 
         .bgchange {
@@ -414,6 +503,7 @@
             background-color: #fff;
             display: none;
         }
+
         .zhezhao {
             display: none;
             position: fixed;
@@ -443,18 +533,34 @@
 </head>
 <body>
 <noscript>
-    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WG4BQ8P"
+    <iframe src="https://www.googvaragmanager.com/ns.html?id=GTM-WG4BQ8P"
             height="0" width="0" style="display:none;visibility:hidden"></iframe>
 </noscript>
 <img src="slt.jpg" alt="" style="display: none">
-<input type="file" name="" id="loadIn" accept="image/*" multiple="false" style="display: none" onchange="changeImg(event)">
+<input type="file" name="" id="loadIn" accept="image/*" multiple="false" style="display: none"
+       onchange="changeImg(event)">
 <div class="titleHeader">
     <h1>一键抠图神器</h1>
     <p>100%自动，免费，在线换背景</p>
     <div class="oA">
         <img src="static/ico_20200803113312.png" alt="">上传图像
     </div>
-    <p>CTRL+V粘贴图像或者URL，也可拖拽图像到此页面</p>
+    <p class="lp">CTRL+V粘贴图像或者URL，也可拖拽图像到此页面</p>
+    <div class="flex lizi ">
+        <span>没有照片？<br>试试这些证图片:</span>
+        <div class="photoHisList flex">
+            <div class="itmes"
+                 style="background-image: url('http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/b261cffebe11499f8d283c18bbd3a544.png')"></div>
+            <div class="itmes"
+                 style="background-image: url('http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/21bf764501e24f1a857bd78d0095a197.jpg')"></div>
+            <div class="itmes"
+                 style="background-image: url('http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/f8e6362ed4dc494f912bf73016656c8a.png')"></div>
+            <div class="itmes"
+                 style="background-image: url('http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/f275f16a50c74151b11e881ccb0be68e.png')"></div>
+            <div class="itmes"
+                 style="background-image: url('http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/d25bf9bd069642fa94d1c782c9b28bfb.png')"></div>
+        </div>
+    </div>
 </div>
 <div class="headers">
     <div class="margin">
@@ -463,7 +569,7 @@
                 <div class="item flex">
                     <div class="itemL">
                         <h2>批量通用抠图</h2>
-                        <p>人像、商品、卡通、动物全部搞定</p>
+                        <p>人像、宠物、商品、卡通、图标，全部搞定，推荐～</p>
                         <i class="el-icon-right"></i>
                         <span style="background-color: #E32450;">上传图片</span>
                     </div>
@@ -474,7 +580,7 @@
                 <div class="item flex">
                     <div class="itemL">
                         <h2>批量人像抠图</h2>
-                        <p>单人多人正面侧面，怎么动都行</p>
+                        <p>证件照、形象照、全家福、集体照、男女装服饰</p>
                         <i class="el-icon-right"></i>
                         <span style="background-color: #E32450;">上传人像</span>
                     </div>
@@ -485,7 +591,7 @@
                 <div class="item flex">
                     <div class="itemL">
                         <h2>批量物体抠图</h2>
-                        <p> 猫狗汽车鞋包家居，通通能抠</p>
+                        <p> 电商白底图，跨境、微商，商品主图制作</p>
                         <i class="el-icon-right"></i>
                         <span style="background-color: #10A5E9;">上传物体</span>
                     </div>
@@ -496,7 +602,7 @@
                 <div class="item flex">
                     <div class="itemL">
                         <h2>批量头像抠图</h2>
-                        <p>身份证、签证、卡通身体、变大头照、POD最爱</p>
+                        <p>个性化定制，头像+卡通身体，手机壳、钥匙扣、T恤</p>
                         <i class="el-icon-right"></i>
                         <span style="background-color: #F23D82;">上传人像</span>
                     </div>
@@ -507,7 +613,7 @@
                 <div class="item flex">
                     <div class="itemL">
                         <h2>一键美化</h2>
-                        <p> 键处理劣质图片生成精美图片</p>
+                        <p> 过曝、过暗，全局局部曝光自动调整</p>
                         <i class="el-icon-right"></i>
                         <span style="background-color: #1AD8AE;">上传图片</span>
                     </div>
@@ -518,7 +624,7 @@
                 <div class="item flex">
                     <div class="itemL">
                         <h2>照片修复</h2>
-                        <p>想修哪里修哪里，一秒抹去瑕疵，亳无痕迹</p>
+                        <p>去水印、修照片，新房、二手房、外贸、商品</p>
                         <i class="el-icon-right"></i>
                         <span style="background-color: #4057E1;">上传图片</span>
                     </div>
@@ -530,32 +636,53 @@
 </div>
 <section class="loop">
     <div class="margin">
-        <h1>人人必备的在线抠图工具</h1>
-        <p>不必专业PS，新手小白都能用</p>
-        <div class="flex a-i item">
-            <div class="flex a-i cu active">
-                <img src="static/22.png" alt="一键抠图，人像抠图">
-                <span>电子商务</span>
-            </div>
-            <div class="flex a-i cu">
-                <img src="static/33.png" alt="一键抠图，人像抠图">
-                <span>开发者</span>
-            </div>
-            <div class="flex a-i cu">
-                <img src="static/44.png" alt="一键抠图，人像抠图">
-                <span>新媒体</span>
-            </div>
-            <div class="flex a-i cu">
-                <img src="static/11.png" alt="一键抠图，人像抠图">
-                <span>个人</span>
+        <h1>场景应用</h1>
+        <p>不必专业PS,新手小白都能用，人人必备的在线抠图工具</p>
+        <div class="flex idIn">
+            <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/32f3a4dd0d37446f8b595aeec93ed8f2.png"
+                 alt="">
+            <div>
+                <h3>在线证件照制作</h3>
+                <p>不用去照相馆，一键制作证件照</p>
+                <div class="btn cu"><img src="static/ico_20200803113312.png" alt="">上传照片</div>
+                <p>
+                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/0ddc103f27d543e69ba84ac1918ff148.png"
+                         alt="">上传须知：照片请上传正面照，露耳朵</p>
             </div>
         </div>
-        <div class="rel">
-            <img src="static/dianzi.png" alt="一键抠图，人像抠图">
-            <img src="static/kaifazhe.png" alt="一键抠图，人像抠图">
-            <img src="static/xinmeiti.png" alt="一键抠图，人像抠图">
-            <img src="static/geren.png" alt="一键抠图，人像抠图">
-        </div>
+<!--        <div class="flex idIn" style="margin-top: 100px">-->
+<!--            <div>-->
+<!--                <h3>电商主图制作</h3>-->
+<!--                <p>针对不同电商平台尺寸要求，海量模板，省时省力</p>-->
+<!--                <div class="btn cu"><img src="static/ico_20200803113312.png" alt="">上传照片</div>-->
+<!--            </div>-->
+<!--            <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/32f3a4dd0d37446f8b595aeec93ed8f2.png"-->
+<!--                 alt="">-->
+<!--        </div>-->
+        <!--        <div class="flex a-i item">-->
+        <!--            <div class="flex a-i cu active">-->
+        <!--                <img src="static/22.png" alt="一键抠图，人像抠图">-->
+        <!--                <span>电子商务</span>-->
+        <!--            </div>-->
+        <!--            <div class="flex a-i cu">-->
+        <!--                <img src="static/33.png" alt="一键抠图，人像抠图">-->
+        <!--                <span>开发者</span>-->
+        <!--            </div>-->
+        <!--            <div class="flex a-i cu">-->
+        <!--                <img src="static/44.png" alt="一键抠图，人像抠图">-->
+        <!--                <span>新媒体</span>-->
+        <!--            </div>-->
+        <!--            <div class="flex a-i cu">-->
+        <!--                <img src="static/11.png" alt="一键抠图，人像抠图">-->
+        <!--                <span>个人</span>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--        <div class="rel">-->
+        <!--            <img src="static/dianzi.png" alt="一键抠图，人像抠图">-->
+        <!--            <img src="static/kaifazhe.png" alt="一键抠图，人像抠图">-->
+        <!--            <img src="static/xinmeiti.png" alt="一键抠图，人像抠图">-->
+        <!--            <img src="static/geren.png" alt="一键抠图，人像抠图">-->
+        <!--        </div>-->
     </div>
 </section>
 <div class="bgchange">
@@ -622,8 +749,8 @@
 </div>
 <div class="anli">
     <div class="margin">
-        <h1>在线抠图图片案例</h1>
-        <p>前景识别类型不断丰富，边缘细节不断精细</p>
+<!--        <h1>在线抠图图片案例</h1>-->
+<!--        <p>前景识别类型不断丰富，边缘细节不断精细</p>-->
         <div id="init"></div>
     </div>
 </div>
@@ -708,24 +835,26 @@
 <!-- built files will be auto injected -->
 <script src="static/jquery-1.11.3.min.js"></script>
 <script type="text/javascript">
-    let oLoop = document.querySelectorAll( '.loop .item .cu' ),oAd=document.querySelector('.oA');
-    let oLoopImg = document.querySelectorAll( '.loop .rel img' ),oFile=document.getElementById('loadIn')
-    let oBt = document.querySelectorAll( '.bgchange .bt div' )
-    let oBgImg = document.querySelectorAll( '.bgchange .first img:first-child' )[0]
-    let idx = 1, closeTimer = false;
-    for (let i = 0; i < oLoop.length; i++) {
-        oLoop[i].addEventListener( 'mouseover', function () {
-            Array.prototype.slice.call( oLoop ).map( function (v, i) {
-                v.className = 'flex a-i cu'
-            } )
-            Array.prototype.slice.call( oLoopImg ).map( function (v, i) {
-                v.style.display = 'none'
-            } )
-            this.className = 'flex a-i cu active'
-            oLoopImg[i].style.display = 'block'
-        } )
-    }
-    for (let i = 0; i < oBt.length; i++) {
+    // var oLoop = document.querySelectorAll( '.loop .item .cu' ),
+    var  oAd = document.querySelector( '.oA' ),oBd=document.querySelector( '.btn' ),toUrl='currency.html';
+    // var oLoopImg = document.querySelectorAll( '.loop .rel img' ),
+    var   oFile = $( '#loadIn' )
+    var oBt = document.querySelectorAll( '.bgchange .bt div' )
+    var oBgImg = document.querySelectorAll( '.bgchange .first img:first-child' )[0]
+    var idx = 1, closeTimer = false;
+    // for (var i = 0; i < oLoop.length; i++) {
+    //     oLoop[i].addEventListener( 'mouseover', function () {
+    //         Array.prototype.slice.call( oLoop ).map( function (v, i) {
+    //             v.className = 'flex a-i cu'
+    //         } )
+    //         Array.prototype.slice.call( oLoopImg ).map( function (v, i) {
+    //             v.style.display = 'none'
+    //         } )
+    //         this.className = 'flex a-i cu active'
+    //         oLoopImg[i].style.display = 'block'
+    //     } )
+    // }
+    for (var i = 0; i < oBt.length; i++) {
         oBt[i].addEventListener( 'mouseover', function () {
             closeTimer = true
             idx = i
@@ -761,13 +890,20 @@
     //     if(!oEwm[i].style.display || oEwm[i].style.display==='none')oEwm[i].style.display='block';
     //     else oEwm[i].style.display='none';
     // }
-    oAd.onclick=function(){
+    oAd.onclick = function () {
+        toUrl='currency.html';
+        oFile.val('');
         oFile.click();
         // window.location.href='transitionPage.html'
     }
-    let fileId, imgData, token = localStorage.getItem( 'user_Token' ), fileMsg,
+    oBd.onclick = function () {
+        toUrl='idPhoto.html';
+        oFile.val('');
+        oFile.click();
+        // window.location.href='transitionPage.html'
+    }
+    var fileId, imgData, token = localStorage.getItem( 'user_Token' ), fileMsg,
         devbase = '<%= VUE_APP_BASEURL %>';//模板内取得webpack环境变量
-    console.log(devbase)
     // devbase = '//restapi.picup.shop';
     function changeImg(e) {
         fileMsg = e.target.files[0];
@@ -787,26 +923,27 @@
         document.addEventListener( "dragover", function (e) {  //拖来拖去
             e.preventDefault();
         } );
-        // let oDrops = document.getElementsByClassName( 'upLoad' );
-        // for (let i = 0; i < oDrops.length; i++) {
-            document.addEventListener( "drop", function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                let files = e.dataTransfer.files;
-                if (!files.length) return;
-                if (files.length > 1) {
-                    loading( '请每次处理一张图片' )
-                    return
-                }
-                fileMsg = files[0];
-                dreepByFile( files[0] )
-            } )
+        // var oDrops = document.getElementsByClassName( 'upLoad' );
+        // for (var i = 0; i < oDrops.length; i++) {
+        document.addEventListener( "drop", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var files = e.dataTransfer.files;
+            if (!files.length) return;
+            if (files.length > 1) {
+                loading( '请每次处理一张图片' )
+                return
+            }
+            fileMsg = files[0];
+            toUrl='currency.html';
+            dreepByFile( files[0] )
+        } )
         // }
     }
 
-    document.addEventListener( 'paste', (e) => {
-        console.log(e)
-        let clipboardData = e.clipboardData,//谷歌
+    document.addEventListener( 'paste', function (e) {
+        console.log( e )
+        var clipboardData = e.clipboardData,//谷歌
             i = 0,
             items, item, types;
         if (clipboardData) {
@@ -823,57 +960,26 @@
                 }
             }
             if (item && item.kind === 'string' && item.type.match( /^text\//i )) {
-                fileMsg={name:clipboardData.getData( "Text" )}
-                this.dreepByurl( clipboardData.getData( "Text" ) )
+                fileMsg = {name: clipboardData.getData( "Text" )}
+                toPostEdior( clipboardData.getData( "Text" ) )
             }
             if (item && item.kind === 'file' && item.type.match( /^image\//i )) {
                 fileMsg = item.getAsFile();
-                this.dreepByFile( item.getAsFile() )
+                toUrl='currency.html';
+                dreepByFile( item.getAsFile() )
             }
         }
     } )
 
 
-    function dreepByurl(url) {
-        // console.log(url)
-        toPostEdior(url)
-        // setLoading( 1 )
-        // let data = {url, mattingType: 6};
-        // $.ajax( {
-        //     url: devbase+'/webMatting/mattingByUrl2',
-        //     type: 'post',
-        //     dataType: 'json',
-        //     xhrFields: {
-        //         withCredentials: true
-        //     },
-        //     headers: {token: token},
-        //     data: data,
-        //     success(res) {
-        //         if (!res.code) {
-        //             fileId = res.data.fileId;
-        //             if (res.data.status === 'success') {
-        //                 toPostEdior( res.data )
-        //             } else {
-        //                 $( '.loading' ).text( `当前排队位置` + res.data.queueNumber )
-        //                 setTimeout( pollingImg, 2000 )
-        //             }
-        //         } else if (res.code === 4003) {
-        //             localStorage.setItem( 'backUrl', window.location.href );
-        //             window.location.href = `loginOrRegister.html`;
-        //         } else loading( res.msg )
-        //     }
-        // } )
-    }
-
-    //
     function dreepByFile(file) {
-        setLoading( 1 )
-        let formData = new FormData();
+        // setLoading( 1 )
+        var formData = new FormData();
         formData.append( 'file', file );
         // formData.set( 'mattingType', 6 );
         $.ajax( {
             // url: devbase+'/webMatting/matting2',
-            url: devbase+'/oss/upload',
+            url: devbase + '/oss/upload',
             type: 'post',
             dataType: 'json',
             processData: false,
@@ -883,39 +989,12 @@
             },
             headers: {token: token},
             data: formData,
-            success(res) {
+            success: function (res) {
                 if (!res.code) {
-                    toPostEdior(res.data)
-                    // fileId = res.data.fileId;
-                    // if (res.data.status === 'success') toPostEdior( res.data );
-                    // else {
-                    //     $( '.loading' ).text( `当前排队位置` + res.data.queueNumber )
-                    //     setTimeout( pollingImg, 2000 )
-                    // }
+                    toPostEdior( res.data )
                 } else if (res.code === 4003) {
                     localStorage.setItem( 'backUrl', window.location.href );
                     window.location.href = `loginOrRegister.html`;
-                } else loading( res.msg )
-            }
-        } )
-    }
-
-    //
-    function pollingImg() {
-        let data = {fileId: fileId};
-        $.ajax( {
-            url: devbase+'/webMatting/getMattingInfo',
-            type: 'get',
-            dataType: 'json',
-            headers: {token: token},
-            data: data,
-            success(res) {
-                if (!res.code) {
-                    if (res.data.status === 'success') toPostEdior( res.data );
-                    else {
-                        $( '.loading' ).text( `当前排队位置` + res.data.queueNumber )
-                        setTimeout( pollingImg, 2000 )
-                    }
                 } else loading( res.msg )
             }
         } )
@@ -944,22 +1023,17 @@
         }
     }
 
-    // dreepByurl('http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2020/08/03/5ee809a7d730479db5828519fea6fcf1.jpg')
     function toPostEdior(url) {
-        // imgData = res;
-        // const editPictures = {
-        //     pro: res.bgRemovedPreview,
-        //     ori: res.original,
-        //     filename: fileMsg.name,
-        //     bgImg: '',
-        //     fileId: fileId,
-        //     imageMsg: imgData,
-        //     mattingType: 6
-        // }
         localStorage.setItem( 'initImg', url )
-        setLoading()
-        window.location.href = 'currency.html';
+        // setLoading()
+        window.location.href = toUrl;
     }
+
+    $( '.photoHisList .itmes' ).on( 'click', function () {
+        var url = $( this ).css( 'backgroundImage' ).match( /(?<=url\(").*?(?="\))/g )
+        // console.log(url)
+        toPostEdior( url )
+    } )
     stopPrevent()
 </script>
 </body>
