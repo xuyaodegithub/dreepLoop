@@ -1392,7 +1392,7 @@ var idPhotolist = [{"name": "一寸(25*35mm)", "width": 295, "height": 413, "col
 
 function initList() {
     var oDiv = $( '.contents' );
-    for (var i = 6; i < idPhotolist.length; i++) {
+    for (var i = 0; i < idPhotolist.length; i++) {
         var item = idPhotolist[i];
         let str = $( ` <div class="cu">
                         <div class="its">
