@@ -24,6 +24,7 @@ instance.interceptors.request.use(function (config) {//为自定义axios设置�
   // console.log(config)
   // 在发送请求之前做些什么config是axios请求实例 里面包含axios各种配置项和相关属性信息
   if(getToken()) config.headers['token']=getToken();
+  config.headers['token']='02e3e3cc71ecd56df3da'
   return config
 }, function (error) {
   // 对请求错误做些什么

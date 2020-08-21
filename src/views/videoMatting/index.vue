@@ -6,7 +6,7 @@
       ref="upImg"
       @change="changeImg($event)"
       :multiple="multiple"
-      accept="image/*"
+      accept="video/mp4,audio/mp4"
     />
     <header-sub></header-sub>
     <div class="apps">
@@ -15,7 +15,12 @@
           <!--Local images-->
           本地视频
         </h6>
-        <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()">
+        <el-button
+          type="primary"
+          round
+          icon="el-icon-upload2"
+          @click="upLoadimg()"
+        >
           <!--Upload-->
           上传
         </el-button>
@@ -52,8 +57,17 @@
             <div class="flex a-i cu">
               <img src="../../assets/image/wx.png" alt />
               <p>roymind</p>
-              <img src="../../assets/image/ewm.png" alt style="margin-left: 20px;margin-right: 0;" />
-              <img src="../../assets/image/wxl.png" alt class="noC" style="width:120px;" />
+              <img
+                src="../../assets/image/ewm.png"
+                alt
+                style="margin-left: 20px;margin-right: 0;"
+              />
+              <img
+                src="../../assets/image/wxl.png"
+                alt
+                class="noC"
+                style="width:120px;"
+              />
             </div>
             <div class="flex a-i cu">
               <img src="../../assets/image/img3.png" alt />
@@ -71,7 +85,12 @@
           <div class="imgbox">
             <img src="../../assets/matt-demo.png" alt />
             <div class="inline upload">
-              <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()">
+              <el-button
+                type="primary"
+                round
+                icon="el-icon-upload2"
+                @click="upLoadimg()"
+              >
                 <!--Upload-->
                 上传图像
               </el-button>
@@ -91,86 +110,168 @@
             </div>
           </div>
         </div>
-        <div class="matting">
-          <p>无需绿幕，实景视频抠图</p>
-          <p>专业的绿幕布景，昂贵的场地，复杂的技术，通通再见</p>
-          <img src="../../assets/image/matt-lm.png" alt class="lm" style="margin-top:-50px" />
-          <p class="bot-tip">皮卡智能在线视频抠图，随时随地拍摄，智能去背景</p>
-        </div>
-        <div class="matting">
-          <p>100%全自动，真的一键视频去背景</p>
-          <p>无需像素点击，颜色拾取，画蒙版，移动路径。</p>
-          <img src="../../assets/image/matt-mb.png" alt class="mb" style="margin-top:-30px" />
-          <p class="bot-tip-mb">皮卡智能在线视频抠图，随时随地拍摄，智能去背景</p>
-        </div>
-        <div class="matting">
-          <p>视频抠图去背景场景</p>
-          <ul class="list">
-            <li>
-              <div class="inline-box">
-                <div class="inline">
-                  <p>影视特效、惊险大片</p>
-                  <p>从钢铁侠的上天入地、蜘蛛侠的飞檐走壁，到隐秘到角落里张东升推落山崖的场面，全都是要绿幕抠图，如今有了皮卡智能一键抠视频,你也能轻松制作惊险大片了</p>
+        <div class="banner" v-show="false">
+          <div class="matting">
+            <p>无需绿幕，实景视频抠图</p>
+            <p>专业的绿幕布景，昂贵的场地，复杂的技术，通通再见</p>
+            <img
+              src="../../assets/image/matt-lm.png"
+              alt
+              class="lm"
+              style="margin-top:-50px"
+            />
+            <p class="bot-tip">
+              皮卡智能在线视频抠图，随时随地拍摄，智能去背景
+            </p>
+          </div>
+          <div class="matting">
+            <p>100%全自动，真的一键视频去背景</p>
+            <p>无需像素点击，颜色拾取，画蒙版，移动路径。</p>
+            <img
+              src="../../assets/image/matt-mb.png"
+              alt
+              class="mb"
+              style="margin-top:-30px"
+            />
+            <p class="bot-tip-mb">
+              皮卡智能在线视频抠图，随时随地拍摄，智能去背景
+            </p>
+          </div>
+          <div class="matting">
+            <p>视频抠图去背景场景</p>
+            <ul class="list">
+              <li>
+                <div class="inline-box">
+                  <div class="inline">
+                    <p>影视特效、惊险大片</p>
+                    <p>
+                      从钢铁侠的上天入地、蜘蛛侠的飞檐走壁，到隐秘到角落里张东升推落山崖的场面，全都是要绿幕抠图，如今有了皮卡智能一键抠视频,你也能轻松制作惊险大片了
+                    </p>
+                  </div>
+                  <div class="inline">
+                    <img
+                      src="../../assets/image/matt-list1.png"
+                      alt
+                      class="list1"
+                    />
+                  </div>
+                  <div style="clear:both"></div>
                 </div>
-                <div class="inline">
-                  <img src="../../assets/image/matt-list1.png" alt class="list1" />
+              </li>
+              <li>
+                <div class="inline-box">
+                  <div class="inline">
+                    <img
+                      src="../../assets/image/matt-list2.png"
+                      alt
+                      class="list1"
+                    />
+                  </div>
+                  <div class="inline">
+                    <p>宅舞、广场舞、瑜伽健身</p>
+                    <p>
+                      家里、公园、健身房、学校，世界都是你的舞台，拍摄视频，一键去背景，换上远方的风景，酷炫的电子光，B站、抖音、快手粉丝在召唤。
+                    </p>
+                  </div>
+                  <div style="clear:both"></div>
                 </div>
-                <div style="clear:both"></div>
-              </div>
-            </li>
-            <li>
-              <div class="inline-box">
-                <div class="inline">
-                  <img src="../../assets/image/matt-list2.png" alt class="list1" />
+              </li>
+              <li>
+                <div class="inline-box">
+                  <div class="inline">
+                    <p>在线教育、视频课程、专家演讲</p>
+                    <p>
+                      K12英语数学语文，在线视频课程，在家就能录制视频，让教育没有门槛、没有边界。电影讲解、游戏讲解、音乐课程，轻松和内容相结合，露脸讲解不遮挡。
+                    </p>
+                  </div>
+                  <div class="inline">
+                    <img
+                      src="../../assets/image/matt-list4.png"
+                      alt
+                      class="list1"
+                    />
+                  </div>
+                  <div style="clear:both"></div>
                 </div>
-                <div class="inline">
-                  <p>宅舞、广场舞、瑜伽健身</p>
-                  <p>家里、公园、健身房、学校，世界都是你的舞台，拍摄视频，一键去背景，换上远方的风景，酷炫的电子光，B站、抖音、快手粉丝在召唤。</p>
+              </li>
+              <li>
+                <div class="inline-box">
+                  <div class="inline">
+                    <img
+                      src="../../assets/image/matt-list3.png"
+                      alt
+                      class="list3"
+                    />
+                  </div>
+                  <div class="inline">
+                    <p>电商短视频、旅游路线讲解</p>
+                    <p>
+                      每一组电商图片、视频的经费都是昂贵的，拍摄完了，如果要做一个新的热门场景，或者是一个因为经费或者疫情到不了的国外沙滩用一键视频抠图，想去哪里去哪里。
+                    </p>
+                  </div>
+                  <div style="clear:both"></div>
                 </div>
-                <div style="clear:both"></div>
-              </div>
-            </li>
-            <li>
-              <div class="inline-box">
-                <div class="inline">
-                  <p>在线教育、视频课程、专家演讲</p>
-                  <p>K12英语数学语文，在线视频课程，在家就能录制视频，让教育没有门槛、没有边界。电影讲解、游戏讲解、音乐课程，轻松和内容相结合，露脸讲解不遮挡。</p>
-                </div>
-                <div class="inline">
-                  <img src="../../assets/image/matt-list4.png" alt class="list1" />
-                </div>
-                <div style="clear:both"></div>
-              </div>
-            </li>
-            <li>
-              <div class="inline-box">
-                <div class="inline">
-                  <img src="../../assets/image/matt-list3.png" alt class="list3" />
-                </div>
-                <div class="inline">
-                  <p>电商短视频、旅游路线讲解</p>
-                  <p>每一组电商图片、视频的经费都是昂贵的，拍摄完了，如果要做一个新的热门场景，或者是一个因为经费或者疫情到不了的国外沙滩用一键视频抠图，想去哪里去哪里。</p>
-                </div>
-                <div style="clear:both"></div>
-              </div>
-            </li>
-          </ul>
-        </div>
-        <div class="matting">
-          <p>示例视频</p>
-          <div class="demo"></div>
-        </div>
-        <div class="matting">
-          <p>我们的用户来自</p>
-          <div class="imgbox">
-            <img src="../../assets/image/matt-user.png" alt class="matt-user" />
+              </li>
+            </ul>
+          </div>
+          <div class="matting">
+            <p>示例视频</p>
+            <div class="demo"></div>
+          </div>
+          <div class="matting">
+            <p>我们的用户来自</p>
+            <div class="imgbox">
+              <img
+                src="../../assets/image/matt-user.png"
+                alt
+                class="matt-user"
+              />
+            </div>
+          </div>
+          <div class="matting">
+            <p>保持联系</p>
+            <img
+              src="../../assets/image/matt-wechat.png"
+              alt
+              class="matt-wechat"
+            />
+            <p>微信扫一扫添加技术顾问好友</p>
           </div>
         </div>
-        <div class="matting">
-          <p>保持联系</p>
-           <img src="../../assets/image/matt-wechat.png" alt class="matt-wechat" />
-          <p>微信扫一扫添加技术顾问好友</p>
+        <div class="vupload">
+          <p>预览</p>
+          <p class="name">文件名-ahc.mp4</p>
+          <div class="progress">
+            <div class="bar"></div>
+          </div>
+          <p class="jd">上传进度：22%</p>
+          <div class="close"></div>
         </div>
+        <div class="preview">
+          <p>预览</p>
+          <p class="title">
+            文件名<span>时长：00：58</span><span>每秒35帧</span>
+          </p>
+          <div class="viewBox">
+            <img src="../../assets/image/matt-view.png" alt="" />
+            <img src="../../assets/image/matt-view.png" alt="" />
+          </div>
+        </div>
+        <uploader
+          ref="uploader"
+          class="uploader-app"
+          :options="options"
+          :autoStart="false"
+          @file-added="onFileAdded"
+          @file-success="onFileSuccess"
+          @file-progress="onFileProgress"
+          @file-error="onFileError"
+        >
+          <uploader-btn id="`uploadButton${getTime}`" class="uploader-btn">
+            选择文件
+          </uploader-btn>
+        </uploader>
+
         <div style="height:100px"></div>
       </div>
     </div>
@@ -182,17 +283,57 @@ import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
 import headerSub from "@/components/header/index.vue";
 import { getToken, getSecImgs, setSecImgs } from "../../utils/auth";
+import { videoMatting, BySha256 } from "../../apis";
+let sha256 = require("js-sha256");
+let SparkMD5 = require("spark-md5");
 export default {
   components: { headerSub },
   data() {
     return {
       imgUrl: "", //图片链接
-      multiple: false
+      multiple: false,
+      // 选择文件后显示
+      panelShow: false,
+      options: {
+        // 目标上传地址 写自己要上传到的地址即可
+        target: "http://restapidev.picup.shop/oss/append",
+        // 分块大小
+        chunkSize: "1024*1024*10",
+        // 是否开启服务器分片校验
+        testChunks: true,
+        // 服务器分片校验函数 秒传及断点续传的基础
+        checkChunkUploadedByResponse: (chunk, message) => {
+          console.log(123456);
+          let objMessage = JSON.parse(message);
+          console.log(objMessage);
+          // 这里根据实际业务来 uploaded是后端返给我的字段 用来判断哪些片已经上传过了 不用再重复上传了objMessage.data.uploaded
+          return (objMessage.uploaded || []).indexOf(chunk.offset + 1) >= 0;
+        },
+        query: {},
+        headers: {
+          // 在header中添加的验证，请根据实际业务来
+          token: "998dcd833364ecf8c58f",
+        },
+        attrs: {
+          // 接受的文件类型，形如['.png', '.jpg', '.jpeg', '.gif', '.bmp'...] 这里我封装了一下
+          accept: ['.mp4'],
+        },
+      },
+
+      getTime: new Date().getTime() / 1000,
     };
   },
   created() {},
   mounted() {
     if (getToken()) this.userGetscribe();
+    // videoMatting({
+    //   token: this.username,
+    //   file: this.userpass,
+    //   sha256:'',
+    //   position:'',
+    //   contentLength:"",
+    //   taskFlag:""
+    // }).then((res) => {});
   },
   methods: {
     ...mapActions(["userGetscribe"]),
@@ -208,22 +349,19 @@ export default {
     changeImg(ev) {
       //图片上传
       const e = ev.target;
-      if (e.files.length > 30) {
-        this.$message({
-          type: "warning",
-          message: "最多同时上传30张图片，请分批次进行上传。"
-        });
-        return;
-      }
+      let selectedFile = e.files[0]; // 得到当前选中的文件
+      // 使用SHA-512算法生成一个标志文件的hash字符串
+      const {
+        name,
+        lastModified,
+        size,
+        type,
+        webkitRelativePath,
+      } = selectedFile;
+      let fileStr = `${name}${lastModified}${size}${type}${webkitRelativePath}`;
+      console.log(fileStr);
+      console.log(sha256(fileStr));
       this.toscroll();
-      for (let i = 0; i < e.files.length; i++) {
-        this.files.unshift({
-          url: e.files[i],
-          name: parseInt(Math.random() * 100000000000),
-          type: "file",
-          filename: e.files[i].name
-        });
-      }
       this.imgUrlss(e.files);
     },
     toscroll() {
@@ -231,12 +369,102 @@ export default {
       $("body,html").animate({ scrollTop: 620 }, 500);
     },
     imgUrlss(obj) {},
-    upLoadimg() {}
-  }
+    onFileAdded(file) {
+      console.log(file);
+      // 使用SHA-512算法生成一个标志文件的hash字符串
+      const { name, lastModified, size, type, webkitRelativePath } = file.file;
+      let fileStr = `${name}${lastModified}${size}${type}${webkitRelativePath}`;
+      let str = sha256(fileStr);
+      BySha256({
+        sha256: str,
+      }).then((res) => {
+        if (!res.data) {
+          this.computeMD5(file);
+        }
+      });
+      //  this.computeMD5(file);
+    },
+    onFileSuccess(rootFile, file, response, chunk) {
+      let res = JSON.parse(response);
+      // 服务器自定义的错误，这种错误是Uploader无法拦截的
+      if (!res.result) {
+        this.$message({ message: res.message, type: "error" });
+        return;
+      }
+    },
+    onFileError() {
+      console.log("xxxxxxxxxxxxxxxx");
+    },
+    onFileProgress(rootFile, file, chunk) {
+      console.log(
+        `上传中 ${file.name}，chunk：${chunk.startByte /
+          1024 /
+          1024} ~ ${chunk.endByte / 1024 / 1024}`
+      );
+    },
+    computeMD5(file) {
+      let fileReader = new FileReader();
+      let time = new Date().getTime();
+      let blobSlice =
+        File.prototype.slice ||
+        File.prototype.mozSlice ||
+        File.prototype.webkitSlice;
+      let currentChunk = 0;
+      const chunkSize = 1024 * 1024 * 10;
+      let chunks = Math.ceil(file.size / chunkSize);
+      let spark = new SparkMD5.ArrayBuffer();
+
+      file.pause();
+
+      loadNext();
+
+      fileReader.onload = (e) => {
+        console.log(e.target.result)
+        spark.append(e.target.result);
+        if (currentChunk < chunks) {
+          currentChunk++;
+          loadNext();
+          // 实时展示MD5的计算进度
+          this.$nextTick(() => {
+            $(`.myStatus_${file.id}`).text(
+              "校验MD5 " + ((currentChunk / chunks) * 100).toFixed(0) + "%"
+            );
+          });
+        } else {
+          let md5 = spark.end();
+          this.computeMD5Success(md5, file);
+          console.log(
+            `MD5计算完毕：${file.name} \nMD5：${md5} \n分片：${chunks} 大小:${
+              file.size
+            } 用时：${new Date().getTime() - time} ms`
+          );
+        }
+      };
+      fileReader.onerror = function() {
+        this.error(`文件${file.name}读取出错，请检查该文件`);
+        file.cancel();
+      };
+      function loadNext() {
+        let start = currentChunk * chunkSize;
+        let end =
+          start + chunkSize >= file.size ? file.size : start + chunkSize;
+        fileReader.readAsArrayBuffer(blobSlice.call(file.file, start, end));
+      }
+    },
+    computeMD5Success(md5, file) {
+      // 文件的唯一标识
+      this.options.query.sha256 = md5;
+      this.options.query.position = 0;
+      this.options.query.contentLength = 22008727;
+      file.resume();
+      console.log(file);
+      console.log("开始上场");
+    },
+  },
 };
 </script>
 
-<style lang='scss' scope>
+<style lang="scss" scope>
 .inline {
   display: inline-block;
 }
@@ -253,6 +481,94 @@ export default {
     margin: 60px 0 0 244px;
     flex: 1;
     padding: 15px 0 0 15px;
+    .preview {
+      width: 100%;
+      height: 616px;
+      background-color: #202020;
+      position: relative;
+      box-sizing: border-box;
+      padding: 27px 110px;
+      margin-top: 15px;
+      .viewBox {
+        margin-top: 20px;
+        margin-bottom: 34px;
+        img {
+          width: 50%;
+          display: inline-block;
+        }
+      }
+      p {
+        font-size: 14px;
+        font-family: Source Han Sans CN;
+        font-weight: 400;
+        color: rgba(217, 217, 217, 1);
+        line-height: 23px;
+        text-align: center;
+      }
+      .title {
+        font-size: 20px;
+        text-align: left;
+        span {
+          font-size: 13px;
+          color: #999;
+          margin-left: 19px;
+        }
+      }
+    }
+    .vupload {
+      width: 100%;
+      height: 260px;
+      background-color: #202020;
+      position: relative;
+      box-sizing: border-box;
+      padding: 27px 110px;
+      .close {
+        width: 15px;
+        height: 16px;
+        background: url("../../assets/image/matt-cls.png");
+        background-size: 100% 100%;
+        right: 19px;
+        top: 17px;
+        position: absolute;
+      }
+      p {
+        font-size: 14px;
+        font-family: Source Han Sans CN;
+        font-weight: 400;
+        color: rgba(217, 217, 217, 1);
+        line-height: 23px;
+        text-align: center;
+      }
+      .name {
+        margin-top: 55px;
+        font-size: 20px;
+        text-align: left;
+      }
+      .progress {
+        width: 100%;
+        border-radius: 8px;
+        height: 16px;
+        background: #d9d9d9;
+        margin-top: 28px;
+        margin-bottom: 22px;
+        position: relative;
+        overflow: hidden;
+        .bar {
+          width: 100%;
+          border-radius: 8px;
+          height: 16px;
+          background: #d9d9d9;
+          position: absolute;
+          left: 0;
+          top: 0;
+          background: #e82155;
+        }
+      }
+      .jd {
+        color: #999;
+        font-size: 14px;
+      }
+    }
     .matting {
       width: 100%;
       min-height: 624px;
@@ -378,14 +694,14 @@ export default {
         margin-bottom: 30px;
       }
       .matt-wechat {
-          width: 260px;
-          height: 260px;
-          display: block;
-          margin: 0 auto;
-          margin-top: 50px;
-          margin-bottom: 24px;
-          font-size: 15px;
-        }
+        width: 260px;
+        height: 260px;
+        display: block;
+        margin: 0 auto;
+        margin-top: 50px;
+        margin-bottom: 24px;
+        font-size: 15px;
+      }
     }
   }
   .Operator {
