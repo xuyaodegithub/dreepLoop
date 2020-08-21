@@ -106,6 +106,13 @@ module.exports = {
             title: '通用抠图',
             // chunks: ['chunk-vendors', 'chunk-common', 'loginOrRegister']
         },
+        videoMatting:{
+            entry: 'src/views/videoMatting/index.js',
+            template:'public/videoMatting.html',
+            filename: 'videoMatting.html',
+            title: '视频抠图',
+            // chunks: ['chunk-vendors', 'chunk-common', 'loginOrRegister']
+        },
         loginOrRegister:{
             entry: 'src/views/login/login.js',
             template:'public/loginOrRegister.html',

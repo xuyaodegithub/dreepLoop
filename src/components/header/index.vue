@@ -34,6 +34,10 @@
                     </transition>
                 </li>
                 <li class="cu"><a href="http://matting.deeplor.com/blog" target="_blank">使用案例</a></li>
+<!--                <li class="cu hove" :class="{'red' : urls.indexOf('videoMatting')>-1}">-->
+<!--                    <a href="videoMatting.html" >视频抠图</a>-->
+<!--                </li>-->
+<!--                <li class="cu"><a href="http://matting.deeplor.com/blog" target="_blank">使用案例</a></li>-->
             </ul>
             <div class="right flex">
                 <div style="padding:0 15px;"><a href="https://mp.weixin.qq.com/s/AsVjcACbusdKXcheF_HHtw" target="_blank"><img src="../../assets/image/freeGet.gif" alt=""></a></div>

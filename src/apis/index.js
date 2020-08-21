@@ -253,4 +253,16 @@ export const templateCategoryList=(data)=>{
 export const templatedownload=(data)=>{
  return https.get('/poster/download',data)
 }
+/**
+ *视频抠图上传
+ **/
+export const videoMatting=(data)=>{
+ return https.post('/oss/append',data)
+}
+/**
+ *视频抠图上传
+ **/
+export const BySha256=(data)=>{
+ return https.get('/oss/getUploadTaskBySha256',data)
+}
 
