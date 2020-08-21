@@ -48,6 +48,9 @@
     </script>
 </head>
 <style>
+    html,body{
+        background-color: #000 !important;
+    }
     header.positionTop {
         position: absolute;
         top: -100000px;
@@ -78,38 +81,132 @@
         margin-left: 0;
         margin-right: 60px;
     }
-
-    .content {
-        padding-bottom: 25px;
-        margin-top: 75px;
-    }
-
-    .content .rightBig {
+    .content{
         margin-left: 244px;
-        flex: 1;
         padding-left: 15px;
         padding-right: 75px;
     }
-    .content .rightBig h3 {
-        font-size: 32px;
-        margin-bottom: 28px;
-        color: #333;
+    .matting {
+        width: 100%;
+        min-height: 624px;
+        background-color: #202020;
+        padding-top: 70px;
+        box-sizing: border-box;
+        margin-bottom: 15px;
+    }
+    .matting > p:nth-child(2){
+        margin-bottom: 16px;
+    }
+    .matting .lm ~ p{
+        position: relative;
+        top: -60px;
+    }
+    .matting > img{
+        display: block;
+        margin: 0 auto;
+        width: 540px;
+    }
+    .matting p:last-child span {
+        color: #e82255;
+    }
+    .matting >p:last-child{
+        color: #D9D9D9;
     }
 
-    .content .rightBig p {
-        font-size: 18px;
-        color: #999999;
+    .matting .mb {
+        width: 544px;
+        height: 323px;
+        margin-bottom: 30px;
     }
-    .rightBig .labelTages{
-        color: #d8d8da;
+
+    .matting .matt-wechat {
+        width: 260px;
+        height: 260px;
+        display: block;
+        margin: 0 auto;
+        margin-top: 50px;
+        margin-bottom: 24px;
+        font-size: 15px;
+    }
+    .matting .imgbox {
+        width: 900px;
+        margin: 0 auto;
+    }
+
+    .matting .matt-user {
+        width: 852px;
+        height: 281px;
+        margin-top: 78px;
+    }
+
+    .matting  p {
+        font-size: 14px;
+        color: #9f9f9f;
+        text-align: left;
+    }
+    .matting .list {
+        width: 100%;
+        margin-top: 60px;
+    }
+
+    .matting p {
+        width: 100%;
         text-align: center;
+        color: rgba(217, 217, 217, 1);
+        font-size: 19px;
     }
-    .rightBig .labelTages a{
-        color: #d8d8da;
-        margin-right: 8px;
+
+    .matting p:first-child {
+        font-size: 40px;
+        margin-bottom: 20px;
     }
-    .rightBig .labelTages span{
-        margin-left:15px ;
+
+    .matting p.bot-tip {
+        font-size: 14px;
+    }
+
+    .matting p.bot-tip-mb {
+        font-size: 14px;
+    }
+
+   .matting .list li {
+        width: 100%;
+        margin-bottom: 80px;
+    }
+    .matting .list .inline-box {
+        width: 900px;
+        margin: 0 auto;
+    }
+
+    .matting .list .inline:first-child {
+        margin-right: 50px;
+    }
+
+    .matting .list .inline {
+        float: left;
+        max-width: 415px;
+    }
+
+    .matting .list .list1 {
+        width: 420px;
+        /*height: 240px;*/
+    }
+
+    .matting .list .list3 {
+        height: 350px;
+        margin-bottom: 62px;
+    }
+    .matting .list .inline p {
+        font-size: 15px;
+        text-align: left;
+    }
+
+    .matting .list .inline p:first-child {
+        font-size: 30px;
+        margin-top: 30px;
+    }
+    .matting .list .list li:last-child {
+        margin-bottom: 0;
     }
 </style>
 <body>
@@ -134,84 +231,134 @@
     </div>
 </header>
 <div id="app"></div>
-<!-- <div class="content drops" id="content">
-    <div class="rightBig">
-        <div class="labelTages margin">
-            皮卡智能 <a href="index.html">抠图网站</a> 提供：
-            <a href="index.html" target="_blank">抠图软件</a>
-            <a href="index.html">抠图神器</a>
-            <a href="index.html">在线抠图</a>
-            <a href="index.html">自动抠图</a>
-            <a href="index.html">智能抠图软件</a>
-            <a href="people.html">人像抠图</a>
-            <a href="index.html">一键抠图</a>
-            <a href="people.html">人物抠图</a>
-            <a href="people.html">AI抠图</a>
-            <a href="index.html">在线一键抠图</a>
-            <a href="index.html">抠图神手</a>
-            <a href="index.html">免费抠图</a>
-            <a href="objects.html">透明物体抠图</a>
-            <a href="objects.html">汽车抠图</a>
-            <a href="index.html">电脑抠图软件</a>
-            <a href="index.html">在线抠图工具</a>
-            <span>免费背景素材：</span>
-            <a href="people.html">抠图背景图片</a>
-            <a href="people.html">抠图换背景</a>
-            <a href="people.html">抠图背景素材</a>
-            <a href="people.html">证件照背景</a>
-            <a href="people.html">证件照底色</a>
-            <a href="people.html">最美证件照</a>
-            <span>不用知道：</span>
-            <a href="index.html">抠图软件哪个好用</a>
-            <a href="index.html">ps抠图教程</a>
-            <a href="index.html">ps怎么抠图</a>
-            <a href="index.html">如何抠图</a>
-            <span>手机上也可以抠图：</span>
-            <a href="http://m.picup.ai">手机抠图软件</a>
-            <a href="http://m.picup.ai">抠图软件app</a>
+<div class="content">
+    <div class="banner">
+        <div class="matting">
+            <p>无需绿幕，实景视频抠图</p>
+            <p>专业的绿幕布景，昂贵的场地，复杂的技术，通通再见</p>
+            <img
+                    src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200821/cb2a3ec7ed3a4e4fb061a50e741df9a2.png"
+                    alt
+                    class="lm"
+            />
+            <p class="bot-tip">
+                皮卡智能在线视频抠图，随时随地拍摄，智能去背景
+            </p>
+        </div>
+        <div class="matting">
+            <p>100%全自动，真的一键视频去背景</p>
+            <p>无需像素点击，颜色拾取，画蒙版，移动路径。</p>
+            <img
+                    src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200821/6eeae348f4404b73908cbca6df54e4f1.png"
+                    alt
+                    class="mb"
+            />
+            <p class="bot-tip-mb">
+                皮卡智能在线视频抠图，随时随地拍摄，智能去背景
+            </p>
+        </div>
+        <div class="matting">
+            <p>视频抠图去背景场景</p>
+            <ul class="list">
+                <li>
+                    <div class="inline-box">
+                        <div class="inline">
+                            <p>影视特效、惊险大片</p>
+                            <p>
+                                从钢铁侠的上天入地、蜘蛛侠的飞檐走壁，到隐秘到角落里张东升推落山崖的场面，全都是要绿幕抠图，如今有了皮卡智能一键抠视频,你也能轻松制作惊险大片了
+                            </p>
+                        </div>
+                        <div class="inline">
+                            <img
+                                    src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200821/95214b659e7a4ac89bfc433c9da88275.png"
+                                    alt
+                                    class="list1"
+                            />
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="inline-box">
+                        <div class="inline">
+                            <img
+                                    src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200821/6846b2e167d348059eed15918394b070.png"
+                                    alt
+                                    class="list1"
+                            />
+                        </div>
+                        <div class="inline">
+                            <p>宅舞、广场舞、瑜伽健身</p>
+                            <p>
+                                家里、公园、健身房、学校，世界都是你的舞台，拍摄视频，一键去背景，换上远方的风景，酷炫的电子光，B站、抖音、快手粉丝在召唤。
+                            </p>
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="inline-box">
+                        <div class="inline">
+                            <p>在线教育、视频课程、专家演讲</p>
+                            <p>
+                                K12英语数学语文，在线视频课程，在家就能录制视频，让教育没有门槛、没有边界。电影讲解、游戏讲解、音乐课程，轻松和内容相结合，露脸讲解不遮挡。
+                            </p>
+                        </div>
+                        <div class="inline">
+                            <img
+                                    src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200821/7626315a5efc475088064cb0c73bc24d.png"
+                                    alt
+                                    class="list1"
+                            />
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="inline-box">
+                        <div class="inline">
+                            <img
+                                    src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200821/0a08e27abdf643a88b6a813ed928b788.png"
+                                    alt
+                                    class="list3"
+                            />
+                        </div>
+                        <div class="inline">
+                            <p>电商短视频、旅游路线讲解</p>
+                            <p>
+                                每一组电商图片、视频的经费都是昂贵的，拍摄完了，如果要做一个新的热门场景，或者是一个因为经费或者疫情到不了的国外沙滩用一键视频抠图，想去哪里去哪里。
+                            </p>
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="matting">
+            <p>示例视频</p>
+            <div class="demo"></div>
+        </div>
+        <div class="matting">
+            <p>我们的用户来自</p>
+            <div class="imgbox">
+                <img
+                        src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200821/b6c49842bd2a491e9081d0b1983a1e6a.png"
+                        alt
+                        class="matt-user"
+                />
+            </div>
+        </div>
+        <div class="matting">
+            <p>保持联系</p>
+            <img
+                    src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200821/baa528a86fad49fe88eb6588dbaf2129.png"
+                    alt
+                    class="matt-wechat"
+            />
+            <p>微信扫一扫添加技术顾问好友</p>
         </div>
     </div>
-</div> -->
-<script>
-    let urls = window.location.href.split( '#/' )[0]
-    let baseUrl = urls.substring( 0, urls.lastIndexOf( '/' ) )
 
-    function setWindow() {
-        let Wwidth = document.documentElement.clientWidth
-        let oDiv = document.querySelector( '.rightBig' )
-        let oDiv2 = document.querySelector( '.OperatorRight' )
-        let scales = Wwidth / 1920
-        console.log( scales )
-        document.body.transform = "transform-origin:0 0"
-        document.body.transform = "scale(" + scales + "," + scales + ")"
-        // oDiv2.style.transform="scale("+scales+","+scales+")"
-    }
-
-    function userlogin(key) {
-        let url = window.location.href
-        if (url.indexOf( 'login' ) > -1 || url.indexOf( 'Register' ) > -1) window.location.replace( baseUrl + '/loginOrRegister#/?type=' + key )
-        else window.location.href = baseUrl + '/loginOrRegister#/?type=' + key
-    }
-
-    // function backindex(){
-    //   // window.location.href=baseUrl+"/index"
-    // }
-    function userCenter() {
-        window.location.href = baseUrl + "/userCenter"
-    }
-
-    function setWindeom() {
-        let sc = document.documentElement.clientWidth / 1920;
-        let md = document.getElementById( 'view' )
-        md.setAttribute( 'content', "width=device-width,initial-scale=" + sc.toFixed( 2 ) )
-    }
-
-    setWindeom()
-    var setShow = (i) => {
-        let oDiv = document.getElementById( 'content' )
-        if (i) oDiv.style.display = 'block'
-        else oDiv.style.display = 'none'
-    }
-</script>
+</div>
 </body>
 </html>
