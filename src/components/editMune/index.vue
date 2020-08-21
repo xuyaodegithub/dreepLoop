@@ -87,7 +87,8 @@
     export default {
         name: "index",
         props: {
-            mattingType: Number
+            mattingType: Number,
+            scale: Number
         },
         data() {
             return {
@@ -160,25 +161,26 @@
                 'effectsImgList'
             ] ),
             initAngleDistance() {
-                if (this.angle == 0 || this.angle == 360) return {x: -this.sliderVal.distance, y: 0};
+                const dislance=this.sliderVal.distance*this.scale;
+                if (this.angle == 0 || this.angle == 360) return {x: -dislance, y: 0};
                 else if (this.angle > 0 && this.angle < 90) return {
-                    x: -Math.cos( setRad( this.angle ) ) * this.sliderVal.distance,
-                    y: -Math.sin( setRad( this.angle ) ) * this.sliderVal.distance
+                    x: -Math.cos( setRad( this.angle ) ) * dislance,
+                    y: -Math.sin( setRad( this.angle ) ) * dislance
                 };
-                else if (this.angle == 90) return {x: 0, y: -this.sliderVal.distance};
+                else if (this.angle == 90) return {x: 0, y: -dislance};
                 else if (this.angle > 90 && this.angle < 180) return {
-                    x: Math.cos( setRad( 180 - this.angle ) ) * this.sliderVal.distance,
-                    y: -Math.sin( setRad( 180 - this.angle ) ) * this.sliderVal.distance
+                    x: Math.cos( setRad( 180 - this.angle ) ) * dislance,
+                    y: -Math.sin( setRad( 180 - this.angle ) ) * dislance
                 };
-                else if (this.angle == 180) return {x: this.sliderVal.distance, y: 0};
+                else if (this.angle == 180) return {x: dislance, y: 0};
                 else if (this.angle > 180 && this.angle < 270) return {
-                    x: Math.cos( setRad( this.angle - 180 ) ) * this.sliderVal.distance,
-                    y: Math.sin( setRad( this.angle - 180 ) ) * this.sliderVal.distance
+                    x: Math.cos( setRad( this.angle - 180 ) ) * dislance,
+                    y: Math.sin( setRad( this.angle - 180 ) ) * dislance
                 };
-                else if (this.angle == 270) return {x: 0, y: this.sliderVal.distance};
+                else if (this.angle == 270) return {x: 0, y: dislance};
                 else if (this.angle > 270 && this.angle < 360) return {
-                    x: -Math.cos( setRad( 360 - this.angle ) ) * this.sliderVal.distance,
-                    y: Math.sin( setRad( 360 - this.angle ) ) * this.sliderVal.distance
+                    x: -Math.cos( setRad( 360 - this.angle ) ) * dislance,
+                    y: Math.sin( setRad( 360 - this.angle ) ) * dislance
                 };
                 // else return{x:-Math.cos(360-this.angle)*this.sliderVal.distance,y:Math.sin(360-this.angle)*this.sliderVal.distance};
             },
@@ -214,7 +216,7 @@
                  [oCan.width, oCan.height] = [this.proImgObj.width, this.proImgObj.height];
                 oCanTxt=oCan.getContext('2d');
                 oCanTxt.drawImage(oImg,0,0,oCan.width, oCan.height);
-                jsMulit['strokeBorder'].filter(oCan,oCanTxt.getImageData(0,0,oCan.width, oCan.height),this.showDowVal.mSize,this.showDowVal.colorVal);
+                jsMulit['strokeBorder'].filter(oCan,oCanTxt.getImageData(0,0,oCan.width, oCan.height),this.showDowVal.mSize*this.scale,this.showDowVal.colorVal);
                 // oCanTxt.drawImage(oImg,0,0,oCan.width, oCan.height);
                     // rgb = colorRgb( this.showDowVal.colorVal );
                 return oCan
@@ -264,7 +266,7 @@
                 if (this.checked) oCanTxt.drawImage( this.resliderVal, x, y );
                 if (this.checkedM) oCanTxt.drawImage( this.initshowDowVal, 0, 0, this.initshowDowVal.width, this.initshowDowVal.height );//重复同位置putimgData会覆盖，需要画上去
                 const [xx, yy] = [this.checkedM ? (this.initshowDowVal.width - this.resliderVal.width) / 2 : 0, this.checkedM ? (this.initshowDowVal.height - this.resliderVal.height) / 2 : 0]
-                // console.log( xx, yy )
+                console.log( this.filterList[this.t2Idx] ,55)
                 oCanTxt.drawImage( this.filterList[this.t2Idx].loadObj, xx, yy, this.proImgObj.width, this.proImgObj.height );
                 this.$emit( 'effectsImg', {
                     useImg: oCan.toDataURL(), ...this.sliderVal, ...this.showDowVal, angle: this.angle,

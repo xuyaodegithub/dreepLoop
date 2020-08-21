@@ -481,13 +481,13 @@
             //     }
             // },
             pollingImg() {//轮询
-                this.timer = setInterval( () => {
+                this.timer = setTimeout( () => {
                     // this.getImgData()
                     getMattingInfo( {fileId: this.fileId} ).then( res => {
                         if (!res.code) {
                             this.imageMsg = res.data;
                             if (res.data.status === 'success') {
-                                clearInterval( this.timer )
+                                // clearInterval( this.timer )
                                 let obj = {
                                     name: this.imgname,
                                     img: res.data.bgRemovedPreview,
@@ -505,9 +505,9 @@
                                     Original: this.Original,
                                     filename: this.filename
                                 } )
-                            }
+                            }else this.pollingImg();
                         } else {
-                            clearInterval( this.timer )
+                            // clearInterval( this.timer )
                             this.$emit( 'to-parse', {
                                 id: this.index,
                                 img: '',
@@ -837,7 +837,7 @@
             },
             deleteItem() {//删除某一个
                 let name = '';
-                if (this.timer) clearInterval( this.timer )
+                if (this.timer) clearTimeout( this.timer )
                 if (this.files.type == 'copy') name = this.imgname
                 else name = this.files.name
                 this.$emit( 'close', {index: this.index, name: name} )

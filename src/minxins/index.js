@@ -77,6 +77,7 @@ import fopa from '@/assets/image/fopa.png'
 import mohu1 from '@/assets/image/mohu1.png'
 import mohu2 from '@/assets/image/mohu2.png'
 import { imgListCat,catImgList,getUserInfo } from "@/apis";
+import {mapActions} from 'vuex'
 export const mixins={
   data(){
     return {
@@ -108,6 +109,7 @@ export const mixins={
     }
   },
   methods:{
+    ...mapActions(['userGetscribe']),
     edireThis(down,mattingType){
       if(!down)return;
       const editPictures={
@@ -136,7 +138,7 @@ export const mixins={
       })
     },
     initSmallTag(e,txt) {//点击小动画
-      let $i = $( '<span></span>' ).text( txt ), y = e.clientY - 30, x = e.clientX - 10;
+      let $i = $( '<span></span>' ).text( txt ), y = e.clientY - 30, x = e.clientX - 10,_self=this;
       $i.css( {
         "z-index": 999,
         "top": y,
@@ -153,6 +155,7 @@ export const mixins={
           1500,
           function () {
             $i.remove();
+            _self.userGetscribe()
           } );
     }
   },

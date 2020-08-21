@@ -1,0 +1,162 @@
+@font-face {
+  font-family: "qwer";
+  src: url('https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/font/20200328-115902-aa1f.woff') format('woff');
+  font-style: normal;
+  font-weight: bold;
+}
+@font-face {
+  font-family: "foxi";
+  src: url('https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/font/foxi.woff') format('woff');
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "xkhy";
+  src: url('https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/font/xkhy.woff') format('woff');
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "xer";
+  src: url('https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/font/xer.woff') format('woff');
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "systc";
+  src: url('https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/font/systc.woff') format('woff');
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "systi";
+  src: url('https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/font/systi.woff') format('woff');
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "aliph";
+  src: url('https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/font/Alibaba-PuHuiTi-Medium.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "zkkh";
+  src: url('https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/font/zkkh.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "zkwy";
+  src: url('https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/font/zkwy.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "ysyrxk";
+  src: url('https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/font/ysyrxk.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "ysbth";
+  src: url('https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/font/YouSheBiaoTiHei-2.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "pft";
+  src: url('https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/font/PingFang-Heavy-2.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "hxbns";
+  src: url('https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/font/HuXiaoBoNanShenTi-2.otf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "Muyao-Softbrush";
+  src: url('https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/font/Muyao-Softbrush.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "NotoSansCJK-Black-7";
+  src: url('https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/font/NotoSansCJK-Black-7.otf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "NotoSansCJK-Medium-5";
+  src: url('https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/font/NotoSansCJK-Medium-5.otf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "PangMenZhengDaoBiaoTiTi-1";
+  src: url('https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/font/PangMenZhengDaoBiaoTiTi-1.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "PangMenZhengDaoQingSongTi-2";
+  src: url('https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/font/PangMenZhengDaoQingSongTi-2.otf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "SourceHanSerifCN-Medium-6";
+  src: url('https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/font/SourceHanSerifCN-Medium-6.otf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "SourceHanSerifCN-Bold-2";
+  src: url('https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/font/SourceHanSerifCN-Bold-2.otf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "ZCOOL Addict Italic 01";
+  src: url('https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/font/ZCOOL Addict Italic 01.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "jxzk";
+  src: url('https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/font/jxzk.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "lhzt";
+  src: url('https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/font/lhzt.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "yrdzst";
+  src: url('https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/font/yrdzst.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "zkklt";
+  src: url('https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/font/zkklt.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "zkqkhyt";
+  src: url('https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/font/zkqkhyt.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "zkxwlgt";
+  src: url('https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/font/zkxwlgt.otf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  font-style: normal;
+  font-weight: normal;
+}

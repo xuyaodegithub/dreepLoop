@@ -1,4 +1,5 @@
-var idPhotolist = [{"name": "一寸(25*35mm)", "width": 295, "height": 413, "color": "#fff"}, {
+var idPhotolist = [
+    {"name": "一寸(25*35mm)", "width": 295, "height": 413, "color": "#fff"}, {
     "name": "二寸(35*49mm)",
     "width": 413,
     "height": 579,
@@ -1397,7 +1398,7 @@ function initList() {
         let str = $( ` <div class="cu">
                         <div class="its">
                             <div w="${item.width}" h="${item.height}" color="${item.color}" name="${item.name}">
-                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
+                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200819/f28d6ae445974530b33a5504ec2b15d1.png"
                                      alt="">
                             </div>
                         </div>
@@ -1409,7 +1410,8 @@ function initList() {
 }
 
 function seach(e) {
-    var keynum = e ? (window.event ? e.keyCode : e.which) : '', oDiv = $( '.two .content' ),
+    var ev=e || window.event;
+    var keynum = e ? ev.keyCode : '', oDiv = $( '.two .content' ),
         keywords = $( '#inputs' ).val();
     if (e && keynum !== 13) return;
     if (keywords) {
@@ -1443,7 +1445,36 @@ function seach(e) {
         $( '.one' ).css( 'display', 'block' )
         $( '.two' ).css( 'display', 'none' )
     }
+    $( '.inpup ul' ).hide()
 
+}
+
+function inputS(k){
+    var  oUl = $( '.inpup ul' ), keywords = $( '#inputs' ).val();
+    if(keywords){
+        var thinkList=idPhotolist.filter( function (item) {
+            return item.name.includes( keywords )
+        } );
+        oUl.html('')
+        if(thinkList.length>0){
+            for(var i=0;i<thinkList.length;i++){
+                var item=thinkList[i]
+                var str=$(`<li class="over" onclick="seachList(this)">${item.name}</li>`)
+                oUl.append(str)
+            }
+            oUl.show();
+        } else oUl.hide();
+    }else oUl.hide();
+}
+function seachList(t){
+    var keys=$(t).text();
+    $( '#inputs' ).val(keys);
+    seach();
+}
+function blurs(){
+    setTimeout(function(){
+        $('.inpup ul').hide();
+},200)
 }
 
 function inithisList() {//初始化历史记录/webMatting/mattingHistory

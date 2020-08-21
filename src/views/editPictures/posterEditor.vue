@@ -26,7 +26,9 @@
                 <el-button type="primary" icon="el-icon-folder" @click="saveSubItem"
                            v-if="urlStr && loadSubObj">模板保存
                 </el-button>
-                <el-button class="doo" type="primary" icon="el-icon-download" @click="downLoadImg()">下载
+                <el-button style="color: #e82255;border-color: #e82255;" @click="upLoad(1)">重新上传
+                </el-button>
+                <el-button class="doo" type="primary" icon="el-icon-download" @click="downLoadImg">下载
                     <table class="downBtn">
                         <tr>{{(userSubscribeData.monthExpireDate && userSubscribeData.monthExpireDate>noeTime &&
                             userSubscribeData.monthRemaining>0) ? `包月剩余次数:${userSubscribeData.monthRemaining}` :
@@ -89,7 +91,7 @@
                         </el-scrollbar>
                     </div>
                 </div>
-                <div class="moveSub lists" v-else>
+                <div class="moveSub lists flex" v-else>
                     <h4 @click="moveIdx=-1" class="cu" style="margin-bottom: 15px;"><i
                             class="el-icon-arrow-left"></i> {{subList[moveIdx].category_name}}</h4>
                     <el-scrollbar style="overflow-x: hidden;" :style="{height:`${listH*0.7}px`}">
@@ -291,7 +293,7 @@
             </div>
             <v-mune v-if="[0,1,3].includes(hoverSub.type)" ref="Munes" @mattingImgs="mattingImgs"
                     @effectsImg="effectsImg" @loading="loadings"
-                    :mattingType="hoverSub.mattingType ? hoverSub.mattingType : 0"></v-mune>
+                    :mattingType="hoverSub.mattingType ? hoverSub.mattingType : 0" :scale="parseSubs.scale"></v-mune>
             <f-mune v-show="hoverSub.type===2" @initFont="initFont" ref="fontMune"></f-mune>
         </div>
         <div class="zheR" v-if="loading.show"></div>
@@ -303,7 +305,7 @@
                 :width=" openScreen ? '95%' : '1200px'"
                 :visible.sync="dialogVisible">
             <matting-img :edrieImgInfo="hoverSub" @close="closeSetMap" v-if="dialogVisible" :openScreen="openScreen"
-                         @changeScree="openScreen=!openScreen"></matting-img>
+                         @changeScree="openScreen=!openScreen" :hisList="pointLists"></matting-img>
         </el-dialog>
         <el-dialog
                 :close-on-click-modal="false"
@@ -321,7 +323,7 @@
     import fMune from '@/components/fontMune';
     import loginDialog from '@/components/login_dialog';
     import mattingImg from '@/components/mattingImg';
-    import {myBrowser, findLastIdx, setRad, verticalText} from '@/utils';
+    import {myBrowser, findLastIdx, setRad, verticalText, initSmallTag} from '@/utils';
     import {mixins} from '@/minxins';
     import {getTanDeg, letterText} from '@/utils'
     import _1 from '@/assets/image/1.png';
@@ -339,6 +341,7 @@
     import color from '@/assets/image/color.png';
     import jsMulit from '@/utils/jsmanipulate.js';
     import {niceScroll} from 'jquery.nicescroll';
+    import * as StackBlur from 'stackblur-canvas';
     import {getUserInfo, saveTemplate} from "@/apis";
     import {
         uploadImgApi,
@@ -354,7 +357,7 @@
     } from '@/apis';
     import {mapGetters, mapActions} from 'vuex';
     import {getToken} from "@/utils/auth";
-    import {subList3} from './subList3';
+    // import {subList3} from './subList3';
 
     export default {
         name: 'editPictures',
@@ -412,11 +415,23 @@
                 // bgType: 1,//更换背景的类型中当前选中的下标
                 scale: '',//图片width/height比例系数
                 edrieImgInfo: {
-                    imageMsg: {},
-                    oriObj: '',
-                    pro: '',
-                    ori: '',
-                    filename: '皮卡智能'
+                    bgImg: "",
+                    fileId: "",
+                    filename: "http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200721/6ed6a205f75d4f4c88fb403700712191.jpg",
+                    imageMsg: {
+                        bgRemovedPreview: "http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_preview/2020/08/18/945c95f9f1684a35b009b56092612be4.png",
+                        fileId: "745900",
+                        original: "http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2020/08/18/7933944d29a341abbf877cc302cad4a4.jpg",
+                        originalHeight: "646",
+                        originalWidth: "960",
+                        previewHeight: "410",
+                        previewWidth: "609",
+                        queueNumber: "-22",
+                        status: "success",
+                    },
+                    mattingType: 6,
+                    ori: "http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2020/08/18/7933944d29a341abbf877cc302cad4a4.jpg",
+                    pro: "http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_preview/2020/08/18/945c95f9f1684a35b009b56092612be4.png"
                 },//图片的信息（预览图尺寸，原图尺寸，下载按钮处显示的信息）
                 upType: 0,//从背景库页面进入本页面时，要显示上传弹框 ，上传图片的类型 0 自定义背景  1人抠图 2物抠图
                 loading: {show: false, text: '处理中...', which: 0},//loading
@@ -454,8 +469,8 @@
                 statusCode: 0,//每次掉接口的code
                 touchContrl: false,
                 copyId: '',//ctrl+c时复制组件
-                pointList:[],//历史记录
-                xiuafter:null,
+                pointList: [],//历史记录
+                xiuafter: null,
             }
         },
         watch: {
@@ -621,13 +636,13 @@
                     page: 1,
                     pageSize: 100
                 }
-                if (idx === this.subList.length - 1) {
-                    this.templateLists = subList3;
-                } else {
-                    templateList( data ).then( res => {
-                        this.templateLists = res.data.list;
-                    } )
-                }
+                // if (idx === this.subList.length - 1) {
+                //     this.templateLists = subList3;
+                // } else {
+                templateList( data ).then( res => {
+                    this.templateLists = res.data.list;
+                } )
+                // }
             },
             changetihuan(e) {
                 let file = e.target.files[0], formData = new FormData(), oImg = new Image();
@@ -639,11 +654,11 @@
                     this.parseSubs.subList[this.hoverSub.idx].pro = res.data;
                     this.parseSubs.subList[this.hoverSub.idx].proObj = '';
                     this.$refs.tihuan.value = '';
-                    if(this.hoverSub.type===1){//保存替换主图后的原图对象
+                    if (this.hoverSub.type === 1) {//保存替换主图后的原图对象
                         let oImg2 = new Image();
                         oImg2.crossOrigin = '';
                         oImg2.onload = () => {
-                            this.xiuafter=oImg2
+                            this.xiuafter = oImg2
                         };
                         oImg2.src = res.data + `?id=${Math.random()}`;
                     }
@@ -836,7 +851,7 @@
                             this.edrieImgInfo.pro = res.data.bgRemovedPreview;
                             this.edrieImgInfo.ori = res.data.original;
                             this.edrieImgInfo.imageMsg = res.data;
-                            this.initSize();
+                            this.initSize( 1 );
                         } else setTimeout( this.pollingImg, 2000 )//有排队情况，轮训查看（可以websocket）
                     } else this.loading.show = false;
                 } ).catch( re => this.loading.show = false )
@@ -848,7 +863,7 @@
                             this.edrieImgInfo.pro = res.data.bgRemovedPreview;
                             this.edrieImgInfo.ori = res.data.original;
                             this.edrieImgInfo.imageMsg = res.data;
-                            this.initSize();
+                            this.initSize( 1 );
                         } else {
                             this.loading.text = `当前排队位置为 ${res.data.queueNumber}，请稍后...`
                             setTimeout( this.pollingImg, 2000 )
@@ -860,26 +875,30 @@
                 getMattingInfo( {fileId: this.mattingMsg.id} ).then( res => {//根据id查询
                     if (!res.code) {
                         if (res.data.status === 'success') {
-                            const idx = this.parseSubs.subList.findIndex( item => item.hovering ),w=this.parseSubs.subList[idx].w;
+                            const idx = this.parseSubs.subList.findIndex( item => item.hovering ),
+                                w = this.parseSubs.subList[idx].w;
                             this.parseSubs.subList[idx].pro = res.data.bgRemovedPreview;
                             this.parseSubs.subList[idx].useImg = res.data.bgRemovedPreview;
                             this.parseSubs.subList[idx].mattingType = this.mattingMsg.type;
-                            if(this.parseSubs.subList[idx].type===1)this.parseSubs.subList[idx].fileId=res.data.fileId;
+                            if (this.parseSubs.subList[idx].type === 1) this.parseSubs.subList[idx].fileId = res.data.fileId;
                             let oImg = new Image();
                             oImg.crossOrigin = '';
                             oImg.onload = () => {
                                 this.parseSubs.subList[idx].w = oImg.width * this.parseSubs.subList[idx].h / oImg.height;
-                                this.parseSubs.subList[idx].x = this.parseSubs.subList[idx].x+w/2-this.parseSubs.subList[idx].w/2;//组件中心和上一个一致
+                                this.parseSubs.subList[idx].x = this.parseSubs.subList[idx].x + w / 2 - this.parseSubs.subList[idx].w / 2;//组件中心和上一个一致
                                 this.parseSubs.subList[idx].proObj = oImg;
                                 this.parseSubs.subList[idx].id = `img${Math.random()}`;
-                                const onlyMain=this.parseSubs.subList.every(item=>[0,1].includes(item.type));
-                                const onlyN=this.parseSubs.subList.every(item=>!item.type ? (!item.backColor && !item.useImg) :  item.useImg);
-                                if(onlyMain && onlyN){//在只有主图的时候，需要尺寸都改变
-                                    this.parseSubs.oriW=res.data.originalWidth;
-                                    this.parseSubs.oriH=res.data.originalHeight;
-                                    this.parseSubs.bW=this.parseSubs.subList[idx].w;
-                                    this.parseSubs.bH=this.parseSubs.subList[idx].h;
-                                    this.parseSubs.subList[idx].x=0;
+                                const onlyMain = this.parseSubs.subList.every( item => [0, 1].includes( item.type ) );
+                                const onlyN = this.parseSubs.subList.every( item => !item.type ? (!item.backColor && !item.useImg) : item.useImg );
+                                if (onlyMain && onlyN) {//在只有主图的时候，需要尺寸都改变
+                                    this.parseSubs.oriW = res.data.originalWidth;
+                                    this.parseSubs.oriH = res.data.originalHeight;
+                                    this.oriW = res.data.originalWidth;
+                                    this.oriH = res.data.originalHeight;
+                                    this.parseSubs.bW = this.parseSubs.subList[idx].w;
+                                    this.parseSubs.bH = this.parseSubs.subList[idx].h;
+                                    this.parseSubs.subList[idx].x = 0;
+                                    this.parseSubs.scale =parseFloat(this.parseSubs.bW/this.parseSubs.oriW);
                                 }
                                 this.loadStatus( this.parseSubs.subList[idx], idx )
                             };
@@ -901,26 +920,30 @@
                     if (!res.code) {
                         this.mattingMsg.id = res.data.fileId;
                         if (res.data.status == 'success') {
-                            const idx = this.parseSubs.subList.findIndex( item => item.hovering ),w=this.parseSubs.subList[idx].w;
+                            const idx = this.parseSubs.subList.findIndex( item => item.hovering ),
+                                w = this.parseSubs.subList[idx].w;
                             this.parseSubs.subList[idx].mattingType = type;
                             this.parseSubs.subList[idx].pro = res.data.bgRemovedPreview;
                             this.parseSubs.subList[idx].useImg = res.data.bgRemovedPreview;
-                            if(this.parseSubs.subList[idx].type===1)this.parseSubs.subList[idx].fileId=res.data.fileId;
+                            if (this.parseSubs.subList[idx].type === 1) this.parseSubs.subList[idx].fileId = res.data.fileId;
                             let oImg = new Image();
                             oImg.crossOrigin = '';
                             oImg.onload = () => {
                                 this.parseSubs.subList[idx].proObj = oImg;
                                 this.parseSubs.subList[idx].w = oImg.width * this.parseSubs.subList[idx].h / oImg.height;//高度不变   宽度自适应
-                                this.parseSubs.subList[idx].x = this.parseSubs.subList[idx].x+w/2-this.parseSubs.subList[idx].w/2;//组件中心和上一个一致
+                                this.parseSubs.subList[idx].x = this.parseSubs.subList[idx].x + w / 2 - this.parseSubs.subList[idx].w / 2;//组件中心和上一个一致
                                 this.parseSubs.subList[idx].id = `img${Math.random()}`;
-                                const onlyMain=this.parseSubs.subList.every(item=>[0,1].includes(item.type));
-                                const onlyN=this.parseSubs.subList.every(item=>!item.type ? (!item.backColor && !item.useImg) :  item.useImg);
-                                if(onlyMain && onlyN){
-                                    this.parseSubs.oriW=res.data.originalWidth;
-                                    this.parseSubs.oriH=res.data.originalHeight;
-                                    this.parseSubs.bW=this.parseSubs.subList[idx].w;
-                                    this.parseSubs.bH=this.parseSubs.subList[idx].h;
-                                    this.parseSubs.subList[idx].x=0;
+                                const onlyMain = this.parseSubs.subList.every( item => [0, 1].includes( item.type ) );
+                                const onlyN = this.parseSubs.subList.every( item => !item.type ? (!item.backColor && !item.useImg) : item.useImg );
+                                if (onlyMain && onlyN) {
+                                    this.parseSubs.oriW = res.data.originalWidth;
+                                    this.parseSubs.oriH = res.data.originalHeight;
+                                    this.oriW = res.data.originalWidth;
+                                    this.oriH = res.data.originalHeight;
+                                    this.parseSubs.bW = this.parseSubs.subList[idx].w;
+                                    this.parseSubs.bH = this.parseSubs.subList[idx].h;
+                                    this.parseSubs.subList[idx].x = 0;
+                                    this.parseSubs.scale =parseFloat(this.parseSubs.bW/this.parseSubs.oriW);
                                 }
                                 this.loadStatus( this.parseSubs.subList[idx], idx )
                             };
@@ -936,7 +959,7 @@
                         x: 0,
                         y: 0,
                         id: 0,
-                        fileId:this.edrieImgInfo.fileId,
+                        fileId: this.edrieImgInfo.fileId,
                         rotate: 0,
                         hovering: false,
                         useImg: this.edrieImgInfo.pro,//显示用的
@@ -965,7 +988,7 @@
                     data.y = (this.parseSubs.bH / 2 - data.h / 2);
                     if (idx > -1) this.parseSubs.subList.splice( idx, 1, data );
                     else this.parseSubs.subList.push( data );
-                    this.loadStatus( data,idx > -1? idx : this.parseSubs.subList.length-1 )
+                    this.loadStatus( data, idx > -1 ? idx : this.parseSubs.subList.length - 1 )
                 };
                 oImg.src = this.edrieImgInfo.pro + `?id=${Math.random()}`;
 
@@ -1056,14 +1079,14 @@
                     }
                 } )
             },
-            jsMulitData(proData, name, obj = {}) {
+            jsMulitData(proData, name, obj = {},k) {
                 let ocan = document.createElement( 'canvas' ), newImgdata = proData;
                 let ocanTxt = ocan.getContext( '2d' );
                 jsMulit[name].filter( newImgdata, obj );
                 ocan.width = proData.width;
                 ocan.height = proData.height;
                 ocanTxt.putImageData( newImgdata, 0, 0 );
-                return ocan.toDataURL()
+                return k? ocan : ocan.toDataURL()
             },
             goback(k) {//前进(k=1)   返回(k=0)
                 if (this.SubsDataList.length < 2) return;
@@ -1340,43 +1363,119 @@
                     ctx.drawImage( oBg, bw, 0, oBg.width - 2 * bw, oBg.height, 0, 0, can.width, can.height );
                 }
             },
-            initOriRepir(url,idx){
-                let cans=document.createElement('canvas'),cansTxt,oImg=new Image();
-                cansTxt=cans.getContext('2d');
-                oImg.crossOrigin='';
-                oImg.onload=()=>{
-                    cans.width=oImg.width;
-                    cans.height=oImg.height;
-                    cansTxt.drawImage(oImg,0,0);
+            initOriRepir(url, idx) {
+                let cans = document.createElement( 'canvas' ), cansTxt, oImg = new Image();
+                cansTxt = cans.getContext( '2d' );
+                oImg.crossOrigin = '';
+                oImg.onload = () => {
+                    cans.width = oImg.width;
+                    cans.height = oImg.height;
+                    cansTxt.drawImage( oImg, 0, 0 );
                     this.pointLists.map( item => {//擦除还原只操作在原图上，放大缩小偏移  只需记住最后一次操作就好
                         cansTxt.save();
                         cansTxt.beginPath();
-                        cansTxt.arc( item.x, item.y , 2 * item.r , 0, Math.PI * 2, false );
+                        cansTxt.arc( item.x, item.y, 2 * item.r, 0, Math.PI * 2, false );
                         cansTxt.clip();
                         if (item.type === 1) cansTxt.clearRect( 0, 0, oImg.width, oImg.height );
-                        else cansTxt.drawImage(  this.xiuafter ? this.xiuafter : this.edrieImgInfo.oriObj, 0, 0, oImg.width, oImg.height );
+                        else cansTxt.drawImage( this.xiuafter ? this.xiuafter : this.edrieImgInfo.oriObj, 0, 0, oImg.width, oImg.height );
                         cansTxt.restore();
                     } )
-                    this.parseSubs.subList[idx].useImg=cans.toDataURL("image/png");
-                    this.downLoadImg2();
+                    this.electtexiao(cans,cansTxt.getImageData(0,0,cans.width,cans.height),idx)
+                    // this.parseSubs.subList[idx].useImg=cans.toDataURL("image/png");
+                    // this.downLoadImg2();
                 };
-                oImg.src=url+`?id=${Math.random()}`;
+                oImg.src = url + `?id=${Math.random()}`;
             },
-            downLoadImg() {
-                let data = {templateId: 0},iidx=this.parseSubs.subList.findIndex(item=>item.type===1);
+            electtexiao(loadImg, dataImg, idx) {//原图特效处理
+                let mainSub = this.parseSubs.subList.find( item => item.type === 1 ),
+                    oCan = document.createElement( 'canvas' ), oCan2 = document.createElement( 'canvas' ),
+                    oCan3 = document.createElement( 'canvas' ), obj = loadImg;
+                let oCanTxt = oCan.getContext( '2d' ), oCanTxt2 = oCan2.getContext( '2d' ),
+                    oCanTxt3 = oCan3.getContext( '2d' ), [w, h] = [obj.width, obj.height];
+                let texiaoList = ['', '', 'emboss', 'grayscale', 'dither', 'triangleripple', 'blur', 'threshold', 'twirl'],
+                    otehC = {
+                        blur: {amount: 5.0},
+                        threshold: {threshold: 100},
+                        twirl: {radius: w, angle: 90, centerX: 0.5, centerY: 0.5}
+                    };
+                oCan.width = w;
+                oCan2.width = w;
+                oCan3.width = w;
+                oCan.height = h;
+                oCan2.height = h;
+                oCan3.height = h;
+                console.log(mainSub)
+                if (mainSub.t2Idx > 1) {
+                    obj = this.jsMulitData( dataImg, texiaoList[mainSub.t2Idx], otehC[texiaoList[mainSub.t2Idx]] || {} ,1);
+                }
+                if (mainSub.checked) {
+                    oCanTxt.drawImage( obj, 0, 0, w, h );
+                    let imgData = oCanTxt.getImageData( 0, 0, w, h );
+                    for (let y = 0; y < h; y++) {
+                        for (let x = 0; x < w; x++) {
+                            let pixel = (y * w + x) * 4;
+                            if (imgData.data[pixel + 3] != 0) {
+                                imgData.data[pixel] = 0;
+                                imgData.data[pixel + 1] = 0;
+                                imgData.data[pixel + 2] = 0;
+                                imgData.data[pixel + 3] = (1 - mainSub.extend / 100) * imgData.data[pixel + 3];
+                            }
+                        }
+                    }
+                    if (mainSub.size > 0) StackBlur.imageDataRGBA( imgData, 0, 0, w, h, parseInt(mainSub.size/this.parseSubs.scale) );
+                    oCanTxt.clearRect( 0, 0, w, h )
+                    oCanTxt.putImageData( imgData, 0, 0 )
+                    const xy = this.initAngleDistance( mainSub.angle, mainSub.distance )
+                    oCanTxt3.drawImage( oCan, xy.x, xy.y )
+                }
+                if (mainSub.checkedM) {
+                    oCanTxt2.drawImage( obj, 0, 0, w, h );
+                    jsMulit['strokeBorder'].filter( oCan2, oCanTxt2.getImageData( 0, 0, w, h ), mainSub.mSize, mainSub.colorVal );
+                    oCanTxt3.drawImage( oCan2, 0, 0, w, h )
+                }
+                oCanTxt3.drawImage( obj, 0, 0, w, h );
+                this.parseSubs.subList[idx].useImg = oCan3.toDataURL( "image/png" );
+                this.downLoadImg2();
+            },
+            initAngleDistance(angle, distance) {//更具角度计算位置
+                if (angle == 0 || angle == 360) return {x: -distance, y: 0};
+                else if (angle > 0 && angle < 90) return {
+                    x: -Math.cos( setRad( angle ) ) * distance,
+                    y: -Math.sin( setRad( angle ) ) * distance
+                };
+                else if (angle == 90) return {x: 0, y: -distance};
+                else if (angle > 90 && angle < 180) return {
+                    x: Math.cos( setRad( 180 - angle ) ) * distance,
+                    y: -Math.sin( setRad( 180 - angle ) ) * distance
+                };
+                else if (angle == 180) return {x: distance, y: 0};
+                else if (angle > 180 && angle < 270) return {
+                    x: Math.cos( setRad( angle - 180 ) ) * distance,
+                    y: Math.sin( setRad( angle - 180 ) ) * distance
+                };
+                else if (angle == 270) return {x: 0, y: distance};
+                else if (angle > 270 && angle < 360) return {
+                    x: -Math.cos( setRad( 360 - angle ) ) * distance,
+                    y: Math.sin( setRad( 360 - angle ) ) * distance
+                };
+                // else return{x:-Math.cos(360-angle)*distance,y:Math.sin(360-angle)*distance};
+            },
+            downLoadImg(e) {
+                let data = {templateId: 0}, iidx = this.parseSubs.subList.findIndex( item => item.type === 1 );
                 if (!this.loadSubObj && this.parseSubs.hasOwnProperty( 'isOwnTwo' )) data.templateId = this.parseSubs.templateId;
                 else if (this.loadSubObj) data.templateId = this.loadSubObj.id;
                 // templatedownload( data ).then( res => {
-                if(iidx>-1){
-                    downloadMattedImage( {fileId:this.parseSubs.subList[iidx].fileId} ).then( res => {
+                if (iidx > -1 && this.parseSubs.subList[iidx].fileId) {
+                    downloadMattedImage( {fileId: this.parseSubs.subList[iidx].fileId} ).then( res => {
                         if (!res.code) {
-                          this.initOriRepir(res.data,iidx)
+                            initSmallTag( e, '次数 -1' );
+                            this.initOriRepir( res.data, iidx );
                         } else if (res.code === 1100) this.dialogVisible2 = true;
                     } )
-                }else{
+                } else {
                     templatedownload( data ).then( res => {
                         if (!res.code) {
-                            // this.parseSubs.subList[iidx].useImg=res.data;
+                            initSmallTag( e, '次数 -1' );
                             this.downLoadImg2();
                         } else if (res.code === 1100) this.dialogVisible2 = true;
                     } )
@@ -1391,12 +1490,14 @@
                     background: 'rgba(0, 0, 0, 0.7)'
                 } );
                 let imgSubs = this.parseSubs.subList.reduce( (pre, item, idx) => {
-                    if ([0, 1, 3].includes( item.type ) && !item.backColor && item.useImg) pre.push( {
-                        ...item,
-                        lastidx: idx
-                    } );
-                    return pre
-                }, [] ), reg = /^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base64)?,([a-z0-9!$&',()*+;=\-._~:@\/?%\s]*?)\s*$/i, dOrr = k ? k : '';
+                        if ([0, 1, 3].includes( item.type ) && !item.backColor && item.useImg) pre.push( {
+                            ...item,
+                            lastidx: idx
+                        } );
+                        return pre
+                    }, [] ),
+                    reg = /^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base64)?,([a-z0-9!$&',()*+;=\-._~:@\/?%\s]*?)\s*$/i,
+                    dOrr = k ? k : '';
                 this.parseSubs.subList.map( item => {
                     if ([0, 1, 3].includes( item.type )) item['lastObj'] = '';
                 } )
@@ -1417,7 +1518,7 @@
                         }, [] )
                         if (next.every( it => it['lastObj'] )) this.initCanImg( dOrr )
                     };
-                    oImg.src = reg.test(item.useImg) ?  item.useImg : item.useImg + `?id=${Math.random()}`;
+                    oImg.src = reg.test( item.useImg ) ? item.useImg : item.useImg + `?id=${Math.random()}`;
                 } )
             },
             initCanImg(dOrr) {
@@ -1726,9 +1827,9 @@
                 } )
             },
             initAllInfo() {//初始化时操作信息
-                const obj = localStorage.getItem( 'editImg' );
-                if (!obj) return;
-                this.edrieImgInfo = {...this.edrieImgInfo, ...JSON.parse( obj )};
+                const obj = localStorage.getItem( 'editImg' ) ? JSON.parse( localStorage.getItem( 'editImg' ) ) : {};
+                // if (!obj) return;
+                this.edrieImgInfo = {...this.edrieImgInfo, ...obj};
                 // this.edrieImgInfo.pro = 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200727/e8924b0ecc1049d99db0467ae5aa1e41.png';//默认图片
                 this.loading.show = true;
                 this.loading.text = '加载中...';
@@ -1784,11 +1885,11 @@
                     // const item = this.parseSubs.subList.find( item => item.type === 1 );
                     this.loading.show = true;
                     this.openBack = false;
-                    this.parseSubs.subList = [];
+                    // this.parseSubs.subList = [{}];
                     this.hisIdx = -1;
                     this.loadId = -1;
                     this.SubsDataList = [];
-                    this.initAllInfo();
+                    this.initSize( 1 );
                     this.$store.commit( 'SET_EFFECTSIMG', {clear: 1} );
                     this.$nextTick( () => {
                         this.openBack = true;
@@ -1804,7 +1905,8 @@
                 this.parseSubs.subList[idx].pro = data.img;
                 this.parseSubs.subList[idx].proObj = null;
                 this.dialogVisible = false;
-                this.pointList = data.hisList;
+                if (this.parseSubs.subList[idx].type === 1) this.pointList = data.hisList;
+                // this.pointList = data.hisList;
                 this.publicFun( idx, idx );
                 // this.hoverThis( idx )
             },
@@ -1855,9 +1957,9 @@
                 } )
 
             },
-            initSize(url) {//初始化尺寸
-                let oImg = new Image(), oH = document.getElementById( 'e_r' ).offsetHeight * 0.6,
-                    oW = document.getElementById( 'e_r' ).offsetWidth * 0.6;
+            initSize(k) {//初始化尺寸
+                if (k) this.parseSubs.subList = [{type: 0, useImg: '', pro: '', ori: '',}]
+                let oImg = new Image();
                 oImg.crossOrigin = '';
                 oImg.onload = () => {
                     this.parseSubs.oriW = oImg.width;
@@ -2011,7 +2113,7 @@
                 //     pageSize: 100
                 // }
                 templateCategoryList().then( res => {
-                    this.subList = [...res.data.list, {category_name: '证件照', templateList: subList3.slice( 0, 2 )}]
+                    this.subList = [...res.data.list]//, {category_name: '证件照', templateList: subList3.slice( 0, 2 )}
                 } )
             },
             initUserinfo() {
@@ -2182,6 +2284,7 @@
                 .lists {
                     /*max-height: 650px;*/
                     padding: 15px 0;
+                    flex-direction: column;
 
                     .listsson {
                         margin-bottom: 10px;
@@ -3071,7 +3174,6 @@
 
             .el-button {
                 width: 150px;
-                height: 36px;
                 position: relative;
                 border-radius: 18px;
 

@@ -163,7 +163,7 @@
             },
             deleteItem() {//删除某一个
                 let name = '';
-                if (this.timer) clearInterval( this.timer )
+                if (this.timer) clearTimeout( this.timer )
                 if (this.files.type == 'copy') name = this.imgname
                 else name = this.files.name
                 this.$emit( 'close', {index: this.index, name: name} )

@@ -23,9 +23,9 @@
                 </div>
             </div>
             <div class="hDown">
-                <el-button class="up"  @click="reupload">重新上传
+                <el-button class="up" @click="reupload">重新上传
                 </el-button>
-                <el-button class="doo" type="primary" icon="el-icon-download" @click="downLoadImg()">下载
+                <el-button class="doo" type="primary" icon="el-icon-download" @click="downLoadImg">下载
                     <table class="downBtn">
                         <tr>{{(userSubscribeData.monthExpireDate && userSubscribeData.monthExpireDate>noeTime &&
                             userSubscribeData.monthRemaining>0) ? `包月剩余次数:${userSubscribeData.monthRemaining}` :
@@ -65,7 +65,8 @@
 <!--                </div>-->
                 <el-scrollbar style="overflow-x: hidden;" :style="{height:`${listH*0.4}px`,overflowY: 'auto'}">
                     <div class="iconList flex f-w j-b a-i">
-                        <div v-for="(son,ix) in ttList[tzType].list" :key="ix" class="cu" @click="addImgsSub(son,ix)" :class="{active : tzSonType===ix}">
+                        <div v-for="(son,ix) in classItem" :key="ix" class="cu" @click="addImgsSub(son,ix)"
+                             :class="{active : tzSonUrl===son.cover}">
                             <img :src="son.cover" alt="">
                         </div>
                     </div>
@@ -180,7 +181,7 @@
                 :width=" openScreen ? '95%' : '1200px'"
                 :visible.sync="dialogVisible">
             <matting-img :edrieImgInfo="hoverSub" @close="closeSetMap" v-if="dialogVisible" :openScreen="openScreen"
-                         @changeScree="openScreen=!openScreen"></matting-img>
+                         @changeScree="openScreen=!openScreen" :hisList="pointLists"></matting-img>
         </el-dialog>
         <el-dialog
                 :close-on-click-modal="false"
@@ -197,9 +198,8 @@
     import vMune from '@/components/editMune';
     import loginDialog from '@/components/login_dialog';
     import mattingImg from '@/components/mattingImg';
-    import {myBrowser, findLastIdx, setRad, verticalText} from '@/utils';
+    import {myBrowser, verticalText, getTanDeg, letterText,initSmallTag} from '@/utils';
     import {mixins} from '@/minxins';
-    import {getTanDeg, letterText} from '@/utils'
     import opacity from '@/assets/opacity.jpg'
     import {niceScroll} from 'jquery.nicescroll';
     import {getUserInfo, saveTemplate} from "@/apis";
@@ -216,7 +216,8 @@
     import {mapGetters, mapActions} from 'vuex';
     import {getToken} from "@/utils/auth";
     import {idPhotolist} from './subList3';
-    import { clothList} from './clothersList'
+    import {clothList, boyClothList, girlClothList} from './clothersList'
+
     export default {
         name: 'editPictures',
         mixins: [mixins],
@@ -243,25 +244,14 @@
                 opacity,
                 openclearAll: true,
                 ttList: [
-                    {
-                        title: '男士',
-                        list: clothList
-                    },
-                    {title: '女士', list: [{
-                            cover: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200815/548932edc25b461eb80a9396cdd4bedb.png',
-                            list: ['http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200815/c55de12fe1fe48dc9b81c6e7bccc5c7b.png', 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200815/2602e70ccaf6407d8119d05786499e4b.png']
-                        }]},
-                    // {
-                    //     title: '儿童',
-                    //     list: [{
-                    //         cover: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200815/548932edc25b461eb80a9396cdd4bedb.png',
-                    //         list: ['http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200815/c55de12fe1fe48dc9b81c6e7bccc5c7b.png', 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200815/2602e70ccaf6407d8119d05786499e4b.png']
-                    //     }]
-                    // },
+                    {title: '男士', list: clothList},
+                    {title: '男孩', list: boyClothList},
+                    {title: '女孩', list: girlClothList},
                 ],
+                classItem: [...clothList,...boyClothList,...girlClothList],
                 loadSubObj: '',
                 tzType: 0,
-                tzSonType: 0,
+                tzSonUrl: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200818/9af28d937387444eb97699dc532fceb5.jpg',
                 selectType: 0,//当前左侧选中菜单的下标
                 fontList: [{
                     title: '描边',
@@ -269,11 +259,23 @@
                 }, {title: '阴影', val: {textShadow: '0 5px 5px #333'}}],//'立体', '渐变', '鎏金', '抖音', '印章', '浮雕'
                 scale: '',//图片width/height比例系数
                 edrieImgInfo: {
-                    imageMsg: {},
-                    oriObj: '',
-                    pro: '',
-                    ori: '',
-                    filename: '皮卡智能'
+                    bgRemovedPreview: "http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_preview/2020/08/19/0263ca4fcaab42a3a8a200e8e788a7ef.png",
+                    color: "#FF0000",
+                    fileId: "745955",
+                    filename: "一寸(25*35mm)",
+                    h: "413",
+                    headData: {top: 6.7, left: 162.6, bottom: 398.9, mouseY: 352.5, right: 483.2},
+                    mattingType: 8,
+                    ori: "http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2020/08/19/083015f94bc64f54962012ef3f146c49.jpg",
+                    original: "http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2020/08/19/083015f94bc64f54962012ef3f146c49.jpg",
+                    originalHeight: "650",
+                    originalWidth: "650",
+                    previewHeight: "500",
+                    previewWidth: "500",
+                    pro: "http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_preview/2020/08/19/0263ca4fcaab42a3a8a200e8e788a7ef.png",
+                    queueNumber: "24",
+                    status: "success",
+                    w: "295",
                 },//图片的信息（预览图尺寸，原图尺寸，下载按钮处显示的信息）
                 upType: 0,//从背景库页面进入本页面时，要显示上传弹框 ，上传图片的类型 0 自定义背景  1人抠图 2物抠图
                 loading: {show: false, text: '处理中...', which: 0},//loading
@@ -306,8 +308,8 @@
                 moveNum: 0,
                 statusCode: 0,//每次掉接口的code
                 touchContrl: false,
-                copyId: '',//ctrl+c时复制组件
                 pointList: [],//历史记录
+                mainOri:'',//主图扣过的原图尺寸
             }
         },
         watch: {
@@ -316,13 +318,19 @@
                     if (this.parseSubs.subList.length > 0 && ![1, 2].includes( this.parseSubs.subList[this.parseSubs.subList.length - 1].type )) this.parseSubs.subList.map( item => item.hovering = false );
                     if (!this.openBack) return;
                     this.initsave();
-                }
+                },
+                // deep:true,
+                // immediate:true
             },
             statusCode(n, o) {
                 if (n === 4003) {
                     this.dialogVisible2 = true;
                     this.statusCode = 0;
                 }
+            },
+            mainSubid(n,o){
+                console.log(this.edrieImgInfo.fileId,'000000')
+                this.mainOri='';
             }
         },
         components: {vMune, mattingImg, loginDialog},
@@ -331,13 +339,9 @@
             subsLength() {
                 return this.parseSubs.subList.length;
             },
-            tzList() {//贴纸list
-                let a = [22, 10, 14][this.tzType], b = [], c = ['kt', 'ktC', 'xzhuang'];
-                for (let i = 0; i < a; i++) {
-                    const s = `https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/07/${c[this.tzType]}/${this.tzType ? i + 1 : 'kt' + (i + 1)}.png`;
-                    b.push( s )
-                }
-                return b
+            mainSubid(){
+                // console.log(this.parseSubs.subList)
+                return this.parseSubs.subList.find(item=>item.type===1) ? this.parseSubs.subList.find(item=>item.type===1).fileId : '';
             },
             hoverSub() {//聚焦组件
                 const idx = this.parseSubs.subList.findIndex( item => item.hovering );
@@ -516,8 +520,11 @@
                 }
 
             },
-            reupload(){
-
+            reupload() {
+                const idx = this.parseSubs.subList.findIndex( item => item.type === 1 )
+                this.parseSubs.subList.map( item => item.hovering = false )
+                this.parseSubs.subList[idx].hovering = true;
+                this.writeText( idx )
             },
             hoverThis(idx) {
                 this.parseSubs.subList.map( item => item.hovering = false );
@@ -541,31 +548,35 @@
             changetz(idx) {//贴纸类目
                 if (this.tzType === idx) return;
                 this.tzType = idx;
+                this.classItem = [];
+                this.$nextTick( _ => {
+                    this.classItem = this.ttList[idx].list
+                } )
             },
-            addImgsSub(son,ix) {
-                if(this.tzSonType===ix)return;
-                this.tzSonType=ix;
-                if(!ix){
-                    this.parseSubs.subList=this.parseSubs.subList.filter(item=>item.type!==3)
+            addImgsSub(son, ix) {
+                if (this.tzSonUrl === son.cover) return;
+                this.tzSonUrl = son.cover;
+                if (!ix) {
+                    this.parseSubs.subList = this.parseSubs.subList.filter( item => item.type !== 3 )
                     return
                 }
                 this.loading.show = true;
-                this.parseSubs.subList=this.parseSubs.subList.filter(ite=>[0,1].includes(ite.type));
+                this.parseSubs.subList = this.parseSubs.subList.filter( ite => [0, 1].includes( ite.type ) );
                 let oImg = new Image();
                 oImg.crossOrigin = '';
                 oImg.onload = () => {
-                    const mainSub=this.parseSubs.subList.find(item=>item.type===1);//主图组件
-                    const mainIdx=this.parseSubs.subList.findIndex(item=>item.type===1);//主图组件下标
-                    const headW=mainSub.w*(this.edrieImgInfo.headData.right-this.edrieImgInfo.headData.left)/this.edrieImgInfo.originalWidth;//人物头宽度
-                    const [w, h] = [headW* 0.5*oImg.width/(son.right-son.left), headW* 0.5*oImg.width/(son.right-son.left) * oImg.height / oImg.width];//衣服变化后宽高
-                    son.list.map((item,ix)=>{
+                    const mainSub = this.parseSubs.subList.find( item => item.type === 1 );//主图组件
+                    const mainIdx = this.parseSubs.subList.findIndex( item => item.type === 1 );//主图组件下标
+                    const headW = mainSub.w * (this.edrieImgInfo.headData.right - this.edrieImgInfo.headData.left) / this.edrieImgInfo.originalWidth;//人物头宽度
+                    const [w, h] = [headW * 0.5 * oImg.width / (son.right - son.left), headW * 0.5 * oImg.width / (son.right - son.left) * oImg.height / oImg.width];//衣服变化后宽高
+                    son.list.map( (item, ix) => {
                         let data = {
                             type: 3,//图片组件
                             title: '图片组件',
                             w,
                             h,
-                            x: this.parseSubs.bW / 2 -((son.right-son.left)/2+son.left)*w/oImg.width,
-                            y: mainSub.h*this.edrieImgInfo.headData.mouseY/this.edrieImgInfo.originalHeight+mainSub.y+this.parseSubs.bH*0.03,
+                            x: this.parseSubs.bW / 2 - ((son.right - son.left) / 2 + son.left) * w / oImg.width,
+                            y: mainSub.h * this.edrieImgInfo.headData.mouseY / this.edrieImgInfo.originalHeight + mainSub.y + this.parseSubs.bH * 0.03,
                             id: `img${Math.random()}`,
                             rotate: 0,
                             useImg: item,
@@ -575,10 +586,9 @@
                             hovering: false,
                             mattingType: -1,//抠图模式
                         }
-                        console.log(data)
-                        if(!ix)this.parseSubs.subList.splice(mainIdx,0, data );
+                        if (!ix) this.parseSubs.subList.splice( mainIdx, 0, data );
                         else this.parseSubs.subList.push( data );
-                    })
+                    } )
 
                     this.loading.show = false;
                 };
@@ -599,6 +609,7 @@
                             this.parseSubs.subList[idx].useImg = res.data.bgRemovedPreview;
                             this.parseSubs.subList[idx].mattingType = this.mattingMsg.type;
                             if (this.parseSubs.subList[idx].type === 1) {
+                                this.tzSonUrl = 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200818/9af28d937387444eb97699dc532fceb5.jpg';
                                 this.parseSubs.subList[idx].fileId = res.data.fileId;
                                 this.edrieImgInfo.fileId = res.data.fileId;
                                 this.edrieImgInfo.pro = res.data.bgRemovedPreview;
@@ -642,6 +653,7 @@
                             this.parseSubs.subList[idx].pro = res.data.bgRemovedPreview;
                             this.parseSubs.subList[idx].useImg = res.data.bgRemovedPreview;
                             if (this.parseSubs.subList[idx].type === 1) {
+                                this.tzSonUrl = 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200818/9af28d937387444eb97699dc532fceb5.jpg';
                                 this.parseSubs.subList[idx].fileId = res.data.fileId;
                                 this.edrieImgInfo.fileId = res.data.fileId;
                                 this.edrieImgInfo.pro = res.data.bgRemovedPreview;
@@ -705,50 +717,50 @@
                         let deg = getTanDeg( c / a ), d;
                         if (dx - xx > 0) d = -deg * 2;
                         else d = deg * 2;
-                        if(this.parseSubs.subList[idx].type === 3){
-                            this.parseSubs.subList.map((item,i)=>{
-                                if(item.type===3){
+                        if (this.parseSubs.subList[idx].type === 3) {
+                            this.parseSubs.subList.map( (item, i) => {
+                                if (item.type === 3) {
                                     item.rotate = d;
                                 }
-                            })
-                        }else this.parseSubs.subList[idx].rotate = d;
+                            } )
+                        } else this.parseSubs.subList[idx].rotate = d;
                     } else if (cn.includes( 'iOne' )) {
-                        if(this.parseSubs.subList[idx].type === 3){
-                            this.parseSubs.subList.map((item,i)=>{
-                                if(item.type===3){
+                        if (this.parseSubs.subList[idx].type === 3) {
+                            this.parseSubs.subList.map( (item, i) => {
+                                if (item.type === 3) {
                                     item.h = h - (mx2 - mx);
                                     item.y = top + (mx2 - mx);
                                 }
-                            })
-                        }else{
+                            } )
+                        } else {
                             this.parseSubs.subList[idx].h = h - (mx2 - mx);
                             this.parseSubs.subList[idx].y = top + (mx2 - mx);
                         }
                     } else if (cn.includes( 'iTwo' )) {
-                        if(this.parseSubs.subList[idx].type === 3){
-                            this.parseSubs.subList.map((item,i)=>{
-                                if(item.type===3){
+                        if (this.parseSubs.subList[idx].type === 3) {
+                            this.parseSubs.subList.map( (item, i) => {
+                                if (item.type === 3) {
                                     item.w = w - (mx2 - mx);
                                 }
-                            })
-                        }else this.parseSubs.subList[idx].w = w - (mx2 - mx);
+                            } )
+                        } else this.parseSubs.subList[idx].w = w - (mx2 - mx);
                     } else if (cn.includes( 'iTh' )) {
-                        if(this.parseSubs.subList[idx].type === 3){
-                            this.parseSubs.subList.map((item,i)=>{
-                                if(item.type===3){
+                        if (this.parseSubs.subList[idx].type === 3) {
+                            this.parseSubs.subList.map( (item, i) => {
+                                if (item.type === 3) {
                                     item.h = h - (mx2 - mx);
                                 }
-                            })
-                        }else this.parseSubs.subList[idx].h = h - (mx2 - mx);
+                            } )
+                        } else this.parseSubs.subList[idx].h = h - (mx2 - mx);
                     } else if (cn.includes( 'iFor' )) {
-                        if(this.parseSubs.subList[idx].type === 3){
-                            this.parseSubs.subList.map((item,i)=>{
-                                if(item.type===3){
+                        if (this.parseSubs.subList[idx].type === 3) {
+                            this.parseSubs.subList.map( (item, i) => {
+                                if (item.type === 3) {
                                     item.w = w - (mx2 - mx);
                                     item.x = left + (mx2 - mx);
                                 }
-                            })
-                        }else{
+                            } )
+                        } else {
                             this.parseSubs.subList[idx].w = w - (mx2 - mx);
                             this.parseSubs.subList[idx].x = left + (mx2 - mx);
                         }
@@ -761,16 +773,16 @@
                             ly = top + (h - (w - (mx2 - mx)) * h / w);
                             lx = left + mx2 - mx;
                         }
-                        if(this.parseSubs.subList[idx].type === 3){
-                            this.parseSubs.subList.map((item,i)=>{
-                                if(item.type===3){
+                        if (this.parseSubs.subList[idx].type === 3) {
+                            this.parseSubs.subList.map( (item, i) => {
+                                if (item.type === 3) {
                                     item.w = w - (mx2 - mx);
                                     item.h = (w - (mx2 - mx)) * h / w;
                                     item.y = ly;
                                     item.x = lx;
                                 }
-                            })
-                        }else{
+                            } )
+                        } else {
                             this.parseSubs.subList[idx].w = w - (mx2 - mx);
                             this.parseSubs.subList[idx].h = (w - (mx2 - mx)) * h / w;
                             this.parseSubs.subList[idx].y = ly;
@@ -778,16 +790,16 @@
                         }
                     } else {
                         if (this.parseSubs.subList[idx].type === 2 && this.parseSubs.subList[idx].contenteditable) return;
-                        if(this.parseSubs.subList[idx].type === 3){
-                            this.parseSubs.subList.map((item,i)=>{
-                                if(item.type===3){
+                        if (this.parseSubs.subList[idx].type === 3) {
+                            this.parseSubs.subList.map( (item, i) => {
+                                if (item.type === 3) {
                                     item.x = l;
                                     item.y = t;
                                 }
-                            })
-                        }else{
-                            this.parseSubs.subList[idx].x=l;
-                            this.parseSubs.subList[idx].y=t;
+                            } )
+                        } else {
+                            this.parseSubs.subList[idx].x = l;
+                            this.parseSubs.subList[idx].y = t;
                         }
 
                     }
@@ -858,7 +870,6 @@
                     cans.width = oImg.width;
                     cans.height = oImg.height;
                     cansTxt.drawImage( oImg, 0, 0 );
-                    console.log( this.pointLists )
                     this.pointLists.map( item => {//擦除还原只操作在原图上，放大缩小偏移  只需记住最后一次操作就好
                         cansTxt.save();
                         cansTxt.beginPath();
@@ -873,24 +884,28 @@
                 };
                 oImg.src = url + `?id=${Math.random()}`;
             },
-            downLoadImg() {
+            downLoadImg(e) {
                 let data = {templateId: 0}, iidx = this.parseSubs.subList.findIndex( item => item.type === 1 );
                 if (!this.loadSubObj && this.parseSubs.hasOwnProperty( 'isOwnTwo' )) data.templateId = this.parseSubs.templateId;
                 else if (this.loadSubObj) data.templateId = this.loadSubObj.id;
                 // templatedownload( data ).then( res => {
-                if (iidx > -1 && this.parseSubs.subList[iidx].fileId) {
+                if (!this.mainOri && this.parseSubs.subList[iidx].fileId) {
                     downloadMattedImage( {fileId: this.parseSubs.subList[iidx].fileId} ).then( res => {
                         if (!res.code) {
-                            this.initOriRepir( res.data, iidx )
+                            this.mainOri=res.data;
+                            initSmallTag(e,'次数 -1');
+                            this.userGetscribe();
+                            this.initOriRepir( res.data, iidx );
                         } else if (res.code === 1100) this.dialogVisible2 = true;
                     } )
                 } else {
-                    templatedownload( data ).then( res => {
-                        if (!res.code) {
+                    // templatedownload( data ).then( res => {
+                    //     if (!res.code) {
+                            initSmallTag(e,'免费');
                             // this.parseSubs.subList[iidx].useImg=res.data;
                             this.downLoadImg2();
-                        } else if (res.code === 1100) this.dialogVisible2 = true;
-                    } )
+                        // } else if (res.code === 1100) this.dialogVisible2 = true;
+                    // } )
                 }
 
             },
@@ -1190,12 +1205,12 @@
                 let data = {
                     w: item.width,
                     h: item.height,
-                    pro: this.edrieImgInfo.pro,
-                    ori: this.edrieImgInfo.ori,
+                    // pro: this.edrieImgInfo.pro,
+                    // ori: this.edrieImgInfo.ori,
                     color: item.color,
                     filename: item.name,
-                    fileId: this.edrieImgInfo.fileId,
-                    mattingType: 8
+                    // fileId: this.edrieImgInfo.fileId,
+                    // mattingType: 8
                 }
                 this.initAllInfo( data )
             },
@@ -1215,12 +1230,13 @@
                 } )
             },
             initAllInfo(data) {//初始化时操作信息
-                const obj = data ? data : JSON.parse( localStorage.getItem( 'photoMsg' ) );
-                if (!obj) return;
+                let obj = data ? data : JSON.parse( localStorage.getItem( 'photoMsg' ) );
+                if (!obj) obj={};
                 this.edrieImgInfo = {...this.edrieImgInfo, ...obj};
                 this.loading.show = true;
                 this.loading.text = '加载中...';
                 this.openBack = false;
+                this.tzSonUrl = 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200818/9af28d937387444eb97699dc532fceb5.jpg';
                 this.parseSubs.subList = [];
                 this.loadSubObj = '';
                 let oImg = new Image();
@@ -1257,7 +1273,7 @@
                             "ori": this.edrieImgInfo.ori,
                             "hovering": false,
                             "mattingType": 8,
-                            fileId: this.edrieImgInfo.fileId
+                            fileId: this.edrieImgInfo.fileId,
                         }]
                     }
                     this.photoSize = this.idPhotolist.find( item => item.name === it.title ).name;
@@ -1295,7 +1311,7 @@
                 this.parseSubs.subList[idx].pro = data.img;
                 this.parseSubs.subList[idx].proObj = null;
                 this.dialogVisible = false;
-                this.pointList = data.hisList;
+                if (this.parseSubs.subList[idx].type === 1) this.pointList = data.hisList;
                 this.publicFun( idx, idx );
                 // this.hoverThis( idx )
             },
@@ -1434,7 +1450,7 @@
         created() {//透明背景储存
         },
         mounted() {//初始化参数
-            const oDiv = document.getElementById( 'e_r' )
+            const oDiv = document.getElementById( 'e_r' );
             this.oDiv_w = {w: oDiv.offsetWidth, h: oDiv.offsetHeight};
             if (getToken()) {
                 this.userGetscribe();
@@ -1445,28 +1461,10 @@
             verticalText()//字间距
             document.addEventListener( 'keydown', (e) => {//键盘事件
                 const keynum = window.event ? e.keyCode : e.which;
-                console.log(keynum)
                 const idx = this.hoverSub.idx, type = this.hoverSub.type;
                 if (keynum === 17) this.touchContrl = true;
-                // if (keynum === 8 && this.hoverSub.type===3) {
-                //     this.enterIdx = -1;//删除前先隐藏框框，移出鼠标
-                //     this.parseSubs.subList.splice( idx, 1 );
-                // }
                 if (this.touchContrl && keynum === 90) this.goback( 0 );
                 if (this.touchContrl && keynum === 89) this.goback( 1 );
-                if (this.touchContrl && keynum === 67) {
-                    if (this.hoverSub.idx > -1 && !this.hoverSub.contenteditable && ![0, 1].includes( this.hoverSub.type )) this.copyId = this.hoverSub.id;
-                    else this.copyId = '';
-                }
-                if (this.touchContrl && keynum === 86 && !this.hoverSub.contenteditable) {
-                    const item = this.parseSubs.subList.find( item => item.id === this.copyId );
-                    if (this.copyId && item) this.parseSubs.subList.push( {
-                        ...JSON.parse( JSON.stringify( item ) ),
-                        hovering: false,
-                        x: this.parseSubs.bW / 2 - item.w / 2,
-                        y: this.parseSubs.bH / 2 - item.h / 2
-                    } )
-                }
             } )
             document.addEventListener( 'keyup', (e) => {
                 const keynum = window.event ? e.keyCode : e.which;
@@ -1572,23 +1570,27 @@
                 }
 
                 .iconList {
+                    padding: 5px;
+                    /*justify-content: center;*/
                     div {
                         width: 100px;
                         position: relative;
                         margin-bottom: 10px;
                         overflow: hidden;
-                        margin: 10px 0;
                         background: url("http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/b80c2dd51d2b49e5885f8d4aff5032c6.jpg") no-repeat center;
-                        &:nth-child(2n) {
-                            margin: 0 10px;
-                        }
+
+                        /*&:nth-child(2n) {*/
+                        /*    margin: 0 10px;*/
+                        /*}*/
+
                         img {
                             display: block;
                             width: 100%;
                         }
                     }
-                    .active{
-                        box-shadow:0 0 15px $co;
+
+                    .active {
+                        box-shadow: 0 0 15px $co;
                     }
                 }
             }
@@ -2014,7 +2016,8 @@
 
             .hDown {
                 margin-right: 20px;
-                .up{
+
+                .up {
                     border: 1px solid $co;
                     color: $co;
                 }
@@ -2047,7 +2050,6 @@
 
             .el-button {
                 width: 150px;
-                height: 36px;
                 position: relative;
                 border-radius: 18px;
 

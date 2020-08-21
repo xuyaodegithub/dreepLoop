@@ -50,7 +50,8 @@
         name: "index",
         props: {
             edrieImgInfo: Object,
-            openScreen:Boolean
+            openScreen:Boolean,
+            hisList:Array
         },
         data() {
             return {
@@ -111,12 +112,18 @@
             document.addEventListener( 'keyup', (e) => {
                 this.downSpace = false;
             } )
+            this.initHis();
         },
         destroyed(){
             document.removeEventListener('mousemove',this.mouses)
             document.removeEventListener('mouseup',this.ups)
         },
         methods: {
+            initHis(){
+                if(this.edrieImgInfo.type===1){
+                    this.pointList=JSON.parse(JSON.stringify(this.hisList))
+                }
+            },
             initallCans() {//初始化canvas
                 let oImg = new Image();
                 oImg.crossOrigin = '';

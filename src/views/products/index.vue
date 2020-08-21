@@ -146,7 +146,6 @@
 <script>
     import headerSub from '@/components/header/index.vue'
     import video1 from '@/assets/videos/video.mp4'
-    import video4 from '@/assets/videos/shose.mp4'
     import MoveChunk from '@/components/movesChunk/index.vue'
     import w from '@/assets/image/women.jpg'
     import w2 from '@/assets/image/women2.jpg'
@@ -163,7 +162,7 @@
         data () {
             return {
                 videoList:[{item:video1,status:true,pause:false}],
-                video4,
+                video4:'https://deeplor.oss-cn-hangzhou.aliyuncs.com/site/video/shose.mp4',
                 video4status:true,
                 video4Pause:false,
                 // arrw:[w,w2,'Damaged picure','Recovered picture'],

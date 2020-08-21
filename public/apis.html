@@ -8,10 +8,10 @@
     <meta name="description" content="">
     <link rel="icon" href="smallLogo.jpg" type="images/x-icon">
     <!--//设置不缓存-->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
     <meta http-equiv="Cache" content="no-cache">
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
     <meta name="applicable-device" content="pc">
     <link rel="mobile-agent" content="format=html5;url=http://m.picup.shop"/>
     <link rel="stylesheet" href="static/public.css">
@@ -21,21 +21,26 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <style>
-        iframe{
+        iframe {
             width: 100%;
             flex: 1;
         }
-        .solt{
+
+        .solt {
             height: 60px;
             width: 100%;
         }
-        body{
+
+        body {
             flex-direction: column;
         }
-        ul.flex,div.flex{
+
+        ul.flex, div.flex {
             flex-shrink: 0;
         }
-        .first{
+
+        .first ul li{
+            white-space: nowrap;
         }
     </style>
 </head>
@@ -47,8 +52,9 @@
             <li>
                 <a href="index.html">首页</a></li><!--智能抠图-->
             <li class="cu">
-<!--                <a href="transitionPage.html">一键抠图</a></li>&lt;!&ndash;智能抠图&ndash;&gt;-->
-            <li class="cu hove">批量抠图 <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200722/6cc7c06469404c758e62cfe32adf4367.png"
+                <!--                <a href="transitionPage.html">一键抠图</a></li>&lt;!&ndash;智能抠图&ndash;&gt;-->
+            <li class="cu hove">批量抠图 <img
+                    src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200722/6cc7c06469404c758e62cfe32adf4367.png"
                     class="dbottom"/>
                 <transition name="el-zoom-in-top">
                     <div class="link">
@@ -59,27 +65,41 @@
                     </div>
                 </transition>
             </li>
-            <li class="cu hove">美化修复 <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200722/6cc7c06469404c758e62cfe32adf4367.png"
+            <li class="cu hove">美化修复 <img
+                    src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200722/6cc7c06469404c758e62cfe32adf4367.png"
                     class="dbottom"/>
                 <div class="link">
                     <a href="beautify.html">一键美化</a>
                     <a href="intelligentRepair.html">图片修复</a>
                 </div>
             </li>
+            <li class="cu hove" :class="{'redPS' : editList.findIndex(item=>urls.includes(item))>-1}">编辑器 <img
+                    src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200722/6cc7c06469404c758e62cfe32adf4367.png"
+                    class="dbottom"/>
+                <transition name="el-zoom-in-top">
+                    <div class="link">
+                        <a href="posterEditor.html">自由编辑器</a>
+                        <a href="idPhoto.html">证件照编辑器</a>
+                    </div>
+                </transition>
+            </li>
             <li><a href="http://matting.deeplor.com/blog" target="_blank">使用案例</a></li><!--下载-->
         </ul>
         <div class="right">
             <div>
-                <div style="display: inline-block"><a href="https://mp.weixin.qq.com/s/AsVjcACbusdKXcheF_HHtw" target="_blank"><img src="static/freeGet.gif" alt=""></a></div>
+                <div style="display: inline-block"><a href="https://mp.weixin.qq.com/s/AsVjcACbusdKXcheF_HHtw"
+                                                      target="_blank"><img src="static/freeGet.gif" alt=""></a></div>
                 <div class="mobiles">手机端
-                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200722/6cc7c06469404c758e62cfe32adf4367.png" class="dbottom"/>
+                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200722/6cc7c06469404c758e62cfe32adf4367.png"
+                         class="dbottom"/>
                     <div>
-                        <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200722/1c66ccdcac734fec85df798983bc11c0.jpg" alt="" />
+                        <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200722/1c66ccdcac734fec85df798983bc11c0.jpg"
+                             alt=""/>
                         <p>关注公众号送下载次数</p>
                     </div>
                 </div>
                 <a href="downLoad.html">下载桌面端</a>
-                <a  class="red" href="apis.html">API</a><!--登录-->
+                <a class="red" href="apis.html">API</a><!--登录-->
                 <a href="userVip.html">定价</a>
                 <a href="loginOrRegister.html" class="Lohin loginbtb">登录/注册</a><!--注册-->
                 <a href="userCenter.html" class="Lohin users"></a>
@@ -95,7 +115,7 @@
 <iframe src="//picup.shop/apidoc/_book/index.html" frameborder="0">
 </iframe>
 <script>
-    var baseUrl='<%= VUE_APP_BASEURL %>'
+    var baseUrl = '<%= VUE_APP_BASEURL %>'
 </script>
 <script src="static/jquery-1.11.3.min.js"></script>
 <script src="static/index.js"></script>

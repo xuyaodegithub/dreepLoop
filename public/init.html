@@ -217,7 +217,7 @@
 
         .loop, .bgchange, .API, .anli {
             background-color: #fff;
-            padding: 122px 0 100px 0;
+            padding: 127px 0 137px 0;
             line-height: 1;
             text-align: center;
         }
@@ -299,7 +299,11 @@
             border: 1px solid #e82255;
             border-radius: 5px;
             text-align: center;
-            margin: 40px 0 24px 0;
+            margin: 40px 15px 24px 0;
+        }
+        .loop .idIn .btnte{
+            background-color: #e82255;
+            color: #fff;
         }
         .loop .idIn .btn img{
             vertical-align: text-top;
@@ -431,6 +435,38 @@
             text-align: center;
             background-color: rgba(0, 0, 0, 0);
         }
+        .anli2{
+            padding-top: 0;
+        }
+        .anli .pList{
+            flex-wrap: wrap;
+            justify-content: center;
+            font-size: 14px;
+            line-height: 20px;
+            color: #686868;
+            margin-top: 80px;
+        }
+        .anli .pList .pItem{
+            width: 490px;
+            background-color: #fff;
+            height: 70px;
+            padding: 20px;
+            position: relative;
+            text-align: left;
+            margin-bottom: 14px;
+            border-radius: 16px;
+        }
+        .anli .pList .pItem:nth-child(2n){
+            margin-left: 25px;
+        }
+        .anli .pList h5{
+            font-size: 14px;
+            color: #000;
+            font-weight: bold;
+            position: absolute;
+            left: 20px;
+            bottom: 13px;
+        }
 
         footer {
             background-color: #191919;
@@ -529,6 +565,42 @@
             top: 50%;
             transform: translate(-50%, -50%);
         }
+        .diglog{
+            position: fixed;
+            padding: 40px 60px;
+            background-color: #fff;
+            display: none;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            text-align: center;
+            z-index: 3333;
+            border-radius: 15px;
+        }
+        .diglog h4{
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .diglog img{
+            display: block;
+            width: 140px;
+            margin: 0 auto 20px;
+        }
+        .diglog p{
+            font-size: 14px;
+            color: #9c9c9c;
+        }
+        .diglog i,.hisList i{
+            position: absolute;
+            font-size: 24px;
+            width: 20px;
+            height: 20px;
+            top: 10px;
+            right: 10px;
+            background: url("http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200812/5e3d6826bc0045a4b8808d4fb1d50724.png") no-repeat center;
+
+        }
     </style>
 </head>
 <body>
@@ -547,7 +619,7 @@
     </div>
     <p class="lp">CTRL+V粘贴图像或者URL，也可拖拽图像到此页面</p>
     <div class="flex lizi ">
-        <span>没有照片？<br>试试这些证图片:</span>
+        <span>没有照片？<br>试试这些图片:</span>
         <div class="photoHisList flex">
             <div class="itmes"
                  style="background-image: url('http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/b261cffebe11499f8d283c18bbd3a544.png')"></div>
@@ -557,8 +629,6 @@
                  style="background-image: url('http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/f8e6362ed4dc494f912bf73016656c8a.png')"></div>
             <div class="itmes"
                  style="background-image: url('http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/f275f16a50c74151b11e881ccb0be68e.png')"></div>
-            <div class="itmes"
-                 style="background-image: url('http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/d25bf9bd069642fa94d1c782c9b28bfb.png')"></div>
         </div>
     </div>
 </div>
@@ -637,17 +707,22 @@
 <section class="loop">
     <div class="margin">
         <h1>场景应用</h1>
-        <p>不必专业PS,新手小白都能用，人人必备的在线抠图工具</p>
+        <p>不必专业PS，新手小白都能用，人人必备的在线抠图工具</p>
         <div class="flex idIn">
             <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/32f3a4dd0d37446f8b595aeec93ed8f2.png"
                  alt="">
             <div>
-                <h3>在线证件照制作</h3>
-                <p>不用去照相馆，一键制作证件照</p>
-                <div class="btn cu"><img src="static/ico_20200803113312.png" alt="">上传照片</div>
-                <p>
-                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/0ddc103f27d543e69ba84ac1918ff148.png"
-                         alt="">上传须知：照片请上传正面照，露耳朵</p>
+                <h3>在线制作证件照</h3>
+                <p>免费一键智能换背景</p>
+                <div class="btns flex">
+                    <div class="btn cu btnte"><img
+                            src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png"
+                            alt="">电脑上传</div>
+                    <div class="btn cu"  onclick="upbymobile()"><img
+                            src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/1900436f3be2442980cb8e2887fc0d21.png"
+                            alt="">手机上传</div>
+                </div>
+                <p style="line-height: 20px">照片要求：正面免冠，头发不遮挡眉毛、眼睛和脸颊，露出耳朵。<br> 姿势端正，抬头挺胸，注意避免侧身、歪脸、斜肩、昂头、驼背。</p>
             </div>
         </div>
 <!--        <div class="flex idIn" style="margin-top: 100px">-->
@@ -659,30 +734,6 @@
 <!--            <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/32f3a4dd0d37446f8b595aeec93ed8f2.png"-->
 <!--                 alt="">-->
 <!--        </div>-->
-        <!--        <div class="flex a-i item">-->
-        <!--            <div class="flex a-i cu active">-->
-        <!--                <img src="static/22.png" alt="一键抠图，人像抠图">-->
-        <!--                <span>电子商务</span>-->
-        <!--            </div>-->
-        <!--            <div class="flex a-i cu">-->
-        <!--                <img src="static/33.png" alt="一键抠图，人像抠图">-->
-        <!--                <span>开发者</span>-->
-        <!--            </div>-->
-        <!--            <div class="flex a-i cu">-->
-        <!--                <img src="static/44.png" alt="一键抠图，人像抠图">-->
-        <!--                <span>新媒体</span>-->
-        <!--            </div>-->
-        <!--            <div class="flex a-i cu">-->
-        <!--                <img src="static/11.png" alt="一键抠图，人像抠图">-->
-        <!--                <span>个人</span>-->
-        <!--            </div>-->
-        <!--        </div>-->
-        <!--        <div class="rel">-->
-        <!--            <img src="static/dianzi.png" alt="一键抠图，人像抠图">-->
-        <!--            <img src="static/kaifazhe.png" alt="一键抠图，人像抠图">-->
-        <!--            <img src="static/xinmeiti.png" alt="一键抠图，人像抠图">-->
-        <!--            <img src="static/geren.png" alt="一键抠图，人像抠图">-->
-        <!--        </div>-->
     </div>
 </section>
 <div class="bgchange">
@@ -749,9 +800,49 @@
 </div>
 <div class="anli">
     <div class="margin">
-<!--        <h1>在线抠图图片案例</h1>-->
-<!--        <p>前景识别类型不断丰富，边缘细节不断精细</p>-->
+        <h1>他们都在用皮卡智能PicUP</h1>
+        <p>1000+ 产品团队的共同选择</p>
+        <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200819/5dc9b194477b4c56b29521d95fc23a80.png" alt="">
         <div id="init"></div>
+    </div>
+</div>
+<div class="anli anli2">
+    <div class="margin">
+        <h1>他们对皮卡智能PicUP的评价</h1>
+        <div class="pList flex">
+            <div class="pItem">
+                <p>感谢！我们作为创业者，是急需你们这样好工具。一生追随的。感谢你们</p>
+                <h5>左右—APP创业者</h5>
+            </div>
+            <div class="pItem">
+                <p>这么牛逼的软件，必须得支持你，会推荐给朋友的</p>
+                <h5>竹隐--电商行业</h5>
+            </div>
+            <div class="pItem">
+                <p>第一次使用你们的产品，感觉非常的完美</p>
+                <h5>long--外卖行业</h5>
+            </div>
+            <div class="pItem">
+                <p>一键智能抠图很好用，节省了很多时间</p>
+                <h5>Aymee—设计师</h5>
+            </div>
+            <div class="pItem">
+                <p>去水印看到你们效果很好。你们这个比美图秀秀强多了</p>
+                <h5>三石—设计师</h5>
+            </div>
+            <div class="pItem">
+                <p>我主要是做徽章 钥匙扣，做了11年了，自己生产的。一直以来这是个痛点，因为定制产品需要设计，订单快速增长，很难在短期内找到那么多的设计人员处理订单，你们的头像抠图帮了我很大的忙</p>
+                <h5>飞-个性定制行业</h5>
+            </div>
+            <div class="pItem">
+                <p>你的软件是真好用，我们做电商的，之前要通宵抠图，现在有了这个软件，我眼泪都下来了，真好呀</p>
+                <h5>giger-跨境电商行业</h5>
+            </div>
+            <div class="pItem">
+                <p>这个网站，绝了！宝藏网站当然得好好收藏享用哈哈哈哈</p>
+                <h5>奥利奥-平面设计师</h5>
+            </div>
+        </div>
     </div>
 </div>
 <footer>
@@ -823,6 +914,12 @@
         <a href="http://m.picup.ai">抠图软件app</a>
     </div>
 </footer>
+<div class="diglog">
+    <i class="cu" onclick="setDiog()"></i>
+    <h4>扫码上传图片</h4>
+    <div id="qrcode"></div>
+    <p>手机上传图片时，请不要关闭弹框</p>
+</div>
 <div class="zhezhao"></div>
 <div class="loading">
     处理中...
@@ -834,26 +931,21 @@
 </div>
 <!-- built files will be auto injected -->
 <script src="static/jquery-1.11.3.min.js"></script>
+<script src="static/qrcode.min.js"></script>
 <script type="text/javascript">
-    // var oLoop = document.querySelectorAll( '.loop .item .cu' ),
-    var  oAd = document.querySelector( '.oA' ),oBd=document.querySelector( '.btn' ),toUrl='currency.html';
-    // var oLoopImg = document.querySelectorAll( '.loop .rel img' ),
-    var   oFile = $( '#loadIn' )
+    var  oAd = document.querySelector( '.oA' ),oBd=document.querySelector( '.btnte' ),toUrl='currency.html',urlhref = '<%= NODE_ENV %>' === 'development' ? 'http://wwwdev.picup.shop' : 'http://www.picup.shop',taskFlag;
+    var   oFile = $( '#loadIn' ),timer=null;
     var oBt = document.querySelectorAll( '.bgchange .bt div' )
     var oBgImg = document.querySelectorAll( '.bgchange .first img:first-child' )[0]
     var idx = 1, closeTimer = false;
-    // for (var i = 0; i < oLoop.length; i++) {
-    //     oLoop[i].addEventListener( 'mouseover', function () {
-    //         Array.prototype.slice.call( oLoop ).map( function (v, i) {
-    //             v.className = 'flex a-i cu'
-    //         } )
-    //         Array.prototype.slice.call( oLoopImg ).map( function (v, i) {
-    //             v.style.display = 'none'
-    //         } )
-    //         this.className = 'flex a-i cu active'
-    //         oLoopImg[i].style.display = 'block'
-    //     } )
-    // }
+    var qrcode = new QRCode( document.getElementById( "qrcode" ), {
+        text: urlhref + "/uploadBymobile.html",
+        width: 128,
+        height: 128,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    } );
     for (var i = 0; i < oBt.length; i++) {
         oBt[i].addEventListener( 'mouseover', function () {
             closeTimer = true
@@ -942,7 +1034,7 @@
     }
 
     document.addEventListener( 'paste', function (e) {
-        console.log( e )
+        // console.log( e )
         var clipboardData = e.clipboardData,//谷歌
             i = 0,
             items, item, types;
@@ -1034,6 +1126,57 @@
         // console.log(url)
         toPostEdior( url )
     } )
+    function upbymobile() {
+        toUrl='idPhoto.html';
+        $.ajax( {
+            url: devbase + '/oss/newUploadTask',
+            type: 'get',
+            dataType: 'json',
+            xhrFields: {
+                withCredentials: true
+            },
+            headers: {token: token},
+            data: {},
+            success:function(res) {
+                if (!res.code) {
+                    taskFlag = res.data;
+                    qrcode.makeCode( urlhref + "/uploadBymobile.html?taskFlag=" + res.data );
+                    setDiog( 1 );
+                    lunxun()
+                } else loading( res.msg )
+            }
+        } )
+    }
+    function lunxun() {
+        $.ajax( {
+            url: devbase + '/oss/getUploadTask',
+            type: 'get',
+            dataType: 'json',
+            xhrFields: {
+                withCredentials: true
+            },
+            headers: {token: token},
+            data: {taskFlag:taskFlag},
+            success:function(res) {
+                if (!res.code) {
+                    if (res.data.status === 2) {
+                        setDiog();
+                        toPostEdior(res.data.url)
+                    } else timer = setTimeout( lunxun, 2000 )
+                } else loading( res.msg )
+            }
+        } )
+    }
+    function setDiog(k) {
+        clearTimeout( timer )
+        if (k) {
+            $( '.diglog' ).css( 'display', 'block' );
+            $( '.zhezhao' ).css( 'display', 'block' );
+        } else {
+            $( '.diglog' ).css( 'display', 'none' );
+            $( '.zhezhao' ).css( 'display', 'none' );
+        }
+    }
     stopPrevent()
 </script>
 </body>

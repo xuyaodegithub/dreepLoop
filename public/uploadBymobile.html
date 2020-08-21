@@ -22,34 +22,70 @@
     <link rel="stylesheet" href="static/public.css">
     <link rel="stylesheet" href="static/css/reset.css">
     <style>
-        .up {
-            margin: 1.2rem auto 0;
+        body {
+            padding-top: 1.5rem;
         }
 
-        .up img {
+        .up {
+            padding: 2rem 0;
+            width: 4.4rem;
+            margin: 0 auto;
+            border: 1px dashed #999;
+            position: relative;
+        }
+        .up img{
+            max-width:inherit;
+        }
+        .up .add {
             display: block;
-            width: 3.5rem;
+            width: 0.4rem;
             margin: 0 auto;
         }
 
-        .btn {
+        .up .preimg {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            left: 50%;
+            top: 0;
+            overflow: hidden;
+            transform: translateX(-50%);
             display: none;
+        }
+        .up .preimg img{
+            display: block;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            height: 100%;
+        }
+        .up .del{
+            display: none;
+            position: absolute;
+            top: -16px;
+            right: -16px;
+        }
+
+        .btn {
+            border-radius: .1rem;
             position: fixed;
             width: 3.5rem;
             font-size: .28rem;
-            color: #e82255;
-            border: 1px solid #e82255;
+            color: #999;
+            background-color: #F2F2F2;
             line-height: .8rem;
             text-align: center;
             left: 50%;
             bottom: 1rem;
-            transform: translate(-50%,-50%);
+            transform: translate(-50%, -50%);
         }
+
         .loading {
             display: none;
             position: fixed;
             padding: 10px;
-            width: 80px;
+            max-width: 50%;
             line-height: 28px;
             font-size: 12px;
             border-radius: 15px;
@@ -65,9 +101,14 @@
 </head>
 <body>
 <input type="file" accept="image/*" style="display: none" id="files" onchange="getImg(event)">
-<div class="up">
-    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200813/d9af3c0173674c33b0eb8e8902ad959b.png"
-         alt="" onclick="upfile()" class="preimg">
+<div class="up" onclick="upfile()">
+    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200818/20a2f5e446d64ccc88b3119b190e3664.png"
+         alt="" class="add">
+    <div class="preimg">
+        <img src="" alt="">
+    </div>
+    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200818/f632c2d46410405e9931b85a9903ee02.png"
+         alt="" class="del" onclick="stopCal(event)" style="background-color: #fff">
 </div>
 <div class="btn" onclick="upload()">上传至电脑</div>
 <div class="loading">
@@ -98,7 +139,7 @@
 </script>
 <script src="static/jquery-1.11.3.min.js"></script>
 <script>
-    var token = localStorage.getItem( 'user_Token' ),fileData;
+    var token = localStorage.getItem( 'user_Token' ), fileData;
 
     function queryStringUrl(name) {
         var reg = new RegExp( "(^|$)" + name + "=([^&]*)(&|$)" )
@@ -123,6 +164,7 @@
             $( '.zhezhao' ).css( 'display', 'none' );
         }, 2000 )
     }
+
     function setLoading(k) {
         if (k) {
             $( '.loading' ).text( '处理中...' );
@@ -133,20 +175,27 @@
             $( '.zhezhao' ).css( 'display', 'none' );
         }
     }
-    function getImg(e){
+
+    function getImg(e) {
         fileData = e.target.files[0];
         var reader = new FileReader();
 //                    console.log(reader)
-        reader.readAsDataURL(fileData);
+        reader.readAsDataURL( fileData );
         //监听文件读取结束后事件
         reader.onloadend = function (e) {
-            $('.preimg').attr('src',reader.result)
-            $('.btn').css('display','block')
+            $( '.preimg img' ).attr( 'src', reader.result )
+            showImg(1)
         }
     }
+
     function upload() {
-        setLoading(1)
+        if (!fileData) return;
+        setLoading( 1 )
         var formData = new FormData(), task = queryStringUrl( 'taskFlag' );
+        if(!task){
+            loading('请在电脑端扫码进入本页面')
+            return;
+        }
         formData.append( 'file', fileData );
         formData.set( 'taskFlag', task );
         $.ajax( {
@@ -163,12 +212,31 @@
             data: formData,
             success(res) {
                 if (!res.code) {
-                    loading('上传成功')
-                }else loading(res.msg)
+                    loading( '上传成功' )
+                } else loading( res.msg )
             }
         } )
     }
-
+    function showImg(k){
+        console.log(arguments.length)
+        if(k){
+            $('.add').hide();
+            $('.preimg').show();
+            $('.del').show();
+            $('.btn').css({backgroundColor:'#e82255',color:'#fff'});
+        }else{
+            $('.add').show();
+            $('.preimg').hide();
+            $('.del').hide();
+            $('.btn').css({backgroundColor:'#F2F2F2',color:'#999'});
+        }
+    }
+    function stopCal(e) {
+        ev= e || window.event;
+        ev.stopPropagation();
+        fileData=''
+        showImg()
+    }
 
 </script>
 </body>

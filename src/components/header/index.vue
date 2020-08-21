@@ -24,6 +24,15 @@
                            :class="{'red' : urls.includes(item)}">{{['一键美化','图片修复'][idx]}}</a>
                     </div>
                 </li>
+                <li class="cu hove" :class="{'redPS' : editList.findIndex(item=>urls.includes(item))>-1}">编辑器 <i
+                        class="el-icon-caret-bottom"></i>
+                    <transition name="el-zoom-in-top">
+                        <div class="link">
+                            <a :href="item+'.html'" v-for="(item,idx) in editList" :key="idx"
+                               :class="{'red' : urls.includes(item)}">{{['自由编辑器','证件照编辑器'][idx]}}</a>
+                        </div>
+                    </transition>
+                </li>
                 <li class="cu"><a href="http://matting.deeplor.com/blog" target="_blank">使用案例</a></li>
             </ul>
             <div class="right flex">
@@ -84,6 +93,7 @@
                 piliangList: ['currency', 'people', 'headCutout', 'objects'],
                 nameList: ['通用抠图', '人像抠图', '头像抠图', '物体抠图'],
                 beauList: ['beautify', 'intelligentRepair'],
+                editList: ['posterEditor','idPhoto'],
             }
         },
         watch: {
@@ -154,7 +164,7 @@
         mounted() {
             setVsource();
             this.getUserinfo();
-            console.log(sha256('你是啥'))
+            // console.log(sha256('你是啥'))
         }
     }
 </script>
@@ -244,7 +254,7 @@
             transform: translateY(100%);
             background-color: #fff;
             border: 1px solid #eee;
-
+            white-space: nowrap;
             a {
                 padding: 0 15px;
                 display: block;

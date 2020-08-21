@@ -188,23 +188,53 @@
     font-weight: bold;
 }
 
-.OperatorRight .sizeClass input {
+.OperatorRight .sizeClass .inpup {
     position: relative;
     width: 400px;
     margin-left: 60px;
     line-height: 40px;
-    text-indent: 1em;
+}
+.OperatorRight .sizeClass input{
+    display: block;
+    width: 100%;
+    line-height: 40px;
     border: 1px solid #9c9c9c;
     border-radius: 5px;
+    text-indent: 1em;
 }
 
 .sizeClass img {
-    position: relative;
+    position: absolute;
     width: 40px;
+    top: 50%;
     height: 40px;
-    left: -60px;
+    transform: translateY(-50%);
+    right: 20px;
 }
-
+.OperatorRight .sizeClass .inpup ul{
+    display: none;
+    background-color: #fff;
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    max-height: 200px;
+    transform: translateY(100%);
+    font-size: 12px;
+    font-weight: 500;
+    width: 100%;
+    border: 1px solid #999;
+    border-radius: 5px;
+    z-index: 111;
+    overflow-y: auto;
+}
+.OperatorRight .inpup li{
+    line-height: 20px;
+    cursor: pointer;
+    padding:4px 20px;
+}
+.OperatorRight .inpup li:hover{
+    background-color: rgba(0,0,0,.1);
+}
 .OperatorRight .sect .initList > label {
     position: relative;
     text-indent: 1em;
@@ -248,6 +278,7 @@
     color: #fff;
     text-align: center;
     border-radius: 10px;
+    font-weight: 600;
     margin-right: 15px;
     border: 1px solid #e82255;
 }
@@ -338,6 +369,7 @@
     width: 235px;
     height: 235px;
     /*box-shadow: 0 0 5px #9e9e9e;*/
+    margin-bottom: 10px;
     border-radius: 5px;
 }
 
@@ -346,7 +378,7 @@
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
+    /*transform: translate(-50%, -50%);*/
     overflow: hidden;
     box-shadow: 0 0 12px rgba(0,0,0,.1);
 }

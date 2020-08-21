@@ -2,8 +2,8 @@ import Vue from 'vue'
 import '../assets/public.css';
 import '../element-variables.scss'
 import filters from '../filters/filters'
-import {getTanDeg,myBrowser} from '@/utils'
-if(myBrowser()==='IE')window.location.href='compatible.html';
+import {getTanDeg,IEVersion} from '@/utils'
+if([6,7,8,9,10].includes(IEVersion()))window.location.href='compatible.html';
 require( 'promise.prototype.finally' ).shim();//使axios支持finally回调
 // import lang from 'element-ui/lib/locale/lang/en'
 // import locale from 'element-ui/lib/locale'
