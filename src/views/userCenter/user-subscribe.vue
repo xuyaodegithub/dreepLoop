@@ -94,11 +94,7 @@
             }
         },
         filters:{
-            minsfilter(s){
-                const n=s ? s : 0;
-               const sec=Math.floor(n/60),min=n % 60;
-               return `${sec}分钟：${min}秒`
-            }
+
         },
         components: {},
         methods: {

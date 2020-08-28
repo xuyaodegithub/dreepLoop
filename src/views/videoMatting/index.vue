@@ -25,28 +25,22 @@
                     上传
                 </el-button>
                 <div class="center">
-                    <h5>Web 视频</h5>
-                    <div style="position: relative;">
-                        <img
-                                src="../../assets/image/inputImg.png"
-                                alt
-                                style="position: absolute;left: 8px;top: 12px;"
-                        />
-                        <!--                        @keyup.enter="copyImgUrl()"-->
-                        <input
-                                type="text"
-                                placeholder="CTRL+V视频或URL"
-                                v-model="imgUrl"
-                                @focus="$event.target.select()"
-                                class="upcas"
-                        />
-                        <!--                        <img src="../../assets/image/img5.png" alt="" style="margin-left:-14px;" class="cu"-->
-                        <!--                             @click="copyImgUrl()">-->
-                    </div>
-                    <!--                    <div class="flex a-i cu">-->
-                    <!--                        <img src="../../assets/image/img1.png" alt="">-->
-                    <!--                        <p>Chrome &lt;!&ndash;extension&ndash;&gt;插件</p>-->
-                    <!--                    </div>-->
+<!--                    <h5>Web 视频</h5>-->
+<!--                    <div style="position: relative;">-->
+<!--                        <img-->
+<!--                                src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200828/c9a899a86cd54edba3439aff522987bc.png"-->
+<!--                                alt-->
+<!--                                style="position: absolute;left: 8px;top: 12px;"-->
+<!--                        />-->
+<!--                        &lt;!&ndash;                        @keyup.enter="copyImgUrl()"&ndash;&gt;-->
+<!--                        <input-->
+<!--                                type="text"-->
+<!--                                placeholder="CTRL+V视频或URL"-->
+<!--                                v-model="imgUrl"-->
+<!--                                @focus="$event.target.select()"-->
+<!--                                class="upcas"-->
+<!--                        />-->
+<!--                    </div>-->
                 </div>
                 <div class="bottonLast">
                     <div class="fixedB">
@@ -55,7 +49,8 @@
                             联系我们
                         </h5>
                         <div class="flex a-i cu">
-                            <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200824/03440efd79cd4ab1808fe8228a0b1c23.png" alt/>
+                            <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200824/03440efd79cd4ab1808fe8228a0b1c23.png"
+                                 alt/>
                             <p>roymind</p>
                             <img
                                     src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200824/5c0bf0b72752424797c27d7468845d44.png"
@@ -70,7 +65,8 @@
                             />
                         </div>
                         <div class="flex a-i cu">
-                            <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200824/2256cdc7cc2c46b3950d5ce82a22c82e.png" alt/>
+                            <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200824/2256cdc7cc2c46b3950d5ce82a22c82e.png"
+                                 alt/>
                             <p>
                                 <a href="mailto:pikachu@picup.ai">pikachu@picup.ai</a>
                             </p>
@@ -83,7 +79,11 @@
                     <p>一键视频抠图</p>
                     <p>100%自动，免费，在线视频去背景</p>
                     <div class="imgbox flex a-i">
-                        <img src="../../assets/matt-demo.png" alt/>
+                        <div class="secImg">
+                            <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200828/7c9d753a883245d89ed08b9f6b4da5db.png"
+                                 alt/>
+                            <img src="@/assets/image/mixkit-woman-preparing-to-jog--unscreen.gif" alt/>
+                        </div>
                         <div class="inline upload">
                             <el-button
                                     type="primary"
@@ -94,12 +94,12 @@
                                 <!--Upload-->
                                 上传视频
                             </el-button>
-                            <el-input
-                                    v-model="imgUrl"
-                                    class="upcas"
-                                    placeholder="CTRL+V粘贴视频或者URL"
-                                    @focus="$event.target.select()"
-                            ></el-input>
+<!--                            <el-input-->
+<!--                                    v-model="imgUrl"-->
+<!--                                    class="upcas"-->
+<!--                                    placeholder="CTRL+V粘贴视频或者URL"-->
+<!--                                    @focus="$event.target.select()"-->
+<!--                            ></el-input>-->
                             <p>支持格式：.mp4, .webm, .ogg, .mov, .gif</p>
                             <p>最大文件大小：500M</p>
                             <p>最大视频清晰度：1080P</p>
@@ -111,7 +111,7 @@
                     </div>
                 </div>
                 <div v-for="(item,idx) in upList" :key="item.id">
-                    <matting-video :filesMsg="item" ref="videoSubs" @close="close(idx)"></matting-video>
+                    <matting-video :filesMsg="item" ref="videoSubs" @close="close"></matting-video>
                 </div>
             </div>
         </div>
@@ -119,14 +119,16 @@
 </template>
 
 <script>
-    import {mapGetters} from "vuex";
-    import {mapActions} from "vuex";
+    import {mapGetters} from 'vuex'
+    import {mapActions} from 'vuex'
     import headerSub from "@/components/header/index.vue";
     import {getToken, getSecImgs, setSecImgs} from "../../utils/auth";
     import mattingVideo from '@/components/mattingVideo';
-    import { videoHisList,videoDelete } from '@/apis';
+    import moveVideo from '@/components/movesChunk/video.vue';
+    import {videoHisList, videoDelete} from '@/apis';
+
     export default {
-        components: {headerSub, mattingVideo},
+        components: {headerSub, mattingVideo,moveVideo},
         data() {
             return {
                 upList: [],
@@ -157,40 +159,41 @@
                 const e = ev.target;
                 this.toscroll();
                 for (let i = 0; i < e.files.length; i++) {
-                    this.upList.unshift( {file: e.files[i], id: e.files[i].name + Math.random(),type:'file'} )
+                    this.upList.unshift( {file: e.files[i], id: e.files[i].name + Math.random(), type: 'file'} )
                 }
             },
             toscroll() {
                 $( "body,html" ).animate( {scrollTop: 620}, 500 );
             },
-            close(k) {
-                const taskFlag=this.$refs.videoSubs[k].taskFlag;
-                if(!taskFlag){
-                    this.upList.splice( k, 1 )
+            close(task, id) {
+                const taskFlag = task, idx =this.upList.findIndex(item=>item.id===id) ;
+                console.log( taskFlag, idx )
+                if (!taskFlag) {
+                    this.upList.splice( idx, 1 )
                     return;
                 }
-                videoDelete({taskFlag}).then(res=>{
-                    if(!res.code){
-                        this.$message({message:'删除成功',type:'success'});
-                        this.upList.splice( k, 1 )
+                videoDelete( {taskFlag} ).then( res => {
+                    if (!res.code) {
+                        this.$message( {message: '删除成功', type: 'success'} );
+                        this.upList.splice( idx, 1 )
                     }
-                })
+                } )
 
 
             },
-            golast(){
-               let top=$('.content').height(),top2=$('.box').height();
-                $('html,body').animate({scrollTop:top+top2},500)
+            golast() {
+                let top = $( '.content' ).height(), top2 = $( '.box' ).height();
+                $( 'html,body' ).animate( {scrollTop: top + top2}, 500 )
             },
-            initHisList(){
-                videoHisList({page:1,pageSize:20}).then(res=>{
-                    if(!res.code){
-                        let a=JSON.parse(JSON.stringify(res.data));
-                        a.map(item=>{
-                            this.upList.push({file: item, id: item.originalName + Math.random(),type:'obj'})
-                        });
+            initHisList() {
+                videoHisList( {page: 1, pageSize: 20} ).then( res => {
+                    if (!res.code) {
+                        let a = JSON.parse( JSON.stringify( res.data ) );
+                        a.map( item => {
+                            this.upList.push( {file: item, id: item.originalName + Math.random(), type: 'obj'} )
+                        } );
                     }
-                })
+                } )
             }
         },
     };
@@ -289,6 +292,7 @@
                 p:first-child {
                     font-size: 40px;
                     margin-bottom: 20px;
+                    font-weight: bold;
                 }
 
                 p.bot-tip {
@@ -303,11 +307,22 @@
                 .imgbox {
                     width: 900px;
                     margin: 0 auto;
+                    position: relative;
 
                     img {
-                        width: 481px;
+                        width: 480px;
+                    }
+
+                    .secImg {
+                        position: relative;
                         margin-right: 77px;
-                        float: left;
+                        img:last-child{
+                            width: 460px;
+                            position: absolute;
+                            left: 50%;
+                            top: 10px;
+                            transform: translateX(-50%);
+                        }
                     }
 
                     .matt-user {
@@ -318,15 +333,17 @@
 
                     .upload {
                         width: 280px;
-                        .el-button,.el-input{
+
+                        .el-button, .el-input {
                             display: block;
                             width: 100%;
                             border-radius: 10px;
                             height: 50px;
                             margin-bottom: 20px;
-                            input{
+
+                            input {
                                 height: 100%;
-                                background-color: rgb(243,243,243);
+                                background-color: rgb(243, 243, 243);
                                 border-color: #fff;
                             }
                         }
@@ -585,9 +602,10 @@
     .inline.upload {
         .el-input {
             margin-bottom: 27px;
-            .el-input__inner{
-                background-color: rgba(52,53,57,1);
-                border-color: rgba(52,53,57,1);
+
+            .el-input__inner {
+                background-color: rgba(52, 53, 57, 1);
+                border-color: rgba(52, 53, 57, 1);
             }
         }
     }

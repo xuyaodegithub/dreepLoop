@@ -94,6 +94,9 @@
         box-sizing: border-box;
         margin-bottom: 15px;
     }
+    .matting p:first-child{
+        font-weight: bold;
+    }
     .matting > p:nth-child(2){
         margin-bottom: 16px;
     }
@@ -340,10 +343,27 @@
                 </li>
             </ul>
         </div>
-        <div class="matting">
-            <p>示例视频</p>
-            <div class="demo"></div>
-        </div>
+<!--        <div class="matting">-->
+<!--            <p>示例视频</p>-->
+<!--            <div class="demo flex">-->
+<!--                <div class="posi" :style="{width:ws}">-->
+<!--                    <video :src="imgss[0]" muted ref="videoss" loop autoplay>-->
+<!--                        <source :src="imgss[0]" type="video/mp4">-->
+<!--                        &lt;!&ndash;                            <source :src="item" type="video/ogg">&ndash;&gt;-->
+<!--                        &lt;!&ndash;                            <source :src="item" type="video/webm">&ndash;&gt;-->
+<!--                        你的游览器暂不支持视频播放，换一个试试吧！-->
+<!--                    </video>-->
+<!--                </div>-->
+<!--                <video :src="imgss[1]" muted ref="videoss" loop autoplay>-->
+<!--                    <source :src="imgss[1]" type="video/mp4">-->
+<!--                    &lt;!&ndash;                            <source :src="item" type="video/ogg">&ndash;&gt;-->
+<!--                    &lt;!&ndash;                            <source :src="item" type="video/webm">&ndash;&gt;-->
+<!--                    你的游览器暂不支持视频播放，换一个试试吧！-->
+<!--                </video>-->
+<!--                &lt;!&ndash;            <img :src="imgss[1]" alt="">&ndash;&gt;-->
+<!--                <img src="../../assets/image/moveW.png" alt="" class="move cu" :style="{left:ws}">-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="matting">
             <p>我们的用户来自</p>
             <div class="imgbox">

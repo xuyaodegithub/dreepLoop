@@ -1546,7 +1546,7 @@
                         oCanTxt.fillRect( 0, 0, oCan.width, oCan.height );
                     } else if (item.type == 2) {
                         oCanTxt.textBaseline = 'top';
-                        const [w, h, x, y, size, lineHeight, letterSpacing] = [item.w / scale, item.h / scale, item.x / scale, item.y / scale, parseInt( item.fontSize / scale ), parseInt( item.lineHeight / scale ), item.letterSpacing / scale],
+                        const [w, h, x, y, size, lineHeight, letterSpacing] = [item.w / scale, item.h / scale, item.x / scale, item.y / scale,  item.fontSize / scale ,  item.lineHeight / scale , item.letterSpacing / scale],
                             textDecoration = ['none', 'underline', 'line-through'].indexOf( item.textDecoration );
                         // console.log( item.fontStyle, item.fontWeight, size, lineHeight, item.fontFamily, `${item.fontStyle} ${item.fontWeight} ${size}px/${lineHeight}px ${item.fontFamily}`, textDecoration )
                         oCanTxt.font = `${item.fontStyle} ${item.fontWeight} ${size}px/${lineHeight}px ${item.fontFamily}`;

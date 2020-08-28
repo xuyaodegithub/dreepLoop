@@ -87,6 +87,11 @@ const filters = {
 
         return ret;
     },
+    minsfilter(s){
+        const n=s ? s : 0;
+        const sec=Math.floor(n/60),min=n % 60;
+        return `${sec}分${min}秒`
+    }
     // saveActions(funUrl){
     //   axios({
     //     method: 'post',

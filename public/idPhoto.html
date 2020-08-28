@@ -746,25 +746,35 @@
         }
     }
     function downImgFro(cans,name ){
-        if (myBrowser() === 'IE' || myBrowser() === 'Edge') {//ie下载图片
-            let url = cans.msToBlob();
-            let blobObj = new Blob( [url] );
+        if (window.navigator.msSaveOrOpenBlob) {
+            let imgData = cans.msToBlob();
+            let blobObj = new Blob( [imgData] );
             window.navigator.msSaveOrOpenBlob( blobObj, name + ".png" );
         } else {
-            let url = cans.toDataURL( "image/png" );
-            let arr = url.split( ',' ), mime = arr[0].match( /:(.*?);/ )[1], bstr = atob( arr[1] ),
-                n = bstr.length, u8arr = new Uint8Array( n );
-            while (n--) {
-                u8arr[n] = bstr.charCodeAt( n );
-            }
-            let objurl = URL.createObjectURL( new Blob( [u8arr], {type: mime} ) );
-            let save_link = document.createElement( 'a' );
-            save_link.href = objurl;
-            save_link.download = name + '.png';
-            let event = document.createEvent( 'MouseEvents' );
-            event.initMouseEvent( 'click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null );
-            save_link.dispatchEvent( event );
+            let oA = document.createElement( 'a' );
+            oA.href = cans.toDataURL();
+            oA.download = name+'.png';
+            oA.click();
         }
+        // if (myBrowser() === 'IE' || myBrowser() === 'Edge') {//ie下载图片
+        //     let url = cans.msToBlob();
+        //     let blobObj = new Blob( [url] );
+        //     window.navigator.msSaveOrOpenBlob( blobObj, name + ".png" );
+        // } else {
+        //     let url = cans.toDataURL( "image/png" );
+        //     let arr = url.split( ',' ), mime = arr[0].match( /:(.*?);/ )[1], bstr = atob( arr[1] ),
+        //         n = bstr.length, u8arr = new Uint8Array( n );
+        //     while (n--) {
+        //         u8arr[n] = bstr.charCodeAt( n );
+        //     }
+        //     let objurl = URL.createObjectURL( new Blob( [u8arr], {type: mime} ) );
+        //     let save_link = document.createElement( 'a' );
+        //     save_link.href = objurl;
+        //     save_link.download = name + '.png';
+        //     let event = document.createEvent( 'MouseEvents' );
+        //     event.initMouseEvent( 'click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null );
+        //     save_link.dispatchEvent( event );
+        // }
     }
     function  myBrowser ()  {//判断浏览器类型
         var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串

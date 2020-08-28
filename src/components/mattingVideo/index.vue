@@ -46,7 +46,7 @@
                 <div class="flex point" @mouseenter="autoplay=false" @mouseleave="autoplay=true">
                     <span v-for="(it,idx) in preImglist.timeList" :key="idx" :class="{active :initialIdx == idx}"
                           @click="moveImg(idx)">
-                        <i v-show="initialIdx == idx">{{it}}</i>
+                        <i v-show="initialIdx == idx">{{parseInt(it) | minsfilter}}</i>
                     </span>
                 </div>
             </div>
@@ -64,12 +64,12 @@
                 </div>
                 <div class="flex a-i">
                     <div class="lright_1">
-                        <div class="tit">预览视频下载</div>
-                        <p>下载时长：5s</p>
-                        <p>价格：免费</p>
+<!--                        <div class="tit">预览视频下载</div>-->
+                        <p>预览时长：5秒</p>
+                        <p>消耗秒数：0</p>
                     </div>
                     <div class="lright_btn_2 cu" v-show="!downMsg.open && !downMsg.err" @click="downPreVideo">
-                                                {{preVideoUrl ? '下载预览视频' : '保存预览视频'}}
+                                                {{preVideoUrl ? '保存预览视频' : '下载预览视频'}}
 <!--                        下载预览视频-->
                     </div>
                     <div class="lright_btn_2 cu noback" v-show="downMsg.open">
@@ -84,11 +84,13 @@
                 </div>
                 <div class="flex a-i">
                     <div class="lright_2">
-                        <div class="tit">全部视频下载</div>
-                        <p>下载时长：{{preImglist.time}}s</p>
+<!--                        <div class="tit">全部视频下载</div>-->
+                        <p>视频时长：{{parseInt(preImglist.time) | minsfilter}}</p>
+                        <p>消耗秒数：{{parseInt(preImglist.time) | minsfilter}}</p>
+                        <p>视频账户余额：{{userSubscribeData.videoRemaining | minsfilter}} &nbsp;<a href="videoPrice.html" style="color: #e82255;border-bottom: 1px solid #e82255;">去充值</a></p>
                         <!--                        <p>价格：40点</p>-->
                     </div>
-                    <div class="lright_btn_1 cu" v-show="!downAllMsg.open && !downAllMsg.err" @click="downPreVideo2">
+                    <div class="lright_btn_1 cu" v-show="!downAllMsg.open && !downAllMsg.err" @click="toSureDown">
                         {{fullVideoUrl ? '保存全部视频' : '下载全部视频'}}
                     </div>
                     <div class="lright_btn_2 cu noback" v-show="downAllMsg.open">
@@ -106,8 +108,8 @@
                 </div>
             </div>
             <div class="lastMes">
-                <p>检查以上预览帧，以评估整个视频的质量，然后再进行处理。一旦开始，大约需要几分钟</p>
-                <p>你需要一个视频剪辑软件来添加新的背景。更多信息</p>
+                <p>检查以上预览帧，以评估整个视频的质量，然后再进行处理。一旦开始，大约需要{{parseInt(preImglist.time*2.5) | minsfilter}}</p>
+                <p>你需要一个视频剪辑软件来添加新的背景。<!--更多信息--></p>
             </div>
         </div>
         <div v-else class="errDiv">
@@ -121,6 +123,7 @@
 
 <script>
     import CryptoJS from "crypto-js" ;
+    import { mapGetters } from 'vuex'
     import {BySha256, videoMatting, videoImgsPreview, videoPreview, videoMattingInfo, videoFullMatting} from '@/apis';
     import SparkMD5 from "spark-md5";
     import {getToken} from '@/utils/auth'
@@ -153,7 +156,13 @@
                 errMsg: {title: '加载失败', des: '网络错误，请先确认网络正常后，重新操作！', errWhere: 0},
                 preVideoUrl: '',
                 fullVideoUrl: '',
+                loadImg:''
             }
+        },
+        computed:{
+        ...mapGetters( [
+                'userSubscribeData'
+            ] ),
         },
         methods: {
             initUp() {
@@ -168,12 +177,13 @@
                 if (this.stepNum >= this.stepAllNum) {//上传完成后
                     this.upStatus = 1;
                     this.$nextTick( _ => {
-                        let oView = document.documentElement.clientWidth > 1500 ? 500 : 380;
+                        let oView = document.documentElement.clientWidth > 1500 ? 500 : 400;
                         videoImgsPreview( {taskFlag: this.taskFlag} ).then( res => {//加载预览图轮播
                             if (!res.code) {
                                 const result = res.data;
                                 let oImg = new Image();
                                 oImg.onload = () => {
+                                    this.loadImg=oImg;
                                     this.imgH = oImg.width > oImg.height ? oImg.height * oView / oImg.width + 'px' : oView + 'px';
                                     this.preImglist = {
                                         time: result.seconds,
@@ -229,7 +239,7 @@
                 this.$refs.swiper.setActiveItem( i )
             },
             close() {
-                this.$emit( 'close', '' )
+                this.$emit( 'close', this.taskFlag,this.filesMsg.id )
             },
             retry() {//点击重试
                 if (this.downMsg.err) {
@@ -237,7 +247,8 @@
                     this.downPreVideo();
                 } else if (this.downAllMsg.err) {
                     this.downAllMsg.err = false;
-                    this.downPreVideo2();
+                    this.toSureDown();
+                    // this.downPreVideo2();
                 } else if (!this.errMsg.errWhere) {
                     this.errStep = 0;
                     this.get_filemd5sum( this.files );
@@ -393,9 +404,10 @@
                 this.files = this.filesMsg.file;
                 if (this.filesMsg.type === 'file') this.get_filemd5sum( this.files );
                 else {
-                    let oView = document.documentElement.clientWidth > 1500 ? 500 : 380;
+                    let oView = document.documentElement.clientWidth > 1500 ? 500 : 400;
                     let oImg = new Image();
                     oImg.onload = () => {
+                        this.loadImg=oImg;
                         this.imgH = oImg.width > oImg.height ? oImg.height * oView / oImg.width + 'px' : oView + 'px';
                         this.upStatus = 1;
                         this.preImglist = {
@@ -417,6 +429,19 @@
                     };
                     oImg.src = this.files.previewImages.image[0];
                 }
+            },
+            toSureDown(){
+                const n=this.preImglist.time ? parseInt(this.preImglist.time): 0;
+                const sec=Math.floor(n/60),min=n % 60;
+                this.$confirm(`下载需消耗 ${sec}分${min}秒 视频抠图余额, 是否继续?`, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.downPreVideo2()
+                }).catch(() => {
+
+                });
             }
         },
         mounted() {
@@ -512,8 +537,8 @@
 
             img {
                 display: block;
-                max-width: 500px;
-                max-height: 500px;
+                /*max-width: 500px;*/
+                height: 100%;
                 margin: 0 auto;
             }
 
@@ -680,7 +705,7 @@
             line-height: 1;
 
             .over {
-                max-width: 150px;
+                max-width: 300px;
                 font-size: 20px;
                 color: rgba(217, 217, 217, 1);
             }
