@@ -48,21 +48,21 @@
                 </el-option>
             </el-select>
             <label>证件照背景色</label>
-            <div class="flex colors">
-                <span class="cu" v-for="item in 3" :key="item"
-                      :style="{backgroundColor:item===1 ? '#FF0000' : item===2 ? '#00bff3' : '#fff'}"
-                      @click="selectColor(item)">
-                    <i class="el-icon-check" v-show="colorType===item"></i>
+            <div class="flex colors f-w">
+                <span class="cu" v-for="(item,idx) in colorList" :key="item"
+                      :style="item | backColor"
+                      @click="selectColor(idx)">
+                    <i class="el-icon-check" v-show="colorType===idx"></i>
                 </span>
             </div>
             <label>换正装</label>
             <div class="fource">
-<!--                <div class="Fbtn flex j-b">-->
-<!--                    <span v-for="(item,idx) in ttList" :key="idx" :class="{'active' : tzType===idx}" class="cu"-->
-<!--                          @click="changetz(idx)">-->
-<!--                        {{item.title}}-->
-<!--                    </span>-->
-<!--                </div>-->
+                <!--                <div class="Fbtn flex j-b">-->
+                <!--                    <span v-for="(item,idx) in ttList" :key="idx" :class="{'active' : tzType===idx}" class="cu"-->
+                <!--                          @click="changetz(idx)">-->
+                <!--                        {{item.title}}-->
+                <!--                    </span>-->
+                <!--                </div>-->
                 <el-scrollbar style="overflow-x: hidden;" :style="{height:`${listH*0.4}px`,overflowY: 'auto'}">
                     <div class="iconList flex f-w j-b a-i">
                         <div v-for="(son,ix) in classItem" :key="ix" class="cu" @click="addImgsSub(son,ix)"
@@ -198,7 +198,7 @@
     import vMune from '@/components/editMune';
     import loginDialog from '@/components/login_dialog';
     import mattingImg from '@/components/mattingImg';
-    import {myBrowser, verticalText, getTanDeg, letterText,initSmallTag} from '@/utils';
+    import {myBrowser, verticalText, getTanDeg, letterText, initSmallTag} from '@/utils';
     import {mixins} from '@/minxins';
     import opacity from '@/assets/opacity.jpg'
     import {niceScroll} from 'jquery.nicescroll';
@@ -224,13 +224,7 @@
         data() {
             return {
                 idPhotolist,
-                // btnList: [
-                //     {name: '通用', type: 6},
-                //     {name: '人像', type: 1},
-                //     {name: '物体', type: 2},
-                //     {name: '头像', type: 3},
-                //     // {name: '物体', type: 2},
-                // ],
+                colorList: ['#FF0000', '#438edb', '#fff', '#2a385b','#2e85fd,#c1d9f3', '#666666,#ffffff'],
                 listH: document.documentElement.clientHeight,
                 colorType: 1,
                 noeTime: new Date().getTime(),
@@ -248,7 +242,7 @@
                     {title: '男孩', list: boyClothList},
                     {title: '女孩', list: girlClothList},
                 ],
-                classItem: [...clothList,...boyClothList,...girlClothList],
+                classItem: [...clothList, ...boyClothList, ...girlClothList],
                 loadSubObj: '',
                 tzType: 0,
                 tzSonUrl: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200818/9af28d937387444eb97699dc532fceb5.jpg',
@@ -309,7 +303,7 @@
                 statusCode: 0,//每次掉接口的code
                 touchContrl: false,
                 pointList: [],//历史记录
-                mainOri:'',//主图扣过的原图尺寸
+                mainOri: '',//主图扣过的原图尺寸
             }
         },
         watch: {
@@ -328,9 +322,9 @@
                     this.statusCode = 0;
                 }
             },
-            mainSubid(n,o){
-                console.log(this.edrieImgInfo.fileId,'000000')
-                this.mainOri='';
+            mainSubid(n, o) {
+                console.log( this.edrieImgInfo.fileId, '000000' )
+                this.mainOri = '';
             }
         },
         components: {vMune, mattingImg, loginDialog},
@@ -339,9 +333,9 @@
             subsLength() {
                 return this.parseSubs.subList.length;
             },
-            mainSubid(){
+            mainSubid() {
                 // console.log(this.parseSubs.subList)
-                return this.parseSubs.subList.find(item=>item.type===1) ? this.parseSubs.subList.find(item=>item.type===1).fileId : '';
+                return this.parseSubs.subList.find( item => item.type === 1 ) ? this.parseSubs.subList.find( item => item.type === 1 ).fileId : '';
             },
             hoverSub() {//聚焦组件
                 const idx = this.parseSubs.subList.findIndex( item => item.hovering );
@@ -363,8 +357,11 @@
                 return {x: this.oDiv_w.w / 2 - this.parseSubs.bW / 2, y: this.oDiv_w.h / 2 - this.parseSubs.bH / 2}
             },
             colorOrbImg() {//opacity
-                if (this.backSub.backColor) return {backgroundColor: this.backSub.backColor};
-                else return {backgroundImage: `url(${opacity})`, backgroundRepeat: 'repeat'};
+
+                if (this.backSub.backColor) {
+                    const a = this.backSub.backColor.split( ',' );
+                    return {background: `linear-gradient(${a[0]},${a[1] || a[0]})`}
+                } else return {backgroundImage: `url(${opacity})`, backgroundRepeat: 'repeat'};
             },
             urlStr() {
                 const url = window.location.href
@@ -411,6 +408,10 @@
                 }
                 return data
             },
+            backColor(val) {
+                const a = val.split( ',' );
+                return {background: `linear-gradient(${a[0]},${a[1] || a[0]})`}
+            }
         },
         methods: {
             ...mapActions( [
@@ -430,9 +431,9 @@
                 this.dialogVisible2 = val;
             },
             selectColor(k) {
-                const a = ['#FF0000', '#00bff3', '#fff'], ix = this.parseSubs.subList.findIndex( it => !it.type );
+                const ix = this.parseSubs.subList.findIndex( it => !it.type );
                 this.colorType = k;
-                this.parseSubs.subList[ix].backColor = a[k - 1];
+                this.parseSubs.subList[ix].backColor = this.colorList[k];
             },
             initsave() {//储存公用方法
                 if (this.hisIdx !== this.SubsDataList.length - 1) {
@@ -892,8 +893,8 @@
                 if (!this.mainOri && this.parseSubs.subList[iidx].fileId) {
                     downloadMattedImage( {fileId: this.parseSubs.subList[iidx].fileId} ).then( res => {
                         if (!res.code) {
-                            this.mainOri=res.data;
-                            initSmallTag(e,'次数 -1');
+                            this.mainOri = res.data;
+                            initSmallTag( e, '次数 -1' );
                             this.userGetscribe();
                             this.initOriRepir( res.data, iidx );
                         } else if (res.code === 1100) this.dialogVisible2 = true;
@@ -901,10 +902,10 @@
                 } else {
                     // templatedownload( data ).then( res => {
                     //     if (!res.code) {
-                            initSmallTag(e,'免费');
-                            // this.parseSubs.subList[iidx].useImg=res.data;
-                            this.downLoadImg2();
-                        // } else if (res.code === 1100) this.dialogVisible2 = true;
+                    initSmallTag( e, '免费' );
+                    // this.parseSubs.subList[iidx].useImg=res.data;
+                    this.downLoadImg2();
+                    // } else if (res.code === 1100) this.dialogVisible2 = true;
                     // } )
                 }
 
@@ -967,7 +968,14 @@
                         oCanTxt.drawImage( item.lastObj, item.x / scale, item.y / scale, item.w / scale, item.h / scale );
                         oCanTxt.setTransform( 1, 0, 0, 1, 0, 0 );
                     } else if (item.type == 0 && item.backColor) {
-                        oCanTxt.fillStyle = item.backColor;
+                        const a = item.backColor.split( ',' );
+                        if (a.length > 1) {
+                            var gradient = oCanTxt.createLinearGradient( 0, 0, 0, oCan.height );
+                            gradient.addColorStop( 0, a[0] );
+                            gradient.addColorStop( 1, a[1] );
+                            // 设置填充样式为渐变
+                            oCanTxt.fillStyle = gradient;
+                        } else oCanTxt.fillStyle = item.backColor;
                         oCanTxt.fillRect( 0, 0, oCan.width, oCan.height );
                     } else if (item.type == 2) {
                         oCanTxt.textBaseline = 'top';
@@ -1231,7 +1239,7 @@
             },
             initAllInfo(data) {//初始化时操作信息
                 let obj = data ? data : JSON.parse( localStorage.getItem( 'photoMsg' ) );
-                if (!obj) obj={};
+                if (!obj) obj = {};
                 this.edrieImgInfo = {...this.edrieImgInfo, ...obj};
                 this.loading.show = true;
                 this.loading.text = '加载中...';
@@ -1244,7 +1252,7 @@
                 oImg.onload = () => {
                     const [w, h] = [parseFloat( this.edrieImgInfo.w ), parseFloat( this.edrieImgInfo.h )];
                     this.edrieImgInfo.oriObj = oImg;
-                    let scaleW = 0.55 * h / w;
+                    let scaleW = 0.55 * h / w;//头部占尺寸的比例
                     let iw = w * scaleW * this.edrieImgInfo.originalWidth / (this.edrieImgInfo.headData.right - this.edrieImgInfo.headData.left);//缩放后的图片宽
                     let ih = iw * this.edrieImgInfo.originalHeight / this.edrieImgInfo.originalWidth;
                     let top = -(ih * this.edrieImgInfo.headData.top / this.edrieImgInfo.originalHeight) + h * 0.05;
@@ -1277,7 +1285,7 @@
                         }]
                     }
                     this.photoSize = this.idPhotolist.find( item => item.name === it.title ).name;
-                    this.colorType = ['#FF0000', '#00BFF3', '#fff'].indexOf( this.edrieImgInfo.color ) + 1;
+                    this.colorType = this.colorList.indexOf( this.edrieImgInfo.color );
                     this.loadSubs( it );
                 };
                 oImg.src = this.edrieImgInfo.ori + `?id=${Math.random()}`
@@ -1520,7 +1528,7 @@
                     width: 30px;
                     height: 30px;
                     border-radius: 5px;
-                    margin-right: 15px;
+                    margin-right: 8px;
 
                     i {
                         position: absolute;

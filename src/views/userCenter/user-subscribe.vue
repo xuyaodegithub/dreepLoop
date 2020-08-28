@@ -4,10 +4,19 @@
         <div class="createTime">
             <!--Created at-->创建时间：{{mySubPlans.createdAt | changeTime(1)}}
         </div>
-        <div v-if="mySubPlans">
-            <div class="items" v-if="mySubPlans.monthExpireDate && mySubPlans.monthExpireDate>noeTime"><!--Free remaining-->包月剩余次数：{{mySubPlans.monthRemaining}} <!--points--></div>
-            <p  v-if="mySubPlans.monthExpireDate && mySubPlans.monthExpireDate>noeTime">{{mySubPlans.monthStartDate | changeTime}} 到 {{mySubPlans.monthExpireDate | changeTime}}</p>
-            <div class="items"><!--Free remaining-->永久剩余次数：{{mySubPlans.freeRemaining}} <!--points--></div>
+        <div v-if="mySubPlans" class="subplay">
+            <h5>图片抠图</h5>
+            <div class="flex">
+                <div style="margin-right: 100px;"  v-if="mySubPlans.monthExpireDate && mySubPlans.monthExpireDate>noeTime">
+                    <div class="items">
+                        <!--Free remaining-->包月剩余次数：{{mySubPlans.monthRemaining}} <!--points--></div>
+                    <p>
+                        {{mySubPlans.monthStartDate | changeTime}} 到 {{mySubPlans.monthExpireDate | changeTime}}</p>
+                </div>
+                <div class="items"><!--Free remaining-->永久剩余次数：{{mySubPlans.freeRemaining}} <!--points--></div>
+            </div>
+            <h5>视频抠图</h5>
+            <div class="items">剩余时间：{{mySubPlans.videoRemaining | minsfilter}}</div>
             <div class="btn flex">
                 <el-button type="primary" round><!--Upgrade <Subscription--><a href="userVip.html"
                                                                                style="display: block;color: #fff;">立即购买</a>
@@ -80,8 +89,15 @@
             }
         },
         computed: {
-            noeTime(){
+            noeTime() {
                 return new Date().getTime()
+            }
+        },
+        filters:{
+            minsfilter(s){
+                const n=s ? s : 0;
+               const sec=Math.floor(n/60),min=n % 60;
+               return `${sec}分钟：${min}秒`
             }
         },
         components: {},
@@ -127,7 +143,14 @@
 <style scoped lang="scss">
     .Subscribe {
         min-height: 500px;
-
+        .subplay h5{
+            font-size: 14px;
+            margin: 30px 0 6px;
+            color: #333;
+            &:first-child{
+                margin-top: 0;
+            }
+        }
         h3 {
             font-size: 28px;
             color: #333;
@@ -140,11 +163,11 @@
             color: #999;
         }
 
-        .items{
-            margin-top: 15px;
+        .items {
             font-size: 18px;
             color: #333;
         }
+
         h4 {
             font-size: 16px;
             color: #333;
@@ -158,7 +181,7 @@
         }
 
         .btn {
-            margin-top: 28px;
+            margin-top: 35px;
             margin-bottom: 56px;
             justify-content: space-between;
 

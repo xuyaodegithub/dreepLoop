@@ -767,8 +767,8 @@
                     downloadMattedImage( data ).then( res => {
                         if (!res.code) {
                             this.initSmallTag( e, '次数 -1' )
-                            this.imageMUrl = res.data
-                            this.downOldImg( res.data, all )
+                            this.imageMUrl = res.data;
+                            this.downOldImg( res.data, all );
                         }else this.showLoading = false;
                     } )
                 }

@@ -33,7 +33,7 @@
                         </div>
                     </transition>
                 </li>
-                <li class="cu"><a href="http://matting.deeplor.com/blog" target="_blank">使用案例</a></li>
+                <li class="cu"  :class="{'red' : urls.includes('videoMatting')}"><a href="videoMatting.html">视频抠图</a></li>
 <!--                <li class="cu hove" :class="{'red' : urls.indexOf('videoMatting')>-1}">-->
 <!--                    <a href="videoMatting.html" >视频抠图</a>-->
 <!--                </li>-->
@@ -48,17 +48,19 @@
                         <p>关注公众号送下载次数</p>
                     </div>
                 </div>
-                <div v-if="!loginAfter">
+                <div class="flex lastRight a-i">
                     <span :class="{'red' : urls.indexOf('downLoad')>-1}"><a href="downLoad.html">下载桌面端</a></span>
                     <a href="apis.html"><span>API</span></a><!--登录-->
-                    <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">定价</span>
-                    <span @click="userlogin(0)" class="active">登录/注册</span><!--注册-->
-                </div>
-                <div class="cu" v-else>
-                    <span :class="{'red' : urls.indexOf('downLoad')>-1}"><a href="downLoad.html">下载桌面端</a></span>
-                    <span><a href="apis.html">API</a></span><!--登录-->
-                    <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">定价</span>
-                    <el-dropdown placement="bottom-end" @command="handleCommand">
+                  <div class="cu hove" :class="{'redPS' : priceList.findIndex(item=>urls.includes(item))>-1}">定价 <i
+                            class="el-icon-caret-bottom"></i>
+                            <div class="link">
+                               <a :href="item+'.html'" v-for="(item,idx) in priceList" :key="idx"
+                                  :class="{'red' : urls.includes(item)}">{{['抠图定价','视频定价'][idx]}}</a>
+                           </div>
+                    </div>
+<!--                   <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">定价</span>-->
+                    <span @click="userlogin(0)" class="active"  v-if="!loginAfter">登录/注册</span><!--注册-->
+                    <el-dropdown placement="bottom-end" @command="handleCommand" v-else>
                       <span class="el-dropdown-link" @click="toMyCount()" style="color:#e82255;">
                        {{userInfo.mobile}}
                       </span>
@@ -68,6 +70,20 @@
                         </el-dropdown-menu>
                     </el-dropdown>
                 </div>
+<!--                <div class="cu">-->
+<!--                    <span :class="{'red' : urls.indexOf('downLoad')>-1}"><a href="downLoad.html">下载桌面端</a></span>-->
+<!--                    <span><a href="apis.html">API</a></span>&lt;!&ndash;登录&ndash;&gt;-->
+<!--                    <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">定价</span>-->
+<!--                    <el-dropdown placement="bottom-end" @command="handleCommand">-->
+<!--                      <span class="el-dropdown-link" @click="toMyCount()" style="color:#e82255;">-->
+<!--                       {{userInfo.mobile}}-->
+<!--                      </span>-->
+<!--                        <el-dropdown-menu slot="dropdown">-->
+<!--                            <el-dropdown-item command="1">我的账户</el-dropdown-item>-->
+<!--                            <el-dropdown-item command="0">退出</el-dropdown-item>-->
+<!--                        </el-dropdown-menu>-->
+<!--                    </el-dropdown>-->
+<!--                </div>-->
             </div>
         </div>
         <!--      <div class="margin big">-->
@@ -98,6 +114,7 @@
                 nameList: ['通用抠图', '人像抠图', '头像抠图', '物体抠图'],
                 beauList: ['beautify', 'intelligentRepair'],
                 editList: ['posterEditor','idPhoto'],
+                priceList: ['userVip','videoPrice'],
             }
         },
         watch: {
@@ -125,16 +142,16 @@
                 } )
             },
             backindex() {
-                let url = window.location.href
+                let url = window.location.href;
                 if (url.indexOf( 'people' ) > -1) return;
-                else toRouter( 'people' )
+                else toRouter( 'people' );
             },
             userlogin(key) {
-                let urls = window.location.href.split( '#/' )[0]
-                let baseUrl = urls.substring( 0, urls.lastIndexOf( '/' ) )
-                let url = window.location.href
-                if (url.indexOf( 'login' ) > -1 || url.indexOf( 'Register' ) > -1) window.location.replace( baseUrl + '/loginOrRegister.html#/?type=' + key )
-                else window.location.href = baseUrl + '/loginOrRegister.html#/?type=' + key
+                let urls = window.location.href.split( '#/' )[0];
+                let baseUrl = urls.substring( 0, urls.lastIndexOf( '/' ) );
+                let url = window.location.href;
+                if (url.indexOf( 'login' ) > -1 || url.indexOf( 'Register' ) > -1) window.location.replace( baseUrl + '/loginOrRegister.html#/?type=' + key );
+                else window.location.href = baseUrl + '/loginOrRegister.html#/?type=' + key;
             },
             userCenter() {
                 if (window.location.href.indexOf( 'userVip' ) > -1) return;
@@ -194,6 +211,43 @@
         /*background: url("static/images/back.jpg") no-repeat center;*/
         .margins {
             padding: 0 30px 0;
+        }
+        .lastRight{
+            .hove{
+                padding: 0 15px;
+                position: relative;
+            }
+           .redPS {
+                color: #e82255;
+            }
+            .hove .link{
+                transition: all .3s linear;
+                display: none;
+                text-align: center;
+                position: absolute;
+                left: 50%;
+                bottom: 0;
+                transform: translate(-50%,100%);
+                background-color: #fff;
+                border: 1px solid #eee;
+                white-space: nowrap;
+                a {
+                    padding: 0 15px;
+                    display: block;
+                    line-height: 40px;
+                }
+                a:hover{
+                    color: #e82255;
+                    background-color: #F9EDEF;
+                }
+            }
+            .hove:hover .link{
+                display: block;
+            }
+            .hove:hover i {
+                display: inline-block;
+                transform: rotateZ(180deg);
+            }
         }
     }
 

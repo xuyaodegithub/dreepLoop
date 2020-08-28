@@ -182,11 +182,11 @@ module.exports = {
             filename: 'aboutUs.html',
             title: '关于我们',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
-        }, freeimg:{
-            entry: 'src/views/freeimg/index.js',
-            template:'public/freeimg.html',
-            filename: 'freeimg.html',
-            title: '免费背景图',
+        }, videoPrice:{
+            entry: 'src/views/userVip/videoPrice.js',
+            template:'public/videoPrice.html',
+            filename: 'videoPrice.html',
+            title: '视频价格',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
         },detail:{
             entry: 'src/views/detail/index.js',

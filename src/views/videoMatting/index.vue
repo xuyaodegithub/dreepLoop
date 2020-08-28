@@ -1,5 +1,5 @@
 <template>
-    <div class="box">
+    <div class="box boxVideo">
         <input
                 type="file"
                 style="display: none"
@@ -25,7 +25,7 @@
                     上传
                 </el-button>
                 <div class="center">
-                    <h5>Web 图片</h5>
+                    <h5>Web 视频</h5>
                     <div style="position: relative;">
                         <img
                                 src="../../assets/image/inputImg.png"
@@ -35,7 +35,7 @@
                         <!--                        @keyup.enter="copyImgUrl()"-->
                         <input
                                 type="text"
-                                placeholder="CTRL+V图像或URL"
+                                placeholder="CTRL+V视频或URL"
                                 v-model="imgUrl"
                                 @focus="$event.target.select()"
                                 class="upcas"
@@ -55,10 +55,10 @@
                             联系我们
                         </h5>
                         <div class="flex a-i cu">
-                            <img src="../../assets/image/wx.png" alt/>
+                            <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200824/03440efd79cd4ab1808fe8228a0b1c23.png" alt/>
                             <p>roymind</p>
                             <img
-                                    src="../../assets/image/ewm.png"
+                                    src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200824/5c0bf0b72752424797c27d7468845d44.png"
                                     alt
                                     style="margin-left: 20px;margin-right: 0;"
                             />
@@ -70,7 +70,7 @@
                             />
                         </div>
                         <div class="flex a-i cu">
-                            <img src="../../assets/image/img3.png" alt/>
+                            <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200824/2256cdc7cc2c46b3950d5ce82a22c82e.png" alt/>
                             <p>
                                 <a href="mailto:pikachu@picup.ai">pikachu@picup.ai</a>
                             </p>
@@ -82,7 +82,7 @@
                 <div class="matting">
                     <p>一键视频抠图</p>
                     <p>100%自动，免费，在线视频去背景</p>
-                    <div class="imgbox">
+                    <div class="imgbox flex a-i">
                         <img src="../../assets/matt-demo.png" alt/>
                         <div class="inline upload">
                             <el-button
@@ -97,36 +97,22 @@
                             <el-input
                                     v-model="imgUrl"
                                     class="upcas"
-                                    placeholder="CTRL+V粘贴图像或者URL"
+                                    placeholder="CTRL+V粘贴视频或者URL"
                                     @focus="$event.target.select()"
                             ></el-input>
-                            <p>支持格式：.mp4,.webm,.ogg,.mov,.gif</p>
+                            <p>支持格式：.mp4, .webm, .ogg, .mov, .gif</p>
                             <p>最大文件大小：500M</p>
                             <p>最大视频清晰度：1080P</p>
                             <p>
                                 更大的文件和超清视频，请联系
-                                <span>技术顾问</span>
+                                <span class="cu" @click="golast">技术顾问</span>
                             </p>
                         </div>
                     </div>
                 </div>
-                <div v-for="(item,idx) in upList" :key="idx">
-                    <matting-video :files="item" ref="videoSubs"></matting-video>
+                <div v-for="(item,idx) in upList" :key="item.id">
+                    <matting-video :filesMsg="item" ref="videoSubs" @close="close(idx)"></matting-video>
                 </div>
-                <uploader
-                        ref="uploader"
-                        class="uploader-app"
-                        :options="options"
-                        :autoStart="false"
-                        @file-added="onFileAdded"
-                        @file-success="onFileSuccess"
-                        @file-progress="onFileProgress"
-                        @file-error="onFileError"
-                >
-                    <uploader-btn id="`uploadButton${getTime}`" class="uploader-btn">
-                        选择文件
-                    </uploader-btn>
-                </uploader>
             </div>
         </div>
     </div>
@@ -137,62 +123,23 @@
     import {mapActions} from "vuex";
     import headerSub from "@/components/header/index.vue";
     import {getToken, getSecImgs, setSecImgs} from "../../utils/auth";
-    import {videoMatting, BySha256} from "../../apis";
-    import mattingVideo from '@/components/mattingVideo'
-
-    let sha256 = require( "js-sha256" );
-    let SparkMD5 = require( "spark-md5" );
+    import mattingVideo from '@/components/mattingVideo';
+    import { videoHisList,videoDelete } from '@/apis';
     export default {
         components: {headerSub, mattingVideo},
         data() {
             return {
                 upList: [],
-                upIng: 50,
                 imgUrl: "", //图片链接
                 multiple: false,
-                // 选择文件后显示
-                options: {
-                    // 目标上传地址 写自己要上传到的地址即可
-                    target: process.env.VUE_APP_BASEURL + "/oss/append",
-                    // 分块大小
-                    chunkSize: "1024*1024*10",
-                    // 是否开启服务器分片校验
-                    testChunks: true,
-                    // 服务器分片校验函数 秒传及断点续传的基础
-                    checkChunkUploadedByResponse: (chunk, message) => {
-                        console.log( 123456 );
-                        let objMessage = JSON.parse( message );
-                        console.log( objMessage );
-                        // 这里根据实际业务来 uploaded是后端返给我的字段 用来判断哪些片已经上传过了 不用再重复上传了objMessage.data.uploaded
-                        return (objMessage.uploaded || []).indexOf( chunk.offset + 1 ) >= 0;
-                    },
-                    query: {},
-                    headers: {
-                        // 在header中添加的验证，请根据实际业务来
-                        token: "998dcd833364ecf8c58f",
-                    },
-                    attrs: {
-                        // 接受的文件类型，形如['.png', '.jpg', '.jpeg', '.gif', '.bmp'...] 这里我封装了一下
-                        accept: ['.mp4'],
-                    },
-                },
-
-                getTime: new Date().getTime() / 1000,
             };
         },
         created() {
-            console.log( process.env.VUE_APP_BASEURL )
+            // console.log( process.env.VUE_APP_BASEURL )
         },
         mounted() {
-            if (getToken()) this.userGetscribe();
-            // videoMatting({
-            //   token: this.username,
-            //   file: this.userpass,
-            //   sha256:'',
-            //   position:'',
-            //   contentLength:"",
-            //   taskFlag:""
-            // }).then((res) => {});
+            if (getToken()) this.userGetscribe()
+            this.initHisList();
         },
         methods: {
             ...mapActions( ["userGetscribe"] ),
@@ -208,124 +155,43 @@
             changeImg(ev) {
                 //图片上传
                 const e = ev.target;
-                let selectedFile = e.files; // 得到当前选中的文件
-              console.log(e.files[0],e.files[0].slice(0,36817714))
-                for(let i=0;i<e.files.length;i++){
-                  this.upList.unshift(e.files[i])
-                }
-                // 使用SHA-512算法生成一个标志文件的hash字符串
-                // const {
-                //     name,
-                //     lastModified,
-                //     size,
-                //     type,
-                //     webkitRelativePath,
-                // } = selectedFile;
-                // let fileStr = `${name}${lastModified}${size}${type}${webkitRelativePath}`;
-                // console.log( selectedFile, fileStr, selectedFile.prototype );
-                // console.log( sha256( fileStr ) );
                 this.toscroll();
-                // this.imgUrlss( e.files );
+                for (let i = 0; i < e.files.length; i++) {
+                    this.upList.unshift( {file: e.files[i], id: e.files[i].name + Math.random(),type:'file'} )
+                }
             },
             toscroll() {
-                // let oDiv = this.$refs.contentImg.offsetTop;
                 $( "body,html" ).animate( {scrollTop: 620}, 500 );
             },
-            imgUrlss(obj) {
-
-            },
-            onFileAdded(file) {
-                console.log( file );
-                // 使用SHA-512算法生成一个标志文件的hash字符串
-                const {name, lastModified, size, type, webkitRelativePath} = file.file;
-                let fileStr = `${name}${lastModified}${size}${type}${webkitRelativePath}`;
-                let str = sha256( fileStr );
-                BySha256( {
-                    sha256: str,
-                } ).then( (res) => {
-                    if (!res.data) {
-                        this.computeMD5( file );
-                    }
-                } );
-                //  this.computeMD5(file);
-            },
-            onFileSuccess(rootFile, file, response, chunk) {
-                let res = JSON.parse( response );
-                // 服务器自定义的错误，这种错误是Uploader无法拦截的
-                if (!res.result) {
-                    this.$message( {message: res.message, type: "error"} );
+            close(k) {
+                const taskFlag=this.$refs.videoSubs[k].taskFlag;
+                if(!taskFlag){
+                    this.upList.splice( k, 1 )
                     return;
                 }
-            },
-            onFileError() {
-                console.log( "xxxxxxxxxxxxxxxx" );
-            },
-            onFileProgress(rootFile, file, chunk) {
-                console.log(
-                    `上传中 ${file.name}，chunk：${chunk.startByte /
-                    1024 /
-                    1024} ~ ${chunk.endByte / 1024 / 1024}`
-                );
-            },
-            computeMD5(file) {
-                let fileReader = new FileReader();
-                let time = new Date().getTime();
-                let blobSlice =
-                    File.prototype.slice ||
-                    File.prototype.mozSlice ||
-                    File.prototype.webkitSlice;
-                let currentChunk = 0;
-                const chunkSize = 1024 * 1024 * 10;
-                let chunks = Math.ceil( file.size / chunkSize );
-                let spark = new SparkMD5.ArrayBuffer();
-
-                file.pause();
-
-                loadNext();
-
-                fileReader.onload = (e) => {
-                    console.log( e.target.result, fileReader, '..........' )
-                    spark.append( e.target.result );
-                    if (currentChunk < chunks) {
-                        currentChunk++;
-                        loadNext();
-                        // 实时展示MD5的计算进度
-                        this.$nextTick( () => {
-                            $( `.myStatus_${file.id}` ).text(
-                                "校验MD5 " + ((currentChunk / chunks) * 100).toFixed( 0 ) + "%"
-                            );
-                        } );
-                    } else {
-                        let md5 = spark.end();
-                        this.computeMD5Success( md5, file );
-                        console.log(
-                            `MD5计算完毕：${file.name} \nMD5：${md5} \n分片：${chunks} 大小:${
-                                file.size
-                            } 用时：${new Date().getTime() - time} ms`
-                        );
+                videoDelete({taskFlag}).then(res=>{
+                    if(!res.code){
+                        this.$message({message:'删除成功',type:'success'});
+                        this.upList.splice( k, 1 )
                     }
-                };
-                fileReader.onerror = function () {
-                    this.error( `文件${file.name}读取出错，请检查该文件` );
-                    file.cancel();
-                };
+                })
 
-                function loadNext() {
-                    let start = currentChunk * chunkSize;
-                    let end =
-                        start + chunkSize >= file.size ? file.size : start + chunkSize;
-                    fileReader.readAsArrayBuffer( blobSlice.call( file.file, start, end ) );
-                }
+
             },
-            computeMD5Success(md5, file) {
-                // 文件的唯一标识
-                this.options.query.sha256 = md5;
-                this.options.query.position = 0;
-                this.options.query.contentLength = 22008727;
-                file.resume();
-                console.log( file );
-                console.log( "开始上场" );
+            golast(){
+               let top=$('.content').height(),top2=$('.box').height();
+                $('html,body').animate({scrollTop:top+top2},500)
             },
+            initHisList(){
+                videoHisList({page:1,pageSize:20}).then(res=>{
+                    if(!res.code){
+                        let a=JSON.parse(JSON.stringify(res.data));
+                        a.map(item=>{
+                            this.upList.push({file: item, id: item.originalName + Math.random(),type:'obj'})
+                        });
+                    }
+                })
+            }
         },
     };
 </script>
@@ -440,7 +306,6 @@
 
                     img {
                         width: 481px;
-                        height: 340px;
                         margin-right: 77px;
                         float: left;
                     }
@@ -452,22 +317,18 @@
                     }
 
                     .upload {
-                        width: 281px;
-                        height: 340px;
-
-                        .el-button {
-                            border-radius: 4px;
+                        width: 280px;
+                        .el-button,.el-input{
+                            display: block;
                             width: 100%;
-                            height: 40px;
-                            background-color: #e82255;
-                            color: #fff;
-                            border-color: #e82255;
+                            border-radius: 10px;
+                            height: 50px;
                             margin-bottom: 20px;
-                            margin-top: 5px;
-                        }
-
-                        .el-input {
-                            margin-bottom: 27px;
+                            input{
+                                height: 100%;
+                                background-color: rgb(243,243,243);
+                                border-color: #fff;
+                            }
                         }
 
                         p {
@@ -478,7 +339,7 @@
                         }
 
                         p:last-child {
-                            margin-top: 84px;
+                            margin-top: 50px;
 
                             span {
                                 color: #e82255;
@@ -575,7 +436,7 @@
                     margin-left: 8px;
                     margin-bottom: 22px;
                     padding-left: 25px;
-                    background: #202020;
+                    background: initial;
                     color: rgba(217, 217, 217, 1);
                 }
 
@@ -716,6 +577,17 @@
                         }
                     }
                 }
+            }
+        }
+    }
+</style>
+<style lang="scss">
+    .inline.upload {
+        .el-input {
+            margin-bottom: 27px;
+            .el-input__inner{
+                background-color: rgba(52,53,57,1);
+                border-color: rgba(52,53,57,1);
             }
         }
     }

@@ -8,12 +8,14 @@
     background-color: initial;
     padding: 0;
 }
-.OperatorRight .tops,.OperatorRight .sect{
+
+.OperatorRight .tops, .OperatorRight .sect {
     padding: 40px 0 40px 50px;
     /*border-radius: 15px;*/
     margin-bottom: 20px;
     background-color: #fff;
 }
+
 .helloFirst .OperatorRight .cList {
     flex-wrap: wrap;
 }
@@ -26,7 +28,8 @@
     font-weight: bold;
     width: 235px;
 }
-.helloFirst .OperatorRight .cList p:last-child{
+
+.helloFirst .OperatorRight .cList p:last-child {
     font-weight: 500;
     color: #777;
 }
@@ -41,7 +44,7 @@
     position: fixed;
     left: 0;
     top: 60px;
-    z-index: 666 ;
+    z-index: 666;
 }
 
 .Operator .btns {
@@ -119,7 +122,8 @@
     justify-content: center;
     flex-wrap: wrap;
 }
-.Operator .hisList{
+
+.Operator .hisList {
     display: none;
     justify-content: flex-start;
     position: absolute;
@@ -130,26 +134,31 @@
     height: 80%;
     padding: 24px 34px 0;
     z-index: 1001;
-    -webkit-box-shadow: 0 0 3px rgba(0,0,0,.4);
-    box-shadow: 0 0 3px rgba(0,0,0,.4);
+    -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, .4);
+    box-shadow: 0 0 3px rgba(0, 0, 0, .4);
 }
-.Operator .hisList .itmes{
+
+.Operator .hisList .itmes {
     width: 100px !important;
 }
-.Operator .hisList h3{
+
+.Operator .hisList h3 {
     font-size: 16px;
     margin-bottom: 20px;
 }
-.Operator .hisList h5{
+
+.Operator .hisList h5 {
     font-size: 16px;
     margin-top: 50px;
     color: #9c9c9c;
     text-align: center;
     display: none;
 }
-.Operator .hisList .flex{
+
+.Operator .hisList .flex {
     margin-bottom: 20px;
 }
+
 .Operator .photoHisList .itmes {
     cursor: pointer;
     margin: 0 8px 8px 0;
@@ -194,7 +203,8 @@
     margin-left: 60px;
     line-height: 40px;
 }
-.OperatorRight .sizeClass input{
+
+.OperatorRight .sizeClass input {
     display: block;
     width: 100%;
     line-height: 40px;
@@ -211,7 +221,8 @@
     transform: translateY(-50%);
     right: 20px;
 }
-.OperatorRight .sizeClass .inpup ul{
+
+.OperatorRight .sizeClass .inpup ul {
     display: none;
     background-color: #fff;
     position: absolute;
@@ -227,14 +238,17 @@
     z-index: 111;
     overflow-y: auto;
 }
-.OperatorRight .inpup li{
+
+.OperatorRight .inpup li {
     line-height: 20px;
     cursor: pointer;
-    padding:4px 20px;
+    padding: 4px 20px;
 }
-.OperatorRight .inpup li:hover{
-    background-color: rgba(0,0,0,.1);
+
+.OperatorRight .inpup li:hover {
+    background-color: rgba(0, 0, 0, .1);
 }
+
 .OperatorRight .sect .initList > label {
     position: relative;
     text-indent: 1em;
@@ -246,7 +260,8 @@
     line-height: 1;
     font-weight: bold;
 }
-.OperatorRight .sect .initList.two{
+
+.OperatorRight .sect .initList.two {
     display: none;
 }
 
@@ -258,14 +273,17 @@
 .oLeft .icons {
     margin-bottom: 30px;
 }
-.oLeft h6{
+
+.oLeft h6 {
     font-size: 14px;
     color: #333;
     line-height: 1;
 }
-.mar{
+
+.mar {
     margin: 10px 0;
 }
+
 .twoBtns {
     margin-bottom: 40px;
 }
@@ -304,15 +322,18 @@
     margin-bottom: 16px;
     color: #9c9c9c;
 }
-.oLeft > p{
+
+.oLeft > p {
     font-size: 12px !important;
     line-height: 1;
     color: #737373;
 }
-.oright{
+
+.oright {
     margin-left: auto;
     margin-right: 140px;
 }
+
 .OperatorRight .oLeft p:nth-child(1), .OperatorRight .oLeft p:nth-child(3) {
     width: 40%;
 }
@@ -324,17 +345,20 @@
     margin-right: 8px;
     vertical-align: middle;
 }
-.oLeft .lizi{
+
+.oLeft .lizi {
     font-size: 12px;
     color: #333;
     font-weight: 600;
     line-height: 20px;
     margin-bottom: 20px;
 }
-.oLeft .lizi .photoHisList{
+
+.oLeft .lizi .photoHisList {
     margin-left: 20px;
 }
-.oLeft .lizi .itmes{
+
+.oLeft .lizi .itmes {
     cursor: pointer;
     width: 50px;
     height: 50px;
@@ -343,13 +367,15 @@
     position: relative;
     margin-right: 15px;
 }
-.oLeft .lizi img{
+
+.oLeft .lizi img {
     position: absolute;
     width: 100%;
     top: 50%;
     left: 0;
     transform: translateY(-50%);
 }
+
 .OperatorRight .sect .initList > label:before {
     position: absolute;
     content: '';
@@ -380,9 +406,38 @@
     top: 50%;
     /*transform: translate(-50%, -50%);*/
     overflow: hidden;
-    box-shadow: 0 0 12px rgba(0,0,0,.1);
+    box-shadow: 0 0 12px rgba(0, 0, 0, .1);
 }
 
+.OperatorRight .cList .its > div .flex {
+    justify-content: space-between;
+    text-align: center;
+    background-color: rgba(0, 0, 0, .8);
+    color: #fff;
+    font-size: 13px;
+    padding: 8px 0;
+    line-height: 16px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    transform: translateY(100%);
+    transition: all 0.3s;
+}
+.OperatorRight .cList .its > div:hover .flex{
+    transform: translateY(0);
+}
+
+.OperatorRight .cList .its span {
+    cursor: pointer;
+    flex: 1;
+}
+.OperatorRight .cList .its span:hover{
+    color: #e82255;
+}
+.OperatorRight .cList .its span:first-child{
+    border-right: 1px solid #fff;
+}
 .OperatorRight .cList .its img {
     position: absolute;
     height: 100%;
@@ -390,33 +445,38 @@
     top: 50%;
     transform: translate(-50%, -50%);
 }
-.diglog{
+
+.diglog {
     position: fixed;
     padding: 40px 60px;
     background-color: #fff;
     display: none;
     left: 50%;
     top: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     text-align: center;
     z-index: 699;
     border-radius: 15px;
 }
-.diglog h4{
+
+.diglog h4 {
     font-size: 16px;
     color: #333;
     margin-bottom: 20px;
 }
-.diglog img{
+
+.diglog img {
     display: block;
     width: 140px;
     margin: 0 auto 20px;
 }
-.diglog p{
+
+.diglog p {
     font-size: 14px;
     color: #9c9c9c;
 }
-.diglog i,.hisList i{
+
+.diglog i, .hisList i {
     position: absolute;
     font-size: 24px;
     width: 20px;
@@ -426,7 +486,8 @@
     background: url("http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200812/5e3d6826bc0045a4b8808d4fb1d50724.png") no-repeat center;
 
 }
-.zhezhao{
+
+.zhezhao {
     display: none;
     position: fixed;
     width: 100%;
@@ -434,8 +495,9 @@
     left: 0;
     top: 0;
     z-index: 688;
-    background-color: rgba(0,0,0,.4);
+    background-color: rgba(0, 0, 0, .4);
 }
+
 .loading {
     display: none;
     position: fixed;

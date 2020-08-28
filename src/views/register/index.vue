@@ -41,7 +41,8 @@
                 <div class="title">如何获取邀请码</div><!--订阅计划-{{selectRadio2.creditsPerMonth}}能量/月-->
                 <div class="price">您可以咨询您身边的朋友，还可以加我微信索取
                 </div>
-                <img src="@/assets/image/buyEwm.png" alt="">
+                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200827/f6917493237e4f6ba158cedd4d8d414d.jpg" alt="" style="display: block;width: 135px;margin: 20px auto;">
+                <p style="font-size: 14px;font-weight: bold;text-align: center;">扫一扫，添加微信好友咨询</p>
             </div>
         </el-dialog>
     </section>

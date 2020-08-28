@@ -55,3 +55,16 @@ div.el-popper.te{
 .loadingSub .el-progress__text{
   color: #fff;
 }
+.mattingVideo .el-color-picker__trigger,.mattingVideo .el-color-picker__mask{
+  width: 80px;
+  height: 28px;
+}
+.mattingVideo .el-loading-mask{
+  z-index: 222;
+}
+.mattingVideo .el-icon-loading{
+  font-size: 28px;
+}
+.boxVideo .el-input__inner{
+  height: 100%;
+}

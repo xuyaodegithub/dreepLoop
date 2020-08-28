@@ -727,8 +727,11 @@
             setBlur(e, idx, l) {
                 let oDiv = document.querySelector( `.otherSubs .items:nth-child(${idx + 1}) .text` );
                 const [detail, w, h] = [oDiv.innerHTML, oDiv.offsetWidth, oDiv.offsetHeight];
-                this.parseSubs.subList[idx].w = w / 6;
+                this.parseSubs.subList[idx].w = w / 6;//文字放大了6倍  所以除6
                 this.parseSubs.subList[idx].h = h / 6;
+                // if(this.parseSubs.subList[idx].h + this.parseSubs.subList[idx].y >this.parseSubs.bH && this.openclearAll){
+                //     this.parseSubs.subList[idx].y=this.parseSubs.subList[idx].y-(this.parseSubs.subList[idx].h + this.parseSubs.subList[idx].y-this.parseSubs.bH)
+                // }
                 if (l) {
                     this.parseSubs.subList[idx].title = detail;
                     this.parseSubs.subList[idx].contenteditable = false;
@@ -1286,7 +1289,7 @@
             addTextSub(k, item, i) {
                 let data = {
                     type: 2,//文字组件
-                    title: '双击编辑',
+                    title: '<div>双击编辑</div>',
                     fontFamily: 'systi',//文字类型
                     fontSize: k === 1 ? 14 : (k === 2 ? 24 : 36),//大小
                     letterSpacing: 0,//字间距
@@ -1404,7 +1407,6 @@
                 oCan.height = h;
                 oCan2.height = h;
                 oCan3.height = h;
-                console.log(mainSub)
                 if (mainSub.t2Idx > 1) {
                     obj = this.jsMulitData( dataImg, texiaoList[mainSub.t2Idx], otehC[texiaoList[mainSub.t2Idx]] || {} ,1);
                 }
@@ -1652,8 +1654,10 @@
                 }
             },
             initfontList(oCanTxt, str, letterSpacing, w, h, flexDirection, size) {
-                let str1 = str.replace( /\<span.*?>(.*?)<\/span>/g, '$1' )//去除span标签
+                let str1 = str.replace( /\<span.*?>(.*?)<\/span>/g, '$1' ).replace(/\<br.*?>/g, '')//去除span标签
                 let arr = (str1.replace( /\&nbsp;/g, ' ' )).replace( /\<\/div>/g, "" ).split( '<div>' ), lastArr = [];//根据几个子div，判断有几个内容，每个内容都必须另起一行，再然后每个内容在判断是否要换行
+                if(!arr[0])arr.splice(0,1)
+                // console.log(str,str1,(str1.replace( /\&nbsp;/g, ' ' )).replace( /\<\/div>/g, "" ),arr)
                 if (!flexDirection) {
                     arr.map( itemP => {
                         if (oCanTxt.measureText( itemP ).width + (itemP.length - 1) * letterSpacing <= w) lastArr.push( {
@@ -2101,7 +2105,8 @@
                             this.loadStatus( mItems.subList[idx], idx, imgsList.length, mItems )
                         };
                         oImg.src = mItems.subList[idx].useImg + `?id=${Math.random()}`
-
+                    }else if(item.type===2){
+                        mItems.subList[idx].title=`<div>${mItems.subList[idx].title}</div>`
                     }
                 } )
             },
@@ -2984,6 +2989,7 @@
                     .text {
                         position: relative;
                         z-index: 22;
+                        word-break: break-all;
                         /*width: 100%;*/
                         /*height: 100%;*/
 

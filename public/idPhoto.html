@@ -128,9 +128,10 @@
             <h4 onclick="showHisList(1)" class="cu"><img
                     src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/53ee8479d4e54371a3245eb5c0482ab4.png"
                     alt="" style="margin-right: 10px;">证件照上传记录</h4>
-            <div class="photoHisList hisList" style="overflow-y:auto;" onscroll="scrollHis(event)">
+            <div class="photoHisList hisList">
                 <h5>暂无记录</h5>
                 <i class="cu" onclick="showHisList()"></i>
+                <div class="list" style="height: 80%;overflow-y:auto;" onscroll="scrollHis(event)"></div>
                 <!--                <div class="hisItems">-->
                 <!--                    <h3>2020-08-24</h3>-->
                 <!--                    <div class="flex a-i">-->
@@ -241,6 +242,7 @@
                                 <div w="295" h="413" color="#FF0000">
                                     <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200819/f28d6ae445974530b33a5504ec2b15d1.png"
                                          alt="">
+                                    <div class="flex"><span onclick="downLoad(this,event)">下载</span><span>编辑</span></div>
                                 </div>
                             </div>
                             <p class="over">一寸</p>
@@ -251,6 +253,7 @@
                                 <div w="413" h="579" color="#FF0000">
                                     <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200819/f28d6ae445974530b33a5504ec2b15d1.png"
                                          alt="">
+                                    <div class="flex"><span onclick="downLoad(this,event)">下载</span><span>编辑</span></div>
                                 </div>
                             </div>
                             <p class="over">二寸</p>
@@ -261,6 +264,7 @@
                                 <div w="649" h="991" color="#FF0000" name="三寸（55*84mm）">
                                     <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200819/f28d6ae445974530b33a5504ec2b15d1.png"
                                          alt="">
+                                    <div class="flex"><span onclick="downLoad(this,event)">下载</span><span>编辑</span></div>
                                 </div>
                             </div>
                             <p class="over">三寸</p>
@@ -271,6 +275,7 @@
                                 <div w="898" h="1205" color="#FF0000" name="四寸（76*102mm）">
                                     <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200819/f28d6ae445974530b33a5504ec2b15d1.png"
                                          alt="">
+                                    <div class="flex"><span onclick="downLoad(this,event)">下载</span><span>编辑</span></div>
                                 </div>
                             </div>
                             <p class="over">四寸</p>
@@ -282,6 +287,7 @@
                                      style="width: 148.149px; height: 211.5px;">
                                     <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200819/f28d6ae445974530b33a5504ec2b15d1.png"
                                          alt="">
+                                    <div class="flex"><span onclick="downLoad(this,event)">下载</span><span>编辑</span></div>
                                 </div>
                             </div>
                             <p class="over">五寸</p>
@@ -448,7 +454,7 @@
         mattingType: 8,
         originalWidth: 650, originalHeight: 650,
         headData: {bottom: 398.9, left: 162.6, mouseY: 352.5, right: 483.2, top: 6.7},
-    }, taskFlag, timer, page = 1, pageSize = 20;
+    }, taskFlag, timer, page = 1, pageSize = 20,oriMattingUrl='',filename=[];//避免重复扣点
     var qrcode = new QRCode( document.getElementById( "qrcode" ), {
         text: urlhref + "/uploadBymobile.html",
         width: 128,
@@ -669,10 +675,129 @@
         let imgUrl = window.localStorage.getItem( 'initImg' );
         if (imgUrl) {
             window.localStorage.removeItem( 'initImg' );
-            this.dreepByurl( imgUrl )
+            dreepByurl( imgUrl )
         }
     }
-
+    function downLoad(item,e){
+        ev=e || window.event;
+        ev.stopPropagation();
+        // filename=$(oItem).parents('.cu').find('p').text();
+        var oItem=$(item).parents('.its').children('div'),oImg=new Image(),oCan=document.createElement('canvas');
+        var w=oItem.attr('w'),h=oItem.attr('h'),c=oItem.attr('color'),oCanTxt=oCan.getContext('2d'),name=$(oItem).parents('.cu').find('p').text();
+        var scaleW = 0.55 * h / w;
+        var iw = w * scaleW * mattingMsg.originalWidth / (mattingMsg.headData.right - mattingMsg.headData.left);//缩放后的图片宽
+        var ih = iw * mattingMsg.originalHeight / mattingMsg.originalWidth;
+        var top = -(ih * mattingMsg.headData.top / mattingMsg.originalHeight) + h * 0.05;
+        var left = w / 2 - ((mattingMsg.headData.right - mattingMsg.headData.left) / 2 + mattingMsg.headData.left) * iw / mattingMsg.originalWidth;
+        oCan.width=w;
+        oCan.height=h;
+        oCanTxt.fillStyle=c;
+        oCanTxt.fillRect(0,0,w,h);
+        oImg.crossOrigin='';
+        if(fileId && !oriMattingUrl){
+            $.ajax({
+                url: baseUrl + '/webMatting/getMattedImage',///poster/download
+                type: 'get',
+                dataType: 'json',
+                headers: {token: token},
+                data: {fileId:fileId},
+                success: function (res) {
+                    if(!res.code){
+                        initSmallTag(e,'次数 -1');
+                        oriMattingUrl=res.data;
+                        filename.push(name);
+                        oImg.onload=function (){
+                            oCanTxt.drawImage(oImg,left,top,iw,ih);
+                            downImgFro(oCan,name )
+                        };
+                        oImg.src=res.data+`?id=${Math.random()}`;
+                    }else if(res.code===1100){
+                        localStorage.setItem('backUrl',window.location.href);
+                        window.location.href='loginOrRegister.html';
+                    }else loading(res.msg)
+                }
+            })
+        }else if(!fileId || filename.indexOf(name)>-1){
+            initSmallTag(e,'免费')
+            oImg.onload=function (){
+                oCanTxt.drawImage(oImg,left,top,iw,ih);
+                downImgFro(oCan,name )
+            };
+            oImg.src=oriMattingUrl ? oriMattingUrl : mattingMsg.bgRemovedPreview+`?id=${Math.random()}`;
+        }else{
+            $.ajax({
+                url: baseUrl + '/poster/download',
+                type: 'get',
+                dataType: 'json',
+                headers: {token: token},
+                data: {templateId:1},
+                success: function (res) {
+                    if(!res.code){
+                        initSmallTag(e,'次数 -1');
+                        filename.push(name);
+                        oImg.onload=function (){
+                            oCanTxt.drawImage(oImg,left,top,iw,ih);
+                            downImgFro(oCan,name )
+                        };
+                        oImg.src=oriMattingUrl+`?id=${Math.random()}`;
+                    }else loading(res.msg)
+                }
+            })
+        }
+    }
+    function downImgFro(cans,name ){
+        if (myBrowser() === 'IE' || myBrowser() === 'Edge') {//ie下载图片
+            let url = cans.msToBlob();
+            let blobObj = new Blob( [url] );
+            window.navigator.msSaveOrOpenBlob( blobObj, name + ".png" );
+        } else {
+            let url = cans.toDataURL( "image/png" );
+            let arr = url.split( ',' ), mime = arr[0].match( /:(.*?);/ )[1], bstr = atob( arr[1] ),
+                n = bstr.length, u8arr = new Uint8Array( n );
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt( n );
+            }
+            let objurl = URL.createObjectURL( new Blob( [u8arr], {type: mime} ) );
+            let save_link = document.createElement( 'a' );
+            save_link.href = objurl;
+            save_link.download = name + '.png';
+            let event = document.createEvent( 'MouseEvents' );
+            event.initMouseEvent( 'click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null );
+            save_link.dispatchEvent( event );
+        }
+    }
+    function  myBrowser ()  {//判断浏览器类型
+        var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+        // console.log(navigator.userAgent,userAgent.indexOf( "compatible" ) > -1 , userAgent.indexOf( "MSIE" ) > -1)
+        if (userAgent.indexOf( "Opera" ) > -1) return "Opera"; //判断是否Opera浏览器
+        if (userAgent.indexOf( "Firefox" ) > -1) return "FF";//判断是否Firefox浏览器
+        if (userAgent.indexOf( "Chrome" ) > -1 && userAgent.indexOf( "Edge" ) < 0 && userAgent.indexOf( "QQBrowser" ) < 0) return "Chrome";//谷歌
+        if (userAgent.indexOf( "Safari" ) > -1 && userAgent.indexOf( "Edge" ) < 0 && userAgent.indexOf( "QQBrowser" ) < 0) return "Safari"; //判断是否Safari浏览器
+        if (userAgent.indexOf( "compatible" ) > -1 && userAgent.indexOf( "MSIE" ) > -1 && userAgent.indexOf( "Opera" ) < 0) return "IE"; //判断是否IE浏览器
+        if (userAgent.indexOf( "Edge" ) > -1) return "Edge"; //判断是否Edge浏览器
+        if (userAgent.indexOf( "QQBrowser" ) > -1) return "QQ"; //判断是否QQ浏览器
+        else return 'IE'//不认识一律ie处理
+    }
+   function initSmallTag(e, txt){//点击小动画
+        let $i = $( '<span></span>' ).text( txt ), y = e.clientY - 30, x = e.clientX - 10;
+        $i.css( {
+            "z-index": 999,
+            "top": y,
+            "left": x,
+            'fontSize': '14px',
+            "position": "fixed",
+            "color": "rgb(" + (255 * Math.random()) + "," + (255 * Math.random()) + "," + (255 * Math.random()) + ")"
+        } );
+        $( "body" ).append( $i );
+        $i.animate( {
+                "top": y - 80,
+                "opacity": 0,
+            },
+            1500,
+            function () {
+                $i.remove();
+            } );
+    }
     $( '.photoHisList.flex .itmes' ).click( function () {
         var url = $( this ).find( 'img' ).attr( 'src' );
         dreepByurl( url )
@@ -682,7 +807,7 @@
     initList();
     initItems();
     clickDiv();
-    inithisList();
+    // inithisList();
     initindexImg();
 
 

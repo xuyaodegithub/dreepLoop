@@ -47,10 +47,12 @@ import {
     Collapse,
     CollapseItem,
     Image,
-    Progress
+    Progress,
+    Alert
 } from 'element-ui'
 
 Vue.component( Button.name, Button );
+Vue.component( Alert.name, Alert );
 Vue.component( Progress.name, Progress );
 Vue.component( Input.name, Input );
 Vue.component( Table.name, Table );

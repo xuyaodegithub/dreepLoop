@@ -256,13 +256,55 @@ export const templatedownload=(data)=>{
 /**
  *视频抠图上传
  **/
-export const videoMatting=(data)=>{
- return https.post('/oss/append',data)
+export const videoMatting=(data,file)=>{
+ return https.paramspost2('/oss/append',data,file)
 }
 /**
  *视频抠图上传
  **/
 export const BySha256=(data)=>{
  return https.get('/oss/getUploadTaskBySha256',data)
+}
+
+/**
+ *视频预览轮播
+ **/
+export const videoImgsPreview=(data)=>{
+ return https.paramspost('/videoMatting/previewImage',data)
+}
+
+/**
+ *预览视频xiazai
+ **/
+export const videoPreview=(data)=>{
+ return https.paramspost('/videoMatting/previewVideo',data)
+}
+
+/**
+ *视频历史
+ **/
+export const videoHisList=(data)=>{
+ return https.get('/videoMatting/mattingHistory',data)
+}
+
+/**
+ *视频预览进度
+ **/
+export const videoMattingInfo=(data)=>{
+ return https.get('/videoMatting/getMattingInfo',data)
+}
+
+/**
+ *视频全部进度
+ **/
+export const videoFullMatting=(data)=>{
+ return https.paramspost('/videoMatting/startFullMatting',data)
+}
+
+/**
+ *视频删除
+ **/
+export const videoDelete=(data)=>{
+ return https.get('/videoMatting/delete',data)
 }
 

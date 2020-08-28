@@ -44,6 +44,21 @@ export const clothList = [
         right: 456,
         left: 284,
         list: ['http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200818/114cf6e7b6c34dbfa62f42e7be11be5f.png', 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200818/1efe66ed71484acfb0ce6568bea1a726.png']
+    },{
+        cover: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200821/8643298b894d42888fde09a77617239b.png',
+        right: 468,
+        left: 281,
+        list: ['http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200821/c5bb05ed1b364327b231ab86301a1afc.png', 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200821/89aa7ecd7803483f8c1abdf58cf1a4d3.png']
+    },{
+        cover: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200821/e9891f490bc6414f9983c6ff685c6cf9.png',
+        right: 463,
+        left: 284,
+        list: ['http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200821/1b693653d8b1461f91232f720c5ec313.png', 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200821/faf170181b264d82b1e47701b9e2eb7e.png']
+    },{
+        cover: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200821/26b2c821e0c44caeb81876405c4d77a7.png',
+        right: 465,
+        left: 281,
+        list: ['http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200821/265f4a04678944369e07993727ce4901.png', 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200821/e54bb499e971428fad7215eeaf005fc3.png']
     },
 ]
 export const boyClothList=[

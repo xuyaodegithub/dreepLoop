@@ -317,12 +317,12 @@ export const idPhotolist = [{
     "width": 295,
     "height": 413,
     "color": "#fff"
-}, {"name": "二寸(35*49mm)", "width": 413, "height": 579, "color": "#00BFF3"}, {
+}, {"name": "二寸(35*49mm)", "width": 413, "height": 579, "color": "#438edb"}, {
     "name": "小二寸(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
-}, {"name": "三寸(55*84mm)", "width": 649, "height": 991, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "三寸(55*84mm)", "width": 649, "height": 991, "color": "#438edb"}, {
     "name": "五寸(89*127mm)",
     "width": 1050,
     "height": 1499,
@@ -336,12 +336,12 @@ export const idPhotolist = [{
     "name": "英语四六级考试（144×192，0~10kb）(12*16mm)",
     "width": 144,
     "height": 192,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "全国计算机等级考试(12*16mm)", "width": 144, "height": 192, "color": "#fff"}, {
     "name": "中小学生教师资格证（一寸）(25*35mm)",
     "width": 295,
     "height": 413,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "小学登记报名(11*15mm)", "width": 125, "height": 175, "color": "#FF0000"}, {
     "name": "国家司法考试(35*53mm)",
     "width": 413,
@@ -381,8 +381,8 @@ export const idPhotolist = [{
     "name": "国考（上海）(18*25mm)",
     "width": 215,
     "height": 300,
-    "color": "#00BFF3"
-}, {"name": "国考（江苏）(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "国考（江苏）(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "国考（浙江）(8*12mm)",
     "width": 100,
     "height": 140,
@@ -391,7 +391,7 @@ export const idPhotolist = [{
     "name": "国考（福建）(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "国考（江西）(8*11mm)", "width": 99, "height": 128, "color": "#fff"}, {
     "name": "国考（山东）(10*13mm)",
     "width": 120,
@@ -411,28 +411,28 @@ export const idPhotolist = [{
     "name": "国考（海南）(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "国考（重庆）(34*45mm)", "width": 413, "height": 531, "color": "#fff"}, {
     "name": "国考（四川）(34*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
-}, {"name": "国考（贵州）(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "国考（贵州）(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "国考（云南）(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
-}, {"name": "国考（陕西）(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "国考（陕西）(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "国考（甘肃）(18*25mm)",
     "width": 215,
     "height": 300,
     "color": "#fff"
-}, {"name": "国考（青海）(10*15mm)", "width": 120, "height": 180, "color": "#00BFF3"}, {
+}, {"name": "国考（青海）(10*15mm)", "width": 120, "height": 180, "color": "#438edb"}, {
     "name": "国考（宁夏）(18*25mm)",
     "width": 215,
     "height": 300,
-    "color": "#00BFF3"
-}, {"name": "国考（新疆）(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "国考（新疆）(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "国考（西藏）(35*45mm)",
     "width": 413,
     "height": 531,
@@ -442,11 +442,11 @@ export const idPhotolist = [{
     "width": 413,
     "height": 531,
     "color": "#FF0000"
-}, {"name": "中级会计职称考试（一寸）(25*35mm)", "width": 295, "height": 413, "color": "#00BFF3"}, {
+}, {"name": "中级会计职称考试（一寸）(25*35mm)", "width": 295, "height": 413, "color": "#438edb"}, {
     "name": "全国高等教育自学考试(12*16mm)",
     "width": 144,
     "height": 192,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "护士执业资格考试(14*18mm)", "width": 160, "height": 210, "color": "#fff"}, {
     "name": "天津公务员（小二寸）(35*45mm)",
     "width": 413,
@@ -456,8 +456,8 @@ export const idPhotolist = [{
     "name": "全国职称计算机考试(18*25mm)",
     "width": 215,
     "height": 300,
-    "color": "#00BFF3"
-}, {"name": "河北公务员(11*14mm)", "width": 126, "height": 168, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "河北公务员(11*14mm)", "width": 126, "height": 168, "color": "#438edb"}, {
     "name": "山西公务员（小二寸）(35*45mm)",
     "width": 413,
     "height": 531,
@@ -466,8 +466,8 @@ export const idPhotolist = [{
     "name": "辽宁公务员（二寸）(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
-}, {"name": "吉林公务员（二寸）(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "吉林公务员（二寸）(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "黑龙江公务员（小二寸）(35*45mm)",
     "width": 413,
     "height": 531,
@@ -476,7 +476,7 @@ export const idPhotolist = [{
     "name": "江苏公务员（小二寸）(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "江苏公务员(15*20mm)", "width": 180, "height": 240, "color": "#fff"}, {
     "name": "安徽公务员（二寸）(35*45mm)",
     "width": 413,
@@ -487,11 +487,11 @@ export const idPhotolist = [{
     "width": 413,
     "height": 531,
     "color": "#fff"
-}, {"name": "江西公务员（90×120）(8*10mm)", "width": 90, "height": 120, "color": "#00BFF3"}, {
+}, {"name": "江西公务员（90×120）(8*10mm)", "width": 90, "height": 120, "color": "#438edb"}, {
     "name": "山东公务员（小二寸）(10*13mm)",
     "width": 120,
     "height": 160,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "河南公务员(11*14mm)", "width": 130, "height": 160, "color": "#FF0000"}, {
     "name": "湖北公务员(18*25mm)",
     "width": 215,
@@ -507,7 +507,7 @@ export const idPhotolist = [{
     "width": 413,
     "height": 531,
     "color": "#FF0000"
-}, {"name": "广西公务员（二寸）(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+}, {"name": "广西公务员（二寸）(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "海南公务员(14*18mm)",
     "width": 168,
     "height": 218,
@@ -526,13 +526,13 @@ export const idPhotolist = [{
     "name": "陕西公务员（二寸）(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "甘肃公务员（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#FF0000"}, {
     "name": "青海公务员(11*14mm)",
     "width": 126,
     "height": 168,
     "color": "#fff"
-}, {"name": "宁夏公务员（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+}, {"name": "宁夏公务员（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "新疆公务员（小二寸）(35*45mm)",
     "width": 413,
     "height": 531,
@@ -551,17 +551,17 @@ export const idPhotolist = [{
     "name": "越南签证（小二寸）(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
-}, {"name": "法国签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "法国签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "澳大利亚签证（小二寸）(35*45mm)",
     "width": 413,
     "height": 531,
     "color": "#fff"
-}, {"name": "柬埔寨签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+}, {"name": "柬埔寨签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "德国签证（小二寸）(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "加拿大签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#FF0000"}, {
     "name": "希腊签证（小二寸）(35*45mm)",
     "width": 413,
@@ -571,13 +571,13 @@ export const idPhotolist = [{
     "name": "西班牙签证（小二寸）(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "瑞士签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#FF0000"}, {
     "name": "新西兰签证（小二寸）(76*102mm)",
     "width": 900,
     "height": 1200,
-    "color": "#00BFF3"
-}, {"name": "南非签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "南非签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "尼泊尔签证（二寸）(35*45mm)",
     "width": 413,
     "height": 531,
@@ -597,11 +597,11 @@ export const idPhotolist = [{
     "width": 413,
     "height": 531,
     "color": "#FF0000"
-}, {"name": "阿联酋签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+}, {"name": "阿联酋签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "奥地利签证（小二寸）(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "比利时签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#FF0000"}, {
     "name": "巴西签证（小二寸）(35*45mm)",
     "width": 413,
@@ -621,18 +621,18 @@ export const idPhotolist = [{
     "name": "蒙古签证（小二寸）(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
-}, {"name": "丹麦签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "丹麦签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "芬兰签证（小二寸）(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "爱尔兰签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#fff"}, {
     "name": "挪威签证（小二寸）(35*45mm)",
     "width": 413,
     "height": 531,
     "color": "#fff"
-}, {"name": "匈牙利签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+}, {"name": "匈牙利签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "新加坡签证(34*44mm)",
     "width": 400,
     "height": 514,
@@ -641,8 +641,8 @@ export const idPhotolist = [{
     "name": "执业医师资格证（小二寸）(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
-}, {"name": "菲律宾签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "菲律宾签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "马来西亚电子签(35*50mm)",
     "width": 413,
     "height": 590,
@@ -652,7 +652,7 @@ export const idPhotolist = [{
     "width": 413,
     "height": 531,
     "color": "#FF0000"
-}, {"name": "墨西哥签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+}, {"name": "墨西哥签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "乌克兰签证（小二寸）(35*45mm)",
     "width": 413,
     "height": 531,
@@ -666,13 +666,13 @@ export const idPhotolist = [{
     "name": "马达加斯加签证（小二寸）(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "沙特阿拉伯签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#FF0000"}, {
     "name": "赞比亚签证（小二寸）(35*45mm)",
     "width": 413,
     "height": 531,
     "color": "#FF0000"
-}, {"name": "克罗地亚签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+}, {"name": "克罗地亚签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "肯尼亚签证(50*50mm)",
     "width": 591,
     "height": 591,
@@ -681,12 +681,12 @@ export const idPhotolist = [{
     "name": "乌兹别克斯坦签证（小二寸）(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "哈萨克斯坦签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#FF0000"}, {
     "name": "巴基斯坦签证（小二寸）(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {
     "name": "纳米比亚签证（小二寸）(35*45mm)",
     "width": 413,
@@ -702,7 +702,7 @@ export const idPhotolist = [{
     "width": 413,
     "height": 531,
     "color": "#FF0000"
-}, {"name": "身份证(26*32mm)", "width": 358, "height": 441, "color": "#00BFF3"}, {
+}, {"name": "身份证(26*32mm)", "width": 358, "height": 441, "color": "#438edb"}, {
     "name": "康复治疗师考试（一寸）(25*35mm)",
     "width": 295,
     "height": 413,
@@ -717,7 +717,7 @@ export const idPhotolist = [{
     "width": 150,
     "height": 200,
     "color": "#FF0000"
-}, {"name": "深圳行政执法证(26*32mm)", "width": 358, "height": 441, "color": "#00BFF3"}, {
+}, {"name": "深圳行政执法证(26*32mm)", "width": 358, "height": 441, "color": "#438edb"}, {
     "name": "中高级口译(35*53mm)",
     "width": 413,
     "height": 626,
@@ -746,7 +746,7 @@ export const idPhotolist = [{
     "name": "普通话水平测试（144×192）(12*16mm)",
     "width": 144,
     "height": 192,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "捷克签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#fff"}, {
     "name": "英语四六级考试（76×101）(6*9mm)",
     "width": 76,
@@ -756,13 +756,13 @@ export const idPhotolist = [{
     "name": "以色列签证（二英寸）(51*51mm)",
     "width": 591,
     "height": 591,
-    "color": "#00BFF3"
-}, {"name": "二级建造师证（100×140）(8*12mm)", "width": 100, "height": 140, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "二级建造师证（100×140）(8*12mm)", "width": 100, "height": 140, "color": "#438edb"}, {
     "name": "伊朗签证（小二寸）(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
-}, {"name": "卡塔尔签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "卡塔尔签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "陕西行政执法证（一寸）(25*35mm)",
     "width": 295,
     "height": 413,
@@ -776,22 +776,22 @@ export const idPhotolist = [{
     "name": "会计从业资格证（114×156，0~15kb）(10*13mm)",
     "width": 114,
     "height": 156,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "四川行政执法证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#fff"}, {
     "name": "浙江行政执法证（一寸）(25*35mm)",
     "width": 295,
     "height": 413,
     "color": "#FF0000"
-}, {"name": "河北行政执法证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+}, {"name": "河北行政执法证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "交通银行网申（一寸）(25*35mm)",
     "width": 295,
     "height": 413,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "建设银行网申(10*13mm)", "width": 120, "height": 160, "color": "#fff"}, {
     "name": "高级会计职称考试(10*13mm)",
     "width": 114,
     "height": 156,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "一寸工作证(25*35mm)", "width": 295, "height": 413, "color": "#FF0000"}, {
     "name": "高考报名（480×640）(41*54mm)",
     "width": 480,
@@ -812,7 +812,7 @@ export const idPhotolist = [{
     "width": 130,
     "height": 160,
     "color": "#FF0000"
-}, {"name": "全民健身操舞（二寸）(35*49mm)", "width": 377, "height": 511, "color": "#00BFF3"}, {
+}, {"name": "全民健身操舞（二寸）(35*49mm)", "width": 377, "height": 511, "color": "#438edb"}, {
     "name": "北京导游证（小二寸）(35*45mm)",
     "width": 413,
     "height": 531,
@@ -821,18 +821,18 @@ export const idPhotolist = [{
     "name": "翻译资格等级考试(18*25mm)",
     "width": 215,
     "height": 300,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {
     "name": "四川执业药师注册工作照（二寸）(35*49mm)",
     "width": 413,
     "height": 579,
-    "color": "#00BFF3"
-}, {"name": "大学个人档案（二寸）(14*14mm)", "width": 160, "height": 160, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "大学个人档案（二寸）(14*14mm)", "width": 160, "height": 160, "color": "#438edb"}, {
     "name": "江西中医药大学医保卡(14*20mm)",
     "width": 171,
     "height": 238,
     "color": "#FF0000"
-}, {"name": "校园卡(13*18mm)", "width": 150, "height": 210, "color": "#00BFF3"}, {
+}, {"name": "校园卡(13*18mm)", "width": 150, "height": 210, "color": "#438edb"}, {
     "name": "北京师范大学入学报名(21*30mm)",
     "width": 250,
     "height": 350,
@@ -841,18 +841,18 @@ export const idPhotolist = [{
     "name": "中南财经政法大学入学报名(15*20mm)",
     "width": 180,
     "height": 240,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "西班牙商务签证（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#fff"}, {
     "name": "闽南师范大学(51*68mm)",
     "width": 600,
     "height": 800,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "学位英语(12*15mm)", "width": 140, "height": 180, "color": "#fff"}, {
     "name": "中华人民共和国外国人工作许可（二寸）(35*49mm)",
     "width": 413,
     "height": 579,
     "color": "#FF0000"
-}, {"name": "学籍网(80*107mm)", "width": 472, "height": 630, "color": "#00BFF3"}, {
+}, {"name": "学籍网(80*107mm)", "width": 472, "height": 630, "color": "#438edb"}, {
     "name": "学籍照片（390×480）(33*41mm)",
     "width": 390,
     "height": 480,
@@ -866,22 +866,22 @@ export const idPhotolist = [{
     "name": "英语四六级考试（144×192，10~20kb）(12*16mm)",
     "width": 144,
     "height": 192,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "英语四六级报名(10*13mm)", "width": 120, "height": 160, "color": "#FF0000"}, {
     "name": "保健按摩师(10*12mm)",
     "width": 118,
     "height": 146,
     "color": "#FF0000"
-}, {"name": "营养配餐员(10*12mm)", "width": 118, "height": 146, "color": "#00BFF3"}, {
+}, {"name": "营养配餐员(10*12mm)", "width": 118, "height": 146, "color": "#438edb"}, {
     "name": "中药调剂员(10*12mm)",
     "width": 118,
     "height": 146,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {
     "name": "护士执业资格考试（130×170）(11*14mm)",
     "width": 130,
     "height": 170,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "会计从业资格证（114×156，0~10kb）(10*13mm)", "width": 114, "height": 156, "color": "#fff"}, {
     "name": "摄影师(10*12mm)",
     "width": 118,
@@ -891,7 +891,7 @@ export const idPhotolist = [{
     "name": "反假证（一寸）(13*18mm)",
     "width": 150,
     "height": 210,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {
     "name": "深圳会计从业资格证(30*40mm)",
     "width": 358,
@@ -911,7 +911,7 @@ export const idPhotolist = [{
     "name": "工商银行网申（240×370）(20*31mm)",
     "width": 240,
     "height": 370,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {
     "name": "青岛浮山路小学学籍卡(17*20mm)",
     "width": 195,
@@ -921,13 +921,13 @@ export const idPhotolist = [{
     "name": "英语四六级考试（480×600）(41*51mm)",
     "width": 480,
     "height": 600,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {
     "name": "教师资格证（180×240）(15*20mm)",
     "width": 180,
     "height": 240,
-    "color": "#00BFF3"
-}, {"name": "广东岭南职业技术学院学籍卡(10*13mm)", "width": 120, "height": 150, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "广东岭南职业技术学院学籍卡(10*13mm)", "width": 120, "height": 150, "color": "#438edb"}, {
     "name": "医保证（300dpi）(30*40mm)",
     "width": 358,
     "height": 441,
@@ -937,7 +937,7 @@ export const idPhotolist = [{
     "width": 96,
     "height": 120,
     "color": "#fff"
-}, {"name": "武汉大学研究生考试(13*17mm)", "width": 150, "height": 200, "color": "#00BFF3"}, {
+}, {"name": "武汉大学研究生考试(13*17mm)", "width": 150, "height": 200, "color": "#438edb"}, {
     "name": "英语三级考试(12*16mm)",
     "width": 144,
     "height": 192,
@@ -946,7 +946,7 @@ export const idPhotolist = [{
     "name": "英语四六级考试（144×192，8~10kb）(12*16mm)",
     "width": 144,
     "height": 192,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "职业鉴定照片(17*25mm)", "width": 200, "height": 300, "color": "#FF0000"}, {
     "name": "香港学生国内报名(14*20mm)",
     "width": 168,
@@ -957,17 +957,17 @@ export const idPhotolist = [{
     "width": 102,
     "height": 126,
     "color": "#FF0000"
-}, {"name": "网申国企(6*8mm)", "width": 70, "height": 100, "color": "#00BFF3"}, {
+}, {"name": "网申国企(6*8mm)", "width": 70, "height": 100, "color": "#438edb"}, {
     "name": "墨西哥签证（非营利性访客签证）(31*39mm)",
     "width": 366,
     "height": 461,
     "color": "#fff"
-}, {"name": "大数据工程师报名(26*32mm)", "width": 358, "height": 441, "color": "#00BFF3"}, {
+}, {"name": "大数据工程师报名(26*32mm)", "width": 358, "height": 441, "color": "#438edb"}, {
     "name": "甘肃民族师范学院学籍卡（二寸）(35*49mm)",
     "width": 413,
     "height": 579,
     "color": "#fff"
-}, {"name": "运城市临猗事业单位报名(18*25mm)", "width": 215, "height": 300, "color": "#00BFF3"}, {
+}, {"name": "运城市临猗事业单位报名(18*25mm)", "width": 215, "height": 300, "color": "#438edb"}, {
     "name": "北大考研网上报名(15*20mm)",
     "width": 178,
     "height": 237,
@@ -981,7 +981,7 @@ export const idPhotolist = [{
     "name": "黑龙江会计上岗证(10*13mm)",
     "width": 120,
     "height": 160,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "计算机考试（350dpi）(26*32mm)", "width": 358, "height": 441, "color": "#FF0000"}, {
     "name": "河北唐山初级会计助理(41*54mm)",
     "width": 480,
@@ -991,7 +991,7 @@ export const idPhotolist = [{
     "name": "国家公务员（小二寸）(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "云南公务员（二寸）(35*45mm)", "width": 413, "height": 531, "color": "#FF0000"}, {
     "name": "江西公务员（99×128）(8*11mm)",
     "width": 99,
@@ -1002,7 +1002,7 @@ export const idPhotolist = [{
     "width": 150,
     "height": 200,
     "color": "#fff"
-}, {"name": "西安美术联考（一寸）(25*35mm)", "width": 295, "height": 413, "color": "#00BFF3"}, {
+}, {"name": "西安美术联考（一寸）(25*35mm)", "width": 295, "height": 413, "color": "#438edb"}, {
     "name": "大学生图像信息采集(41*54mm)",
     "width": 480,
     "height": 640,
@@ -1016,23 +1016,23 @@ export const idPhotolist = [{
     "name": "全国教师管理信息采集（129×160）(11*14mm)",
     "width": 129,
     "height": 160,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "山西省全国计算机等级考试（一寸）(25*35mm)", "width": 295, "height": 413, "color": "#fff"}, {
     "name": "大学生信息采集(46*61mm)",
     "width": 540,
     "height": 720,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {
     "name": "制图员（大一寸，350dpi）(33*48mm)",
     "width": 455,
     "height": 661,
     "color": "#FF0000"
-}, {"name": "北京党员代表大会（二寸）(35*49mm)", "width": 413, "height": 579, "color": "#00BFF3"}, {
+}, {"name": "北京党员代表大会（二寸）(35*49mm)", "width": 413, "height": 579, "color": "#438edb"}, {
     "name": "学校自考(41*54mm)",
     "width": 480,
     "height": 640,
-    "color": "#00BFF3"
-}, {"name": "北京教师信息网(13*16mm)", "width": 154, "height": 189, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "北京教师信息网(13*16mm)", "width": 154, "height": 189, "color": "#438edb"}, {
     "name": "宁夏回族自治区专业技术人员（一寸）(25*35mm)",
     "width": 295,
     "height": 413,
@@ -1047,12 +1047,12 @@ export const idPhotolist = [{
     "width": 200,
     "height": 260,
     "color": "#FF0000"
-}, {"name": "金蝶认证(26*32mm)", "width": 358, "height": 441, "color": "#00BFF3"}, {
+}, {"name": "金蝶认证(26*32mm)", "width": 358, "height": 441, "color": "#438edb"}, {
     "name": "计算机中级操作员（ATA）(12*16mm)",
     "width": 144,
     "height": 192,
-    "color": "#00BFF3"
-}, {"name": "护士资格证考试（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "护士资格证考试（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "江西国画书法等级考试(30*40mm)",
     "width": 413,
     "height": 551,
@@ -1066,27 +1066,27 @@ export const idPhotolist = [{
     "name": "辽宁二级建造证（一寸）(25*35mm)",
     "width": 295,
     "height": 413,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "教师招聘报名(9*14mm)", "width": 110, "height": 140, "color": "#fff"}, {
     "name": "执业医师资格报名（小二寸）(35*45mm)",
     "width": 413,
     "height": 531,
     "color": "#fff"
-}, {"name": "成都公务员(9*11mm)", "width": 102, "height": 126, "color": "#00BFF3"}, {
+}, {"name": "成都公务员(9*11mm)", "width": 102, "height": 126, "color": "#438edb"}, {
     "name": "一级建造师证（冲印版）(34*45mm)",
     "width": 401,
     "height": 531,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "公共英语考试（二寸）(35*45mm)", "width": 413, "height": 531, "color": "#fff"}, {
     "name": "奖学金申请(11*14mm)",
     "width": 126,
     "height": 160,
     "color": "#fff"
-}, {"name": "江苏社保卡（358×441）(30*40mm)", "width": 358, "height": 441, "color": "#00BFF3"}, {
+}, {"name": "江苏社保卡（358×441）(30*40mm)", "width": 358, "height": 441, "color": "#438edb"}, {
     "name": "六级口语考试(11*14mm)",
     "width": 130,
     "height": 160,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "学士学位报考(10*13mm)", "width": 120, "height": 160, "color": "#FF0000"}, {
     "name": "成人自考（360×480）(30*41mm)",
     "width": 360,
@@ -1096,32 +1096,32 @@ export const idPhotolist = [{
     "name": "学籍照片（150×200）(13*17mm)",
     "width": 150,
     "height": 200,
-    "color": "#00BFF3"
-}, {"name": "党员证(34*51mm)", "width": 400, "height": 600, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "党员证(34*51mm)", "width": 400, "height": 600, "color": "#438edb"}, {
     "name": "教师资格证（360×480）(30*41mm)",
     "width": 360,
     "height": 480,
     "color": "#FF0000"
-}, {"name": "秘书证(14*20mm)", "width": 160, "height": 240, "color": "#00BFF3"}, {
+}, {"name": "秘书证(14*20mm)", "width": 160, "height": 240, "color": "#438edb"}, {
     "name": "高速公路管理局 (11*14mm)",
     "width": 126,
     "height": 168,
-    "color": "#00BFF3"
-}, {"name": "养老护理员（二寸）(35*49mm)", "width": 413, "height": 579, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "养老护理员（二寸）(35*49mm)", "width": 413, "height": 579, "color": "#438edb"}, {
     "name": "学信网(41*54mm)",
     "width": 480,
     "height": 640,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "金融服务师(8*12mm)", "width": 100, "height": 140, "color": "#fff"}, {
     "name": "合肥人事网招聘（二寸）(35*49mm)",
     "width": 413,
     "height": 579,
-    "color": "#00BFF3"
-}, {"name": "全国计算机等级考试（150×210）(13*18mm)", "width": 150, "height": 210, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "全国计算机等级考试（150×210）(13*18mm)", "width": 150, "height": 210, "color": "#438edb"}, {
     "name": "医疗（二寸）(35*49mm)",
     "width": 413,
     "height": 579,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "医疗类报名（一寸）(25*35mm)", "width": 295, "height": 413, "color": "#FF0000"}, {
     "name": "计算机等级考试（小二寸）(35*45mm)",
     "width": 413,
@@ -1137,11 +1137,11 @@ export const idPhotolist = [{
     "width": 150,
     "height": 210,
     "color": "#FF0000"
-}, {"name": "中国人民银行网申（0~20kb）(17*22mm)", "width": 200, "height": 260, "color": "#00BFF3"}, {
+}, {"name": "中国人民银行网申（0~20kb）(17*22mm)", "width": 200, "height": 260, "color": "#438edb"}, {
     "name": "新生网站登记(12*15mm)",
     "width": 144,
     "height": 172,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "陕西二级建造师证（小于100kb）(39*56mm)", "width": 455, "height": 661, "color": "#fff"}, {
     "name": "工作卡(10*14mm)",
     "width": 120,
@@ -1171,17 +1171,17 @@ export const idPhotolist = [{
     "name": "执业医师注册(33*40mm)",
     "width": 385,
     "height": 441,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {
     "name": "事业单位招聘(10*13mm)",
     "width": 120,
     "height": 160,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {
     "name": "普通话水平测试（大一寸 150~300kb）(33*48mm)",
     "width": 390,
     "height": 567,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {
     "name": "SAT考试报名（电子版）(41*54mm)",
     "width": 480,
@@ -1211,12 +1211,12 @@ export const idPhotolist = [{
     "name": "执业药师资格考试（一寸）(25*35mm)",
     "width": 295,
     "height": 413,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "执业药师资格考试（二寸）(35*49mm)", "width": 413, "height": 579, "color": "#FF0000"}, {
     "name": "大学入学报名（小二寸）(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "复旦大学研究生考试(13*17mm)", "width": 150, "height": 200, "color": "#FF0000"}, {
     "name": "注册会计师证（102×126）(9*11mm)",
     "width": 102,
@@ -1241,8 +1241,8 @@ export const idPhotolist = [{
     "name": "社保证（350dpi，30~60kb，无回执）(26*32mm)",
     "width": 358,
     "height": 441,
-    "color": "#00BFF3"
-}, {"name": "英语应用能力考试口试(25*36mm)", "width": 310, "height": 420, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "英语应用能力考试口试(25*36mm)", "width": 310, "height": 420, "color": "#438edb"}, {
     "name": "注册会计师考试（一寸）(25*25mm)",
     "width": 295,
     "height": 413,
@@ -1251,23 +1251,23 @@ export const idPhotolist = [{
     "name": "毕业证照片采集（西安交大）(41*54mm)",
     "width": 480,
     "height": 640,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {
     "name": "网约车照片（小二寸）(33*48mm)",
     "width": 455,
     "height": 661,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {
     "name": "深圳社保证（大于140KB，无回执）(26*32mm)",
     "width": 358,
     "height": 441,
     "color": "#FF0000"
-}, {"name": "电子导游证（二寸）(35*49mm)", "width": 413, "height": 626, "color": "#00BFF3"}, {
+}, {"name": "电子导游证（二寸）(35*49mm)", "width": 413, "height": 626, "color": "#438edb"}, {
     "name": "党员证（红底）(34*51mm)",
     "width": 400,
     "height": 600,
     "color": "#fff"
-}, {"name": "湖南社保卡(26*32mm)", "width": 358, "height": 441, "color": "#00BFF3"}, {
+}, {"name": "湖南社保卡(26*32mm)", "width": 358, "height": 441, "color": "#438edb"}, {
     "name": "大学报名电子照(25*35mm)",
     "width": 295,
     "height": 413,
@@ -1291,13 +1291,13 @@ export const idPhotolist = [{
     "name": "江西社保证(26*32mm)",
     "width": 358,
     "height": 441,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "二寸(35*50mm)", "width": 413, "height": 579, "color": "#FF0000"}, {
     "name": "小二寸(33*48mm)",
     "width": 413,
     "height": 531,
     "color": "#FF0000"
-}, {"name": "长春医保卡(26*32mm)", "width": 358, "height": 441, "color": "#00BFF3"}, {
+}, {"name": "长春医保卡(26*32mm)", "width": 358, "height": 441, "color": "#438edb"}, {
     "name": "学籍照片（90×120）(8*10mm)",
     "width": 90,
     "height": 120,
@@ -1311,7 +1311,7 @@ export const idPhotolist = [{
     "name": "毕业生图像信息采集(41*54mm)",
     "width": 480,
     "height": 640,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {
     "name": "护士执业资格考试（120×160）(10*13mm)",
     "width": 120,
@@ -1321,8 +1321,8 @@ export const idPhotolist = [{
     "name": "一寸半身照(25*35mm)",
     "width": 295,
     "height": 413,
-    "color": "#00BFF3"
-}, {"name": "二寸半身照(35*49mm)", "width": 413, "height": 579, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "二寸半身照(35*49mm)", "width": 413, "height": 579, "color": "#438edb"}, {
     "name": "护师（全国卫生专业技术资格考试）(14*18mm)",
     "width": 160,
     "height": 210,
@@ -1341,8 +1341,8 @@ export const idPhotolist = [{
     "name": "主管护师（160×210）(14*18mm)",
     "width": 160,
     "height": 210,
-    "color": "#00BFF3"
-}, {"name": "山西省社会保障卡照片(30*40mm)", "width": 358, "height": 441, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "山西省社会保障卡照片(30*40mm)", "width": 358, "height": 441, "color": "#438edb"}, {
     "name": "监理工程师（150×210）(13*18mm)",
     "width": 150,
     "height": 210,
@@ -1356,7 +1356,7 @@ export const idPhotolist = [{
     "name": "二级建造师证（295×413）(25*35mm)",
     "width": 295,
     "height": 413,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {
     "name": "江西吉安公务员照片采集(41*51mm)",
     "width": 480,
@@ -1377,12 +1377,12 @@ export const idPhotolist = [{
     "width": 114,
     "height": 156,
     "color": "#fff"
-}, {"name": "二级建造师证（220×300）(18*25mm)", "width": 220, "height": 300, "color": "#00BFF3"}, {
+}, {"name": "二级建造师证（220×300）(18*25mm)", "width": 220, "height": 300, "color": "#438edb"}, {
     "name": "突尼斯签证(35*45mm)",
     "width": 413,
     "height": 531,
     "color": "#fff"
-}, {"name": "马耳他签证(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+}, {"name": "马耳他签证(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "斯里兰卡签证(35*45mm)",
     "width": 413,
     "height": 531,
@@ -1396,7 +1396,7 @@ export const idPhotolist = [{
     "name": "马里签证(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "吉尔吉斯斯坦签证(35*45mm)", "width": 413, "height": 531, "color": "#FF0000"}, {
     "name": "喀麦隆签证(35*45mm)",
     "width": 413,
@@ -1407,7 +1407,7 @@ export const idPhotolist = [{
     "width": 413,
     "height": 531,
     "color": "#FF0000"
-}, {"name": "巴西签证(40*50mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+}, {"name": "巴西签证(40*50mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "国企单位存档(7*10mm)",
     "width": 85,
     "height": 120,
@@ -1417,7 +1417,7 @@ export const idPhotolist = [{
     "width": 295,
     "height": 413,
     "color": "#FF0000"
-}, {"name": "单位照片(16*22mm)", "width": 188, "height": 259, "color": "#00BFF3"}, {
+}, {"name": "单位照片(16*22mm)", "width": 188, "height": 259, "color": "#438edb"}, {
     "name": "滕州市社保照(30*40mm)",
     "width": 358,
     "height": 441,
@@ -1427,7 +1427,7 @@ export const idPhotolist = [{
     "width": 90,
     "height": 120,
     "color": "#FF0000"
-}, {"name": "记者照片(33*41mm)", "width": 388, "height": 480, "color": "#00BFF3"}, {
+}, {"name": "记者照片(33*41mm)", "width": 388, "height": 480, "color": "#438edb"}, {
     "name": "四寸(76*102mm)",
     "width": 898,
     "height": 1205,
@@ -1457,22 +1457,22 @@ export const idPhotolist = [{
     "width": 358,
     "height": 441,
     "color": "#FF0000"
-}, {"name": "研究生（27×36mm）(27*36mm)", "width": 318, "height": 425, "color": "#00BFF3"}, {
+}, {"name": "研究生（27×36mm）(27*36mm)", "width": 318, "height": 425, "color": "#438edb"}, {
     "name": "入学照（一寸）(25*35mm)",
     "width": 295,
     "height": 413,
     "color": "#FF0000"
-}, {"name": "入学照（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+}, {"name": "入学照（小二寸）(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "日本签证（二寸）上海成都(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "日本签证（上海北京广州）(45*45mm)", "width": 531, "height": 531, "color": "#fff"}, {
     "name": "越南签证（二寸）(35*45mm)",
     "width": 413,
     "height": 531,
     "color": "#FF0000"
-}, {"name": "法国签证（二寸）(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+}, {"name": "法国签证（二寸）(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "澳大利亚签证（二寸）(35*45mm)",
     "width": 413,
     "height": 531,
@@ -1481,8 +1481,8 @@ export const idPhotolist = [{
     "name": "德国签证（二寸）(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
-}, {"name": "希腊签证（二寸）(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "希腊签证（二寸）(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "英国签证（二寸）(35*45mm)",
     "width": 413,
     "height": 531,
@@ -1492,37 +1492,37 @@ export const idPhotolist = [{
     "width": 413,
     "height": 531,
     "color": "#FF0000"
-}, {"name": "缅甸签证（上海广州成都）(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+}, {"name": "缅甸签证（上海广州成都）(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "意大利签证（上海北京）(35*40mm)",
     "width": 413,
     "height": 472,
     "color": "#fff"
-}, {"name": "意大利签证（二寸）成都广州(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+}, {"name": "意大利签证（二寸）成都广州(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "俄罗斯签证（二寸）(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
-}, {"name": "荷兰签证（二寸）(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "荷兰签证（二寸）(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "奥地利签证（二寸）(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "葡萄牙签证（二寸）(35*45mm)", "width": 413, "height": 531, "color": "#FF0000"}, {
     "name": "瑞典签证（二寸）(35*45mm)",
     "width": 413,
     "height": 531,
     "color": "#FF0000"
-}, {"name": "丹麦签证（二寸）(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+}, {"name": "丹麦签证（二寸）(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "芬兰签证（二寸）(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "挪威签证（小二寸）上海广州(35*45mm)", "width": 413, "height": 531, "color": "#FF0000"}, {
     "name": "匈牙利签证（二寸）(35*45mm)",
     "width": 413,
     "height": 531,
     "color": "#FF0000"
-}, {"name": "新加坡签证（二寸）(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+}, {"name": "新加坡签证（二寸）(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "菲律宾签证（二寸）(35*45mm)",
     "width": 413,
     "height": 531,
@@ -1537,7 +1537,7 @@ export const idPhotolist = [{
     "width": 413,
     "height": 531,
     "color": "#FF0000"
-}, {"name": "肯尼亚签证（北京）(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+}, {"name": "肯尼亚签证（北京）(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "捷克签证（二寸）(35*45mm)",
     "width": 413,
     "height": 531,
@@ -1546,17 +1546,17 @@ export const idPhotolist = [{
     "name": "冰岛签证（上海广州）(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "新西兰签证（成都）(35*45mm)", "width": 413, "height": 531, "color": "#FF0000"}, {
     "name": "新西兰签证（上海广州北京）(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
-}, {"name": "黎巴嫩(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "黎巴嫩(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "约旦(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "伊拉克(35*45mm)", "width": 413, "height": 531, "color": "#FF0000"}, {
     "name": "土库曼斯坦(35*45mm)",
     "width": 413,
@@ -1567,22 +1567,22 @@ export const idPhotolist = [{
     "width": 413,
     "height": 531,
     "color": "#fff"
-}, {"name": "也门(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+}, {"name": "也门(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "叙利亚(35*45mm)",
     "width": 413,
     "height": 531,
     "color": "#fff"
-}, {"name": "坦桑尼亚(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+}, {"name": "坦桑尼亚(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "加纳(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "利比亚(35*45mm)", "width": 413, "height": 531, "color": "#fff"}, {
     "name": "阿尔及利亚(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
-}, {"name": "多哥(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "多哥(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "刚果（金）(35*45mm)",
     "width": 413,
     "height": 531,
@@ -1606,12 +1606,12 @@ export const idPhotolist = [{
     "name": "塞内加尔(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "索马里(35*45mm)", "width": 413, "height": 531, "color": "#FF0000"}, {
     "name": "厄立特里亚(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
+    "color": "#438edb"
 }, {"name": "布基纳法索(35*45mm)", "width": 413, "height": 531, "color": "#fff"}, {
     "name": "吉布提(35*45mm)",
     "width": 413,
@@ -1632,17 +1632,17 @@ export const idPhotolist = [{
     "width": 413,
     "height": 531,
     "color": "#FF0000"
-}, {"name": "尼日尔(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+}, {"name": "尼日尔(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "利比里亚(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
-}, {"name": "莱索托(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "莱索托(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "中非(35*45mm)",
     "width": 413,
     "height": 531,
-    "color": "#00BFF3"
-}, {"name": "佛得角(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "佛得角(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "几内亚比绍(35*45mm)",
     "width": 413,
     "height": 531,
@@ -1662,17 +1662,17 @@ export const idPhotolist = [{
     "width": 413,
     "height": 531,
     "color": "#fff"
-}, {"name": "摩尔多瓦签证(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+}, {"name": "摩尔多瓦签证(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "白俄罗斯签证(35*45mm)",
     "width": 413,
     "height": 531,
     "color": "#fff"
-}, {"name": "保加利亚签证(35*45mm)", "width": 413, "height": 531, "color": "#00BFF3"}, {
+}, {"name": "保加利亚签证(35*45mm)", "width": 413, "height": 531, "color": "#438edb"}, {
     "name": "英语AB级（一寸，蓝底）(25*35mm)",
     "width": 295,
     "height": 413,
-    "color": "#00BFF3"
-}, {"name": "贵州社保卡(23*28mm)", "width": 358, "height": 441, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "贵州社保卡(23*28mm)", "width": 358, "height": 441, "color": "#438edb"}, {
     "name": "身份证证件照(26*32mm)",
     "width": 358,
     "height": 441,
@@ -1691,13 +1691,13 @@ export const idPhotolist = [{
     "name": "英语AB级考试（192*144）(12*16mm)",
     "width": 144,
     "height": 192,
-    "color": "#00BFF3"
-}, {"name": "英语四六级考试（224X168）(14*19mm)", "width": 168, "height": 224, "color": "#00BFF3"}, {
+    "color": "#438edb"
+}, {"name": "英语四六级考试（224X168）(14*19mm)", "width": 168, "height": 224, "color": "#438edb"}, {
     "name": "七年级新生照(26*32mm)",
     "width": 147,
     "height": 206,
     "color": "#FF0000"
-}, {"name": "陕西学籍照(26*32mm)", "width": 358, "height": 411, "color": "#00BFF3"}, {
+}, {"name": "陕西学籍照(26*32mm)", "width": 358, "height": 411, "color": "#438edb"}, {
     "name": "云南衡水实验学籍(295×413)(25*35mm)",
     "width": 295,
     "height": 413,

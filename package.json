@@ -30,6 +30,7 @@
     "@vue/cli-service": "^3.8.0",
     "babel-eslint": "^10.0.1",
     "cross-env": "^6.0.3",
+    "crypto-js": "^4.0.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "html-loader": "^0.5.5",
