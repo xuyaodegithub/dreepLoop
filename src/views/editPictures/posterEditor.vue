@@ -296,7 +296,7 @@
                     :mattingType="hoverSub.mattingType ? hoverSub.mattingType : 0" :scale="parseSubs.scale"></v-mune>
             <f-mune v-show="hoverSub.type===2" @initFont="initFont" ref="fontMune"></f-mune>
         </div>
-        <div class="zheR" v-if="loading.show"></div>
+<!--        <div class="zheR" v-if="loading.show"></div>-->
         <div class="zheR" v-if="loading.show"></div>
         <el-dialog
                 :close-on-click-modal="false"
@@ -309,10 +309,13 @@
         </el-dialog>
         <el-dialog
                 :close-on-click-modal="false"
+                destroy-on-close
+                custom-class="loginDialog"
                 top="10vh"
-                width="500px"
-                :visible.sync="dialogVisible2">
-            <login-dialog @success="loginSuccess"></login-dialog>
+                width="420px"
+                :before-close="showLoginDilogAction"
+                :visible.sync="showLoginDilog">
+            <login-dialog v-if="showLoginDilog"></login-dialog>
         </el-dialog>
     </div>
 </template>
@@ -321,7 +324,7 @@
     // @ is an alias to /src
     import vMune from '@/components/editMune';
     import fMune from '@/components/fontMune';
-    import loginDialog from '@/components/login_dialog';
+    import loginDialog from '@/components/login_dialog/index2';
     import mattingImg from '@/components/mattingImg';
     import {myBrowser, findLastIdx, setRad, verticalText, initSmallTag} from '@/utils';
     import {mixins} from '@/minxins';
@@ -490,7 +493,7 @@
         },
         components: {vMune, fMune, mattingImg, loginDialog},
         computed: {
-            ...mapGetters( ['userSubscribeData', 'effectsImgList'] ),
+            ...mapGetters( ['userSubscribeData', 'effectsImgList','showLoginDilog'] ),
             subsLength() {
                 return this.parseSubs.subList.length;
             },
@@ -582,7 +585,7 @@
         },
         methods: {
             ...mapActions( [
-                'userGetscribe'
+                'userGetscribe','showLoginDilogAction'
             ] ),
             loginSuccess(val) {
                 this.dialogVisible2 = val;

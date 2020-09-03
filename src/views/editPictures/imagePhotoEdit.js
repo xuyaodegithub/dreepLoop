@@ -1,10 +1,9 @@
 import Vue from 'vue'
-import index from './index.vue'
-import router from './router'
+import index from './imagePhotoEdit.vue'
 import '@/plugins/subUntils.js'
+import '@/style/repairIcon/iconfont.css'
 import store from '@/store'
 new Vue({
     store,
-    router,
     render: h => h(index)
-}).$mount('#freeimg')
+}).$mount('#imagePhotoEdit')

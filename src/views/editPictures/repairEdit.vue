@@ -67,13 +67,23 @@
                 <aside>提示：图片修复下载需消耗2个点数</aside>
             </div>
         </div>
-
+        <el-dialog
+                :close-on-click-modal="false"
+                destroy-on-close
+                custom-class="loginDialog"
+                top="10vh"
+                width="420px"
+                :before-close="showLoginDilogAction"
+                :visible.sync="showLoginDilog">
+            <login-dialog v-if="showLoginDilog"></login-dialog>
+        </el-dialog>
     </div>
 </template>
 
 <script>
     import {mapGetters, mapActions} from 'vuex'
     import {getToken} from "@/utils/auth";
+    import loginDialog from '@/components/login_dialog/index2'
     import {redirMatting, getMattingInfo, uploadossBg} from '@/apis'
     import {compressImg} from "../../utils";
     export default {
@@ -120,6 +130,9 @@
 
             }
         },
+        components:{
+            loginDialog
+        },
         mounted() {
             if (getToken()) this.userGetscribe();
             [this.can, this.hideCan, this.upCan] = [document.getElementById( 'cans' ), document.createElement( 'canvas' ), document.getElementById( 'up_cans' )];
@@ -143,7 +156,7 @@
             this.initImgData();
         },
         computed: {
-            ...mapGetters( ['userSubscribeData'] ),
+            ...mapGetters( ['userSubscribeData','showLoginDilog'] ),
             curose() {
                 const a = ['default', 'url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMTguOTUgMTIuMDhjNC43MDggMCA2LjUzNiAzLjE4OCA1LjU3IDcuMjA2LS42NCAyLjY2NS0zLjkyMiA0LjQzOC03LjYzMyA0LjkzOC0uMDgzLjIzLS4yMTQuNDM5LS4zOC42MTMuMjYyLjUyMy41NzIuOTE1LjkyNiAxLjE4LjY0OC40ODcgMy4yMDguNjYxIDUuODAxLjQyNGwuMTMyIDEuNDM0Yy0yLjkzMy4yNjgtNS43NzIuMDY1LTYuNzk5LS43MDYtLjU2Mi0uNDIzLTEuMDIzLTEuMDE0LTEuMzktMS43NjhhMS44MDIgMS44MDIgMCAwMS0xLjYxMi0xLjA0OEMxMC42NjMgMjQuMTUgOS4wOCAyMi45MTEgOS4wOCAyMGMwLTQuMSA0Ljc3My03LjkyIDkuODctNy45MnptMCAxLjQ0Yy00LjM2NCAwLTguNDMgMy4yNTUtOC40MyA2LjQ4IDAgMS44ODUuOTQ3IDIuNzM1IDMuMDE3IDIuOTFhMS44MDEgMS44MDEgMCAwMTMuMjY2LS4xM2MzLjEzNy0uNDUzIDUuODYtMS45MyA2LjMxNy0zLjgzLjc2OC0zLjE5OS0uNTEtNS40My00LjE3LTUuNDN6IiBmaWxsPSIjRkZGIiBmaWxsLXJ1bGU9Im5vbnplcm8iIHN0cm9rZT0iI0ZGRiIgc3Ryb2tlLXdpZHRoPSIxLjgiLz48cGF0aCBkPSJNMTUuOTUgMjMuNmMzLS4yMzcgNy4xODgtMS42NDEgNy44Ny00LjQ4Mi42ODMtMi44NC0uMDYyLTYuMzE4LTQuODctNi4zMThTOS44IDE2LjQgOS44IDIwczMuMTUgMy44MzcgNi4xNSAzLjZ6IiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS40NCIgc3Ryb2tlLWRhc2hhcnJheT0iMS44LDAuOSIvPjxwYXRoIGQ9Ik0xNS4yIDIzLjIxM2MuMzYzIDEuNjI0Ljk2MyAyLjc1IDEuOCAzLjM4LjgzNy42MyAyLjkzNy44MTggNi4zLjU2NSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjEuNDQiIHN0cm9rZS1kYXNoYXJyYXk9IjEuOCwwLjkiLz48cGF0aCBkPSJNMTUuMiAyNS40YTEuOCAxLjggMCAxMDAtMy42IDEuOCAxLjggMCAwMDAgMy42eiIgZmlsbD0iIzAwMCIvPjxwYXRoIGQ9Ik0xMC4wOTYgMTEuMTNsLTMuNzA1IDMuMjg2LTEuMjU3LTExLjg4IDkuNjYgNy4wMjgtNC42OTggMS41Njd6IiBmaWxsPSIjMDAwIiBzdHJva2U9IiNGRkYiLz48L2c+PC9zdmc+) 4 4,auto', 'pointer']
                 return this.downSpace ? 'move' : a[this.typeIdx];
@@ -163,7 +176,7 @@
         },
         methods: {
             ...mapActions( [
-                'userGetscribe'
+                'userGetscribe','showLoginDilogAction'
             ] ),
             initImgData() {
                 const info = JSON.parse( window.localStorage.getItem( 'repairInfo' ) )

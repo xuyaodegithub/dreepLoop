@@ -74,7 +74,7 @@
                     </div>
                 </div>
             </div>
-            <div class="OperatorRight">
+            <div class="OperatorRight drops">
                 <div class="matting">
                     <p>一键视频抠图</p>
                     <p>100%自动，免费，在线视频去背景</p>
@@ -100,7 +100,7 @@
 <!--                                    placeholder="CTRL+V粘贴视频或者URL"-->
 <!--                                    @focus="$event.target.select()"-->
 <!--                            ></el-input>-->
-                            <p>支持格式：.mp4, .webm, .ogg, .mov, .gif</p>
+                            <p>支持格式：.mp4, .webm, .mov, .gif</p>
                             <p>最大文件大小：500M</p>
                             <p>最大视频清晰度：1080P</p>
                             <p>
@@ -119,16 +119,14 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex'
-    import {mapActions} from 'vuex'
+    import {mapGetters,mapActions} from 'vuex'
     import headerSub from "@/components/header/index.vue";
     import {getToken, getSecImgs, setSecImgs} from "../../utils/auth";
     import mattingVideo from '@/components/mattingVideo';
-    import moveVideo from '@/components/movesChunk/video.vue';
     import {videoHisList, videoDelete} from '@/apis';
 
     export default {
-        components: {headerSub, mattingVideo,moveVideo},
+        components: {headerSub, mattingVideo},
         data() {
             return {
                 upList: [],
@@ -140,15 +138,21 @@
             // console.log( process.env.VUE_APP_BASEURL )
         },
         mounted() {
-            if (getToken()) this.userGetscribe()
-            this.initHisList();
+            if (getToken()) {
+                this.userGetscribe();
+                this.initHisList();
+            }
+            this.stopPrevent();
         },
         methods: {
-            ...mapActions( ["userGetscribe"] ),
+            ...mapActions( ["userGetscribe",'showLoginDilogAction'] ),
             upLoadimg() {
                 //点击上传
-                if (!getToken()) this.multiple = false;
-                else this.multiple = true;
+                if (!getToken()) {
+                    this.multiple = false;
+                    this.showLoginDilogAction();
+                    return;
+                } else this.multiple = true;
                 this.$refs.upImg.value = "";
                 this.$nextTick( () => {
                     this.$refs.upImg.click();
@@ -194,7 +198,39 @@
                         } );
                     }
                 } )
-            }
+            },
+            stopPrevent() {//阻止游览器默认打开图片
+                let _self = this
+                document.addEventListener( "drop", function (e) {  //拖离
+                    e.preventDefault();
+                } );
+                document.addEventListener( "dragleave", function (e) {  //拖后放
+                    e.preventDefault();
+                } );
+                document.addEventListener( "dragenter", function (e) {  //拖进
+                    e.preventDefault();
+                } );
+                document.addEventListener( "dragover", function (e) {  //拖来拖去
+                    e.preventDefault();
+                } );
+                let oDrops = document.getElementsByClassName( 'drops' )[0];
+                    oDrops.addEventListener( "drop", function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        // e.cancelable=true
+                        let files = e.dataTransfer.files;
+                        // console.log(files)
+                        if (!files.length) return;
+                        if (!getToken() && files.length > 1) {
+                            _self.$message( {type: 'error', message: '登录后可批量上传'} )
+                            return
+                        }
+                        _self.toscroll();
+                        for (let i = 0; i < files.length; i++) {
+                            _self.upList.unshift( {file: files[i], id: files[i].name + Math.random(), type: 'file'} )
+                        }
+                    } )
+            },
         },
     };
 </script>
@@ -432,7 +468,7 @@
             .center {
                 margin-top: 24px;
                 padding: 24px 0 27px 34px;
-                border-top: 1px solid #3d3d3d;
+                /*border-top: 1px solid #3d3d3d;*/
 
                 .flex img {
                     margin-right: 6px;

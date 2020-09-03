@@ -87,10 +87,12 @@ const filters = {
 
         return ret;
     },
-    minsfilter(s){
+    minsfilter(s,k){
         const n=s ? s : 0;
-        const sec=Math.floor(n/60),min=n % 60;
-        return `${sec}分${min}秒`
+        let sec=Math.floor(n/60),min=n % 60;
+        if(sec < 10)sec='0' + sec;
+        if(min < 10)min='0' + min;
+        return k?  `${sec}:${min}` : `${sec}分${min}秒`
     }
     // saveActions(funUrl){
     //   axios({

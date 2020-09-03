@@ -625,6 +625,9 @@
             font-size: 16px;
             color: #999;
         }
+        .boke .over{
+            font-weight: bold;
+        }
 
         .suanfa{
             padding: 100px 0 80px;
@@ -787,7 +790,7 @@
         <h1>场景应用</h1>
         <p>不必专业PS，新手小白都能用，人人必备的在线抠图工具</p>
         <div class="flex idIn">
-            <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/32f3a4dd0d37446f8b595aeec93ed8f2.png"
+            <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200903/9469b164a13548758eae384aafd40841.png"
                  alt="">
             <div>
                 <h3>在线制作证件照</h3>
@@ -963,7 +966,7 @@
                 <p>2020年8月2日</p>
             </a>
             <a href="http://matting.deeplor.com/blog/2020/08/01/%e5%a6%82%e4%bd%95%e7%94%a8%e6%89%8b%e6%9c%ba%e6%8b%8d%e5%87%ba%e9%ab%98%e4%b8%8b%e5%8d%95%e7%9a%84%e5%a4%96%e5%8d%96%e8%8f%9c%e5%93%81%e5%9b%be%ef%bc%9f/" target="_blank">
-                <div class="over">如何用手机拍出高下单的外卖菜品图？？</div>
+                <div class="over">如何用手机拍出高下单的外卖菜品图？</div>
                 <p>2020年8月1日</p>
             </a>
             <a href="http://matting.deeplor.com/blog/2020/08/01/%e5%a6%82%e4%bd%95%e5%88%b6%e4%bd%9c%e8%af%81%e4%bb%b6%e7%85%a7%e4%b8%80%e9%94%ae%e6%8d%a2%e8%83%8c%e6%99%af%e5%b0%8f%e7%a8%8b%e5%ba%8f%ef%bc%8c%e5%bf%85%e9%a1%bb24k%e7%ba%af%e6%99%ba%e8%83%bd/" target="_blank">
@@ -985,8 +988,8 @@
     <div class="margin flex">
         <div class="F_l">
             <img src="static/logos.png" alt="">
-            <p>皮卡智能PicUP.AI利用人工智能和计算机视觉的力量，提供各种各样的产品、素材和API,为不同领域 的客户提供服务，包括设计行业、国内电商、跨境
-                电商、照片处理APP、表情制作小程序开发等，还包括新兴的POD（Print on demand）照片定制打印按需印刷业务。</p>
+            <p>皮卡智能PicUP.AI利用人工智能和计算机视觉的力量，提供各种各样的产品、素材和API，为不同领域 的客户提供服务，包括设计行业、国内电商、跨境
+                电商、证件照形象照处理APP、表情制作小程序开发等，还包括新兴的POD（Print on demand）照片定制打印按需印刷业务。</p>
         </div>
         <div>
             <h5>智能抠图</h5>
@@ -1008,7 +1011,7 @@
         <div>
             <h5>关于我们</h5>
             <a href="aboutUs.html">关于我们</a>
-            <a href="docsify/#/registerdoc_terms.md">服务和隐私</a>
+            <a href="servicePrivacy.html">服务和隐私</a>
             <a href="copyright.html">版权</a>
         </div>
     </div>
@@ -1222,7 +1225,7 @@
                     toPostEdior( res.data )
                 } else if (res.code === 4003) {
                     localStorage.setItem( 'backUrl', window.location.href );
-                    window.location.href = `loginOrRegister.html`;
+                    window.location.href = 'loginOrRegister.html';
                 } else loading( res.msg )
             }
         } )

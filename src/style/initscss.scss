@@ -1,6 +1,7 @@
 @import "flex";
 @import "margin";
-@import "padding";
+@import "marginpx";
+//@import "padding";
 $co:#e82255;
 $to:#21a9e8;
 $head:#F75191;
@@ -38,7 +39,7 @@ $be:#2ED8B4;
 div.el-popper.te{
   margin-top: 30px;
 }
-.editPictures .el-dialog__body{
+.loginDialog .el-dialog__body{
   padding: 0;
 }
 .matting .el-slider__runway{
@@ -65,6 +66,6 @@ div.el-popper.te{
 .mattingVideo .el-icon-loading{
   font-size: 28px;
 }
-.boxVideo .el-input__inner{
+.boxVideo .inline .el-input__inner{
   height: 100%;
 }

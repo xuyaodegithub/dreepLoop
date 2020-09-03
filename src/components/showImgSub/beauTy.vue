@@ -24,7 +24,7 @@
                     {{this.bgOriginal.status===3 ? '网络出现中断，请重试' : '次数受限'}}
                     <p>
                         {{this.bgOriginal.status===3 ? '请选择一个不超过15M的图片进行处理' :  '未登录使用次数已达上限，'}}<br>
-                        <span v-show="bgOriginal.status===4">请 <a href="loginOrRegister.html" style="color: #e82255">登录</a> 后继续操作！</span>
+                        <span v-show="bgOriginal.status===4">请 <span @click="showLoginDilogAction" style="color: #e82255">登录</span> 后继续操作！</span>
                     </p>
                 </div>
                 <div v-show="bgOriginal.status===2" class="errmsg">
@@ -114,6 +114,7 @@
             ...mapGetters( ['userSubscribeData'] ),
         },
         methods: {
+            ...mapActions(['showLoginDilogAction']),
             downLoadImg(e, k) {
                 let oImg = new Image(), c = document.createElement( 'canvas' );
                 const ct = c.getContext( '2d' );

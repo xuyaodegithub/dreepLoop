@@ -1394,18 +1394,17 @@ var idPhotolist = [
 function initList() {
     var oDiv = $( '.contents' );
     for (var i = 0; i < idPhotolist.length; i++) {
-        var item = idPhotolist[i];
-        let str = $( ` <div class="cu">
-                        <div class="its">
-                            <div w="${item.width}" h="${item.height}" color="${item.color}" name="${item.name}">
-                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200819/f28d6ae445974530b33a5504ec2b15d1.png"
-                                     alt="">
-                                     <div class="flex"><span onclick="downLoad(this,event)">下载</span><span>编辑</span></div>
-                            </div>
-                        </div>
-                        <p class="over">${item.name.split( '(' )[0]}</p>
-                        <p class="over">${item.name.split( '(' )[1] ? '(' + item.name.split( '(' )[1] : ''}</p>
-                    </div> ` );
+        var item = idPhotolist[i],t2=item.name.split( '(' )[1] ? '(' + item.name.split( '(' )[1] : '';
+        let str = $( " <div class='cu'>" +
+        "<div class='its'>" +
+        "<div w='" + item.width + "' h='" + item.height + "' color='" + item.color + "' name='" + item.name + "'>" +
+        "<img src='http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200903/2913263e9ed944f0977a4bf1fbedbdde.png' alt=''>" +
+        "<div class='flex'><span onclick='downLoad(this,event)'>下载</span><span>编辑</span></div>" +
+        " </div>" +
+        " </div>" +
+        " <p class='over'>" + item.name.split( '(' )[0] + "</p>" +
+        " <p class='over'>" + t2 + "</p>" +
+            "</div> " );
         oDiv.append( str )
     }
 }
@@ -1424,18 +1423,17 @@ function seach(e) {
             oDiv.append( $( '<p style="text-align: center;color: #333;line-height: 40px;font-size: 16px;margin-top: 20px">暂无数据</p>' ) )
         } else {
             for (var i = 0; i < newList.length; i++) {
-                var item = newList[i];
-                let str = $( ` <div class="cu">
-                        <div class="its">
-                            <div w="${item.width}" h="${item.height}" color="${item.color}" name="${item.name}">
-                                <img src="${mattingMsg.bgRemovedPreview}"
-                                     alt="">
-                                      <div class="flex"><span onclick="downLoad(this,event)">下载</span><span>编辑</span></div>
-                            </div>
-                        </div>
-                       <p class="over">${item.name.split( '(' )[0]}</p>
-                        <p class="over">${item.name.split( '(' )[1] ? '(' + item.name.split( '(' )[1] : ''}</p>
-                    </div> ` );
+                var item = newList[i],bname=item.name.split( '(' )[1] ? '(' + item.name.split( '(' )[1] : '';
+                let str = $( "<div class='cu'>" +
+                    "<div class='its'>" +
+                    "<div w='" + item.width + "' h='" + item.height + "' color='"+item.color + "' name='" + item.name + "'>" +
+                    " <img src='"+mattingMsg.bgRemovedPreview+"' alt=''>" +
+                    "<div class='flex'><span onclick='downLoad(this,event)'>下载</span><span>编辑</span></div>" +
+                    " </div>" +
+                    "</div>" +
+                    "<p class='over'>" + item.name.split( '(' )[0] + "</p>" +
+                    "<p class='over'>"+bname+"</p>" +
+                    "</div>" );
                 oDiv.append( str )
             }
         }
@@ -1461,7 +1459,7 @@ function inputS(k) {//input事件
         if (thinkList.length > 0) {
             for (var i = 0; i < thinkList.length; i++) {
                 var item = thinkList[i]
-                var str = $( `<li class="over" onclick="seachList(this)">${item.name}</li>` )
+                var str = $( "<li class='over' onclick='seachList(this)'>" + item.name + "</li>" )
                 oUl.append( str )
             }
             oUl.show();
@@ -1487,24 +1485,24 @@ function inithisList(k) {//初始化历史记录/webMatting/mattingHistory
         openScroll = true;
         $( '.hisList .list' ).html( '' );
     }
-    var data = {page, pageSize, mattingType: 8}, oDiv = $( '.hisList .list' );
+    var data = {page: page, pageSize: pageSize, mattingType: 8}, oDiv = $( '.hisList .list' );
     $.ajax( {
         url: baseUrl + '/webMatting/mattingHistory',
         type: 'get',
         dataType: 'json',
         headers: {token: token},
         data: data,
-        success(res) {
+        success: function (res) {
             if (!res.code) {
                 var resultList = Object.keys( res.data ), resultObj = res.data;
                 if (resultList.length < 1 && page === 1) $( '.hisList h5' ).css( 'display', 'block' )
                 else if (resultList.length > 0) {
                     resultList.map( function (it) {
-                        var str = `  <div class="hisItems"><h3>${it}</h3><div class="flex a-i f-w">`;
+                        var str = " <div class='hisItems'><h3>" + it + "</h3><div class='flex a-i f-w'>";
                         resultObj[it].map( function (itson) {
-                            str += ` <div class="itmes" oriUrl="${itson.originalImage}" fileId="${itson.id}" onclick="showhisItem(this)"><img src="${itson.originalImage}" alt=""></div>`;
+                            str += "<div class='itmes' oriUrl=" + itson.originalImage + " fileId='${itson.id}' onclick='showhisItem(this)'><img src=" + itson.originalImage + " alt=''></div>";
                         } );
-                        str += `</div></div>`;
+                        str += "</div></div>";
                         oDiv.append( $( str ) );
                     } )
                 }

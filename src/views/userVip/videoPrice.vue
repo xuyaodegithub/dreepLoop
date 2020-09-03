@@ -8,7 +8,7 @@
                 <div class="left">
                     <div class="title">免费账号</div><!--订阅计划-->
                     <p>360P 5秒 免费视频抠图去背景</p>
-                    <div class="Lbtn"><a href="register.html">立即注册</a></div>
+                    <div class="Lbtn cu" @click="showLoginDilogAction">立即注册</div>
                 </div>
                 <div class="center">
                     <div class="title">按时长充值，永久使用</div><!--订阅计划-->
@@ -76,7 +76,7 @@
     import {getToken} from "../../utils/auth";
     import ewm from '../../assets/caoewm.png'
     import successImg from '../../assets/image/paySuccess.png'
-
+    import { mapActions } from 'vuex';
     export default {
         name: 'vip',
         data() {
@@ -110,6 +110,7 @@
             this.getPlansList()
         },
         methods: {
+            ...mapActions(['showLoginDilogAction']),
             changeRadio(e) {
                 if (e === 'other') this.selectRadio = 'other';
                 else this.selectRadio = this.choseList.filter( val => val.id == e )[0]
@@ -130,7 +131,7 @@
                     this.ermUrl = this.ewm;
                     return
                 }
-                if (!getToken()) window.location.href = 'loginOrRegister.html';
+                if (!getToken())this.showLoginDilogAction();
                 else {
                     let data = {};
                     this.lastSelect =  this.selectRadio;
@@ -334,12 +335,7 @@
                 border: 1px solid $co;
                 line-height: 30px;
                 border-radius: 15px;
-
-                a {
-                    display: block;
-                    width: 100%;
-                    color: $co;
-                }
+                color: $co;
             }
 
             & > p {
@@ -439,13 +435,13 @@
         border-color: #666;
     }
 
-    .vip .el-dialog__body {
+    .vip .Dlog .el-dialog__body {
         padding: 16px 22px 32px;
         text-align: center;
     }
 
     .vip {
-        .el-dialog {
+        .Dlog {
             border-radius: 15px;
         }
 

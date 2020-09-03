@@ -63,8 +63,8 @@
                         <!--                        Error occured, the foreground can not be recognized-->
                         <p>
                             {{this.bgOriginal.status===3 ? '请选择一个不超过15M的图片进行处理' : '未登录使用次数已达上限，'}}<br>
-                            <span v-show="bgOriginal.status===4">请 <a href="loginOrRegister.html"
-                                                                      style="color: #e82255">登录</a> 后继续操作！</span>
+                            <span v-show="bgOriginal.status===4">请 <span @click="showLoginDilogAction" class="cu"
+                                                                      style="color: #e82255">登录</span> 后继续操作！</span>
                             <!--                        	Try picture that contains person, more categories will be supported in future-->
                         </p>
                     </div>
@@ -126,7 +126,7 @@
     import {myBrowser, getrandom} from "../../utils";
     import {getToken} from "../../utils/auth";
     import JSManipulate from '../../utils/jsmanipulate.js'
-    import {mapGetters} from 'vuex'
+    import {mapGetters,mapActions} from 'vuex'
     import {mixins} from '@/minxins'
     import downBtn from '../downLoadBtn'
     import loadingSub from '../loadingSub'
@@ -248,6 +248,7 @@
             document.addEventListener( 'mouseup', this.ups )
         },
         methods: {
+            ...mapActions(['showLoginDilogAction']),
             setInitStatus(e) {//s设置初始化状态
                 let sObj = {
                     type: this.choseBack === 'bg' ? 4 : this.choseBack
@@ -770,7 +771,7 @@
                     }
                     downloadMattedImage( data ).then( res => {
                         if (!res.code) {
-                            this.initSmallTag( e, '次数 -1' )
+                           if(!all) this.initSmallTag( e, '次数 -1' );
                             this.imageMUrl = res.data
                             this.downOldImg( res.data, all )
                         } else this.showLoading = false;

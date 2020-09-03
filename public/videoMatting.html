@@ -17,19 +17,19 @@
     </script>
     <meta charset="utf-8">
     <!--//设置不缓存-->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
     <meta http-equiv="Cache" content="no-cache">
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0" id="view">
     <meta name="applicable-device" content="pc">
     <link rel="mobile-agent" content="format=html5;url=http://m.picup.shop"/>
-    <meta name="Description" content="PicUP.Ai提供的一键头像抠图，从照片里分割头像区域，API还可获取人脸关键点。特别适合证件照、毕业照、手机壳卡通头像等应用">
-    <meta name="Keywords" content="一键抠头像,在线抠头像,抠头像API,头像抠图,抠头像,头像分割,个性化电商头像"/>
+    <meta name="Description" content="皮卡智能免费自动视频抠图软件,在线一键视频去背景,无需视频抠图教程,轻松换背景,制作哔哩哔哩/快手/抖音短视频,淘宝/京东/亚马逊电商短视频 ">
+    <meta name="Keywords" content="视频抠图，视频抠图软件，视频抠像软件，视频怎么抠图，视频ps软件"/>
     <!--  <title>AI智能抠图</title>-->
-    <title>一键抠头像头像头像自动分割抠图-PicUP.Ai</title>
+    <title>免费自动视频抠图免PS在线一键视频去背景-皮卡智能PicUP.AI</title>
     <link rel="stylesheet" href="static/public.css">
     <link rel="icon" href="smallLogo.jpg" type="images/x-icon">
     <!--标题栏：-->
@@ -48,9 +48,10 @@
     </script>
 </head>
 <style>
-    html,body{
+    html, body {
         background-color: #000 !important;
     }
+
     header.positionTop {
         position: absolute;
         top: -100000px;
@@ -81,11 +82,13 @@
         margin-left: 0;
         margin-right: 60px;
     }
-    .content{
+
+    .content {
         margin-left: 244px;
         padding-left: 15px;
         padding-right: 75px;
     }
+
     .matting {
         width: 100%;
         min-height: 624px;
@@ -94,25 +97,31 @@
         box-sizing: border-box;
         margin-bottom: 15px;
     }
-    .matting p:first-child{
+
+    .matting p:first-child {
         font-weight: bold;
     }
-    .matting > p:nth-child(2){
+
+    .matting > p:nth-child(2) {
         margin-bottom: 16px;
     }
-    .matting .lm ~ p{
+
+    .matting .lm ~ p {
         position: relative;
         top: -60px;
     }
-    .matting > img{
+
+    .matting > img {
         display: block;
         margin: 0 auto;
         width: 540px;
     }
+
     .matting p:last-child span {
         color: #e82255;
     }
-    .matting >p:last-child{
+
+    .matting > p:last-child {
         color: #D9D9D9;
     }
 
@@ -131,6 +140,7 @@
         margin-bottom: 24px;
         font-size: 15px;
     }
+
     .matting .imgbox {
         width: 900px;
         margin: 0 auto;
@@ -142,11 +152,12 @@
         margin-top: 78px;
     }
 
-    .matting  p {
+    .matting p {
         font-size: 14px;
         color: #9f9f9f;
         text-align: left;
     }
+
     .matting .list {
         width: 100%;
         margin-top: 60px;
@@ -172,13 +183,15 @@
         font-size: 14px;
     }
 
-   .matting .list li {
+    .matting .list li {
         width: 100%;
         margin-bottom: 80px;
     }
-    .matting .list li:last-child{
+
+    .matting .list li:last-child {
         margin: 0;
     }
+
     .matting .list .inline-box {
         width: 900px;
         margin: 0 auto;
@@ -202,6 +215,7 @@
         height: 350px;
         margin-bottom: 62px;
     }
+
     .matting .list .inline p {
         font-size: 15px;
         text-align: left;
@@ -211,11 +225,57 @@
         font-size: 30px;
         margin-top: 30px;
     }
+
     .matting .list .inline p:last-child {
-      line-height: 26px;
+        line-height: 26px;
     }
+
     .matting .list .list li:last-child {
         margin-bottom: 0;
+    }
+
+    .matting .demo {
+        justify-content: center;
+    }
+
+    .demo .videoItem {
+        position: relative;
+        width: 480px;
+        margin: 0 20px;
+    }
+
+    .demo .videoItem .posi {
+        position: absolute;
+        width: 50%;
+        overflow: hidden;
+    }
+    .videoList{
+        min-height: initial;
+        padding-bottom: 100px;
+    }
+    .videoList p{
+        margin-bottom: 70px !important;
+    }
+    .videoItem .posi .video, .videoItem > .videoImg {
+        object-fit: fill;
+        width: 480px;
+    }
+
+    .demo .videoItem > .move {
+        cursor: ew-resize;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        height: 100%;
+        top: 0;
+    }
+    @media screen and (max-width: 1500px) {
+        .demo .videoItem {
+            width: 400px;
+        }
+        .videoItem .posi .video, .videoItem > .videoImg {
+            width: 400px;
+        }
     }
 </style>
 <body>
@@ -343,27 +403,53 @@
                 </li>
             </ul>
         </div>
-<!--        <div class="matting">-->
-<!--            <p>示例视频</p>-->
-<!--            <div class="demo flex">-->
-<!--                <div class="posi" :style="{width:ws}">-->
-<!--                    <video :src="imgss[0]" muted ref="videoss" loop autoplay>-->
-<!--                        <source :src="imgss[0]" type="video/mp4">-->
-<!--                        &lt;!&ndash;                            <source :src="item" type="video/ogg">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                            <source :src="item" type="video/webm">&ndash;&gt;-->
-<!--                        你的游览器暂不支持视频播放，换一个试试吧！-->
-<!--                    </video>-->
-<!--                </div>-->
-<!--                <video :src="imgss[1]" muted ref="videoss" loop autoplay>-->
-<!--                    <source :src="imgss[1]" type="video/mp4">-->
-<!--                    &lt;!&ndash;                            <source :src="item" type="video/ogg">&ndash;&gt;-->
-<!--                    &lt;!&ndash;                            <source :src="item" type="video/webm">&ndash;&gt;-->
-<!--                    你的游览器暂不支持视频播放，换一个试试吧！-->
-<!--                </video>-->
-<!--                &lt;!&ndash;            <img :src="imgss[1]" alt="">&ndash;&gt;-->
-<!--                <img src="../../assets/image/moveW.png" alt="" class="move cu" :style="{left:ws}">-->
-<!--            </div>-->
-<!--        </div>-->
+        <div class="matting videoList">
+            <p>示例视频</p>
+            <div class="demo flex">
+                <div class="videoItem">
+                    <div class="posi">
+                        <video src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/08/31/11_1.mp4" muted ref="videoss" loop autoplay  class="video">
+                            <source src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/08/31/11_1.mp4" type="video/mp4">
+                            <!--                            <source :src="item" type="video/ogg">-->
+                            <!--                            <source :src="item" type="video/webm">-->
+                            你的游览器暂不支持视频播放，换一个试试吧！
+                        </video>
+<!--                        <img src="docsify/11.gif" alt="" class="video">-->
+                    </div>
+<!--                    <img src="docsify/mixkit-rooftop-phone-call-by-b-unscreen.gif" alt="" class="videoImg">-->
+                    <video src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/08/31/111.mp4" muted ref="videoss" loop autoplay  class="videoImg">
+                        <source src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/08/31/111.mp4" type="video/mp4">
+                        <!--                            <source :src="item" type="video/ogg">-->
+                        <!--                            <source :src="item" type="video/webm">-->
+                        你的游览器暂不支持视频播放，换一个试试吧！
+                    </video>
+                    <!--            <img :src="imgss[1]" alt="">-->
+                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200831/f4264eeb0c8644da84f41ee897eae37d.png"
+                         alt="" class="move cu">
+                </div>
+                <div class="videoItem">
+                    <div class="posi">
+                        <video src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/08/31/22.mp4" muted ref="videoss" loop autoplay  class="video">
+                            <source src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/08/31/22.mp4" type="video/mp4">
+                            <!--                            <source :src="item" type="video/ogg">-->
+                            <!--                            <source :src="item" type="video/webm">-->
+                            你的游览器暂不支持视频播放，换一个试试吧！
+                        </video>
+<!--                        <img src="docsify/http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200831/ee72db7519684bdcba8067e959c1e892.gif" alt="" class="video">-->
+                    </div>
+<!--                    <img src="docsify/mixkit-rooftop-phone-call-by-b-unscreen_1.gif" alt="" class="videoImg">-->
+                    <video src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/08/31/222.mp4" muted ref="videoss" loop autoplay  class="videoImg">
+                        <source src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/08/31/222.mp4" type="video/mp4">
+                        <!--                            <source :src="item" type="video/ogg">-->
+                        <!--                            <source :src="item" type="video/webm">-->
+                        你的游览器暂不支持视频播放，换一个试试吧！
+                    </video>
+                    <!--            <img :src="imgss[1]" alt="">-->
+                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200831/f4264eeb0c8644da84f41ee897eae37d.png"
+                         alt="" class="move cu">
+                </div>
+            </div>
+        </div>
         <div class="matting">
             <p>我们的用户来自</p>
             <div class="imgbox">
@@ -384,7 +470,32 @@
             <p>微信扫一扫添加技术顾问好友</p>
         </div>
     </div>
-
 </div>
+<script src="static/jquery-1.11.3.min.js"></script>
+<script>
+    var moveOpen=false,idx=0;
+    $('.videoItem').mousedown(function(e){
+        var ev= e || window.event;
+        ev.stopPropagation();
+        moveOpen=true;
+        idx=$(this).index();
+        var l=e.clientX-$(this).offset().left;
+        $(this).find('.move').css('left',l);
+        $(this).find('.posi').css('width',l/$(this).width()*100+'%');
+    })
+    $(window).mousemove(function(e){
+        e.stopPropagation();
+        if(!moveOpen)return;
+        var oDiv=$('.videoItem').eq(idx),lx=e.clientX-oDiv.offset().left;
+        var l=lx<0 ? 0 : (lx>$(oDiv).width() ? $(oDiv).width() :lx);
+        $(oDiv).find('.move').css('left',l);
+        $(oDiv).find('.posi').css('width',l/$(oDiv).width()*100+'%');
+    })
+    $(window).mouseup(function(e){
+        moveOpen=false;
+    })
+    function imgdragstart(){return false;}
+    for(i in document.images)document.images[i].ondragstart=imgdragstart;
+</script>
 </body>
 </html>

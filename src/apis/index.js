@@ -308,3 +308,17 @@ export const videoDelete=(data)=>{
  return https.get('/videoMatting/delete',data)
 }
 
+/**
+ *获取关注二维码
+ **/
+export const wechatCode=(data)=>{
+ return https.get('/weixinMp/getSubscribeQrCode',data)
+}
+
+/**
+ *轮训是否关注
+ **/
+export const toSureWatch=(data)=>{
+ return https.get('/weixinMp/checkMpSubscribe',data)
+}
+

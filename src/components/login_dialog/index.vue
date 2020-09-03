@@ -33,9 +33,8 @@
 
 <script>
     import sliderYz from '@/components/sliderYz/index.vue'
-    import {toRouter, basrUrls} from '@/utils'
-    import {setToken, getToken, setCookie, getAccount, setAccount, reAccount} from "../../utils/auth";
-    import {usercheckEmail, userLogin, loginByMobile, sendCode} from "../../apis";
+    import {setToken, setCookie, getAccount, setAccount, reAccount} from "../../utils/auth";
+    import { userLogin, loginByMobile, sendCode} from "../../apis";
     import Cookies from 'js-cookie';
     export default {
         name: 'login',
@@ -45,7 +44,6 @@
                 loginBtn: ['密码登录', '短信登录'],
                 username: '',
                 userpass: '',
-                basrUrl: basrUrls(),
                 checked: true,
                 showCode: false,
                 timer: 0
@@ -56,12 +54,6 @@
             passmsg() {
                 if (this.btnType == 0) return '密码';
                 else return '短信验证码'
-            },
-            typeBtn() {
-                return this.$route.query.type;
-            },
-            hasBack() {
-                return this.$route.query.hasback;
             },
         },
         methods: {

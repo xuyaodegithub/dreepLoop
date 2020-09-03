@@ -287,7 +287,7 @@
             window.removeEventListener( 'scroll', this.scrollFun )
         },
         computed: {
-            ...mapGetters( [] ),
+            ...mapGetters( ['userSubscribeData'] ),
             LoginStatus() {//登录状态
                 return getToken() ? true : false;
             },
@@ -381,27 +381,26 @@
             },
             //下载多张抠图
             saveMove(key, e) {
-                let that = this
-                this.$message.closeAll()
+                let that = this, allImgs = JSON.parse( JSON.stringify( this.allbgImg ) );
+                this.$message.closeAll();
+                let arr = allImgs.filter( (val, index) => {
+                    return val.img
+                } );
                 if (this.files.length !== this.allbgImg.length) {
                     this.$message( {type: 'warning', message: '正在处理中，请稍后...'} );
                     return
-                }
+                };
                 this.loading = this.$loading( {
                     lock: true,
                     text: '0 已完成',
                     spinner: 'el-icon-loading',
                     background: 'rgba(0, 0, 0, 0.7)'
                 } );
-                if (!this.classType) {
+                if (!this.classType) {//下载自定义
                     const allSub = this.$refs.subs
                     allSub.map( (item) => item.save( key, e, 'all' ) )
                     return
                 }
-                let allImgs = JSON.parse( JSON.stringify( this.allbgImg ) );
-                let arr = allImgs.filter( (val, index) => {
-                    return val.img
-                } );
                 // console.log(arr)
                 if (key === 0) this.StoreDowQrcode( arr );
                 else {
@@ -542,7 +541,6 @@
                                 return item !== 0
                             } )
                             if (t) _self.rightImgList = [...newArr.reverse(), ..._self.rightImgList]
-                            // console.log(_self.allbgImg,"11111111111111111111111")
                         }
                     }
                     this.allbgImg = [...new Array( obj.length ).fill( 0 ), ...this.allbgImg]

@@ -51,11 +51,11 @@
             resetPass() {
                 // this.showCode=true;
                 if (!this.phone || !this.code) {
-                    Toast( '信息不可为空' )
+                    this.$message({message:'信息不可为空',type:'warning'} )
                     return
                 }
                 if (this.phone.length !== 11) {
-                    Toast( '手机号格式不正确' )
+                    this.$message({message:'手机号格式不正确',type:'warning'} )
                     return
                 }
                 const data = {

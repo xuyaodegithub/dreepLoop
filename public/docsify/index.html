@@ -18,77 +18,77 @@
   <link rel="stylesheet" href="css/index.css">
   <link rel="icon" href="../smallLogo.jpg">
   <style>
-    header{
-      border-bottom: 1px solid #e7e7e7;
-      font-size: 14px;
-      color: #333;
-      line-height:60px ;
-      background-color: #fff;
-      font-family: "Microsoft YaHei";
-      /*min-width: 1024px;*/
-      font-weight: 500;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 888;
-    /*background: url("static/images/back.jpg") no-repeat center;*/
-    }
-    header .margins{
-      padding: 0 30px 0;
-    }
-    header li{
-      margin: 0 20px;
-    }
-    header li.red{
-       color: #e82255;
-     }
-    header .right span{
-      display: inline-block;
-      padding: 0 15px;
-      line-height: 32px;
-      cursor:pointer;
-    }
-    header .right span.active{
-      border: 1px solid #e82255;
-      border-radius: 16px;
-      margin-left: 10px;
-    }
-    header .right span.active a{
-      color: #e82255;
-    }
-    header li:first-child{
-      margin-left: 0;
-      margin-right: 65px;
-    }
-    body.sticky .sidebar{
-      top: 60px;
-    }
-    body.sticky main{
-      height: auto;
-      margin-top: 60px;
-    }
-    body.sticky main .sidebar-toggle{
-      z-index: 40;
-      }
-      body.sticky main .content{
-      position: static;
-      margin-left: 300px;
-    }
-    footer {
-      position: relative;
-      z-index: 30;
-      background-color: #191919;
-      color: #fff;
-      font-size: 12px;
-      line-height: 20px;
-      /*padding-top: 62px;*/
-      /*min-width: 1200px;*/
-    }
-    footer .last{
-      line-height: 40px;
-      text-align: center;
-    }
+    /*header{*/
+    /*  border-bottom: 1px solid #e7e7e7;*/
+    /*  font-size: 14px;*/
+    /*  color: #333;*/
+    /*  line-height:60px ;*/
+    /*  background-color: #fff;*/
+    /*  font-family: "Microsoft YaHei";*/
+    /*  !*min-width: 1024px;*!*/
+    /*  font-weight: 500;*/
+    /*  position: fixed;*/
+    /*  top: 0;*/
+    /*  left: 0;*/
+    /*  width: 100%;*/
+    /*  z-index: 888;*/
+    /*!*background: url("static/images/back.jpg") no-repeat center;*!*/
+    /*}*/
+    /*header .margins{*/
+    /*  padding: 0 30px 0;*/
+    /*}*/
+    /*header li{*/
+    /*  margin: 0 20px;*/
+    /*}*/
+    /*header li.red{*/
+    /*   color: #e82255;*/
+    /* }*/
+    /*header .right span{*/
+    /*  display: inline-block;*/
+    /*  padding: 0 15px;*/
+    /*  line-height: 32px;*/
+    /*  cursor:pointer;*/
+    /*}*/
+    /*header .right span.active{*/
+    /*  border: 1px solid #e82255;*/
+    /*  border-radius: 16px;*/
+    /*  margin-left: 10px;*/
+    /*}*/
+    /*header .right span.active a{*/
+    /*  color: #e82255;*/
+    /*}*/
+    /*header li:first-child{*/
+    /*  margin-left: 0;*/
+    /*  margin-right: 65px;*/
+    /*}*/
+    /*body.sticky .sidebar{*/
+    /*  top: 60px;*/
+    /*}*/
+    /*body.sticky main{*/
+    /*  height: auto;*/
+    /*  margin-top: 60px;*/
+    /*}*/
+    /*body.sticky main .sidebar-toggle{*/
+    /*  z-index: 40;*/
+    /*  }*/
+    /*  body.sticky main .content{*/
+    /*  position: static;*/
+    /*  margin-left: 300px;*/
+    /*}*/
+    /*footer {*/
+    /*  position: relative;*/
+    /*  z-index: 30;*/
+    /*  background-color: #191919;*/
+    /*  color: #fff;*/
+    /*  font-size: 12px;*/
+    /*  line-height: 20px;*/
+    /*  !*padding-top: 62px;*!*/
+    /*  !*min-width: 1200px;*!*/
+    /*}*/
+    /*footer .last{*/
+    /*  line-height: 40px;*/
+    /*  text-align: center;*/
+    /*}*/
   </style>
 </head>
 <body>
@@ -97,50 +97,50 @@
                   height="0" width="0" style="display:none;visibility:hidden"></iframe>
 </noscript>
 <!-- End Google Tag Manager (noscript) -->
-<header id="headers">
-  <div class="margins flex j-b a-i first">
-    <ul class="flex">
-      <li><a href="../index.html"><img src="../static/images/sureLogo.png" alt="" class="cu" style="height: 30px;"></a></li>
-      <li class="cu"><a href="../index.html">首页</a></li>
-      <li class="cu"><a href="../people.html">人物抠图</a></li>
-      <li class="cu"><a href="../objects.html">物体抠图</a></li>
-      <li class="cu"><a href="../headCutout.html">头像抠图</a></li>
-<!--      <li class="cu"><a href="../intelligentRepair.html">照片修复</a></li>-->
-      <li class="cu"><a href="../beautify.html">一键美化</a></li>
-<!--      <li>|</li>-->
-      <li class="cu" ><a href="http://www.picup.shop/img/list">免费背景图</a></li>
-<!--      <li class="cu" @click="userCenter()">Members</li>-->
-      <!--            <li class="cu">登录</li>-->
-    </ul>
-    <div class="right">
-<!--      v-if="!loginAfter"-->
-      <div>
-        <span><a href="../downLoad.html">下载桌面端</a></span>
-        <span><a href="#/apidoc_api.md" style="color: #e82255;">API</a></span><!--登录-->
-        <span><a href="../userVip.html">定价</a></span>
-        <span class="active"  v-if="!loginAfter"><a href="../loginOrRegister.html">登录/注册</a></span><!--注册-->
-      </div>
-<!--      <div class="cu" v-else>-->
+<!--<header id="headers">-->
+<!--  <div class="margins flex j-b a-i first">-->
+<!--    <ul class="flex">-->
+<!--      <li><a href="../index.html"><img src="../static/images/sureLogo.png" alt="" class="cu" style="height: 30px;"></a></li>-->
+<!--      <li class="cu"><a href="../index.html">首页</a></li>-->
+<!--      <li class="cu"><a href="../people.html">人物抠图</a></li>-->
+<!--      <li class="cu"><a href="../objects.html">物体抠图</a></li>-->
+<!--      <li class="cu"><a href="../headCutout.html">头像抠图</a></li>-->
+<!--&lt;!&ndash;      <li class="cu"><a href="../intelligentRepair.html">照片修复</a></li>&ndash;&gt;-->
+<!--      <li class="cu"><a href="../beautify.html">一键美化</a></li>-->
+<!--&lt;!&ndash;      <li>|</li>&ndash;&gt;-->
+<!--      <li class="cu" ><a href="http://www.picup.shop/img/list">免费背景图</a></li>-->
+<!--&lt;!&ndash;      <li class="cu" @click="userCenter()">Members</li>&ndash;&gt;-->
+<!--      &lt;!&ndash;            <li class="cu">登录</li>&ndash;&gt;-->
+<!--    </ul>-->
+<!--    <div class="right">-->
+<!--&lt;!&ndash;      v-if="!loginAfter"&ndash;&gt;-->
+<!--      <div>-->
+<!--        <span><a href="../downLoad.html">下载桌面端</a></span>-->
+<!--        <span><a href="#/apidoc_api.md" style="color: #e82255;">API</a></span>&lt;!&ndash;登录&ndash;&gt;-->
 <!--        <span><a href="../userVip.html">定价</a></span>-->
-<!--        <el-dropdown placement="bottom-end" @command="handleCommand">-->
-<!--                      <span class="el-dropdown-link" @click="toMyCount()">-->
-<!--                       {{userInfo.mobile}}-->
-<!--                      </span>-->
-<!--          <el-dropdown-menu slot="dropdown">-->
-<!--            <el-dropdown-item command="1">我的账户</el-dropdown-item>-->
-<!--            <el-dropdown-item command="0">注销</el-dropdown-item>-->
-<!--          </el-dropdown-menu>-->
-<!--        </el-dropdown>-->
+<!--        <span class="active"  v-if="!loginAfter"><a href="../loginOrRegister.html">登录/注册</a></span>&lt;!&ndash;注册&ndash;&gt;-->
 <!--      </div>-->
-    </div>
-  </div>
-</header>
+<!--&lt;!&ndash;      <div class="cu" v-else>&ndash;&gt;-->
+<!--&lt;!&ndash;        <span><a href="../userVip.html">定价</a></span>&ndash;&gt;-->
+<!--&lt;!&ndash;        <el-dropdown placement="bottom-end" @command="handleCommand">&ndash;&gt;-->
+<!--&lt;!&ndash;                      <span class="el-dropdown-link" @click="toMyCount()">&ndash;&gt;-->
+<!--&lt;!&ndash;                       {{userInfo.mobile}}&ndash;&gt;-->
+<!--&lt;!&ndash;                      </span>&ndash;&gt;-->
+<!--&lt;!&ndash;          <el-dropdown-menu slot="dropdown">&ndash;&gt;-->
+<!--&lt;!&ndash;            <el-dropdown-item command="1">我的账户</el-dropdown-item>&ndash;&gt;-->
+<!--&lt;!&ndash;            <el-dropdown-item command="0">注销</el-dropdown-item>&ndash;&gt;-->
+<!--&lt;!&ndash;          </el-dropdown-menu>&ndash;&gt;-->
+<!--&lt;!&ndash;        </el-dropdown>&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</header>-->
   <div id="app"></div>
-<footer id="foter">
-  <div class="last">
-    @ Copyright PicUP.AI 2018. All Rights reserved
-  </div>
-</footer>
+<!--<footer id="foter">-->
+<!--  <div class="last">-->
+<!--    @ Copyright PicUP.AI 2018. All Rights reserved-->
+<!--  </div>-->
+<!--</footer>-->
   <script>
     window.$docsify = {
       //...
@@ -148,53 +148,53 @@
   </script>
 <!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
 <script src="js/docsify.min.js"></script>
-<script src="js/vue.js"></script>
+<!--<script src="js/vue.js"></script>-->
 <!-- import JavaScript -->
-<script>
-  const toRouter=(url)=>{
-    let urls = window.location.href.split('/docsify')[0]
-    window.location.href=urls+'/'+ url + '.html'
-  }
-  const  getToken=function() {
-    // return window.localStorage.getItem(TokenKey)
-    return window.sessionStorage.getItem('user_Token')
-  }
-  const  removeToken=function() {
-    // return window.localStorage.getItem(TokenKey)
-    return window.sessionStorage.removeItem('user_Token')
-  }
-  new Vue({
-    el: '#headers',
-    data: function() {
-      return {
-        loginAfter:getToken(),
-        userInfo:'',
-        urls:window.location.href,
-      }
-    },
-    computed:{
+<!--<script>-->
+<!--  const toRouter=(url)=>{-->
+<!--    let urls = window.location.href.split('/docsify')[0]-->
+<!--    window.location.href=urls+'/'+ url + '.html'-->
+<!--  }-->
+<!--  const  getToken=function() {-->
+<!--    // return window.localStorage.getItem(TokenKey)-->
+<!--    return window.sessionStorage.getItem('user_Token')-->
+<!--  }-->
+<!--  const  removeToken=function() {-->
+<!--    // return window.localStorage.getItem(TokenKey)-->
+<!--    return window.sessionStorage.removeItem('user_Token')-->
+<!--  }-->
+<!--  new Vue({-->
+<!--    el: '#headers',-->
+<!--    data: function() {-->
+<!--      return {-->
+<!--        loginAfter:getToken(),-->
+<!--        userInfo:'',-->
+<!--        urls:window.location.href,-->
+<!--      }-->
+<!--    },-->
+<!--    computed:{-->
 
-    },
-    methods:{
-      handleCommand(ev){
-        let url=window.location.href
-        if( ev==1 && url.indexOf('userCenter') > -1 ) return;
-        if(ev==1) toRouter('userCenter')
-        else {
-          removeToken()
-          clearCookie('token')
-          // if(){}
-          toRouter('index')
-        }
-      },
-      toMyCount(){
-        toRouter('userCenter')
-      }
-    },
-    mounted() {
+<!--    },-->
+<!--    methods:{-->
+<!--      handleCommand(ev){-->
+<!--        let url=window.location.href-->
+<!--        if( ev==1 && url.indexOf('userCenter') > -1 ) return;-->
+<!--        if(ev==1) toRouter('userCenter')-->
+<!--        else {-->
+<!--          removeToken()-->
+<!--          clearCookie('token')-->
+<!--          // if(){}-->
+<!--          toRouter('index')-->
+<!--        }-->
+<!--      },-->
+<!--      toMyCount(){-->
+<!--        toRouter('userCenter')-->
+<!--      }-->
+<!--    },-->
+<!--    mounted() {-->
 
-    }
-  })
-</script>
+<!--    }-->
+<!--  })-->
+<!--</script>-->
 </body>
 </html>

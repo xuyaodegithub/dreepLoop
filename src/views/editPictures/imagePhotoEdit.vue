@@ -319,12 +319,12 @@
                 // deep:true,
                 // immediate:true
             },
-            statusCode(n, o) {
-                if (n === 4003) {
-                    this.dialogVisible2 = true;
-                    this.statusCode = 0;
-                }
-            },
+            // statusCode(n, o) {
+            //     if (n === 4003) {
+            //         this.dialogVisible2 = true;
+            //         this.statusCode = 0;
+            //     }
+            // },
             mainSubid(n, o) {
                 console.log( this.edrieImgInfo.fileId, '000000' )
                 this.mainOri = '';
@@ -429,9 +429,6 @@
                 this.$nextTick( _ => {
                     this.dialogVisible = true;
                 } )
-            },
-            loginSuccess(val) {
-                this.dialogVisible2 = val;
             },
             selectColor(k) {
                 const ix = this.parseSubs.subList.findIndex( it => !it.type );
@@ -1307,7 +1304,6 @@
                     this.parseSubs.subList = [];
                     this.hisIdx = -1;
                     this.SubsDataList = [];
-                    this.pointList = [];
                     this.initAllInfo();
                     this.$nextTick( () => {
                         this.openBack = true;

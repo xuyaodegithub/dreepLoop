@@ -79,7 +79,7 @@
                     // {label:'Date',str:'createdAt',width:''},
                     {label: '时间', str: 'createdAt', width: ''},
                     // {label:'Points',str:'credits',width:''},
-                    {label: '消耗次数', str: 'credits', width: ''},
+                    {label: '消耗/增加', str: 'credits', width: ''},
                     // {label:'Description',str:'comment',width:''},
                     {label: '描述', str: 'comment', width: ''},
                 ],

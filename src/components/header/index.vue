@@ -34,13 +34,9 @@
                     </transition>
                 </li>
                 <li class="cu"  :class="{'red' : urls.includes('videoMatting')}"><a href="videoMatting.html">视频抠图</a></li>
-<!--                <li class="cu hove" :class="{'red' : urls.indexOf('videoMatting')>-1}">-->
-<!--                    <a href="videoMatting.html" >视频抠图</a>-->
-<!--                </li>-->
-<!--                <li class="cu"><a href="http://matting.deeplor.com/blog" target="_blank">使用案例</a></li>-->
             </ul>
             <div class="right flex">
-                <div style="padding:0 15px;"><a href="https://mp.weixin.qq.com/s/AsVjcACbusdKXcheF_HHtw" target="_blank"><img src="../../assets/image/freeGet.gif" alt=""></a></div>
+<!--                <div style="padding:0 15px;"><a href="https://mp.weixin.qq.com/s/AsVjcACbusdKXcheF_HHtw" target="_blank"><img src="../../assets/image/freeGet.gif" alt=""></a></div>-->
                 <div class="mobiles">手机端
                     <i class="el-icon-caret-bottom"></i>
                     <div>
@@ -61,8 +57,8 @@
 <!--                   <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">定价</span>-->
                     <span @click="userlogin(0)" class="active"  v-if="!loginAfter">登录/注册</span><!--注册-->
                     <el-dropdown placement="bottom-end" @command="handleCommand" v-else>
-                      <span class="el-dropdown-link" @click="toMyCount()" style="color:#e82255;">
-                       {{userInfo.mobile}}
+                      <span class="el-dropdown-link over" @click="toMyCount()" style="color:#e82255;max-width: 120px;vertical-align: middle;">
+                       {{userInfo.userName || userInfo.mobile || userInfo.email}}
                       </span>
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item command="1">我的账户</el-dropdown-item>
@@ -70,26 +66,19 @@
                         </el-dropdown-menu>
                     </el-dropdown>
                 </div>
-<!--                <div class="cu">-->
-<!--                    <span :class="{'red' : urls.indexOf('downLoad')>-1}"><a href="downLoad.html">下载桌面端</a></span>-->
-<!--                    <span><a href="apis.html">API</a></span>&lt;!&ndash;登录&ndash;&gt;-->
-<!--                    <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">定价</span>-->
-<!--                    <el-dropdown placement="bottom-end" @command="handleCommand">-->
-<!--                      <span class="el-dropdown-link" @click="toMyCount()" style="color:#e82255;">-->
-<!--                       {{userInfo.mobile}}-->
-<!--                      </span>-->
-<!--                        <el-dropdown-menu slot="dropdown">-->
-<!--                            <el-dropdown-item command="1">我的账户</el-dropdown-item>-->
-<!--                            <el-dropdown-item command="0">退出</el-dropdown-item>-->
-<!--                        </el-dropdown-menu>-->
-<!--                    </el-dropdown>-->
-<!--                </div>-->
             </div>
         </div>
-        <!--      <div class="margin big">-->
-        <!--        <p class="flex a-i">智能一键抠图神器<img src="static/images/free.png" alt=""></p>-->
-        <!--        <p>1 0 0 % 自 动  -  5 秒  -  免 费 背 景 模 板</p>-->
-        <!--      </div>-->
+        <el-dialog
+                :close-on-click-modal="false"
+                destroy-on-close
+                :modal-append-to-body="false"
+                top="20vh"
+                custom-class="loginDialog"
+                width="420px"
+                :before-close="showLoginDilogAction"
+                :visible.sync="showLoginDilog">
+            <login-dialog v-if="showLoginDilog" @getUserinfo="getUserinfo"></login-dialog>
+        </el-dialog>
     </header>
 </template>
 
@@ -97,12 +86,16 @@
     import {toRouter,setVsource} from '@/utils'
     import {setToken, getToken, removeToken, clearCookie} from "../../utils/auth";
     import {getUserInfo} from "../../apis";
-    import { sha256, sha224 } from 'js-sha256';
+    import loginDialog from '@/components/login_dialog/index2';
+    import { mapGetters,mapActions } from 'vuex';
 
     export default {
         name: "index",
         props: {
             userData: {type: Object}
+        },
+        components:{
+            loginDialog
         },
         data() {
             return {
@@ -117,16 +110,20 @@
                 priceList: ['userVip','videoPrice'],
             }
         },
+        computed:{
+            ...mapGetters(['showLoginDilog'])
+        },
         watch: {
             userData(newVal, oldVal) {
                 if (newVal !== {}) {
-                    this.userInfo = newVal
-                    this.loginAfter = true
+                    this.userInfo = newVal;
+                    this.loginAfter = true;
                     this.$emit( 'to-parses', newVal )
                 }
             }
         },
         methods: {
+            ...mapActions(['showLoginDilogAction']),
             getUserinfo() {
                 if (!getToken()) return;
                 getUserInfo().then( res => {
@@ -141,29 +138,12 @@
                     }
                 } )
             },
-            backindex() {
-                let url = window.location.href;
-                if (url.indexOf( 'people' ) > -1) return;
-                else toRouter( 'people' );
-            },
             userlogin(key) {
-                let urls = window.location.href.split( '#/' )[0];
-                let baseUrl = urls.substring( 0, urls.lastIndexOf( '/' ) );
-                let url = window.location.href;
-                if (url.indexOf( 'login' ) > -1 || url.indexOf( 'Register' ) > -1) window.location.replace( baseUrl + '/loginOrRegister.html#/?type=' + key );
-                else window.location.href = baseUrl + '/loginOrRegister.html#/?type=' + key;
+                this.showLoginDilogAction();
             },
             userCenter() {
                 if (window.location.href.indexOf( 'userVip' ) > -1) return;
                 toRouter( 'userVip' )
-            },
-            toProduct() {
-                if (window.location.href.indexOf( 'product' ) > -1) return;
-                toRouter( 'product' )
-            },
-            toAbout() {
-                if (window.location.href.indexOf( 'aboutUs' ) > -1) return;
-                toRouter( 'aboutUs' )
             },
             handleCommand(ev) {
                 let url = window.location.href
@@ -185,7 +165,6 @@
         mounted() {
             setVsource();
             this.getUserinfo();
-            // console.log(sha256('你是啥'))
         }
     }
 </script>
@@ -252,7 +231,7 @@
     }
 
     header li {
-        margin: 0 20px;
+        margin: 0 15px;
         position: relative;
 
         a {

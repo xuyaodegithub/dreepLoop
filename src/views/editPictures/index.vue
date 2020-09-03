@@ -275,7 +275,7 @@
                 this.edrieImgInfo.filename = file.name;
                 let param = new FormData();
                 param.append( 'file', file );
-                param.set( 'mattingType', this.upType );
+                param.append( 'mattingType', this.upType );
                 uploadImgApi( param ).then( res => {
                     if (!res.code) {
                         this.edrieImgInfo.fileId = res.data.fileId;//此次抠图的结果图id

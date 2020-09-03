@@ -60,11 +60,10 @@
     </div>
 </template>
 <script>
-    import {mapGetters} from 'vuex'
-    import {mapActions} from 'vuex'
+    import {mapGetters,mapActions} from 'vuex'
     import headerSub from '@/components/header/index.vue'
     import {getToken, getSecImgs, setSecImgs} from "../../utils/auth";
-
+    import {Message, Notification} from 'element-ui'
     export default {
         name: 'HelloWorld',
         data() {
@@ -158,33 +157,9 @@
         },
         watch: {},
         mounted() {
-            this.stopPrevent();
-            if (getToken()) this.userGetscribe();
-            document.addEventListener( 'paste', (e) => {
-                let clipboardData = e.clipboardData,//谷歌
-                    i = 0,
-                    items, item, types;
-                if (clipboardData) {
-                    items = clipboardData.items;
-                    if (!items) {
-                        return;
-                    }
-                    item = items[0];
-                    types = clipboardData.types || [];
-                    for (; i < types.length; i++) {
-                        if (types[i] === 'Files') {
-                            item = items[i];
-                            break;
-                        }
-                    }
-                    if (item && item.kind === 'string' && item.type.match( /^text\//i )) {
-                        this.deepItem( clipboardData.getData( "Text" ) )
-                    }
-                    if (item && item.kind === 'file' && item.type.match( /^image\//i )) {
-                        this.changeImg( {target: {files: [item.getAsFile()]}} )
-                    }
-                }
-            } )
+            window.showloginDialog=this.showloginDialog;
+            window.Notification=this.showNotification;
+            // var showloginDialog= this.showLoginDilogAction()
             // $('.hisimgs').niceScroll({cursorcolor :'#999999',boxzoom:true});
         },
         destroyed() {
@@ -197,13 +172,23 @@
         },
         methods: {
             ...mapActions( [
-                'userGetscribe'
+                'userGetscribe','showLoginDilogAction'
             ] ),
-            upLoadimg() {//点击上传
-                this.$refs.upImg.value = '';
-                this.$nextTick( () => {
-                    this.$refs.upImg.click()
+            showNotification(str){
+                Notification( {
+                    type: 'error',
+                    message: str
                 } )
+            },
+            showloginDialog(){
+                this.showLoginDilogAction()
+            },
+            upLoadimg() {//点击上传
+                this.showLoginDilogAction()
+                // this.$refs.upImg.value = '';
+                // this.$nextTick( () => {
+                //     this.$refs.upImg.click()
+                // } )
             },
             stopPrevent() {//阻止游览器默认打开图片
                 let _self = this
