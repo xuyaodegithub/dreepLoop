@@ -33,7 +33,8 @@
                         </div>
                     </transition>
                 </li>
-                <li class="cu"  :class="{'red' : urls.includes('videoMatting')}"><a href="videoMatting.html">视频抠图</a></li>
+                <li class="cu"  :class="{'red' : urls.includes('videoMatting')}"><a href="videoMatting.html">视频抠图</a><img class="beta"
+                        src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200903/0961ebc6bf6c406d8af72e975632bbf0.png" alt=""></li>
             </ul>
             <div class="right flex">
 <!--                <div style="padding:0 15px;"><a href="https://mp.weixin.qq.com/s/AsVjcACbusdKXcheF_HHtw" target="_blank"><img src="../../assets/image/freeGet.gif" alt=""></a></div>-->
@@ -233,7 +234,12 @@
     header li {
         margin: 0 15px;
         position: relative;
-
+        .beta{
+            position: absolute;
+            top: 50%;
+            right: -5px;
+            transform: translate(100%,-100%);
+        }
         a {
             display: block;
             color: #333;

@@ -93,7 +93,7 @@
 <!--                        <div class="tit">全部视频下载</div>-->
                         <p>视频时长：{{parseInt(preImglist.time) | minsfilter(1)}}</p>
                         <p>消耗秒数：{{parseInt(preImglist.time) | minsfilter}}</p>
-                        <p>视频账户余额：{{userSubscribeData.videoRemaining | minsfilter}} &nbsp;<a href="videoPrice.html" style="color:#D9D9D9;border-bottom: 1px solid #D9D9D9;">去充值</a></p>
+                        <p>视频账户余额：{{userSubscribeData.videoRemaining | minsfilter}} &nbsp;<a href="videoPrice.html" style="color:#D9D9D9;border-bottom: 1px solid #D9D9D9;"  target="_blank">去充值</a></p>
                         <!--                        <p>价格：40点</p>-->
                     </div>
                     <div class="lright_btn_1 cu" v-show="!downAllMsg.open && !fullVideoUrl && !downAllMsg.err" @click="toSureDown">
@@ -109,7 +109,7 @@
                         <div class="title"><i class="el-icon-circle-close"></i></div>
                         <div class="des">{{downAllMsg.des}} <br>
                             <span @click="retry" v-if="!downAllMsg.noPoint">重新下载</span>
-                            <a href="videoPrice.html" v-else>前往充值</a>
+                            <a href="videoPrice.html" v-else target="_blank">前往充值</a>
                         </div>
                     </div>
                     <div class="err_mini" v-show="fullVideoUrl">
