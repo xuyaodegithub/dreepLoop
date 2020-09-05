@@ -38,13 +38,13 @@
             </ul>
             <div class="right flex">
 <!--                <div style="padding:0 15px;"><a href="https://mp.weixin.qq.com/s/AsVjcACbusdKXcheF_HHtw" target="_blank"><img src="../../assets/image/freeGet.gif" alt=""></a></div>-->
-                <div class="mobiles">手机端
-                    <i class="el-icon-caret-bottom"></i>
-                    <div>
-                        <img src="../../assets/image/wechatEwm.jpg" alt="" />
-                        <p>关注公众号送下载次数</p>
-                    </div>
-                </div>
+<!--                <div class="mobiles">手机端-->
+<!--                    <i class="el-icon-caret-bottom"></i>-->
+<!--                    <div>-->
+<!--                        <img src="../../assets/image/wechatEwm.jpg" alt="" />-->
+<!--                        <p>关注公众号送下载次数</p>-->
+<!--                    </div>-->
+<!--                </div>-->
                 <div class="flex lastRight a-i">
                     <span :class="{'red' : urls.indexOf('downLoad')>-1}"><a href="downLoad.html">下载桌面端</a></span>
                     <a href="apis.html"><span>API</span></a><!--登录-->

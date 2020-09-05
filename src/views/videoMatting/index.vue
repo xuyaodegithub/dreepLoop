@@ -6,7 +6,7 @@
                 ref="upImg"
                 @change="changeImg($event)"
                 :multiple="multiple"
-                accept="video/*"
+                accept="video/*,image/gif"
         />
         <header-sub></header-sub>
         <div class="apps">

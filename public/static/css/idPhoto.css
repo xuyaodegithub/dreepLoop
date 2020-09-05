@@ -416,7 +416,6 @@
     background-color: rgba(0, 0, 0, .8);
     color: #fff;
     font-size: 13px;
-    padding: 8px 0;
     line-height: 16px;
     position: absolute;
     left: 0;
@@ -425,20 +424,69 @@
     transform: translateY(100%);
     transition: all 0.3s;
 }
-.OperatorRight .cList .its > div:hover .flex{
+
+.OperatorRight .cList .its > div:hover .flex {
     transform: translateY(0);
 }
 
 .OperatorRight .cList .its span {
     cursor: pointer;
+    position: relative;
     flex: 1;
+    padding: 8px 0;
 }
-.OperatorRight .cList .its span:hover{
+
+.saveJpg {
+    position: fixed;
+    width: 250px;
+    background-color: #fff;
+    color: #333333;
+    font-size: 12px;
+    display: none;
+    padding: 10px 0;
+    /*left: 500px;*/
+    /*top: 500px;*/
+    text-align: center;
+    line-height: 1.5;
+    z-index: 788;
+    border-radius: 5px;
+    box-shadow: 0 0 2px #999;
+}
+.saveJpg strong{
+    padding: 8px 20px;
+    cursor: pointer;
+    display: block;
+    text-align: left;
+    position: relative;
+}
+.saveJpg h3{
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee
+}
+.saveJpg strong:hover{
+    color: #e82255;
+    background-color: #eee;
+}
+.saveJpg img{
+    height: 20px;
+    vertical-align: middle;
+    position: absolute;
+    top: 50%;
+    right: 30px;
+    transform: translateY(-50%);
+}
+.OperatorRight .cList strong {
+    display: block;
+}
+
+.OperatorRight .cList .its span:hover {
     color: #e82255;
 }
-.OperatorRight .cList .its span:first-child{
+
+.OperatorRight .cList .its span:first-child {
     border-right: 1px solid #fff;
 }
+
 .OperatorRight .cList .its img {
     position: absolute;
     height: 100%;
@@ -447,7 +495,7 @@
     transform: translate(-50%, -50%);
 }
 
-.diglog {
+.diglog,.diglog2 {
     position: fixed;
     padding: 40px 60px;
     background-color: #fff;
@@ -459,7 +507,11 @@
     z-index: 699;
     border-radius: 15px;
 }
-
+.diglog2 h4{
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 30px;
+}
 .diglog h4 {
     font-size: 16px;
     color: #333;
@@ -472,7 +524,7 @@
     margin: 0 auto 20px;
 }
 
-.diglog p {
+.diglog p,.diglog2 p {
     font-size: 14px;
     color: #9c9c9c;
 }
@@ -487,7 +539,16 @@
     background: url("http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200812/5e3d6826bc0045a4b8808d4fb1d50724.png") no-repeat center;
 
 }
-
+.diglog2 .btn{
+    font-size: 14px;
+    color: #fff;
+    background-color: #e82255;
+    line-height: 40px;
+    height: 40px;
+    width: 120px;
+    margin: 36px auto 0;
+    border-radius: 10px;
+}
 .zhezhao {
     display: none;
     position: fixed;

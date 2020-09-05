@@ -9,24 +9,42 @@
                      alt="">
             </div>
             <p class="mb-15">扫码关注 “皮卡智能PicUP.AI公众号”完成登录/注册</p>
-            <p class="mb-30">有邀请码？请 <a href="register.html" style="color: #e82255" target="_blank">手机号注册</a></p>
-            <div class="flex j-b pt-20">
+            <p class="mb-30">或 <span style="color: #e82255;" class="cu" @click="loginSetup=2">手机号注册</span></p>
+            <div class="flex j-b pt-20 bt">
                 <p>登录即表明您同意 <a href="servicePrivacy.html" target="_blank">用户协议和隐私策略</a></p>
                 <span class="cu" @click="loginSetup=4">手机号登录 ></span>
             </div>
         </div>
         <div class="widthPhone" v-else-if="[2,3].includes(loginSetup)">
             <input-sub :title="subTitle" ref="phoneCode" @bindPhone="bindPhone"></input-sub>
-            <el-button class="mt-45" type="primary" @click="bindPhone">{{btnName}}</el-button>
-            <el-button v-show="loginSetup===3" class="mt-20 tebtn" type="primary" @click="toWechat">微信扫码登录/注册
-            </el-button>
+            <div v-if="loginSetup===2" style="text-align: left;">
+                <el-input v-model="newpass" placeholder="设置新密码" type="password" class="mt-15"></el-input>
+                <el-input v-model="yqcode" placeholder="填写邀请码（选填）" class="mt-15"></el-input>
+                <el-popover
+                        placement="right"
+                        trigger="click">
+                    <div style="text-align: center;font-size: 12px;padding: 10px;">
+                        <p>您可以咨询您身边的朋友，还可以加我微信索取</p>
+                        <img style="width: 150px;margin: 15px 0;" src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200827/f6917493237e4f6ba158cedd4d8d414d.jpg" alt="">
+                        <h4>扫一扫，添加微信好友咨询</h4>
+                    </div>
+                    <span style="display:inline-block;color: #21a9e8;margin: 10px  0;" class="cu"  slot="reference">如何获取邀请码</span>
+                </el-popover>
+
+                <p style="color: #999">注册即表明您同意 <a href="servicePrivacy.html" target="_blank" style="color: #333;">用户协议和隐私策略</a></p>
+            </div>
+            <el-button :class="loginSetup===2 ? 'mt-20' : 'mt-45'" type="primary" @click="bindPhone">{{btnName}}</el-button>
+            <div class="flex mt-10 tebtnlist pb-15">
+                <el-button  type="primary" @click="loginSetup = 0">微信扫码登录/注册</el-button>
+                <el-button  type="primary" @click="loginSetup = 4" v-if="loginSetup===2">手机号登录</el-button>
+            </div>
         </div>
         <div class="widthPhone" v-else-if="[5].includes(loginSetup)">
             <h3 class="mb-50">修改密码</h3>
             <el-input v-model="pass1" placeholder="新密码" type="password" class="mb-15"></el-input>
             <el-input v-model="pass2" placeholder="确认新密码" type="password"></el-input>
             <el-button class="mt-45" type="primary" @click="updatapass">{{btnName}}</el-button>
-            <el-button class="mt-20 tebtn" type="primary" @click="toWechat">微信扫码登录/注册</el-button>
+            <el-button class="mt-20 tebtn" type="primary" @click="loginSetup = 0">微信扫码登录/注册</el-button>
         </div>
         <div class="userContent" v-else-if="loginSetup===4">
             <div class="tag">
@@ -49,7 +67,10 @@
                 <span class="cu" @click="loginSetup = 3"><!--Forgot your password-->忘记密码?</span>
             </div>
             <el-button class="mt-30" :class="{'mt-45' : btnType}" type="primary" @click="regestUser()">登录</el-button>
-            <el-button class="mt-20 tebtn" type="primary" @click="toWechat">微信扫码登录/注册</el-button>
+            <div class="flex mt-10 tebtnlist">
+                <el-button  type="primary" @click="loginSetup = 0">微信扫码登录/注册</el-button>
+                <el-button  type="primary" @click="loginSetup = 2" v-if="!btnType">手机号注册</el-button>
+            </div>
         </div>
         <div v-else class="sixOld">
             <div><span>我是<br>新人</span></div>
@@ -65,7 +86,7 @@
     import sliderYz from '@/components/sliderYz/index.vue'
     import inputSub from './inputSub.vue'
     import {setToken, setCookie, getAccount, setAccount, reAccount} from "../../utils/auth";
-    import {userLogin, loginByMobile, sendCode, wechatCode, toSureWatch,userResetbyEmail,getResetPasswordToken} from "../../apis";
+    import {userLogin, loginByMobile, sendCode, wechatCode, toSureWatch,userResetbyEmail,getResetPasswordToken,userRegister} from "../../apis";
     import Cookies from 'js-cookie';
     import {mapActions} from 'vuex'
 
@@ -73,13 +94,15 @@
         name: 'login',
         data() {
             return {
-                loginSetup: 0,//登录步骤 0扫码 1区分新老 2手机号绑定 3找回密码 4密码登录  5修改密码 6区分新老
+                loginSetup: 0,//登录步骤 0扫码 1区分新老 2手机号注册 3找回密码 4密码登录  5修改密码 6区分新老
                 btnType: 0,
                 loginBtn: ['密码登录', '短信登录'],
                 username: '',
                 userpass: '',
                 pass1: '',
                 pass2: '',
+                newpass:'',
+                yqcode:'',
                 checked: true,
                 showCode: false,
                 timer: 0,
@@ -97,11 +120,11 @@
                 else return '短信验证码'
             },
             subTitle() {
-                const a = ['', '', '手机号绑定', '找回密码', '', '修改密码'];
+                const a = ['', '', '手机号注册', '找回密码', '', '修改密码'];
                 return a[this.loginSetup]
             },
             btnName() {
-                const a = ['', '', '立即绑定', '下一步', '', '确定'];
+                const a = ['', '', '注册', '下一步', '', '确定'];
                 return a[this.loginSetup]
             }
         },
@@ -180,9 +203,6 @@
                 }
                 this.showCode = true
             },
-            toWechat() {
-                this.loginSetup = 0;
-            },
             initAccount() {
                 const Account = getAccount();
                 // console.log( Account );
@@ -190,10 +210,34 @@
                 this.userpass = Account ? Account.password : '';
             },
             bindPhone() {//手机号绑定
-                if (this.loginSetup === 2) {//手机号绑定
+                const parseMsg=this.$refs.phoneCode;
+                if (this.loginSetup === 2) {//手机号注册
                     console.log( this.$refs.phoneCode.username, this.$refs.phoneCode.userpass, )
+                    if (!parseMsg.username || !parseMsg.userpass || !this.newpass) {
+                        this.$message( {type: 'error', message: '内容不可为空'} )
+                        return
+                    }
+                    if (parseMsg.username.length !== 11) {
+                        this.$message( {type: 'error', message: '手机号格式不正确'} )
+                        return
+                    }
+                    // this.showCode=true
+                    let data = {
+                        mobile: parseMsg.username,
+                        password: this.newpass,
+                        validate_code: parseMsg.userpass,
+                    }
+                    const vsource = Cookies.get('vsource');
+                    if (vsource) data.vsource = vsource;
+                    else data.vsource = document.referrer;
+                    if (this.yqcode) data.invitation = this.yqcode;
+                    userRegister( data ).then( res => {
+                        if (!res.code) {
+                           this.$message({message:'注册成功',type:'success'})
+                            this.loginSetup=4;
+                        }
+                    } )
                 } else {//找回密码
-                    const parseMsg=this.$refs.phoneCode;
                     if (!parseMsg.username || !parseMsg.userpass) {
                         this.$message( {type: 'warning', message: '信息不可为空'} )
                         return
@@ -283,13 +327,26 @@
             margin: 20px 0 0 0 !important;
             border: none;
         }
-
+        .tebtnlist .el-button{
+            background-color: #F3F3F3;
+            color: $co;
+            border-color: #fff;
+            &:last-child{
+                flex: 1;
+            }
+        }
         .loginByWechat, .widthPhone {
             line-height: 1;
             text-align: center;
             color: #333333;
             font-size: 14px;
-
+            .bt{
+                border-top: 1px solid #e5e5e5;
+                color: #999;
+                span{
+                    color: $co;
+                }
+            }
             .ewm img {
                 display: block;
                 width: 200px;
@@ -303,20 +360,6 @@
 
                 img {
                     margin-right: 8px;
-                }
-            }
-
-            .flex {
-                border-top: 1px solid #E5E5E5;
-                /*line-height: 47px;*/
-                color: #999999;
-
-                a {
-                    color: #333;
-                }
-
-                span {
-                    color: $co;
                 }
             }
         }

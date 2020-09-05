@@ -79,7 +79,7 @@
                     </div>
                     <div class="err_mini" v-show="downMsg.err">
                         <div class="title"><i class="el-icon-circle-close"></i></div>
-                        <div class="des">{{downMsg.des}} <br><span @click="retry">重新下载</span></div>
+                        <div class="des">{{downMsg.des}} <br><span @click="retry">点击重试</span></div>
                     </div>
                     <div class="err_mini" v-show="preVideoUrl">
                         <div class="title" style="color: #67C23A;"><i class="el-icon-circle-check"></i></div>
@@ -108,7 +108,7 @@
                     <div class="err_mini" v-show="downAllMsg.err">
                         <div class="title"><i class="el-icon-circle-close"></i></div>
                         <div class="des">{{downAllMsg.des}} <br>
-                            <span @click="retry" v-if="!downAllMsg.noPoint">重新下载</span>
+                            <span @click="retry" v-if="!downAllMsg.noPoint">点击重试</span>
                             <a href="videoPrice.html" v-else target="_blank">前往充值</a>
                         </div>
                     </div>
@@ -280,7 +280,7 @@
                     this.downMsg.err = false;
                     this.downPreVideo();
                 } else if (this.downAllMsg.err) {
-                    this.downAllMsg.err = false;
+                    // this.downAllMsg.err = false;
                     this.toSureDown();
                     // this.downPreVideo2();
                 } else if (!this.errMsg.errWhere) {
@@ -385,9 +385,10 @@
                         if ((this.downMsg.open && !result.previewVideoPath) || (this.downAllMsg.open && !result.videoPath)) {
                             this.timeOut1 = setTimeout( this.videoMattingInfo, 2000 )
                         }
-                        // if( this.preVideoUrl)this.downVideo(this.preVideoUrl);
-                        // if( this.fullVideoUrl)this.downVideo(this.fullVideoUrl);
-                    } else {
+                        if( result.previewStatus==='预览处理失败') this.downMsg={open: false, time: 0, err: true, des: '预览处理失败！'};
+                        if( result.status==='处理失败')this.downAllMsg={open: false, time: 0, err: true, des: '处理失败！'};
+                        if((this.downMsg.err && this.downAllMsg.err) || (this.downMsg.err && !this.downAllMsg.open) || (this.downAllMsg.err && !this.downMsg.open))clearTimeout(this.timeOut1)
+                    } /*else {
                         if(this.downMsg.open){
                             this.downMsg.err = this.preVideoUrl ? false : true;
                             this.downMsg.open = false;
@@ -400,7 +401,7 @@
                         }
                         // if (this.downMsg.err)
                         // if (this.downAllMsg.err)
-                    }
+                    }*/
                 } )
             },
             downVideo(url) {//下载
@@ -477,6 +478,11 @@
             toSureDown(){
                 if(this.fullVideoUrl){
                     this.downVideo( this.fullVideoUrl );
+                    return;
+                }
+                if(this.downAllMsg.err){
+                    this.downAllMsg.err = false;
+                    this.downPreVideo2();
                     return;
                 }
                 const n=this.preImglist.time ? parseInt(this.preImglist.time): 0;
@@ -752,7 +758,7 @@
         .title {
             text-align: left;
             margin-bottom: 20px;
-            line-height: 1;
+            /*line-height: 1;*/
 
             .over {
                 max-width: 300px;

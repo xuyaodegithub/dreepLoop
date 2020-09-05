@@ -755,12 +755,11 @@
                     this.downOldImg( url, all )
                 } else {
                     if (this.imageMUrl) {
-                        this.initSmallTag( e, '免费 :）' )
+                        if(!all)this.initSmallTag( e, '免费 :）' )
                         this.downOldImg( this.imageMUrl, all )
                         return
                     }
                     let data = {fileId: this.fileId};
-                    console.log(mattingType)
                     if (mattingType && mattingType !== 3) {
                         this.showLoading = true;
                         data['highQuality'] = 1;//高清下载

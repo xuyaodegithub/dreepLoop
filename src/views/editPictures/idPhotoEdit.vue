@@ -23,18 +23,29 @@
                 </div>
             </div>
             <div class="hDown">
-                <el-button class="up" @click="reupload">重新上传
+                <el-button class="up" @click="reupload" style="margin-right: 10px">重新上传
                 </el-button>
-                <el-button class="doo" type="primary" icon="el-icon-download" @click="downLoadImg">下载
-                    <table class="downBtn" @click.stop="">
-                        <tr>{{(userSubscribeData.monthExpireDate && userSubscribeData.monthExpireDate>noeTime &&
-                            userSubscribeData.monthRemaining>0) ? `包月剩余次数:${userSubscribeData.monthRemaining}` :
-                            `永久剩余次数:${userSubscribeData.freeRemaining >0 ? userSubscribeData.freeRemaining : 0 }`}} <a
-                                    href="userVip.html" class="cu" target="_blank"
-                                    style="color: #a1a0a0;margin-left: 20px;border-bottom: 1px solid #a1a0a0;">去充值</a>
-                        </tr>
-                    </table>
-                </el-button>
+                <el-popover
+                        @show="setIndex"
+                        popper-class="hDown2"
+                        placement="bottom"
+                        trigger="click">
+                    <div class="saveJpg">
+                        <h3>选择下载类型</h3>
+                        <strong  @click="downLoadImg($event,0)">PNG格式<br>高保真，适合打印 </strong>
+                        <strong  @click="downLoadImg($event,1)">JPG格式<br>文件小，适合上传 </strong>
+                    </div>
+                    <el-button class="doo" type="primary" icon="el-icon-download" slot="reference">下载
+                        <table class="downBtn" @click.stop="">
+                            <tr>{{(userSubscribeData.monthExpireDate && userSubscribeData.monthExpireDate>noeTime &&
+                                userSubscribeData.monthRemaining>0) ? `包月剩余次数:${userSubscribeData.monthRemaining}` :
+                                `永久剩余次数:${userSubscribeData.freeRemaining >0 ? userSubscribeData.freeRemaining : 0 }`}} <a
+                                        href="userVip.html" class="cu" target="_blank"
+                                        style="color: #a1a0a0;margin-left: 20px;border-bottom: 1px solid #a1a0a0;">去充值</a>
+                            </tr>
+                        </table>
+                    </el-button>
+                </el-popover>
             </div>
         </header>
         <div class="e_c">
@@ -307,6 +318,7 @@
                 touchContrl: false,
                 pointList: [],//历史记录
                 mainOri: '',//主图扣过的原图尺寸
+                downType:0
             }
         },
         watch: {
@@ -888,7 +900,8 @@
                 };
                 oImg.src = url + `?id=${Math.random()}`;
             },
-            downLoadImg(e) {
+            downLoadImg(e,k) {
+                this.downType=k;
                 let data = {templateId: 0}, iidx = this.parseSubs.subList.findIndex( item => item.type === 1 );
                 if (!this.loadSubObj && this.parseSubs.hasOwnProperty( 'isOwnTwo' )) data.templateId = this.parseSubs.templateId;
                 else if (this.loadSubObj) data.templateId = this.loadSubObj.id;
@@ -1189,13 +1202,14 @@
                 oCanTxt.stroke();
             },
             downLoad(cans) {
+                const type=this.downType ? 'image/jpeg' : 'image/png';
                 if (myBrowser() === 'IE' || myBrowser() === 'Edge') {//ie下载图片
-                    let url = cans.msToBlob();
+                    let url = cans.msToBlob(_=>{},type);
                     let blobObj = new Blob( [url] );
-                    window.navigator.msSaveOrOpenBlob( blobObj, this.edrieImgInfo.filename.replace( /.png/g, '' ) + ".png" );
+                    window.navigator.msSaveOrOpenBlob( blobObj, this.edrieImgInfo.filename.replace( /.png/g, '' ));
                     this.loadingInstance.close()
                 } else {
-                    let url = cans.toDataURL( "image/png" );
+                    let url = cans.toDataURL( type );
                     let arr = url.split( ',' ), mime = arr[0].match( /:(.*?);/ )[1], bstr = atob( arr[1] ),
                         n = bstr.length, u8arr = new Uint8Array( n );
                     while (n--) {
@@ -1204,7 +1218,7 @@
                     let objurl = URL.createObjectURL( new Blob( [u8arr], {type: mime} ) );
                     let save_link = document.createElement( 'a' );
                     save_link.href = objurl;
-                    save_link.download = this.edrieImgInfo.filename.replace( /.png/g, '' ) + ".png";
+                    save_link.download = this.edrieImgInfo.filename.replace( /.png/g, '' );
                     let event = document.createEvent( 'MouseEvents' );
                     event.initMouseEvent( 'click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null );
                     save_link.dispatchEvent( event );
@@ -1457,6 +1471,11 @@
                 getUserInfo().then( res => {
                     this.userInfo = res.data;
                 } )
+            },
+            setIndex(){
+                this.$nextTick(_=>{
+                    $('.hDown2').css('zIndex',888)
+                })
             }
         },
         created() {//透明背景储存
@@ -2127,7 +2146,32 @@
         padding-top: 0 !important;
         background-color: rgba(255, 255, 255, 0);
     }
-
+    .saveJpg {
+        width: 250px;
+        background-color: #fff;
+        color: #333333;
+        font-size: 12px;
+        padding: 10px 0;
+        text-align: center;
+        line-height: 1.5;
+        border-radius: 5px;
+        box-shadow: 0 0 2px #999;
+    }
+    .saveJpg strong{
+        padding: 8px 20px;
+        cursor: pointer;
+        display: block;
+        text-align: left;
+        position: relative;
+    }
+    .saveJpg h3{
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee
+    }
+    .saveJpg strong:hover{
+        color: #e82255;
+        background-color: #eee;
+    }
     @media screen and (max-width: 1500px) {
         .editPictures .e_r .ships {
             bottom: 15%;

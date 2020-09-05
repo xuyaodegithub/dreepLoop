@@ -1,164 +1,29 @@
 <template>
     <div class="helloFirst">
-<!--        <input type="file" style="display: none" ref="upImg" @change="changeImg($event)"-->
-<!--               accept="image/*"/>-->
         <header-sub></header-sub>
-<!--        <div class=" apps">-->
-<!--            <div class="Operator">-->
-<!--                <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()">&lt;!&ndash;Upload&ndash;&gt;上传</el-button>-->
-<!--                <div class="diops"><img src="@/assets/image/laba.png" alt="">照片请上传正面照，露耳朵</div>-->
-<!--                <h4>证件照上传记录</h4>-->
-<!--                <el-scrollbar style="overflow-x: hidden;height:300px" >-->
-<!--                    <div class="photoHisList flex ">-->
-<!--                        <div class="itmes" v-for="item in 4" :key="item"><img-->
-<!--                                src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2020/08/11/0bc49d7dc82742dc80ef15e99898e861.png"-->
-<!--                                alt=""></div>-->
-<!--                    </div>-->
-<!--                </el-scrollbar>-->
-<!--                <div class="bottonLast">-->
-<!--                    <div class="fixedB">-->
-<!--                        <h5>&lt;!&ndash;Contact us&ndash;&gt;联系我们</h5>-->
-<!--                        <div class="flex a-i cu">-->
-<!--                            <img src="../../assets/image/wx.png" alt="">-->
-<!--                            <p>roymind</p>-->
-<!--                            <img src="../../assets/image/ewm.png" alt="" style="margin-left: 20px;margin-right: 0;">-->
-<!--                            <img src="../../assets/image/wxl.png" alt="" class="noC" style="width:120px;">-->
-<!--                        </div>-->
-<!--                        <div class="flex a-i cu">-->
-<!--                            <img src="../../assets/image/img3.png" alt="">-->
-<!--                            <p><a href="mailto:pikachu@picup.ai">pikachu@picup.ai</a></p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="OperatorRight drops">-->
-<!--                <div class="sizeClass flex a-i">-->
-<!--                    <label>请选择证件照规格</label> <el-input placeholder="输入规格名称，如：一寸照" suffix-icon="el-icon-search" v-model="input2"></el-input>-->
-<!--                </div>-->
-<!--                <label>常用尺寸:</label>-->
-<!--                <div class="cList flex">-->
-<!--                    <div class="cu">-->
-<!--                        <div class="its">-->
-
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <label>全部尺寸:</label>-->
-<!--                <div class="cList flex">-->
-<!--                    <div class="cu" v-for="(item,idx) in list" :key="idx">-->
-<!--                        <div class="its">-->
-<!--                            <div :style="item | styleWh">-->
-<!--                                <img :src="imgUrl" alt="">-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <p class="over">{{item.name}}</p>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-
     </div>
 </template>
 <script>
     import {mapGetters,mapActions} from 'vuex'
     import headerSub from '@/components/header/index.vue'
     import {getToken, getSecImgs, setSecImgs} from "../../utils/auth";
+    import { initSmallTag } from '@/utils'
     import {Message, Notification} from 'element-ui'
     export default {
         name: 'HelloWorld',
         data() {
             return {
-                imgUrl:'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png',
-                input2:'',
-                list:[
-                    {name:'一寸（25*35mm）',width:295,height:413,color:'#e82255'},
-                    {name:'小一寸（22*32mm）',width:260,height:378,color:'#e82255'},
-                    {name:'大一寸（33*48）',width:390,height:569,color:'rgb(0, 191, 243)'},
-                    {name:'二寸（35*49mm）',width:413,height:579,color:'#e82255'},
-                    {name:'小二寸（35*45mm）',width:260,height:378,color:'#e82255'},
-                    {name:'大二寸（35*53mm）',width:413,height:626,color:'#e82255'},
-                    {name:'美国签证（51*51mm）',width:591,height:591,color:'#e82255'},
-                    {name:'日本签证（45*45）',width:531,height:531,color:'rgb(0, 191, 243)'},
-                    {name:'越南签证（40*60）',width:260,height:378,color:'rgb(0, 191, 243)'},
-                    {name:'身份证(无回执)（26*32mm）',width:260,height:378,color:'#e82255'},
-                    {name:'居住证（26*32mm）',width:260,height:378,color:'#e82255'},
-                    {name:'社保卡（）',width:260,height:378,color:'#e82255'},
-                    {name:'导游证（）',width:260,height:378,color:'#e82255'},
-                    {name:'教师资格证（25*35mm）',width:260,height:378,color:'#e82255'},
-                    {name:'驾驶证、驾照（22*32mm）',width:260,height:378,color:'#e82255'},
-                    {name:'入学照（25*35mm）',width:260,height:378,color:'#e82255'},
-                    {name:'简历照片(一寸)（25*35mm）',width:260,height:378,color:'#e82255'},
-                    {name:'三寸（54*84mm）',width:260,height:378,color:'#e82255'},
-                    {name:'四寸（76*102mm）',width:260,height:378,color:'#e82255'},
-                    {name:'五寸（89*127mm）',width:260,height:378,color:'#e82255'},
-                    {name:'国考(二寸)（35*45mm）',width:260,height:378,color:'#e82255'},
-                    {name:'国家司法考试（）',width:260,height:378,color:'#e82255'},
-                    {name:'医保证（）',width:260,height:378,color:'#e82255'},
-                    {name:'健康证(一寸)（25*35mm）',width:260,height:378,color:'#e82255'},
-                    {name:'执法证（）',width:260,height:378,color:'#e82255'},
-                    {name:'校园卡（）',width:260,height:378,color:'#e82255'},
-                    {name:'入台证(小二寸)（35*45mm）',width:260,height:378,color:'#e82255'},
-                    {name:'二级建造师证（）',width:260,height:378,color:'#e82255'},
-                    {name:'职业兽医资格证（）',width:260,height:378,color:'#e82255'},
-                    {name:'成人自考（）',width:260,height:378,color:'#e82255'},
-                    {name:'公务员考试（35*45mm）',width:260,height:378,color:'#e82255'},
-                    {name:'电子护照人像照片（33*48mm）',width:260,height:378,color:'#e82255'},
-                    {name:'海外申请护照在线预约照片（33*48mm）',width:260,height:378,color:'#e82255'},
-                    {name:'会计从业资格证（25*35mm）',width:260,height:378,color:'#e82255'},
-                    {name:'英语四六级考试（）',width:260,height:378,color:'#e82255'},
-                    {name:'学位英语（）',width:260,height:378,color:'#e82255'},
-                    {name:'英语AB级考试（）',width:260,height:378,color:'#e82255'},
-                    {name:'普通话水平测试（）',width:260,height:378,color:'#e82255'},
-                    {name:'全国计算机考试（）',width:260,height:378,color:'#e82255'},
-                    {name:'职业药师资格考试（）',width:260,height:378,color:'#e82255'},
-                    {name:'职业医师资格报名（）',width:260,height:378,color:'#e82255'},
-                    {name:'学籍照片（）',width:260,height:378,color:'#e82255'},
-                    {name:'入学报名（25*35mm）',width:260,height:378,color:'#e82255'},
-                    {name:'大学入学（35*45mm）',width:260,height:378,color:'#e82255'},
-                    {name:'高考报名（）',width:260,height:378,color:'#e82255'},
-                    {name:'世界通行签证（35*45mm）',width:260,height:378,color:'#e82255'},
-                    {name:'港澳通行证（33*48mm）',width:260,height:378,color:'#e82255'},
-                    {name:'韩国签证（35*45mm）',width:260,height:378,color:'#e82255'},
-                    {name:'泰国签证（35*45mm）',width:260,height:378,color:'#e82255'},
-                    {name:'印度签证（51*51mm）',width:260,height:378,color:'#e82255'},
-                    {name:'以色列签证（51*51mm）',width:260,height:378,color:'#e82255'},
-                    {name:'签证采集（30*40mm）',width:260,height:378,color:'#e82255'},
-                    {name:'马来西亚签证（35*45mm）',width:260,height:378,color:'#e82255'},
-                    {name:'新西兰签证（76*102mm）',width:260,height:378,color:'#e82255'},
-                    {name:'意大利签证（35*40mm）',width:260,height:378,color:'#e82255'},
-                    {name:'阿根廷签证（40*40mm）',width:260,height:378,color:'#e82255'},
-                    {name:'巴西、冰岛签证（40*50mm）',width:260,height:378,color:'#e82255'},
-                    {name:'肯尼亚签证（50*50mm）',width:260,height:378,color:'#e82255'},
-                    {name:'入金证（）',width:260,height:378,color:'#e82255'},
-                    {name:'成人自考（）',width:260,height:378,color:'#e82255'},
-                    {name:'自考学位外语考试（）',width:260,height:378,color:'#e82255'},
-                    {name:'保险职业认证（）',width:260,height:378,color:'#e82255'},
-                    {name:'事业单位招聘（）',width:260,height:378,color:'#e82255'},
-                    {name:'英语三级（33*48mm）',width:260,height:378,color:'#e82255'},
-                    {name:'半身职业照（）',width:260,height:378,color:'#e82255'},
-                    {name:'成人自考（）',width:260,height:378,color:'#e82255'},
-                    {name:'高清证件照（）',width:260,height:378,color:'#e82255'},
-                    {name:'成人高考报名（）',width:260,height:378,color:'#e82255'},
-                    {name:'计算机初级考试（33/48mm）',width:260,height:378,color:'#e82255'},
-                    {name:'车载终端照片（）',width:260,height:378,color:'#e82255'},
-                ]
+
             }
         },
         filters: {
-            styleWh(item){
-                const pw=235;
-                const data={
-                    width:(item.width > item.height ? 235*0.9 : item.width*(235*0.9)/item.height)+'px',
-                    height:(item.width > item.height ? item.height*(235*0.9)/item.width : 235*0.9)+'px',
-                    backgroundColor:item.color
-                }
-                return data;
-            }
+
         },
         watch: {},
         mounted() {
             window.showloginDialog=this.showloginDialog;
             window.Notification=this.showNotification;
+            window.initSmallTag=initSmallTag;
             // var showloginDialog= this.showLoginDilogAction()
             // $('.hisimgs').niceScroll({cursorcolor :'#999999',boxzoom:true});
         },

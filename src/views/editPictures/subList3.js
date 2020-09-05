@@ -1707,4 +1707,4 @@ export const idPhotolist = [{
     "width": 254,
     "height": 354,
     "color": "#fff"
-}, {"name": "结婚照(53*35mm)", "width": 626, "height": 413, "color": "#FF0000"}]
+}, {"name": "结婚照(53*35mm)", "width": 626, "height": 413, "color": "#FF0000"}, {"name": "国家学籍网(25*35mm)", "width": 295, "height": 413, "color": "#FF0000"}]

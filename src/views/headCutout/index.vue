@@ -82,10 +82,12 @@
                                       @focus="$event.target.select()"></el-input>
                             <div class="aList flex">
                                 <a href="http://www.picup.shop/apidoc/_book/avatar.html" target="_blank">头像API></a>
-                                <a href="http://www.picup.shop/apidoc/_book/avatar.html#%E5%A4%B4%E5%83%8F%E6%8A%A0%E5%9B%BE%E5%B8%A6%E4%BA%BA%E8%84%B8%E5%85%B3%E9%94%AE%E7%82%B9%E6%A3%80%E6%B5%8Bapi" target="_blank">头像API带人脸关键点></a>
+                                <a href="http://www.picup.shop/apidoc/_book/avatar.html#%E5%A4%B4%E5%83%8F%E6%8A%A0%E5%9B%BE%E5%B8%A6%E4%BA%BA%E8%84%B8%E5%85%B3%E9%94%AE%E7%82%B9%E6%A3%80%E6%B5%8Bapi"
+                                   target="_blank">头像API带人脸关键点></a>
                             </div>
                             <div class="titlips">
-                                <a href="https://www.google.cn/chrome/" target="_blank">推荐使用：谷歌游览器 <img src="@/assets/image/img1.png" alt="">，防止兼容问题</a>
+                                <a href="https://www.google.cn/chrome/" target="_blank">推荐使用：谷歌游览器 <img
+                                        src="@/assets/image/img1.png" alt="">，防止兼容问题</a>
                             </div>
                             <p>没有图像？试试以下图片看看效果</p>
                             <div class="flex a-i">
@@ -99,7 +101,8 @@
                 <div v-for="(item,index) in files" :key="item.name" class="imgRef"
                      :id="item.name">
                     <!--                    :class="{'active' : index===files.length-1}"-->
-                    <img-sub :files="item" @to-parse="collectBg" @close="closeItem" :index="index" ref="subs" @downall="downAllinit"
+                    <img-sub :files="item" @to-parse="collectBg" @close="closeItem" :index="index" ref="subs"
+                             @downall="downAllinit"
                              :type="3"></img-sub>
                 </div>
             </div>
@@ -198,7 +201,7 @@
                 imgUrl: '',//图片链接
                 page: 1,
                 rows: 30,
-                color: [init,opacity, bscolor, mohu2, mohu1],
+                color: [init, opacity, bscolor, mohu2, mohu1],
                 classType: 0,
                 stopUpdata: false,//停止滑动加载
                 Percentile: 0,
@@ -218,7 +221,8 @@
                     '#ccf0fe', '#d3e2ff', '#d9c8fe', '#efcafe', '#f9d3e0', '#fedbd9', '#ffe3d7', '#feedd3', '#fff1d4', '#fffdde', '#f7fadd', '#e0eed5',
                 ],//色板
                 selectColor: '',
-                baseList:[]//全部下载自定义
+                baseList: [],//全部下载自定义
+                Completed: []//全部下载
             }
         },
         filters: {
@@ -302,15 +306,17 @@
             ...mapActions( [
                 'userGetscribe'
             ] ),
-            downAllinit(objs,blogTitle='picture'){//下载全部自定义后的图片
-                const allNum=this.$refs.subs.length,_this=this;
-                let zip = new JSZip(),imgs = zip.folder( blogTitle );
-                const name=objs.filename.substring(0,objs.filename.lastIndexOf('.')).replace(/\//g,'%')
-                this.baseList.push( {name: name+'.png', img: objs.obj.substring( 22 )} );
+            downAllinit(objs, blogTitle = 'picture') {//下载全部自定义后的图片
+                const allNum = this.$refs.subs.length, _this = this;
+                let zip = new JSZip(), imgs = zip.folder( blogTitle );
+                const name = objs.filename.substring( 0, objs.filename.lastIndexOf( '.' ) ).replace( /\//g, '%' )
+                const same=this.baseList.some(item=>item.name===name+'.png');
+                this.baseList.push( {name: (same ? name + Math.random() : name) + '.png', img: objs.obj.substring( 22 )} );
+                // this.baseList.push( {name: name + '.png', img: objs.obj.substring( 22 )} );
                 this.Percentile += 1;
-                this.loading.text = this.Percentile + '/' + this.allbgImg.length + ' 已完成';
-                console.log(this.Percentile,this.allbgImg.length,'.....')
-                if (this.baseList.length === this.allbgImg.length) {
+                this.loading.text = this.Percentile + '/' + this.Completed.length + ' 已完成';
+                console.log( this.Percentile, this.allbgImg.length, '.....' )
+                if (this.baseList.length === this.Completed.length) {
                     if (this.baseList.length > 0) {
                         this.loading.text = '打包中...'
                         for (let k = 0; k < this.baseList.length; k++) {
@@ -379,31 +385,34 @@
                 } )
             },
             //下载多张抠图
-            saveMove(key,e) {
-                let that = this
-                this.$message.closeAll()
+            saveMove(key, e) {
+                let that = this, allImgs = JSON.parse( JSON.stringify( this.allbgImg ) ),allSub = this.$refs.subs;
+                this.$message.closeAll();
+                let arr = allImgs.filter( (val, index) => {
+                    return val.img
+                } );
+                this.Completed = arr//此时保存需要下载 的 全部
                 if (this.files.length !== this.allbgImg.length) {
                     this.$message( {type: 'warning', message: '正在处理中，请稍后...'} );
                     return
                 }
+                ;
                 this.loading = this.$loading( {
                     lock: true,
                     text: '0 已完成',
                     spinner: 'el-icon-loading',
                     background: 'rgba(0, 0, 0, 0.7)'
                 } );
-                if(!this.classType){
-                    const allSub=this.$refs.subs
-                    allSub.map((item)=>item.save(key,e,'all'))
-                    return
-                }
-                let allImgs = JSON.parse( JSON.stringify( this.allbgImg ) );
-                let arr = allImgs.filter( (val, index) => {
-                    return val.img
-                } );
-                // console.log(arr)
-                if (key === 0) this.StoreDowQrcode( arr );
-                else {
+                if (key === 0)  {
+                    if (!this.classType) {//下载自定义
+                        arr.map( item => {
+                            const idx=allSub.findIndex(itemson=>item.fileId===itemson.fileId);
+                            if(idx>-1){
+                                allSub[idx].save( key, e, 'all' )
+                            }
+                        } )
+                    } else this.StoreDowQrcode( arr )
+                } else {
                     let filedId = [];
                     arr.map( (item, index) => {
                         filedId.push( item.fileId )
@@ -414,7 +423,15 @@
                             arr.map( (item, index) => {
                                 item.img = newArr[index]
                             } );
-                            this.StoreDowQrcode( arr )
+                            if (!this.classType) {//下载自定义
+                                arr.map( item => {
+                                    const idx=allSub.findIndex(itemson=>item.fileId===itemson.fileId);
+                                    if(idx>-1){
+                                        allSub[idx].imageMUrl = item.img;
+                                        allSub[idx].save( key, e, 'all' )
+                                    }
+                                } )
+                            } else this.StoreDowQrcode( arr )
                         } else {
                             this.loading.close()
                         }
@@ -422,10 +439,8 @@
                 }
 
             },
-
             //批量下载图片
             StoreDowQrcode(arr, blogTitle = "pictures") {
-                console.log(arr)
                 let zip = new JSZip();
                 let imgs = zip.folder( blogTitle );
                 let baseList = [];
@@ -441,9 +456,10 @@
                     } else if (this.classType > 2) ctxs.putImageData( objs.dwonBg, 0, 0 );
                     ctxs.drawImage( objs.bgRemovedImg, 0, 0 );
                     let url = cans.toDataURL( "image/png" ); // 得到图片的base64编码数据 let url =
-                    const name=objs.is.substring(0,objs.is.lastIndexOf('.')).replace(/\//g,'%')
-                    console.log(objs.is,name)
-                    baseList.push( {name: name+'.png', img: url.substring( 22 )} );
+                    const name = objs.is.substring( 0, objs.is.lastIndexOf( '.' ) ).replace( /\//g, '%' )
+                    const same=baseList.some(item=>item.name===name+'.png');
+                    baseList.push( {name: (same ? name + Math.random() : name) + '.png', img: url.substring( 22 )} );
+                    // baseList.push( {name: name + '.png', img: url.substring( 22 )} );
                     _this.Percentile += 1
                     _this.loading.text = _this.Percentile + '/' + arr.length + ' 已完成'
                     if (baseList.length === arr.length) {
@@ -484,14 +500,14 @@
                 this.files.unshift( {
                     url: url ? url.url : this.imgUrl,
                     name: name,
-                    filename:url ? (url.filename ? url.filename :  url.url) : this.imgUrl,
+                    filename: url ? (url.filename ? url.filename : url.url) : this.imgUrl,
                     type: 'copy',
                     fileId: url ? url.fileId : ''
                 } )
                 this.imgUrlss( {
                     url: url ? url.url : this.imgUrl,
                     name: name,
-                    filename:url ? (url.filename ? url.filename :  url.url) : this.imgUrl,
+                    filename: url ? (url.filename ? url.filename : url.url) : this.imgUrl,
                     type: 'copy',
                     fileId: url ? url.fileId : ''
                 } )
@@ -512,7 +528,7 @@
                         url: e.files[i],
                         name: parseInt( Math.random() * 100000000000 ),
                         type: 'file',
-                        filename:e.files[i].name
+                        filename: e.files[i].name
                     } );
                 }
                 this.imgUrlss( e.files )
@@ -664,12 +680,12 @@
                         }
                         _self.toscroll();
                         for (let i = 0; i < files.length; i++) {
-                            console.log(files)
+                            console.log( files )
                             _self.files.unshift( {
                                 url: files[i],
                                 name: parseInt( Math.random() * 100000000000 ),
                                 type: 'file',
-                                filename:files[i].name
+                                filename: files[i].name
                             } )
                         }
                         _self.imgUrlss( files )
@@ -698,7 +714,7 @@
                 let arr = [];
                 files.map( (item, index) => {
                     if (!item.noSave) {
-                        arr.push( {Original: item.Original, fileId: item.fileId,filename:item.filename} )
+                        arr.push( {Original: item.Original, fileId: item.fileId, filename: item.filename} )
                     }
                 } )
                 setSecImgs( JSON.stringify( arr ), 4 )
@@ -708,28 +724,28 @@
                 let arr = JSON.parse( getSecImgs( 4 ) ).reverse();
                 if (!arr) return;
                 arr.map( (item) => {
-                    this.copyImgUrl( {url: item.Original, fileId: item.fileId,filename:item.filename}, 1 )
+                    this.copyImgUrl( {url: item.Original, fileId: item.fileId, filename: item.filename}, 1 )
                 } )
             },
-            deleteAllImg(){//删除全部
-                this.$confirm('确定要删除全部么', '提示', {
+            deleteAllImg() {//删除全部
+                this.$confirm( '确定要删除全部么', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
-                }).then(() => {
-                    this.files=[];
-                    this.rightImgList=[];
+                } ).then( () => {
+                    this.files = [];
+                    this.rightImgList = [];
                     // console.log(this.$refs.imgRef)
-                    this.allbgImg=[];
+                    this.allbgImg = [];
                     this.sesImgsSet( this.allbgImg );
                     $( 'body,html' ).animate( {scrollTop: 0}, 500 );
-                    this.$message({
+                    this.$message( {
                         type: 'success',
                         message: '删除成功!'
-                    });
-                }).catch(() => {
+                    } );
+                } ).catch( () => {
 
-                });
+                } );
             }
 
         },
@@ -988,20 +1004,27 @@
                     text-align: left;
                     width: 280px;
                     margin-left: 78px;
-                    & > .aList{
+
+                    & > .aList {
                         font-size: 14px;
                         padding-right: 20px;
                         margin-bottom: 50px;
                         justify-content: space-between;
-                        a{
+
+                        a {
                             color: #333;
-                            &:hover{ color: #e82255;}
+
+                            &:hover {
+                                color: #e82255;
+                            }
                         }
                     }
-                    .el-button{
+
+                    .el-button {
                         background-color: $head;
                         border-color: $head;
                     }
+
                     .el-button, .el-input {
                         display: block;
                         width: 100%;
@@ -1033,9 +1056,11 @@
                         border-radius: 5px;
                         margin-right: 12px;
                     }
-                    .titlips{
+
+                    .titlips {
                         font-size: 14px;
-                        a{
+
+                        a {
                             color: #999;
                             display: block;
                             line-height: 28px;
@@ -1102,7 +1127,8 @@
                     display: block;
                 }
             }
-            .deAll{
+
+            .deAll {
                 display: block;
                 line-height: 16px;
                 font-size: 12px;

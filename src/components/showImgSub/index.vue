@@ -487,7 +487,7 @@
             pollingImg() {//轮询
                 this.timer = setTimeout( () => {
                     // this.getImgData()
-                    console.log('timeout')
+                    // console.log('timeout')
                     getMattingInfo( {fileId: this.fileId} ).then( res => {
                         if (!res.code) {
                             this.imageMsg = res.data;
@@ -760,8 +760,8 @@
                     this.downOldImg( url, all )
                 } else {
                     if (this.imageMUrl) {
-                        this.initSmallTag( e, '免费 :）' )
-                        this.downOldImg( this.imageMUrl, all )
+                        if(!all) this.initSmallTag( e, '免费 :）' );
+                        this.downOldImg( this.imageMUrl, all );
                         return
                     }
                     let data = {fileId: this.fileId};
@@ -772,8 +772,8 @@
                     downloadMattedImage( data ).then( res => {
                         if (!res.code) {
                            if(!all) this.initSmallTag( e, '次数 -1' );
-                            this.imageMUrl = res.data
-                            this.downOldImg( res.data, all )
+                            this.imageMUrl = res.data;
+                            this.downOldImg( res.data, all );
                         } else this.showLoading = false;
                     } )
                 }
@@ -1007,7 +1007,7 @@
                 let newBg4 = ctx.getImageData( 0, 0, canvasTemp.width, canvasTemp.height );
                 JSManipulate.blur.filter( newBg1, {amount: 5.0} );
                 JSManipulate.grayscale.filter( newBg4 );
-                console.log( index, 'pppp' )
+                // console.log( index, 'pppp' )
                 callback( {
                     dwonBg: index === 2 ? newBg4 : newBg1,
                     bgRemovedImg: imgObjs.bgImg

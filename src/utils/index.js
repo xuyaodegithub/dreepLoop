@@ -359,7 +359,8 @@ export const initSmallTag = (e, txt) => {//点击小动画
         "left": x,
         'fontSize': '14px',
         "position": "fixed",
-        "color": "rgb(" + (255 * Math.random()) + "," + (255 * Math.random()) + "," + (255 * Math.random()) + ")"
+        // "color": "rgb(" + (255 * Math.random()) + "," + (255 * Math.random()) + "," + (255 * Math.random()) + ")"
+         "color": "#e82255"
     } );
     $( "body" ).append( $i );
     $i.animate( {
