@@ -1740,8 +1740,12 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 } ).then( () => {
-                    this.loadId=it.id;
                     this.loading={show:true,text:'加载中...'};
+                    if(it.isOwnTwo){
+                        this.loadSubs(it)
+                        return;
+                    }
+                    this.loadId=it.id;
                     templateDetial({id:this.loadId}).then(res=>{
                         console.log(JSON.parse(res.data.data))
                         this.loadSubs(JSON.parse(res.data.data))
