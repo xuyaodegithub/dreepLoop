@@ -37,7 +37,7 @@
     import {toRouter, basrUrls} from '@/utils'
     import {setToken, getToken, setCookie, getAccount, setAccount, reAccount} from "../../utils/auth";
     import {usercheckEmail, userLogin,loginByMobile,sendCode} from "../../apis";
-
+    import Cookies from 'js-cookie';
     export default {
         name: 'login',
         data() {
@@ -105,7 +105,6 @@
                                 setToken( token )
                                 setCookie( 'token', token )
                                 // setTimeout(()=>{
-                                console.log(document.referrer)
                                     if(window.history.length<3 || document.referrer.indexOf('register')>-1){window.location.replace('index.html')}
                                     else if (document.referrer.includes('docsify')) window.location.replace('docsify/#/apidoc_api.md')
                                     else window.location.replace(document.referrer)
@@ -113,7 +112,10 @@
                             }
                         } )
                     }else{
-                        loginByMobile({mobile:this.username,validate_code:this.userpass}).then(res=>{
+                        let data={mobile:this.username,validate_code:this.userpass},vsource=Cookies.get('vsource');
+                        if(vsource)data.vsource=vsource;
+                        else data.vsource=document.referrer;
+                        loginByMobile(data).then(res=>{
                             if (!res.code) {
                                 let token = res.data.token;
                                 setToken( token );

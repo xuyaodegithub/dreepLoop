@@ -76,7 +76,8 @@ import color from '@/assets/image/color.png'
 import fopa from '@/assets/image/fopa.png'
 import mohu1 from '@/assets/image/mohu1.png'
 import mohu2 from '@/assets/image/mohu2.png'
-import { imgListCat,catImgList } from "@/apis";
+import { imgListCat,catImgList,getUserInfo } from "@/apis";
+import {mapActions} from 'vuex'
 export const mixins={
   data(){
     return {
@@ -108,18 +109,20 @@ export const mixins={
     }
   },
   methods:{
-    edireThis(down){
+    ...mapActions(['userGetscribe']),
+    edireThis(down,mattingType){
       if(!down)return;
       const editPictures={
         pro:this.bgOriginal.img,
-        ori:this.Original,
+        ori:mattingType===3 ? this.bgOriginal.img : this.Original,
         filename:this.filename,
         bgImg:'',
         fileId:this.fileId,
-        imageMsg:this.imageMsg
+        imageMsg:this.imageMsg,
+        mattingType: mattingType ? mattingType : 0
       }
         localStorage.setItem('editImg',JSON.stringify(editPictures))
-        window.open('editPictures.html')
+        window.open('posterEditor.html')
     },
     initCats(){
       imgListCat().then(res=>{
@@ -135,14 +138,15 @@ export const mixins={
       })
     },
     initSmallTag(e,txt) {//点击小动画
-      let $i = $( '<span></span>' ).text( txt ), y = e.clientY - 30, x = e.clientX - 10;
+      let $i = $( '<span></span>' ).text( txt ), y = e.clientY - 30, x = e.clientX - 10,_self=this;
       $i.css( {
         "z-index": 999,
         "top": y,
         "left": x,
         'fontSize':'14px',
         "position": "fixed",
-        "color": "rgb(" + (255 * Math.random()) + "," + (255 * Math.random()) + "," + (255 * Math.random()) + ")"
+        // "color": "rgb(" + (255 * Math.random()) + "," + (255 * Math.random()) + "," + (255 * Math.random()) + ")"
+          "color": "#e82255"
       } );
       $( "body" ).append( $i );
       $i.animate( {
@@ -152,6 +156,7 @@ export const mixins={
           1500,
           function () {
             $i.remove();
+            _self.userGetscribe()
           } );
     }
   },

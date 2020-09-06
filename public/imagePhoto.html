@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>(function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push( {
+            'gtm.start':
+                new Date().getTime(), event: 'gtm.js'
+        } );
+        var f = d.getElementsByTagName( s )[0],
+            j = d.createElement( s ), dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src =
+            'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore( j, f );
+    })( window, document, 'script', 'dataLayer', 'GTM-WG4BQ8P' );
+    </script>
+    <meta charset="utf-8">
+    <!--//设置不缓存-->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Cache" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" id="view">
+    <meta name="applicable-device" content="pc">
+    <link rel="mobile-agent" content="format=html5;url=http://m.picup.shop"/>
+    <meta name="Description" content="皮卡智能证件照免费在线制作,一寸/二寸各种证件照尺寸,软件一键换背景蓝底/白底/红底,手机拍摄就可以轻松制作最美证件照/结婚证件照/电子证件照">
+    <meta name="Keywords" content="最美证件照,证件照尺寸,结婚证件照,蓝底证件照,白底证件照,证件照换背景"/>
+    <!--  <title>AI智能抠图</title>-->
+    <title>智能证件照免费在线制作多尺寸换背景-皮卡智能抠图PicUP.AI</title>
+    <link rel="stylesheet" href="static/public.css">
+    <link rel="stylesheet" href="static/css/idPhoto.css">
+    <link rel="icon" href="smallLogo.jpg" type="images/x-icon">
+    <!--标题栏：-->
+    <!--<link rel="icon" href="static/ball.png" type="image/x-icon">-->
+    <!--收藏夹：-->
+    <!--<link rel="shortcut icon" href="static/ball.png" type="image/x-icon">-->
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement( "script" );
+            // hm.src = "https://hm.baidu.com/hm.js?156c05f7319464c49127c703f9ed21df";
+            hm.src = "https://hm.baidu.com/hm.js?e12fc5e6ff2012ad0838c01122228ca7";
+            var s = document.getElementsByTagName( "script" )[0];
+            s.parentNode.insertBefore( hm, s );
+        })();
+    </script>
+</head>
+<style>
+    header.positionTop {
+        position: absolute;
+        top: -100000px;
+        font-size: 14px;
+        color: #fff;
+        line-height: 60px;
+        background-color: #303030;
+        /*background: url("static/images/back.jpg") no-repeat center;*/
+    }
+
+    header li {
+        margin: 0 25px;
+    }
+
+    header .right span {
+        display: inline-block;
+        padding: 0 15px;
+        line-height: 32px;
+        cursor: pointer;
+    }
+
+    header .right span.active {
+        border: 1px solid #a1a1a1;
+        border-radius: 16px;
+    }
+
+    header li:first-child {
+        margin-left: 0;
+        margin-right: 60px;
+    }
+</style>
+<body>
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WG4BQ8P"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
+<header class="positionTop">
+    <div class="margin flex j-b a-i first">
+        <ul class="flex">
+            <li><a href="index.html"><img src="static/images/sureLogo.png" alt=""></a></li>
+            <li class="cu"><a href="index.html">人像抠图</a></li>
+            <li class="cu"><a href="product.html">更多产品</a></li>
+            <li class="cu"><a href="aboutUs.html">关于我们</a></li>
+            <li class="cu"><a href="downLoad.html">下载桌面端</a></li>
+            <!--            <li class="cu">登录</li>-->
+        </ul>
+        <div class="right">
+            <span><a href="userVip.html">定价</a></span>
+            <span class="active"><a href="loginOrRegister.html">登录/注册</a></span>
+        </div>
+    </div>
+</header>
+<div id="imagePhoto"></div>
+<div class="helloFirst">
+    <input type="file" style="display: none" id="upImg" onchange="changeImg(event)"
+           accept="image/*"/>
+    <div class=" apps">
+        <div class="Operator">
+            <div onclick="upLoadimg()" class="btns cu"><!--Upload-->电脑上传</div>
+            <div onclick="upbymobile(1)" class="btns te cu"><!--Upload-->手机上传</div>
+            <h4 onclick="showHisList(1)" class="cu"><img
+                    src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/53ee8479d4e54371a3245eb5c0482ab4.png"
+                    alt="" style="margin-right: 10px;">形象照上传记录</h4>
+            <div class="photoHisList hisList">
+                <h5>暂无记录</h5>
+                <i class="cu" onclick="showHisList()"></i>
+                <div class="list" style="height: 80%;overflow-y:auto;" onscroll="scrollHis(event)"></div>
+                <!--                <div class="hisItems">-->
+                <!--                    <h3>2020-08-24</h3>-->
+                <!--                    <div class="flex a-i">-->
+                <!--                        <div class="itmes"><img-->
+                <!--                                src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2020/08/11/0bc49d7dc82742dc80ef15e99898e861.png"-->
+                <!--                                alt=""></div>-->
+                <!--                        <div class="itmes"><img-->
+                <!--                                src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2020/08/11/0bc49d7dc82742dc80ef15e99898e861.png"-->
+                <!--                                alt=""></div>-->
+                <!--                        <div class="itmes"><img-->
+                <!--                                src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2020/08/11/0bc49d7dc82742dc80ef15e99898e861.png"-->
+                <!--                                alt=""></div>-->
+                <!--                        <div class="itmes"><img-->
+                <!--                                src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2020/08/11/0bc49d7dc82742dc80ef15e99898e861.png"-->
+                <!--                                alt=""></div>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+            </div>
+            <div class="bottonLast">
+                <div class="fixedB">
+                    <h5><!--Contact us-->联系我们</h5>
+                    <div class="flex a-i cu">
+                        <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/79d22ed7c75049b9bd280cd5d50e6444.png"
+                             alt="">
+                        <p>roymind</p>
+                        <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/74ee5f7eaa754347bdafe939151b5923.png"
+                             alt="" style="margin-left: 20px;margin-right: 0;">
+                        <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/cdf212032f814af3af8638735fcc2ea6.png"
+                             alt="" class="noC" style="width:120px;">
+                    </div>
+                    <div class="flex a-i cu">
+                        <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/b8338f76e2774b55a9a4c041523910ad.png"
+                             alt="">
+                        <p><a href="mailto:pikachu@picup.ai">pikachu@picup.ai</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="OperatorRight drops">
+            <div class="flex a-i tops">
+                <div class="oLeft">
+                    <h1>在线制作高端个人形象照</h1>
+                    <div class="flex f-w icons">
+                        <p>
+                            <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/83cd1ba825d94728a47be4c10c2fde44.png"
+                                 alt="">全自动证件照裁剪尺寸</p>
+                        <p>
+                            <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/83cd1ba825d94728a47be4c10c2fde44.png"
+                                 alt="">智能磨皮美颜，最美证件照、结婚证件照</p>
+                        <p>
+                            <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/83cd1ba825d94728a47be4c10c2fde44.png"
+                                 alt="">证件照换底色，白底红底蓝底</p>
+                        <p>
+                            <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/83cd1ba825d94728a47be4c10c2fde44.png"
+                                 alt="">自动换装，女装男装童装</p>
+                    </div>
+                    <div class="flex twoBtns">
+                        <span onclick="upLoadimg()"><img
+                                src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png"
+                                alt="">电脑上传</span>
+                        <span onclick="upbymobile(1)"><img
+                                src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/1900436f3be2442980cb8e2887fc0d21.png"
+                                alt="">手机上传</span>
+                    </div>
+                    <div class="flex lizi">
+                        <span>没有照片？<br>试试这些证件照：</span>
+                        <div class="photoHisList flex">
+                            <div class="itmes">
+                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/bad14aaaa6dc48488a6531e0614806f2.jpg"
+                                     alt=""></div>
+                            <div class="itmes">
+                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/c8db2f1d632e4fbb91870a787103d002.jpg"
+                                     alt=""></div>
+                            <div class="itmes">
+                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/854e620c6e674705b53227829523ddfd.jpg"
+                                     alt=""></div>
+                            <div class="itmes">
+                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/8aa70d3ef210426b848fa0760e5af69b.jpg"
+                                     alt=""></div>
+                        </div>
+                    </div>
+                    <h6>照片要求：</h6>
+                    <p class="mar">正面免冠，头发不遮挡眉毛、眼睛和脸颊，露出耳朵。不着制式服装， 儿童不系红领巾。</p>
+                    <p>姿势端正，抬头挺胸，注意避免侧身、歪脸、斜肩、昂头、驼背。手机拍摄证件照即可，浅色背景墙壁为佳。</p>
+                </div>
+                <div class="oright">
+                    <!--                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200812/cca3f67aabfa4cb8a49965c949525ff6.png"-->
+                    <!--                         alt="">-->
+                </div>
+            </div>
+            <div class="sect">
+                <div class="sizeClass flex a-i">
+                    <label>证件照尺寸选择</label>
+                    <div class="inpup">
+                        <input placeholder="输入规格名称，如：一寸照" onkeypress="seach(event)" id="inputs" oninput="inputS()" onblur="blurs()"/><img
+                            src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/b98b8c15147e4cfea40f6a1a9ad99550.png"
+                            alt="" class="cu" onclick="seach()">
+                        <ul>
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="initList one">
+                    <label>常用尺寸:</label>
+                    <div class="cList flex">
+                        <div class="cu">
+                            <div class="its">
+                                <div w="295" h="413" color="#FF0000">
+                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200819/f28d6ae445974530b33a5504ec2b15d1.png"
+                                         alt="">
+                                    <div class="flex"><span onclick="downLoad(this,event)">下载</span><span>编辑</span></div>
+                                </div>
+                            </div>
+                            <p class="over">一寸</p>
+                            <p>(25*35mm)</p>
+                        </div>
+                        <div class="cu">
+                            <div class="its">
+                                <div w="413" h="579" color="#FF0000">
+                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200819/f28d6ae445974530b33a5504ec2b15d1.png"
+                                         alt="">
+                                    <div class="flex"><span onclick="downLoad(this,event)">下载</span><span>编辑</span></div>
+                                </div>
+                            </div>
+                            <p class="over">二寸</p>
+                            <p>(35*49mm)</p>
+                        </div>
+                        <div class="cu">
+                            <div class="its">
+                                <div w="649" h="991" color="#FF0000" name="三寸（55*84mm）">
+                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200819/f28d6ae445974530b33a5504ec2b15d1.png"
+                                         alt="">
+                                    <div class="flex"><span onclick="downLoad(this,event)">下载</span><span>编辑</span></div>
+                                </div>
+                            </div>
+                            <p class="over">三寸</p>
+                            <p class="over">(55*84mm)</p>
+                        </div>
+                        <div class="cu">
+                            <div class="its">
+                                <div w="898" h="1205" color="#FF0000" name="四寸（76*102mm）">
+                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200819/f28d6ae445974530b33a5504ec2b15d1.png"
+                                         alt="">
+                                    <div class="flex"><span onclick="downLoad(this,event)">下载</span><span>编辑</span></div>
+                                </div>
+                            </div>
+                            <p class="over">四寸</p>
+                            <p class="over">(76*102mm)</p>
+                        </div>
+                        <div class="cu">
+                            <div class="its">
+                                <div w="1050" h="1499" color="#FF0000" name="五寸（89*127mm）"
+                                     style="width: 148.149px; height: 211.5px;">
+                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200819/f28d6ae445974530b33a5504ec2b15d1.png"
+                                         alt="">
+                                    <div class="flex"><span onclick="downLoad(this,event)">下载</span><span>编辑</span></div>
+                                </div>
+                            </div>
+                            <p class="over">五寸</p>
+                            <p class="over">(89*127mm)</p>
+                        </div>
+                    </div>
+                    <label>热门证件照尺寸:</label>
+                    <div class="cList flex contents">
+                        <!--                        <div class="cu">-->
+                        <!--                            <div class="its">-->
+                        <!--                                <div w="295" h="413" color="#FF0000">-->
+                        <!--                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"-->
+                        <!--                                         alt="">-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                        <!--                            <p class="over">一寸</p>-->
+                        <!--                            <p class="over">(25*35mm）</p>-->
+                        <!--                        </div>-->
+                        <!--                        <div class="cu">-->
+                        <!--                            <div class="its">-->
+                        <!--                                <div w="260" h="378" color="#FF0000">-->
+                        <!--                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"-->
+                        <!--                                         alt="">-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                        <!--                            <p class="over">小一寸</p>-->
+                        <!--                            <p class="over">(22*32mm）</p>-->
+                        <!--                        </div>-->
+                        <!--                        <div class="cu">-->
+                        <!--                            <div class="its">-->
+                        <!--                                <div w="390" h="569" color="#00BFF3">-->
+                        <!--                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"-->
+                        <!--                                         alt="">-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                        <!--                            <p class="over">大一寸</p>-->
+                        <!--                            <p class="over">(33*48mm）</p>-->
+                        <!--                        </div>-->
+                        <!--                        <div class="cu">-->
+                        <!--                            <div class="its">-->
+                        <!--                                <div w="413" h="579" color="#FF0000">-->
+                        <!--                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"-->
+                        <!--                                         alt="">-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                        <!--                            <p class="over">二寸</p>-->
+                        <!--                            <p class="over">（35*49mm）</p>-->
+                        <!--                        </div>-->
+                        <!--                        <div class="cu">-->
+                        <!--                            <div class="its">-->
+                        <!--                                <div w="260" h="378" color="#FF0000">-->
+                        <!--                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"-->
+                        <!--                                         alt="">-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                        <!--                            <p class="over">小二寸</p>-->
+                        <!--                            <p class="over">（35*45mm）</p>-->
+                        <!--                        </div>-->
+                        <!--                        <div class="cu">-->
+                        <!--                            <div class="its">-->
+                        <!--                                <div w="413" h="626" color="#FF0000">-->
+                        <!--                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"-->
+                        <!--                                         alt="">-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                        <!--                            <p class="over">大二寸</p>-->
+                        <!--                            <p class="over">（35*53mm）</p>-->
+                        <!--                        </div>-->
+                    </div>
+                </div>
+                <div class="initList two">
+                    <label>搜索结果:</label>
+                    <div class="cList flex content">
+                        <div class="cu">
+                            <div class="its">
+                                <div w="295" h="413" color="#FF0000">
+                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
+                                         alt="">
+                                </div>
+                            </div>
+                            <p class="over">一寸</p>
+                            <p class="over">（25*35mm）</p>
+                        </div>
+                        <div class="cu">
+                            <div class="its">
+                                <div w="413" h="579" color="#FF0000">
+                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
+                                         alt="">
+                                </div>
+                            </div>
+                            <p class="over">二寸</p>
+                            <p class="over">（35*49mm）</p>
+                        </div>
+                        <div class="cu">
+                            <div class="its">
+                                <div w="649" h="991" color="#FF0000" name="三寸（55*84mm）">
+                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
+                                         alt="">
+                                </div>
+                            </div>
+                            <p class="over">三寸</p>
+                            <p class="over">（55*84mm）</p>
+                        </div>
+                        <div class="cu">
+                            <div class="its">
+                                <div w="898" h="1205" color="#FF0000" name="四寸（76*102mm）">
+                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
+                                         alt="">
+                                </div>
+                            </div>
+                            <p class="over">四寸</p>
+                            <p class="over">（76*102mm）</p>
+                        </div>
+                        <div class="cu">
+                            <div class="its">
+                                <div w="898" h="1205" color="#FF0000" name="四寸（76*102mm）">
+                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
+                                         alt="">
+                                </div>
+                            </div>
+                            <p class="over">四寸</p>
+                            <p class="over">（76*102mm）</p>
+                        </div>
+                        <div class="cu">
+                            <div class="its">
+                                <div w="1050" h="1499" color="#FF0000" name="五寸（89*127mm）"
+                                     style="width: 148.149px; height: 211.5px; background-color: rgb(232, 34, 85);">
+                                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png"
+                                         alt="">
+                                </div>
+                            </div>
+                            <p class="over">五寸</p>
+                            <p class="over">（89*127mm）</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="diglog">
+    <i class="cu" onclick="setDiog()"></i>
+    <h4>扫码上传图片</h4>
+    <div id="qrcode"></div>
+    <p>手机上传图片时，请不要关闭弹框</p>
+</div>
+<div class="zhezhao"></div>
+<div class="loading">
+    处理中...
+</div>
+<script>
+    var baseUrl = '<%= VUE_APP_BASEURL %>',
+        urlhref = '<%= NODE_ENV %>' === 'development' ? 'http://wwwdev.picup.shop' : 'http://www.picup.shop';
+    // var baseUrl = '<%= VUE_APP_BASEURL %>',urlhref='http://wwwdev.picup.shop';
+</script>
+<script src="static/idPhoto.js"></script>
+<script src="static/jquery-1.11.3.min.js"></script>
+<script src="static/qrcode.min.js"></script>
+<script>
+    var token = localStorage.getItem( 'user_Token' ), fileId, mattingMsg = {
+        bgRemovedPreview: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200819/f28d6ae445974530b33a5504ec2b15d1.png',
+        oripro:'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200819/afb004e669534ecea1d5deff41162604.png',
+        original: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/c8db2f1d632e4fbb91870a787103d002.jpg',
+        mattingType: 8,
+        originalWidth: 650, originalHeight: 650,
+        headData: {bottom: 398.9, left: 162.6, mouseY: 352.5, right: 483.2, top: 6.7},
+    }, taskFlag, timer, page = 1, pageSize = 20,oriMattingUrl='',filename=[];//避免重复扣点
+    var qrcode = new QRCode( document.getElementById( "qrcode" ), {
+        text: urlhref + "/uploadBymobile.html",
+        width: 128,
+        height: 128,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    } );
+
+    function initItems() {
+        var oItem = $( '.cList .its > div' ), scnum = 235;
+        $.each( oItem, function (idx, item) {
+            let w = parseFloat( $( item ).attr( 'w' ) ), h = parseFloat( $( item ).attr( 'h' ) ),
+                c = $( item ).attr( 'color' );
+            let pw = w > h ? scnum * 0.9 : w * (scnum * 0.9) / h, ph = w > h ? h * (scnum * 0.9) / w : scnum * 0.9,
+                oImg = $( this ).find( 'img' );
+            let scaleW = 0.55 * ph / pw;
+            let iw = pw * scaleW * mattingMsg.originalWidth / (mattingMsg.headData.right - mattingMsg.headData.left);//缩放后的图片宽
+            let ih = iw * mattingMsg.originalHeight / mattingMsg.originalWidth;
+            let top = -(ih * mattingMsg.headData.top / mattingMsg.originalHeight) + ph * 0.05;
+            let left = pw / 2 - ((mattingMsg.headData.right - mattingMsg.headData.left) / 2 + mattingMsg.headData.left) * iw / mattingMsg.originalWidth;
+            oImg.css( {
+                width: iw,
+                top: top + ih < ph ? ph - ih : top,
+                left: left,
+                transform: 'translate(0,0)',
+                height: ih,
+            } )
+            $( this ).css( {
+                width: parseInt( pw ),
+                height: parseInt( ph ),
+                marginLeft: -parseInt( pw ) / 2,
+                marginTop: -parseInt( ph ) / 2,
+                backgroundColor: c
+            } )
+        } )
+    }
+
+    function upbymobile() {
+        $.ajax( {
+            url: baseUrl + '/oss/newUploadTask',
+            type: 'get',
+            dataType: 'json',
+            xhrFields: {
+                withCredentials: true
+            },
+            headers: {token: token},
+            data: {},
+            success: function (res) {
+                if (!res.code) {
+                    taskFlag = res.data;
+                    qrcode.makeCode( urlhref + "/uploadBymobile.html?taskFlag=" + res.data );
+                    setDiog( 1 );
+                    lunxun()
+                } else loading( res.msg )
+            }
+        } )
+    }
+
+    function lunxun() {
+        $.ajax( {
+            url: baseUrl + '/oss/getUploadTask',
+            type: 'get',
+            dataType: 'json',
+            xhrFields: {
+                withCredentials: true
+            },
+            headers: {token: token},
+            data: {taskFlag: taskFlag},
+            success: function (res) {
+                if (!res.code) {
+                    if (res.data.status === 2) {
+                        setDiog()
+                        dreepByurl( res.data.url );
+                    } else timer = setTimeout( lunxun, 2000 )
+                } else loading( res.msg )
+            }
+        } )
+    }
+
+    function setDiog(k) {
+        clearTimeout( timer )
+        if (k) {
+            $( '.diglog' ).css( 'display', 'block' );
+            $( '.zhezhao' ).css( 'display', 'block' );
+        } else {
+            $( '.diglog' ).css( 'display', 'none' );
+            $( '.zhezhao' ).css( 'display', 'none' );
+        }
+    }
+
+    function setLoading(k) {
+        if (k) {
+            $( '.loading' ).text( '处理中...' );
+            $( '.loading' ).css( 'display', 'block' );
+            $( '.zhezhao' ).css( 'display', 'block' );
+        } else {
+            $( '.loading' ).css( 'display', 'none' );
+            $( '.zhezhao' ).css( 'display', 'none' );
+        }
+    }
+
+    function loading(str) {
+        $( '.loading' ).text( str );
+        $( '.loading' ).css( 'display', 'block' );
+        setTimeout( function () {
+            $( '.loading' ).text( '处理中...' );
+            $( '.loading' ).css( 'display', 'none' );
+            $( '.zhezhao' ).css( 'display', 'none' );
+        }, 2000 )
+
+    }
+
+    function upLoadimg() {
+        $( '#upImg' ).val( '' );
+        $( '#upImg' ).click();
+    }
+
+    function changeImg(e) {
+        let file = e.target.files[0], formData = new FormData;
+        formData.append( 'file', file )
+        $.ajax( {
+            url: baseUrl + '/oss/upload',
+            type: 'post',
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            xhrFields: {
+                withCredentials: true
+            },
+            headers: {token: token},
+            data: formData,
+            success: function (res) {
+                if (!res.code) {
+                    dreepByurl( res.data );
+                } else loading( res.msg )
+            }
+        } )
+    }
+
+    function dreepByurl(url, id) {//抠图
+        setLoading( 1 )
+        let data = {url: url, mattingType: 8, bodyData: 1};
+        if (id) data.fileId = id;
+        $.ajax( {
+            url: baseUrl + '/webMatting/mattingByUrl2',
+            type: 'post',
+            dataType: 'json',
+            xhrFields: {
+                withCredentials: true
+            },
+            headers: {token: token},
+            data: data,
+            success: function (res) {
+                if (!res.code) {
+                    fileId = res.data.fileId;
+                    if (res.data.status === 'success') {
+                        $( '.cList .its img' ).attr( 'src', res.data.bgRemovedPreview );
+                        mattingMsg = res.data;
+                        initItems()
+                        setLoading()
+                        $( 'body,html' ).animate( {scrollTop: 490}, 500 );
+                    } else {
+                        $( '.loading' ).text( '当前排队位置' + res.data.queueNumber )
+                        setTimeout( pollingImg, 2000 )
+                    }
+                } else if (res.code === 4003) {
+                    localStorage.setItem( 'backUrl', window.location.href );
+                    window.location.href = 'loginOrRegister.html';
+                } else loading( res.msg )
+            }
+        } )
+    }
+
+    function pollingImg() {//轮训
+        let data = {fileId: fileId};
+        $.ajax( {
+            url: baseUrl + '/webMatting/getMattingInfo',
+            type: 'get',
+            dataType: 'json',
+            headers: {token: token},
+            data: data,
+            success: function (res) {
+                if (!res.code) {
+                    if (res.data.status === 'success') {
+                        $( '.cList .its img' ).attr( 'src', res.data.bgRemovedPreview );
+                        mattingMsg = res.data;
+                        initItems()
+                        setLoading()
+                        $( 'body,html' ).animate( {scrollTop: 490}, 500 );
+                    } else {
+                        $( '.loading' ).text( '当前排队位置' + res.data.queueNumber )
+                        setTimeout( pollingImg, 2000 )
+                    }
+                } else loading( res.msg )
+            }
+        } )
+    }
+
+    function clickDiv() {//添加点击事件
+        $( '.cList .cu' ).on( 'click', function () {
+            let data = Object.assign( mattingMsg, {
+                ori: mattingMsg.original,
+                pro: mattingMsg.bgRemovedPreview,
+                w: $( this ).find( '.its > div' ).attr( 'w' ),
+                h: $( this ).find( '.its > div' ).attr( 'h' ),
+                color: $( this ).find( '.its > div' ).attr( 'color' ),
+                filename: $( this ).find( 'p' ).text(),
+                fileId: fileId ? fileId : '',
+                mattingType: 8
+            } )
+            localStorage.setItem( 'photoMsg', JSON.stringify( data ) );
+            window.open( 'idPhotoEdit.html' );
+        } )
+    }
+
+    function initindexImg() {//接收从首页过来的图片
+        let imgUrl = window.localStorage.getItem( 'initImg' );
+        if (imgUrl) {
+            window.localStorage.removeItem( 'initImg' );
+            dreepByurl( imgUrl )
+        }
+    }
+    function downLoad(item,e){
+        ev=e || window.event;
+        ev.stopPropagation();
+        // filename=$(oItem).parents('.cu').find('p').text();
+        var oItem=$(item).parents('.its').children('div'),oImg=new Image(),oCan=document.createElement('canvas');
+        var w=oItem.attr('w'),h=oItem.attr('h'),c=oItem.attr('color'),oCanTxt=oCan.getContext('2d'),name=$(oItem).parents('.cu').find('p').text();
+        var scaleW = 0.55 * h / w;
+        var iw = w * scaleW * mattingMsg.originalWidth / (mattingMsg.headData.right - mattingMsg.headData.left);//缩放后的图片宽
+        var ih = iw * mattingMsg.originalHeight / mattingMsg.originalWidth;
+        var top = -(ih * mattingMsg.headData.top / mattingMsg.originalHeight) + h * 0.05;
+        var left = w / 2 - ((mattingMsg.headData.right - mattingMsg.headData.left) / 2 + mattingMsg.headData.left) * iw / mattingMsg.originalWidth;
+        oCan.width=w;
+        oCan.height=h;
+        oCanTxt.fillStyle=c;
+        oCanTxt.fillRect(0,0,w,h);
+        oImg.crossOrigin='';
+        if(fileId && !oriMattingUrl){
+            $.ajax({
+                url: baseUrl + '/webMatting/getMattedImage',///poster/download
+                type: 'get',
+                dataType: 'json',
+                headers: {token: token},
+                data: {fileId:fileId},
+                success: function (res) {
+                    if(!res.code){
+                        initSmallTag(e,'次数 -1');
+                        oriMattingUrl=res.data;
+                        filename.push(name);
+                        oImg.onload=function (){
+                            oCanTxt.drawImage(oImg,left,top,iw,ih);
+                            downImgFro(oCan,name )
+                        };
+                        oImg.src=res.data+`?id=${Math.random()}`;
+                    }else if(res.code===1100){
+                        localStorage.setItem('backUrl',window.location.href);
+                        window.location.href='loginOrRegister.html';
+                    }else loading(res.msg)
+                }
+            })
+        }else if(!fileId || filename.indexOf(name)>-1){
+            initSmallTag(e,'免费')
+            oImg.onload=function (){
+                oCanTxt.drawImage(oImg,left,top,iw,ih);
+                downImgFro(oCan,name )
+            };
+            oImg.src=oriMattingUrl ? oriMattingUrl : mattingMsg.bgRemovedPreview+`?id=${Math.random()}`;
+        }else{
+            $.ajax({
+                url: baseUrl + '/poster/download',
+                type: 'get',
+                dataType: 'json',
+                headers: {token: token},
+                data: {templateId:1},
+                success: function (res) {
+                    if(!res.code){
+                        initSmallTag(e,'次数 -1');
+                        filename.push(name);
+                        oImg.onload=function (){
+                            oCanTxt.drawImage(oImg,left,top,iw,ih);
+                            downImgFro(oCan,name )
+                        };
+                        oImg.src=oriMattingUrl+`?id=${Math.random()}`;
+                    }else loading(res.msg)
+                }
+            })
+        }
+    }
+    function downImgFro(cans,name ){
+        if (window.navigator.msSaveOrOpenBlob) {
+            let imgData = cans.msToBlob();
+            let blobObj = new Blob( [imgData] );
+            window.navigator.msSaveOrOpenBlob( blobObj, name + ".png" );
+        } else {
+            let oA = document.createElement( 'a' );
+            oA.href = cans.toDataURL();
+            oA.download = name+'.png';
+            oA.click();
+        }
+        // if (myBrowser() === 'IE' || myBrowser() === 'Edge') {//ie下载图片
+        //     let url = cans.msToBlob();
+        //     let blobObj = new Blob( [url] );
+        //     window.navigator.msSaveOrOpenBlob( blobObj, name + ".png" );
+        // } else {
+        //     let url = cans.toDataURL( "image/png" );
+        //     let arr = url.split( ',' ), mime = arr[0].match( /:(.*?);/ )[1], bstr = atob( arr[1] ),
+        //         n = bstr.length, u8arr = new Uint8Array( n );
+        //     while (n--) {
+        //         u8arr[n] = bstr.charCodeAt( n );
+        //     }
+        //     let objurl = URL.createObjectURL( new Blob( [u8arr], {type: mime} ) );
+        //     let save_link = document.createElement( 'a' );
+        //     save_link.href = objurl;
+        //     save_link.download = name + '.png';
+        //     let event = document.createEvent( 'MouseEvents' );
+        //     event.initMouseEvent( 'click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null );
+        //     save_link.dispatchEvent( event );
+        // }
+    }
+    function  myBrowser ()  {//判断浏览器类型
+        var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+        // console.log(navigator.userAgent,userAgent.indexOf( "compatible" ) > -1 , userAgent.indexOf( "MSIE" ) > -1)
+        if (userAgent.indexOf( "Opera" ) > -1) return "Opera"; //判断是否Opera浏览器
+        if (userAgent.indexOf( "Firefox" ) > -1) return "FF";//判断是否Firefox浏览器
+        if (userAgent.indexOf( "Chrome" ) > -1 && userAgent.indexOf( "Edge" ) < 0 && userAgent.indexOf( "QQBrowser" ) < 0) return "Chrome";//谷歌
+        if (userAgent.indexOf( "Safari" ) > -1 && userAgent.indexOf( "Edge" ) < 0 && userAgent.indexOf( "QQBrowser" ) < 0) return "Safari"; //判断是否Safari浏览器
+        if (userAgent.indexOf( "compatible" ) > -1 && userAgent.indexOf( "MSIE" ) > -1 && userAgent.indexOf( "Opera" ) < 0) return "IE"; //判断是否IE浏览器
+        if (userAgent.indexOf( "Edge" ) > -1) return "Edge"; //判断是否Edge浏览器
+        if (userAgent.indexOf( "QQBrowser" ) > -1) return "QQ"; //判断是否QQ浏览器
+        else return 'IE'//不认识一律ie处理
+    }
+   function initSmallTag(e, txt){//点击小动画
+        let $i = $( '<span></span>' ).text( txt ), y = e.clientY - 30, x = e.clientX - 10;
+        $i.css( {
+            "z-index": 999,
+            "top": y,
+            "left": x,
+            'fontSize': '14px',
+            "position": "fixed",
+            "color": "rgb(" + (255 * Math.random()) + "," + (255 * Math.random()) + "," + (255 * Math.random()) + ")"
+        } );
+        $( "body" ).append( $i );
+        $i.animate( {
+                "top": y - 80,
+                "opacity": 0,
+            },
+            1500,
+            function () {
+                $i.remove();
+            } );
+    }
+    $( '.photoHisList.flex .itmes' ).click( function () {
+        var url = $( this ).find( 'img' ).attr( 'src' );
+        dreepByurl( url )
+    } )
+
+
+    initList();
+    initItems();
+    clickDiv();
+    // inithisList();
+    initindexImg();
+
+
+</script>
+</body>
+</html>

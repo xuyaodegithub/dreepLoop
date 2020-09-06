@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 export const toRouter = (url) => {
     let urls = window.location.href.split( '#/' )[0]
     let urlss = urls.substring( 0, urls.lastIndexOf( '/' ) )
@@ -10,6 +11,7 @@ export const basrUrls = () => {
 }
 export const myBrowser = () => {//判断浏览器类型
     let userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+    // console.log(navigator.userAgent,userAgent.indexOf( "compatible" ) > -1 , userAgent.indexOf( "MSIE" ) > -1)
     if (userAgent.indexOf( "Opera" ) > -1) return "Opera"; //判断是否Opera浏览器
     if (userAgent.indexOf( "Firefox" ) > -1) return "FF";//判断是否Firefox浏览器
     if (userAgent.indexOf( "Chrome" ) > -1 && userAgent.indexOf( "Edge" ) < 0 && userAgent.indexOf( "QQBrowser" ) < 0) return "Chrome";//谷歌
@@ -18,6 +20,34 @@ export const myBrowser = () => {//判断浏览器类型
     if (userAgent.indexOf( "Edge" ) > -1) return "Edge"; //判断是否Edge浏览器
     if (userAgent.indexOf( "QQBrowser" ) > -1) return "QQ"; //判断是否QQ浏览器
     else return 'IE'//不认识一律ie处理
+}
+export const  IEVersion=()=> {
+    var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+    var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判断是否IE<11浏览器
+    var isEdge = userAgent.indexOf("Edge") > -1 && !isIE; //判断是否IE的Edge浏览器
+    var isIE11 = userAgent.indexOf('Trident') > -1 && userAgent.indexOf("rv:11.0") > -1;
+    if (isIE) {
+        var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
+        reIE.test(userAgent);
+        var fIEVersion = parseFloat(RegExp["$1"]);
+        if (fIEVersion == 7) {
+            return 7;
+        } else if (fIEVersion == 8) {
+            return 8;
+        } else if (fIEVersion == 9) {
+            return 9;
+        } else if (fIEVersion == 10) {
+            return 10;
+        } else {
+            return 6;//IE版本<=7
+        }
+    } else if (isEdge) {
+        return 'edge';//edge
+    } else if (isIE11) {
+        return 11; //IE11
+    } else {
+        return -1;//不是ie浏览器
+    }
 }
 export const BrowserInfo = {//目前主要支持 安卓 & 苹果 & ipad & 微信 & 支付宝 & 是否是手机端。
     isAndroid: Boolean( navigator.userAgent.match( /android/ig ) ),
@@ -153,7 +183,9 @@ export const letterText = () => { //支持字间距
             letterSpacing = parseFloat( window.getComputedStyle( canvas ).letterSpacing );
         }
         if (!letterSpacing) {
-            return k===1? this.fillText( text, x, y ) : this.strokeText( text, x, y );
+            this.fillText( text, x, y )
+            if(k===2)this.strokeText( text, x, y );
+            return
         }
 
         var arrText = text.split( '' );
@@ -175,7 +207,8 @@ export const letterText = () => { //支持字间距
         // 开始逐字绘制
         arrText.forEach( function (letter) {
             var letterWidth = context.measureText( letter ).width;
-            k===1? context.fillText( letter, x, y ) : context.strokeText( letter, x, y );
+            context.fillText( letter, x, y )
+            if(k===2)context.strokeText( letter, x, y );
             // 确定下一个字符的横坐标
             x = x + letterWidth + letterSpacing;
         } );
@@ -226,7 +259,9 @@ export const verticalText = () => { //支持竖排
                 // y修正
                 y = y + arrWidth[index - 1] / 2;
             }
-            k===1 ? context.fillText( letter, x, y ) : context.strokeText( letter, x, y );
+            // k===1 ? context.fillText( letter, x, y ) : context.strokeText( letter, x, y );
+            context.fillText( letter, x, y )
+            if(k===2)context.strokeText( letter, x, y );
             // 旋转坐标系还原成初始态
             context.setTransform( 1, 0, 0, 1, 0, 0 );
             // 确定下一个字符的纵坐标位置
@@ -324,7 +359,8 @@ export const initSmallTag = (e, txt) => {//点击小动画
         "left": x,
         'fontSize': '14px',
         "position": "fixed",
-        "color": "rgb(" + (255 * Math.random()) + "," + (255 * Math.random()) + "," + (255 * Math.random()) + ")"
+        // "color": "rgb(" + (255 * Math.random()) + "," + (255 * Math.random()) + "," + (255 * Math.random()) + ")"
+         "color": "#e82255"
     } );
     $( "body" ).append( $i );
     $i.animate( {
@@ -336,7 +372,7 @@ export const initSmallTag = (e, txt) => {//点击小动画
             $i.remove();
         } );
 }
-export const compressImg = (files, k) => {
+export const compressImg = (files, k) => {//压缩
     return new Promise( (resolve, reject) => {
         let [can, reader] = [document.createElement( 'canvas' ), new FileReader()];
         let canTxt = can.getContext( '2d' );
@@ -407,4 +443,18 @@ export const colorRgb = (colors) => {//16进制转rgb
     } else {
         return color;
     }
+}
+export const  setVsource=()=>{
+    var seaCats=queryStringUrl('vsource');
+    if(!seaCats && document.referrer.includes('picup')) return;
+    if(seaCats)Cookies.set('vsource',seaCats,{ expires: 7 });
+    else if(document.referrer && !seaCats)Cookies.set('vsource',document.referrer,{ expires: 7 });
+}
+export const queryStringUrl=(name)=>{
+    var reg=new RegExp("(^|$)"+name+"=([^&]*)(&|$)")
+    var r=window.location.search.substr(1).match(reg)
+    if(r!=null){
+        return decodeURI(r[2])
+    }
+    return null
 }

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>(function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push( {
+            'gtm.start':
+                new Date().getTime(), event: 'gtm.js'
+        } );
+        var f = d.getElementsByTagName( s )[0],
+            j = d.createElement( s ), dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src =
+            'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore( j, f );
+    })( window, document, 'script', 'dataLayer', 'GTM-WG4BQ8P' );
+    </script>
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement( "script" );
+            // hm.src = "https://hm.baidu.com/hm.js?156c05f7319464c49127c703f9ed21df";
+            hm.src = "https://hm.baidu.com/hm.js?e12fc5e6ff2012ad0838c01122228ca7";
+            var s = document.getElementsByTagName( "script" )[0];
+            s.parentNode.insertBefore( hm, s );
+        })();
+    </script>
+    <meta charset="utf-8">
+    <!--//设置不缓存-->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Cache" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="applicable-device" content="pc">
+    <meta name="Description" content="picup.ai提供一键在线抠图,AI抠图,智能抠图,人像抠图服务，图片风格迁移，帮助设计师和PS使用者加速图片处理">
+    <meta name="Keywords" content="在线抠图,AI抠图,智能抠图,人像抠图,在线人像抠图,人物抠图,在线人物抠图,发丝抠图,一键抠图,ps抠图"/>
+    <link rel="stylesheet" href="static/public.css">
+    <link rel="icon" href="static/smallLogo.jpg">
+    <title>兼容提示</title>
+    <style>
+        .logo{
+            width: 290px;
+            margin: 120px auto 60px;
+            text-align: center;
+            font-size: 18px;
+            color: #999;
+        }
+        .logo img{
+            display: block;
+            width: 100%;
+            margin-bottom: 24px;
+        }
+        .content{
+            padding: 65px 110px 75px;
+            background-color: #fff;
+            line-height: 1;
+            width: 400px;
+            margin: 0 auto;
+            border-radius: 20px;
+        }
+        .content h2{
+            font-size: 30px;
+        }
+        .content p{
+            font-size: 16px;
+            margin: 16px 0 35px 0;
+            color: #999;
+        }
+        .content div{
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .content a{
+            font-size: 16px;
+            color: #e82255;
+            border-bottom: 1px solid #e82255;
+        }
+        .lasr{
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body style="height: auto">
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WG4BQ8P"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
+<div class="logo">
+    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/0e957740bc054d6092c55cbabe8a2d91.png" alt="">
+    <p>一键抠图神器，100%自动，免费</p>
+</div>
+<div class="content">
+    <h2>您当前的游览器兼容性较差</h2>
+    <p>为保证更好的用户体验</p>
+    <div>若当前为QQ/360/搜狗/遨游游览器，<br>请切换为"极速模式"</div>
+    <a target="_blank" href="https://jingyan.baidu.com/article/17bd8e527a425085ab2bb8cb.html">如何切换</a>
+    <div class="lasr">或直接升级为最新版的谷歌游览器</div>
+    <a target="_blank"  href="https://www.google.cn/chrome/">下载谷歌游览器</a>
+</div>
+<script>
+    function IEVersion(){
+        var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+        var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判断是否IE<11浏览器
+        var isEdge = userAgent.indexOf("Edge") > -1 && !isIE; //判断是否IE的Edge浏览器
+        var isIE11 = userAgent.indexOf('Trident') > -1 && userAgent.indexOf("rv:11.0") > -1;
+        if (isIE) {
+            var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
+            reIE.test(userAgent);
+            var fIEVersion = parseFloat(RegExp["$1"]);
+            if (fIEVersion == 7) {
+                return 7;
+            } else if (fIEVersion == 8) {
+                return 8;
+            } else if (fIEVersion == 9) {
+                return 9;
+            } else if (fIEVersion == 10) {
+                return 10;
+            } else {
+                return 6;//IE版本<=7
+            }
+        } else if (isEdge) {
+            return 'edge';//edge
+        } else if (isIE11) {
+            return 11; //IE11
+        } else {
+            return -1;//不是ie浏览器
+        }
+    }
+    if([6,7,8,9,10].indexOf(IEVersion())<0)window.location.href='index.html';
+
+
+</script>
+</body>
+</html>

@@ -233,3 +233,92 @@ export const templateList=(data)=>{
 export const templateDetial=(data)=>{
  return https.get('/poster/template',data)
 }
+/**
+ *保存模板
+ **/
+export const saveTemplate=(data)=>{
+ return https.post('/admin/poster/saveTemplate',data)
+}
+
+/**
+ *默认模板
+ **/
+export const templateCategoryList=(data)=>{
+ return https.get('/poster/templateCategoryList',data)
+}
+
+/**
+ *模板下载
+ **/
+export const templatedownload=(data)=>{
+ return https.get('/poster/download',data)
+}
+/**
+ *视频抠图上传
+ **/
+export const videoMatting=(data,file)=>{
+ return https.paramspost2('/oss/append',data,file)
+}
+/**
+ *视频抠图上传
+ **/
+export const BySha256=(data)=>{
+ return https.get('/oss/getUploadTaskBySha256',data)
+}
+
+/**
+ *视频预览轮播
+ **/
+export const videoImgsPreview=(data)=>{
+ return https.paramspost('/videoMatting/previewImage',data)
+}
+
+/**
+ *预览视频xiazai
+ **/
+export const videoPreview=(data)=>{
+ return https.paramspost('/videoMatting/previewVideo',data)
+}
+
+/**
+ *视频历史
+ **/
+export const videoHisList=(data)=>{
+ return https.get('/videoMatting/mattingHistory',data)
+}
+
+/**
+ *视频预览进度
+ **/
+export const videoMattingInfo=(data)=>{
+ return https.get('/videoMatting/getMattingInfo',data)
+}
+
+/**
+ *视频全部进度
+ **/
+export const videoFullMatting=(data)=>{
+ return https.paramspost('/videoMatting/startFullMatting',data)
+}
+
+/**
+ *视频删除
+ **/
+export const videoDelete=(data)=>{
+ return https.get('/videoMatting/delete',data)
+}
+
+/**
+ *获取关注二维码
+ **/
+export const wechatCode=(data)=>{
+ return https.get('/weixinMp/getSubscribeQrCode',data)
+}
+
+/**
+ *轮训是否关注
+ **/
+export const toSureWatch=(data)=>{
+ return https.get('/weixinMp/checkMpSubscribe',data)
+}
+

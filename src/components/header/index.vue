@@ -6,6 +6,8 @@
                 </li>
                 <li class="cu" :class="{'red' : urls.indexOf('index')>-1 || urls.indexOf('/#/')>-1}">
                     <a href="index.html">首页</a></li><!--智能抠图-->
+<!--                <li class="cu" :class="{'red' : urls.indexOf('transitionPage')>-1 }">-->
+<!--                    <a href="transitionPage.html">一键抠图</a></li>&lt;!&ndash;智能抠图&ndash;&gt;-->
                 <li class="cu hove" :class="{'redPS' : piliangList.findIndex(item=>urls.includes(item))>-1}">批量抠图 <i
                         class="el-icon-caret-bottom"></i>
                     <transition name="el-zoom-in-top">
@@ -22,31 +24,42 @@
                            :class="{'red' : urls.includes(item)}">{{['一键美化','图片修复'][idx]}}</a>
                     </div>
                 </li>
-                <li class="cu" :class="{'red' : urls.indexOf('img/list')>-1}"><a href="http://www.picup.shop/img/list">免费背景图</a>
-                </li><!--下载-->
+                <li class="cu hove" :class="{'redPS' : editList.findIndex(item=>urls.includes(item))>-1}">编辑器 <i
+                        class="el-icon-caret-bottom"></i>
+                    <transition name="el-zoom-in-top">
+                        <div class="link">
+                            <a :href="item+'.html'" v-for="(item,idx) in editList" :key="idx"
+                               :class="{'red' : urls.includes(item)}">{{['自由编辑器','证件照编辑器'][idx]}}</a>
+                        </div>
+                    </transition>
+                </li>
+                <li class="cu"  :class="{'red' : urls.includes('videoMatting')}"><a href="videoMatting.html">视频抠图</a><img class="beta"
+                        src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200903/0961ebc6bf6c406d8af72e975632bbf0.png" alt=""></li>
             </ul>
             <div class="right flex">
-                <div style="padding:0 15px;"><a href="https://mp.weixin.qq.com/s/AsVjcACbusdKXcheF_HHtw" target="_blank"><img src="../../assets/image/freeGet.gif" alt=""></a></div>
-                <div class="mobiles">手机端
-                    <i class="el-icon-caret-bottom"></i>
-                    <div>
-                        <img src="../../assets/image/wechatEwm.jpg" alt="" />
-                        <p>关注公众号送下载次数</p>
-                    </div>
-                </div>
-                <div v-if="!loginAfter">
+<!--                <div style="padding:0 15px;"><a href="https://mp.weixin.qq.com/s/AsVjcACbusdKXcheF_HHtw" target="_blank"><img src="../../assets/image/freeGet.gif" alt=""></a></div>-->
+<!--                <div class="mobiles">手机端-->
+<!--                    <i class="el-icon-caret-bottom"></i>-->
+<!--                    <div>-->
+<!--                        <img src="../../assets/image/wechatEwm.jpg" alt="" />-->
+<!--                        <p>关注公众号送下载次数</p>-->
+<!--                    </div>-->
+<!--                </div>-->
+                <div class="flex lastRight a-i">
                     <span :class="{'red' : urls.indexOf('downLoad')>-1}"><a href="downLoad.html">下载桌面端</a></span>
                     <a href="apis.html"><span>API</span></a><!--登录-->
-                    <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">定价</span>
-                    <span @click="userlogin(0)" class="active">登录/注册</span><!--注册-->
-                </div>
-                <div class="cu" v-else>
-                    <span :class="{'red' : urls.indexOf('downLoad')>-1}"><a href="downLoad.html">下载桌面端</a></span>
-                    <span><a href="apis.html">API</a></span><!--登录-->
-                    <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">定价</span>
-                    <el-dropdown placement="bottom-end" @command="handleCommand">
-                      <span class="el-dropdown-link" @click="toMyCount()">
-                       {{userInfo.mobile}}
+                  <div class="cu hove" :class="{'redPS' : priceList.findIndex(item=>urls.includes(item))>-1}">定价 <i
+                            class="el-icon-caret-bottom"></i>
+                            <div class="link">
+                               <a :href="item+'.html'" v-for="(item,idx) in priceList" :key="idx"
+                                  :class="{'red' : urls.includes(item)}">{{['抠图定价','视频定价'][idx]}}</a>
+                           </div>
+                    </div>
+<!--                   <span :class="{'red' : urls.indexOf('userVip')>-1}" @click="userCenter()">定价</span>-->
+                    <span @click="userlogin(0)" class="active"  v-if="!loginAfter">登录/注册</span><!--注册-->
+                    <el-dropdown placement="bottom-end" @command="handleCommand" v-else>
+                      <span class="el-dropdown-link over" @click="toMyCount()" style="color:#e82255;max-width: 120px;vertical-align: middle;">
+                       {{userInfo.userName || userInfo.mobile || userInfo.email}}
                       </span>
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item command="1">我的账户</el-dropdown-item>
@@ -56,22 +69,34 @@
                 </div>
             </div>
         </div>
-        <!--      <div class="margin big">-->
-        <!--        <p class="flex a-i">智能一键抠图神器<img src="static/images/free.png" alt=""></p>-->
-        <!--        <p>1 0 0 % 自 动  -  5 秒  -  免 费 背 景 模 板</p>-->
-        <!--      </div>-->
+        <el-dialog
+                :close-on-click-modal="false"
+                destroy-on-close
+                :modal-append-to-body="false"
+                top="20vh"
+                custom-class="loginDialog"
+                width="420px"
+                :before-close="showLoginDilogAction"
+                :visible.sync="showLoginDilog">
+            <login-dialog v-if="showLoginDilog" @getUserinfo="getUserinfo"></login-dialog>
+        </el-dialog>
     </header>
 </template>
 
 <script>
-    import {toRouter} from '@/utils'
+    import {toRouter,setVsource} from '@/utils'
     import {setToken, getToken, removeToken, clearCookie} from "../../utils/auth";
     import {getUserInfo} from "../../apis";
+    import loginDialog from '@/components/login_dialog/index2';
+    import { mapGetters,mapActions } from 'vuex';
 
     export default {
         name: "index",
         props: {
             userData: {type: Object}
+        },
+        components:{
+            loginDialog
         },
         data() {
             return {
@@ -82,18 +107,24 @@
                 piliangList: ['currency', 'people', 'headCutout', 'objects'],
                 nameList: ['通用抠图', '人像抠图', '头像抠图', '物体抠图'],
                 beauList: ['beautify', 'intelligentRepair'],
+                editList: ['posterEditor','idPhoto'],
+                priceList: ['userVip','videoPrice'],
             }
+        },
+        computed:{
+            ...mapGetters(['showLoginDilog'])
         },
         watch: {
             userData(newVal, oldVal) {
                 if (newVal !== {}) {
-                    this.userInfo = newVal
-                    this.loginAfter = true
+                    this.userInfo = newVal;
+                    this.loginAfter = true;
                     this.$emit( 'to-parses', newVal )
                 }
             }
         },
         methods: {
+            ...mapActions(['showLoginDilogAction']),
             getUserinfo() {
                 if (!getToken()) return;
                 getUserInfo().then( res => {
@@ -108,29 +139,12 @@
                     }
                 } )
             },
-            backindex() {
-                let url = window.location.href
-                if (url.indexOf( 'people' ) > -1) return;
-                else toRouter( 'people' )
-            },
             userlogin(key) {
-                let urls = window.location.href.split( '#/' )[0]
-                let baseUrl = urls.substring( 0, urls.lastIndexOf( '/' ) )
-                let url = window.location.href
-                if (url.indexOf( 'login' ) > -1 || url.indexOf( 'Register' ) > -1) window.location.replace( baseUrl + '/loginOrRegister.html#/?type=' + key )
-                else window.location.href = baseUrl + '/loginOrRegister.html#/?type=' + key
+                this.showLoginDilogAction();
             },
             userCenter() {
                 if (window.location.href.indexOf( 'userVip' ) > -1) return;
                 toRouter( 'userVip' )
-            },
-            toProduct() {
-                if (window.location.href.indexOf( 'product' ) > -1) return;
-                toRouter( 'product' )
-            },
-            toAbout() {
-                if (window.location.href.indexOf( 'aboutUs' ) > -1) return;
-                toRouter( 'aboutUs' )
             },
             handleCommand(ev) {
                 let url = window.location.href
@@ -150,7 +164,8 @@
             }
         },
         mounted() {
-            this.getUserinfo()
+            setVsource();
+            this.getUserinfo();
         }
     }
 </script>
@@ -177,12 +192,54 @@
         .margins {
             padding: 0 30px 0;
         }
+        .lastRight{
+            .hove{
+                padding: 0 15px;
+                position: relative;
+            }
+           .redPS {
+                color: #e82255;
+            }
+            .hove .link{
+                transition: all .3s linear;
+                display: none;
+                text-align: center;
+                position: absolute;
+                left: 50%;
+                bottom: 0;
+                transform: translate(-50%,100%);
+                background-color: #fff;
+                border: 1px solid #eee;
+                white-space: nowrap;
+                a {
+                    padding: 0 15px;
+                    display: block;
+                    line-height: 40px;
+                }
+                a:hover{
+                    color: #e82255;
+                    background-color: #F9EDEF;
+                }
+            }
+            .hove:hover .link{
+                display: block;
+            }
+            .hove:hover i {
+                display: inline-block;
+                transform: rotateZ(180deg);
+            }
+        }
     }
 
     header li {
-        margin: 0 20px;
+        margin: 0 15px;
         position: relative;
-
+        .beta{
+            position: absolute;
+            top: 50%;
+            right: -5px;
+            transform: translate(100%,-100%);
+        }
         a {
             display: block;
             color: #333;
@@ -240,7 +297,7 @@
             transform: translateY(100%);
             background-color: #fff;
             border: 1px solid #eee;
-
+            white-space: nowrap;
             a {
                 padding: 0 15px;
                 display: block;
@@ -248,7 +305,11 @@
             }
         }
     }
-
+    header .right {
+        a,span{
+            color: #333;
+        }
+    }
     header .right .red {
         color: #e82255;
 
@@ -280,6 +341,7 @@
         cursor: pointer;
         position: relative;
         padding: 0 15px;
+        color: #333;
         &:hover{
             div{
                 display: block;

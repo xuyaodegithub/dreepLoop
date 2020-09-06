@@ -11,7 +11,7 @@
             j = d.createElement( s ), dl = l != 'dataLayer' ? '&l=' + l : '';
         j.async = true;
         j.src =
-            'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            'https://www.googvaragmanager.com/gtm.js?id=' + i + dl;
         f.parentNode.insertBefore( j, f );
     })( window, document, 'script', 'dataLayer', 'GTM-WG4BQ8P' );
     </script>
@@ -20,7 +20,7 @@
         (function () {
             var hm = document.createElement( "script" );
             // hm.src = "https://hm.baidu.com/hm.js?156c05f7319464c49127c703f9ed21df";
-            hm.src = "https://hm.baidu.com/hm.js?c4e46c993747640c7a9788bbd1879f39";
+            hm.src = "https://hm.baidu.com/hm.js?e12fc5e6ff2012ad0838c01122228ca7";
             var s = document.getElementsByTagName( "script" )[0];
             s.parentNode.insertBefore( hm, s );
         })();
@@ -35,6 +35,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!--    <meta name="viewport" content="width=device-width,initial-scale=1.0">-->
     <meta name="applicable-device" content="pc">
+    <link rel="mobile-agent" content="format=html5;url=http://m.picup.shop"/>
     <meta name="Description" content="picup.ai提供一键在线抠图,AI抠图,智能抠图,人像抠图服务，图片风格迁移，帮助设计师和PS使用者加速图片处理">
     <meta name="Keywords" content="在线抠图,AI抠图,智能抠图,人像抠图,在线人像抠图,人物抠图,在线人物抠图,发丝抠图,一键抠图,ps抠图"/>
     <meta property="og:url" content="http://www.picup.shop"/>
@@ -50,12 +51,11 @@
     <style>
         .titleHeader {
             font-size: 24px;
-            color: #333;
             line-height: 1;
             text-align: center;
             margin-top: 60px;
             padding: 86px 0 72px;
-            background-image: url("static/bg20200721154800.jpg");
+            background-image: url("static/bg20200803113146.jpg");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -65,6 +65,66 @@
         .titleHeader h1 {
             font-size: 58px;
             margin-bottom: 25px;
+        }
+
+        .titleHeader .oA {
+            display: block;
+            margin: 40px auto 0;
+            width: 350px;
+            line-height: 60px;
+            background-color: #fff;
+            color: #e82255;
+            text-align: center;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .titleHeader .oA img {
+            vertical-align: baseline;
+            margin-right: 15px;
+        }
+
+        .titleHeader .lp {
+            font-size: 14px;
+            color: #F8CFD2;
+            margin-top: 15px;
+        }
+
+        .titleHeader .lizi {
+            text-align: left;
+            font-size: 14px;
+            margin-top: 32px;
+            color: rgba(255, 255, 255, .7);
+            font-weight: 600;
+            line-height: 20px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .titleHeader .lizi .photoHisList {
+            margin-left: 20px;
+        }
+
+        .titleHeader .lizi .itmes {
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border: 1px solid #eee;
+            overflow: hidden;
+            position: relative;
+            margin-right: 10px;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .titleHeader .lizi img {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
         }
 
         .headers {
@@ -113,23 +173,29 @@
             color: #333;
             margin-bottom: 20px;
         }
-        .headers .item .itemL{
+
+        .headers .item .itemL {
             width: 156px;
         }
-        .headers .item i{
+
+        .headers .item i {
             font-size: 18px;
             margin-top: 15px;
             line-height: 26px;
         }
-        .headers .item span{
+
+        .headers .item span {
             display: none;
         }
-        .headers .item:hover i{
+
+        .headers .item:hover i {
             display: none;
         }
-        .headers .item:hover span{
+
+        .headers .item:hover span {
             display: block;
         }
+
         .headers .item img {
             display: block;
             width: 150px;
@@ -151,7 +217,7 @@
 
         .loop, .bgchange, .API, .anli {
             background-color: #fff;
-            padding: 122px 0 100px 0;
+            padding: 127px 0 137px 0;
             line-height: 1;
             text-align: center;
         }
@@ -203,6 +269,53 @@
 
         .loop .rel img:first-child {
             display: block;
+        }
+
+        .loop .idIn {
+            text-align: left;
+            justify-content: center;
+            line-height: 1;
+            align-items: center;
+        }
+
+        .loop .idIn > img {
+            margin-right: 75px;
+        }
+
+        .loop .idIn h3 {
+            font-size: 30px;
+            margin-bottom: 24px;
+        }
+        .loop .idIn p{
+            font-size: 16px;
+            color: #999;
+        }
+        .loop .idIn .btn{
+            font-weight: 600;
+            font-size: 16px;
+            width: 160px;
+            line-height: 48px;
+            color: #e82255;
+            border: 1px solid #e82255;
+            border-radius: 5px;
+            text-align: center;
+            margin: 40px 15px 24px 0;
+        }
+        .loop .idIn .btnte{
+            background-color: #e82255;
+            color: #fff;
+        }
+        .loop .idIn .btn img{
+            vertical-align: text-top;
+            height: 20px;
+            margin-right: 10px;
+        }
+        .loop .idIn p:last-child img{
+            vertical-align: text-top;
+            margin-right: 10px;
+        }
+        .loop .idIn p:last-child{
+            font-size: 12px;
         }
 
         .bgchange {
@@ -322,6 +435,38 @@
             text-align: center;
             background-color: rgba(0, 0, 0, 0);
         }
+        .anli2{
+            padding-top: 0;
+        }
+        .anli .pList{
+            flex-wrap: wrap;
+            justify-content: center;
+            font-size: 14px;
+            line-height: 20px;
+            color: #686868;
+            margin-top: 80px;
+        }
+        .anli .pList .pItem{
+            width: 490px;
+            background-color: #fff;
+            height:80px;
+            padding: 20px;
+            position: relative;
+            text-align: left;
+            margin-bottom: 14px;
+            border-radius: 16px;
+        }
+        .anli .pList .pItem:nth-child(2n){
+            margin-left: 25px;
+        }
+        .anli .pList h5{
+            font-size: 14px;
+            color: #000;
+            font-weight: bold;
+            position: absolute;
+            left: 20px;
+            bottom: 13px;
+        }
 
         footer {
             background-color: #191919;
@@ -394,17 +539,179 @@
             background-color: #fff;
             display: none;
         }
+
+        .zhezhao {
+            display: none;
+            position: fixed;
+            z-index: 2222;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, .1);
+        }
+
+        .loading {
+            display: none;
+            position: fixed;
+            padding: 10px;
+            width: 80px;
+            line-height: 28px;
+            font-size: 12px;
+            border-radius: 15px;
+            text-align: center;
+            background-color: rgba(250, 250, 250, .8);
+            color: #333;
+            z-index: 3333;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .diglog{
+            position: fixed;
+            padding: 40px 60px;
+            background-color: #fff;
+            display: none;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            text-align: center;
+            z-index: 3333;
+            border-radius: 15px;
+        }
+        .diglog h4{
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .diglog img{
+            display: block;
+            width: 140px;
+            margin: 0 auto 20px;
+        }
+        .diglog p{
+            font-size: 14px;
+            color: #9c9c9c;
+        }
+        .diglog i,.hisList i{
+            position: absolute;
+            font-size: 24px;
+            width: 20px;
+            height: 20px;
+            top: 10px;
+            right: 10px;
+            background: url("http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200812/5e3d6826bc0045a4b8808d4fb1d50724.png") no-repeat center;
+
+        }
+        .boke{
+            background-color: #535353;
+            font-size: 20px;
+            line-height: 1;
+            padding: 67px 0 34px;
+        }
+        .boke h2{
+            text-align: center;
+            font-size: 40px;
+            color: #fff;
+            margin:0 12px 60px 0;
+        }
+        .boke a{
+            width: 50%;
+            color: #fff;
+            margin-bottom: 30px;
+        }
+        .boke a div{
+            margin-bottom: 10px;
+        }
+        .boke a p{
+            font-size: 16px;
+            color: #999;
+        }
+        .boke .over{
+            font-weight: bold;
+        }
+
+        .suanfa{
+            padding: 100px 0 80px;
+            background-image: url("http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200827/9922a7ae2e1d42f293361887c0df40fc.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            line-height: 1;
+            color: #fff;
+            font-size: 16px;
+            text-align: center;
+        }
+        .suanfa h1{
+            font-size: 40px;
+            margin-bottom: 30px;
+            color: #F6F6F7;
+        }
+        .suanfa .seds{
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        .suanfa .onetwo{
+            font-size: 26px;
+            font-weight: bold;
+            justify-content: center;
+        }
+        .suanfa .onetwo span{
+            padding: 0 35px;
+        }
+        .suanfa .flex img{
+            display: block;
+            width: 90px;
+            height: 90px;
+            margin:0 auto 23px;
+        }
+        .suanfa .flex >div{
+            width: 140px;
+            word-break: break-all;
+        }
+        .suanfa .flex p{
+            line-height: 22px;
+        }
+        .suanfa .addback{
+            text-shadow: 0 0 20px #e82255;
+            background-image: url("http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200827/b31a774167e14f159c9ab8b2ca1a452b.png");
+            background-size: cover;
+            padding: 60px 0 40px;
+            background-position: center;
+            margin-bottom: 60px;
+        }
     </style>
 </head>
 <body>
 <noscript>
-    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WG4BQ8P"
+    <iframe src="https://www.googvaragmanager.com/ns.html?id=GTM-WG4BQ8P"
             height="0" width="0" style="display:none;visibility:hidden"></iframe>
 </noscript>
 <img src="slt.jpg" alt="" style="display: none">
+<input type="file" name="" id="loadIn" accept="image/*" multiple="false" style="display: none"
+       onchange="changeImg(event)">
 <div class="titleHeader">
     <h1>一键抠图神器</h1>
     <p>100%自动，免费，在线换背景</p>
+    <div class="oA">
+        <img src="static/ico_20200803113312.png" alt="">上传图像
+    </div>
+    <p class="lp">CTRL+V粘贴图像或者URL，也可拖拽图像到此页面</p>
+    <div class="flex lizi ">
+        <span>没有照片？<br>试试这些图片:</span>
+        <div class="photoHisList flex">
+            <div class="itmes"
+                 imgsrc="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/b261cffebe11499f8d283c18bbd3a544.png"
+                 style="background-image: url('http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/b261cffebe11499f8d283c18bbd3a544.png')"></div>
+            <div class="itmes"
+                 imgsrc="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/21bf764501e24f1a857bd78d0095a197.jpg"
+                 style="background-image: url('http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/21bf764501e24f1a857bd78d0095a197.jpg')"></div>
+            <div class="itmes"
+                 imgsrc="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/f8e6362ed4dc494f912bf73016656c8a.png"
+                 style="background-image: url('http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/f8e6362ed4dc494f912bf73016656c8a.png')"></div>
+            <div class="itmes"
+                 imgsrc="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/f275f16a50c74151b11e881ccb0be68e.png"
+                 style="background-image: url('http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/f275f16a50c74151b11e881ccb0be68e.png')"></div>
+        </div>
+    </div>
 </div>
 <div class="headers">
     <div class="margin">
@@ -413,7 +720,7 @@
                 <div class="item flex">
                     <div class="itemL">
                         <h2>批量通用抠图</h2>
-                        <p>人像、商品、卡通、动物全部搞定</p>
+                        <p>人像、宠物、商品、卡通、图标，全部搞定，推荐～</p>
                         <i class="el-icon-right"></i>
                         <span style="background-color: #E32450;">上传图片</span>
                     </div>
@@ -424,7 +731,7 @@
                 <div class="item flex">
                     <div class="itemL">
                         <h2>批量人像抠图</h2>
-                        <p>单人多人正面侧面，怎么动都行</p>
+                        <p>证件照、形象照、全家福、集体照、男女装服饰</p>
                         <i class="el-icon-right"></i>
                         <span style="background-color: #E32450;">上传人像</span>
                     </div>
@@ -435,7 +742,7 @@
                 <div class="item flex">
                     <div class="itemL">
                         <h2>批量物体抠图</h2>
-                        <p> 猫狗汽车鞋包家居，通通能抠</p>
+                        <p> 电商白底图，跨境、微商，商品主图制作</p>
                         <i class="el-icon-right"></i>
                         <span style="background-color: #10A5E9;">上传物体</span>
                     </div>
@@ -446,7 +753,7 @@
                 <div class="item flex">
                     <div class="itemL">
                         <h2>批量头像抠图</h2>
-                        <p>身份证、签证、卡通身体、变大头照、POD最爱</p>
+                        <p>个性化定制，头像+卡通身体，手机壳、钥匙扣、T恤</p>
                         <i class="el-icon-right"></i>
                         <span style="background-color: #F23D82;">上传人像</span>
                     </div>
@@ -457,7 +764,7 @@
                 <div class="item flex">
                     <div class="itemL">
                         <h2>一键美化</h2>
-                        <p> 键处理劣质图片生成精美图片</p>
+                        <p> 过曝、过暗，全局局部曝光自动调整</p>
                         <i class="el-icon-right"></i>
                         <span style="background-color: #1AD8AE;">上传图片</span>
                     </div>
@@ -468,7 +775,7 @@
                 <div class="item flex">
                     <div class="itemL">
                         <h2>照片修复</h2>
-                        <p>想修哪里修哪里，一秒抹去瑕疵，亳无痕迹</p>
+                        <p>去水印、修照片，新房、二手房、外贸、商品</p>
                         <i class="el-icon-right"></i>
                         <span style="background-color: #4057E1;">上传图片</span>
                     </div>
@@ -480,32 +787,34 @@
 </div>
 <section class="loop">
     <div class="margin">
-        <h1>人人必备的在线抠图工具</h1>
-        <p>不必专业PS，新手小白都能用</p>
-        <div class="flex a-i item">
-            <div class="flex a-i cu active">
-                <img src="static/22.png" alt="一键抠图，人像抠图">
-                <span>电子商务</span>
-            </div>
-            <div class="flex a-i cu">
-                <img src="static/33.png" alt="一键抠图，人像抠图">
-                <span>开发者</span>
-            </div>
-            <div class="flex a-i cu">
-                <img src="static/44.png" alt="一键抠图，人像抠图">
-                <span>新媒体</span>
-            </div>
-            <div class="flex a-i cu">
-                <img src="static/11.png" alt="一键抠图，人像抠图">
-                <span>个人</span>
+        <h1>场景应用</h1>
+        <p>不必专业PS，新手小白都能用，人人必备的在线抠图工具</p>
+        <div class="flex idIn">
+            <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200903/9469b164a13548758eae384aafd40841.png"
+                 alt="">
+            <div>
+                <h3>在线制作证件照</h3>
+                <p>免费一键智能换背景</p>
+                <div class="btns flex">
+                    <div class="btn cu btnte"><img
+                            src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png"
+                            alt="">电脑上传</div>
+                    <div class="btn cu"  onclick="upbymobile()"><img
+                            src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/1900436f3be2442980cb8e2887fc0d21.png"
+                            alt="">手机上传</div>
+                </div>
+                <p style="line-height: 20px">照片要求：正面免冠，头发不遮挡眉毛、眼睛和脸颊，露出耳朵。<br> 姿势端正，抬头挺胸，注意避免侧身、歪脸、斜肩、昂头、驼背。</p>
             </div>
         </div>
-        <div class="rel">
-            <img src="static/dianzi.png" alt="一键抠图，人像抠图">
-            <img src="static/kaifazhe.png" alt="一键抠图，人像抠图">
-            <img src="static/xinmeiti.png" alt="一键抠图，人像抠图">
-            <img src="static/geren.png" alt="一键抠图，人像抠图">
-        </div>
+<!--        <div class="flex idIn" style="margin-top: 100px">-->
+<!--            <div>-->
+<!--                <h3>电商主图制作</h3>-->
+<!--                <p>针对不同电商平台尺寸要求，海量模板，省时省力</p>-->
+<!--                <div class="btn cu"><img src="static/ico_20200803113312.png" alt="">上传照片</div>-->
+<!--            </div>-->
+<!--            <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/32f3a4dd0d37446f8b595aeec93ed8f2.png"-->
+<!--                 alt="">-->
+<!--        </div>-->
     </div>
 </section>
 <div class="bgchange">
@@ -570,19 +879,117 @@
         <!--        </div>-->
     </div>
 </div>
+<div class="suanfa">
+    <div class="margin">
+        <h1>世界领先的人工智能算法</h1>
+        <div class="addback">
+            <div class="seds">世界智能抠图去背景算法排行榜排名</div>
+            <div class="onetwo"><span>全球第二</span><span> 全中国第一</span></div>
+        </div>
+        <div class="flex j-b">
+            <div>
+                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200827/b58442cdbc984399aa7e95ead9e13477.png" alt="">
+                <p>顶级算法科学家团队汇聚全球精英</p>
+            </div>
+            <div>
+                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200827/229516bee26148168b39e006d922e0ad.png" alt="">
+                <p>24个月技术攻坚算法持续优化</p>
+            </div>
+            <div>
+                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200827/78970a21409d42f998963d15da7b07d9.png" alt="">
+                <p>1200万张图片训练更全品类覆盖</p>
+            </div>
+            <div>
+                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200827/539e02d4bb754ce385bc2120e96be4bb.png" alt="">
+                <p>20台Nvidia V100GPU价值百万算力</p>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="anli">
     <div class="margin">
-        <h1>在线抠图图片案例</h1>
-        <p>前景识别类型不断丰富，边缘细节不断精细</p>
+        <h1>他们都在用皮卡智能PicUP</h1>
+        <p>1000+ 产品团队的共同选择</p>
+        <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200819/5dc9b194477b4c56b29521d95fc23a80.png" alt="">
         <div id="init"></div>
+    </div>
+</div>
+<div class="anli anli2">
+    <div class="margin">
+        <h1>他们对皮卡智能PicUP的评价</h1>
+        <div class="pList flex">
+            <div class="pItem">
+                <p>感谢！我们作为创业者，是急需你们这样好工具。一生追随的。感谢你们</p>
+                <h5>左右—APP创业者</h5>
+            </div>
+            <div class="pItem">
+                <p>这么牛逼的软件，必须得支持你，会推荐给朋友的</p>
+                <h5>竹隐--电商行业</h5>
+            </div>
+            <div class="pItem">
+                <p>第一次使用你们的产品，感觉非常的完美</p>
+                <h5>long--外卖行业</h5>
+            </div>
+            <div class="pItem">
+                <p>一键智能抠图很好用，节省了很多时间</p>
+                <h5>Aymee—设计师</h5>
+            </div>
+            <div class="pItem">
+                <p>去水印看到你们效果很好。你们这个比美图秀秀强多了</p>
+                <h5>三石—设计师</h5>
+            </div>
+            <div class="pItem">
+                <p>我主要是做徽章 钥匙扣，做了11年了，自己生产的。一直以来这是个痛点，因为定制产品需要设计，订单快速增长，很难在短期内找到那么多的设计人员处理订单，你们的头像抠图帮了我很大的忙</p>
+                <h5>飞-个性定制行业</h5>
+            </div>
+            <div class="pItem">
+                <p>你的软件是真好用，我们做电商的，之前要通宵抠图，现在有了这个软件，我眼泪都下来了，真好呀</p>
+                <h5>giger-跨境电商行业</h5>
+            </div>
+            <div class="pItem">
+                <p>这个网站，绝了！宝藏网站当然得好好收藏享用哈哈哈哈</p>
+                <h5>奥利奥-平面设计师</h5>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="boke">
+    <div class="margin">
+        <a href="http://matting.deeplor.com/blog/"  target="_blank"><h2>博客 <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200827/8dfde556aca9405b8c70f1395ac8c784.png" alt=""></h2></a>
+        <div class="flex f-w">
+            <a href="http://matting.deeplor.com/blog/2020/08/05/%e6%9c%88%e5%85%a510%e4%b8%87%e7%9a%84%e8%b7%a8%e5%a2%83%e7%94%b5%e5%95%86%e5%a4%a7%e5%8d%96%e5%ae%b6%e6%98%af%e5%a6%82%e4%bd%95%e5%81%9a%e7%99%bd%e5%ba%95%e5%9b%be%e7%9a%84%ef%bc%9f/" target="_blank">
+                <div class="over">月入10万的跨境电商大卖家是如何做白底图的？</div>
+                <p>2020年8月5日</p>
+            </a>
+            <a href="http://matting.deeplor.com/blog/2020/08/02/%e4%b8%80%e9%94%ae%e6%8a%a0%e5%9b%be%e5%8e%bb%e8%83%8c%e6%99%af2-0%e4%b8%8a%e7%ba%bf%ef%bc%8c%e9%80%81699%e5%85%83%e6%9c%88%e5%8d%a1%ef%bc%81/" target="_blank">
+                <div class="over">一键抠图去背景2.0上线，送699元月卡！</div>
+                <p>2020年8月2日</p>
+            </a>
+            <a href="http://matting.deeplor.com/blog/2020/08/01/%e5%a6%82%e4%bd%95%e7%94%a8%e6%89%8b%e6%9c%ba%e6%8b%8d%e5%87%ba%e9%ab%98%e4%b8%8b%e5%8d%95%e7%9a%84%e5%a4%96%e5%8d%96%e8%8f%9c%e5%93%81%e5%9b%be%ef%bc%9f/" target="_blank">
+                <div class="over">如何用手机拍出高下单的外卖菜品图？</div>
+                <p>2020年8月1日</p>
+            </a>
+            <a href="http://matting.deeplor.com/blog/2020/08/01/%e5%a6%82%e4%bd%95%e5%88%b6%e4%bd%9c%e8%af%81%e4%bb%b6%e7%85%a7%e4%b8%80%e9%94%ae%e6%8d%a2%e8%83%8c%e6%99%af%e5%b0%8f%e7%a8%8b%e5%ba%8f%ef%bc%8c%e5%bf%85%e9%a1%bb24k%e7%ba%af%e6%99%ba%e8%83%bd/" target="_blank">
+                <div class="over">如何制作证件照一键换背景小程序，必须24K纯智能无手动？</div>
+                <p>2020年8月1日</p>
+            </a>
+            <a href="http://matting.deeplor.com/blog/2020/08/01/%e6%8a%96%e9%9f%b3%e8%b6%85%e7%81%ab%e6%97%a0%e5%a4%b4%e5%b0%8f%e4%ba%ba%e6%83%85%e4%be%a3%e5%a4%b4%e5%83%8f%e6%8a%a0%e5%9b%be%e6%80%8e%e4%b9%88%e5%88%b6%e4%bd%9c%ef%bc%9f/" target="_blank">
+                <div class="over">抖音超火无头小人情侣头像抠图怎么制作?</div>
+                <p>2020年8月1日</p>
+            </a>
+            <a href="http://matting.deeplor.com/blog/2020/08/01/%e6%97%a0%e9%9c%80ps%ef%bc%8c%e5%9c%a8%e7%ba%bf%e4%ba%ba%e5%b7%a5%e6%99%ba%e8%83%bd%e4%b8%80%e9%94%ae%e5%8e%bb%e6%b0%b4%e5%8d%b0%ef%bc%8c%e4%bf%ae%e5%a4%8d%e5%9b%be%e7%89%87%ef%bc%8c%e6%af%ab%e6%97%a0/" target="_blank">
+                <div class="over">无需PS，在线人工智能一键去水印，修复图片，毫无痕迹！</div>
+                <p>2020年8月1日</p>
+            </a>
+        </div>
     </div>
 </div>
 <footer>
     <div class="margin flex">
         <div class="F_l">
             <img src="static/logos.png" alt="">
-            <p>皮卡智能PicUP.AI利用人工智能和计算机视觉的力量，提供各种各样的产品、素材和API,为不同领域 的客户提供服务，包括设计行业、国内电商、跨境
-                电商、照片处理APP、表情制作小程序开发等，还包括新兴的POD（Print on demand）照片定制打印按需印刷业务。</p>
+            <p>皮卡智能PicUP.AI利用人工智能和计算机视觉的力量，提供各种各样的产品、素材和API，为不同领域 的客户提供服务，包括设计行业、国内电商、跨境
+                电商、证件照形象照处理APP、表情制作小程序开发等，还包括新兴的POD（Print on demand）照片定制打印按需印刷业务。</p>
         </div>
         <div>
             <h5>智能抠图</h5>
@@ -599,11 +1006,12 @@
             <span class="lv ewn cu" onclick="showEwm(1)">一键旅拍
                 <img src="static/e2.png" alt="一键抠图，人像抠图"></span>
             <a href="product.html">更多产品</a>
+            <a href="http://www.picup.shop/img/list">免费背景图</a>
         </div>
         <div>
             <h5>关于我们</h5>
-            <a href="aboutUs.html">联系我们</a>
-            <a href="docsify/#/registerdoc_terms.md">服务和隐私</a>
+            <a href="aboutUs.html">关于我们</a>
+            <a href="servicePrivacy.html">服务和隐私</a>
             <a href="copyright.html">版权</a>
         </div>
     </div>
@@ -645,31 +1053,39 @@
         <a href="http://m.picup.ai">抠图软件app</a>
     </div>
 </footer>
+<div class="diglog">
+    <i class="cu" onclick="setDiog()"></i>
+    <h4>扫码上传图片</h4>
+    <div id="qrcode"></div>
+    <p>手机上传图片时，请不要关闭弹框</p>
+</div>
+<div class="zhezhao"></div>
+<div class="loading">
+    处理中...
+</div>
 <div class="f_last">
     © 2018-2020皮卡智能PicUP.AI
     &nbsp;&nbsp;&nbsp;&nbsp;
     <a href="http://beian.miit.gov.cn/" target="_blank">浙ICP备16000297号-11</a>
 </div>
 <!-- built files will be auto injected -->
+<script src="static/jquery-1.11.3.min.js"></script>
+<script src="static/qrcode.min.js"></script>
 <script type="text/javascript">
-    let oLoop = document.querySelectorAll( '.loop .item .cu' )
-    let oLoopImg = document.querySelectorAll( '.loop .rel img' )
-    let oBt = document.querySelectorAll( '.bgchange .bt div' )
-    let oBgImg = document.querySelectorAll( '.bgchange .first img:first-child' )[0]
-    let idx = 1, closeTimer = false
-    for (let i = 0; i < oLoop.length; i++) {
-        oLoop[i].addEventListener( 'mouseover', function () {
-            Array.prototype.slice.call( oLoop ).map( function (v, i) {
-                v.className = 'flex a-i cu'
-            } )
-            Array.prototype.slice.call( oLoopImg ).map( function (v, i) {
-                v.style.display = 'none'
-            } )
-            this.className = 'flex a-i cu active'
-            oLoopImg[i].style.display = 'block'
-        } )
-    }
-    for (let i = 0; i < oBt.length; i++) {
+    var  oAd = $( '.oA' ),oBd=$( '.btnte' ),toUrl='currency.html',urlhref = '<%= NODE_ENV %>' === 'development' ? 'http://wwwdev.picup.shop' : 'http://www.picup.shop',taskFlag;
+    var   oFile = $( '#loadIn' ),timer=null;
+    var oBt = document.querySelectorAll( '.bgchange .bt div' )
+    var oBgImg = document.querySelectorAll( '.bgchange .first img:first-child' )[0]
+    var idx = 1, closeTimer = false;
+    var qrcode = new QRCode( document.getElementById( "qrcode" ), {
+        text: urlhref + "/uploadBymobile.html",
+        width: 128,
+        height: 128,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    } );
+    for (var i = 0; i < oBt.length; i++) {
         oBt[i].addEventListener( 'mouseover', function () {
             closeTimer = true
             idx = i
@@ -705,6 +1121,203 @@
     //     if(!oEwm[i].style.display || oEwm[i].style.display==='none')oEwm[i].style.display='block';
     //     else oEwm[i].style.display='none';
     // }
+    oAd.click( function () {
+        toUrl='currency.html';
+        oFile.val('');
+        oFile.click();
+        // window.location.href='transitionPage.html'
+    })
+    oBd.click(function () {
+        toUrl='idPhoto.html';
+        oFile.val('');
+        oFile.click();
+        // window.location.href='transitionPage.html'
+    })
+    var fileId, imgData, token = localStorage.getItem( 'user_Token' ), fileMsg,
+        devbase = '<%= VUE_APP_BASEURL %>';//模板内取得webpack环境变量
+    // devbase = '//restapi.picup.shop';
+    function changeImg(e) {
+        fileMsg = e.target.files[0];
+        if (fileMsg) dreepByFile( fileMsg );
+    }
+
+    function stopPrevent() {//阻止游览器默认打开图片
+        document.addEventListener( "drop", function (e) {  //拖离
+            e.preventDefault();
+        } );
+        document.addEventListener( "dragleave", function (e) {  //拖后放
+            e.preventDefault();
+        } );
+        document.addEventListener( "dragenter", function (e) {  //拖进
+            e.preventDefault();
+        } );
+        document.addEventListener( "dragover", function (e) {  //拖来拖去
+            e.preventDefault();
+        } );
+        // var oDrops = document.getElementsByClassName( 'upLoad' );
+        // for (var i = 0; i < oDrops.length; i++) {
+        document.addEventListener( "drop", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var files = e.dataTransfer.files;
+            if (!files.length) return;
+            if (files.length > 1) {
+                loading( '请每次处理一张图片' )
+                return
+            }
+            fileMsg = files[0];
+            toUrl='currency.html';
+            dreepByFile( files[0] )
+        } )
+        // }
+    }
+
+    document.addEventListener( 'paste', function (e) {
+        // console.log( e )
+        var clipboardData = e.clipboardData,//谷歌
+            i = 0,
+            items, item, types;
+        if (clipboardData) {
+            items = clipboardData.items;
+            if (!items) {
+                return;
+            }
+            item = items[0];
+            types = clipboardData.types || [];
+            for (; i < types.length; i++) {
+                if (types[i] === 'Files') {
+                    item = items[i];
+                    break;
+                }
+            }
+            if (item && item.kind === 'string' && item.type.match( /^text\//i )) {
+                fileMsg = {name: clipboardData.getData( "Text" )}
+                toPostEdior( clipboardData.getData( "Text" ) )
+            }
+            if (item && item.kind === 'file' && item.type.match( /^image\//i )) {
+                fileMsg = item.getAsFile();
+                toUrl='currency.html';
+                dreepByFile( item.getAsFile() )
+            }
+        }
+    } )
+
+
+    function dreepByFile(file) {
+        // setLoading( 1 )
+        var formData = new FormData();
+        formData.append( 'file', file );
+        // formData.set( 'mattingType', 6 );
+        $.ajax( {
+            // url: devbase+'/webMatting/matting2',
+            url: devbase + '/oss/upload',
+            type: 'post',
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            xhrFields: {
+                withCredentials: true
+            },
+            headers: {token: token},
+            data: formData,
+            success: function (res) {
+                if (!res.code) {
+                    toPostEdior( res.data )
+                } else if (res.code === 4003) {
+                    localStorage.setItem( 'backUrl', window.location.href );
+                    window.location.href = 'loginOrRegister.html';
+                } else loading( res.msg )
+            }
+        } )
+    }
+
+
+    function loading(str) {
+        $( '.loading' ).text( str );
+        $( '.loading' ).css( 'display', 'block' );
+        setTimeout( function () {
+            $( '.loading' ).text( '处理中...' );
+            $( '.loading' ).css( 'display', 'none' );
+            $( '.zhezhao' ).css( 'display', 'none' );
+        }, 2000 )
+
+    }
+
+    function setLoading(k) {
+        if (k) {
+            $( '.loading' ).text( '处理中...' );
+            $( '.loading' ).css( 'display', 'block' );
+            $( '.zhezhao' ).css( 'display', 'block' );
+        } else {
+            $( '.loading' ).css( 'display', 'none' );
+            $( '.zhezhao' ).css( 'display', 'none' );
+        }
+    }
+
+    function toPostEdior(url) {
+        localStorage.setItem( 'initImg', url )
+        // setLoading()
+        window.location.href = toUrl;
+    }
+
+    $( '.photoHisList .itmes' ).on( 'click', function () {
+        toUrl='currency.html';
+        var url = $( this ).attr( 'imgsrc' );
+        // console.log(url)
+        toPostEdior( url )
+    } )
+    function upbymobile() {
+        toUrl='idPhoto.html';
+        $.ajax( {
+            url: devbase + '/oss/newUploadTask',
+            type: 'get',
+            dataType: 'json',
+            xhrFields: {
+                withCredentials: true
+            },
+            headers: {token: token},
+            data: {},
+            success:function(res) {
+                if (!res.code) {
+                    taskFlag = res.data;
+                    qrcode.makeCode( urlhref + "/uploadBymobile.html?taskFlag=" + res.data );
+                    setDiog( 1 );
+                    lunxun()
+                } else loading( res.msg )
+            }
+        } )
+    }
+    function lunxun() {
+        $.ajax( {
+            url: devbase + '/oss/getUploadTask',
+            type: 'get',
+            dataType: 'json',
+            xhrFields: {
+                withCredentials: true
+            },
+            headers: {token: token},
+            data: {taskFlag:taskFlag},
+            success:function(res) {
+                if (!res.code) {
+                    if (res.data.status === 2) {
+                        setDiog();
+                        toPostEdior(res.data.url)
+                    } else timer = setTimeout( lunxun, 2000 )
+                } else loading( res.msg )
+            }
+        } )
+    }
+    function setDiog(k) {
+        clearTimeout( timer )
+        if (k) {
+            $( '.diglog' ).css( 'display', 'block' );
+            $( '.zhezhao' ).css( 'display', 'block' );
+        } else {
+            $( '.diglog' ).css( 'display', 'none' );
+            $( '.zhezhao' ).css( 'display', 'none' );
+        }
+    }
+    stopPrevent()
 </script>
 </body>
 </html>

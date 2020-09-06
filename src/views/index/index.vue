@@ -163,7 +163,7 @@
     import headerSub from '@/components/header/index.vue'
     import imgSub from '@/components/showImgSub/index.vue'
     import {getToken, getSecImgs, setSecImgs} from "../../utils/auth";
-    import {basrUrls} from "../../utils";
+    import {basrUrl} from "../../utils";
     import imgSetSub from '@/components/setImgSub/index.vue'
     import {getMattedImageMultiple, userHistoryList} from "../../apis";
     import mohu1 from '@/assets/image/mohu1.png'
@@ -190,7 +190,6 @@
                 imgMsg: {},
                 showSetImg: false,
                 allbgImg: [],
-                basrUrls: basrUrls(),
                 sizeArr: [],
                 historyList: {},
                 showHistory: false,
@@ -218,7 +217,8 @@
                     '#ccf0fe', '#d3e2ff', '#d9c8fe', '#efcafe', '#f9d3e0', '#fedbd9', '#ffe3d7', '#feedd3', '#fff1d4', '#fffdde', '#f7fadd', '#e0eed5',
                 ],//色板
                 selectColor: '',
-                baseList:[]//全部下载自定义
+                baseList:[],//全部下载自定义
+                Completed:[]
             }
         },
         filters: {
@@ -306,11 +306,13 @@
                 const allNum=this.$refs.subs.length,_this=this;
                 let zip = new JSZip(),imgs = zip.folder( blogTitle );
                 const name=objs.filename.substring(0,objs.filename.lastIndexOf('.')).replace(/\//g,'%')
-                this.baseList.push( {name: name+'.png', img: objs.obj.substring( 22 )} );
+                const same=this.baseList.some(item=>item.name===name+'.png');
+                this.baseList.push( {name: (same ? name + Math.random() : name) + '.png', img: objs.obj.substring( 22 )} );
+                // this.baseList.push( {name: name+'.png', img: objs.obj.substring( 22 )} );
                 this.Percentile += 1;
-                this.loading.text = this.Percentile + '/' + this.allbgImg.length + ' 已完成';
+                this.loading.text = this.Percentile + '/' + this.Completed.length + ' 已完成';
                 console.log(this.Percentile,this.allbgImg.length,'.....')
-                if (this.baseList.length === this.allbgImg.length) {
+                if (this.baseList.length === this.Completed.length) {
                     if (this.baseList.length > 0) {
                         this.loading.text = '打包中...'
                         for (let k = 0; k < this.baseList.length; k++) {
@@ -318,6 +320,7 @@
                                 base64: true
                             } );
                         }
+                        console.log(imgs,999)
                         zip.generateAsync( {type: "blob"} ).then( function (content) {
                             saveAs( content, blogTitle + ".zip" );
                             _this.loading.close()
@@ -379,31 +382,34 @@
                 } )
             },
             //下载多张抠图
-            saveMove(key,e) {
-                let that = this
-                this.$message.closeAll()
+            saveMove(key, e) {
+                let that = this, allImgs = JSON.parse( JSON.stringify( this.allbgImg ) ),allSub = this.$refs.subs;
+                this.$message.closeAll();
+                let arr = allImgs.filter( (val, index) => {
+                    return val.img
+                } );
+                this.Completed = arr//此时保存需要下载 的 全部
                 if (this.files.length !== this.allbgImg.length) {
                     this.$message( {type: 'warning', message: '正在处理中，请稍后...'} );
                     return
                 }
+                ;
                 this.loading = this.$loading( {
                     lock: true,
                     text: '0 已完成',
                     spinner: 'el-icon-loading',
                     background: 'rgba(0, 0, 0, 0.7)'
                 } );
-                if(!this.classType){
-                    const allSub=this.$refs.subs
-                    allSub.map((item)=>item.save(key,e,'all'))
-                    return
-                }
-                let allImgs = JSON.parse( JSON.stringify( this.allbgImg ) );
-                let arr = allImgs.filter( (val, index) => {
-                    return val.img
-                } );
-                // console.log(arr)
-                if (key === 0) this.StoreDowQrcode( arr );
-                else {
+                if (key === 0)  {
+                    if (!this.classType) {//下载自定义
+                        arr.map( item => {
+                            const idx=allSub.findIndex(itemson=>item.fileId===itemson.fileId);
+                            if(idx>-1){
+                                allSub[idx].save( key, e, 'all' )
+                            }
+                        } )
+                    } else this.StoreDowQrcode( arr )
+                } else {
                     let filedId = [];
                     arr.map( (item, index) => {
                         filedId.push( item.fileId )
@@ -414,7 +420,15 @@
                             arr.map( (item, index) => {
                                 item.img = newArr[index]
                             } );
-                            this.StoreDowQrcode( arr )
+                            if (!this.classType) {//下载自定义
+                                arr.map( item => {
+                                    const idx=allSub.findIndex(itemson=>item.fileId===itemson.fileId);
+                                    if(idx>-1){
+                                        allSub[idx].imageMUrl = item.img;
+                                        allSub[idx].save( key, e, 'all' )
+                                    }
+                                } )
+                            } else this.StoreDowQrcode( arr )
                         } else {
                             this.loading.close()
                         }
@@ -442,8 +456,9 @@
                     ctxs.drawImage( objs.bgRemovedImg, 0, 0 );
                     let url = cans.toDataURL( "image/png" ); // 得到图片的base64编码数据 let url =
                     const name=objs.is.substring(0,objs.is.lastIndexOf('.')).replace(/\//g,'%')
-                    console.log(objs.is,name)
-                    baseList.push( {name: name+'.png', img: url.substring( 22 )} );
+                    const same=baseList.some(item=>item.name===name+'.png');
+                    baseList.push( {name: (same ? name + Math.random() : name) + '.png', img: url.substring( 22 )} );
+                    // baseList.push( {name: name+'.png', img: url.substring( 22 )} );
                     _this.Percentile += 1
                     _this.loading.text = _this.Percentile + '/' + arr.length + ' 已完成'
                     if (baseList.length === arr.length) {

@@ -8,11 +8,11 @@
                 <div class="left">
                     <div class="title">免费账号</div><!--订阅计划-->
                     <p>邀请好友注册可获得5次免费下载赠送</p>
-                    <div class="Lbtn"><a href="userCenter.html#/userCenter/invitation">立即邀请</a></div>
+                    <div class="Lbtn cu" @click="yaoqing">立即邀请</div>
                     <p>填写好友邀请码可获得5次免费下载赠送</p>
-                    <div class="Lbtn"><a href="register.html">立即填写</a></div>
-                    <p>微信扫一扫关注公众号获取5次免费下载赠送</p>
-                    <img src="@/assets/image/wechatEwm.jpg" alt="">
+                    <div class="Lbtn cu" @click="showLoginDilogAction">立即填写</div>
+<!--                    <p>微信扫一扫关注公众号获取5次免费下载赠送</p>-->
+<!--                    <img src="@/assets/image/wechatEwm.jpg" alt="">-->
                 </div>
                 <div class="center">
                     <div class="title">包月用不完，累积5个月</div><!--订阅计划-->
@@ -186,6 +186,7 @@
     import {basrUrls} from "../../utils";
     import ewm from '../../assets/caoewm.png'
     import successImg from '../../assets/image/paySuccess.png'
+    import { mapGetters,mapActions } from 'vuex'
 
     export default {
         name: 'vip',
@@ -249,6 +250,11 @@
             this.getPlansList()
         },
         methods: {
+            ...mapActions(['showLoginDilogAction']),
+            yaoqing(){
+                if(getToken())window.location.href='userCenter.html#/userCenter/invitation';
+                else this.showLoginDilogAction();
+            },
             changeRadio(e) {
                 if (e === 'other') this.selectRadio = 'other';
                 else this.selectRadio = this.choseList.filter( val => val.id == e )[0]
@@ -281,7 +287,7 @@
                 window.location.href = `${this.basrUrls}/register.html`
             },
             userContinue() {
-                if (!getToken()) window.location.href = `${this.basrUrls}/loginOrRegister.html#/?type=0&hasBack=1`
+                if (!getToken()) this.showLoginDilogAction();
                 else {
                     const loading = this.$loading( {
                         lock: true,
@@ -305,7 +311,7 @@
                     this.ermUrl = this.ewm;
                     return
                 }
-                if (!getToken()) window.location.href = 'loginOrRegister.html';
+                if (!getToken()) this.showLoginDilogAction();
                 else {
                     let data = {};
                     this.lastSelect = k === 1 ? this.selectRadio : this.selectRadio2;
@@ -545,12 +551,7 @@
                 border: 1px solid $co;
                 line-height: 30px;
                 border-radius: 15px;
-
-                a {
-                    display: block;
-                    width: 100%;
-                    color: $co;
-                }
+                color: $co;
             }
 
             & > p {
@@ -700,13 +701,13 @@
         border-color: #666;
     }
 
-    .vip .el-dialog__body {
+    .vip .Dlog .el-dialog__body {
         padding: 16px 22px 32px;
         text-align: center;
     }
 
     .vip {
-        .el-dialog {
+        .Dlog {
             border-radius: 15px;
         }
 

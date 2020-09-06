@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import login from './login.vue'
-import router from './router'
 import '@/plugins/subUntils.js'
+import store from '@/store'
 new Vue({
-    router,
+    store,
     render: h => h(login)
 }).$mount('#login')

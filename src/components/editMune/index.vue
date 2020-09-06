@@ -6,7 +6,8 @@
                   :key="idx">{{item.name}}</span>
         </div>
         <div class="content">
-            <div class="t1" v-show="!tabType">
+            <el-button plain v-show="!tabType" @click="selectEdit(filterList[0],0)" style="display: block;width: 100%;margin: 20px 0;color: #fff;" :style="{backgroundColor: btnType===5 ? '#e82255' : '',color:btnType===5 ? '#fff' : '#333'}">原图</el-button>
+            <div class="t1" style="padding-top: 0" v-show="!tabType">
                 <h4>智能抠图模式</h4>
                 <div class="btns flex j-b f-w">
                     <span class="cu" v-for="(it,idx) in btnList" :key="idx" :class="{'active' : btnType===idx }"
@@ -28,38 +29,42 @@
             </div>
             <div class="t3" v-show="tabType===2">
                 <el-checkbox v-model="checked" size="medium" @change="initsliderVal">投影</el-checkbox>
-                <div class="flex a-i sec">
-                    <label>角度：</label>
-                    <div class="crils" @mousedown="moveAngle">
-                        <div :style="{transform:`rotateZ(${angle}deg)`}"><p></p></div>
+                <div v-show="checked">
+                    <div class="flex a-i sec">
+                        <label>角度：</label>
+                        <div class="crils" @mousedown="moveAngle">
+                            <div :style="{transform:`rotateZ(${angle}deg)`}"><p></p></div>
+                        </div>
+                        <el-input v-model="angle" placeholder="请输入内容" size="mini" type="number"
+                                  @input="changeAngle"></el-input>
+                        度
                     </div>
-                    <el-input v-model="angle" placeholder="请输入内容" size="mini" type="number"
-                              @input="changeAngle"></el-input>
-                    度
-                </div>
-                <div class="flex a-i"><label>距离：</label>
-                    <el-slider :show-tooltip="false" v-model="sliderVal.distance" :min="0" :max="200"></el-slider>
-                    {{sliderVal.distance}}px
-                </div>
-                <div class="flex a-i"><label>透明：</label>
-                    <el-slider :show-tooltip="false" v-model="sliderVal.extend"></el-slider>
-                    {{sliderVal.extend}}%
-                </div>
-                <div class="flex a-i"><label>模糊：</label>
-                    <el-slider :show-tooltip="false" v-model="sliderVal.size" :min="0" :max="100"></el-slider>
-                    {{sliderVal.size}}%
+                    <div class="flex a-i"><label>距离：</label>
+                        <el-slider :show-tooltip="false" v-model="sliderVal.distance" :min="0" :max="200"></el-slider>
+                        {{sliderVal.distance}}px
+                    </div>
+                    <div class="flex a-i"><label>透明：</label>
+                        <el-slider :show-tooltip="false" v-model="sliderVal.extend"></el-slider>
+                        {{sliderVal.extend}}%
+                    </div>
+                    <div class="flex a-i"><label>模糊：</label>
+                        <el-slider :show-tooltip="false" v-model="sliderVal.size" :min="0" :max="100"></el-slider>
+                        {{sliderVal.size}}%
+                    </div>
                 </div>
                 <div class="otherss">
                     <el-checkbox v-model="checkedM" size="medium" @change="initsliderVal">描边</el-checkbox>
-                    <div class="flex a-i size"><label>大小：</label>
-                        <el-slider :show-tooltip="false" v-model="showDowVal.mSize" :min="1" :max="100"></el-slider>
-                        {{showDowVal.mSize}}px
-                    </div>
-                    <h4>描边颜色：</h4>
-                    <div class="flex a-i j-b colors">
+                    <div v-show="checkedM">
+                        <div class="flex a-i size"><label>大小：</label>
+                            <el-slider :show-tooltip="false" v-model="showDowVal.mSize" :min="1" :max="100"></el-slider>
+                            {{showDowVal.mSize}}px
+                        </div>
+                        <h4>描边颜色：</h4>
+                        <div class="flex a-i j-b colors">
                         <span v-for="(item,idx) in colors" :key="idx" class="cu" @click="changeColor(item)"
                               :style="{backgroundColor:item}"></span>
-                        <el-color-picker v-model="showDowVal.colorVal" @change="changeColor"></el-color-picker>
+                            <el-color-picker v-model="showDowVal.colorVal" @change="changeColor"></el-color-picker>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -81,8 +86,9 @@
 
     export default {
         name: "index",
-        props:{
-            mattingType:Number
+        props: {
+            mattingType: Number,
+            scale: Number
         },
         data() {
             return {
@@ -155,25 +161,26 @@
                 'effectsImgList'
             ] ),
             initAngleDistance() {
-                if (this.angle == 0 || this.angle == 360) return {x: -this.sliderVal.distance, y: 0};
+                const dislance=this.sliderVal.distance*this.scale;
+                if (this.angle == 0 || this.angle == 360) return {x: -dislance, y: 0};
                 else if (this.angle > 0 && this.angle < 90) return {
-                    x: -Math.cos( setRad( this.angle ) ) * this.sliderVal.distance,
-                    y: -Math.sin( setRad( this.angle ) ) * this.sliderVal.distance
+                    x: -Math.cos( setRad( this.angle ) ) * dislance,
+                    y: -Math.sin( setRad( this.angle ) ) * dislance
                 };
-                else if (this.angle == 90) return {x: 0, y: -this.sliderVal.distance};
+                else if (this.angle == 90) return {x: 0, y: -dislance};
                 else if (this.angle > 90 && this.angle < 180) return {
-                    x: Math.cos( setRad( 180 - this.angle ) ) * this.sliderVal.distance,
-                    y: -Math.sin( setRad( 180 - this.angle ) ) * this.sliderVal.distance
+                    x: Math.cos( setRad( 180 - this.angle ) ) * dislance,
+                    y: -Math.sin( setRad( 180 - this.angle ) ) * dislance
                 };
-                else if (this.angle == 180) return {x: this.sliderVal.distance, y: 0};
+                else if (this.angle == 180) return {x: dislance, y: 0};
                 else if (this.angle > 180 && this.angle < 270) return {
-                    x: Math.cos( setRad( this.angle - 180 ) ) * this.sliderVal.distance,
-                    y: Math.sin( setRad( this.angle - 180 ) ) * this.sliderVal.distance
+                    x: Math.cos( setRad( this.angle - 180 ) ) * dislance,
+                    y: Math.sin( setRad( this.angle - 180 ) ) * dislance
                 };
-                else if (this.angle == 270) return {x: 0, y: this.sliderVal.distance};
+                else if (this.angle == 270) return {x: 0, y: dislance};
                 else if (this.angle > 270 && this.angle < 360) return {
-                    x: -Math.cos( setRad( 360 - this.angle ) ) * this.sliderVal.distance,
-                    y: Math.sin( setRad( 360 - this.angle ) ) * this.sliderVal.distance
+                    x: -Math.cos( setRad( 360 - this.angle ) ) * dislance,
+                    y: Math.sin( setRad( 360 - this.angle ) ) * dislance
                 };
                 // else return{x:-Math.cos(360-this.angle)*this.sliderVal.distance,y:Math.sin(360-this.angle)*this.sliderVal.distance};
             },
@@ -206,34 +213,12 @@
             initshowDowVal() {
                 let oCan = document.createElement( 'canvas' ), oCanTxt, oImg = this.filterList[this.t2Idx].loadObj,
                     imgData2;
-                const [w, h] = [this.proImgObj.width, this.proImgObj.height],
-                    rgb = colorRgb( this.showDowVal.colorVal );
-                oCanTxt = oCan.getContext( '2d' );
-                if (this.checkedM) {
-                    if (w >= h) {
-                        oCan.width = (h + this.showDowVal.mSize * 2) * w / h;
-                        oCan.height = h + this.showDowVal.mSize * 2
-                    } else {
-                        oCan.width = w + this.showDowVal.mSize * 2;
-                        oCan.height = (w + this.showDowVal.mSize * 2) * h / w;
-                    }
-                    // oCan.width = w+this.showDowVal.mSize * 2;
-                    // oCan.height = h+this.showDowVal.mSize * 2;
-                    oCanTxt.drawImage( oImg, 0, 0, oCan.width, oCan.height );
-                    imgData2 = oCanTxt.getImageData( 0, 0, oCan.width, oCan.height );
-                    for (let y = 0; y < oCan.height; y++) {
-                        for (let x = 0; x < oCan.width; x++) {
-                            let pixel = (y * oCan.width + x) * 4;
-                            if (imgData2.data[pixel + 3] != 0) {
-                                imgData2.data[pixel] = rgb[0];
-                                imgData2.data[pixel + 1] = rgb[1];
-                                imgData2.data[pixel + 2] = rgb[2];
-                                // imgData2.data[pixel + 3] = 1;
-                            }
-                        }
-                    }
-                    oCanTxt.putImageData( imgData2, 0, 0 )
-                }
+                 [oCan.width, oCan.height] = [this.proImgObj.width, this.proImgObj.height];
+                oCanTxt=oCan.getContext('2d');
+                oCanTxt.drawImage(oImg,0,0,oCan.width, oCan.height);
+                jsMulit['strokeBorder'].filter(oCan,oCanTxt.getImageData(0,0,oCan.width, oCan.height),this.showDowVal.mSize*this.scale,this.showDowVal.colorVal);
+                // oCanTxt.drawImage(oImg,0,0,oCan.width, oCan.height);
+                    // rgb = colorRgb( this.showDowVal.colorVal );
                 return oCan
             }
         },
@@ -257,12 +242,12 @@
                     checkedM: this.checkedM,
                     t2Idx: this.t2Idx,
                     mattingType: this.btnType,
-                    angle:this.angle
+                    angle: this.angle
                 } );
                 keys.map( item => {
                     if (data.hasOwnProperty( item ) && this.sliderVal.hasOwnProperty( item )) this.sliderVal[item] = data[item];
                     else if (data.hasOwnProperty( item ) && this.showDowVal.hasOwnProperty( item )) this.showDowVal[item] = data[item];
-                    else if (data.hasOwnProperty( item ) && ['checked', 'checkedM', 't2Idx','angle'].includes( item )) this[item] = data[item];
+                    else if (data.hasOwnProperty( item ) && ['checked', 'checkedM', 't2Idx', 'angle'].includes( item )) this[item] = data[item];
                     else if (data.hasOwnProperty( item ) && item === 'mattingType') this.btnType = this.btnList.findIndex( item => item.type === data['mattingType'] );
                 } )
                 if (!data.hasOwnProperty( 'checked' )) this.checked = false;
@@ -275,13 +260,16 @@
             initsliderVal() {
                 let oCan = document.createElement( 'canvas' ), oCanTxt;
                 oCanTxt = oCan.getContext( '2d' );
-                oCan.width = this.proImgObj.width;
-                oCan.height = this.proImgObj.height;
-                if (this.checked) oCanTxt.drawImage( this.resliderVal, this.initAngleDistance.x, this.initAngleDistance.y );
-                if (this.checkedM) oCanTxt.drawImage( this.initshowDowVal, -(this.initshowDowVal.width - this.resliderVal.width) / 2, -(this.initshowDowVal.height - this.resliderVal.height) / 2, this.initshowDowVal.width, this.initshowDowVal.height );//重复同位置putimgData会覆盖，需要画上去
-                oCanTxt.drawImage( this.filterList[this.t2Idx].loadObj, 0, 0, oCan.width, oCan.height );
+                oCan.width = this.checkedM ? this.initshowDowVal.width : this.proImgObj.width;
+                oCan.height = this.checkedM ? this.initshowDowVal.height : this.proImgObj.height;
+                const [x, y] = [this.checkedM ? (this.initshowDowVal.width - this.resliderVal.width) / 2 + this.initAngleDistance.x : this.initAngleDistance.x, this.checkedM ? (this.initshowDowVal.height - this.resliderVal.height) / 2 + this.initAngleDistance.y : this.initAngleDistance.y]
+                if (this.checked) oCanTxt.drawImage( this.resliderVal, x, y );
+                if (this.checkedM) oCanTxt.drawImage( this.initshowDowVal, 0, 0, this.initshowDowVal.width, this.initshowDowVal.height );//重复同位置putimgData会覆盖，需要画上去
+                const [xx, yy] = [this.checkedM ? (this.initshowDowVal.width - this.resliderVal.width) / 2 : 0, this.checkedM ? (this.initshowDowVal.height - this.resliderVal.height) / 2 : 0]
+                console.log( this.filterList[this.t2Idx] ,55)
+                oCanTxt.drawImage( this.filterList[this.t2Idx].loadObj, xx, yy, this.proImgObj.width, this.proImgObj.height );
                 this.$emit( 'effectsImg', {
-                    useImg: oCan.toDataURL(), ...this.sliderVal, ...this.showDowVal,angle:this.angle,
+                    useImg: oCan.toDataURL(), ...this.sliderVal, ...this.showDowVal, angle: this.angle,
                     checked: this.checked,
                     checkedM: this.checkedM
                 } );
@@ -362,7 +350,8 @@
                 this.showDowVal.colorVal = color;
             },
             selectEdit(it, idx) {
-                if (idx === this.t2Idx) return;
+                // if (idx === this.t2Idx) return;
+                if(!idx)this.btnType=5;
                 this.$emit( 'loadings', true )
                 this.t2Idx = idx;
                 this.checked = false;
@@ -414,13 +403,13 @@
                 let result, ta;
                 ta = Math.abs( ey - y ) / Math.abs( ex - x )
                 result = Math.atan( ta ) / (Math.PI / 180);
-                console.log(result)
+                console.log( result )
                 if (ex - x < 0 && ey - y > 0) result = 360 - result;
                 else if (ex - x > 0 && ey - y > 0) result = 180 + result;
                 else if (ex - x < 0 && ey - y < 0) result = result;
                 else if (ex - x > 0 && ey - y < 0) result = 180 - result;
-                else if(ex - x === 0 && ey - y > 0)result = 270;
-                this.angle = parseInt(result);
+                else if (ex - x === 0 && ey - y > 0) result = 270;
+                this.angle = parseInt( result );
                 this.initsliderVal()
             }
         }

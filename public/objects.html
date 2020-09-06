@@ -25,6 +25,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0" id="view">
     <meta name="applicable-device" content="pc">
+    <link rel="mobile-agent" content="format=html5;url=http://m.picup.shop"/>
     <meta name="Description" content="picup.ai提供透明物体抠图方法，不需要知道怎么抠图，不管边缘多复杂，3秒一键抠图轻松搞定">
     <meta name="Keywords" content="物体抠图,在线物体抠图,在线物体抠图,一键物体抠图,鞋子抠图,包包抠图,家居抠图,汽车抠图"/>
     <!--  <title>AI智能抠图</title>-->
@@ -40,7 +41,7 @@
         (function () {
             var hm = document.createElement( "script" );
             // hm.src = "https://hm.baidu.com/hm.js?156c05f7319464c49127c703f9ed21df";
-            hm.src = "https://hm.baidu.com/hm.js?c4e46c993747640c7a9788bbd1879f39";
+            hm.src = "https://hm.baidu.com/hm.js?e12fc5e6ff2012ad0838c01122228ca7";
             var s = document.getElementsByTagName( "script" )[0];
             s.parentNode.insertBefore( hm, s );
         })();
@@ -181,7 +182,7 @@
     }
 
     setWindeom()
-    var setShow = (i) => {
+    var setShow = function(i) {
         let oDiv = document.getElementById( 'content' )
         if (i) oDiv.style.display = 'block'
         else oDiv.style.display = 'none'

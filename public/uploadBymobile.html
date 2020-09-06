@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>上传图片</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--//设置不缓存-->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Cache" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <!-- 忽略浏览器自动识别数字为电话号码 -->
+    <meta content="telephone=no" name="format-detection">
+    <!-- 忽略浏览器自动识别邮箱账号 -->
+    <meta name="format-detection" content="email=no">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <meta name="applicable-device" content="mobile"/>
+    <!--    <meta name="Description" content="一起火已累计服务677290家服装店，是服装店主拿货神器，提供服装批发一手货源的批发网，包括中老年女装新款、品牌女装、厂家货源、中高档女装、男装品牌">-->
+    <!--    <meta name="Keywords" content="1688批发网,服装批发一手货源,中老年女装新款,品牌女装批发网,女装厂家货源,中高档女装货源,女装尾货批发,男装品牌"/>-->
+    <link rel="icon" href="smallLogo.jpg">
+    <link rel="stylesheet" href="static/public.css">
+    <link rel="stylesheet" href="static/css/reset.css">
+    <style>
+        body {
+            padding-top: 1.5rem;
+        }
+
+        .up {
+            padding: 2rem 0;
+            width: 4.4rem;
+            margin: 0 auto;
+            border: 1px dashed #999;
+            position: relative;
+        }
+        .up img{
+            max-width:inherit;
+        }
+        .up .add {
+            display: block;
+            width: 0.4rem;
+            margin: 0 auto;
+        }
+
+        .up .preimg {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            left: 50%;
+            top: 0;
+            overflow: hidden;
+            transform: translateX(-50%);
+            display: none;
+        }
+        .up .preimg img{
+            display: block;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            height: 100%;
+        }
+        .up .del{
+            display: none;
+            position: absolute;
+            top: -16px;
+            right: -16px;
+        }
+
+        .btn {
+            border-radius: .1rem;
+            position: fixed;
+            width: 3.5rem;
+            font-size: .28rem;
+            color: #999;
+            background-color: #F2F2F2;
+            line-height: .8rem;
+            text-align: center;
+            left: 50%;
+            bottom: 1rem;
+            transform: translate(-50%, -50%);
+        }
+
+        .loading {
+            display: none;
+            position: fixed;
+            padding: 10px;
+            max-width: 50%;
+            line-height: 28px;
+            font-size: 12px;
+            border-radius: 15px;
+            text-align: center;
+            background-color: rgba(250, 250, 250, .8);
+            color: #333;
+            z-index: 3333;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body>
+<input type="file" accept="image/*" style="display: none" id="files" onchange="getImg(event)">
+<div class="up" onclick="upfile()">
+    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200818/20a2f5e446d64ccc88b3119b190e3664.png"
+         alt="" class="add">
+    <div class="preimg">
+        <img src="" alt="">
+    </div>
+    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200818/f632c2d46410405e9931b85a9903ee02.png"
+         alt="" class="del" onclick="stopCal(event)" style="background-color: #fff">
+</div>
+<div class="btn" onclick="upload()">上传至电脑</div>
+<div class="loading">
+    处理中...
+</div>
+<script>
+    // var baseUrl = 'http://restapidev.picup.shop' ;//'<%= NODE_ENV %>'==='development' ?: '//restapi.picup.shop'
+    var baseUrl = '//restapi.picup.shop';
+</script>
+<script>
+    (function (doc, win) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function () {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                if (clientWidth >= 750) {
+                    docEl.style.fontSize = '100px';
+                } else {
+                    docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+                }
+            };
+        if (!doc.addEventListener) return;
+        win.addEventListener( resizeEvt, recalc, false );
+        doc.addEventListener( 'DOMContentLoaded', recalc, false );
+    })( document, window );
+
+</script>
+<script src="static/jquery-1.11.3.min.js"></script>
+<script>
+    var token = localStorage.getItem( 'user_Token' ), fileData;
+
+    function queryStringUrl(name) {
+        var reg = new RegExp( "(^|$)" + name + "=([^&]*)(&|$)" )
+        var r = window.location.search.substr( 1 ).match( reg )
+        if (r != null) {
+            return decodeURI( r[2] )
+        }
+        return null
+    }
+
+    function upfile() {
+        $( '#files' ).val( '' )
+        $( '#files' ).click()
+    }
+
+    function loading(str) {
+        $( '.loading' ).text( str );
+        $( '.loading' ).css( 'display', 'block' );
+        setTimeout( function () {
+            $( '.loading' ).text( '处理中...' );
+            $( '.loading' ).css( 'display', 'none' );
+            $( '.zhezhao' ).css( 'display', 'none' );
+        }, 2000 )
+    }
+
+    function setLoading(k) {
+        if (k) {
+            $( '.loading' ).text( '处理中...' );
+            $( '.loading' ).css( 'display', 'block' );
+            $( '.zhezhao' ).css( 'display', 'block' );
+        } else {
+            $( '.loading' ).css( 'display', 'none' );
+            $( '.zhezhao' ).css( 'display', 'none' );
+        }
+    }
+
+    function getImg(e) {
+        fileData = e.target.files[0];
+        var reader = new FileReader();
+//                    console.log(reader)
+        reader.readAsDataURL( fileData );
+        //监听文件读取结束后事件
+        reader.onloadend = function (e) {
+            $( '.preimg img' ).attr( 'src', reader.result )
+            showImg(1)
+        }
+    }
+
+    function upload() {
+        if (!fileData) return;
+        setLoading( 1 )
+        var formData = new FormData(), task = queryStringUrl( 'taskFlag' );
+        if(!task){
+            loading('请在电脑端扫码进入本页面')
+            return;
+        }
+        formData.append( 'file', fileData );
+        formData.set( 'taskFlag', task );
+        $.ajax( {
+            // url: devbase+'/webMatting/matting2',
+            url: baseUrl + '/oss/upload',
+            type: 'post',
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            xhrFields: {
+                withCredentials: true
+            },
+            headers: {token: token},
+            data: formData,
+            success(res) {
+                if (!res.code) {
+                    loading( '上传成功' )
+                } else loading( res.msg )
+            }
+        } )
+    }
+    function showImg(k){
+        console.log(arguments.length)
+        if(k){
+            $('.add').hide();
+            $('.preimg').show();
+            $('.del').show();
+            $('.btn').css({backgroundColor:'#e82255',color:'#fff'});
+        }else{
+            $('.add').show();
+            $('.preimg').hide();
+            $('.del').hide();
+            $('.btn').css({backgroundColor:'#F2F2F2',color:'#999'});
+        }
+    }
+    function stopCal(e) {
+        ev= e || window.event;
+        ev.stopPropagation();
+        fileData=''
+        showImg()
+    }
+
+</script>
+</body>
+</html>

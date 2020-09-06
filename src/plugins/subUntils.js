@@ -2,8 +2,8 @@ import Vue from 'vue'
 import '../assets/public.css';
 import '../element-variables.scss'
 import filters from '../filters/filters'
-import {getTanDeg} from '@/utils'
-
+import {getTanDeg,IEVersion} from '@/utils'
+if([6,7,8,9,10].includes(IEVersion()))window.location.href='compatible.html';
 require( 'promise.prototype.finally' ).shim();//使axios支持finally回调
 // import lang from 'element-ui/lib/locale/lang/en'
 // import locale from 'element-ui/lib/locale'
@@ -47,9 +47,13 @@ import {
     Collapse,
     CollapseItem,
     Image,
+    Progress,
+    Alert
 } from 'element-ui'
 
 Vue.component( Button.name, Button );
+Vue.component( Alert.name, Alert );
+Vue.component( Progress.name, Progress );
 Vue.component( Input.name, Input );
 Vue.component( Table.name, Table );
 Vue.component( TableColumn.name, TableColumn );

@@ -106,6 +106,13 @@ module.exports = {
             title: '通用抠图',
             // chunks: ['chunk-vendors', 'chunk-common', 'loginOrRegister']
         },
+        videoMatting:{
+            entry: 'src/views/videoMatting/index.js',
+            template:'public/videoMatting.html',
+            filename: 'videoMatting.html',
+            title: '视频抠图',
+            // chunks: ['chunk-vendors', 'chunk-common', 'loginOrRegister']
+        },
         loginOrRegister:{
             entry: 'src/views/login/login.js',
             template:'public/loginOrRegister.html',
@@ -175,17 +182,11 @@ module.exports = {
             filename: 'aboutUs.html',
             title: '关于我们',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
-        }, freeimg:{
-            entry: 'src/views/freeimg/index.js',
-            template:'public/freeimg.html',
-            filename: 'freeimg.html',
-            title: '免费背景图',
-            // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
-        },detail:{
-            entry: 'src/views/detail/index.js',
-            template:'public/detail.html',
-            filename: 'detail.html',
-            title: '图片详情',
+        }, videoPrice:{
+            entry: 'src/views/userVip/videoPrice.js',
+            template:'public/videoPrice.html',
+            filename: 'videoPrice.html',
+            title: '视频价格',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
         },copyright:{
             entry: 'src/views/copyright/index.js',
@@ -216,6 +217,48 @@ module.exports = {
             template:'public/posterEditor.html',
             filename: 'posterEditor.html',
             title: '海报设计',
+            // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
+        },transitionPage:{
+            entry: 'src/views/index/transitionPage.js',
+            template:'public/transitionPage.html',
+            filename: 'transitionPage.html',
+            title: '一键抠图',
+            // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
+        },apis:{
+            entry: 'src/views/index/apis.js',
+            template:'public/apis.html',
+            filename: 'apis.html',
+            title: 'apis',
+            // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
+        },servicePrivacy:{
+            entry: 'src/views/index/servicePrivacy.js',
+            template:'public/servicePrivacy.html',
+            filename: 'servicePrivacy.html',
+            title: '服务与隐私',
+            // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
+        },idPhoto:{
+            entry: 'src/views/idPhoto/index.js',
+            template:'public/idPhoto.html',
+            filename: 'idPhoto.html',
+            title: '证件照',
+            // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
+        },idPhotoEdit:{
+            entry: 'src/views/editPictures/idPhotoEdit.js',
+            template:'public/idPhotoEdit.html',
+            filename: 'idPhotoEdit.html',
+            title: '证件照编辑器',
+            // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
+        },imagePhoto:{
+            entry: 'src/views/idPhoto/image.js',
+            template:'public/imagePhoto.html',
+            filename: 'imagePhoto.html',
+            title: '形象照',
+            // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
+        },imagePhotoEdit:{
+            entry: 'src/views/editPictures/imagePhotoEdit.js',
+            template:'public/imagePhotoEdit.html',
+            filename: 'imagePhotoEdit.html',
+            title: '形象照编辑器',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
         },
     },

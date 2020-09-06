@@ -1,6 +1,7 @@
 @import "flex";
 @import "margin";
-@import "padding";
+@import "marginpx";
+//@import "padding";
 $co:#e82255;
 $to:#21a9e8;
 $head:#F75191;
@@ -38,14 +39,37 @@ $be:#2ED8B4;
 div.el-popper.te{
   margin-top: 30px;
 }
-.editPictures .el-dialog__body{
+.loginDialog .el-dialog__body{
   padding: 0;
 }
 .matting .el-slider__runway{
   margin: 10px 0;
 }
-.el-scrollbar__wrap {
+.first2 .el-scrollbar__wrap,.helloFirst .el-scrollbar__wrap,.editPictures  .el-scrollbar__wrap{
   overflow: scroll;
   height: 100%;
   overflow-x: hidden;
+}
+.el-notification{
+  z-index: 3000;
+}
+.loadingSub .el-progress__text{
+  color: #fff;
+}
+.mattingVideo .el-color-picker__trigger,.mattingVideo .el-color-picker__mask{
+  width: 80px;
+  height: 28px;
+}
+.mattingVideo .el-loading-mask{
+  z-index: 222;
+}
+.mattingVideo .el-icon-loading{
+  font-size: 28px;
+}
+.boxVideo .inline .el-input__inner{
+  height: 100%;
+}
+.hDown2.el-popover{
+  padding: 0;
+  z-index:111;
 }

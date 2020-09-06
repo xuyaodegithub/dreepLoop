@@ -59,10 +59,12 @@
                     </div>
                     <div v-show="[3,4].includes(bgOriginal.status)" class="errmsg">
                         <i class="el-icon-circle-close"></i>
-                        {{this.bgOriginal.status===3 ? '图片过大，暂时无法处理' : '本天限制次数已达上限'}}
+                        {{this.bgOriginal.status===3 ? '网络出现中断，请重试' : '次数受限'}}
                         <!--                        Error occured, the foreground can not be recognized-->
                         <p>
-                            {{this.bgOriginal.status===3 ? '请选择一个不超过15M的图片进行处理' : '未登录状态上传次数已达上限，请登录后继续操作！'}}
+                            {{this.bgOriginal.status===3 ? '请选择一个不超过15M的图片进行处理' : '未登录使用次数已达上限，'}}<br>
+                            <span v-show="bgOriginal.status===4">请 <span @click="showLoginDilogAction" class="cu"
+                                                                      style="color: #e82255">登录</span> 后继续操作！</span>
                             <!--                        	Try picture that contains person, more categories will be supported in future-->
                         </p>
                     </div>
@@ -80,7 +82,7 @@
                         处理中...
                         <!--                        Processing...-->
                     </div>
-                    <div class="otherBtn flex a-i" v-if="bgOriginal.img">
+                    <div class="otherBtn flex a-i" v-if="bgOriginal.img && type!==3">
                         <span><!--Background-->背景</span>
                         <div v-for="(items,indexs) in color" :key="indexs"
                              @click.stop="choseBackColor(items,indexs)"
@@ -105,10 +107,11 @@
                     </div>
                     <div class="flex">
                         <down-btn v-if="bgOriginal.img" :imageMsg="imageMsg" @edireThis="edireThis" @save="save"
-                                  :type="1"></down-btn>
+                                  :type="1" :mattingType="type ? type : 1"></down-btn>
                         <down-btn v-if="bgOriginal.img" :imageMsg="imageMsg" @edireThis="edireThis" @save="save"
-                                  :type="1" down></down-btn>
+                                  :type="1" down :mattingType="type ? type : 1"></down-btn>
                     </div>
+                    <loading-sub text="为了更好的高清边缘细节，我们正在努力为你处理中" v-if="showLoading" color="#e82255"></loading-sub>
                 </div>
             </div>
         </div>
@@ -123,9 +126,10 @@
     import {myBrowser, getrandom} from "../../utils";
     import {getToken} from "../../utils/auth";
     import JSManipulate from '../../utils/jsmanipulate.js'
-    import {mapGetters} from 'vuex'
+    import {mapGetters,mapActions} from 'vuex'
     import {mixins} from '@/minxins'
     import downBtn from '../downLoadBtn'
+    import loadingSub from '../loadingSub'
 
     export default {
         name: "imgsub",
@@ -183,7 +187,7 @@
                 oDDiv: '',
                 oIImg: '',
                 initfirst: true,
-                showTag: false,
+                showLoading: false
             }
         },
         watch: {
@@ -202,7 +206,7 @@
             }
         },
         components: {
-            downBtn
+            downBtn, loadingSub
         },
         computed: {
             ...mapGetters( [
@@ -244,6 +248,7 @@
             document.addEventListener( 'mouseup', this.ups )
         },
         methods: {
+            ...mapActions(['showLoginDilogAction']),
             setInitStatus(e) {//s设置初始化状态
                 let sObj = {
                     type: this.choseBack === 'bg' ? 4 : this.choseBack
@@ -480,21 +485,22 @@
             //     }
             // },
             pollingImg() {//轮询
-                this.timer = setInterval( () => {
+                this.timer = setTimeout( () => {
                     // this.getImgData()
+                    // console.log('timeout')
                     getMattingInfo( {fileId: this.fileId} ).then( res => {
                         if (!res.code) {
                             this.imageMsg = res.data;
                             if (res.data.status === 'success') {
-                                clearInterval( this.timer )
+                                // clearInterval( this.timer )
                                 let obj = {
                                     name: this.imgname,
                                     img: res.data.bgRemovedPreview,
                                     status: 0,
                                     fileId: this.fileId
                                 }
-                                this.Original = res.data.original
-                                this.bgOriginal = obj
+                                this.Original = res.data.original;
+                                this.bgOriginal = obj;
                                 this.$emit( 'to-parse', {
                                     id: this.index,
                                     img: res.data.bgRemovedPreview,
@@ -504,9 +510,9 @@
                                     Original: this.Original,
                                     filename: this.filename
                                 } )
-                            }
+                            }else this.pollingImg();
                         } else {
-                            clearInterval( this.timer )
+                            // clearInterval( this.timer )
                             this.$emit( 'to-parse', {
                                 id: this.index,
                                 img: '',
@@ -519,7 +525,7 @@
                             this.bgOriginal = {name: this.imgname, img: '', status: 1, fileId: this.fileId}
                         }
                     } )
-                }, 1000 )
+                }, 2000 )
             },
             updataThis() {
                 if (this.bgOriginal.status !== 0) {//当前图片不可编辑
@@ -539,6 +545,7 @@
                         let param = new FormData();
                         param.append( 'file', file, file.name )
                         param.set( 'mattingType', _self.type ? _self.type : 1 )
+                        if (_self.type && _self.type === 3) param.set( 'crop', 1 )
                         uploadImgApi( param ).then( res => {
                             if (res.code == 0) {
                                 _self.fileId = res.data.fileId
@@ -606,7 +613,6 @@
                                 _self.bgOriginal = obj
                             }
                         } ).catch( err => {
-                            console.log( err, 111111, _self.fileId )
                             let obj = {
                                 name: _self.imgname,
                                 img: '',
@@ -630,6 +636,7 @@
             getImgMsgByurl() {//通过粘贴请求
                 this.Original = this.file
                 let obj = {url: this.file, mattingType: this.type ? this.type : 1}
+                if (this.type && this.type === 3) obj['crop'] = 1;
                 if (this.files.fileId) obj.fileId = this.files.fileId
                 copyUpload( obj ).then( res => {
                     if (res.code == 0) {
@@ -746,29 +753,33 @@
                 this.drawImgAfterFirst( this.loadImg );
                 this.backg = {background: this.colorValue}
             },
-            save(index, e, all) {//保存下载
+            save(index, e, all, mattingType) {//保存下载
                 if (index === 0) {
                     let url = this.bgOriginal.img;
                     this.initSmallTag( e, '免费 :）' );
                     this.downOldImg( url, all )
                 } else {
                     if (this.imageMUrl) {
-                        this.initSmallTag( e, '免费 :）' )
-                        this.downOldImg( this.imageMUrl, all )
+                        if(!all) this.initSmallTag( e, '免费 :）' );
+                        this.downOldImg( this.imageMUrl, all );
                         return
                     }
-                    downloadMattedImage( {fileId: this.fileId} ).then( res => {
+                    let data = {fileId: this.fileId};
+                    if (mattingType && mattingType !== 3) {
+                        this.showLoading = true;
+                        data['highQuality'] = 1;//高清下载
+                    }
+                    downloadMattedImage( data ).then( res => {
                         if (!res.code) {
-                            this.initSmallTag( e, '次数 -1' )
-                            this.imageMUrl = res.data
-                            this.downOldImg( res.data, all )
-                        }
+                           if(!all) this.initSmallTag( e, '次数 -1' );
+                            this.imageMUrl = res.data;
+                            this.downOldImg( res.data, all );
+                        } else this.showLoading = false;
                     } )
                 }
             },
             // 下载
             downOldImg(urls, all) {
-                console.log( urls, this.choseBack )
                 let urlss = urls + `?str=${Math.random()}`
                 let _self = this
                 let cans = document.createElement( 'canvas' );
@@ -803,10 +814,15 @@
                 oImg.src = urlss
             },
             downFunc(cans, all) {//下载方法提取
+                this.showLoading = false;
                 if (myBrowser() === 'IE' || myBrowser() === 'Edge') {//ie下载图片
                     let url = cans.msToBlob();
                     let blobObj = new Blob( [url] );
                     window.navigator.msSaveOrOpenBlob( blobObj, this.filename.substring( 0, this.filename.lastIndexOf( '.' ) ) + ".png" );
+                    if (all) {
+                        this.$emit( 'downall', {obj: url, filename: this.filename} )
+                        return
+                    }
                 } else {
                     let url = cans.toDataURL( "image/png" );
                     if (all) {
@@ -829,7 +845,7 @@
             },
             deleteItem() {//删除某一个
                 let name = '';
-                if (this.timer) clearInterval( this.timer )
+                if (this.timer) clearTimeout( this.timer )
                 if (this.files.type == 'copy') name = this.imgname
                 else name = this.files.name
                 this.$emit( 'close', {index: this.index, name: name} )
@@ -991,7 +1007,7 @@
                 let newBg4 = ctx.getImageData( 0, 0, canvasTemp.width, canvasTemp.height );
                 JSManipulate.blur.filter( newBg1, {amount: 5.0} );
                 JSManipulate.grayscale.filter( newBg4 );
-                console.log( index, 'pppp' )
+                // console.log( index, 'pppp' )
                 callback( {
                     dwonBg: index === 2 ? newBg4 : newBg1,
                     bgRemovedImg: imgObjs.bgImg
@@ -1008,6 +1024,7 @@
 
 <style lang="scss">
     .showImgOut {
+        position: relative;
         background-color: #fff;
         margin-bottom: 15px;
         -webkit-touch-callout: none; /* iOS Safari */

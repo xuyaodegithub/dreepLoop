@@ -15,6 +15,9 @@ const actions={
         userSubscribe().then(res=>{
             context.commit('SET_USER_SUBS',res.data)
         })
+    },
+    showLoginDilogAction(context,data){
+        context.commit('SET_SHOWLOGIN_DILOG','')
     }
 
 }

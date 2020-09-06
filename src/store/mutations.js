@@ -14,6 +14,9 @@ const mutations={
         if(idx>-1)state.effectsImgList.splice(idx,1,data);
         else state.effectsImgList.push(data);
     },
+    SET_SHOWLOGIN_DILOG(state,data){
+        state.showLoginDilog=!state.showLoginDilog;
+    }
 }
 
 export default mutations
