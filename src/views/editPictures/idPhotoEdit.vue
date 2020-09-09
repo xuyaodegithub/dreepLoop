@@ -502,6 +502,7 @@
                     this.parseSubs.subList[this.hoverSub.idx].proObj = '';
                     this.$refs.tihuan.value = '';
                     if (this.hoverSub.type === 1) {//保存替换主图后的原图对象
+                        this.pointList = [];
                         let oImg2 = new Image();
                         oImg2.crossOrigin = '';
                         oImg2.onload = () => {
@@ -540,6 +541,7 @@
                 const idx = this.parseSubs.subList.findIndex( item => item.type === 1 )
                 this.parseSubs.subList.map( item => item.hovering = false )
                 this.parseSubs.subList[idx].hovering = true;
+                this.pointList = [];
                 this.writeText( idx )
             },
             hoverThis(idx) {

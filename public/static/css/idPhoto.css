@@ -32,6 +32,7 @@
 .helloFirst .OperatorRight .cList p:last-child {
     font-weight: 500;
     color: #777;
+    font-size: 12px;
 }
 
 .helloFirst .Operator {

@@ -1,0 +1,26 @@
+.OperatorRight .oLeft {
+    width: 100%;
+    line-height: 1;
+}
+.OperatorRight .oLeft p{
+    width: initial !important;
+    margin-right: 40px;
+}
+.twoBtns{
+    margin-bottom: 20px;
+}
+.twoBtns span {
+    width: 270px;
+    height: 60px;
+    line-height: 60px;
+    margin-right: 20px;
+    border-radius: 10px;
+    font-size: 20px;
+}
+.twoBtns span img{
+    width: 24px;
+    vertical-align: sub;
+}
+.oLeft .lizi {
+    margin-bottom: 35px;
+}

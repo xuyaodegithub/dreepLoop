@@ -25,22 +25,22 @@
                     上传
                 </el-button>
                 <div class="center">
-<!--                    <h5>Web 视频</h5>-->
-<!--                    <div style="position: relative;">-->
-<!--                        <img-->
-<!--                                src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200828/c9a899a86cd54edba3439aff522987bc.png"-->
-<!--                                alt-->
-<!--                                style="position: absolute;left: 8px;top: 12px;"-->
-<!--                        />-->
-<!--                        &lt;!&ndash;                        @keyup.enter="copyImgUrl()"&ndash;&gt;-->
-<!--                        <input-->
-<!--                                type="text"-->
-<!--                                placeholder="CTRL+V视频或URL"-->
-<!--                                v-model="imgUrl"-->
-<!--                                @focus="$event.target.select()"-->
-<!--                                class="upcas"-->
-<!--                        />-->
-<!--                    </div>-->
+                    <!--                    <h5>Web 视频</h5>-->
+                    <!--                    <div style="position: relative;">-->
+                    <!--                        <img-->
+                    <!--                                src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200828/c9a899a86cd54edba3439aff522987bc.png"-->
+                    <!--                                alt-->
+                    <!--                                style="position: absolute;left: 8px;top: 12px;"-->
+                    <!--                        />-->
+                    <!--                        &lt;!&ndash;                        @keyup.enter="copyImgUrl()"&ndash;&gt;-->
+                    <!--                        <input-->
+                    <!--                                type="text"-->
+                    <!--                                placeholder="CTRL+V视频或URL"-->
+                    <!--                                v-model="imgUrl"-->
+                    <!--                                @focus="$event.target.select()"-->
+                    <!--                                class="upcas"-->
+                    <!--                        />-->
+                    <!--                    </div>-->
                 </div>
                 <div class="bottonLast">
                     <div class="fixedB">
@@ -94,12 +94,12 @@
                                 <!--Upload-->
                                 上传视频
                             </el-button>
-<!--                            <el-input-->
-<!--                                    v-model="imgUrl"-->
-<!--                                    class="upcas"-->
-<!--                                    placeholder="CTRL+V粘贴视频或者URL"-->
-<!--                                    @focus="$event.target.select()"-->
-<!--                            ></el-input>-->
+                            <!--                            <el-input-->
+                            <!--                                    v-model="imgUrl"-->
+                            <!--                                    class="upcas"-->
+                            <!--                                    placeholder="CTRL+V粘贴视频或者URL"-->
+                            <!--                                    @focus="$event.target.select()"-->
+                            <!--                            ></el-input>-->
                             <p>支持格式：.mp4, .webm, .mov, .gif</p>
                             <p>最大文件大小：500M</p>
                             <p>最大视频清晰度：1080P</p>
@@ -111,15 +111,33 @@
                     </div>
                 </div>
                 <div v-for="(item,idx) in upList" :key="item.id">
-                    <matting-video :filesMsg="item" ref="videoSubs" @close="close"></matting-video>
+                    <matting-video :filesMsg="item" ref="videoSubs" @close="close" @preVideo="preVideo"></matting-video>
                 </div>
             </div>
         </div>
+        <el-dialog
+                title="视频预览"
+                :close-on-click-modal="false"
+                custom-class="dialogVidoe"
+                :visible.sync="dialogVisible"
+                width="40%"
+                :before-close="beforClose">
+            <div>
+                <video :src="videoUrl" controls  :style="colorList[backIdx] | backColor" autoplay loop>
+                    <source :src="videoUrl" type="video/webm">
+                </video>
+                <div class="colorList flex">
+                <span :style="item | backColor" v-for="(item,idx) in colorList" class="cu" @click="backIdx=idx"
+                      :key="idx">{{item.val ? '' : '原视频'}}</span>
+                </div>
+            </div>
+
+        </el-dialog>
     </div>
 </template>
 
 <script>
-    import {mapGetters,mapActions} from 'vuex'
+    import {mapGetters, mapActions} from 'vuex'
     import headerSub from "@/components/header/index.vue";
     import {getToken, getSecImgs, setSecImgs} from "../../utils/auth";
     import mattingVideo from '@/components/mattingVideo';
@@ -132,6 +150,13 @@
                 upList: [],
                 imgUrl: "", //图片链接
                 multiple: false,
+                dialogVisible: false,
+                videoUrl: '',
+                colorList: [{title: '原视频', val: ''}, {title: '绿色', val: '#00ff00'}, {
+                    title: '蓝色',
+                    val: '#0000ff'
+                }, {title: '黑色', val: '#000000'}, {title: '白色', val: '#ffffff'},],
+                backIdx:0
             };
         },
         created() {
@@ -144,8 +169,26 @@
             }
             this.stopPrevent();
         },
+        filters: {
+            backColor(item) {
+                return item.val ? {backgroundColor: item.val} : {
+                    backgroundImage: `url(http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200908/df33b43838364e9bad916013d3c116f6.jpg)`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'cover'
+                }
+            }
+        },
         methods: {
-            ...mapActions( ["userGetscribe",'showLoginDilogAction'] ),
+            ...mapActions( ["userGetscribe", 'showLoginDilogAction'] ),
+            preVideo(item) {//预览视频
+                this.videoUrl = item;
+                this.dialogVisible = true;
+            },
+            beforClose(done) {
+                this.videoUrl = '';
+                this.backIdx = 0;
+                done()
+            },
             upLoadimg() {
                 //点击上传
                 if (!getToken()) {
@@ -170,8 +213,7 @@
                 $( "body,html" ).animate( {scrollTop: 620}, 500 );
             },
             close(task, id) {
-                const taskFlag = task, idx =this.upList.findIndex(item=>item.id===id) ;
-                console.log( taskFlag, idx )
+                const taskFlag = task, idx = this.upList.findIndex( item => item.id === id );
                 if (!taskFlag) {
                     this.upList.splice( idx, 1 )
                     return;
@@ -214,22 +256,22 @@
                     e.preventDefault();
                 } );
                 let oDrops = document.getElementsByClassName( 'drops' )[0];
-                    oDrops.addEventListener( "drop", function (e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        // e.cancelable=true
-                        let files = e.dataTransfer.files;
-                        // console.log(files)
-                        if (!files.length) return;
-                        if (!getToken() && files.length > 1) {
-                            _self.$message( {type: 'error', message: '登录后可批量上传'} )
-                            return
-                        }
-                        _self.toscroll();
-                        for (let i = 0; i < files.length; i++) {
-                            _self.upList.unshift( {file: files[i], id: files[i].name + Math.random(), type: 'file'} )
-                        }
-                    } )
+                oDrops.addEventListener( "drop", function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    // e.cancelable=true
+                    let files = e.dataTransfer.files;
+                    // console.log(files)
+                    if (!files.length) return;
+                    if (!getToken() && files.length > 1) {
+                        _self.$message( {type: 'error', message: '登录后可批量上传'} )
+                        return
+                    }
+                    _self.toscroll();
+                    for (let i = 0; i < files.length; i++) {
+                        _self.upList.unshift( {file: files[i], id: files[i].name + Math.random(), type: 'file'} )
+                    }
+                } )
             },
         },
     };
@@ -352,7 +394,8 @@
                     .secImg {
                         position: relative;
                         margin-right: 77px;
-                        img:last-child{
+
+                        img:last-child {
                             width: 460px;
                             position: absolute;
                             left: 50%;
@@ -633,6 +676,28 @@
             }
         }
     }
+
+    video {
+        display: block;
+        max-width: 100%;
+        max-height: 500px;
+        object-fit: fill;
+        margin: 0 auto;
+    }
+
+    .colorList {
+        padding: 15px 0;
+        justify-content: space-between;
+        text-align: center;
+        background-color: #202020;
+
+        span {
+            line-height: 40px;
+            margin: 0 8px;
+            height: 40px;
+            flex: 1;
+        }
+    }
 </style>
 <style lang="scss">
     .inline.upload {
@@ -643,6 +708,20 @@
                 background-color: rgba(52, 53, 57, 1);
                 border-color: rgba(52, 53, 57, 1);
             }
+        }
+    }
+
+    .dialogVidoe {
+        background-color: #202020 !important;
+        .el-dialog__title{
+            color: #fff;
+        }
+        .el-dialog__body {
+            padding: 0;
+        }
+        .el-dialog__headerbtn .el-dialog__close{
+            font-size: 18px;
+            font-weight: 600;
         }
     }
 </style>

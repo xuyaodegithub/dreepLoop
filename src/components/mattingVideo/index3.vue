@@ -39,42 +39,41 @@
                     <el-carousel-item v-for="(item,key) in preImglist.image" :key="key">
                         <div class="flex" style="height: 100%;">
                             <div><img :src="item" alt=""></div>
-                            <div><img :src="preImglist.matting[key]" alt="" :style="bgcolor"></div>
+                            <div><img :src="preImglist.matting[key]" alt=""></div>
                         </div>
                     </el-carousel-item>
                 </el-carousel>
                 <div class="flex point" @mouseenter="autoplay=false" @mouseleave="autoplay=true">
                     <div v-for="(it,idx) in preImglist.timeList" :key="idx" :class="{active :initialIdx == idx}"
-                         @click="moveImg(idx)">
+                          @click="moveImg(idx)">
                         <span v-show="initialIdx == idx">{{parseInt(it) | minsfilter(1)}}</span>
                     </div>
                 </div>
             </div>
             <div class="setBtns flex a-i" v-show="preImglist.time">
-                <!--                <div class="flex a-i">-->
-                <!--                    &lt;!&ndash;                    <div class="left_1">&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                        <div class="tit">背景为</div>&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                        <el-color-picker v-model="color" show-alpha :disabled="true"></el-color-picker>&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                    </div>&ndash;&gt;-->
-                <!--                    <div class="left_2">-->
-                <!--                        <div class="tit">输出格式：</div>-->
-                <!--                        <p>MOV文件</p>-->
-                <!--                        <p></p>-->
-                <!--                    </div>-->
-                <!--                </div>-->
                 <div class="flex a-i">
-                    <!--                    <div class="lright_1">-->
-                    <!--                        &lt;!&ndash;                        <div class="tit">预览视频下载</div>&ndash;&gt;-->
-                    <!--                        <p>预览时长：5秒</p>-->
-                    <!--                        <p>消耗秒数：0</p>-->
+                    <!--                    <div class="left_1">-->
+                    <!--                        <div class="tit">背景为</div>-->
+                    <!--                        <el-color-picker v-model="color" show-alpha :disabled="true"></el-color-picker>-->
                     <!--                    </div>-->
-                    <!--                    <div class="lright_btn_2 cu" v-show="!downMsg.open && !downMsg.err && !preVideoUrl"-->
-                    <!--                         @click="downPreVideo">-->
-                    <!--                        下载预览视频-->
-                    <!--                        &lt;!&ndash;                        preVideoUrl下载预览视频&ndash;&gt;-->
-                    <!--                    </div>-->
+                    <div class="left_2">
+                        <div class="tit">输出格式：</div>
+                        <p>MOV文件</p>
+                        <p></p>
+                    </div>
+                </div>
+                <div class="flex a-i">
+                    <div class="lright_1">
+<!--                        <div class="tit">预览视频下载</div>-->
+                        <p>预览时长：5秒</p>
+                        <p>消耗秒数：0</p>
+                    </div>
+                    <div class="lright_btn_2 cu" v-show="!downMsg.open && !downMsg.err && !preVideoUrl" @click="downPreVideo">
+                                                下载预览视频
+<!--                        preVideoUrl下载预览视频-->
+                    </div>
                     <div class="lright_btn_2 cu noback" v-show="downMsg.open">
-                        <p style="margin-bottom:20px; ">在线预览处理：<span class="co">{{downMsg.time}}%</span></p>
+                        <p>正在处理：<span class="co">{{downMsg.time}}%</span></p>
                         <el-progress :stroke-width="8" :percentage="downMsg.time" color="#E82256"
                                      :show-text="false"></el-progress>
                     </div>
@@ -82,60 +81,43 @@
                         <div class="title"><i class="el-icon-circle-close"></i></div>
                         <div class="des">{{downMsg.des}} <br><span @click="retry">点击重试</span></div>
                     </div>
-                    <div class="err_mini play cu" v-show="preVideoUrl"  @click="$emit('preVideo',preVideoUrl)">
-                        <i class="el-icon-caret-right"></i>在线观看预览
+                    <div class="err_mini" v-show="preVideoUrl">
+                        <div class="title" style="color: #67C23A;"><i class="el-icon-circle-check"></i></div>
+                        <div class="des">处理完成<br>
+                            <span @click="downPreVideo">点击下载</span>
+                        </div>
                     </div>
                 </div>
-                <div class="h2Title">
-                    <h2 style="font-size: 14px;margin-bottom: 15px">完整版视频下载</h2>
-                    <div class="flex a-i">
-                        <div class="lright_2">
-                            <!--                        <div class="tit">全部视频下载</div>-->
-                            <!--                        <p>视频时长：{{parseInt(preImglist.time) | minsfilter(1)}}</p>-->
-                            <p>消耗秒数：{{parseInt(preImglist.time) | minsfilter}}</p>
-                            <p>视频账户余额：{{userSubscribeData.videoRemaining | minsfilter}} &nbsp;<a href="videoPrice.html"
-                                                                                                 style="color:#D9D9D9;border-bottom: 1px solid #D9D9D9;"
-                                                                                                 target="_blank">去充值</a></p>
-                        </div>
-                        <div class="left_1 flex a-i" v-show="!downAllMsg.open && !fullVideoUrl && !downAllMsg.err">
-                            <div class="tit">背景：</div>
-                            <el-select v-model="color" placeholder="请选择" size="mini" popper-class="seleDrop">
-                                <el-option
-                                        v-for="item in colorList"
-                                        :key="item.value"
-                                        :label="item.title"
-                                        :value="item.val">
-                                </el-option>
-                            </el-select>
-                            <el-tooltip class="item" effect="dark" placement="top">
-                                <div slot="content" style="line-height: 22px;">透明背景，为mov格式，文件比较大<br/>纯色背景，为mp4格式，文件小很多</div>
-                                <i class="el-icon-question" style="font-size: 14px;"></i>
-                            </el-tooltip>
-                        </div>
-                        <div class="lright_btn_1 cu" v-show="!downAllMsg.open && !fullVideoUrl && !downAllMsg.err"
-                             @click="toSureDown">
-                            下载
-                        </div>
-                        <div class="lright_btn_2 cu noback" v-show="downAllMsg.open">
-                            <p class="flex a-i">正在处理： <el-progress :stroke-width="8" :percentage="downAllMsg.time" color="#E82256"
-                                                                   :show-text="false" style="width: 90px;margin-right: 10px;"></el-progress> <span class="co">{{downAllMsg.time}}%</span></p>
-                            <p>预计剩余处理时间：<span class="co">{{(Math.ceil(remainingTime)+10) | minsfilter}}</span></p>
-                        </div>
-                        <div class="err_mini" v-show="downAllMsg.err">
-                            <div class="title"><i class="el-icon-circle-close"></i></div>
-                            <div class="des">{{downAllMsg.des}} <br>
-                                <span @click="retry" v-if="!downAllMsg.noPoint">点击重试</span>
-                                <a href="videoPrice.html" v-else target="_blank">前往充值</a>
-                            </div>
-                        </div>
-                        <div class="err_mini flex a-i" v-show="fullVideoUrl">
-                            <div class="title" style="color: #67C23A;margin-right: 10px;"><i class="el-icon-circle-check"></i></div>
-                            <div class="des">处理完成<br>
-                                <span @click="toSureDown">点击下载</span>
-                            </div>
+                <div class="flex a-i">
+                    <div class="lright_2">
+<!--                        <div class="tit">全部视频下载</div>-->
+                        <p>视频时长：{{parseInt(preImglist.time) | minsfilter(1)}}</p>
+                        <p>消耗秒数：{{parseInt(preImglist.time) | minsfilter}}</p>
+                        <p>视频账户余额：{{userSubscribeData.videoRemaining | minsfilter}} &nbsp;<a href="videoPrice.html" style="color:#D9D9D9;border-bottom: 1px solid #D9D9D9;"  target="_blank">去充值</a></p>
+                        <!--                        <p>价格：40点</p>-->
+                    </div>
+                    <div class="lright_btn_1 cu" v-show="!downAllMsg.open && !fullVideoUrl && !downAllMsg.err" @click="toSureDown">
+                        下载完整视频
+                    </div>
+                    <div class="lright_btn_2 cu noback" v-show="downAllMsg.open">
+                        <p>正在处理：<span class="co">{{downAllMsg.time}}%</span></p>
+                        <el-progress :stroke-width="8" :percentage="downAllMsg.time" color="#E82256"
+                                     :show-text="false"></el-progress>
+                        <p>预计剩余处理时间：<span class="co">{{(Math.ceil(remainingTime)+10) | minsfilter}}</span></p>
+                    </div>
+                    <div class="err_mini" v-show="downAllMsg.err">
+                        <div class="title"><i class="el-icon-circle-close"></i></div>
+                        <div class="des">{{downAllMsg.des}} <br>
+                            <span @click="retry" v-if="!downAllMsg.noPoint">点击重试</span>
+                            <a href="videoPrice.html" v-else target="_blank">前往充值</a>
                         </div>
                     </div>
-
+                    <div class="err_mini" v-show="fullVideoUrl">
+                        <div class="title" style="color: #67C23A;"><i class="el-icon-circle-check"></i></div>
+                        <div class="des">处理完成<br>
+                            <span @click="toSureDown">点击下载</span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="lastMes">
@@ -153,7 +135,7 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex'
+    import { mapGetters } from 'vuex'
     import {BySha256, videoMatting, videoImgsPreview, videoPreview, videoMattingInfo, videoFullMatting} from '@/apis';
     import SparkMD5 from "spark-md5";
     import {getToken} from '@/utils/auth'
@@ -175,50 +157,32 @@
                 stepNum: 0,//第几次上传
                 stepAllNum: 0,//初始化上传次数
                 taskFlag: '',//任务标记
-                preImglist: {time: 0, fps: 0, name: '', image: [], matting: [], timeList: [], minwh: 0},
+                preImglist: {time: 0, fps: 0, name: '', image: [], matting: [], timeList: [],minwh:0},
                 upStatus: 0,//0上传前 1上传后 2失败提示信息
-                color: '',
+                color: 'rgba(255,255,255,0)',
                 timeOut: '',
                 timeOut1: '',
                 downMsg: {open: false, time: 0, err: false, des: '网络错误，请先确认网络正常后，重新操作！'},//下载预览图进度
-                downAllMsg: {open: false, time: 0, err: false, des: '网络错误，请先确认网络正常后，重新操作！', noPoint: false},//下载预览图进度
+                downAllMsg: {open: false, time: 0, err: false, des: '网络错误，请先确认网络正常后，重新操作！',noPoint:false},//下载预览图进度
                 errStep: 0,//连续超过三次失败就报错
                 errMsg: {title: '加载失败', des: '网络错误，请先确认网络正常后，重新操作！', errWhere: 0},
                 preVideoUrl: '',
                 fullVideoUrl: '',
-                colorList:[{title:'透明',val:''},{title:'绿色',val:'#00FF00'},{title:'蓝色',val:'#0000FF'},{title:'黑色',val:'#000000'},{title:'白色',val:'#FFFFFF'},],
-                startUpkeys:[],//含有1 代表预览图  2代表预览视频  3代表完整视频
             }
         },
-        computed: {
-            ...mapGetters( [
+        computed:{
+        ...mapGetters( [
                 'userSubscribeData'
             ] ),
-            remainingTime() {
-                let a = this.preImglist, b = 0;
-                if (a.minwh <= 360) b = 5;
-                else if (a.minwh <= 720) b = 8;
-                else if (a.minwh <= 1080) b = 10;
-                return b * this.preImglist.time * (1 - this.downAllMsg.time / 100)
-            },
-            keyLength(){
-                return this.startUpkeys.length
-            },
-            bgcolor(){
-                const key=this.color ? 'background' : 'backgroundImage';
-                return {
-                    [key]:this.color ||  'url(http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200821/d693060fc9604ccda7c91bd7360d4661.jpg)'
-                }
+            remainingTime(){
+                let a=this.preImglist,b=0;
+                if(a.minwh<=360)b=5;
+                else if(a.minwh<=720)b=8;
+                else if(a.minwh<=1080)b=10;
+                return b*this.preImglist.time*(1-this.downAllMsg.time/100)
             }
-        },
-        watch:{
-            keyLength(n,o){
-                if(n>0 && !this.timeOut1)this.timeOut1=setInterval(this.videoMattingInfo,2000);
-                else if(!n) {
-                    clearInterval(this.timeOut1);
-                    this.timeOut1=null;
-                }
-            }
+
+
         },
         methods: {
             initUp() {
@@ -229,22 +193,42 @@
                     }
                 } )
             },
+            prtviewImgsList(){
+                this.upStatus = 1;
+                let data = {taskFlag: this.taskFlag};
+                videoMattingInfo( data ).then( res => {
+                    if (!res.code) {
+                        const result=res.data;
+                        if(result.previewImages){
+                            let oView = document.documentElement.clientWidth > 1500 ? 500 : 400;
+                            let oImg = new Image();
+                            oImg.onload = () => {
+                                this.imgH = oImg.width > oImg.height ? oImg.height * oView / oImg.width + 'px' : oView + 'px';
+                                this.preImglist = {
+                                    time: result.seconds,
+                                    timeList: result.previewImages.time,
+                                    fps: result.fps,
+                                    name: result.originalName,
+                                    image: result.previewImages.image,
+                                    matting: result.previewImages.matting,
+                                    minwh:result.width > result.height ? result.height : result.width
+                                };
+                            };
+                            oImg.src = result.previewImages.image[0];
+                        }else this.timeOut1 = setTimeout(this.prtviewImgsList,2000)
+                    } else {
+                        this.upStatus = 2;
+                        this.errMsg.errWhere = 1;//加载失败
+                    }
+                } )
+            },
             startMattingVideo() {
                 if (this.stepNum >= this.stepAllNum) {//上传完成后
                     this.upStatus = 1;
                     this.$nextTick( _ => {
                         videoImgsPreview( {taskFlag: this.taskFlag} ).then( res => {//加载预览图轮播
                             if (!res.code) {
-                                this.startUpkeys.push(1);
-                                videoPreview( {taskFlag: this.taskFlag} ).then(relt=>{
-                                    if (!res.code) {
-                                        this.startUpkeys.push(2);
-                                    } else {
-                                        this.downMsg.err = true;
-                                        this.downMsg.open = false;
-                                        this.downMsg.des = res.msg;
-                                    }
-                                })
+                               this.prtviewImgsList()
                             } else {
                                 this.upStatus = 2;
                                 this.errMsg.errWhere = 1;//加载失败
@@ -277,7 +261,7 @@
                         if (this.errStep > 2) return;
                         else {
                             this.errStep += 1;
-                            this.timeOut = setTimeout( this.startMattingVideo, 500 );
+                            this.timeOut = setTimeout( this.startMattingVideo, 500 )
                         }
                     }
                 } )
@@ -289,7 +273,7 @@
                 this.$refs.swiper.setActiveItem( i )
             },
             close() {
-                this.$emit( 'close', this.taskFlag, this.filesMsg.id )
+                this.$emit( 'close', this.taskFlag,this.filesMsg.id )
             },
             retry() {//点击重试
                 if (this.downMsg.err) {
@@ -340,12 +324,21 @@
             },
             downPreVideo() {//开始处理预览视频
                 if (this.preVideoUrl) {
-                    this.$emit('preVideo',this.preVideoUrl);
+                    this.downVideo( this.preVideoUrl );
                     return;
                 }
+                this.downMsg.open = true;
                 videoPreview( {taskFlag: this.taskFlag} ).then( res => {
                     if (!res.code) {
-                        this.startUpkeys.push(2);
+                        const result = res.data;
+                        if (!result.previewVideoPath) {
+                            this.downMsg.time = result.previewPercentage;
+                            this.timeOut1 = setTimeout( this.videoMattingInfo, 2000 );
+                        } else {
+                            this.preVideoUrl = result.previewVideoPath;
+                            this.downMsg.open = false;
+                            this.downMsg.err = false;
+                        }
                     } else {
                         this.downMsg.err = true;
                         this.downMsg.open = false;
@@ -358,67 +351,43 @@
                     this.downVideo( this.fullVideoUrl );
                     return;
                 }
-                const bgColor=this.color ? this.color.split('#')[1]: '';
-                videoFullMatting( {taskFlag: this.taskFlag,bgColor} ).then( res => {
+                this.downAllMsg.open = true;
+                videoFullMatting( {taskFlag: this.taskFlag} ).then( res => {
                     if (!res.code) {
-                        this.startUpkeys.push(3);
-                        this.videoMattingInfo()
+                        const result = res.data;
+                        if (!result.videoPath) {
+                            this.downAllMsg.time = result.percentage;
+                            this.timeOut1 = setTimeout( this.videoMattingInfo, 2000 );
+                        } else {
+                            this.fullVideoUrl = result.videoPath;
+                            this.downAllMsg.open = false;
+                            this.downAllMsg.err = false;
+                        }
                     } else {
                         this.downAllMsg.err = true;
                         this.downAllMsg.open = false;
                         this.downAllMsg.des = res.msg;
-                        this.downAllMsg.noPoint = (res.code === 4001);//显示充值按钮
+                        this.downAllMsg.noPoint=(res.code===4001);//显示充值按钮
                     }
                 } )
             },
             videoMattingInfo() {//获取视频处理进度预览和全视频
-                this.upStatus = 1;
-                if(this.startUpkeys.includes(2))this.downMsg.open=true;
-                if(this.startUpkeys.includes(3))this.downAllMsg.open=true;
                 let data = {taskFlag: this.taskFlag}
                 videoMattingInfo( data ).then( res => {
                     if (!res.code) {
-                        const result = res.data,oView = document.documentElement.clientWidth > 1500 ? 500 : 400;
-                        if(this.startUpkeys.includes(1)){
-                            if (result.previewImages) {
-                                let oImg = new Image();
-                                oImg.onload = () => {
-                                    this.imgH = oImg.width > oImg.height ? oImg.height * oView / oImg.width + 'px' : oView + 'px';
-                                    this.preImglist = {
-                                        time: result.seconds,
-                                        timeList: result.previewImages.time,
-                                        fps: result.fps,
-                                        name: result.originalName,
-                                        image: result.previewImages.image,
-                                        matting: result.previewImages.matting,
-                                        minwh: result.width > result.height ? result.height : result.width
-                                    };
-                                    const idx=this.startUpkeys.findIndex(item=>item===1);
-                                    this.startUpkeys.splice(idx,1);
-                                };
-                                oImg.src = result.previewImages.image[0];
-                            }
+                        const result = res.data;
+                        this.downMsg.time = result.previewPercentage;
+                        this.downAllMsg.time = result.percentage;
+                        this.preVideoUrl = result.previewVideoPath;
+                        this.fullVideoUrl = result.videoPath;
+                        if (this.downMsg.open) this.downMsg.open = this.preVideoUrl ? false : true;
+                        if (this.downAllMsg.open) this.downAllMsg.open = this.fullVideoUrl ? false : true;
+                        if ((this.downMsg.open && !result.previewVideoPath) || (this.downAllMsg.open && !result.videoPath)) {
+                            this.timeOut1 = setTimeout( this.videoMattingInfo, 2000 )
                         }
-                        if(this.startUpkeys.includes(2)){
-                            this.downMsg.time = result.previewPercentage;
-                            this.preVideoUrl = result.previewVideoPath;
-                            if (this.downMsg.open) this.downMsg.open = this.preVideoUrl ? false : true;
-                            if (result.previewStatus === '预览处理失败') this.downMsg = {open: false, time: 0, err: true, des: '预览处理失败！'};
-                            if(this.preVideoUrl){
-                                const idx=this.startUpkeys.findIndex(item=>item===2);
-                                this.startUpkeys.splice(idx,1);
-                            }
-                        }
-                        if(this.startUpkeys.includes(3)){
-                            this.downAllMsg.time = result.percentage;
-                            this.fullVideoUrl = result.videoPath;
-                            if (this.downAllMsg.open) this.downAllMsg.open = this.fullVideoUrl ? false : true;
-                            if (result.status === '处理失败') this.downAllMsg = {open: false, time: 0, err: true, des: '处理失败！'};
-                            if(this.fullVideoUrl){
-                                const idx=this.startUpkeys.findIndex(item=>item===3);
-                                this.startUpkeys.splice(idx,1);
-                            }
-                        }
+                        if( result.previewStatus==='预览处理失败') this.downMsg={open: false, time: 0, err: true, des: '预览处理失败！'};
+                        if( result.status==='处理失败')this.downAllMsg={open: false, time: 0, err: true, des: '处理失败！'};
+                        if(this.downMsg.err && this.downAllMsg.err)clearTimeout(this.timeOut1)
                     } /*else {
                         if(this.downMsg.open){
                             this.downMsg.err = this.preVideoUrl ? false : true;
@@ -436,6 +405,7 @@
                 } )
             },
             downVideo(url) {//下载
+                console.log( url, 123456 )
                 let save_link = document.createElement( 'a' );
                 save_link.target = '_blank';
                 save_link.href = url;
@@ -477,10 +447,8 @@
                 else {
                     this.taskFlag = this.files.taskFlag;
                     this.files['name'] = this.files.originalName;
-                    if (!this.files.previewImages) {
-                        this.upStatus = 1;
-                        this.startUpkeys.push(1);
-                        this.startUpkeys.push(2);
+                    if(!this.files.previewImages){
+                        this.prtviewImgsList()
                         return;
                     }
                     let oView = document.documentElement.clientWidth > 1500 ? 500 : 400;
@@ -495,46 +463,46 @@
                             name: this.files.originalName,
                             image: this.files.previewImages.image,
                             matting: this.files.previewImages.matting,
-                            minwh: this.files.width > this.files.height ? this.files.height : this.files.width
+                            minwh:this.files.width > this.files.height ? this.files.height : this.files.width
                         };
+                        const [a, b] = [!this.files.previewVideoPath && this.files.previewPercentage > 0, !this.files.videoPath && this.files.percentage > 0]
+                        if (a) this.downMsg.open = true;
+                        if (b) this.downAllMsg.open = true;
+                        if (a || b) this.videoMattingInfo();
+                        if (this.files.previewVideoPath) this.preVideoUrl = this.files.previewVideoPath;
+                        if (this.files.videoPath) this.fullVideoUrl = this.files.videoPath;
                     };
                     oImg.src = this.files.previewImages.image[0];
-                    const [a, b] = [!this.files.previewVideoPath && this.files.previewPercentage > 0, !this.files.videoPath && this.files.percentage > 0]
-                    if (a) this.startUpkeys.push(2);
-                    if (b) this.startUpkeys.push(3);
-                    // if (a || b) this.startUpkeys.push();
-                    if (this.files.previewVideoPath) this.preVideoUrl = this.files.previewVideoPath;
-                    if (this.files.videoPath) this.fullVideoUrl = this.files.videoPath;
                 }
             },
-            toSureDown() {
-                if (this.fullVideoUrl) {
+            toSureDown(){
+                if(this.fullVideoUrl){
                     this.downVideo( this.fullVideoUrl );
                     return;
                 }
-                if (this.downAllMsg.err) {
+                if(this.downAllMsg.err){
                     this.downAllMsg.err = false;
                     this.downPreVideo2();
                     return;
                 }
-                const n = this.preImglist.time ? parseInt( this.preImglist.time ) : 0;
-                const sec = Math.floor( n / 60 ), min = n % 60;
-                this.$confirm( `下载需消耗 ${sec}分${min}秒 视频抠图余额，且确认下载后背景类型不可更改， 是否继续?`, '提示', {
+                const n=this.preImglist.time ? parseInt(this.preImglist.time): 0;
+                const sec=Math.floor(n/60),min=n % 60;
+                this.$confirm(`下载需消耗 ${sec}分${min}秒 视频抠图余额, 是否继续?`, '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
-                } ).then( () => {
+                }).then(() => {
                     this.downPreVideo2()
-                } ).catch( () => {
+                }).catch(() => {
 
-                } );
+                });
             }
         },
         mounted() {
 
         },
         created() {
-            this.initVideo();
+           this.initVideo();
         },
         destroyed() {
             if (this.timeOut) clearTimeout( this.timeOut );
@@ -688,15 +656,13 @@
                 text-align: left;
             }
 
+            .tit {
+                margin-bottom: 3px;
+            }
+
             .left_1 {
                 /*width: 80px;*/
-                margin-right:40px;
-                .el-select{
-                    margin: 0 10px;
-                    width: 80px;
-                }
-
-
+                margin-right: 25px;
             }
 
             .left_2 {
@@ -722,11 +688,9 @@
                 /*margin-right: 40px;*/
                 &.noback {
                     background-color: initial;
-
-                    p:last-child {
+                    p:last-child{
                         margin-top: 6px;
                     }
-
                     .co {
                         color: $co;
                     }
@@ -750,40 +714,23 @@
                     margin-bottom: 3px;
                 }
 
-                span, a {
+                span,a {
                     cursor: pointer;
                     color: #e82255;
                     border-bottom: 1px solid #e82255;
                 }
             }
-            .play{
-                border: 1px solid $co;
-                border-radius: 5px;
-                color: #e82255;
-                font-size: 14px;
-                line-height: 40px;
-                height: 40px;
-                width: 120px;
-                text-align: center;
-                i{
-                    margin-right: 8px;
-                    font-size: 16px;
-                }
-            }
 
             .lright_2 {
                 /*width: 95px;*/
-                margin-right: 60px;
+                margin-right: 20px;
             }
 
             .lright_btn_1 {
-                padding: 0 20px;
-                background-color: $co;
-                color: #fff;
+                background-color: initial;
+                color: $co;
                 border: 1px solid $co;
                 margin-right: 0;
-                line-height: 30px;
-                height: 30px;
             }
         }
 
@@ -852,20 +799,6 @@
             display: inline-block;
             margin-left: 15px;
             border-bottom: 1px solid #e6a23c;
-        }
-    }
-    .seleDrop.el-select-dropdown{
-        background-color: #202020 !important;
-        color: #fff;
-        .el-select-dropdown__item{
-            font-size: 13px;
-            line-height: 28px;
-            height: 28px;
-            color: #fff;
-        }
-        .el-select-dropdown__item:hover,.selected,.hover{
-            background-color: $co;
-            color: #fff;
         }
     }
 

@@ -321,4 +321,16 @@ export const wechatCode=(data)=>{
 export const toSureWatch=(data)=>{
  return https.get('/weixinMp/checkMpSubscribe',data)
 }
+/**
+ *手机上传标志
+ **/
+export const uploadBymobile=(data)=>{
+ return https.get('/oss/newUploadTask',data)
+}
+/**
+ *手机是否上传标志
+ **/
+export const uploadFrommobile=(data)=>{
+ return https.get('/oss/getUploadTask',data)
+}
 

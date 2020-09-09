@@ -6,7 +6,8 @@
         <div class=" apps">
             <div class="Operator">
                 <h6><!--Local images-->本地图像</h6>
-                <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()"><!--Upload-->上传</el-button>
+                <el-button type="primary" round @click="upLoadimg()"><img style="height: 20px;margin-right: 10px;" src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png" alt=""> 电脑上传</el-button>
+                <uploadBymobile @success="deepItem" ref="uploadSub" :color="5"></uploadBymobile>
                 <p class="afterbtn" v-if="!LoginStatus"><span class="cu" @click="userlogin(0)">登录</span>
                     <!--for batch upload-->后批量上传</p>
                 <div class="center">
@@ -68,9 +69,10 @@
                     <div class="flex a-i">
                         <div class="gif"><img src="../../assets/image/beauty.gif" alt=""></div>
                         <div class="gifright">
-                            <el-button type="primary" round icon="el-icon-upload2" @click="upLoadimg()"><!--Upload-->
-                                上传图像
-                            </el-button>
+                            <div class="flexs a-i j-b">
+                                <el-button class="firstBtns" type="primary" round @click="upLoadimg()"><img style="height: 20px;margin-right: 10px;" src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png" alt=""> 电脑上传</el-button>
+                                <uploadBymobile @success="deepItem" ref="uploadSub" :color="5"></uploadBymobile>
+                            </div>
                             <el-input v-model="imgUrl" class="upcas" placeholder="CTRL+V粘贴图像或者URL"
                                       @focus="$event.target.select()"></el-input>
                             <div class="titlips"><a href="https://www.google.cn/chrome/" target="_blank">推荐使用：谷歌游览器 <img src="@/assets/image/img1.png" alt="">，防止兼容问题</a></div>
@@ -138,7 +140,7 @@
     import {getMattedImageMultiple, userHistoryList} from "../../apis";
     import JSManipulate from '../../utils/jsmanipulate.js'
     import {niceScroll} from 'jquery.nicescroll';
-
+    import uploadBymobile from '@/components/uploadBymobile';
     export default {
         name: 'HelloWorld',
         data() {
@@ -228,7 +230,7 @@
             },
         },
         components: {
-            headerSub, imgSub, imgSetSub
+            headerSub, imgSub, imgSetSub,uploadBymobile
         },
         methods: {
             ...mapActions( [

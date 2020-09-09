@@ -16,7 +16,7 @@
                     <img src="../../assets/image/Revoke.png" alt="" class="last">
                     <span>下一步</span>
                 </div>
-                <div @click.stop="reloads" class="cu" style="margin-left: 30px">
+                <div @click.stop="reloads()" class="cu" style="margin-left: 30px">
                     <i class="el-icon-refresh-right"
                        style="font-size: 18px;display: inline-block;vertical-align: text-top;"></i>
                     <span> <!--{{edrieImgInfo.type===1 ? '重新上传' : '重置'}}-->重置</span>
@@ -296,7 +296,7 @@
                     :mattingType="hoverSub.mattingType ? hoverSub.mattingType : 0" :scale="parseSubs.scale"></v-mune>
             <f-mune v-show="hoverSub.type===2" @initFont="initFont" ref="fontMune"></f-mune>
         </div>
-<!--        <div class="zheR" v-if="loading.show"></div>-->
+        <!--        <div class="zheR" v-if="loading.show"></div>-->
         <div class="zheR" v-if="loading.show"></div>
         <el-dialog
                 :close-on-click-modal="false"
@@ -493,7 +493,7 @@
         },
         components: {vMune, fMune, mattingImg, loginDialog},
         computed: {
-            ...mapGetters( ['userSubscribeData', 'effectsImgList','showLoginDilog'] ),
+            ...mapGetters( ['userSubscribeData', 'effectsImgList', 'showLoginDilog'] ),
             subsLength() {
                 return this.parseSubs.subList.length;
             },
@@ -585,7 +585,7 @@
         },
         methods: {
             ...mapActions( [
-                'userGetscribe','showLoginDilogAction'
+                'userGetscribe', 'showLoginDilogAction'
             ] ),
             loginSuccess(val) {
                 this.dialogVisible2 = val;
@@ -658,6 +658,8 @@
                     this.parseSubs.subList[this.hoverSub.idx].proObj = '';
                     this.$refs.tihuan.value = '';
                     if (this.hoverSub.type === 1) {//保存替换主图后的原图对象
+                        this.pointList = [];//历史记录
+                        this.xiuafter = null;
                         let oImg2 = new Image();
                         oImg2.crossOrigin = '';
                         oImg2.onload = () => {
@@ -857,6 +859,8 @@
                             this.edrieImgInfo.pro = res.data.bgRemovedPreview;
                             this.edrieImgInfo.ori = res.data.original;
                             this.edrieImgInfo.imageMsg = res.data;
+                            this.pointList = [];//历史记录
+                            this.xiuafter = null;
                             this.initSize( 1 );
                         } else setTimeout( this.pollingImg, 2000 )//有排队情况，轮训查看（可以websocket）
                     } else this.loading.show = false;
@@ -869,6 +873,8 @@
                             this.edrieImgInfo.pro = res.data.bgRemovedPreview;
                             this.edrieImgInfo.ori = res.data.original;
                             this.edrieImgInfo.imageMsg = res.data;
+                            this.pointList = [];//历史记录
+                            this.xiuafter = null;
                             this.initSize( 1 );
                         } else {
                             this.loading.text = `当前排队位置为 ${res.data.queueNumber}，请稍后...`
@@ -904,7 +910,7 @@
                                     this.parseSubs.bW = this.parseSubs.subList[idx].w;
                                     this.parseSubs.bH = this.parseSubs.subList[idx].h;
                                     this.parseSubs.subList[idx].x = 0;
-                                    this.parseSubs.scale =parseFloat(this.parseSubs.bW/this.parseSubs.oriW);
+                                    this.parseSubs.scale = parseFloat( this.parseSubs.bW / this.parseSubs.oriW );
                                 }
                                 this.loadStatus( this.parseSubs.subList[idx], idx )
                             };
@@ -949,7 +955,7 @@
                                     this.parseSubs.bW = this.parseSubs.subList[idx].w;
                                     this.parseSubs.bH = this.parseSubs.subList[idx].h;
                                     this.parseSubs.subList[idx].x = 0;
-                                    this.parseSubs.scale =parseFloat(this.parseSubs.bW/this.parseSubs.oriW);
+                                    this.parseSubs.scale = parseFloat( this.parseSubs.bW / this.parseSubs.oriW );
                                 }
                                 this.loadStatus( this.parseSubs.subList[idx], idx )
                             };
@@ -1085,14 +1091,14 @@
                     }
                 } )
             },
-            jsMulitData(proData, name, obj = {},k) {
+            jsMulitData(proData, name, obj = {}, k) {
                 let ocan = document.createElement( 'canvas' ), newImgdata = proData;
                 let ocanTxt = ocan.getContext( '2d' );
                 jsMulit[name].filter( newImgdata, obj );
                 ocan.width = proData.width;
                 ocan.height = proData.height;
                 ocanTxt.putImageData( newImgdata, 0, 0 );
-                return k? ocan : ocan.toDataURL()
+                return k ? ocan : ocan.toDataURL()
             },
             goback(k) {//前进(k=1)   返回(k=0)
                 if (this.SubsDataList.length < 2) return;
@@ -1370,6 +1376,7 @@
                 }
             },
             initOriRepir(url, idx) {
+                // console.log(this.xiuafter)
                 let cans = document.createElement( 'canvas' ), cansTxt, oImg = new Image();
                 cansTxt = cans.getContext( '2d' );
                 oImg.crossOrigin = '';
@@ -1386,7 +1393,7 @@
                         else cansTxt.drawImage( this.xiuafter ? this.xiuafter : this.edrieImgInfo.oriObj, 0, 0, oImg.width, oImg.height );
                         cansTxt.restore();
                     } )
-                    this.electtexiao(cans,cansTxt.getImageData(0,0,cans.width,cans.height),idx)
+                    this.electtexiao( cans, cansTxt.getImageData( 0, 0, cans.width, cans.height ), idx )
                     // this.parseSubs.subList[idx].useImg=cans.toDataURL("image/png");
                     // this.downLoadImg2();
                 };
@@ -1411,7 +1418,7 @@
                 oCan2.height = h;
                 oCan3.height = h;
                 if (mainSub.t2Idx > 1) {
-                    obj = this.jsMulitData( dataImg, texiaoList[mainSub.t2Idx], otehC[texiaoList[mainSub.t2Idx]] || {} ,1);
+                    obj = this.jsMulitData( dataImg, texiaoList[mainSub.t2Idx], otehC[texiaoList[mainSub.t2Idx]] || {}, 1 );
                 }
                 if (mainSub.checked) {
                     oCanTxt.drawImage( obj, 0, 0, w, h );
@@ -1427,7 +1434,7 @@
                             }
                         }
                     }
-                    if (mainSub.size > 0) StackBlur.imageDataRGBA( imgData, 0, 0, w, h, parseInt(mainSub.size/this.parseSubs.scale) );
+                    if (mainSub.size > 0) StackBlur.imageDataRGBA( imgData, 0, 0, w, h, parseInt( mainSub.size / this.parseSubs.scale ) );
                     oCanTxt.clearRect( 0, 0, w, h )
                     oCanTxt.putImageData( imgData, 0, 0 )
                     const xy = this.initAngleDistance( mainSub.angle, mainSub.distance )
@@ -1549,7 +1556,7 @@
                         oCanTxt.fillRect( 0, 0, oCan.width, oCan.height );
                     } else if (item.type == 2) {
                         oCanTxt.textBaseline = 'top';
-                        const [w, h, x, y, size, lineHeight, letterSpacing] = [item.w / scale, item.h / scale, item.x / scale, item.y / scale,  item.fontSize / scale ,  item.lineHeight / scale , item.letterSpacing / scale],
+                        const [w, h, x, y, size, lineHeight, letterSpacing] = [item.w / scale, item.h / scale, item.x / scale, item.y / scale, item.fontSize / scale, item.lineHeight / scale, item.letterSpacing / scale],
                             textDecoration = ['none', 'underline', 'line-through'].indexOf( item.textDecoration );
                         // console.log( item.fontStyle, item.fontWeight, size, lineHeight, item.fontFamily, `${item.fontStyle} ${item.fontWeight} ${size}px/${lineHeight}px ${item.fontFamily}`, textDecoration )
                         oCanTxt.font = `${item.fontStyle} ${item.fontWeight} ${size}px/${lineHeight}px ${item.fontFamily}`;
@@ -1657,9 +1664,9 @@
                 }
             },
             initfontList(oCanTxt, str, letterSpacing, w, h, flexDirection, size) {
-                let str1 = str.replace( /\<span.*?>(.*?)<\/span>/g, '$1' ).replace(/\<br.*?>/g, '')//去除span标签
+                let str1 = str.replace( /\<span.*?>(.*?)<\/span>/g, '$1' ).replace( /\<br.*?>/g, '' )//去除span标签
                 let arr = (str1.replace( /\&nbsp;/g, ' ' )).replace( /\<\/div>/g, "" ).split( '<div>' ), lastArr = [];//根据几个子div，判断有几个内容，每个内容都必须另起一行，再然后每个内容在判断是否要换行
-                if(!arr[0])arr.splice(0,1)
+                if (!arr[0]) arr.splice( 0, 1 )
                 // console.log(str,str1,(str1.replace( /\&nbsp;/g, ' ' )).replace( /\<\/div>/g, "" ),arr)
                 if (!flexDirection) {
                     arr.map( itemP => {
@@ -1897,6 +1904,8 @@
                     this.loadId = -1;
                     this.SubsDataList = [];
                     this.initSize( 1 );
+                    this.pointList = [];//历史记录
+                    this.xiuafter = null;
                     this.$store.commit( 'SET_EFFECTSIMG', {clear: 1} );
                     this.$nextTick( () => {
                         this.openBack = true;
@@ -2043,7 +2052,7 @@
                     this.loading = {show: true, text: '加载中...'};
                     this.loadId = it.id;
                     this.parseSubs.subList = [];
-                    this.xiuafter = null;
+                    // this.xiuafter = null;
                     if (it.isOwnTwo) {
                         this.$store.commit( 'SET_EFFECTSIMG', {clear: 1} );
                         this.loadSubObj = '';
@@ -2107,8 +2116,8 @@
                             this.loadStatus( mItems.subList[idx], idx, imgsList.length, mItems )
                         };
                         oImg.src = mItems.subList[idx].useImg + `?id=${Math.random()}`
-                    }else if(item.type===2){
-                        mItems.subList[idx].title=`<div>${mItems.subList[idx].title}</div>`
+                    } else if (item.type === 2) {
+                        mItems.subList[idx].title = `<div>${mItems.subList[idx].title}</div>`
                     }
                 } )
             },

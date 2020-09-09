@@ -1396,7 +1396,7 @@ function initList() {
     var oDiv = $( '.contents' );
     for (var i = 0; i < idPhotolist.length; i++) {
         var item = idPhotolist[i],t2=item.name.split( '(' )[1] ? '(' + item.name.split( '(' )[1] : '';
-        let str = $( " <div class='cu'>" +
+        var str = $( " <div class='cu'>" +
         "<div class='its'>" +
         "<div w='" + item.width + "' h='" + item.height + "' color='" + item.color + "' name='" + item.name + "'>" +
         "<img src='http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200903/2913263e9ed944f0977a4bf1fbedbdde.png' alt=''>" +
@@ -1404,7 +1404,7 @@ function initList() {
         " </div>" +
         " </div>" +
         " <p class='over'>" + item.name.split( '(' )[0] + "</p>" +
-        " <p class='over'>" + t2 + "</p>" +
+        " <p class='over'>" + t2 + " ("+item.width+"*"+item.height+"px)"+"</p>" +
             "</div> " );
         oDiv.append( str )
     }
@@ -1425,7 +1425,7 @@ function seach(e) {
         } else {
             for (var i = 0; i < newList.length; i++) {
                 var item = newList[i],bname=item.name.split( '(' )[1] ? '(' + item.name.split( '(' )[1] : '';
-                let str = $( "<div class='cu'>" +
+                var str = $( "<div class='cu'>" +
                     "<div class='its'>" +
                     "<div w='" + item.width + "' h='" + item.height + "' color='"+item.color + "' name='" + item.name + "'>" +
                     " <img src='"+mattingMsg.bgRemovedPreview+"' alt=''>" +
@@ -1433,7 +1433,7 @@ function seach(e) {
                     " </div>" +
                     "</div>" +
                     "<p class='over'>" + item.name.split( '(' )[0] + "</p>" +
-                    "<p class='over'>"+bname+"</p>" +
+                    "<p class='over'>"+bname+ " ("+item.width+"*"+item.height+"px)"+"</p>" +
                     "</div>" );
                 oDiv.append( str )
             }
@@ -1501,7 +1501,7 @@ function inithisList(k) {//初始化历史记录/webMatting/mattingHistory
                     resultList.map( function (it) {
                         var str = " <div class='hisItems'><h3>" + it + "</h3><div class='flex a-i f-w'>";
                         resultObj[it].map( function (itson) {
-                            str += "<div class='itmes' oriUrl=" + itson.originalImage + " fileId='${itson.id}' onclick='showhisItem(this)'><img src=" + itson.originalImage + " alt=''></div>";
+                            str += "<div class='itmes' oriUrl=" + itson.originalImage + " fileId='"+itson.id+"' onclick='showhisItem(this)'><img src='" + itson.originalImage + "' alt=''></div>";
                         } );
                         str += "</div></div>";
                         oDiv.append( $( str ) );
@@ -1547,3 +1547,59 @@ document.addEventListener('click',function(e){
     ev.stopPropagation();
     $('.saveJpg').hide()
 })
+function  stopPrevent() {//拖拽上传方法
+    var _self = this
+    document.addEventListener("drop", function (e) {  //拖离
+        e.preventDefault();
+    });
+    document.addEventListener("dragleave", function (e) {  //拖后放
+        e.preventDefault();
+    });
+    document.addEventListener("dragenter", function (e) {  //拖进
+        e.preventDefault();
+    });
+    document.addEventListener("dragover", function (e) {  //拖来拖去
+        e.preventDefault();
+    });
+    var oDrops = document.getElementsByClassName('helloFirst')[0];
+        oDrops.addEventListener("drop", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            // e.cancelable=true
+            var files = e.dataTransfer.files;
+            // console.log(files)
+            if (!files.length) return;
+            if (files.length > 1) {
+                Notification('请上传单张图片')
+                return
+            }
+            changeImg({target:{files:[files[0]]}})
+        })
+}
+function pasteTomatting(){//复制粘贴抠图
+    document.addEventListener( 'paste', (e) => {
+        var clipboardData = e.clipboardData,//谷歌
+            i = 0,
+            items, item, types;
+        if (clipboardData) {
+            items = clipboardData.items;
+            if (!items) {
+                return;
+            }
+            item = items[0];
+            types = clipboardData.types || [];
+            for (; i < types.length; i++) {
+                if (types[i] === 'Files') {
+                    item = items[i];
+                    break;
+                }
+            }
+            if (item && item.kind === 'string' && item.type.match( /^text\//i )) {
+                dreepByurl( clipboardData.getData( "Text" ) )
+            }
+            if (item && item.kind === 'file' && item.type.match( /^image\//i )) {
+                changeImg({target: {files: [item.getAsFile()]}} )
+            }
+        }
+    } )
+}
