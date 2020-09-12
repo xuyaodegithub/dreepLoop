@@ -6,7 +6,10 @@
         <div class=" apps">
             <div class="Operator">
                 <h6><!--Local images-->本地图像</h6>
-                <el-button type="primary" round @click="upLoadimg()"><img style="height: 20px;margin-right: 10px;" src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png" alt=""> 电脑上传</el-button>
+                <el-button type="primary" round @click="upLoadimg()"><img style="height: 20px;margin-right: 10px;"
+                                                                          src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png"
+                                                                          alt=""> 电脑上传
+                </el-button>
                 <uploadBymobile @success="deepItem" ref="uploadSub" :color="1"></uploadBymobile>
                 <p class="afterbtn" v-if="!LoginStatus"><span class="cu" @click="userlogin(0)">登录</span>
                     <!--for batch upload-->后批量上传</p>
@@ -77,13 +80,17 @@
                         <div class="gif"><img src="../../assets/image/tygif.gif" alt=""></div>
                         <div class="gifright">
                             <div class="flexs a-i j-b">
-                                <el-button class="firstBtns" type="primary" round @click="upLoadimg()"><img style="height: 20px;margin-right: 10px;" src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png" alt=""> 电脑上传</el-button>
+                                <el-button class="firstBtns" type="primary" round @click="upLoadimg()"><img
+                                        style="height: 20px;margin-right: 10px;"
+                                        src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png"
+                                        alt=""> 电脑上传
+                                </el-button>
                                 <uploadBymobile @success="deepItem" ref="uploadSub" :color="1"></uploadBymobile>
                             </div>
                             <el-input v-model="imgUrl" class="upcas" placeholder="CTRL+V粘贴图像或者URL"
                                       @focus="$event.target.select()"></el-input>
                             <div class="aList flex">
-                                <!--                                <a href="//picup.shop/apidoc/_book/human.html" target="_blank">人体API></a>-->
+                                <a href="//picup.shop/apidoc/_book/common.html" target="_blank">通用API></a>
                                 <!--                                <a href="//picup.shop/apidoc/_book/human.html#%E4%BA%BA%E5%83%8F%E6%8A%A0%E5%9B%BE%E5%92%8C%E5%85%B3%E9%94%AE%E7%82%B9%E6%A3%80%E6%B5%8Bapi" target="_blank">人体API带人体关键点></a>-->
                             </div>
                             <div class="titlips"><a href="https://www.google.cn/chrome/" target="_blank">推荐使用：谷歌游览器 <img
@@ -177,6 +184,7 @@
     import JSManipulate from '../../utils/jsmanipulate.js'
     import {niceScroll} from 'jquery.nicescroll';
     import uploadBymobile from '@/components/uploadBymobile';
+
     export default {
         name: 'HelloWorld',
         data() {
@@ -300,7 +308,7 @@
             // }
         },
         components: {
-            headerSub, imgSub, imgSetSub,uploadBymobile
+            headerSub, imgSub, imgSetSub, uploadBymobile
         },
         methods: {
             ...mapActions( [
@@ -310,8 +318,11 @@
                 const _this = this;
                 let zip = new JSZip(), imgs = zip.folder( blogTitle );
                 const name = objs.filename.substring( 0, objs.filename.lastIndexOf( '.' ) ).replace( /\//g, '%' );
-                const same=this.baseList.some(item=>item.name===name+'.png');
-                this.baseList.push( {name: (same ? name + Math.random() : name) + '.png', img: objs.obj.substring( 22 )} );
+                const same = this.baseList.some( item => item.name === name + '.png' );
+                this.baseList.push( {
+                    name: (same ? name + Math.random() : name) + '.png',
+                    img: objs.obj.substring( 22 )
+                } );
                 this.Percentile = this.baseList.length;
                 this.loading.text = this.Percentile + '/' + this.Completed.length + ' 已完成';
                 console.log( this.Percentile, this.allbgImg.length, '.....' );
@@ -385,7 +396,8 @@
             },
             //下载多张抠图
             saveMove(key, e) {
-                let that = this, allImgs = JSON.parse( JSON.stringify( this.allbgImg ) ),allSub = this.$refs.subs;;
+                let that = this, allImgs = JSON.parse( JSON.stringify( this.allbgImg ) ), allSub = this.$refs.subs;
+                ;
                 this.$message.closeAll();
                 let arr = allImgs.filter( (val, index) => {
                     return val.img
@@ -405,8 +417,8 @@
                 if (key === 0) {
                     if (!this.classType) {//下载自定义
                         arr.map( item => {
-                            const idx=allSub.findIndex(itemson=>item.fileId===itemson.fileId);
-                            if(idx>-1){
+                            const idx = allSub.findIndex( itemson => item.fileId === itemson.fileId );
+                            if (idx > -1) {
                                 allSub[idx].save( key, e, 'all' )
                             }
                         } )
@@ -424,8 +436,8 @@
                             } );
                             if (!this.classType) {//下载自定义
                                 arr.map( item => {
-                                    const idx=allSub.findIndex(itemson=>item.fileId===itemson.fileId);
-                                    if(idx>-1){
+                                    const idx = allSub.findIndex( itemson => item.fileId === itemson.fileId );
+                                    if (idx > -1) {
                                         allSub[idx].imageMUrl = item.img;
                                         allSub[idx].save( key, e, 'all' )
                                     }
@@ -456,7 +468,7 @@
                     ctxs.drawImage( objs.bgRemovedImg, 0, 0 );
                     let url = cans.toDataURL( "image/png" ); // 得到图片的base64编码数据 let url =
                     const name = objs.is.substring( 0, objs.is.lastIndexOf( '.' ) ).replace( /\//g, '%' );
-                    const same=baseList.some(item=>item.name===name+'.png');
+                    const same = baseList.some( item => item.name === name + '.png' );
                     baseList.push( {name: (same ? name + Math.random() : name) + '.png', img: url.substring( 22 )} );
                     _this.Percentile += 1
                     _this.loading.text = _this.Percentile + '/' + arr.length + ' 已完成'
@@ -1037,6 +1049,7 @@
                             border-color: #fff;
                         }
                     }
+
                     .el-input {
                         margin-bottom: 15px;
                         background-color: rgb(243, 243, 243);

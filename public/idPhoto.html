@@ -196,6 +196,8 @@
                                 src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/1900436f3be2442980cb8e2887fc0d21.png"
                                 alt="">手机上传</span>
                     </div>
+                    <a href="//picup.shop/apidoc/_book/idphoto.html" target="_blank"
+                       style="font-size: 15px;color: #333;margin-bottom: 50px;display: inline-block">证件照API></a>
                     <div class="flex lizi">
                         <span>没有照片？<br>试试这些证件照：</span>
                         <div class="photoHisList flex">
@@ -233,7 +235,6 @@
                         <ul>
                         </ul>
                     </div>
-
                 </div>
                 <div class="initList one">
                     <label>常用尺寸:</label>
@@ -7289,7 +7290,7 @@
                 w: $( this ).find( '.its > div' ).attr( 'w' ),
                 h: $( this ).find( '.its > div' ).attr( 'h' ),
                 color: $( this ).find( '.its > div' ).attr( 'color' ),
-                filename: $( this ).find( '.its > div' ).attr('name'),
+                filename: $( this ).find( '.its > div' ).attr( 'name' ),
                 fileId: fileId ? fileId : '',
                 mattingType: 8
             } )
@@ -7367,9 +7368,9 @@
                             confirmButtonText: '前往充值',
                             cancelButtonText: '取消',
                             type: 'warning'
-                        } ).then( () => {
+                        } ).then( function() {
                             window.location.href = 'userVip.html'
-                        } ).catch( () => {
+                        } ).catch( function (){
 
                         } );
                     } else Notification( res.msg )
@@ -7403,9 +7404,9 @@
                             confirmButtonText: '前往充值',
                             cancelButtonText: '取消',
                             type: 'warning'
-                        } ).then( () => {
+                        } ).then( function() {
                             window.location.href = 'userVip.html'
-                        } ).catch( () => {
+                        } ).catch( function() {
 
                         } );
                     } else Notification( res.msg )
@@ -7415,12 +7416,13 @@
     }
 
     function downImgFro(cans, name, k) {
-        var type = k ? 'image/jpeg' : 'image/png', nametype = k ? 'jpg' : 'png';
+        var type = k ? 'image/jpeg' : 'image/png', nametype = k ? '.jpg' : '.png';
         if (window.navigator.msSaveOrOpenBlob) {
             let imgData = cans.msToBlob( function () {
             }, type );
             let blobObj = new Blob( [imgData] );
-            window.navigator.msSaveOrOpenBlob( blobObj );
+            window.navigator.msSaveOrOpenBlob( blobObj, name + nametype );
+            // window.navigator.msSaveOrOpenBlob( blobObj );
         } else {
             let oA = document.createElement( 'a' );
             oA.href = cans.toDataURL( type );
@@ -7443,6 +7445,12 @@
         else upbymobile()
     }
 
+    document.addEventListener( 'scroll', function (e) {
+        console.log(e)
+        var oDivs = $( '.sect' ).offset().top-60, stop = document.documentElement.scrollTop || document.body.scrollTop;
+        if (stop > oDivs ) $( '.sizeClass' ).addClass('fixed');
+        else $( '.sizeClass' ).removeClass('fixed');
+    } )
     // initList();
     pasteTomatting();
     stopPrevent();

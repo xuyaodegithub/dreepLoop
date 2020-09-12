@@ -75,6 +75,7 @@
                             </div>
                             <el-input v-model="imgUrl" class="upcas" placeholder="CTRL+V粘贴图像或者URL"
                                       @focus="$event.target.select()"></el-input>
+                            <a href="//picup.shop/apidoc/_book/prettify.html" target="_blank" style="font-size: 15px;color: #333;margin-bottom: 50px;display: inline-block">一键美化API></a>
                             <div class="titlips"><a href="https://www.google.cn/chrome/" target="_blank">推荐使用：谷歌游览器 <img src="@/assets/image/img1.png" alt="">，防止兼容问题</a></div>
                             <p>没有图像？试试以下图片看看效果</p>
                             <div class="flex a-i">
@@ -889,7 +890,7 @@
                     }
 
                     .el-input {
-                        margin-bottom: 40px;
+                        margin-bottom: 15px;
                         background-color: rgb(243, 243, 243);
                     }
 

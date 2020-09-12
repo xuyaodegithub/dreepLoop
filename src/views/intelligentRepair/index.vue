@@ -73,6 +73,7 @@
                             </div>
                             <el-input v-model="imgUrl" class="upcas" placeholder="CTRL+V粘贴图像或者URL"
                                       @focus="$event.target.select()"></el-input>
+                            <a href="//picup.shop/apidoc/_book/fix.html" target="_blank" style="font-size: 15px;color: #333;margin-bottom: 50px;display: inline-block">图像修复API></a>
                             <div class="titlips">
                                 <!--                                <a href="docsify/#/apidoc_api.md" target="_blank">人像API:可带人体关键点位置></a>-->
                                 <a href="https://www.google.cn/chrome/" target="_blank">推荐使用：谷歌游览器 <img
@@ -588,7 +589,7 @@
                     }
 
                     .el-input {
-                        margin-bottom: 60px;
+                        margin-bottom: 15px;
                         background-color: rgb(243, 243, 243);
                     }
 

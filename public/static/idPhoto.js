@@ -1577,7 +1577,7 @@ function  stopPrevent() {//拖拽上传方法
         })
 }
 function pasteTomatting(){//复制粘贴抠图
-    document.addEventListener( 'paste', (e) => {
+    document.addEventListener( 'paste', function(e){
         var clipboardData = e.clipboardData,//谷歌
             i = 0,
             items, item, types;

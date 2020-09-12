@@ -829,7 +829,7 @@
                         this.$emit( 'downall', {obj: url, filename: this.filename} )
                         return
                     }
-                    let arr = url.split( ',' ), mime = arr[0].match( /:(.*?);/ )[1], bstr = atob( arr[1] ),
+                    let arr = url.split( ',' ), mime = arr[0].match( /:(.*?);/ )[1], bstr = atob( arr[1] ),//base64  to blob
                         n = bstr.length, u8arr = new Uint8Array( n );
                     while (n--) {
                         u8arr[n] = bstr.charCodeAt( n );

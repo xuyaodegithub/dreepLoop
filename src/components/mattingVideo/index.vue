@@ -73,7 +73,7 @@
                     <!--                        下载预览视频-->
                     <!--                        &lt;!&ndash;                        preVideoUrl下载预览视频&ndash;&gt;-->
                     <!--                    </div>-->
-                    <div class="lright_btn_2 cu noback" v-show="downMsg.open">
+                    <div class="lright_btn_2 noback" v-show="downMsg.open">
                         <p style="margin-bottom:20px; ">在线预览处理：<span class="co">{{downMsg.time}}%</span></p>
                         <el-progress :stroke-width="8" :percentage="downMsg.time" color="#E82256"
                                      :show-text="false"></el-progress>
@@ -116,13 +116,13 @@
                              @click="toSureDown">
                             下载
                         </div>
-                        <div class="lright_btn_2 cu noback" v-show="downAllMsg.open">
+                        <div class="lright_btn_2 noback" v-show="downAllMsg.open">
                             <p class="flex a-i">正在处理： <el-progress :stroke-width="8" :percentage="downAllMsg.time" color="#E82256"
                                                                    :show-text="false" style="width: 90px;margin-right: 10px;"></el-progress> <span class="co">{{downAllMsg.time}}%</span></p>
                             <p>预计剩余处理时间：<span class="co">{{(Math.ceil(remainingTime)+10) | minsfilter}}</span></p>
                         </div>
-                        <div class="err_mini" v-show="downAllMsg.err">
-                            <div class="title"><i class="el-icon-circle-close"></i></div>
+                        <div class="err_mini flex a-i" v-show="downAllMsg.err">
+                            <div class="title" style="margin-right: 10px;margin-bottom: 0;"><i class="el-icon-circle-close"></i></div>
                             <div class="des">{{downAllMsg.des}} <br>
                                 <span @click="retry" v-if="!downAllMsg.noPoint">点击重试</span>
                                 <a href="videoPrice.html" v-else target="_blank">前往充值</a>

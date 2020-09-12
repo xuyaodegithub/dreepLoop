@@ -68,13 +68,13 @@
             </div>
             <label>换正装</label>
             <div class="fource">
-                <!--                <div class="Fbtn flex j-b">-->
-                <!--                    <span v-for="(item,idx) in ttList" :key="idx" :class="{'active' : tzType===idx}" class="cu"-->
-                <!--                          @click="changetz(idx)">-->
-                <!--                        {{item.title}}-->
-                <!--                    </span>-->
-                <!--                </div>-->
-                <el-scrollbar style="overflow-x: hidden;" :style="{height:`${listH*0.4}px`,overflowY: 'auto'}">
+                                <div class="Fbtn flex j-b">
+                                    <span v-for="(item,idx) in ttList" :key="idx" :class="{'active' : tzType===idx}" class="cu"
+                                          @click="changetz(idx)">
+                                        {{item.title}}
+                                    </span>
+                                </div>
+                <el-scrollbar style="overflow-x: hidden;" :style="{height:`${listH*0.4}px`,overflowY: 'auto'}"  v-loading="!classItem.length">
                     <div class="iconList flex f-w j-b a-i">
                         <div v-for="(son,ix) in classItem" :key="ix" class="cu" @click="addImgsSub(son,ix)"
                              :class="{active : tzSonUrl===son.cover}">
@@ -230,7 +230,7 @@
     import {mapGetters, mapActions} from 'vuex';
     import {getToken} from "@/utils/auth";
     import {idPhotolist} from './subList3';
-    import {clothList, boyClothList, girlClothList} from './clothersList'
+    import {clothList, childClothList, womenClothList} from './clothersList'
 
     export default {
         name: 'editPictures',
@@ -252,11 +252,11 @@
                 opacity,
                 openclearAll: true,
                 ttList: [
-                    {title: '男士', list: clothList},
-                    {title: '男孩', list: boyClothList},
-                    {title: '女孩', list: girlClothList},
+                    {title: '男装', list: clothList},
+                    {title: '女装', list: womenClothList},
+                    {title: '童装', list: childClothList},
                 ],
-                classItem: [...clothList, ...boyClothList, ...girlClothList],
+                classItem: [...clothList],
                 loadSubObj: '',
                 tzType: 0,
                 tzSonUrl: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200818/9af28d937387444eb97699dc532fceb5.jpg',
@@ -1208,7 +1208,7 @@
                 if (myBrowser() === 'IE' || myBrowser() === 'Edge') {//ie下载图片
                     let url = cans.msToBlob(_=>{},type);
                     let blobObj = new Blob( [url] );
-                    window.navigator.msSaveOrOpenBlob( blobObj, this.edrieImgInfo.filename.replace( /.png/g, '' ));
+                    window.navigator.msSaveOrOpenBlob( blobObj, this.edrieImgInfo.filename.replace( /.png/g, '' ) + (this.downType ? '.jpg' : '.png'));
                     this.loadingInstance.close()
                 } else {
                     let url = cans.toDataURL( type );
