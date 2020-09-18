@@ -29,7 +29,7 @@
                     <transition name="el-zoom-in-top">
                         <div class="link">
                             <a :href="item+'.html'" v-for="(item,idx) in editList" :key="idx"
-                               :class="{'red' : urls.includes(item)}">{{['自由编辑器','证件照编辑器'][idx]}}</a>
+                               :class="{'red' : urls.includes(item)}">{{['自由编辑器','证件照编辑器','形象照编辑器'][idx]}}</a>
                         </div>
                     </transition>
                 </li>
@@ -89,6 +89,7 @@
     import {getUserInfo} from "../../apis";
     import loginDialog from '@/components/login_dialog/index2';
     import { mapGetters,mapActions } from 'vuex';
+    import imagePhoto from "../../views/idPhoto/imagePhoto";
 
     export default {
         name: "index",
@@ -107,7 +108,7 @@
                 piliangList: ['currency', 'people', 'headCutout', 'objects'],
                 nameList: ['通用抠图', '人像抠图', '头像抠图', '物体抠图'],
                 beauList: ['beautify', 'intelligentRepair'],
-                editList: ['posterEditor','idPhoto'],
+                editList: ['posterEditor','idPhoto','imagePhoto'],
                 priceList: ['userVip','videoPrice'],
             }
         },

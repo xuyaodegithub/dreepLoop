@@ -392,7 +392,7 @@
                             is: arr[i].filename//下载名称
                         } )
                     }
-                    oImg.src=arr[i].img + `?str=${Math.random()}`
+                    oImg.src=addUrlQuery(arr[i].img);
                 }
             },
             copyImgUrl(url, k) {//粘贴图片链接确定

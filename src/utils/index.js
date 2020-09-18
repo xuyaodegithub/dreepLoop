@@ -405,7 +405,7 @@ export const compressImg = (files, k) => {//压缩
                     resolve( blob )
                 } )
             };
-            oImg.src = files + `?id=${Math.random()}`;
+            oImg.src = addUrlQuery(files);
             oImg.onerror = (err) => {
                 reject( err )
             }

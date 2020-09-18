@@ -11,7 +11,291 @@ MIT LICENSED (http://www.opensource.org/licenses/mit-license.php)
 Copyright (c) 2011, Joel Besada
 =========================================================================
 */
+function RadialGradient() {//渐变方法
+	this.Colors = ['#fff', '#333'];
+	this.can = document.createElement( 'canvas' );
+	this.canTxt = this.can.getContext( '2d' );
+	this.downtype = 'image/png'
+	this.init = function (data, callback) {//canvas  渐变颜色 图片对象 cans宽 cans高 画图起点 画图宽高 导出图片类型
+		var colors = data.colorStr ? data.colorStr.split( ',' ) : this.Colors,
+			downType = data.downtype || this.downtype;
+		this.can.width = data.w;
+		this.can.height = data.h;
+		var gradient = this.canTxt.createRadialGradient( data.w / 2, data.h / 2, 0, data.w / 2, data.h / 2, data.h / 2 );
+		gradient.addColorStop( 0, colors[0] );
+		gradient.addColorStop( 1, colors[1] );
+		this.canTxt.fillStyle = gradient;
+		this.canTxt.fillRect( 0, 0, data.w, data.h )
+		this.canTxt.drawImage( data.imgObj, data.x, data.y, data.iw, data.ih )
+		if (callback) callback( this.can );
+		else return this.can.toDataURL( downType )
+	}
+}
 
+function ThreeShow() {//分影效果
+	this.Colors = "#000";
+	this.can = document.createElement( 'canvas' );
+	this.canTxt = this.can.getContext( '2d' );
+	this.downtype = 'image/png';
+	this.init = function (data, callback,k) {//canvas  背景色  渐变颜色 图片对象 cans宽 cans高 画图起点 画图宽高 头部大小 导出图片类型
+		var colors = data.color || this.Colors, downType = data.downtype || this.downtype;
+		this.can.width = data.w;
+		this.can.height = data.h;
+		// for (var a = 0; a < ih; a++) {
+		//     for (var b = 0; b < iw; b++) {
+		//         var pixel = (a * iw + b) * 4;
+		//         if (imgData.data[pixel + 3] != 0) {
+		//             // imgData.data[pixel] = 0;
+		//             // imgData.data[pixel + 1] = 0;
+		//             // imgData.data[pixel + 2] = 0;
+		//             imgData.data[pixel + 3] = (1 - 0.9)  * imgData.data[pixel + 3];
+		//         }
+		//     }
+		// }
+		this.canTxt.fillStyle = colors;
+		this.canTxt.fillRect( 0, 0, data.w, data.h );
+		this.canTxt.globalAlpha = 0.4;//设置透明度
+		this.canTxt.drawImage( data.imgObj, data.x - data.headw, data.y, data.iw, data.ih );
+		this.canTxt.drawImage( data.imgObj, data.x + data.headw, data.y, data.iw, data.ih );
+		if(k) return this.can.toDataURL( downType )
+		this.canTxt.globalAlpha = 1;
+		this.canTxt.drawImage( data.imgObj, data.x, data.y, data.iw, data.ih );
+		if (callback) callback( this.can );
+		else return this.can.toDataURL( downType )
+	}
+}
+
+function AddPhotoFrame() {//加相框效果
+	this.Colors = "#fff";
+	this.backcolor = "#fff";
+	this.size = 10;
+	this.can = document.createElement( 'canvas' );
+	this.canTxt = this.can.getContext( '2d' );
+	this.downtype = 'image/png';
+	this.init = function (data, callback) {//canvas  背景色  渐变颜色 图片对象 cans宽 cans高 画图起点 画图宽高 相框粗细 背景颜色 相框颜色 导出图片类型
+		var colors = data.color || this.Colors, downType = data.downtype || this.downtype,
+			bcolor = data.bColor || this.backcolor,
+			sizes = data.size || this.size;
+		this.can.width = data.w;
+		this.can.height = data.h;
+		this.canTxt.fillStyle = bcolor;
+		this.canTxt.fillRect( 0, 0, data.w, data.h );
+		this.canTxt.drawImage( data.imgObj, data.x, data.y, data.iw, data.ih );
+		this.canTxt.strokeStyle = colors;
+		this.canTxt.lineWidth = sizes;
+		this.canTxt.beginPath();
+		this.canTxt.moveTo( 1 / 7 * data.w, data.y + 24 + data.h * 0.06 );
+		this.canTxt.lineTo( 6 / 7 * data.w, data.y + 24 + data.h * 0.06 );
+		this.canTxt.lineTo( 6 / 7 * data.w, data.y + 0.76 * data.h + data.h * 0.06 );
+		this.canTxt.lineTo( 1 / 7 * data.w, data.y + 0.76 * data.h + data.h * 0.06 );
+		this.canTxt.closePath();
+		this.canTxt.stroke();
+		this.canTxt.save();
+		this.canTxt.lineWidth = 1;
+		this.canTxt.beginPath();
+		this.canTxt.moveTo( 0, 0 );
+		this.canTxt.lineTo( data.w, 0 );
+		this.canTxt.lineTo( data.w, data.y + 24 + data.h * 0.06 + sizes );
+		this.canTxt.lineTo( 0, data.y + 24 + data.h * 0.06 + sizes );
+		this.canTxt.closePath();
+		this.canTxt.clip()
+		this.canTxt.drawImage( data.imgObj, data.x, data.y, data.iw, data.ih );
+		this.canTxt.restore();
+		if (callback) callback( this.can );
+		else return this.can.toDataURL( downType )
+	}
+
+}
+function PhotoFrame() {//加相框效果
+	this.Colors = "#fff";
+	this.backcolor = "#fff";
+	this.size = 10;
+	this.can = document.createElement( 'canvas' );
+	this.canTxt = this.can.getContext( '2d' );
+	this.downtype = 'image/png';
+	this.init = function (data,k) {//canvas  背景色  渐变颜色 图片对象 cans宽 cans高 画图起点 画图宽高 相框粗细 背景颜色 相框颜色 导出图片类型
+		var colors = data.color || this.Colors, downType = data.downtype || this.downtype,
+			bcolor = data.bColor || this.backcolor,
+			sizes = data.size || this.size;
+		this.can.width = data.w;
+		this.can.height = data.h;
+		this.canTxt.strokeStyle = colors;
+		this.canTxt.lineWidth = sizes;
+		if(!k){
+			this.canTxt.beginPath();
+			this.canTxt.moveTo( 1 / 7 * data.w, data.y + 24 + data.h * 0.06 );
+			this.canTxt.lineTo( 1 / 7 * data.w, data.y + 0.76 * data.h + data.h * 0.06 );
+			this.canTxt.lineTo( 6 / 7 * data.w, data.y + 0.76 * data.h + data.h * 0.06 );
+			this.canTxt.lineTo( 6 / 7 * data.w, data.y + 24 + data.h * 0.06 );
+			this.canTxt.stroke();
+		}else{
+			this.canTxt.beginPath();
+			this.canTxt.moveTo( 1 / 7 * data.w-sizes/2, data.y + 24 + data.h * 0.06  );
+			this.canTxt.lineTo( 6 / 7 * data.w+sizes/2, data.y + 24 + data.h * 0.06 );
+			this.canTxt.stroke();
+		}
+		return this.can.toDataURL( downType )
+	}
+
+}
+
+function AddBuddhaLight() {//加佛光
+	this.upColor = "#fff";
+	this.can = document.createElement( 'canvas' );
+	this.canTxt = this.can.getContext( '2d' );
+	this.downtype = 'image/png';
+	this.init = function (data, callback,k) {//canvas  背景色  渐变颜色 图片对象 cans宽 cans高 画图起点 画图宽高 头部大小 导出图片类型
+		var icolor = data.upColor || this.upColor, colors = colorRgb( icolor ),
+			downType = data.downtype || this.downtype,
+			can2 = document.createElement( 'canvas' ), can2Txt = can2.getContext( '2d' ), oImg = new Image(),
+			_self = this;
+		this.can.width = data.w;
+		this.can.height = data.h;
+		can2.width = data.w;
+		can2.height = data.h;
+		this.canTxt.drawImage( data.imgObj, data.x, data.y, data.iw, data.ih );
+		var imgData = this.canTxt.getImageData( 0, 0, data.w, data.h )
+		for (var a = 0; a < data.h; a++) {
+			for (var b = 0; b < data.w; b++) {
+				var pixel = (a * data.w + b) * 4;
+				if (imgData.data[pixel + 3] != 0) {
+					imgData.data[pixel] = colors[0];
+					imgData.data[pixel + 1] = colors[1];
+					imgData.data[pixel + 2] = colors[2];
+					imgData.data[pixel + 3] = 0.3 * imgData.data[pixel + 3];
+				}
+			}
+		}
+		// this.canTxt.clearRect(0,0,w,h);
+		can2Txt.putImageData( imgData, 0, 0 );
+		if(k)return can2.toDataURL();
+		oImg.crossOrigin = '';
+		oImg.onload = function () {
+			initBgimg( oImg, _self.can, _self.canTxt );
+			_self.canTxt.drawImage( data.imgObj, data.x, data.y, data.iw, data.ih );
+			_self.canTxt.drawImage( can2, 0, 0 );
+			if (callback) callback( _self.can );
+			else return _self.can.toDataURL( downType )
+		};
+		oImg.src = addUrlQuery(data.backUrl);
+	}
+}
+
+function AddArc() {//圈内出人
+	this.color = "#fff";
+	this.bcolor = "#000";
+	this.can = document.createElement( 'canvas' );
+	this.canTxt = this.can.getContext( '2d' );
+	this.downtype = 'image/png';
+	this.init = function (data, callback) {//canvas  背景色  渐变颜色 图片对象 cans宽 cans高 画图起点 画图宽高 头部大小 导出图片类型
+		var colors = data.colors ? data.colors.split( ',' ) : [this.color], downType = data.downtype || this.downtype,
+			gradient2,
+			bcolor = data.bcolor || this.bcolor;
+		this.can.width = data.w;
+		this.can.height = data.h;
+		this.canTxt.fillStyle = bcolor;
+		this.canTxt.fillRect( 0, 0, data.w, data.h )
+		this.canTxt.save();
+		this.canTxt.beginPath();
+		this.canTxt.arc( data.w / 2, 2 / 3 * data.h, 6.5 / 15 * data.w, 0, Math.PI * 2 );
+		this.canTxt.clip();
+		if (colors.length > 1) {
+			gradient2 = this.canTxt.createLinearGradient( 0, 2 / 3 * data.h - 6.5 / 15 * data.w, data.w, 2 / 3 * data.h + 6.5 / 15 * data.w );
+			gradient2.addColorStop( 0, colors[0] );
+			gradient2.addColorStop( 1, colors[1] );
+		} else gradient2 = colors[0]
+		this.canTxt.fillStyle = gradient2;
+		this.canTxt.fillRect( 0, 0, data.w, data.h );
+		this.canTxt.drawImage( data.imgObj, data.x, data.y, data.iw, data.ih );
+		this.canTxt.restore();
+		this.canTxt.save();
+		this.canTxt.beginPath();
+		this.canTxt.rect( 0, 0, data.w, 2 / 3 * data.h );
+		this.canTxt.clip()
+		this.canTxt.drawImage( data.imgObj, data.x, data.y, data.iw, data.ih );
+		this.canTxt.restore()
+		if (callback) callback( this.can );
+		else return this.can.toDataURL( downType )
+	}
+}
+
+function AddBackgroundImage() {//加背景图
+	this.can = document.createElement( 'canvas' );
+	this.canTxt = this.can.getContext( '2d' );
+	this.downtype = 'image/png'
+	this.init = function (data, callback) {//canvas  渐变颜色 图片对象 cans宽 cans高 画图起点 画图宽高 导出图片类型
+		var backs = (data.backStr).split( ',' ), downType = data.downtype || this.downtype, oImg = new Image(),
+			one = false, two = false, oImg2 = new Image(), _self = this;
+		oImg.crossOrigin = '';
+		oImg2.crossOrigin = '';
+		this.can.width = data.w;
+		this.can.height = data.h;
+		oImg.onload = function () {
+			one = true;
+			initBgimg( oImg, _self.can, _self.canTxt );
+			_self.canTxt.drawImage( data.imgObj, data.x, data.y, data.iw, data.ih );
+			if (backs.length > 1 && two) {
+				initBgimg( oImg2, _self.can, _self.canTxt )
+				if (callback) callback( _self.can );
+				else return _self.can.toDataURL( downType )
+			} else if (backs.length < 2) {
+				if (callback) callback( _self.can );
+				else return _self.can.toDataURL( downType )
+			}
+		}
+		oImg.src = addUrlQuery(backs[0]);
+		if (backs.length > 1) {
+			oImg2.onload = function () {
+				two = true;
+				if (one) {
+					initBgimg( oImg2, _self.can, _self.canTxt )
+					if (callback) callback( _self.can );
+					else return _self.can.toDataURL( downType )
+				}
+			}
+			oImg2.src = addUrlQuery(backs[1]);
+		}
+	}
+}
+
+function colorRgb(colors) {//16进制转rgb
+	// 16进制颜色值的正则
+	var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
+	// 把颜色值变成小写
+	var color = colors.toLowerCase();
+	if (reg.test( color )) {
+		// 如果只有三位的值，需变成六位，如：#fff => #ffffff
+		if (color.length === 4) {
+			var colorNew = "#";
+			for (var i = 1; i < 4; i += 1) {
+				colorNew += color.slice( i, i + 1 ).concat( color.slice( i, i + 1 ) );
+			}
+			color = colorNew;
+		}
+		// 处理六位的颜色值，转为RGB
+		var colorChange = [];
+		for (var i = 1; i < 7; i += 2) {
+			colorChange.push( parseInt( "0x" + color.slice( i, i + 2 ) ) );
+		}
+		return colorChange;
+	} else {
+		return color;
+	}
+}
+
+function initBgimg(bg_img, cans, ctx) {//生成背景通用方法
+	var oBg = bg_img, can = cans;
+	var h = can.width * oBg.height / oBg.width;
+	var w = can.height * oBg.width / oBg.height;
+	// console.log( h, can.width, can.height, oBg.width, oBg.height );
+	if (h > can.height) {
+		var bh = ((h - can.height) / 2) * oBg.height / h;
+		ctx.drawImage( oBg, 0, bh, oBg.width, oBg.height - 2 * bh, 0, 0, can.width, can.height );
+	} else {
+		var bw = ((w - can.width) / 2) * oBg.width / w;
+		ctx.drawImage( oBg, bw, 0, oBg.width - 2 * bw, oBg.height, 0, 0, can.width, can.height );
+	}
+}
 
 /**
  * Contains common filter functions.
@@ -2448,6 +2732,13 @@ var JSManipulate = {
 	vignette : new VignetteFilter(),
 	waterripple : new WaterRippleFilter(),
 	strokeBorder : new setBorder(),
+	RadialGradient: new RadialGradient(),//渐变背景
+	ThreeShow: new ThreeShow(),//重影
+	AddPhotoFrame: new AddPhotoFrame(),//加相框效果
+	AddBuddhaLight: new AddBuddhaLight(),//加佛光
+	AddArc: new AddArc(),//圈内出人
+	AddBackgroundImage: new AddBackgroundImage(),//添加前后背景
+	PhotoFrame:new PhotoFrame(),//生成相框
 };
 
 // module.exports = JSManipulate

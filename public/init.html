@@ -796,7 +796,7 @@
                 <h3>在线制作证件照</h3>
                 <p>免费一键智能换背景</p>
                 <div class="btns flex">
-                    <div class="btn cu btnte"><img
+                    <div class="btn cu btnte"  onclick="uploadByCom()"><img
                             src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png"
                             alt="">电脑上传</div>
                     <div class="btn cu"  onclick="upbymobile()"><img
@@ -806,15 +806,24 @@
                 <p style="line-height: 20px">照片要求：正面免冠，头发不遮挡眉毛、眼睛和脸颊，露出耳朵。<br> 姿势端正，抬头挺胸，注意避免侧身、歪脸、斜肩、昂头、驼背。</p>
             </div>
         </div>
-<!--        <div class="flex idIn" style="margin-top: 100px">-->
-<!--            <div>-->
-<!--                <h3>电商主图制作</h3>-->
-<!--                <p>针对不同电商平台尺寸要求，海量模板，省时省力</p>-->
-<!--                <div class="btn cu"><img src="static/ico_20200803113312.png" alt="">上传照片</div>-->
-<!--            </div>-->
-<!--            <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/32f3a4dd0d37446f8b595aeec93ed8f2.png"-->
-<!--                 alt="">-->
-<!--        </div>-->
+        <div class="flex idIn" style="margin-top: 100px">
+            <div>
+                <h3>在线制作高端个人形象照</h3>
+                <p>一键换背景，智能磨皮美颜，高端大气上档次</p>
+                <div class="btns flex">
+                    <div class="btn cu btnte" onclick="uploadByCom(1)"><img
+                            src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png"
+                            alt="">电脑上传</div>
+                    <div class="btn cu"  onclick="upbymobile(1)"><img
+                            src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/1900436f3be2442980cb8e2887fc0d21.png"
+                            alt="">手机上传</div>
+                </div>
+                <p style="line-height: 20px">手机拍摄即可，要有整个上半身，浅色背景为佳<br>
+                    个人形象照、商务照、职业形象照、企业员工形象照</p>
+            </div>
+            <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200918/47fb38cc5e664a869454601fa9c6e5bc.png"
+                 alt="" style="margin: 0 0 0 75px;">
+        </div>
     </div>
 </section>
 <div class="bgchange">
@@ -1127,12 +1136,12 @@
         oFile.click();
         // window.location.href='transitionPage.html'
     })
-    oBd.click(function () {
-        toUrl='idPhoto.html';
+    function uploadByCom(k) {
+        toUrl=k ? 'imagePhoto.html' : 'idPhoto.html';
         oFile.val('');
         oFile.click();
         // window.location.href='transitionPage.html'
-    })
+    }
     var fileId, imgData, token = localStorage.getItem( 'user_Token' ), fileMsg,
         devbase = '<%= VUE_APP_BASEURL %>';//模板内取得webpack环境变量
     // devbase = '//restapi.picup.shop';
@@ -1266,8 +1275,8 @@
         // console.log(url)
         toPostEdior( url )
     } )
-    function upbymobile() {
-        toUrl='idPhoto.html';
+    function upbymobile(k) {
+        toUrl= k ? 'imagePhoto.html' : 'idPhoto.html';
         $.ajax( {
             url: devbase + '/oss/newUploadTask',
             type: 'get',

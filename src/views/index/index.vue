@@ -609,7 +609,7 @@
                         that.downOthers( {oldImg: originalImg, bgImg: img, name: obj.name}, key, callback, i )
                     }
                 }
-                img.src = obj.img + `?str=${Math.random()}`;
+                img.src = addUrlQuery(obj.img);
                 let originalImg = new Image();
                 originalImg.crossOrigin = '';
                 originalImg.onload = function () {
@@ -618,7 +618,7 @@
                         that.downOthers( {oldImg: originalImg, bgImg: img, name: obj.name}, key, callback, i )
                     }
                 }
-                originalImg.src = obj.Original + `?str=${Math.random()}`;
+                originalImg.src = addUrlQuery(obj.Original);
             },
             downOthers(imgObjs, index, callback, i) {//效果图下载
                 let canvasTemp = document.createElement( 'canvas' );

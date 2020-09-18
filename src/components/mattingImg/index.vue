@@ -152,7 +152,7 @@
                         this.oDivContent = document.querySelector( '.mleft .nowCans' ).getBoundingClientRect();
                     })
                 }
-                oImg.src = this.edrieImgInfo.pro + `?str=${Math.random()}`;
+                oImg.src = addUrlQuery(this.edrieImgInfo.pro);
             },
             initOri() {//加载原图
                 let oImg = new Image();
@@ -162,7 +162,7 @@
                     this.oOriTxt.drawImage( oImg, 0, 0, this.oOri.width, this.oOri.height );
                     this.loading = false;
                 };
-                oImg.src = this.edrieImgInfo.ori + `?str=${Math.random()}`;
+                oImg.src = addUrlQuery(this.edrieImgInfo.ori);
             },
             initoriUp(){
                 const [w,h]=[this.oPre.width,this.oPre.height];
@@ -360,14 +360,14 @@
         background-color: #fff;
         .screen{
             position: absolute;
-            right: 60px;
-            top: -34px;
+            right: 32px;
+            top: -65px;
             font-size: 16px;
         }
         .back{
             position: absolute;
             left: 50%;
-            top: -37px;
+            top: -65px;
             transform: translateX(-50%);
             font-size: 12px;
             color: #333;

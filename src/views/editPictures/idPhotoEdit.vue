@@ -509,7 +509,7 @@
                             this.edrieImgInfo.oriObj = oImg2;
                             this.edrieImgInfo.ori = res.data;
                         };
-                        oImg2.src = res.data + `?id=${Math.random()}`;
+                        oImg2.src = addUrlQuery(res.data);
                     }
                     if ([1, 2, 3, 6, 8].includes( this.hoverSub.mattingType )) {
                         this.mattingbyUrl( this.hoverSub.mattingType )//1额外参数表示  替换时传参
@@ -521,7 +521,7 @@
                             this.parseSubs.subList[this.hoverSub.idx].id = `img${Math.random()}`;
                             this.loading.show = false;
                         };
-                        oImg.src = res.data + `?id=${Math.random()}`
+                        oImg.src = addUrlQuery(res.data);
                     }
                 } )
             },
@@ -610,7 +610,7 @@
 
                     this.loading.show = false;
                 };
-                oImg.src = son.list[0] + `?id=${Math.random()}`
+                oImg.src = addUrlQuery(son.list[0]) ;
 
             },
             upLoad(k) {//上传图片（k值0自定义背景，1人像抠图 2物体抠图）
@@ -900,7 +900,7 @@
                     this.parseSubs.subList[idx].useImg = cans.toDataURL( "image/png" );
                     this.downLoadImg2();
                 };
-                oImg.src = url + `?id=${Math.random()}`;
+                oImg.src = addUrlQuery(url);
             },
             downLoadImg(e,k) {
                 this.downType=k;
@@ -914,9 +914,13 @@
                             this.mainOri = res.data;
                             initSmallTag( e, '次数 -1' );
                             this.userGetscribe();
-                            this.initOriRepir( res.data, iidx );
+                            this.initOriRepir( this.mainOri, iidx );
                         } else if (res.code === 1100) this.dialogVisible2 = true;
                     } )
+                }else if(this.mainOri && this.parseSubs.subList[iidx].fileId){
+                    initSmallTag( e, '免费' );
+                    this.userGetscribe();
+                    this.initOriRepir( this.mainOri, iidx );
                 } else {
                     // templatedownload( data ).then( res => {
                     //     if (!res.code) {
@@ -964,7 +968,7 @@
                         }, [] )
                         if (next.every( it => it['lastObj'] )) this.initCanImg( dOrr )
                     };
-                    oImg.src = reg.test( item.useImg ) ? item.useImg : item.useImg + `?id=${Math.random()}`;
+                    oImg.src = reg.test( item.useImg ) ? item.useImg : addUrlQuery(item.useImg);
                 } )
             },
             initCanImg(dOrr) {
@@ -1307,7 +1311,7 @@
                     this.colorType = this.colorList.indexOf( this.edrieImgInfo.color );
                     this.loadSubs( it );
                 };
-                oImg.src = this.edrieImgInfo.ori + `?id=${Math.random()}`
+                oImg.src = addUrlQuery(this.edrieImgInfo.ori);
             },
             reloads(k) {//重新上传
                 const msg = k ? '确定要选择此模板替换当前模板, 是否继续?' : '确定要重置, 是否继续?';
@@ -1351,7 +1355,7 @@
                     this.parseSubs.subList[idx].id = `img${Math.random()}`;
                     this.loading.show = false;
                 };
-                oImg.src = this.parseSubs.subList[idx].useImg + `?id=${Math.random()}`;
+                oImg.src = addUrlQuery(this.parseSubs.subList[idx].useImg);
             },
             initUpImgs(file) {
                 let formData = new FormData();
@@ -1385,7 +1389,7 @@
                         this.parseSubs.subList.push( data )
                         this.loading.show = false;
                     };
-                    oImg.src = res.data + `?id=${Math.random()}`
+                    oImg.src = addUrlQuery(res.data);
 
                 } )
 

@@ -24,7 +24,7 @@
                         <el-radio-group v-model="radio" @change="changeRadio">
                             <el-radio :label="item.id" v-for="(item,index) in choseList" :key="index">
                             <span class="clear">
-                                <span>{{item.num}}次</span><!--能量/月-->
+                                <span>{{item.num}}次/月</span><!--能量/月-->
                                 <span>￥{{item.price}}</span>
                                 <span>￥{{item | Calculation}}/次</span>
                             </span>

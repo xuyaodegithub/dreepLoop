@@ -738,8 +738,8 @@
                         backgroundRepeat: 'mo-repeat',
                         backgroundPasition: 'center'
                     };
-                } else if (index === 2) this.drawStyleBg( this.Original + `?str=${Math.random()}`, this.bgOriginal.img + `?str=${Math.random()}`, 1 );
-                else if (index === 3) this.drawStyleBg( this.Original + `?str=${Math.random()}`, this.bgOriginal.img + `?str=${Math.random()}`, 2 );
+                } else if (index === 2) this.drawStyleBg( addUrlQuery(this.Original) , addUrlQuery(this.bgOriginal.img) , 1 );
+                else if (index === 3) this.drawStyleBg( addUrlQuery(this.Original) , addUrlQuery(this.bgOriginal.img) , 2 );
                 else {
                     this.showcolorList = !this.showcolorList
                 }
@@ -780,7 +780,7 @@
             },
             // 下载
             downOldImg(urls, all) {
-                let urlss = urls + `?str=${Math.random()}`
+                let urlss = addUrlQuery(urls);
                 let _self = this
                 let cans = document.createElement( 'canvas' );
                 let ctxs = cans.getContext( '2d' );
@@ -792,7 +792,7 @@
                         ctxs.drawImage( objs.bgRemovedImg, 0, 0 );
                         _self.downFunc( cans, all )
                     }
-                    this.drawStyleBg( this.Original + `?str=${Math.random()}`, urlss + `?str=${Math.random()}`, 1, _self.choseBack, callback )
+                    this.drawStyleBg( addUrlQuery(this.Original), addUrlQuery(urlss) , 1, _self.choseBack, callback )
                     return
                 }
                 let oImg = new Image();

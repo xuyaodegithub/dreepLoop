@@ -235,6 +235,7 @@
                         <ul>
                         </ul>
                     </div>
+                    <div class="swithP flex a-i"><label>人像美颜</label><div class="swith cu" onclick="changeType(this)"><i></i></div></div>
                 </div>
                 <div class="initList one">
                     <label>常用尺寸:</label>
@@ -7049,14 +7050,15 @@
 <script src="static/idPhoto.js?id=1"></script>
 <script src="static/qrcode.min.js"></script>
 <script>
-    var token = localStorage.getItem( 'user_Token' ), fileId, mattingMsg = {
+    var token = localStorage.getItem( 'user_Token' ), mattingMsg = {
+        fileId:'',
         bgRemovedPreview: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200903/2913263e9ed944f0977a4bf1fbedbdde.png',
         oripro: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200903/2913263e9ed944f0977a4bf1fbedbdde.png',
         original: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200903/3906794289d14f08a4d16164fef743df.jpg',
         mattingType: 8,
         originalWidth: 646, originalHeight: 646,
         headData: {bottom: 421, left: 163, mouseY: 375, right: 460, top: 38},
-    }, taskFlag, timer, page = 1, pageSize = 20, oriMattingUrl = '', filename = [], uptype = 1, downItem//避免重复扣点;
+    }, taskFlag, timer, page = 1, pageSize = 20, oriMattingUrl = '', filename = [], uptype = 1, downItem,BeautyResult={},noBeautyResult={};//避免重复扣点;
     var qrcode = new QRCode( document.getElementById( "qrcode" ), {
         text: urlhref + "/uploadBymobile.html",
         width: 128,
@@ -7069,15 +7071,15 @@
     function initItems() {
         var oItem = $( '.cList .its > div' ), scnum = 235;
         $.each( oItem, function (idx, item) {
-            let w = parseFloat( $( item ).attr( 'w' ) ), h = parseFloat( $( item ).attr( 'h' ) ),
+            var w = parseFloat( $( item ).attr( 'w' ) ), h = parseFloat( $( item ).attr( 'h' ) ),
                 c = $( item ).attr( 'color' );
-            let pw = w > h ? scnum * 0.9 : w * (scnum * 0.9) / h, ph = w > h ? h * (scnum * 0.9) / w : scnum * 0.9,
+            var pw = w > h ? scnum * 0.9 : w * (scnum * 0.9) / h, ph = w > h ? h * (scnum * 0.9) / w : scnum * 0.9,
                 oImg = $( this ).find( 'img' );
-            let scaleW = 0.55 * ph / pw;
-            let iw = pw * scaleW * mattingMsg.originalWidth / (mattingMsg.headData.right - mattingMsg.headData.left);//缩放后的图片宽
-            let ih = iw * mattingMsg.originalHeight / mattingMsg.originalWidth;
-            let top = -(ih * mattingMsg.headData.top / mattingMsg.originalHeight) + ph * 0.05;
-            let left = pw / 2 - ((mattingMsg.headData.right - mattingMsg.headData.left) / 2 + mattingMsg.headData.left) * iw / mattingMsg.originalWidth;
+            var scaleW = 0.55 * ph / pw;
+            var iw = pw * scaleW * mattingMsg.originalWidth / (mattingMsg.headData.right - mattingMsg.headData.left);//缩放后的图片宽
+            var ih = iw * mattingMsg.originalHeight / mattingMsg.originalWidth;
+            var top = -(ih * mattingMsg.headData.top / mattingMsg.originalHeight) + ph * 0.05;
+            var left = pw / 2 - ((mattingMsg.headData.right - mattingMsg.headData.left) / 2 + mattingMsg.headData.left) * iw / mattingMsg.originalWidth;
             oImg.css( {
                 width: iw,
                 top: top + ih < ph ? ph - ih : top,
@@ -7136,6 +7138,8 @@
                 if (!res.code) {
                     if (res.data.status === 2) {
                         setDiog()
+                        noBeautyResult={};
+                        BeautyResult={};
                         dreepByurl( res.data.url );
                     } else timer = setTimeout( lunxun, 2000 )
                 } else Notification( res.msg )
@@ -7205,6 +7209,8 @@
             data: formData,
             success: function (res) {
                 if (!res.code) {
+                    noBeautyResult={};
+                    BeautyResult={};
                     dreepByurl( res.data );
                 } else Notification( res.msg )
             }
@@ -7214,8 +7220,9 @@
     function dreepByurl(url, id) {//抠图
         setLoading( 1 )
         token = localStorage.getItem( 'user_Token' );
-        let data = {url: url, mattingType: 8, bodyData: 1};
+        var data = {url: url, mattingType: 8, bodyData: 1},cancal=$('.swith').hasClass('cancal');
         if (id) data.fileId = id;
+        if(!cancal)data.faceBeauty=1;
         $.ajax( {
             url: baseUrl + '/webMatting/mattingByUrl2',
             type: 'post',
@@ -7227,12 +7234,11 @@
             data: data,
             success: function (res) {
                 if (!res.code) {
-                    fileId = res.data.fileId;
+                    mattingMsg.fileId = res.data.fileId;
                     if (res.data.status === 'success') {
                         $( '.cList .its img' ).attr( 'src', res.data.bgRemovedPreview );
                         mattingMsg = res.data;
-                        oriMattingUrl = '';
-                        filename = [];
+                        mattingMsg.filename=[];
                         initItems()
                         setLoading()
                         $( 'body,html' ).animate( {scrollTop: 490}, 500 );
@@ -7256,7 +7262,7 @@
     }
 
     function pollingImg() {//轮训
-        let data = {fileId: fileId};
+        var data = {fileId: mattingMsg.fileId},cancal=$('.swith').hasClass('cancal');
         $.ajax( {
             url: baseUrl + '/webMatting/getMattingInfo',
             type: 'get',
@@ -7268,8 +7274,7 @@
                     if (res.data.status === 'success') {
                         $( '.cList .its img' ).attr( 'src', res.data.bgRemovedPreview );
                         mattingMsg = res.data;
-                        oriMattingUrl = '';
-                        filename = [];
+                        mattingMsg.filename=[];
                         initItems()
                         setLoading()
                         $( 'body,html' ).animate( {scrollTop: 490}, 500 );
@@ -7284,14 +7289,14 @@
 
     function clickDiv() {//添加点击事件
         $( '.cList .cu' ).on( 'click', function () {
-            let data = Object.assign( mattingMsg, {
+            var data = Object.assign( mattingMsg, {
                 ori: mattingMsg.original,
                 pro: mattingMsg.bgRemovedPreview,
                 w: $( this ).find( '.its > div' ).attr( 'w' ),
                 h: $( this ).find( '.its > div' ).attr( 'h' ),
                 color: $( this ).find( '.its > div' ).attr( 'color' ),
                 filename: $( this ).find( '.its > div' ).attr( 'name' ),
-                fileId: fileId ? fileId : '',
+                fileId: mattingMsg.fileId ? mattingMsg.fileId : '',
                 mattingType: 8
             } )
             localStorage.setItem( 'photoMsg', JSON.stringify( data ) );
@@ -7300,9 +7305,11 @@
     }
 
     function initindexImg() {//接收从首页过来的图片
-        let imgUrl = window.localStorage.getItem( 'initImg' );
+        var imgUrl = window.localStorage.getItem( 'initImg' );
         if (imgUrl) {
             window.localStorage.removeItem( 'initImg' );
+            noBeautyResult={};
+            BeautyResult={};
             dreepByurl( imgUrl )
         }
     }
@@ -7341,23 +7348,23 @@
         oCanTxt.fillStyle = c;
         oCanTxt.fillRect( 0, 0, w, h );
         oImg.crossOrigin = '';
-        if (fileId && !oriMattingUrl) {
+        if (mattingMsg.fileId && !mattingMsg.oriMattingUrl) {
             $.ajax( {
                 url: baseUrl + '/webMatting/getMattedImage',///poster/download
                 type: 'get',
                 dataType: 'json',
                 headers: {token: token},
-                data: {fileId: fileId},
+                data: {fileId: mattingMsg.fileId},
                 success: function (res) {
                     if (!res.code) {
                         initSmallTag( e, '次数 -1' );
-                        oriMattingUrl = res.data;
-                        filename.push( name );
+                        mattingMsg.oriMattingUrl = res.data;
+                        mattingMsg.filename.push( name );
                         oImg.onload = function () {
                             oCanTxt.drawImage( oImg, left, top, iw, ih );
                             downImgFro( oCan, name, k )
                         };
-                        oImg.src = res.data + "?id=" + Math.random();
+                        oImg.src = addUrlQuery(res.data);
                     } else if (res.code === 1100) {
                         showloginDialog();
                         setLoading();
@@ -7376,13 +7383,13 @@
                     } else Notification( res.msg )
                 }
             } )
-        } else if (!fileId || filename.indexOf( name ) > -1) {
+        } else if (!mattingMsg.fileId ||  mattingMsg.filename.indexOf( name ) > -1) {
             initSmallTag( e, '免费' )
             oImg.onload = function () {
                 oCanTxt.drawImage( oImg, left, top, iw, ih );
                 downImgFro( oCan, name, k )
             };
-            oImg.src = oriMattingUrl ? oriMattingUrl : mattingMsg.bgRemovedPreview + "?id=" + Math.random();
+            oImg.src = mattingMsg.oriMattingUrl ? addUrlQuery(mattingMsg.oriMattingUrl) : addUrlQuery(mattingMsg.bgRemovedPreview);
         } else {
             $.ajax( {
                 url: baseUrl + '/poster/download',
@@ -7393,12 +7400,12 @@
                 success: function (res) {
                     if (!res.code) {
                         initSmallTag( e, '次数 -1' );
-                        filename.push( name );
+                        mattingMsg.filename.push( name );
                         oImg.onload = function () {
                             oCanTxt.drawImage( oImg, left, top, iw, ih );
                             downImgFro( oCan, name, k )
                         };
-                        oImg.src = oriMattingUrl + "?id=" + Math.random();
+                        oImg.src = addUrlQuery(mattingMsg.oriMattingUrl);
                     } else if (res.code === 4001) {
                         confirm( res.msg + ', 是否前往充值?', '提示', {
                             confirmButtonText: '前往充值',
@@ -7418,13 +7425,13 @@
     function downImgFro(cans, name, k) {
         var type = k ? 'image/jpeg' : 'image/png', nametype = k ? '.jpg' : '.png';
         if (window.navigator.msSaveOrOpenBlob) {
-            let imgData = cans.msToBlob( function () {
+            var imgData = cans.msToBlob( function () {
             }, type );
-            let blobObj = new Blob( [imgData] );
+            var blobObj = new Blob( [imgData] );
             window.navigator.msSaveOrOpenBlob( blobObj, name + nametype );
             // window.navigator.msSaveOrOpenBlob( blobObj );
         } else {
-            let oA = document.createElement( 'a' );
+            var oA = document.createElement( 'a' );
             oA.href = cans.toDataURL( type );
             oA.download = name;
             oA.click();
@@ -7435,6 +7442,8 @@
 
     $( '.photoHisList.flex .itmes' ).click( function () {
         var url = $( this ).find( 'img' ).attr( 'src' );
+        noBeautyResult={};
+        BeautyResult={};
         dreepByurl( url )
     } )
 
@@ -7445,11 +7454,34 @@
         else upbymobile()
     }
 
+    function changeType(item){
+        var cancal=$(item).hasClass('cancal');
+        if(cancal)noBeautyResult=JSON.parse(JSON.stringify(mattingMsg));
+        else BeautyResult=JSON.parse(JSON.stringify(mattingMsg));
+        console.log(BeautyResult,noBeautyResult)
+        if(cancal){
+            $(item).removeClass('cancal');
+            if(BeautyResult.bgRemovedPreview){
+                mattingMsg=JSON.parse(JSON.stringify(BeautyResult));
+                $( '.cList .its img' ).attr( 'src', mattingMsg.bgRemovedPreview );
+            } else  dreepByurl(mattingMsg.original)
+        } else{
+            $(item).addClass('cancal');
+            if(noBeautyResult.bgRemovedPreview){
+                mattingMsg=JSON.parse(JSON.stringify(noBeautyResult));
+                $( '.cList .its img' ).attr( 'src', mattingMsg.bgRemovedPreview );
+            } else  dreepByurl(mattingMsg.original)
+        }
+    }
     document.addEventListener( 'scroll', function (e) {
-        console.log(e)
-        var oDivs = $( '.sect' ).offset().top-60, stop = document.documentElement.scrollTop || document.body.scrollTop;
-        if (stop > oDivs ) $( '.sizeClass' ).addClass('fixed');
-        else $( '.sizeClass' ).removeClass('fixed');
+        var oDivs = $( '.sect' ).offset().top-60, stop = document.documentElement.scrollTop || document.body.scrollTop,cw=document.documentElement.clientWidth || document.body.clientWidth;
+        if (stop > oDivs ) {
+            $( '.sizeClass' ).addClass('fixed');
+            $( '.sizeClass' ).width($(window).width()-260)
+        } else{
+            $( '.sizeClass' ).removeClass('fixed');
+            $( '.sizeClass' ).width('auto')
+        }
     } )
     // initList();
     pasteTomatting();

@@ -1,33 +1,29 @@
 <template>
     <!--    描边 投影组件-->
     <div class="mune" v-loading="loading">
-        <div class="header flex j-b">
+        <div class="header flex ">
             <span class="cu" :class="{'active' : tabType===idx}" v-for="(item,idx) in tabList" @click="changeTab(idx)"
                   :key="idx">{{item.name}}</span>
         </div>
         <div class="content">
-            <el-button plain v-show="!tabType" @click="selectEdit(filterList[0],0)" style="display: block;width: 100%;margin: 20px 0;color: #fff;" :style="{backgroundColor: btnType===5 ? '#e82255' : '',color:btnType===5 ? '#fff' : '#333'}">原图</el-button>
-            <div class="t1" style="padding-top: 0" v-show="!tabType">
-                <h4>智能抠图模式</h4>
-                <div class="btns flex j-b f-w">
-                    <span class="cu" v-for="(it,idx) in btnList" :key="idx" :class="{'active' : btnType===idx }"
-                          @click="changBtn(it.type,idx)">
-                        {{it.name}}
-                    </span>
+            <div class="t1" v-show="!tabType">
+                <h4>修复</h4>
+                <el-button plain @click="changBtn(-1)">手工修补</el-button>
+                <h4>透明度</h4>
+                <div class="flex sliderPoint a-i">
+                    <el-slider v-model="opacityVal" :show-tooltip="false"></el-slider><span>{{opacityVal}}%</span>
                 </div>
-                <h4 v-show="mattingType!==3">修复</h4>
-                <el-button plain @click="changBtn(-1)" v-show="mattingType!==3">手工修补</el-button>
             </div>
-            <div class="t2 flex j-b f-w" v-show="tabType===1">
-                <div class="item cu" v-for="(it,idx) in filterList" :key="idx">
-                    <div @click="selectEdit(it,idx)" :class="{'active' : t2Idx===idx}">
-                        <img :src="it.src ? it.src : preImg " alt="">
-                    </div>
-                    <span>{{it.name}}</span>
-                </div>
+<!--            <div class="t2 flex j-b f-w" v-show="tabType===1">-->
+<!--                <div class="item cu" v-for="(it,idx) in filterList" :key="idx">-->
+<!--                    <div @click="selectEdit(it,idx)" :class="{'active' : t2Idx===idx}">-->
+<!--                        <img :src="it.src ? it.src : preImg " alt="">-->
+<!--                    </div>-->
+<!--                    <span>{{it.name}}</span>-->
+<!--                </div>-->
 
-            </div>
-            <div class="t3" v-show="tabType===2">
+<!--            </div>-->
+            <div class="t3" v-show="tabType===1">
                 <el-checkbox v-model="checked" size="medium" @change="initsliderVal">投影</el-checkbox>
                 <div v-show="checked">
                     <div class="flex a-i sec">
@@ -88,14 +84,15 @@
         name: "index",
         props: {
             mattingType: Number,
-            scale: Number
+            edrieImgInfo: Object
         },
         data() {
             return {
+                opacityVal:0,
                 tabList: [
                     {name: '抠图', type: 1},
                     // {name: '美化', type: 2},
-                    {name: '特效', type: 3},
+                    // {name: '特效', type: 3},
                     {name: '阴影', type: 4},
                 ],
                 tabType: 0,
@@ -129,7 +126,7 @@
                     size: 10,
                 },
                 showDowVal: {
-                    mSize: 20,
+                    mSize: 10,
                     colorVal: '#fff',
                 },
                 colors: ['#fff', '#FED835', '#2862F4', '#28F5B4'],
@@ -161,7 +158,8 @@
                 'effectsImgList'
             ] ),
             initAngleDistance() {
-                const dislance=this.sliderVal.distance*this.scale;
+                const sizeScale=this.edrieImgInfo.fileId ? (this.edrieImgInfo.previewWidth/ this.edrieImgInfo.originalWidth) : 1
+                const dislance=this.sliderVal.distance*sizeScale;
                 if (this.angle == 0 || this.angle == 360) return {x: -dislance, y: 0};
                 else if (this.angle > 0 && this.angle < 90) return {
                     x: -Math.cos( setRad( this.angle ) ) * dislance,
@@ -216,7 +214,8 @@
                  [oCan.width, oCan.height] = [this.proImgObj.width, this.proImgObj.height];
                 oCanTxt=oCan.getContext('2d');
                 oCanTxt.drawImage(oImg,0,0,oCan.width, oCan.height);
-                jsMulit['strokeBorder'].filter(oCan,oCanTxt.getImageData(0,0,oCan.width, oCan.height),this.showDowVal.mSize*this.scale,this.showDowVal.colorVal);
+                const sizeScale=this.edrieImgInfo.fileId ? (this.edrieImgInfo.previewWidth/ this.edrieImgInfo.originalWidth) : 1;
+                jsMulit['strokeBorder'].filter(oCan,oCanTxt.getImageData(0,0,oCan.width, oCan.height),this.showDowVal.mSize*sizeScale,this.showDowVal.colorVal);
                 // oCanTxt.drawImage(oImg,0,0,oCan.width, oCan.height);
                     // rgb = colorRgb( this.showDowVal.colorVal );
                 return oCan
@@ -258,6 +257,7 @@
                 } )
             },
             initsliderVal() {
+                this.$emit('hoverMain',1);
                 let oCan = document.createElement( 'canvas' ), oCanTxt;
                 oCanTxt = oCan.getContext( '2d' );
                 oCan.width = this.checkedM ? this.initshowDowVal.width : this.proImgObj.width;
@@ -277,6 +277,7 @@
             changeTab(idx) {
                 if (this.tabType === idx) return;
                 this.tabType = idx;
+                if(idx===1)this.$emit('mattingImgs',1)
             },
             changBtn(type, idx) {//抠图按钮
                 if (this.btnType === idx) return;
@@ -289,14 +290,14 @@
                 this.initCanshu( data );
                 this.preImg = data.pro;
                 this.proImgObj = data.proObj;
-                const list = this.effectsImgList.find( item => item.id === data.id ).list;
-                this.filterList.map( item => {
-                    item.loadObj = '';
-                    item.url = '';
-                } )
-                list.map( (item, idx) => this.filterList[idx].src = item );
-                this.filterList[0].url = data.ori;
-                this.filterList[0].src = data.ori;
+                // const list = this.effectsImgList.find( item => item.id === data.id ).list;
+                // this.filterList.map( item => {
+                //     item.loadObj = '';
+                //     item.url = '';
+                // } )
+                // list.map( (item, idx) => this.filterList[idx].src = item );
+                // this.filterList[0].url = data.ori;
+                // this.filterList[0].src = data.ori;
                 this.filterList[1].url = data.pro;
                 this.filterList[1].src = data.pro;
                 this.filterList[1].loadObj = data.proObj;
@@ -420,6 +421,7 @@
     .mune {
         height: 100%;
         overflow-y: auto;
+        position: relative;
     }
 
     .header {
@@ -428,6 +430,7 @@
         line-height: 32px;
         padding-top: 15px;
         border-bottom: 1px solid #E9E9E9;
+        justify-content: space-around;
 
         span {
             position: relative;
@@ -464,7 +467,7 @@
             padding-top: 30px;
 
             h4 {
-                margin-bottom: 16px;
+                margin:34px 0 16px 0;
             }
 
             .btns {
@@ -490,6 +493,13 @@
                 border-color: $co;
                 color: $co;
                 width: 100%;
+            }
+            .sliderPoint {
+                padding: 0 15px;
+                .el-slider{
+                    flex: 1;
+                    margin-right: 20px;
+                }
             }
         }
 

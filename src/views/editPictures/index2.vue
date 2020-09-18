@@ -631,7 +631,7 @@
                     this.parseSubs.subList.push( data );
                     this.loadStatus( this.parseSubs.subList[this.parseSubs.subList.length - 1] )
                 };
-                oImg.src = url + `?id=${Math.random()}`
+                oImg.src = addUrlQuery(url)
 
             },
             mattingImgs(idx) {//抠图
@@ -760,7 +760,7 @@
                                 this.parseSubs.subList[idx].proObj = oImg;
                                 this.loadStatus( this.parseSubs.subList[idx], idx )
                             };
-                            oImg.src = res.data.bgRemovedPreview + `?id=${Math.random()}`;
+                            oImg.src = addUrlQuery(res.data.bgRemovedPreview);
                             // this.hoverThis( idx )//特效也需要替换
                         } else {
                             this.loading.text = `当前排队位置为 ${res.data.queueNumber}，请稍后...`
@@ -787,7 +787,7 @@
                                 this.parseSubs.subList[idx].proObj = oImg;
                                 this.loadStatus( this.parseSubs.subList[idx], idx )
                             };
-                            oImg.src = res.data.bgRemovedPreview + `?id=${Math.random()}`;
+                            oImg.src = addUrlQuery(res.data.bgRemovedPreview);
                             // this.hoverThis( idx )//特效也需要替换
                         } else setTimeout( this.pollingImg2, 2000 )//有排队情况，轮训查看（可以websocket）
                     }
@@ -826,7 +826,7 @@
                     else this.parseSubs.subList.push( data );
                     this.loadStatus( data )
                 };
-                oImg.src = this.edrieImgInfo.pro + `?id=${Math.random()}`;
+                oImg.src = addUrlQuery(this.edrieImgInfo.pro);
 
             },
             initSelfImg(file) {//自定义背景加载后对象储存
@@ -1070,7 +1070,7 @@
                     } )
                     this.loadStatus( data );
                 };
-                oImg.src = item.url + `?id=${Math.random()}`;
+                oImg.src = addUrlQuery(item.url);
             },
             addTextSub(item) {
                 let data = {
@@ -1201,7 +1201,7 @@
                         }, [] )
                         if (next.every( it => it['lastObj'] )) this.initCanImg()
                     };
-                    oImg.src = item.useImg.includes( 'http' ) ? item.useImg + `?id=${Math.random()}` : item.useImg;
+                    oImg.src = item.useImg.includes( 'http' ) ? addUrlQuery(item.useImg) : item.useImg;
                 } )
             },
             initCanImg() {
@@ -1431,7 +1431,7 @@
                     this.bgobj = bgimg;
                     this.initBgimg( this.bgobj, this.bgCans, this.bgCansTxt );
                 }
-                bgimg.src = this.edrieImgInfo.bgImg + `?str=${Math.random()}`;
+                bgimg.src = addUrlQuery(this.edrieImgInfo.bgImg);
             },
             changeSize(item) {//画布尺寸输入
                 console.log( item, this.parseSubs )
@@ -1551,7 +1551,7 @@
                     this.parseSubs.subList[idx].proObj = oImg;
                     this.loadStatus( this.parseSubs.subList[idx], k );
                 };
-                oImg.src = this.parseSubs.subList[idx].useImg + `?id=${Math.random()}`;
+                oImg.src = addUrlQuery(this.parseSubs.subList[idx].useImg);
             },
             initUpImgs(file) {
                 let formData = new FormData();
@@ -1585,7 +1585,7 @@
                         this.parseSubs.subList.push( data )
                         this.loadStatus( data )
                     };
-                    oImg.src = res.data + `?id=${Math.random()}`
+                    oImg.src = addUrlQuery(res.data);
 
                 } )
 
@@ -1604,7 +1604,7 @@
                     // this.parseSubs.scale = parseFloat( this.parseSubs.bW / oImg.width ).toFixed( 2 );
                     this.initMainSub( oImg )
                 };
-                oImg.src = this.edrieImgInfo.ori + `?id=${Math.random()}`
+                oImg.src = addUrlQuery(this.edrieImgInfo.ori);
             },
         },
         created() {//透明背景储存

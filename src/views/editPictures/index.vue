@@ -636,7 +636,7 @@
                         this.oCantl = document.getElementById( `b_g` ).getBoundingClientRect()
                     } )
                 }
-                oImg.src = this.imgUrl + `?str=${Math.random()}`;
+                oImg.src = addUrlQuery(this.imgUrl);
                 // oImg.src = 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2019/12/11/71a5d7d2b3334c9c841e89e888f359b0.png';
             },
             initBgimg(bg_img, cans, ctx) {//生成背景通用方法
@@ -786,7 +786,7 @@
                     this.OriginalObj = orige;
                     this.initCans( data );
                 }
-                orige.src = this.Original + `?str=${Math.random()}`
+                orige.src = addUrlQuery(this.Original) ;
             },
             initBgInfo() {//初始化时背景初始化
                 this.downType = 2;
@@ -796,7 +796,7 @@
                     this.bgobj = bgimg;
                     this.initBgimg( this.bgobj, this.bgCans, this.bgCansTxt );
                 }
-                bgimg.src = this.edrieImgInfo.bgImg + `?str=${Math.random()}`;
+                bgimg.src = addUrlQuery(this.edrieImgInfo.bgImg);
             },
             changeSize(k) {//画布尺寸输入
                 if (k === 1) {

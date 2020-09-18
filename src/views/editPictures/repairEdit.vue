@@ -228,7 +228,7 @@
                                     oA.click();
                                 }
                             };
-                            oImg.src = res.data + `?str=${Math.random()}`
+                            oImg.src = addUrlQuery(res.data);
                         }
                     } ).catch( re => {
 
@@ -304,7 +304,7 @@
                     this.upCanTxt.clearRect( 0, 0, this.upCan.width, this.upCan.height );
                     this.canTxt.drawImage( oImg, 0, 0, );
                 }
-                oImg.src = this.imageInfo + `?str=${Math.random()}`;
+                oImg.src = addUrlQuery(this.imageInfo);
             },
             initCans(url) {//初始化画布
                 let oImg = new Image();
@@ -327,7 +327,7 @@
                         this.oCantl = document.getElementsByClassName( `content` )[0].getBoundingClientRect();
                     } )
                 }
-                oImg.src = url + `?str=${Math.random()}`;
+                oImg.src = addUrlQuery(url);
             },
             initBorder(x, y) {//初始化跟随圆
                 this.borderXy = {

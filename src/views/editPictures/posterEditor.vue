@@ -521,7 +521,7 @@
             },
             backSub() {//背景组件
                 const i = this.parseSubs.subList.findIndex( item => item.type === 0 );
-                const item = i > -1 ? JSON.parse( JSON.stringify( this.parseSubs.subList[i] ) ) : {};
+                let item = i > -1 ? JSON.parse( JSON.stringify( this.parseSubs.subList[i] ) ) : {};
                 item.proObj = i > -1 ? this.parseSubs.subList[i].proObj : {}
                 item.idx = i;
                 return item
@@ -665,7 +665,7 @@
                         oImg2.onload = () => {
                             this.xiuafter = oImg2
                         };
-                        oImg2.src = res.data + `?id=${Math.random()}`;
+                        oImg2.src = addUrlQuery(res.data);
                     }
                     if ([1, 2, 3, 6].includes( this.hoverSub.mattingType )) {
                         this.mattingbyUrl( this.hoverSub.mattingType )
@@ -677,7 +677,7 @@
                             this.parseSubs.subList[this.hoverSub.idx].id = `img${Math.random()}`;
                             this.loadStatus( this.parseSubs.subList[this.hoverSub.idx], this.hoverSub.idx );
                         };
-                        oImg.src = res.data + `?id=${Math.random()}`
+                        oImg.src = addUrlQuery(res.data);
                     }
                 } )
             },
@@ -779,7 +779,7 @@
                     this.parseSubs.subList.push( data );
                     this.loadStatus( this.parseSubs.subList[this.parseSubs.subList.length - 1] )
                 };
-                oImg.src = url + `?id=${Math.random()}`
+                oImg.src = addUrlQuery(url);
 
             },
             mattingImgs(idx) {//抠图
@@ -914,7 +914,7 @@
                                 }
                                 this.loadStatus( this.parseSubs.subList[idx], idx )
                             };
-                            oImg.src = res.data.bgRemovedPreview + `?id=${Math.random()}`;
+                            oImg.src = addUrlQuery(res.data.bgRemovedPreview);
                         } else {
                             this.loading.text = `当前排队位置为 ${res.data.queueNumber}，请稍后...`
                             setTimeout( this.pollingImg2, 2000 )
@@ -959,7 +959,7 @@
                                 }
                                 this.loadStatus( this.parseSubs.subList[idx], idx )
                             };
-                            oImg.src = res.data.bgRemovedPreview + `?id=${Math.random()}`;
+                            oImg.src = addUrlQuery(res.data.bgRemovedPreview);
                             // this.hoverThis( idx )//特效也需要替换
                         } else setTimeout( this.pollingImg2, 2000 )//有排队情况，轮训查看（可以websocket）
                     } else this.loading.show = false;
@@ -1002,7 +1002,7 @@
                     else this.parseSubs.subList.push( data );
                     this.loadStatus( data, idx > -1 ? idx : this.parseSubs.subList.length - 1 )
                 };
-                oImg.src = this.edrieImgInfo.pro + `?id=${Math.random()}`;
+                oImg.src = addUrlQuery(this.edrieImgInfo.pro);
 
             },
             initSelfImg(file) {//自定义背景加载后对象储存
@@ -1293,7 +1293,7 @@
                     } )
                     this.loadStatus( data );
                 };
-                oImg.src = item.url + `?id=${Math.random()}`;
+                oImg.src = addUrlQuery(item.url);
             },
             addTextSub(k, item, i) {
                 let data = {
@@ -1397,7 +1397,7 @@
                     // this.parseSubs.subList[idx].useImg=cans.toDataURL("image/png");
                     // this.downLoadImg2();
                 };
-                oImg.src = url + `?id=${Math.random()}`;
+                oImg.src = addUrlQuery(url);
             },
             electtexiao(loadImg, dataImg, idx) {//原图特效处理
                 let mainSub = this.parseSubs.subList.find( item => item.type === 1 ),
@@ -1530,7 +1530,7 @@
                         }, [] )
                         if (next.every( it => it['lastObj'] )) this.initCanImg( dOrr )
                     };
-                    oImg.src = reg.test( item.useImg ) ? item.useImg : item.useImg + `?id=${Math.random()}`;
+                    oImg.src = reg.test( item.useImg ) ? item.useImg : addUrlQuery(item.useImg);
                 } )
             },
             initCanImg(dOrr) {
@@ -1882,7 +1882,7 @@
                         } )
                         this.loadStatus( data );
                     };
-                    oImg.src = this.edrieImgInfo.bgImg + `?id=${Math.random()}`
+                    oImg.src = addUrlQuery(this.edrieImgInfo.bgImg) ;
                 } else {
                     this.initSize()
                 }
@@ -1934,7 +1934,7 @@
                     this.parseSubs.subList[idx].id = `img${Math.random()}`;
                     this.loadStatus( this.parseSubs.subList[idx], k );
                 };
-                oImg.src = this.parseSubs.subList[idx].useImg + `?id=${Math.random()}`;
+                oImg.src = addUrlQuery(this.parseSubs.subList[idx].useImg);
             },
             initUpImgs(file) {
                 let formData = new FormData();
@@ -1968,7 +1968,7 @@
                         this.parseSubs.subList.push( data )
                         this.loadStatus( data )
                     };
-                    oImg.src = res.data + `?id=${Math.random()}`
+                    oImg.src = addUrlQuery(res.data);
 
                 } )
 
@@ -1988,7 +1988,7 @@
                     // this.parseSubs.scale = parseFloat( this.parseSubs.bW / oImg.width ).toFixed( 2 );
                     this.initMainSub( oImg )
                 };
-                oImg.src = this.edrieImgInfo.ori + `?id=${Math.random()}`
+                oImg.src = addUrlQuery(this.edrieImgInfo.ori);
             },
             saveSubItem() {
                 if (!this.loadSubObj) return;
@@ -2115,7 +2115,7 @@
                             mItems.subList[idx]['proObj'] = oImg;
                             this.loadStatus( mItems.subList[idx], idx, imgsList.length, mItems )
                         };
-                        oImg.src = mItems.subList[idx].useImg + `?id=${Math.random()}`
+                        oImg.src = addUrlQuery(mItems.subList[idx].useImg);
                     } else if (item.type === 2) {
                         mItems.subList[idx].title = `<div>${mItems.subList[idx].title}</div>`
                     }

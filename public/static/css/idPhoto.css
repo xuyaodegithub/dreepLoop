@@ -16,7 +16,38 @@
     margin-bottom: 20px;
     background-color: #fff;
 }
-
+.OperatorRight .sect .swithP{
+    font-size: 14px;
+    font-weight: normal;
+    margin-left: auto;
+    margin-right: 120px;
+}
+.OperatorRight .sect .swith{
+    margin-left: 10px;
+    position: relative;
+    width: 60px;
+    height: 25px;
+    background-color: #e82255;
+    border-radius: 12.5px;
+}
+.OperatorRight .sect .swith i{
+    transition:all .2s linear ;
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background-color: #fff;
+    top: 50%;
+    right: 2.5px;
+    transform: translateY(-50%);
+}
+.OperatorRight .sect .swith.cancal{
+    background-color: #909399;
+}
+.OperatorRight .sect .swith.cancal i{
+    right: 37.5px;
+    /*left: 2.5px;*/
+}
 .helloFirst .OperatorRight .cList {
     flex-wrap: wrap;
 }

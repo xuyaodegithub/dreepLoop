@@ -159,7 +159,7 @@
                             oA.click();
                         }
                     }
-                    oImg.src = this.bgOriginal.img+`?str=${getrandom( 0, 1000000000 )}`;
+                    oImg.src = addUrlQuery(this.bgOriginal.img);
                 }
             },
             deleteItem() {//删除某一个

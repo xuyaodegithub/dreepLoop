@@ -70,19 +70,19 @@ function AddPhotoFrame() {//加相框效果
         this.canTxt.strokeStyle = colors;
         this.canTxt.lineWidth = sizes;
         this.canTxt.beginPath();
-        this.canTxt.moveTo( 1 / 7 * data.w, data.y + 24 + data.h * 0.06 + sizes );
-        this.canTxt.lineTo( 6 / 7 * data.w, data.y + 24 + data.h * 0.06 + sizes );
-        this.canTxt.lineTo( 6 / 7 * data.w, data.y + 0.76 * data.h + data.h * 0.06 );
-        this.canTxt.lineTo( 1 / 7 * data.w, data.y + 0.76 * data.h + data.h * 0.06 );
-        this.canTxt.closePath()
+        this.canTxt.moveTo( 1 / 7 * data.w, data.y + 24 + data.h * 0.08 );
+        this.canTxt.lineTo( 6 / 7 * data.w, data.y + 24 + data.h * 0.08 );
+        this.canTxt.lineTo( 6 / 7 * data.w, data.y + 0.76 * data.h + data.h * 0.08 );
+        this.canTxt.lineTo( 1 / 7 * data.w, data.y + 0.76 * data.h + data.h * 0.08 );
+        this.canTxt.closePath();
         this.canTxt.stroke();
         this.canTxt.save();
         this.canTxt.lineWidth = 1;
         this.canTxt.beginPath();
         this.canTxt.moveTo( 0, 0 );
         this.canTxt.lineTo( data.w, 0 );
-        this.canTxt.lineTo( data.w, data.h / 2 );
-        this.canTxt.lineTo( 0, data.h / 2 );
+        this.canTxt.lineTo( data.w, data.y + 24 + data.h * 0.08 + sizes );
+        this.canTxt.lineTo( 0, data.y + 24 + data.h * 0.08 + sizes );
         this.canTxt.closePath();
         this.canTxt.clip()
         this.canTxt.drawImage( data.imgObj, data.x, data.y, data.iw, data.ih );
@@ -130,7 +130,7 @@ function AddBuddhaLight() {//加佛光
             if (callback) callback( _self.can );
             else return _self.can.toDataURL( downType )
         };
-        oImg.src = data.backUrl + '?id=' + Math.random();
+        oImg.src = addUrlQuery(data.backUrl);
     }
 }
 
@@ -175,32 +175,39 @@ function AddArc() {//圈内出人
 function AddBackgroundImage() {//加背景图
     this.can = document.createElement( 'canvas' );
     this.canTxt = this.can.getContext( '2d' );
-    this.downtype = 'image/png'
-    this.init = function (data, callback) {//canvas  渐变颜色 图片对象 cans宽 cans高 画图起点 画图宽高 导出图片类型
+    this.downtype = 'image/png';
+    this.init = function (data, callback,k) {//canvas  渐变颜色 图片对象 cans宽 cans高 画图起点 画图宽高 导出图片类型
         var backs = (data.backStr).split( ',' ), downType = data.downtype || this.downtype, oImg = new Image(),
-            oImg2 = new Image(), _self = this;
-        console.log( backs,data.backStr )
+            one = false, two = false, oImg2 = new Image(), _self = this;
         oImg.crossOrigin = '';
         oImg2.crossOrigin = '';
         this.can.width = data.w;
         this.can.height = data.h;
         oImg.onload = function () {
+            one = true;
             initBgimg( oImg, _self.can, _self.canTxt );
             _self.canTxt.drawImage( data.imgObj, data.x, data.y, data.iw, data.ih );
-            if (backs.length > 1) {
-                oImg2.onload = function () {
-                    initBgimg( oImg2, _self.can, _self.canTxt )
-                    if (callback) callback( _self.can );
-                    else return _self.can.toDataURL( downType )
-                }
-                oImg2.src = backs[1] + '?id=' + Math.random();
-            } else {
+            if (backs.length > 1 && two) {
+                initBgimg( oImg2, _self.can, _self.canTxt )
+                if (callback) callback( _self.can );
+                else return _self.can.toDataURL( downType )
+            } else if (backs.length < 2) {
                 if (callback) callback( _self.can );
                 else return _self.can.toDataURL( downType )
             }
         }
-        console.log(backs[0],'-----------------')
-        oImg.src = backs[0] + '?id=' + Math.random();
+        oImg.src = addUrlQuery(backs[0]);
+        if (backs.length > 1) {
+            oImg2.onload = function () {
+                two = true;
+                if (one) {
+                    initBgimg( oImg2, _self.can, _self.canTxt )
+                    if (callback) callback( _self.can );
+                    else return _self.can.toDataURL( downType )
+                }
+            }
+            oImg2.src = addUrlQuery(backs[1]) ;
+        }
     }
 }
 
@@ -243,7 +250,7 @@ function initBgimg(bg_img, cans, ctx) {//生成背景通用方法
     }
 }
 
-function upbymobile() {
+function upbymobile(k) {
     token = localStorage.getItem( 'user_Token' )
     if (!token) {
         showloginDialog();
@@ -284,6 +291,8 @@ function lunxun() {
             if (!res.code) {
                 if (res.data.status === 2) {
                     setDiog()
+                    noBeautyResult={};
+                    BeautyResult={};
                     dreepByurl( res.data.url );
                 } else timer = setTimeout( lunxun, 2000 )
             } else Notification( res.msg )
@@ -354,6 +363,8 @@ function changeImg(e) {
         data: formData,
         success: function (res) {
             if (!res.code) {
+                noBeautyResult={};
+                BeautyResult={};
                 dreepByurl( res.data );
             } else Notification( res.msg )
         }
@@ -363,8 +374,9 @@ function changeImg(e) {
 function dreepByurl(url, id) {//抠图
     setLoading( 1 )
     token = localStorage.getItem( 'user_Token' );
-    let data = {url: url, mattingType: 9, bodyData: 1};
+    var data = {url: url, mattingType: 9},cancal=$('.swith').hasClass('cancal');
     if (id) data.fileId = id;
+    if(!cancal)data.faceBeauty=1;
     $.ajax( {
         url: baseUrl + '/webMatting/mattingByUrl2',
         type: 'post',
@@ -376,18 +388,17 @@ function dreepByurl(url, id) {//抠图
         data: data,
         success: function (res) {
             if (!res.code) {
-                fileId = res.data.fileId;
+                mattingMsg.fileId = res.data.fileId;
                 if (res.data.status === 'success') {
-                    $( '.cList .its img' ).attr( 'src', res.data.bgRemovedPreview );
+                    $( '.cList .its img' ).attr( 'src', 'http://www.picup.shop/img-static/img/loading.gif' );
                     mattingMsg = res.data;
-                    oriMattingUrl = '';
-                    filename = [];
-                    initDiv()
-                    setLoading()
+                    mattingMsg.filename=[];
+                    initDiv();
+                    setTimeout( setLoading, 1000 );
                     $( 'body,html' ).animate( {scrollTop: 490}, 500 );
                 } else {
-                    $( '.loading' ).text( '当前排队位置' + res.data.queueNumber )
-                    setTimeout( pollingImg, 2000 )
+                    $( '.loading' ).text( '当前排队位置' + res.data.queueNumber );
+                    setTimeout( pollingImg, 2000 );
                 }
             } else if (res.code === 4003) {
                 showloginDialog();
@@ -397,7 +408,7 @@ function dreepByurl(url, id) {//抠图
                 $( '.zhezhao' ).show();
                 $( '.diglog2' ).show();
             } else {
-                setLoading()
+                setLoading();
                 Notification( res.msg )
             }
         }
@@ -405,7 +416,7 @@ function dreepByurl(url, id) {//抠图
 }
 
 function pollingImg() {//轮训
-    let data = {fileId: fileId};
+    var data = {fileId: mattingMsg.fileId};
     $.ajax( {
         url: baseUrl + '/webMatting/getMattingInfo',
         type: 'get',
@@ -417,10 +428,9 @@ function pollingImg() {//轮训
                 if (res.data.status === 'success') {
                     $( '.cList .its img' ).attr( 'src', res.data.bgRemovedPreview );
                     mattingMsg = res.data;
-                    oriMattingUrl = '';
-                    filename = [];
-                    initDiv()
-                    setLoading()
+                    mattingMsg.filename=[];
+                    initDiv();
+                    setTimeout( setLoading, 1000 );
                     $( 'body,html' ).animate( {scrollTop: 490}, 500 );
                 } else {
                     $( '.loading' ).text( '当前排队位置' + res.data.queueNumber )
@@ -429,6 +439,13 @@ function pollingImg() {//轮训
             } else Notification( res.msg )
         }
     } )
+}
+
+function reupload() {
+    $( '.zhezhao' ).hide();
+    $( '.diglog2' ).hide();
+    if (uptype === 1) upLoadimg();
+    else upbymobile()
 }
 
 function inithisList(k) {//初始化历史记录/webMatting/mattingHistory
@@ -490,7 +507,6 @@ function showHisList(k) {
 function showhisItem(t) {
     var url = $( t ).attr( 'oriUrl' )
     var fileId = $( t ).attr( 'fileId' )
-    console.log( url, fileId )
     dreepByurl( url, fileId )
 }
 
@@ -559,42 +575,30 @@ function pasteTomatting() {//复制粘贴抠图
 }
 
 function downLoad(item, e) {
-    var ev = e || window.event;
+    setLoading( 1 );
+    var ev = e || window.event, oImg = new Image(),
+        idx = $( item ).parents( '.its' ).parents( '.cu' ).index();
     ev.stopPropagation();
-    var ch = $( window ).height(), cw = $( window ).width(), ih = $( '.saveJpg' ).height(),
-        iw = $( '.saveJpg' ).width(), l, t;
-    $( '.saveJpg' ).show();
-    if (ev.clientY + ih > ch) t = ev.clientY - ih - 20;
-    else t = ev.clientY;
-    if (ev.clientX + iw > cw) l = ev.clientX - iw;
-    else l = ev.clientX;
-    $( '.saveJpg' ).css( {left: l, top: t} )
-    downItem = {item: item, e: e};
-}
-
-function downLoad2(k) {
-    var e = downItem.e, ev = e || window.event, oImg = new Image();
     oImg.crossOrigin = '';
     ev.stopPropagation();
-    downType = k ? 'image/jpeg' : 'image/png';
+    // downType = k ? 'image/jpeg' : 'image/png';
     token = localStorage.getItem( 'user_Token' );
-    if (fileId && !oriMattingUrl) {
-        console.log( 111 )
+    if (mattingMsg.fileId && !mattingMsg.oriMattingUrl) {
         $.ajax( {
             url: baseUrl + '/webMatting/getMattedImage',///poster/download
             type: 'get',
             dataType: 'json',
             headers: {token: token},
-            data: {fileId: fileId},
+            data: {fileId: mattingMsg.fileId},
             success: function (res) {
                 if (!res.code) {
                     initSmallTag( e, '次数 -1' );
-                    oriMattingUrl = res.data;
-                    filename.push( name );
+                    mattingMsg.oriMattingUrl = res.data;
+                    mattingMsg.filename.push( idx );
                     oImg.onload = function () {
-                        classTypeDwon( oImg )
+                        classTypeDwon( oImg,item )
                     };
-                    oImg.src = res.data + "?id=" + Math.random();
+                    oImg.src = addUrlQuery(res.data);
                 } else if (res.code === 1100) {
                     showloginDialog();
                     setLoading();
@@ -611,15 +615,13 @@ function downLoad2(k) {
                 } else Notification( res.msg )
             }
         } )
-    } else if (!fileId || filename.indexOf( name ) > -1) {
-        console.log( 222 )
+    } else if (!mattingMsg.fileId || mattingMsg.filename.indexOf( idx ) > -1) {
         initSmallTag( e, '免费' )
         oImg.onload = function () {
-            classTypeDwon( oImg )
+            classTypeDwon( oImg,item )
         };
-        oImg.src = oriMattingUrl ? oriMattingUrl : (mattingMsg.bgRemovedPreview + "?id=" + Math.random());
+        oImg.src =  mattingMsg.oriMattingUrl ? addUrlQuery( mattingMsg.oriMattingUrl) : addUrlQuery(mattingMsg.bgRemovedPreview );
     } else {
-        console.log( 333 )
         $.ajax( {
             url: baseUrl + '/poster/download',
             type: 'get',
@@ -629,11 +631,11 @@ function downLoad2(k) {
             success: function (res) {
                 if (!res.code) {
                     initSmallTag( e, '次数 -1' );
-                    filename.push( name );
+                    mattingMsg.filename.push( idx );
                     oImg.onload = function () {
-                        classTypeDwon( oImg )
+                        classTypeDwon( oImg,item )
                     };
-                    oImg.src = oriMattingUrl + "?id=" + Math.random();
+                    oImg.src = addUrlQuery( mattingMsg.oriMattingUrl);
                 } else if (res.code === 4001) {
                     confirm( res.msg + ', 是否前往充值?', '提示', {
                         confirmButtonText: '前往充值',
@@ -650,16 +652,25 @@ function downLoad2(k) {
     }
 }
 
-function classTypeDwon(oImg) {
-    var item = downItem.item, e = downItem.e;
+function classTypeDwon(oImg,item) {
     var oItem = $( item ).parents( '.its' ), w = 900, h = 1275,
         name = $( oItem ).parents( '.cu' ).find( 'p' ).text(), type = $( oItem ).attr( 'type' ), data = {};
-    var scaleW = 2 / 9 * h / w;
-    var iw = w * scaleW * mattingMsg.originalWidth / (mattingMsg.headData.right - mattingMsg.headData.left);//缩放后的图片宽
-    var ih = iw * mattingMsg.originalHeight / mattingMsg.originalWidth;
-    var top = -(ih * mattingMsg.headData.top / mattingMsg.originalHeight) + h * 0.05;
-    var left = w / 2 - ((mattingMsg.headData.right - mattingMsg.headData.left) / 2 + mattingMsg.headData.left) * iw / mattingMsg.originalWidth;
-    var downTop = h - top <= ih ? top : h - ih;//吸底判断
+    // var scaleW = 2 / 9 * h / w;
+    // var iw = w * scaleW * mattingMsg.originalWidth / (mattingMsg.headData.right - mattingMsg.headData.left);//缩放后的图片宽
+    // var ih = iw * mattingMsg.originalHeight / mattingMsg.originalWidth;
+    // var top = -(ih * mattingMsg.headData.top / mattingMsg.originalHeight) + h * 0.05;
+    // var left = w / 2 - ((mattingMsg.headData.right - mattingMsg.headData.left) / 2 + mattingMsg.headData.left) * iw / mattingMsg.originalWidth;
+    // var downTop = h - top <= ih ? top : h - ih;//吸底判断
+    var point=mattingMsg.maskRect,ow=mattingMsg.originalWidth,oh=mattingMsg.originalHeight;
+    var downTop=h * 0.08,ih=(h-downTop)*oh/point.height,iw=ow*ih/oh,left=w/2-iw/2;//
+    var afterPoint={x:iw*point.x/ow,y:ih*point.y/oh,w:iw*point.width/ow,h:ih*point.height/oh};
+    downTop=downTop-afterPoint.y;
+    if(afterPoint.w>w){
+        iw=(w*ow/point.width);
+        ih=iw*oh/ow;
+        left=0;
+        downTop=h-ih;
+    }
     if (type == 1) {//径向渐变
         var colorStr = $( oItem ).attr( 'color' );
         data = {colorStr: colorStr, imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: ''};
@@ -669,7 +680,8 @@ function classTypeDwon(oImg) {
         data = {backStr: backStr, imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: ''};
         specialEffectsList.AddBackgroundImage.init( data, downImgFro );
     } else if (type == 3) {//三个影子
-        var headw = (mattingMsg.headData.right - mattingMsg.headData.left) * iw / mattingMsg.originalWidth;
+        // var headw = (mattingMsg.headData.right - mattingMsg.headData.left) * iw / mattingMsg.originalWidth;
+        var headw =iw/3;
         data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, headw: headw, downtype: ''};
         specialEffectsList.ThreeShow.init( data, downImgFro );
     } else if (type == 4) {//加相框
@@ -712,28 +724,49 @@ function classTypeDwon(oImg) {
 
 function downImgFro(cans) {
     var nametype = downType === 'image/png' ? '.png' : '.jpg',
-        // name = $( downItem.item ).parents( '.its' ).parents( '.cu' ).find( 'p' ).text();
         name = 'tets' + (Math.random()).toString().split( '.' )[1];
     if (window.navigator.msSaveOrOpenBlob) {
-        let imgData = cans.msToBlob( function () {
+        var imgData = cans.msToBlob( function () {
         }, downType );
-        let blobObj = new Blob( [imgData] );
+        var blobObj = new Blob( [imgData] );
         window.navigator.msSaveOrOpenBlob( blobObj, name + nametype );
         // window.navigator.msSaveOrOpenBlob( blobObj );
     } else {
-        let oA = document.createElement( 'a' );
+        var oA = document.createElement( 'a' );
         oA.href = cans.toDataURL( downType );
         oA.download = name;
         oA.click();
     }
-    $( '.zhezhao' ).hide();
+    setLoading();
+    // $( '.zhezhao' ).hide();
     $( '.saveJpg' ).hide();
 }
 
 $( '.photoHisList.flex .itmes' ).click( function () {
     var url = $( this ).find( 'img' ).attr( 'src' );
+    noBeautyResult={};
+    BeautyResult={};
     dreepByurl( url )
 } )
+function changeType(item){
+    var cancal=$(item).hasClass('cancal');
+    if(cancal)noBeautyResult=JSON.parse(JSON.stringify(mattingMsg));
+    else BeautyResult=JSON.parse(JSON.stringify(mattingMsg));
+    // console.log(BeautyResult,noBeautyResult)
+    if(cancal){
+        $(item).removeClass('cancal');
+        if(BeautyResult.bgRemovedPreview){
+            mattingMsg=JSON.parse(JSON.stringify(BeautyResult));
+            initDiv();
+        } else  dreepByurl(mattingMsg.original)
+    } else{
+        $(item).addClass('cancal');
+        if(noBeautyResult.bgRemovedPreview){
+            mattingMsg=JSON.parse(JSON.stringify(noBeautyResult));
+            initDiv();
+        } else  dreepByurl(mattingMsg.original)
+    }
+}
 var specialEffectsList = {//type 1 为径向渐变
     RadialGradient: new RadialGradient(),
     ThreeShow: new ThreeShow(),
