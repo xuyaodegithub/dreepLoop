@@ -70,10 +70,10 @@ function AddPhotoFrame() {//加相框效果
         this.canTxt.strokeStyle = colors;
         this.canTxt.lineWidth = sizes;
         this.canTxt.beginPath();
-        this.canTxt.moveTo( 1 / 7 * data.w, data.y + 24 + data.h * 0.08 );
-        this.canTxt.lineTo( 6 / 7 * data.w, data.y + 24 + data.h * 0.08 );
-        this.canTxt.lineTo( 6 / 7 * data.w, data.y + 0.76 * data.h + data.h * 0.08 );
-        this.canTxt.lineTo( 1 / 7 * data.w, data.y + 0.76 * data.h + data.h * 0.08 );
+        this.canTxt.moveTo( 1 / 7 * data.w, data.iheight + sizes * 1.5 );
+        this.canTxt.lineTo( 6 / 7 * data.w, data.iheight + sizes * 1.5 );
+        this.canTxt.lineTo( 6 / 7 * data.w, data.iheight + sizes * 1.5 + 0.76 * data.h );
+        this.canTxt.lineTo( 1 / 7 * data.w, data.iheight + sizes * 1.5 + 0.76 * data.h );
         this.canTxt.closePath();
         this.canTxt.stroke();
         this.canTxt.save();
@@ -81,8 +81,8 @@ function AddPhotoFrame() {//加相框效果
         this.canTxt.beginPath();
         this.canTxt.moveTo( 0, 0 );
         this.canTxt.lineTo( data.w, 0 );
-        this.canTxt.lineTo( data.w, data.y + 24 + data.h * 0.08 + sizes );
-        this.canTxt.lineTo( 0, data.y + 24 + data.h * 0.08 + sizes );
+        this.canTxt.lineTo( data.w, data.iheight + sizes * 1.5 * 1.5 );
+        this.canTxt.lineTo( 0, data.iheight + sizes * 1.5 * 1.5 );
         this.canTxt.closePath();
         this.canTxt.clip()
         this.canTxt.drawImage( data.imgObj, data.x, data.y, data.iw, data.ih );
@@ -130,7 +130,7 @@ function AddBuddhaLight() {//加佛光
             if (callback) callback( _self.can );
             else return _self.can.toDataURL( downType )
         };
-        oImg.src = addUrlQuery(data.backUrl);
+        oImg.src = addUrlQuery( data.backUrl );
     }
 }
 
@@ -176,7 +176,7 @@ function AddBackgroundImage() {//加背景图
     this.can = document.createElement( 'canvas' );
     this.canTxt = this.can.getContext( '2d' );
     this.downtype = 'image/png';
-    this.init = function (data, callback,k) {//canvas  渐变颜色 图片对象 cans宽 cans高 画图起点 画图宽高 导出图片类型
+    this.init = function (data, callback, k) {//canvas  渐变颜色 图片对象 cans宽 cans高 画图起点 画图宽高 导出图片类型
         var backs = (data.backStr).split( ',' ), downType = data.downtype || this.downtype, oImg = new Image(),
             one = false, two = false, oImg2 = new Image(), _self = this;
         oImg.crossOrigin = '';
@@ -196,7 +196,7 @@ function AddBackgroundImage() {//加背景图
                 else return _self.can.toDataURL( downType )
             }
         }
-        oImg.src = addUrlQuery(backs[0]);
+        oImg.src = addUrlQuery( backs[0] );
         if (backs.length > 1) {
             oImg2.onload = function () {
                 two = true;
@@ -206,7 +206,7 @@ function AddBackgroundImage() {//加背景图
                     else return _self.can.toDataURL( downType )
                 }
             }
-            oImg2.src = addUrlQuery(backs[1]) ;
+            oImg2.src = addUrlQuery( backs[1] );
         }
     }
 }
@@ -291,8 +291,8 @@ function lunxun() {
             if (!res.code) {
                 if (res.data.status === 2) {
                     setDiog()
-                    noBeautyResult={};
-                    BeautyResult={};
+                    noBeautyResult = {};
+                    BeautyResult = {};
                     dreepByurl( res.data.url );
                 } else timer = setTimeout( lunxun, 2000 )
             } else Notification( res.msg )
@@ -363,8 +363,8 @@ function changeImg(e) {
         data: formData,
         success: function (res) {
             if (!res.code) {
-                noBeautyResult={};
-                BeautyResult={};
+                noBeautyResult = {};
+                BeautyResult = {};
                 dreepByurl( res.data );
             } else Notification( res.msg )
         }
@@ -374,9 +374,9 @@ function changeImg(e) {
 function dreepByurl(url, id) {//抠图
     setLoading( 1 )
     token = localStorage.getItem( 'user_Token' );
-    var data = {url: url, mattingType: 9},cancal=$('.swith').hasClass('cancal');
+    var data = {url: url, mattingType: 9}, cancal = $( '.swith' ).hasClass( 'cancal' );
     if (id) data.fileId = id;
-    if(!cancal)data.faceBeauty=1;
+    if (!cancal) data.faceBeauty = 1;
     $.ajax( {
         url: baseUrl + '/webMatting/mattingByUrl2',
         type: 'post',
@@ -392,7 +392,7 @@ function dreepByurl(url, id) {//抠图
                 if (res.data.status === 'success') {
                     $( '.cList .its img' ).attr( 'src', 'http://www.picup.shop/img-static/img/loading.gif' );
                     mattingMsg = res.data;
-                    mattingMsg.filename=[];
+                    mattingMsg.filename = [];
                     initDiv();
                     setTimeout( setLoading, 1000 );
                     $( 'body,html' ).animate( {scrollTop: 490}, 500 );
@@ -428,7 +428,7 @@ function pollingImg() {//轮训
                 if (res.data.status === 'success') {
                     $( '.cList .its img' ).attr( 'src', res.data.bgRemovedPreview );
                     mattingMsg = res.data;
-                    mattingMsg.filename=[];
+                    mattingMsg.filename = [];
                     initDiv();
                     setTimeout( setLoading, 1000 );
                     $( 'body,html' ).animate( {scrollTop: 490}, 500 );
@@ -596,9 +596,9 @@ function downLoad(item, e) {
                     mattingMsg.oriMattingUrl = res.data;
                     mattingMsg.filename.push( idx );
                     oImg.onload = function () {
-                        classTypeDwon( oImg,item )
+                        classTypeDwon( oImg, item )
                     };
-                    oImg.src = addUrlQuery(res.data);
+                    oImg.src = addUrlQuery( res.data );
                 } else if (res.code === 1100) {
                     showloginDialog();
                     setLoading();
@@ -618,9 +618,9 @@ function downLoad(item, e) {
     } else if (!mattingMsg.fileId || mattingMsg.filename.indexOf( idx ) > -1) {
         initSmallTag( e, '免费' )
         oImg.onload = function () {
-            classTypeDwon( oImg,item )
+            classTypeDwon( oImg, item )
         };
-        oImg.src =  mattingMsg.oriMattingUrl ? addUrlQuery( mattingMsg.oriMattingUrl) : addUrlQuery(mattingMsg.bgRemovedPreview );
+        oImg.src = mattingMsg.oriMattingUrl ? addUrlQuery( mattingMsg.oriMattingUrl ) : addUrlQuery( mattingMsg.bgRemovedPreview );
     } else {
         $.ajax( {
             url: baseUrl + '/poster/download',
@@ -633,9 +633,9 @@ function downLoad(item, e) {
                     initSmallTag( e, '次数 -1' );
                     mattingMsg.filename.push( idx );
                     oImg.onload = function () {
-                        classTypeDwon( oImg,item )
+                        classTypeDwon( oImg, item )
                     };
-                    oImg.src = addUrlQuery( mattingMsg.oriMattingUrl);
+                    oImg.src = addUrlQuery( mattingMsg.oriMattingUrl );
                 } else if (res.code === 4001) {
                     confirm( res.msg + ', 是否前往充值?', '提示', {
                         confirmButtonText: '前往充值',
@@ -652,25 +652,26 @@ function downLoad(item, e) {
     }
 }
 
-function classTypeDwon(oImg,item) {
+function classTypeDwon(oImg, item) {
     var oItem = $( item ).parents( '.its' ), w = 900, h = 1275,
         name = $( oItem ).parents( '.cu' ).find( 'p' ).text(), type = $( oItem ).attr( 'type' ), data = {};
-    // var scaleW = 2 / 9 * h / w;
-    // var iw = w * scaleW * mattingMsg.originalWidth / (mattingMsg.headData.right - mattingMsg.headData.left);//缩放后的图片宽
-    // var ih = iw * mattingMsg.originalHeight / mattingMsg.originalWidth;
-    // var top = -(ih * mattingMsg.headData.top / mattingMsg.originalHeight) + h * 0.05;
-    // var left = w / 2 - ((mattingMsg.headData.right - mattingMsg.headData.left) / 2 + mattingMsg.headData.left) * iw / mattingMsg.originalWidth;
-    // var downTop = h - top <= ih ? top : h - ih;//吸底判断
-    var point=mattingMsg.maskRect,ow=mattingMsg.originalWidth,oh=mattingMsg.originalHeight;
-    var downTop=h * 0.08,ih=(h-downTop)*oh/point.height,iw=ow*ih/oh,left=w/2-iw/2;//
-    var afterPoint={x:iw*point.x/ow,y:ih*point.y/oh,w:iw*point.width/ow,h:ih*point.height/oh};
-    downTop=downTop-afterPoint.y;
-    if(afterPoint.w>w){
-        iw=(w*ow/point.width);
-        ih=iw*oh/ow;
-        left=0;
-        downTop=h-ih;
+    var point = mattingMsg.maskRect, ow = mattingMsg.originalWidth, oh = mattingMsg.originalHeight;
+    var downTop = h * 0.08, ih = (h - downTop) * oh / point.height, iw = ow * ih / oh, left = w / 2 - iw / 2;//
+    var afterPoint = {x: iw * point.x / ow, y: ih * point.y / oh, w: iw * point.width / ow, h: ih * point.height / oh};
+    downTop = downTop - afterPoint.y;
+    if (afterPoint.w > w) {
+        iw = (w * ow / point.width);
+        ih = iw * oh / ow;
+        left = 0;
+        downTop = h - ih;
+        afterPoint = {
+            x: iw * point.x / ow,
+            y: ih * point.y / oh,
+            w: iw * point.width / ow,
+            h: ih * point.height / oh
+        };
     }
+    left = w / 2 - iw / 2 - (afterPoint.x + afterPoint.w / 2 - iw / 2);
     if (type == 1) {//径向渐变
         var colorStr = $( oItem ).attr( 'color' );
         data = {colorStr: colorStr, imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: ''};
@@ -681,12 +682,12 @@ function classTypeDwon(oImg,item) {
         specialEffectsList.AddBackgroundImage.init( data, downImgFro );
     } else if (type == 3) {//三个影子
         // var headw = (mattingMsg.headData.right - mattingMsg.headData.left) * iw / mattingMsg.originalWidth;
-        var headw =iw/3;
+        var headw = iw / 3;
         data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, headw: headw, downtype: ''};
         specialEffectsList.ThreeShow.init( data, downImgFro );
     } else if (type == 4) {//加相框
         var bColor = $( oItem ).attr( 'bColor' )
-        data = {bColor: bColor, imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', size: 40};
+        data = {bColor: bColor, imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', size: 40, iheight:downTop+afterPoint.y};
         specialEffectsList.AddPhotoFrame.init( data, downImgFro );
     } else if (type == 5) {//加佛光
         var upColor = $( oItem ).attr( 'upColor' ), backUrl = $( oItem ).attr( 'backUrl' );
@@ -744,29 +745,31 @@ function downImgFro(cans) {
 
 $( '.photoHisList.flex .itmes' ).click( function () {
     var url = $( this ).find( 'img' ).attr( 'src' );
-    noBeautyResult={};
-    BeautyResult={};
+    noBeautyResult = {};
+    BeautyResult = {};
     dreepByurl( url )
 } )
-function changeType(item){
-    var cancal=$(item).hasClass('cancal');
-    if(cancal)noBeautyResult=JSON.parse(JSON.stringify(mattingMsg));
-    else BeautyResult=JSON.parse(JSON.stringify(mattingMsg));
+
+function changeType(item) {
+    var cancal = $( item ).hasClass( 'cancal' );
+    if (cancal) noBeautyResult = JSON.parse( JSON.stringify( mattingMsg ) );
+    else BeautyResult = JSON.parse( JSON.stringify( mattingMsg ) );
     // console.log(BeautyResult,noBeautyResult)
-    if(cancal){
-        $(item).removeClass('cancal');
-        if(BeautyResult.bgRemovedPreview){
-            mattingMsg=JSON.parse(JSON.stringify(BeautyResult));
+    if (cancal) {
+        $( item ).removeClass( 'cancal' );
+        if (BeautyResult.bgRemovedPreview) {
+            mattingMsg = JSON.parse( JSON.stringify( BeautyResult ) );
             initDiv();
-        } else  dreepByurl(mattingMsg.original)
-    } else{
-        $(item).addClass('cancal');
-        if(noBeautyResult.bgRemovedPreview){
-            mattingMsg=JSON.parse(JSON.stringify(noBeautyResult));
+        } else dreepByurl( mattingMsg.original )
+    } else {
+        $( item ).addClass( 'cancal' );
+        if (noBeautyResult.bgRemovedPreview) {
+            mattingMsg = JSON.parse( JSON.stringify( noBeautyResult ) );
             initDiv();
-        } else  dreepByurl(mattingMsg.original)
+        } else dreepByurl( mattingMsg.original )
     }
 }
+
 var specialEffectsList = {//type 1 为径向渐变
     RadialGradient: new RadialGradient(),
     ThreeShow: new ThreeShow(),

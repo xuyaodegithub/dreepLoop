@@ -1354,7 +1354,7 @@
                             item.imgurl=jsMulit.ThreeShow.init( data )
                         } else if (type == 4) {//加相框
                             let bColor = item.bColor;
-                            data = {bColor: bColor, imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', size: 40};
+                            data = {bColor: bColor, imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', size: 40,iheight:downTop+afterPoint.y};
                            item.imgurl= jsMulit.AddPhotoFrame.init( data )
                         } else if (type == 5) {//加佛光
                             let upColor = item.upColor, backUrl = item.backUrl,
@@ -1422,7 +1422,7 @@
                     objData={type: 3, title: '图片', w:this.parseSubs.bW, h:this.parseSubs.bH, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: effurl, pro:  effurl, ori: effurl, hovering: false, mattingType: -1,}
                     this.parseSubs.subList.splice(1,0,objData)
                 }else if(type===4){//PhotoFrame
-                    data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', size: 40};
+                    data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', size: 40,iheight:downTop+afterPoint.y};
                     this.parseSubs.subList[0].backColor=item.bColor;
                     const img=jsMulit.PhotoFrame.init( data),img2=jsMulit.PhotoFrame.init( data,1);
                     let imgdata={type: 3, title: '图片', w:this.parseSubs.bW, h:this.parseSubs.bH, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: img, pro:  img, ori: img, hovering: false, mattingType: -1,};

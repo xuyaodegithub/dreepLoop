@@ -123,15 +123,15 @@ function PhotoFrame() {//加相框效果
 		this.canTxt.lineWidth = sizes;
 		if(!k){
 			this.canTxt.beginPath();
-			this.canTxt.moveTo( 1 / 7 * data.w, data.y + 24 + data.h * 0.06 );
-			this.canTxt.lineTo( 1 / 7 * data.w, data.y + 0.76 * data.h + data.h * 0.06 );
-			this.canTxt.lineTo( 6 / 7 * data.w, data.y + 0.76 * data.h + data.h * 0.06 );
-			this.canTxt.lineTo( 6 / 7 * data.w, data.y + 24 + data.h * 0.06 );
+			this.canTxt.moveTo( 1 / 7 * data.w, data.iheight + sizes * 1.5 );
+			this.canTxt.lineTo( 1 / 7 * data.w, data.iheight + sizes * 1.5 + 0.76 * data.h );
+			this.canTxt.lineTo( 6 / 7 * data.w, data.iheight + sizes * 1.5 + 0.76 * data.h );
+			this.canTxt.lineTo( 6 / 7 * data.w, data.iheight + sizes * 1.5 );
 			this.canTxt.stroke();
 		}else{
 			this.canTxt.beginPath();
-			this.canTxt.moveTo( 1 / 7 * data.w-sizes/2, data.y + 24 + data.h * 0.06  );
-			this.canTxt.lineTo( 6 / 7 * data.w+sizes/2, data.y + 24 + data.h * 0.06 );
+			this.canTxt.moveTo( 1 / 7 * data.w-sizes/2, data.iheight + sizes * 1.5  );
+			this.canTxt.lineTo( 6 / 7 * data.w+sizes/2, data.iheight + sizes * 1.5 );
 			this.canTxt.stroke();
 		}
 		return this.can.toDataURL( downType )
