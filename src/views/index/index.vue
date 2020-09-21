@@ -8,7 +8,7 @@
                 <h6><!--Local images-->本地图像</h6>
                 <el-button type="primary" round @click="upLoadimg()"><img style="height: 20px;margin-right: 10px;" src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png" alt=""> 电脑上传</el-button>
                 <uploadBymobile @success="deepItem" ref="uploadSub" :color="2"></uploadBymobile>
-                <p class="afterbtn" v-if="!LoginStatus"><span class="cu" @click="userlogin(0)">登录</span>
+                <p class="afterbtn" v-if="!LoginStatus"><span class="cu" @click="showLoginDilogAction">登录</span>
                     <!--for batch upload-->后批量上传</p>
                 <div class="center">
                     <h5>Web 图片</h5>
@@ -99,8 +99,7 @@
                 <div v-for="(item,index) in files" :key="item.name" class="imgRef"
                      :id="item.name">
                     <!--                    :class="{'active' : index===files.length-1}"-->
-                    <img-sub :files="item" @to-parse="collectBg" @close="closeItem" :index="index" ref="subs" @downall="downAllinit"
-                             @openImgSet="openImgSet"></img-sub>
+                    <img-sub :files="item" @to-parse="collectBg" @close="closeItem" :index="index" ref="subs" @downall="downAllinit"></img-sub>
                 </div>
             </div>
             <div class="ImgLists" v-show="rightImgList.length>1">
@@ -150,10 +149,6 @@
                 <div class="deAll cu" @click="deleteAllImg">删除全部</div>
             </div>
         </div>
-        <div class="zhezhao" v-if="showSetImg"></div>
-        <div>
-            <img-set-sub v-if="showSetImg" :imgMsg="imgMsg" @closeImgSet="closeImgSet"></img-set-sub>
-        </div>
 
     </div>
 </template>
@@ -165,8 +160,6 @@
     import headerSub from '@/components/header/index.vue'
     import imgSub from '@/components/showImgSub/index.vue'
     import {getToken, getSecImgs, setSecImgs} from "../../utils/auth";
-    import {basrUrl} from "../../utils";
-    import imgSetSub from '@/components/setImgSub/index.vue'
     import {getMattedImageMultiple, userHistoryList} from "../../apis";
     import mohu1 from '@/assets/image/mohu1.png'
     import mohu2 from '@/assets/image/mohu2.png'
@@ -190,7 +183,6 @@
                 selectImg: 0,
                 multiple: false,
                 imgMsg: {},
-                showSetImg: false,
                 allbgImg: [],
                 sizeArr: [],
                 historyList: {},
@@ -298,11 +290,11 @@
             // }
         },
         components: {
-            headerSub, imgSub, imgSetSub,uploadBymobile
+            headerSub, imgSub,uploadBymobile
         },
         methods: {
             ...mapActions( [
-                'userGetscribe'
+                'userGetscribe','showLoginDilogAction'
             ] ),
             downAllinit(objs,blogTitle='picture'){//下载全部自定义后的图片
                 const allNum=this.$refs.subs.length,_this=this;
@@ -313,7 +305,6 @@
                 // this.baseList.push( {name: name+'.png', img: objs.obj.substring( 22 )} );
                 this.Percentile += 1;
                 this.loading.text = this.Percentile + '/' + this.Completed.length + ' 已完成';
-                console.log(this.Percentile,this.allbgImg.length,'.....')
                 if (this.baseList.length === this.Completed.length) {
                     if (this.baseList.length > 0) {
                         this.loading.text = '打包中...'
@@ -322,7 +313,6 @@
                                 base64: true
                             } );
                         }
-                        console.log(imgs,999)
                         zip.generateAsync( {type: "blob"} ).then( function (content) {
                             saveAs( content, blogTitle + ".zip" );
                             _this.loading.close()
@@ -338,25 +328,12 @@
                 }
             },
             deepItem(item) {
-                this.imgUrl = item
+                this.imgUrl = item;
                 this.copyImgUrl()
-            },
-            userlogin(key) {
-                let urls = window.location.href.split( '#/' )[0];
-                let baseUrl = urls.substring( 0, urls.lastIndexOf( '/' ) );
-                window.location.href = baseUrl + '/loginOrRegister.html#/?type=' + key
-            },
-            closeImgSet(val) {//关闭操作台
-                this.showSetImg = false;
-                this.imgMsg = {};
-            },
-            openImgSet(obj) {//打开操作台
-                this.imgMsg = obj;
-                this.showSetImg = true;
             },
             collectBg(obj) {
                 // this.limitIdx++;
-                this.allbgImg[obj.id] = obj
+                this.allbgImg[obj.id] = obj;
                 if (!getSecImgs( 1 )) {
                     this.sesImgsSet( this.allbgImg );
                     return
@@ -369,7 +346,6 @@
             closeItem(item) {
                 this.files.splice( item.index, 1 );
                 this.rightImgList.splice( item.index, 1 );
-                // console.log(this.$refs.imgRef)
                 this.allbgImg.map( (val, index) => {
                     if (val.name === item.name || !val) this.allbgImg.splice( index, 1 )
                 } )
@@ -380,7 +356,7 @@
                 else this.multiple = true;
                 this.$refs.upImg.value = '';
                 this.$nextTick( () => {
-                    this.$refs.upImg.click()
+                    this.$refs.upImg.click();
                 } )
             },
             //下载多张抠图
@@ -441,7 +417,6 @@
 
             //批量下载图片
             StoreDowQrcode(arr, blogTitle = "pictures") {
-                console.log(arr)
                 let zip = new JSZip();
                 let imgs = zip.folder( blogTitle );
                 let baseList = [];
@@ -577,7 +552,7 @@
                 // },500)
             },
             openHistory() {
-                this.showHistory = true
+                this.showHistory = true;
                 let data = {
                     page: this.page,
                     pageSize: this.rows,
@@ -640,7 +615,7 @@
             },
             getmoveHis(e) {
                 let historyList = this.$refs.historyList, scrollTop = e.target.scrollTop;
-                console.log( historyList.offsetHeight, historyList.scrollHeight )
+                // console.log( historyList.offsetHeight, historyList.scrollHeight )
                 if (scrollTop + historyList.offsetHeight > historyList.scrollHeight - 20) {
                     if (!this.stopUpdata) {
                         this.rows += 10;

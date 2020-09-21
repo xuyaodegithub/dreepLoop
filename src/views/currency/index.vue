@@ -11,7 +11,7 @@
                                                                           alt=""> 电脑上传
                 </el-button>
                 <uploadBymobile @success="deepItem" ref="uploadSub" :color="1"></uploadBymobile>
-                <p class="afterbtn" v-if="!LoginStatus"><span class="cu" @click="userlogin(0)">登录</span>
+                <p class="afterbtn" v-if="!LoginStatus"><span class="cu" @click="showLoginDilogAction">登录</span>
                     <!--for batch upload-->后批量上传</p>
                 <div class="center">
                     <h5>Web 图片</h5>
@@ -159,11 +159,6 @@
                 <div class="deAll cu" @click="deleteAllImg">删除全部</div>
             </div>
         </div>
-        <div class="zhezhao" v-if="showSetImg"></div>
-        <div>
-            <img-set-sub v-if="showSetImg" :imgMsg="imgMsg" @closeImgSet="closeImgSet"></img-set-sub>
-        </div>
-
     </div>
 </template>
 <script>
@@ -174,7 +169,6 @@
     import headerSub from '@/components/header/index.vue'
     import imgSub from '@/components/showImgSub/index.vue'
     import {getToken, getSecImgs, setSecImgs} from "../../utils/auth";
-    import imgSetSub from '@/components/setImgSub/index.vue'
     import {getMattedImageMultiple, userHistoryList} from "../../apis";
     import mohu1 from '@/assets/image/mohu1.png'
     import mohu2 from '@/assets/image/mohu2.png'
@@ -199,7 +193,6 @@
                 selectImg: 0,
                 multiple: false,
                 imgMsg: {},
-                showSetImg: false,
                 allbgImg: [],
                 sizeArr: [],
                 historyList: {},
@@ -308,11 +301,11 @@
             // }
         },
         components: {
-            headerSub, imgSub, imgSetSub, uploadBymobile
+            headerSub, imgSub, uploadBymobile
         },
         methods: {
             ...mapActions( [
-                'userGetscribe'
+                'userGetscribe','showLoginDilogAction'
             ] ),
             downAllinit(objs, blogTitle = 'picture') {//下载全部自定义后的图片
                 const _this = this;
@@ -351,19 +344,6 @@
             deepItem(item) {
                 this.imgUrl = item
                 this.copyImgUrl()
-            },
-            userlogin(key) {
-                let urls = window.location.href.split( '#/' )[0];
-                let baseUrl = urls.substring( 0, urls.lastIndexOf( '/' ) );
-                window.location.href = baseUrl + '/loginOrRegister.html#/?type=' + key
-            },
-            closeImgSet(val) {//关闭操作台
-                this.showSetImg = false;
-                this.imgMsg = {};
-            },
-            openImgSet(obj) {//打开操作台
-                this.imgMsg = obj;
-                this.showSetImg = true;
             },
             collectBg(obj) {
                 // this.limitIdx++;

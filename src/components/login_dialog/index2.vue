@@ -290,7 +290,6 @@
                 toSureWatch( data ).then( res => {
                     if (res.data) {
                         const token = res.data.token;
-                        console.log(token)
                         setToken( token );
                         setCookie( 'token', token );
                         this.$emit('getUserinfo','')

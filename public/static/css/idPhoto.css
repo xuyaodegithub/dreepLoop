@@ -19,8 +19,8 @@
 .OperatorRight .sect .swithP{
     font-size: 14px;
     font-weight: normal;
-    margin-left: auto;
-    margin-right: 120px;
+    margin-left: 40px;
+    /*margin-right: 120px;*/
 }
 .OperatorRight .sect .swith{
     margin-left: 10px;

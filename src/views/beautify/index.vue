@@ -8,7 +8,7 @@
                 <h6><!--Local images-->本地图像</h6>
                 <el-button type="primary" round @click="upLoadimg()"><img style="height: 20px;margin-right: 10px;" src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png" alt=""> 电脑上传</el-button>
                 <uploadBymobile @success="deepItem" ref="uploadSub" :color="5"></uploadBymobile>
-                <p class="afterbtn" v-if="!LoginStatus"><span class="cu" @click="userlogin(0)">登录</span>
+                <p class="afterbtn" v-if="!LoginStatus"><span class="cu" @click="showLoginDilogAction">登录</span>
                     <!--for batch upload-->后批量上传</p>
                 <div class="center">
                     <h5>Web 图片</h5>
@@ -137,7 +137,6 @@
     import imgSub from '@/components/showImgSub/beauTy.vue'
     import {getToken, getSecImgs, setSecImgs} from "../../utils/auth";
     import {basrUrls} from "../../utils";
-    import imgSetSub from '@/components/setImgSub/index.vue'
     import {getMattedImageMultiple, userHistoryList} from "../../apis";
     import JSManipulate from '../../utils/jsmanipulate.js'
     import {niceScroll} from 'jquery.nicescroll';
@@ -231,11 +230,11 @@
             },
         },
         components: {
-            headerSub, imgSub, imgSetSub,uploadBymobile
+            headerSub, imgSub,uploadBymobile
         },
         methods: {
             ...mapActions( [
-                'userGetscribe'
+                'userGetscribe','showLoginDilogAction'
             ] ),
             downAllinit(objs,blogTitle='picture'){//下载全部自定义后的图片
                 const allNum=this.$refs.subs.length,_this=this;
@@ -244,7 +243,6 @@
                 this.baseList.push( {name: name+'.png', img: objs.obj.substring( 22 )} );
                 this.Percentile += 1;
                 this.loading.text = this.Percentile + '/' + this.allbgImg.length + ' 已完成';
-                console.log(this.Percentile,this.allbgImg.length,'.....')
                 if (this.baseList.length === this.allbgImg.length) {
                     if (this.baseList.length > 0) {
                         this.loading.text = '打包中...'
@@ -270,9 +268,6 @@
             deepItem(item) {
                 this.imgUrl = item;
                 this.copyImgUrl()
-            },
-            userlogin(key) {
-                window.location.href = 'loginOrRegister.html';
             },
             collectBg(obj) {
                 // this.limitIdx++;

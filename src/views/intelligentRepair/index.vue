@@ -220,9 +220,6 @@
                 // window.localStorage.setItem('repairInfo',JSON.stringify(data))
                 // window.open('repairEdit.html');
             },
-            userlogin(key) {
-                window.location.href = 'loginOrRegister.html'
-            },
             upLoadimg() {//点击上传
                 this.$refs.upImg.value = '';
                 this.$nextTick( () => {

@@ -1312,7 +1312,7 @@
                 } )
             },
             initDiv() {
-                let oImg = new Image(), w = 900, h = 1275,mattingMsg={"previewHeight":"500","original":"http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200912/68c0e3b336c74460958010c081d06529.jpg","originalHeight":"1600","maskRect":{"x":427,"width":896,"y":95,"height":1505},"bgRemovedPreview":"http://wdpicup.oss-cn-hangzhou.aliyuncs.com/matting_preview/2020/09/18/cd3bd2f89dfa427e9be7325395f2b431.png?Expires=1600998421&OSSAccessKeyId=LTAIzt3dzL2GfSyG&Signature=98d%2BvFjT4Mwh6aqqL0sYQmcBULw%3D","queueNumber":"1","originalWidth":"1600","status":"success","fileId":"746894","previewWidth":"500"};
+                let oImg = new Image(), w = 900, h = 1275,mattingMsg={"previewHeight":"500","original":"http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200912/68c0e3b336c74460958010c081d06529.jpg","originalHeight":"1600","maskRect":{"x":427,"width":896,"y":95,"height":1505},"bgRemovedPreview":"https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/09/21/http___deeplor.oss-cn-hangzhou.aliyuncs.com_upload_image_20200912_68c0e3b336c74460958010c081d06529.png","queueNumber":"1","originalWidth":"1600","status":"success","fileId":"746894","previewWidth":"500"};
                 // let scaleW = 2 / 9 * h / w;//头部占据2/9
                 // let iw = w * scaleW * mattingMsg.originalWidth / (mattingMsg.headData.right - mattingMsg.headData.left);//缩放后的图片宽
                 // let ih = iw * mattingMsg.originalHeight / mattingMsg.originalWidth;

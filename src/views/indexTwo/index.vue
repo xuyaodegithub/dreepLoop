@@ -6,25 +6,28 @@
         <div class=" apps">
             <div class="Operator">
                 <h6><!--Local images-->本地图像</h6>
-                <el-button type="primary" round @click="upLoadimg()"><img style="height: 20px;margin-right: 10px;" src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png" alt=""> 电脑上传</el-button>
+                <el-button type="primary" round @click="upLoadimg()"><img style="height: 20px;margin-right: 10px;"
+                                                                          src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png"
+                                                                          alt=""> 电脑上传
+                </el-button>
                 <uploadBymobile @success="deepItem" ref="uploadSub" :color="4"></uploadBymobile>
-                <p class="afterbtn" v-if="!LoginStatus"><span class="cu" @click="userlogin(0)">登录</span>
+                <p class="afterbtn" v-if="!LoginStatus"><span class="cu" @click="showLoginDilogAction">登录</span>
                     <!--for batch upload-->后批量上传</p>
                 <div class="center">
                     <h5>Web 图片</h5>
                     <div style="position: relative;">
                         <img src="../../assets/image/inputImg.png" alt=""
                              style="position: absolute;left: 8px;top: 12px;">
-<!--                        @keyup.enter="copyImgUrl()"-->
+                        <!--                        @keyup.enter="copyImgUrl()"-->
                         <input type="text" placeholder="CTRL+V图像或URL" v-model="imgUrl"
                                @focus="$event.target.select()">
-<!--                        <img src="../../assets/image/img5.png" alt="" style="margin-left:-14px;" class="cu"-->
-<!--                             @click="copyImgUrl()">-->
+                        <!--                        <img src="../../assets/image/img5.png" alt="" style="margin-left:-14px;" class="cu"-->
+                        <!--                             @click="copyImgUrl()">-->
                     </div>
-<!--                    <div class="flex a-i cu">-->
-<!--                        <img src="../../assets/image/img1.png" alt="">-->
-<!--                        <p>Chrome &lt;!&ndash;extension&ndash;&gt;插件</p>-->
-<!--                    </div>-->
+                    <!--                    <div class="flex a-i cu">-->
+                    <!--                        <img src="../../assets/image/img1.png" alt="">-->
+                    <!--                        <p>Chrome &lt;!&ndash;extension&ndash;&gt;插件</p>-->
+                    <!--                    </div>-->
                 </div>
                 <div class="bottonLast">
                     <div class="flex a-i cu" @click="toApi()">
@@ -77,18 +80,27 @@
                         <div class="gif"><img src="../../assets/image/ogif.gif" alt=""></div>
                         <div class="gifright">
                             <div class="flexs a-i j-b">
-                                <el-button style="border-color: #21a9e8;background-color: #21a9e8" class="firstBtns" type="primary" round @click="upLoadimg()"><img style="height: 20px;margin-right: 10px;" src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png" alt=""> 电脑上传</el-button>
+                                <el-button style="border-color: #21a9e8;background-color: #21a9e8" class="firstBtns"
+                                           type="primary" round @click="upLoadimg()"><img
+                                        style="height: 20px;margin-right: 10px;"
+                                        src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png"
+                                        alt=""> 电脑上传
+                                </el-button>
                                 <uploadBymobile @success="deepItem" ref="uploadSub" :color="4"></uploadBymobile>
                             </div>
-                            <el-input v-model="imgUrl"  placeholder="CTRL+V粘贴图像或者URL"
+                            <el-input v-model="imgUrl" placeholder="CTRL+V粘贴图像或者URL"
                                       @focus="$event.target.select()"></el-input>
                             <div class="aList flex">
-                                <a href="//www.picup.shop/apidoc/_book/object.html#%E5%A4%B4%E5%83%8F%E6%8A%A0%E5%9B%BE%E8%BF%94%E5%9B%9Ebase64-api" target="_blank">物体API></a>
+                                <a href="//www.picup.shop/apidoc/_book/object.html#%E5%A4%B4%E5%83%8F%E6%8A%A0%E5%9B%BE%E8%BF%94%E5%9B%9Ebase64-api"
+                                   target="_blank">物体API></a>
                             </div>
-                            <div class="titlips"><a href="https://www.google.cn/chrome/" target="_blank">推荐使用：谷歌游览器 <img src="@/assets/image/img1.png" alt="">，防止兼容问题</a></div>
+                            <div class="titlips"><a href="https://www.google.cn/chrome/" target="_blank">推荐使用：谷歌游览器 <img
+                                    src="@/assets/image/img1.png" alt="">，防止兼容问题</a></div>
                             <p>没有图像？试试以下图片看看效果</p>
                             <div class="flex a-i">
-                                <div :style="{backgroundImage:`url(${item})`,backgroundSize:'cover',backgroundPosition:'center'}" v-for="(item,idx) in initimgsList" :key="idx" @click="deepItem(item)" class="cu"></div>
+                                <div :style="{backgroundImage:`url(${item})`,backgroundSize:'cover',backgroundPosition:'center'}"
+                                     v-for="(item,idx) in initimgsList" :key="idx" @click="deepItem(item)"
+                                     class="cu"></div>
                             </div>
                         </div>
                     </div>
@@ -96,29 +108,33 @@
                 <div v-for="(item,index) in files" :key="item.name" class="imgRef"
                      :id="item.name">
                     <!--                    :class="{'active' : index===files.length-1}"-->
-                    <img-sub :files="item" @to-parse="collectBg" @close="closeItem" :index="index" ref="subs" @downall="downAllinit"
-                             @openImgSet="openImgSet"></img-sub>
+                    <img-sub :files="item" @to-parse="collectBg" @close="closeItem" :index="index" ref="subs"
+                             @downall="downAllinit"></img-sub>
                 </div>
             </div>
             <div class="ImgLists" v-show="rightImgList.length>1">
-<!--                <el-scrollbar>-->
-                    <div class="imgs" id="niceScrolls">
-                        <div v-for="(item,index) in rightImgList" :key="index" :class="{'active' : selectImg ===index}"
-                             class="cu" @click="goThisImg(index)">
-                            <img :src="item.url" alt="">
-                        </div>
+                <!--                <el-scrollbar>-->
+                <div class="imgs" id="niceScrolls">
+                    <div v-for="(item,index) in rightImgList" :key="index" :class="{'active' : selectImg ===index}"
+                         class="cu" @click="goThisImg(index)">
+                        <img :src="item.url" alt="">
                     </div>
-<!--                </el-scrollbar>-->
-                <div class="downBtn"  @mouseenter="classType=0">
+                </div>
+                <!--                </el-scrollbar>-->
+                <div class="downBtn" @mouseenter="classType=0">
                     <span><!--Download all-->下载全部</span>
                     <div class="sizeChoses">
                         <div class="flex a-i btn j-b">
                             <div v-for="(val,index) in color" :key="index"
                                  :class="{'active' : classType===index}" @click="classType=index" class="cu">
                                 <div class="flex color_List" v-show="classType===2 && index===2">
-                                    <span v-for="(color,idx) in colorList" :key="idx" :style="{backgroundColor:color}" @click.stop="selectColor=color" :class="{selectC : selectColor===color}"></span>
+                                    <span v-for="(color,idx) in colorList" :key="idx" :style="{backgroundColor:color}"
+                                          @click.stop="selectColor=color"
+                                          :class="{selectC : selectColor===color}"></span>
                                 </div>
-                                <img :src="val" alt="" style="position: absolute;left: 0;top: 0;width: 24px;height: 24px" :title="index | imgtitle">
+                                <img :src="val" alt=""
+                                     style="position: absolute;left: 0;top: 0;width: 24px;height: 24px"
+                                     :title="index | imgtitle">
                             </div>
                         </div>
                         <div class="flex a-i">
@@ -136,16 +152,12 @@
                             <span class="cu" @click="saveMove(1,$event)">下载</span>
                         </div>
                         <div>
-<!--                            当前可用次数： 0 <i class="cu">去充值</i>-->
+                            <!--                            当前可用次数： 0 <i class="cu">去充值</i>-->
                         </div>
                     </div>
                 </div>
                 <div class="deAll cu" @click="deleteAllImg">删除全部</div>
             </div>
-        </div>
-                <div class="zhezhao" v-if="showSetImg"></div>
-        <div >
-            <img-set-sub v-if="showSetImg" :imgMsg="imgMsg" @closeImgSet="closeImgSet"></img-set-sub>
         </div>
 
     </div>
@@ -166,13 +178,14 @@
     import opacity from '@/assets/image/fopa.png'
     import bscolor from '@/assets/image/color.png'
     import JSManipulate from '../../utils/jsmanipulate.js'
-    import { niceScroll } from 'jquery.nicescroll';
+    import {niceScroll} from 'jquery.nicescroll';
     import uploadBymobile from '@/components/uploadBymobile';
+
     export default {
         name: 'HelloWorld',
         data() {
             return {
-                initimgsList:[
+                initimgsList: [
                     'http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2019/11/15/9a6ccd03366c4e2eb1fd94484221c873.png',
                     'http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2019/11/15/824e91700851429eb71c8a6a474dd065.png',
                     'http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2019/11/15/da6daaeb1f4a449ba833ce817d4de741.png',
@@ -182,7 +195,6 @@
                 selectImg: 0,
                 multiple: false,
                 imgMsg: {},
-                showSetImg: false,
                 allbgImg: [],
                 sizeArr: [],
                 historyList: {},
@@ -191,28 +203,28 @@
                 imgUrl: '',//图片链接
                 page: 1,
                 rows: 30,
-                color: [init,opacity, bscolor, mohu2, mohu1],
+                color: [init, opacity, bscolor, mohu2, mohu1],
                 classType: 0,
                 stopUpdata: false,//停止滑动加载
                 Percentile: 0,
                 loading: null,
                 scrollStop: true,
-                colorList:[
-                    '#fc0615','#ff7f02','#ffff11','#1cff12','#1bffff','#0000fe','#fc01fc','#7f0f7f','#986633','#ffffff','#7f7f7f','#000000',
-                    '#ffffff','#ebebeb','#d6d6d6','#c2c2c2','#adadad','#999999','#858585','#707070','#5c5c5c','#474747','#333333','#000000',
-                    '#12374a','#061a55','#10033b','#2e063b','#3c091a','#5c0f07','#5b1f05','#563309','#583c0c','#676113','#4f5613','#273e14',
-                    '#154d66','#0f2f7c','#190950','#451058','#551428','#81190c','#7b2a0c','#7b4a10','#795813','#8c8614','#71761a','#38571c',
-                    '#0a6d8d','#1542a9','#2a0876','#621c7e','#781d3e','#b51d12','#ae3d13','#aa6917','#a77a15','#c3bc14','#9aa40d','#4f7a28',
-                    '#158cb4','#1855d4','#371b94','#7a259e','#982550','#e32316','#db5017','#d4810b','#d39c0c','#f5eb17','#c3d119','#689d31',
-                    '#06a1d7','#1260fe','#4e22b5','#972abb','#ba2c5c','#ff3f1a','#fe690b','#fcaa18','#fec810','#fffc45','#d9ec38','#76bc3f',
-                    '#0fc7fd','#3c87fe','#5f2eec','#bf36f5','#e73a7c','#ff6050','#ff8647','#ffb43f','#fecb3e','#fef769','#e3ef65','#97d45f',
-                    '#54d6fa','#75a7ff','#874efd','#d257fd','#ef71a0','#fe8c82','#fea57d','#fec775','#fdda76','#fdf892','#ebf390','#b2dd8b',
-                    '#96e2fa','#a9c6fe','#b18cfd','#e391fd','#f4a4c1','#ffb4ae','#fec5aa','#ffd9a8','#fee4a9','#fefaba','#f4f6b7','#cce8b5',
-                    '#ccf0fe','#d3e2ff','#d9c8fe','#efcafe','#f9d3e0','#fedbd9','#ffe3d7','#feedd3','#fff1d4','#fffdde','#f7fadd','#e0eed5',
+                colorList: [
+                    '#fc0615', '#ff7f02', '#ffff11', '#1cff12', '#1bffff', '#0000fe', '#fc01fc', '#7f0f7f', '#986633', '#ffffff', '#7f7f7f', '#000000',
+                    '#ffffff', '#ebebeb', '#d6d6d6', '#c2c2c2', '#adadad', '#999999', '#858585', '#707070', '#5c5c5c', '#474747', '#333333', '#000000',
+                    '#12374a', '#061a55', '#10033b', '#2e063b', '#3c091a', '#5c0f07', '#5b1f05', '#563309', '#583c0c', '#676113', '#4f5613', '#273e14',
+                    '#154d66', '#0f2f7c', '#190950', '#451058', '#551428', '#81190c', '#7b2a0c', '#7b4a10', '#795813', '#8c8614', '#71761a', '#38571c',
+                    '#0a6d8d', '#1542a9', '#2a0876', '#621c7e', '#781d3e', '#b51d12', '#ae3d13', '#aa6917', '#a77a15', '#c3bc14', '#9aa40d', '#4f7a28',
+                    '#158cb4', '#1855d4', '#371b94', '#7a259e', '#982550', '#e32316', '#db5017', '#d4810b', '#d39c0c', '#f5eb17', '#c3d119', '#689d31',
+                    '#06a1d7', '#1260fe', '#4e22b5', '#972abb', '#ba2c5c', '#ff3f1a', '#fe690b', '#fcaa18', '#fec810', '#fffc45', '#d9ec38', '#76bc3f',
+                    '#0fc7fd', '#3c87fe', '#5f2eec', '#bf36f5', '#e73a7c', '#ff6050', '#ff8647', '#ffb43f', '#fecb3e', '#fef769', '#e3ef65', '#97d45f',
+                    '#54d6fa', '#75a7ff', '#874efd', '#d257fd', '#ef71a0', '#fe8c82', '#fea57d', '#fec775', '#fdda76', '#fdf892', '#ebf390', '#b2dd8b',
+                    '#96e2fa', '#a9c6fe', '#b18cfd', '#e391fd', '#f4a4c1', '#ffb4ae', '#fec5aa', '#ffd9a8', '#fee4a9', '#fefaba', '#f4f6b7', '#cce8b5',
+                    '#ccf0fe', '#d3e2ff', '#d9c8fe', '#efcafe', '#f9d3e0', '#fedbd9', '#ffe3d7', '#feedd3', '#fff1d4', '#fffdde', '#f7fadd', '#e0eed5',
                 ],//色板
-                selectColor:'',
-                baseList:[],//全部下载自定义
-                Completed:[]
+                selectColor: '',
+                baseList: [],//全部下载自定义
+                Completed: []
             }
         },
         filters: {
@@ -226,15 +238,15 @@
                 else if (arr[0] == y && arr[1] == m && arr[2] == d - 1) return '昨天';
                 else return val
             },
-            imgtitle(i){
-                if(i===0)return '自定义后';
-                else if (i===1)return '背景透明';
-                else if (i===2)return '纯色背景';
-                else if (i===3)return '背景黑白';
-                else if (i===4)return '背景模糊';
+            imgtitle(i) {
+                if (i === 0) return '自定义后';
+                else if (i === 1) return '背景透明';
+                else if (i === 2) return '纯色背景';
+                else if (i === 3) return '背景黑白';
+                else if (i === 4) return '背景模糊';
             }
         },
-        watch:{
+        watch: {
             // files: {
             //     handler(newName, oldName) {
             //         if (newName.length>0) setShow(0)
@@ -246,64 +258,67 @@
         mounted() {
             this.stopPrevent()
             this.getsesImgsSet()
-            if(getToken())this.userGetscribe();
+            if (getToken()) this.userGetscribe();
             window.addEventListener( 'scroll', this.scrollFun );
             $( '#niceScrolls' ).niceScroll( {cursorcolor: '#999999'} );
-            document.addEventListener('paste', (e) => {
-                console.log(e)
+            document.addEventListener( 'paste', (e) => {
+                console.log( e )
                 let clipboardData = e.clipboardData,//谷歌
                     i = 0,
                     items, item, types;
-                if( clipboardData ) {
+                if (clipboardData) {
                     items = clipboardData.items;
                     if (!items) {
                         return;
                     }
                     item = items[0];
                     types = clipboardData.types || [];
-                    for (let i=0; i < types.length; i++) {
+                    for (let i = 0; i < types.length; i++) {
                         if (types[i] === 'Files') {
                             item = items[i];
                             break;
                         }
                     }
-                    if(item && item.kind === 'string' && item.type.match( /^text\//i )){
-                        this.deepItem(clipboardData.getData("Text"))
+                    if (item && item.kind === 'string' && item.type.match( /^text\//i )) {
+                        this.deepItem( clipboardData.getData( "Text" ) )
                     }
                     if (item && item.kind === 'file' && item.type.match( /^image\//i )) {
-                        console.log(item.getAsFile().size/1024)
-                        this.changeImg({target:{files:[item.getAsFile()]}})
+                        console.log( item.getAsFile().size / 1024 )
+                        this.changeImg( {target: {files: [item.getAsFile()]}} )
                     }
                 }
-            })
+            } )
             // $('.hisimgs').niceScroll({cursorcolor :'#999999',boxzoom:true});
         },
-        destroyed(){
+        destroyed() {
             window.removeEventListener( 'scroll', this.scrollFun )
         },
         computed: {
             ...mapGetters( [] ),
-            LoginStatus(){//登录状态
+            LoginStatus() {//登录状态
                 return getToken() ? true : false;
             }
         },
         components: {
-            headerSub, imgSub, imgSetSub,uploadBymobile
+            headerSub, imgSub, imgSetSub, uploadBymobile
         },
         methods: {
             ...mapActions( [
-                'userGetscribe'
+                'userGetscribe', 'showLoginDilogAction'
             ] ),
-            downAllinit(objs,blogTitle='picture'){//下载全部自定义后的图片
-                const allNum=this.$refs.subs.length,_this=this;
-                let zip = new JSZip(),imgs = zip.folder( blogTitle );
-                const name=objs.filename.substring(0,objs.filename.lastIndexOf('.')).replace(/\//g,'%');
-                const same=this.baseList.some(item=>item.name===name+'.png');
-                this.baseList.push( {name: (same ? name + Math.random() : name) + '.png', img: objs.obj.substring( 22 )} );
+            downAllinit(objs, blogTitle = 'picture') {//下载全部自定义后的图片
+                const allNum = this.$refs.subs.length, _this = this;
+                let zip = new JSZip(), imgs = zip.folder( blogTitle );
+                const name = objs.filename.substring( 0, objs.filename.lastIndexOf( '.' ) ).replace( /\//g, '%' );
+                const same = this.baseList.some( item => item.name === name + '.png' );
+                this.baseList.push( {
+                    name: (same ? name + Math.random() : name) + '.png',
+                    img: objs.obj.substring( 22 )
+                } );
                 // this.baseList.push( {name: name+'.png', img: objs.obj.substring( 22 )} );
                 this.Percentile += 1;
                 this.loading.text = this.Percentile + '/' + this.Completed.length + ' 已完成';
-                console.log(this.Percentile,this.allbgImg.length,'.....')
+                console.log( this.Percentile, this.allbgImg.length, '.....' )
                 if (this.baseList.length === this.Completed.length) {
                     if (this.baseList.length > 0) {
                         this.loading.text = '打包中...';
@@ -326,30 +341,17 @@
                     }
                 }
             },
-            deepItem(item){
-                this.imgUrl=item
+            deepItem(item) {
+                this.imgUrl = item
                 this.copyImgUrl()
             },
-            userlogin(key) {
-                let urls = window.location.href.split( '#/' )[0];
-                let baseUrl = urls.substring( 0, urls.lastIndexOf( '/' ) );
-                window.location.href = baseUrl + '/loginOrRegister.html#/?type=' + key
-            },
-            closeImgSet(val) {//关闭操作台
-                this.showSetImg = false;
-                this.imgMsg = {};
-            },
-            openImgSet(obj) {//打开操作台
-                this.imgMsg = obj;
-                this.showSetImg = true;
-            },
             collectBg(obj) {
-                    this.allbgImg[obj.id]=obj
-                if (!getSecImgs(2)) {
+                this.allbgImg[obj.id] = obj
+                if (!getSecImgs( 2 )) {
                     this.sesImgsSet( this.allbgImg );
                     return
                 }
-                let hasown = JSON.parse( getSecImgs(2) ).some( (item) => {
+                let hasown = JSON.parse( getSecImgs( 2 ) ).some( (item) => {
                     return item.fileId == obj.fileId
                 } );
                 if (!hasown) this.sesImgsSet( this.allbgImg )
@@ -380,7 +382,7 @@
             },
             //下载多张抠图
             saveMove(key, e) {
-                let that = this, allImgs = JSON.parse( JSON.stringify( this.allbgImg ) ),allSub = this.$refs.subs;
+                let that = this, allImgs = JSON.parse( JSON.stringify( this.allbgImg ) ), allSub = this.$refs.subs;
                 this.$message.closeAll();
                 let arr = allImgs.filter( (val, index) => {
                     return val.img
@@ -397,11 +399,11 @@
                     spinner: 'el-icon-loading',
                     background: 'rgba(0, 0, 0, 0.7)'
                 } );
-                if (key === 0)  {
+                if (key === 0) {
                     if (!this.classType) {//下载自定义
                         arr.map( item => {
-                            const idx=allSub.findIndex(itemson=>item.fileId===itemson.fileId);
-                            if(idx>-1){
+                            const idx = allSub.findIndex( itemson => item.fileId === itemson.fileId );
+                            if (idx > -1) {
                                 allSub[idx].save( key, e, 'all' )
                             }
                         } )
@@ -419,8 +421,8 @@
                             } );
                             if (!this.classType) {//下载自定义
                                 arr.map( item => {
-                                    const idx=allSub.findIndex(itemson=>item.fileId===itemson.fileId);
-                                    if(idx>-1){
+                                    const idx = allSub.findIndex( itemson => item.fileId === itemson.fileId );
+                                    if (idx > -1) {
                                         allSub[idx].imageMUrl = item.img;
                                         allSub[idx].save( key, e, 'all' )
                                     }
@@ -445,14 +447,14 @@
                     let ctxs = cans.getContext( '2d' )
                     cans.width = objs.bgRemovedImg.width;
                     cans.height = objs.bgRemovedImg.height;
-                    if (this.classType ===2) {
+                    if (this.classType === 2) {
                         ctxs.fillStyle = this.selectColor;
                         ctxs.fillRect( 0, 0, cans.width, cans.height )
-                    } else if (this.classType >2) ctxs.putImageData( objs.dwonBg, 0, 0 );
+                    } else if (this.classType > 2) ctxs.putImageData( objs.dwonBg, 0, 0 );
                     ctxs.drawImage( objs.bgRemovedImg, 0, 0 );
                     let url = cans.toDataURL( "image/png" ); // 得到图片的base64编码数据 let url =
-                    const name=objs.is.substring(0,objs.is.lastIndexOf('.')).replace(/\//g,'%')
-                    const same=baseList.some(item=>item.name===name+'.png');
+                    const name = objs.is.substring( 0, objs.is.lastIndexOf( '.' ) ).replace( /\//g, '%' )
+                    const same = baseList.some( item => item.name === name + '.png' );
                     baseList.push( {name: (same ? name + Math.random() : name) + '.png', img: url.substring( 22 )} );
                     // baseList.push( {name:  name+'.png', img: url.substring( 22 )} );
                     _this.Percentile += 1
@@ -479,10 +481,10 @@
                     }
                 }
                 for (let i = 0; i < arr.length; i++) {
-                    this.drawStyleBg( arr[i], this.classType, callback,arr[i].filename )
+                    this.drawStyleBg( arr[i], this.classType, callback, arr[i].filename )
                 }
             },
-            copyImgUrl(url,k) {//粘贴图片链接确定
+            copyImgUrl(url, k) {//粘贴图片链接确定
                 if (!this.imgUrl && !url) {
                     this.$message( {
                         message: '图片地址不可为空',
@@ -495,26 +497,26 @@
                 this.files.unshift( {
                     url: url ? url.url : this.imgUrl,
                     name: name,
-                    filename:url ? (url.filename ? url.filename :  url.url) : this.imgUrl,
+                    filename: url ? (url.filename ? url.filename : url.url) : this.imgUrl,
                     type: 'copy',
                     fileId: url ? url.fileId : ''
                 } )
                 this.imgUrlss( {
                     url: url ? url.url : this.imgUrl,
                     name: name,
-                    filename:url ? (url.filename ? url.filename :  url.url) : this.imgUrl,
+                    filename: url ? (url.filename ? url.filename : url.url) : this.imgUrl,
                     type: 'copy',
                     fileId: url ? url.fileId : ''
                 } )
-                this.imgUrl=''
+                this.imgUrl = ''
             },
             changeImg(ev) {//图片上传
-                const e= ev.target
-                if(e.files.length>30){
-                    this.$message({
-                        type:'warning',
-                        message:'最多同时上传30张图片，请分批次进行上传。'
-                    })
+                const e = ev.target
+                if (e.files.length > 30) {
+                    this.$message( {
+                        type: 'warning',
+                        message: '最多同时上传30张图片，请分批次进行上传。'
+                    } )
                     return
                 }
                 this.toscroll();
@@ -523,7 +525,7 @@
                         url: e.files[i],
                         name: parseInt( Math.random() * 100000000000 ),
                         type: 'file',
-                        filename:e.files[i].name
+                        filename: e.files[i].name
                     } );
                 }
                 this.imgUrlss( e.files )
@@ -538,11 +540,10 @@
             imgUrlss(obj) {//rightImgList
                 let _self = this
                 let newArr = new Array( obj.length ).fill( 0 );
-                if (obj.type === 'copy'){
+                if (obj.type === 'copy') {
                     this.rightImgList.unshift( {url: obj.url, name: obj.name} )
-                    this.allbgImg=[0,...this.allbgImg]
-                }
-                else {
+                    this.allbgImg = [0, ...this.allbgImg]
+                } else {
                     for (let i = 0; i < obj.length; i++) {
                         let reader = new FileReader();
                         reader.readAsDataURL( obj[i] );
@@ -556,7 +557,7 @@
                             // console.log(_self.allbgImg,"11111111111111111111111")
                         }
                     }
-                    this.allbgImg=[...new Array(obj.length).fill(0),...this.allbgImg]
+                    this.allbgImg = [...new Array( obj.length ).fill( 0 ), ...this.allbgImg]
                 }
             },
             goThisImg(index) {
@@ -576,7 +577,7 @@
                 let data = {
                     page: this.page,
                     pageSize: this.rows,
-                    mattingType:2
+                    mattingType: 2
                 }
                 userHistoryList( data ).then( res => {
                     if (!res.code) {
@@ -604,7 +605,7 @@
                         that.downOthers( {oldImg: originalImg, bgImg: img, name: obj.name}, key, callback, i )
                     }
                 }
-                img.src = addUrlQuery(obj.img);
+                img.src = addUrlQuery( obj.img );
                 let originalImg = new Image();
                 originalImg.crossOrigin = '';
                 originalImg.onload = function () {
@@ -613,7 +614,7 @@
                         that.downOthers( {oldImg: originalImg, bgImg: img, name: obj.name}, key, callback, i )
                     }
                 }
-                originalImg.src = addUrlQuery(obj.Original);
+                originalImg.src = addUrlQuery( obj.Original );
             },
             downOthers(imgObjs, index, callback, i) {//效果图下载
                 let canvasTemp = document.createElement( 'canvas' );
@@ -635,7 +636,7 @@
             },
             getmoveHis(e) {
                 let historyList = this.$refs.historyList, scrollTop = e.target.scrollTop;
-                console.log(historyList.offsetHeight,historyList.scrollHeight)
+                console.log( historyList.offsetHeight, historyList.scrollHeight )
                 if (scrollTop + historyList.offsetHeight > historyList.scrollHeight - 20) {
                     if (!this.stopUpdata) {
                         this.rows += 10;
@@ -660,35 +661,35 @@
                 document.addEventListener( "dragover", function (e) {  //拖来拖去
                     e.preventDefault();
                 } );
-                let oDrops=document.getElementsByClassName('drops');
-                for(let i=0;i<oDrops.length;i++){
-                    oDrops[i].addEventListener("drop", function (e) {
+                let oDrops = document.getElementsByClassName( 'drops' );
+                for (let i = 0; i < oDrops.length; i++) {
+                    oDrops[i].addEventListener( "drop", function (e) {
                         e.preventDefault();
                         e.stopPropagation();
                         // e.cancelable=true
                         let files = e.dataTransfer.files;
                         // console.log(files)
-                        if(!files.length)return;
-                        if(!getToken() && files.length>1) {
-                            console.log(files)
-                            _self.$message({type:'error',message:'登录后可批量上传'})
+                        if (!files.length) return;
+                        if (!getToken() && files.length > 1) {
+                            console.log( files )
+                            _self.$message( {type: 'error', message: '登录后可批量上传'} )
                             return
                         }
                         _self.toscroll();
                         for (let i = 0; i < files.length; i++) {
-                            _self.files.unshift({
+                            _self.files.unshift( {
                                 url: files[i],
-                                name: parseInt(Math.random()*100000000000),
+                                name: parseInt( Math.random() * 100000000000 ),
                                 type: 'file',
-                                filename:files[i].name
-                            })
+                                filename: files[i].name
+                            } )
                         }
-                        _self.imgUrlss(files)
-                    })
+                        _self.imgUrlss( files )
+                    } )
                 }
             },
             scrollFun() {
-                if (!this.scrollStop || this.rightImgList.length<2) return;
+                if (!this.scrollStop || this.rightImgList.length < 2) return;
                 let oDiv = document.getElementsByClassName( 'imgRef' )
                 // let oImg=document.querySelector('.ImgLists .imgs div')
                 if (oDiv.length < 2) return;
@@ -709,47 +710,47 @@
                 let arr = []
                 // console.log(this.allbgImg)
                 files.map( (item, index) => {
-                    if(!item.noSave){
-                        arr.push( {Original: item.Original, fileId: item.fileId,filename:item.filename} )
+                    if (!item.noSave) {
+                        arr.push( {Original: item.Original, fileId: item.fileId, filename: item.filename} )
                     }
                 } )
-                setSecImgs( JSON.stringify( arr ),2 )
+                setSecImgs( JSON.stringify( arr ), 2 )
             },
             getsesImgsSet() {
-                if (!getSecImgs(2)) return;
-                let arr = JSON.parse( getSecImgs(2) ).reverse();
+                if (!getSecImgs( 2 )) return;
+                let arr = JSON.parse( getSecImgs( 2 ) ).reverse();
                 if (!arr) return;
                 arr.map( (item) => {
-                    this.copyImgUrl( {url: item.Original, fileId: item.fileId,filename:item.filename},1 )
+                    this.copyImgUrl( {url: item.Original, fileId: item.fileId, filename: item.filename}, 1 )
                 } )
             },
-            deleteAllImg(){//删除全部
-                this.$confirm('确定要删除全部么', '提示', {
+            deleteAllImg() {//删除全部
+                this.$confirm( '确定要删除全部么', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning',
-                    confirmButtonClass:'conSure',
-                    cancelButtonClass:'canalSure'
-                }).then(() => {
-                    this.files=[];
-                    this.rightImgList=[];
+                    confirmButtonClass: 'conSure',
+                    cancelButtonClass: 'canalSure'
+                } ).then( () => {
+                    this.files = [];
+                    this.rightImgList = [];
                     // console.log(this.$refs.imgRef)
-                    this.allbgImg=[];
+                    this.allbgImg = [];
                     this.sesImgsSet( this.allbgImg );
                     $( 'body,html' ).animate( {scrollTop: 0}, 500 );
-                    this.$message({
+                    this.$message( {
                         type: 'success',
                         message: '删除成功!'
-                    });
-                }).catch(() => {
+                    } );
+                } ).catch( () => {
 
-                });
+                } );
             }
 
         },
         created() {
-            const data=localStorage.getItem('initObjStatus') ? JSON.parse(localStorage.getItem('initObjStatus')) : '';
-            this.$store.commit('SET_INIT_STATUS',data)
+            const data = localStorage.getItem( 'initObjStatus' ) ? JSON.parse( localStorage.getItem( 'initObjStatus' ) ) : '';
+            this.$store.commit( 'SET_INIT_STATUS', data )
         }
     }
 </script>
@@ -758,6 +759,7 @@
 <style lang="scss">
     .helloFirst {
         background-color: #f5f5f6;
+
         .apps {
             padding-right: 75px;
         }
@@ -881,17 +883,23 @@
                     position: absolute;
                     left: 34px;
                     bottom: 100px;
-                    .flex{
+
+                    .flex {
                         position: relative;
                         margin-bottom: 15px;
-                        &:hover .noC{display: block;}
-                        .noC{
+
+                        &:hover .noC {
+                            display: block;
+                        }
+
+                        .noC {
                             position: absolute;
                             bottom: 0;
                             right: -116px;
                             display: none;
                         }
                     }
+
                     a {
                         color: #333;
                     }
@@ -945,6 +953,7 @@
                         margin-right: 12px;
                         margin-bottom: 15px;
                         overflow: hidden;
+
                         img {
                             display: block;
                             width: 100%;
@@ -963,71 +972,89 @@
             margin: 60px 0 0 244px;
             flex: 1;
             padding: 15px 0 0 15px;
+
             .imgRef.active {
                 margin-bottom: 85px;
             }
-            .newChunk{
+
+            .newChunk {
                 background-color: #fff;
                 padding: 60px 0 80px;
                 line-height: 1;
                 text-align: center;
                 margin-bottom: 15px;
-                h2{
+
+                h2 {
                     font-size: 34px;
                     font-weight: bold;
                 }
-                & > p{
+
+                & > p {
                     font-size: 20px;
                     margin: 20px 0 50px 0;
                     color: #777;
                 }
-                & > .flex{
+
+                & > .flex {
                     justify-content: center;
                 }
-                .gifright{
+
+                .gifright {
                     text-align: left;
                     width: 280px;
                     margin-left: 78px;
-                    &> .aList{
+
+                    & > .aList {
                         font-size: 14px;
                         justify-content: space-between;
                         margin-bottom: 50px;
                         padding-right: 20px;
-                        a{
+
+                        a {
                             color: #333;
-                            &:hover{ color: #e82255;}
+
+                            &:hover {
+                                color: #e82255;
+                            }
                         }
                     }
-                    .el-button,.el-input{
+
+                    .el-button, .el-input {
                         display: block;
                         width: 100%;
                         border-radius: 10px;
                         height: 50px;
                         margin-bottom: 20px;
-                        input{
+
+                        input {
                             height: 100%;
-                            background-color: rgb(243,243,243);
+                            background-color: rgb(243, 243, 243);
                             border-color: #fff;
                         }
                     }
-                    .el-input{
+
+                    .el-input {
                         margin-bottom: 15px;
-                        background-color: rgb(243,243,243);
+                        background-color: rgb(243, 243, 243);
                     }
-                    p{
+
+                    p {
                         font-size: 14px;
                         color: #999;
                         line-height: 50px;
                     }
-                    .flex div{
+
+                    .flex div {
                         width: 62px;
                         height: 62px;
                         border-radius: 5px;
                         margin-right: 12px;
                     }
-                    .titlips{
+
+                    .titlips {
                         font-size: 14px;
-                        a{
+
+                        a {
                             color: #999;
                         }
                     }
@@ -1041,10 +1068,12 @@
             top: 75px;
             width: 40px;
             max-height: 70%;
-           z-index: 88;
-            .el-scrollbar{
+            z-index: 88;
+
+            .el-scrollbar {
                 z-index: 999;
             }
+
             .imgs {
                 max-height: 450px;
                 /*overflow-y: auto;*/
@@ -1077,18 +1106,21 @@
                 text-align: center;
                 color: #fff;
                 background-color: $to;
-                & > span{
+
+                & > span {
                     display: block;
                     height: 100%;
                     line-height: 16px;
-                    font-size:12px ;
+                    font-size: 12px;
                     padding: 5px;
                 }
+
                 &:hover .sizeChoses {
                     display: block;
                 }
             }
-            .deAll{
+
+            .deAll {
                 display: block;
                 line-height: 16px;
                 font-size: 12px;
@@ -1114,11 +1146,19 @@
         right: 40px;
         top: 0;
         text-align: left;
+
         & > div {
             margin-bottom: 10px;
-            span:first-child{width: 130px;}
-            span:nth-child(2){width: 110px;}
-            span.cu{
+
+            span:first-child {
+                width: 130px;
+            }
+
+            span:nth-child(2) {
+                width: 110px;
+            }
+
+            span.cu {
                 width: 50px;
                 text-align: center;
                 line-height: 24px;
@@ -1126,10 +1166,16 @@
                 border-radius: 13px;
                 color: $to;
             }
-            &:last-child{
+
+            &:last-child {
                 margin-bottom: 0;
                 text-align: right;
-                i{border-bottom: 1px solid #a1a0a0;margin-left: 10px;}
+
+                i {
+                    border-bottom: 1px solid #a1a0a0;
+                    margin-left: 10px;
+                }
+
                 color: #a1a0a0;
             }
         }
@@ -1140,13 +1186,15 @@
 
         .btn {
             height: 40px;
-            padding:0 10px 8px;
+            padding: 0 10px 8px;
             border-bottom: 1px solid #ececec;
             margin-bottom: 8px;
-            & > div{
+
+            & > div {
                 position: relative;
             }
-            .color_List{
+
+            .color_List {
                 position: absolute;
                 top: -250px;
                 left: 50%;
@@ -1155,16 +1203,19 @@
                 flex-wrap: wrap;
                 box-shadow: 0 0 10px #333;
                 margin-top: 10px;
-                z-index:88;
+                z-index: 88;
                 background-color: #fff;
-                span:first-child{
+
+                span:first-child {
                     margin-bottom: 10px;
                 }
-                span{
+
+                span {
                     width: 20px;
                     height: 20px;
                 }
-                .selectC{
+
+                .selectC {
                     box-shadow: 0 0 8px #fff inset;
                 }
             }
@@ -1215,18 +1266,20 @@
         }
         .content .rightBig {
             padding-right: 55px;
+
             .bigimg {
-            max-width: 862px;
-        }
+                max-width: 862px;
+            }
         }
     }
 </style>
 <style>
-    .el-message-box .conSure,.el-message-box .conSure:hover{
+    .el-message-box .conSure, .el-message-box .conSure:hover {
         background-color: #21a9e8;
         border-color: #21a9e8;
     }
-    .el-message-box .canalSure:hover{
+
+    .el-message-box .canalSure:hover {
         background-color: rgb(198, 226, 255);
         border-color: rgb(198, 226, 255);
         color: #fff;
