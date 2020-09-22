@@ -645,9 +645,7 @@
                     oDrops[i].addEventListener( "drop", function (e) {
                         e.preventDefault();
                         e.stopPropagation();
-                        // e.cancelable=true
                         let files = e.dataTransfer.files;
-                        // console.log(files)
                         if (!files.length) return;
                         if (!getToken() && files.length > 1) {
                             console.log( files )
@@ -671,7 +669,6 @@
             scrollFun() {
                 if (!this.scrollStop || this.rightImgList.length < 2) return;
                 let oDiv = document.getElementsByClassName( 'imgRef' )
-                // let oImg=document.querySelector('.ImgLists .imgs div')
                 if (oDiv.length < 2) return;
                 let _self = this
                 Array.prototype.slice.call( oDiv ).map( (item, index) => {

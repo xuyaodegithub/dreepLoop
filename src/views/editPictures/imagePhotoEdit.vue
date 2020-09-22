@@ -204,7 +204,7 @@
     import vMune from '@/components/editMune/imagePhotoSub.vue';
     import loginDialog from '@/components/login_dialog/index2';
     import mattingImg from '@/components/mattingImg';
-    import { getTanDeg, initSmallTag} from '@/utils';
+    import { getTanDeg, initSmallTag,setRad} from '@/utils';
     import {mixins} from '@/minxins';
     import opacity from '@/assets/opacity.jpg'
     import fupa from '@/assets/image/fopa.png';
