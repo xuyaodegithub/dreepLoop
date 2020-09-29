@@ -203,7 +203,7 @@
             deepItem(item) {
                 compressImg(item,1).then(blob=>{
                     let fromData=new FormData();
-                    fromData.set('file',blob);
+                    fromData.append('file',blob);
                     uploadossBg(fromData).then(res=>{
                         const data={
                             img:res.data,
@@ -233,7 +233,7 @@
                 const file = ev.target.files[0];
                 compressImg(file).then(blob=>{
                     let fromData=new FormData();
-                    fromData.set('file',blob)
+                    fromData.append('file',blob)
                     uploadossBg(fromData).then(res=>{
                         const data={
                             img:res.data,

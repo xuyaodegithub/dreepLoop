@@ -1,13 +1,13 @@
-const webpack = require('webpack');
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');//打包时，显示进度条插件
+const webpack = require( 'webpack' );
+const ProgressBarPlugin = require( 'progress-bar-webpack-plugin' );//打包时，显示进度条插件
 // const UglifyJsPlugin = require('uglifyjs-webpack-plugin');//js压缩
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require( 'path' )
+const HtmlWebpackPlugin = require( 'html-webpack-plugin' )
 const Timestamp = new Date().getTime();//时间戳，解决缓存问题
 module.exports = {
     // publicPath: process.env.NODE_ENV === 'production' ? 'http://47.111.168.199:8080' : 'http://47.111.168.199:8080',
-    publicPath:'./',
-    outputDir:'dist',//打包生出的目录
+    publicPath: './',
+    outputDir: 'dist',//打包生出的目录
     productionSourceMap: false,
     // filenameHashing: false,    // 去掉文件名中的 hash
     lintOnSave: false,   // 取消 eslint 验证
@@ -42,10 +42,10 @@ module.exports = {
             }
         }
     },
-    pages:{
-        index:{
+    pages: {
+        index: {
             entry: 'src/views/initIdx/index.js',
-            template:'public/init.html',
+            template: 'public/init.html',
             filename: 'index.html',
             title: '首页',
             // chunks: ['chunk-vendors', 'chunk-common', 'loginOrRegister']
@@ -78,187 +78,199 @@ module.exports = {
             // 提取出来的通用 chunk 和 vendor chunk。
             // chunks: ['chunk-vendors', 'chunk-common', 'index']
         },
-        beautify:{
+        beautify: {
             entry: 'src/views/beautify/index.js',
-            template:'public/beautify.html',
+            template: 'public/beautify.html',
             filename: 'beautify.html',
             title: '一键美化',
             // chunks: ['chunk-vendors', 'chunk-common', 'loginOrRegister']
         },
-        intelligentRepair:{
+        intelligentRepair: {
             entry: 'src/views/intelligentRepair/index.js',
-            template:'public/intelligentRepair.html',
+            template: 'public/intelligentRepair.html',
             filename: 'intelligentRepair.html',
             title: '照片修复',
             // chunks: ['chunk-vendors', 'chunk-common', 'loginOrRegister']
         },
-        headCutout:{
+        headCutout: {
             entry: 'src/views/headCutout/index.js',
-            template:'public/headCutout.html',
+            template: 'public/headCutout.html',
             filename: 'headCutout.html',
             title: '头像抠图',
             // chunks: ['chunk-vendors', 'chunk-common', 'loginOrRegister']
         },
-        currency:{
+        currency: {
             entry: 'src/views/currency/index.js',
-            template:'public/currency.html',
+            template: 'public/currency.html',
             filename: 'currency.html',
             title: '通用抠图',
             // chunks: ['chunk-vendors', 'chunk-common', 'loginOrRegister']
         },
-        videoMatting:{
+        videoMatting: {
             entry: 'src/views/videoMatting/index.js',
-            template:'public/videoMatting.html',
+            template: 'public/videoMatting.html',
             filename: 'videoMatting.html',
             title: '视频抠图',
             // chunks: ['chunk-vendors', 'chunk-common', 'loginOrRegister']
         },
-        loginOrRegister:{
+        loginOrRegister: {
             entry: 'src/views/login/login.js',
-            template:'public/loginOrRegister.html',
+            template: 'public/loginOrRegister.html',
             filename: 'loginOrRegister.html',
             title: '登录',
             // chunks: ['chunk-vendors', 'chunk-common', 'loginOrRegister']
         },
-        register:{
+        register: {
             entry: 'src/views/register/index.js',
-            template:'public/register.html',
+            template: 'public/register.html',
             filename: 'register.html',
             title: '注册',
             // chunks: ['chunk-vendors', 'chunk-common', 'loginOrRegister']
         },
-        userCenter:{
+        userCenter: {
             entry: 'src/views/userCenter/user.js',
-            template:'public/userCenter.html',
+            template: 'public/userCenter.html',
             filename: 'userCenter.html',
             title: '我的',
             // chunks: ['chunk-vendors', 'chunk-common', 'userCenter']
         },
-        userVip:{
+        userVip: {
             entry: 'src/views/userVip/index.js',
-            template:'public/userVip.html',
+            template: 'public/userVip.html',
             filename: 'userVip.html',
             title: '会员中心',
             // chunks: ['chunk-vendors', 'chunk-common', 'userVip']
         },
-        resBackMsg:{
+        resBackMsg: {
             entry: 'src/views/resBackMsg/index.js',
-            template:'public/resRackMsg.html',
+            template: 'public/resRackMsg.html',
             filename: 'resBackMsg.html',
             title: '处理结果',
             // chunks: ['chunk-vendors', 'chunk-common', 'resBackMsg']
         },
-        changePass:{
+        changePass: {
             entry: 'src/views/changePassword/index.js',
-            template:'public/changePass.html',
+            template: 'public/changePass.html',
             filename: 'changePass.html',
             title: '找回密码',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
         },
-        updataPass:{
+        updataPass: {
             entry: 'src/views/updataPassword/index.js',
-            template:'public/updata.html',
+            template: 'public/updata.html',
             filename: 'updataPass.html',
             title: '修改密码',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
         },
-        emailAction:{
+        emailAction: {
             entry: 'src/views/emailAction/index.js',
-            template:'public/emailAction.html',
+            template: 'public/emailAction.html',
             filename: 'emailAction.html',
             title: '邮箱',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
         },
-        product:{
+        product: {
             entry: 'src/views/products/index.js',
-            template:'public/product.html',
+            template: 'public/product.html',
             filename: 'product.html',
             title: 'picup.ai更多产品',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
         },
-        aboutUs:{
+        aboutUs: {
             entry: 'src/views/aboutUs/index.js',
-            template:'public/aboutUs.html',
+            template: 'public/aboutUs.html',
             filename: 'aboutUs.html',
             title: '关于我们',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
-        }, videoPrice:{
+        }, videoPrice: {
             entry: 'src/views/userVip/videoPrice.js',
-            template:'public/videoPrice.html',
+            template: 'public/videoPrice.html',
             filename: 'videoPrice.html',
             title: '视频价格',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
-        },copyright:{
+        }, copyright: {
             entry: 'src/views/copyright/index.js',
-            template:'public/copyright.html',
+            template: 'public/copyright.html',
             filename: 'copyright.html',
             title: '版权',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
-        },editPictures:{
+        }, editPictures: {
             entry: 'src/views/editPictures/index.js',
-            template:'public/editPictures.html',
+            template: 'public/editPictures.html',
             filename: 'editPictures.html',
             title: '图片编辑',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
-        },downLoad:{
+        }, downLoad: {
             entry: 'src/views/downLoad/index.js',
-            template:'public/downLoad.html',
+            template: 'public/downLoad.html',
             filename: 'downLoad.html',
             title: '桌面端下载',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
-        },repairEdit:{
+        }, repairEdit: {
             entry: 'src/views/editPictures/repairEdit.js',
-            template:'public/repairEdit.html',
+            template: 'public/repairEdit.html',
             filename: 'repairEdit.html',
             title: '图片修复',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
-        },posterEditor:{
+        }, posterEditor: {
             entry: 'src/views/editPictures/posterEditor.js',
-            template:'public/posterEditor.html',
+            template: 'public/posterEditor.html',
             filename: 'posterEditor.html',
             title: '海报设计',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
-        },transitionPage:{
+        }, transitionPage: {
             entry: 'src/views/index/transitionPage.js',
-            template:'public/transitionPage.html',
+            template: 'public/transitionPage.html',
             filename: 'transitionPage.html',
             title: '一键抠图',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
-        },apis:{
+        }, apis: {
             entry: 'src/views/index/apis.js',
-            template:'public/apis.html',
+            template: 'public/apis.html',
             filename: 'apis.html',
             title: 'apis',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
-        },servicePrivacy:{
+        }, servicePrivacy: {
             entry: 'src/views/index/servicePrivacy.js',
-            template:'public/servicePrivacy.html',
+            template: 'public/servicePrivacy.html',
             filename: 'servicePrivacy.html',
             title: '服务与隐私',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
-        },idPhoto:{
+        }, idPhoto: {
             entry: 'src/views/idPhoto/index.js',
-            template:'public/idPhoto.html',
+            template: 'public/idPhoto.html',
             filename: 'idPhoto.html',
             title: '证件照',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
-        },idPhotoEdit:{
+        }, idPhotoEdit: {
             entry: 'src/views/editPictures/idPhotoEdit.js',
-            template:'public/idPhotoEdit.html',
+            template: 'public/idPhotoEdit.html',
             filename: 'idPhotoEdit.html',
             title: '证件照编辑器',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
-        },imagePhoto:{
+        }, imagePhoto: {
             entry: 'src/views/idPhoto/image.js',
-            template:'public/imagePhoto.html',
+            template: 'public/imagePhoto.html',
             filename: 'imagePhoto.html',
             title: '形象照',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
-        },imagePhotoEdit:{
+        }, imagePhotoEdit: {
             entry: 'src/views/editPictures/imagePhotoEdit.js',
-            template:'public/imagePhotoEdit.html',
+            template: 'public/imagePhotoEdit.html',
             filename: 'imagePhotoEdit.html',
             title: '形象照编辑器',
+            // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
+        }, onlineImage: {
+            entry: 'src/views/idPhoto/onlineImage.js',
+            template: 'public/onlineImage.html',
+            filename: 'onlineImage.html',
+            title: '电商白底图',
+            // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
+        }, onlineImageEdit: {
+            entry: 'src/views/editPictures/onlineImageEdit.js',
+            template: 'public/onlineImageEdit.html',
+            filename: 'onlineImageEdit.html',
+            title: '电商白底图编辑器',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
         },
     },
@@ -270,11 +282,11 @@ module.exports = {
     // },
     configureWebpack: {
         plugins: [
-            new webpack.ProvidePlugin({
-                $:"jquery",
-                jQuery:"jquery",
-                "windows.jQuery":"jquery"
-            }),
+            new webpack.ProvidePlugin( {
+                $: "jquery",
+                jQuery: "jquery",
+                "windows.jQuery": "jquery"
+            } ),
             new ProgressBarPlugin(),
             // new HtmlWebpackPlugin({
             //     template: './public/index.html',
@@ -286,7 +298,8 @@ module.exports = {
             //         removeAttributeQuotes: true
             //         // more options:
             //         // https://github.com/kangax/html-minifier#options-quick-reference
-            //     }
+            //     },
+            //chunks:item.name,
             //     // default sort mode uses toposort which cannot handle cyclic deps
             //     // in certain cases, and in webpack 4, chunk order in HTML doesn't
             //     // matter anyway

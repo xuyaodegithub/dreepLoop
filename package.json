@@ -13,6 +13,7 @@
     "core-js": "^2.6.5",
     "element-ui": "^2.10.0",
     "file-saver": "^2.0.2",
+    "html-withimg-loader": "^0.1.16",
     "jquery": "^3.4.1",
     "jquery.nicescroll": "^3.7.6",
     "js-cookie": "^2.2.1",

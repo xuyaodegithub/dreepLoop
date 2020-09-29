@@ -201,13 +201,13 @@
             downLoadImg(e, i) {
                 this.loading.show = true;
                 let fromData = new FormData();
-                fromData.set( 'width', this.oriImgObg.width );
-                fromData.set( 'height', this.oriImgObg.height );
-                fromData.set( 'flag', 1 );
-                fromData.set( 'image', this.imageInfo );
-                fromData.set( 'name', this.imgName );
+                fromData.append( 'width', this.oriImgObg.width );
+                fromData.append( 'height', this.oriImgObg.height );
+                fromData.append( 'flag', 1 );
+                fromData.append( 'image', this.imageInfo );
+                fromData.append( 'name', this.imgName );
                 this.hideCan.toBlob( (blob) => {
-                    fromData.set( 'mask', blob );
+                    fromData.append( 'mask', blob );
                     redirMatting( fromData ).then( res => {
                         if (!res.code) {
                             let oImg = new Image(), oCan = document.createElement( 'canvas' );
@@ -243,7 +243,7 @@
                 this.loading.show = true;
                 compressImg(this.file).then(blob=>{
                     let fromData = new FormData();
-                    fromData.set( 'file', blob );
+                    fromData.append( 'file', blob );
                     //监听文件读取结束后事件
                     uploadossBg( fromData ).then( res => {
                         window.localStorage.setItem( 'repairInfo', JSON.stringify( {
@@ -264,17 +264,17 @@
                 this.loading.show = true;
                 // console.log( this.hideCan.toDataURL() );
                 let fromData = new FormData();
-                fromData.set( 'width', this.oriImgObg.width );
-                fromData.set( 'height', this.oriImgObg.height );
-                fromData.set( 'flag', 0 );
-                fromData.set( 'image', this.imageInfo );
-                fromData.set( 'name', this.imgName );
+                fromData.append( 'width', this.oriImgObg.width );
+                fromData.append( 'height', this.oriImgObg.height );
+                fromData.append( 'flag', 0 );
+                fromData.append( 'image', this.imageInfo );
+                fromData.append( 'name', this.imgName );
                 // this.can.toBlob( (blob) => {
                 //     fromData.set( 'image', blob );
                 //     if (fromData.has( 'mask' )) this.upImg( fromData );
                 // }, 'image/jpeg' );
                 this.hideCan.toBlob( (blob) => {
-                    fromData.set( 'mask', blob );
+                    fromData.append( 'mask', blob );
                     this.upImg( fromData );
                 }, 'image/jpeg' );
             },

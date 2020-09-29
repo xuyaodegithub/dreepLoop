@@ -1,7 +1,7 @@
 @charset "utf-8";
 /* CSS Document */
 body,ol,ul,h1,h2,h3,h4,h5,h6,p,th,td,dl,dd,form,fieldset,legend,input,textarea,select,figure{margin:0;padding:0;}
-body{font-size:12px; word-wrap:break-word;background-color: #f5f5f7;font-family: "Microsoft YaHei";
+body{font-size:12px; word-wrap:break-word;background-color: #f5f5f7;font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
   -webkit-font-smoothing:antialiased;/*让页面里的字体变清晰，变细用CSS怎么做？*/
 }
 html{height:100%;}

@@ -1,30 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script>(function (w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push( {
-            'gtm.start':
-                new Date().getTime(), event: 'gtm.js'
-        } );
-        var f = d.getElementsByTagName( s )[0],
-            j = d.createElement( s ), dl = l != 'dataLayer' ? '&l=' + l : '';
-        j.async = true;
-        j.src =
-            'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-        f.parentNode.insertBefore( j, f );
-    })( window, document, 'script', 'dataLayer', 'GTM-WG4BQ8P' );
-    </script>
-    <script>
-        var _hmt = _hmt || [];
-        (function () {
-            var hm = document.createElement( "script" );
-            // hm.src = "https://hm.baidu.com/hm.js?156c05f7319464c49127c703f9ed21df";
-            hm.src = "https://hm.baidu.com/hm.js?e12fc5e6ff2012ad0838c01122228ca7";
-            var s = document.getElementsByTagName( "script" )[0];
-            s.parentNode.insertBefore( hm, s );
-        })();
-    </script>
+    <%= require('html-loader!./temple_google.html')  %>
     <meta charset="utf-8">
     <!--//设置不缓存-->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
@@ -628,37 +605,7 @@
         </div>
     </div>
 </div>
-<footer>
-    <div class="margin flex">
-        <div class="F_l">
-            <img src="static/logos.png" alt="">
-            <p>皮卡智能PicUP.AI利用人工智能和计算机视觉的力量，提供各种各样的产品、素材和API,为不同领域 的客户提供服务，包括设计行业、国内电商、跨境
-                电商、照片处理APP、表情制作小程序开发等。</p>
-        </div>
-        <div>
-            <h5>智能抠图</h5>
-            <a href="people.html">人像抠图
-                <a href="objects.html">物体抠图
-                    <a href="docsify/#/apidoc_api.md">API</a>
-                    <a href="userVip.html">定价</a>
-        </div>
-        <div>
-            <h5>功能应用</h5>
-            <span class="guo ewn cu" onclick="showEwm(0)">国庆同框
-                <img src="static/e1.png" alt="">
-            </span>
-            <span class="lv ewn cu" onclick="showEwm(1)">一键旅拍
-                <img src="static/e2.png" alt=""></span>
-            <a href="product.html">更多产品</a>
-        </div>
-        <div>
-            <h5>关于我们</h5>
-            <a href="aboutUs.html">联系我们
-                <a href="servicePrivacy.html">服务和隐私</a>
-                <a href="copyright.html">版权</a>
-        </div>
-    </div>
-</footer>
+<%= require('html-loader!./temple_footer.html')  %>
 <div class="f_last">
     © 2018-2020皮卡智能PicUP.AI
 </div>

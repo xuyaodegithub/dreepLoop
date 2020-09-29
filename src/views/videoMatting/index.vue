@@ -142,6 +142,7 @@
     import {getToken, getSecImgs, setSecImgs} from "../../utils/auth";
     import mattingVideo from '@/components/mattingVideo';
     import {videoHisList, videoDelete} from '@/apis';
+    import { BrowserInfo } from '@/utils'
 
     export default {
         components: {headerSub, mattingVideo},
@@ -181,6 +182,18 @@
         methods: {
             ...mapActions( ["userGetscribe", 'showLoginDilogAction'] ),
             preVideo(item) {//预览视频
+                if(BrowserInfo.isSafari){
+                    this.$confirm('目前Safari游览器不支持视频预览，建议使用谷歌游览器体验?', '提示', {
+                        confirmButtonText: '前往下载谷歌游览器',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        window.open('https://www.google.cn/chrome/')
+                    }).catch(() => {
+
+                    });
+                    return;
+                }
                 this.videoUrl = item;
                 this.dialogVisible = true;
             },

@@ -52,7 +52,6 @@ instance.interceptors.response.use( function (response) {//为自定义axios设�
     }
 }, function (err) {
     // 对请求错误做些什么
-    console.log( 'erererererer', err )
     if (!navigator.onLine) {
         Message( {//网络异常，请查看你的网络状态
             type: 'warning',

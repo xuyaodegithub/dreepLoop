@@ -25,17 +25,17 @@
             <div class="hDown">
                 <el-button class="up" @click="reupload" style="margin-right: 10px">重新上传
                 </el-button>
-                <el-popover
-                        @show="setIndex"
-                        popper-class="hDown2"
-                        placement="bottom"
-                        trigger="click">
-                    <div class="saveJpg">
-                        <h3>选择下载类型</h3>
-                        <strong @click="downLoadImg($event,0)">PNG格式<br>高保真，适合打印 </strong>
-                        <strong @click="downLoadImg($event,1)">JPG格式<br>文件小，适合上传 </strong>
-                    </div>
-                    <el-button class="doo" type="primary" icon="el-icon-download" slot="reference">下载
+<!--                <el-popover-->
+<!--                        @show="setIndex"-->
+<!--                        popper-class="hDown2"-->
+<!--                        placement="bottom"-->
+<!--                        trigger="click">-->
+<!--                    <div class="saveJpg">-->
+<!--                        <h3>选择下载类型</h3>-->
+<!--                        <strong @click="downLoadImg($event,0)">PNG格式<br>高保真，适合打印 </strong>-->
+<!--                        <strong @click="downLoadImg($event,1)">JPG格式<br>文件小，适合上传 </strong>-->
+<!--                    </div>-->
+                    <el-button class="doo" type="primary" icon="el-icon-download" slot="reference" @click="downLoadImg($event,0)">下载
                         <table class="downBtn" @click.stop="">
                             <tr>{{(userSubscribeData.monthExpireDate && userSubscribeData.monthExpireDate>noeTime &&
                                 userSubscribeData.monthRemaining>0) ? `包月剩余次数:${userSubscribeData.monthRemaining}` :
@@ -46,56 +46,38 @@
                             </tr>
                         </table>
                     </el-button>
-                </el-popover>
+<!--                </el-popover>-->
             </div>
         </header>
-        <div class="e_c">
-            <el-scrollbar style="overflow-x: hidden;height:100%;"
-                          v-loading="!classItem.length">
-            <label>选择证件照规格</label>
-            <el-select v-model="photoSize" placeholder="请选择" @change="changeSize">
-                <el-option
-                        v-for="item in idPhotolist"
-                        :key="item.name"
-                        :label="item.name"
-                        :value="item.name">
-                </el-option>
-            </el-select>
-            <label>证件照背景色</label>
-            <div class="flex colors f-w">
-                <div v-for="(item,idx) in noArts" :key="idx">
-                     <span class="cu"
-                           :style="item.val | backColor"
-                           @click="selectColor(item)">
-                        <i class="el-icon-check" v-show="colorType===item.val"></i>
-                     </span>
-                    <strong>{{item.name}}</strong>
+        <div class="e_c flex">
+            <label>颜色背景</label>
+            <div class="flex smallBtn f-w">
+                <div v-for="(items,idx) in initcolorList" :key="idx"
+                     @click.stop="selectColor(items,idx)"
+                     class="cu" :class="{'bordershow' : idx===colorType}"
+                     :style="{backgroundColor: `${idx>1 ? items : 'initial'}`}">
+                    <div class="flex color_List" v-if="showcolorList && !idx">
+                            <span v-for="(color,idxs) in colorList" :key="idxs" :style="{backgroundColor:color}"
+                                  @click.stop="choseColor(color)"></span>
+                    </div>
+                    <img :src="items" alt="" v-if="idx<2"/>
                 </div>
             </div>
-            <label>证件照艺术背景色</label>
-            <div class="flex colors f-w">
-                <div v-for="(item,idx) in ArtList" :key="idx">
-                     <span class="cu"
-                           :style="item.val | backColor"
-                           @click="selectColor(item)">
-                        <i class="el-icon-check" v-show="colorType===item.val"></i>
-                     </span>
-                    <strong>{{item.name}}</strong>
-                </div>
-            </div>
-            <label style="margin-bottom: 10px">换正装</label>
-            <div class="Fbtn flex j-b">
-                   <span v-for="(item,idx) in ttList" :key="idx" :class="{'active' : tzType===idx}" class="cu" @click="changetz(idx)">{{item.title}}</span>
-            </div>
+            <label>形象照模板</label>
             <div class="fource">
-                    <div class="iconList flex f-w j-b a-i">
-                        <div v-for="(son,ix) in classItem" :key="ix" class="cu" @click="addImgsSub(son,ix)"
-                             :class="{active : tzSonUrl===son.cover}">
-                            <img :src="son.cover" alt="">
+                <el-scrollbar style="overflow-x: hidden;" :style="{height:`100%`,overflowY: 'auto'}"
+                >
+                    <div class="iconList flex contents f-w j-b">
+                        <div class="cu" v-for="(item,idx) in effectList" :key="idx" @click="loadThis(item,idx)">
+                            <div class="its" :style="item | itemBack">
+                                <img :src="item.imgurl"
+                                     alt="">
+                                <img class="upimgsb" v-if="item.type===2 && item.imgSrc.split(',').length>1" :src="item.imgSrc.split(',')[1]" alt="">
+                            </div>
                         </div>
                     </div>
+                </el-scrollbar>
             </div>
-            </el-scrollbar>
         </div>
         <div class="e_r" id="e_r" @mouseup="blurAll">
             <div class="subs opas"
@@ -105,53 +87,56 @@
                      @mousedown.stop="moveBack($event,idx)" @click.stop="hoverThis(idx)" @mouseenter="borderFun(idx)"
                      @mouseleave="borderFun(idx,1)">
                 </div>
-                <div class="items" :class="{'hovers' : backSub.hovering}" :style="backSub | subsStyle"
-                     v-if="selectType===1 && !backSub.backColor && backSub.idx>-1"
-                     @mouseenter="borderFun(backSub.idx)" @mouseleave="borderFun(backSub.idx,1)"
-                     @click.stop="hoverThis(backSub.idx)"
-                     @mousedown.stop="moveBack($event,backSub.idx)">
-                    <img :src="backSub.useImg" alt="">
-                </div>
+<!--                <div class="items" :class="{'hovers' : backSub.hovering}" :style="backSub | subsStyle"-->
+<!--                     v-if=" !backSub.backColor && backSub.idx>-1 && backSub.useImg"-->
+<!--                     @mouseenter="borderFun(backSub.idx)" @mouseleave="borderFun(backSub.idx,1)"-->
+<!--                     @click.stop="hoverThis(backSub.idx)"-->
+<!--                     @mousedown.stop="moveBack($event,backSub.idx)">-->
+<!--                    <img :src="backSub.useImg" alt="">-->
+<!--                </div>-->
             </div>
             <!--            ,margin:`${-parseSubs.bH/2}px 0 0 ${-parseSubs.bW/2}px`-->
             <div class="subs otherSubs"
                  v-if="parseSubs.bW>0 && parseSubs.bH>0"
                  :style="{width:`${parseSubs.bW}px`,height:`${parseSubs.bH}px`,...colorOrbImg}">
-                <div class="items upss" :class="{'hovers' : item.hovering}" v-for="(item,idx) in parseSubs.subList"
+                <div class="items upss" :class="{'hovers' : item.hovering,'teimgs' : item.type===3}" v-for="(item,idx) in parseSubs.subList"
                      :style="item | subsStyle"
                      @mousedown.stop="moveBack($event,idx)" @click.stop="hoverThis(idx)" @mouseenter="borderFun(idx)"
                      @mouseleave="borderFun(idx,1)">
-                    <el-tooltip class="item" effect="dark" content="双击修改文字" placement="top"
-                                :disabled="moveNum>0 || hoverSub.contenteditable">
-                        <div v-if="item.type===2" :contenteditable="item.contenteditable" class="text"
-                             :class="{texsst : item.contenteditable}"
-                             style="font-weight:inherit;border: 0;width:auto;height: auto;"
-                             @dblclick="writeText(idx)"
-                             @input="setBlur($event,idx)"
-                             @blur="setBlur($event,idx,1)"
-                             v-html="item.title">
-                            <!--                            <div>{{}}</div>-->
-                        </div>
-                    </el-tooltip>
+<!--                    <el-tooltip class="item" effect="dark" content="双击修改文字" placement="top"-->
+<!--                                :disabled="moveNum>0 || hoverSub.contenteditable">-->
+<!--                        <div v-if="item.type===2" :contenteditable="item.contenteditable" class="text"-->
+<!--                             :class="{texsst : item.contenteditable}"-->
+<!--                             style="font-weight:inherit;border: 0;width:auto;height: auto;"-->
+<!--                             @dblclick="writeText(idx)"-->
+<!--                             @input="setBlur($event,idx)"-->
+<!--                             @blur="setBlur($event,idx,1)"-->
+<!--                             v-html="item.title">-->
+<!--                            &lt;!&ndash;                            <div>{{}}</div>&ndash;&gt;-->
+<!--                        </div>-->
+<!--                    </el-tooltip>-->
                     <el-tooltip class="item" effect="dark" content="双击替换图片" placement="top"
                                 :disabled="moveNum>0">
-                        <div v-if="[1,3].includes(item.type)" class="Imgs" @dblclick="writeText(idx)">
+                        <div v-if="[1].includes(item.type)" class="Imgs" @dblclick="writeText(idx)" :style="miansubStyle">
                             <img :src="item.useImg" alt="">
                         </div>
                     </el-tooltip>
+                    <div v-if="[3].includes(item.type)" class="Imgs">
+                        <img :src="item.useImg" alt="">
+                    </div>
                 </div>
+<!--                             @mouseenter="borderFun(idx)" @mouseleave="borderFun(idx,1)"-->
+                <!--                @mousedown.stop="moveBack($event,backSub.idx)"@click.stop="hoverThis(backSub.idx)"-->
                 <div class="items initBack" :class="{'hovers' : backSub.hovering}" :style="backSub | subsStyle"
-                     @click.stop="hoverThis(backSub.idx)" v-if="backSub.idx>-1 && !backSub.backColor "
-                     @mouseenter="borderFun(idx)" @mouseleave="borderFun(idx,1)"
-                     @mousedown.stop="moveBack($event,backSub.idx)">
-                    <img :src="backSub.useImg" alt="">
+                      v-if="backSub.idx>-1 && !backSub.backColor ">
+                    <img :src="backSub.useImg" alt=""/>
                 </div>
             </div>
             <!--            操作框，放大缩小，-->
             <div class="fivePoint"
                  @mousedown.stop="moveBack($event,hoverSub.idx)"
                  @click.stop="hoverThis(hoverSub.idx)"
-                 v-if="hoverSub.idx>-1"
+                 v-if="hoverSub.type===1"
                  :style="{left:`${mainx.x+hoverSub.x}px`,top:`${mainx.y+hoverSub.y}px`,width:`${parseInt(hoverSub.w)-4}px`,height:`${parseInt(hoverSub.h)-4}px`,transform:`rotateZ(${hoverSub.rotate}deg)`,backgroundColor:fivePoint? 'rgba(250,250,250,.7)' : 'initial'}">
                 <div>
                     <el-tooltip effect="dark" content="旋转" placement="top" :enterable="false" :disabled="moveNum>0">
@@ -185,16 +170,10 @@
             </div>
         </div>
         <div class="e_rLast">
-            <!--            <h4>智能抠图模式</h4>-->
-            <!--            <div class="btns flex j-b f-w">-->
-            <!--                    <span class="cu" v-for="(it,idx) in btnList" :key="idx"-->
-            <!--                          :class="{'active' : hoverSub.mattingType===it.type }"-->
-            <!--                          @click="mattingbyUrl(it.type)">-->
-            <!--                        {{it.name}}-->
-            <!--                    </span>-->
-            <!--            </div>-->
-            <h4>修复</h4>
-            <el-button plain @click="repireImg">手工修补</el-button>
+            <v-mune ref="Munes" @mattingImgs="repireImg"
+                    @effectsImg="effectsImg" @loading="loadings" @hoverMain="hoverMain" :edrieImgInfo="edrieImgInfo"></v-mune>
+            <!--            <h4>修复</h4>-->
+            <!--            <el-button plain @click="repireImg">手工修补</el-button>-->
         </div>
         <div class="zheR" v-if="loading.show"></div>
         <!--        <div class="zheR" v-if="loading.show"></div>-->
@@ -222,13 +201,16 @@
 
 <script>
     // @ is an alias to /src
-    import vMune from '@/components/editMune';
+    import vMune from '@/components/editMune/imagePhotoSub.vue';
     import loginDialog from '@/components/login_dialog/index2';
     import mattingImg from '@/components/mattingImg';
-    import {myBrowser, verticalText, getTanDeg, letterText, initSmallTag} from '@/utils';
+    import { getTanDeg, initSmallTag,setRad} from '@/utils';
     import {mixins} from '@/minxins';
     import opacity from '@/assets/opacity.jpg'
+    import fupa from '@/assets/image/fopa.png';
+    import color from '@/assets/image/color.png';
     import {niceScroll} from 'jquery.nicescroll';
+    import jsMulit from '@/utils/jsmanipulate.js';
     import {getUserInfo, saveTemplate} from "@/apis";
     import {
         uploadImgApi,
@@ -242,83 +224,48 @@
     } from '@/apis';
     import {mapGetters, mapActions} from 'vuex';
     import {getToken} from "@/utils/auth";
-    import {idPhotolist} from './subList3';
-    import {clothList, childClothList, womenClothList} from './clothersList'
-
+    import { effectList } from './specialEffectsList'
+    import * as StackBlur from 'stackblur-canvas';
     export default {
         name: 'editPictures',
         mixins: [mixins],
         data() {
             return {
-                idPhotolist,
-                colorList: [{name: '红', val: '#FF0000'}, {name: '蓝', val: '#438edb'}, {
-                    name: '白',
-                    val: '#fff'
-                }, {name: '深蓝', val: '#2a385b'},{name: '青蓝', val: '#00BFF3'},
-                    {name: '渐变蓝', val: '#66B5F2,#CBE8FB'}, {name: '心动粉', val: '#F7BEB3'}, {
-                        name: '默契蓝',
-                        val: '#B8DDE6'
-                    }, {name: '渐变灰', val: '#999999,#FFFFFF'},
-                    {name: '钟情黄', val: '#E0B97E'}, {name: '倾心绿', val: '#CCE2D6'}, {
-                        name: '希望绿',
-                        val: '#40896E'
-                    }, {name: '绅士红', val: '#C42134'},
-                    {name: '文艺灰', val: '#777E90,#ABB2C5'}, {name: '高贵蓝', val: '#3F64BF'}, {
-                        name: '温暖橙',
-                        val: '#D16541'
-                    }, {name: '芭比粉', val: '#FDDAE1'},
-                ],
-                listH: document.documentElement.clientHeight,
-                colorType: '',
+                hisLoadList:[],
+                loadIdx:-1,
+                effectList,
+                loadSubing: 0,
+                initcolorList: [color, fupa, '#000', '#fff', '#BFBFBF', '#2862F4', '#FED835', '#28F5B4', '#F62897', '#F57B28', '#00FFFF', '#90C320'],
+                showcolorList: false,//是否显示颜色选择的弹框
+                colorType: 1,
                 noeTime: new Date().getTime(),
                 userInfo: {},
-                photoSize: {
-                    color: "#fff",
-                    height: 591,
-                    name: "印度签证（51*51mm）",
-                    width: 591
-                },
-                opacity,
                 openclearAll: true,
-                ttList: [
-                    {title: '男装', list: clothList},
-                    {title: '女装', list: womenClothList},
-                    {title: '童装', list: childClothList},
-                ],
-                classItem: [...clothList],
                 loadSubObj: '',
                 tzType: 0,
-                tzSonUrl: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200818/9af28d937387444eb97699dc532fceb5.jpg',
-                selectType: 0,//当前左侧选中菜单的下标
-                fontList: [{
-                    title: '描边',
-                    val: {textShadow: '#333 1px 0 0, #333 0 1px 0, #333 -1px 0 0, #333 0 -1px 0'}
-                }, {title: '阴影', val: {textShadow: '0 5px 5px #333'}}],//'立体', '渐变', '鎏金', '抖音', '印章', '浮雕'
                 scale: '',//图片width/height比例系数
                 edrieImgInfo: {
-                    bgRemovedPreview: "http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_preview/2020/08/19/0263ca4fcaab42a3a8a200e8e788a7ef.png",
-                    color: "#FF0000",
-                    fileId: "745955",
-                    filename: "一寸(25*35mm)",
-                    h: "413",
-                    headData: {top: 6.7, left: 162.6, bottom: 398.9, mouseY: 352.5, right: 483.2},
-                    mattingType: 8,
-                    ori: "http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2020/08/19/083015f94bc64f54962012ef3f146c49.jpg",
-                    original: "http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2020/08/19/083015f94bc64f54962012ef3f146c49.jpg",
-                    originalHeight: "650",
-                    originalWidth: "650",
+                    filename: '形象照',
+                    w:800,
+                    h:800,
+                    bgRemovedPreview: 'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png',
+                    oripro: 'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png',
+                    original: 'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.jpg',
+                    mattingType: 9,
+                    originalHeight: "800",
+                    originalWidth: "800",
                     previewHeight: "500",
                     previewWidth: "500",
-                    pro: "http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_preview/2020/08/19/0263ca4fcaab42a3a8a200e8e788a7ef.png",
-                    queueNumber: "24",
-                    status: "success",
-                    w: "295",
+                    maskRect: {x: 166, width: 492, y: 178, height: 536},
+                    "ori": "https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.jpg",
+                    "pro": "https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png",
+                    "type": "2",
+                    "fileId": "",
                 },//图片的信息（预览图尺寸，原图尺寸，下载按钮处显示的信息）
                 upType: 0,//从背景库页面进入本页面时，要显示上传弹框 ，上传图片的类型 0 自定义背景  1人抠图 2物抠图
                 loading: {show: false, text: '处理中...', which: 0},//loading
                 loadingInstance: null,//下载时的loading效果
                 dialogVisible: false,//修复弹框
-                dialogVisible2: false,//登录弹框
                 openScreen: false,//是否全屏
                 oDiv_w: {w: 0, h: 0},
                 parseSubs: {
@@ -343,7 +290,6 @@
                 enterIdx: -1,
                 fivePoint: false,//移动时 透明
                 moveNum: 0,
-                statusCode: 0,//每次掉接口的code
                 touchContrl: false,
                 pointList: [],//历史记录
                 mainOri: '',//主图扣过的原图尺寸
@@ -360,32 +306,20 @@
                 // deep:true,
                 // immediate:true
             },
-            statusCode(n, o) {
-                if (n === 4003) {
-                    this.dialogVisible2 = true;
-                    this.statusCode = 0;
-                }
-            },
-            mainSubid(n, o) {
-                console.log( this.edrieImgInfo.fileId, '000000' )
-                this.mainOri = '';
-            }
+            // edrieImgInfo: {
+            //     handler(n, o) {
+            //         // console.log(n.fileId,o.fileId,n.fileId!==o.fileId)
+            //         this.initDiv();
+            //     },
+            //     deep:true,
+            //     // immediate:true
+            // }
         },
         components: {vMune, mattingImg, loginDialog},
         computed: {
             ...mapGetters( ['userSubscribeData', 'effectsImgList', 'showLoginDilog'] ),
-            noArts() {
-                return this.colorList.slice( 0, 5 )
-            },
-            ArtList() {
-                return this.colorList.slice( 5 )
-            },
             subsLength() {
                 return this.parseSubs.subList.length;
-            },
-            mainSubid() {
-                // console.log(this.parseSubs.subList)
-                return this.parseSubs.subList.find( item => item.type === 1 ) ? this.parseSubs.subList.find( item => item.type === 1 ).fileId : '';
             },
             hoverSub() {//聚焦组件
                 const idx = this.parseSubs.subList.findIndex( item => item.hovering );
@@ -397,8 +331,8 @@
                 return item
             },
             backSub() {//背景组件
-                const i = this.parseSubs.subList.findIndex( item => item.type === 0 );
-                const item = i > -1 ? JSON.parse( JSON.stringify( this.parseSubs.subList[i] ) ) : {};
+                const i = this.parseSubs.subList.findIndex( item => !item.type );
+                let item = i > -1 ? JSON.parse( JSON.stringify( this.parseSubs.subList[i] ) ) : {};
                 item.proObj = i > -1 ? this.parseSubs.subList[i].proObj : {}
                 item.idx = i;
                 return item
@@ -407,7 +341,6 @@
                 return {x: this.oDiv_w.w / 2 - this.parseSubs.bW / 2, y: this.oDiv_w.h / 2 - this.parseSubs.bH / 2}
             },
             colorOrbImg() {//opacity
-
                 if (this.backSub.backColor) {
                     const a = this.backSub.backColor.split( ',' );
                     return {background: `linear-gradient(${a[0]},${a[1] || a[0]})`}
@@ -422,6 +355,10 @@
                 if (idx > -1) return this.pointList.filter( (item, ix) => ([1, 2].includes( item.type ) && ix < idx) );
                 else return this.pointList.filter( (item, ix) => ([1, 2].includes( item.type )) );
             },
+            miansubStyle(){
+                const oVal=this.$refs.Munes.opacityVal;
+                return {opacity:(100-oVal)/100}
+            }
         },
         filters: {
             subsStyle(item) {
@@ -461,29 +398,63 @@
             backColor(val) {
                 const a = val.split( ',' );
                 return {background: `linear-gradient(${a[0]},${a[1] || a[0]})`}
+            },
+            itemBack(item){
+                if(item.type===2)return {backgroundImage:`url(${item.imgSrc.split(',')[0]})`}
+                else return {}
             }
         },
         methods: {
             ...mapActions( [
                 'userGetscribe', 'showLoginDilogAction'
             ] ),
-            repireImg() {
-                if (this.hoverSub.idx === -1) {
-                    const idx = this.parseSubs.subList.findIndex( item => item.type === 1 )
-                    this.parseSubs.subList[idx].hovering = true;
+            loadings(v) {
+                this.loading.show = v;
+            },
+            effectsImg(data) {//添加特效
+                let idx = this.parseSubs.subList.findIndex( item => item.hovering ), list = Object.keys( data );
+                if (idx > -1) {
+                    list.map( item => {
+                        this.parseSubs.subList[idx][item] = data[item]
+                    } )
                 }
-                ;
+                this.$nextTick( () => {
+                    this.loading.show = false;
+                    this.initsave()
+                } )
+
+            },
+            repireImg(k) {
+                const idx = this.parseSubs.subList.findIndex( item => item.type === 1 )
+                if (k === 1) {
+                    this.hoverThis( idx );
+                    return;
+                }
+                if (this.hoverSub.idx === -1) this.parseSubs.subList[idx].hovering = true;
                 this.$nextTick( _ => {
                     this.dialogVisible = true;
                 } )
             },
-            loginSuccess(val) {
-                this.dialogVisible2 = val;
-            },
-            selectColor(item) {
+            selectColor(item, idx) {
                 const ix = this.parseSubs.subList.findIndex( it => !it.type );
-                this.colorType = item.val;
-                this.parseSubs.subList[ix].backColor = item.val;
+                this.colorType = idx;
+                if (idx > 1) this.parseSubs.subList[ix].backColor = this.initcolorList[this.colorType];
+                else if (!idx) this.showcolorList = true;
+                else {
+                    this.parseSubs.subList[ix].backColor = '';
+                    this.parseSubs.subList[ix].useImg = '';
+                }
+                if(idx) {
+                    this.showcolorList = false;
+                    this.parseSubs.subList=this.parseSubs.subList.filter(items=>[0,1].includes(items.type))
+                }
+            },
+            choseColor(color) {//选择颜色背景，颜色选择器
+                this.colorType = 0;
+                const idx = this.parseSubs.subList.findIndex( item => !item.type );
+                this.parseSubs.subList[idx].backColor = color;
+                this.parseSubs.subList=this.parseSubs.subList.filter(items=>[0,1].includes(items.type));
+                this.initsave()
             },
             initsave() {//储存公用方法
                 if (this.hisIdx !== this.SubsDataList.length - 1) {
@@ -544,9 +515,9 @@
                             this.edrieImgInfo.oriObj = oImg2;
                             this.edrieImgInfo.ori = res.data;
                         };
-                        oImg2.src = addUrlQuery( res.data );
+                        oImg2.src = addUrlQuery(res.data);
                     }
-                    if ([1, 2, 3, 6, 8].includes( this.hoverSub.mattingType )) {
+                    if ([1, 2, 3, 6, 9].includes( this.hoverSub.mattingType )) {
                         this.mattingbyUrl( this.hoverSub.mattingType )//1额外参数表示  替换时传参
                     } else {
                         this.parseSubs.subList[this.hoverSub.idx].useImg = res.data;
@@ -556,7 +527,7 @@
                             this.parseSubs.subList[this.hoverSub.idx].id = `img${Math.random()}`;
                             this.loading.show = false;
                         };
-                        oImg.src = addUrlQuery( res.data );
+                        oImg.src = addUrlQuery(res.data) ;
                     }
                 } )
             },
@@ -567,7 +538,7 @@
                         let oDiv = document.querySelector( `.otherSubs .items:nth-child(${idx + 1}) .text` );
                         oDiv.focus();
                     } )
-                } else if ([1, 3].includes( this.parseSubs.subList[idx].type )) {
+                } else if ([1].includes( this.parseSubs.subList[idx].type )) {
                     this.$refs.tihuan.click()
                 }
 
@@ -581,7 +552,17 @@
             },
             hoverThis(idx) {
                 this.parseSubs.subList.map( item => item.hovering = false );
-                if (!(!this.parseSubs.subList[idx].type && this.parseSubs.subList[idx].backColor)) this.parseSubs.subList[idx].hovering = true;
+                if (this.parseSubs.subList[idx].type ===1) this.parseSubs.subList[idx].hovering = true;
+                if ([0, 1, 3].includes( this.parseSubs.subList[idx].type )) {
+                    this.$nextTick( () => {
+                        this.$refs.Munes.filterUrl( this.parseSubs.subList[idx] );
+                    } )
+                }
+            },
+            hoverMain(){
+                this.parseSubs.subList.map( item => item.hovering = false );
+                const idx=this.parseSubs.subList.findIndex(item=>item.type===1);
+                this.parseSubs.subList[idx].hovering = true;
             },
             blurAll() {
                 if (!this.openclearAll) return;
@@ -598,56 +579,6 @@
                     this.parseSubs.subList[idx].contenteditable = false;
                 }
             },
-            changetz(idx) {//贴纸类目
-                if (this.tzType === idx) return;
-                this.tzType = idx;
-                this.classItem = [];
-                this.$nextTick( _ => {
-                    this.classItem = this.ttList[idx].list
-                } )
-            },
-            addImgsSub(son, ix) {
-                if (this.tzSonUrl === son.cover) return;
-                this.tzSonUrl = son.cover;
-                if (!ix) {
-                    this.parseSubs.subList = this.parseSubs.subList.filter( item => item.type !== 3 )
-                    return
-                }
-                this.loading.show = true;
-                this.parseSubs.subList = this.parseSubs.subList.filter( ite => [0, 1].includes( ite.type ) );
-                let oImg = new Image();
-                oImg.crossOrigin = '';
-                oImg.onload = () => {
-                    const mainSub = this.parseSubs.subList.find( item => item.type === 1 );//主图组件
-                    const mainIdx = this.parseSubs.subList.findIndex( item => item.type === 1 );//主图组件下标
-                    const headW = mainSub.w * (this.edrieImgInfo.headData.right - this.edrieImgInfo.headData.left) / this.edrieImgInfo.originalWidth;//人物头宽度
-                    const [w, h] = [headW * 0.5 * oImg.width / (son.right - son.left), headW * 0.5 * oImg.width / (son.right - son.left) * oImg.height / oImg.width];//衣服变化后宽高
-                    son.list.map( (item, ix) => {
-                        let data = {
-                            type: 3,//图片组件
-                            title: '图片组件',
-                            w,
-                            h,
-                            x: this.parseSubs.bW / 2 - ((son.right - son.left) / 2 + son.left) * w / oImg.width,
-                            y: mainSub.h * this.edrieImgInfo.headData.mouseY / this.edrieImgInfo.originalHeight + mainSub.y + this.parseSubs.bH * 0.03,
-                            id: `img${Math.random()}`,
-                            rotate: 0,
-                            useImg: item,
-                            pro: item,
-                            ori: item,
-                            proObj: oImg,////抠图过加载后的对象
-                            hovering: false,
-                            mattingType: -1,//抠图模式
-                        }
-                        if (!ix) this.parseSubs.subList.splice( mainIdx, 0, data );
-                        else this.parseSubs.subList.push( data );
-                    } )
-
-                    this.loading.show = false;
-                };
-                oImg.src = addUrlQuery( son.list[0] );
-
-            },
             upLoad(k) {//上传图片（k值0自定义背景，1人像抠图 2物体抠图）
                 this.upType = k;
                 this.$refs.selfImg.click()
@@ -656,29 +587,7 @@
                 getMattingInfo( {fileId: this.mattingMsg.id} ).then( res => {//根据id查询
                     if (!res.code) {
                         if (res.data.status === 'success') {
-                            const idx = this.parseSubs.subList.findIndex( item => item.hovering ),
-                                w = this.parseSubs.subList[idx].w;
-                            this.parseSubs.subList[idx].pro = res.data.bgRemovedPreview;
-                            this.parseSubs.subList[idx].useImg = res.data.bgRemovedPreview;
-                            this.parseSubs.subList[idx].mattingType = this.mattingMsg.type;
-                            if (this.parseSubs.subList[idx].type === 1) {
-                                this.tzSonUrl = 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200818/9af28d937387444eb97699dc532fceb5.jpg';
-                                this.parseSubs.subList[idx].fileId = res.data.fileId;
-                                this.edrieImgInfo.fileId = res.data.fileId;
-                                this.edrieImgInfo.pro = res.data.bgRemovedPreview;
-                                this.edrieImgInfo = {...this.edrieImgInfo, ...res.data};
-                                const [ww, hh] = [parseFloat( this.edrieImgInfo.w ), parseFloat( this.edrieImgInfo.h )];
-                                let scaleW = 0.55 * hh / ww;
-                                let iw = ww * scaleW * this.edrieImgInfo.originalWidth / (this.edrieImgInfo.headData.right - this.edrieImgInfo.headData.left);//缩放后的图片宽
-                                let ih = iw * this.edrieImgInfo.originalHeight / this.edrieImgInfo.originalWidth;
-                                let top = -(ih * this.edrieImgInfo.headData.top / this.edrieImgInfo.originalHeight) + hh * 0.05;
-                                let left = ww / 2 - ((this.edrieImgInfo.headData.right - this.edrieImgInfo.headData.left) / 2 + this.edrieImgInfo.headData.left) * iw / this.edrieImgInfo.originalWidth;
-                                this.parseSubs.subList[idx].w = iw * this.parseSubs.scale;
-                                this.parseSubs.subList[idx].h = ih * this.parseSubs.scale;
-                                this.parseSubs.subList[idx].x = left * this.parseSubs.scale;
-                                this.parseSubs.subList[idx].y = top * this.parseSubs.scale;
-                            }
-                            this.loading.show = false;
+                          this.mattingAfter(res.data,this.mattingMsg.type)
                         } else {
                             this.loading.text = `当前排队位置为 ${res.data.queueNumber}，请稍后...`
                             setTimeout( this.pollingImg2, 2000 )
@@ -693,39 +602,61 @@
                 }
                 this.loading.show = true;
                 this.mattingMsg.type = type;
-                let obj = {url: type === 4 ? this.hoverSub.pro : this.hoverSub.ori, mattingType: type};
-                if (type === 3) obj['crop'] = 1;
-                if (type === 8) obj['bodyData'] = 1;
+                let obj = {url: this.hoverSub.ori, mattingType: type};
+                if (type === 9) obj['bodyData'] = 1;
                 copyUpload( obj ).then( res => {
-                    this.statusCode = res.code;
                     if (!res.code) {
                         this.mattingMsg.id = res.data.fileId;
                         if (res.data.status == 'success') {
-                            const idx = this.parseSubs.subList.findIndex( item => item.hovering );
-                            this.parseSubs.subList[idx].mattingType = type;
-                            this.parseSubs.subList[idx].pro = res.data.bgRemovedPreview;
-                            this.parseSubs.subList[idx].useImg = res.data.bgRemovedPreview;
-                            if (this.parseSubs.subList[idx].type === 1) {
-                                this.tzSonUrl = 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200818/9af28d937387444eb97699dc532fceb5.jpg';
-                                this.parseSubs.subList[idx].fileId = res.data.fileId;
-                                this.edrieImgInfo.fileId = res.data.fileId;
-                                this.edrieImgInfo.pro = res.data.bgRemovedPreview;
-                                this.edrieImgInfo = {...this.edrieImgInfo, ...res.data};
-                                const [ww, hh] = [parseFloat( this.edrieImgInfo.w ), parseFloat( this.edrieImgInfo.h )];
-                                let scaleW = 0.55 * hh / ww;
-                                let iw = ww * scaleW * this.edrieImgInfo.originalWidth / (this.edrieImgInfo.headData.right - this.edrieImgInfo.headData.left);//缩放后的图片宽
-                                let ih = iw * this.edrieImgInfo.originalHeight / this.edrieImgInfo.originalWidth;
-                                let top = -(ih * this.edrieImgInfo.headData.top / this.edrieImgInfo.originalHeight) + hh * 0.05;
-                                let left = ww / 2 - ((this.edrieImgInfo.headData.right - this.edrieImgInfo.headData.left) / 2 + this.edrieImgInfo.headData.left) * iw / this.edrieImgInfo.originalWidth;
-                                this.parseSubs.subList[idx].w = iw * this.parseSubs.scale;
-                                this.parseSubs.subList[idx].h = ih * this.parseSubs.scale;
-                                this.parseSubs.subList[idx].x = left * this.parseSubs.scale;
-                                this.parseSubs.subList[idx].y = top * this.parseSubs.scale;
-                            }
-                            this.loading.show = false;
+                            this.mattingAfter(res.data,type)
+                            // this.loading.show = false;
                         } else setTimeout( this.pollingImg2, 2000 )//有排队情况，轮训查看（可以websocket）
                     } else this.loading.show = false;
                 } ).catch( re => this.loading.show = false )
+            },
+            mattingAfter(result,type){
+                this.parseSubs.subList=this.parseSubs.subList.filter(item=>[0,1].includes(item.type));
+                let idx = this.parseSubs.subList.findIndex( item => item.hovering ),oImg=new Image();
+                this.parseSubs.subList[idx].mattingType = type;
+                this.parseSubs.subList[idx].pro = result.bgRemovedPreview;
+                this.parseSubs.subList[idx].useImg = result.bgRemovedPreview;
+                if (this.parseSubs.subList[idx].type === 1) {
+                    this.parseSubs.subList[idx].fileId = result.fileId;
+                    this.edrieImgInfo.fileId = result.fileId;
+                    this.edrieImgInfo.pro = result.bgRemovedPreview;
+                    this.edrieImgInfo = {...this.edrieImgInfo, ...result};
+                    oImg.crossOrigin='';
+                    oImg.onload=()=>{
+
+                        const [w, h,mattingMsg] = [parseFloat( this.edrieImgInfo.w ), parseFloat( this.edrieImgInfo.h ),this.edrieImgInfo];
+                        let point=mattingMsg.maskRect,ow=mattingMsg.originalWidth,oh=mattingMsg.originalHeight;
+                        let downTop=h * 0.08,ih=(h-downTop)*oh/point.height,iw=ow*ih/oh,left=w/2-iw/2;//
+                        let afterPoint={x:iw*point.x/ow,y:ih*point.y/oh,w:iw*point.width/ow,h:ih*point.height/oh};
+                        downTop=downTop-afterPoint.y;
+                        if(afterPoint.w>w){
+                            iw=(w*ow/point.width);
+                            ih=iw*oh/ow;
+                            left=0;
+                            downTop=h-ih;
+                            afterPoint={x:iw*point.x/ow,y:ih*point.y/oh,w:iw*point.width/ow,h:ih*point.height/oh};
+                        }
+                        left=w/2-iw/2-(afterPoint.x+afterPoint.w/2-iw/2);
+                        this.parseSubs.subList[idx].w = iw * this.parseSubs.scale;
+                        this.parseSubs.subList[idx].h = ih * this.parseSubs.scale;
+                        this.parseSubs.subList[idx].x = left * this.parseSubs.scale;
+                        this.parseSubs.subList[idx].y = downTop * this.parseSubs.scale;
+                        this.parseSubs.subList[idx].proObj = oImg;
+                        this.loading.show = false;
+                        // this.hoverThis(idx);
+                        this.mainOri='';
+                        this.hisLoadList=[];
+                        if(this.loadIdx>-1)this.loadThis(this.effectList[this.loadIdx],this.loadIdx);
+                        this.$nextTick(_=>{
+                            this.hoverThis(idx);
+                        })
+                    };
+                    oImg.src=addUrlQuery(result.bgRemovedPreview);
+                }
             },
             goback(k) {//前进(k=1)   返回(k=0)
                 if (this.SubsDataList.length < 2) return;
@@ -753,7 +684,7 @@
                 else return;
                 let [x, y] = [ev.clientX - this.parseSubs.subList[idx].x, ev.clientY - this.parseSubs.subList[idx].y];
                 let [w, h, top, left, size, lineHeight, letterSpacing] = [this.parseSubs.subList[idx].w, this.parseSubs.subList[idx].h, this.parseSubs.subList[idx].y, this.parseSubs.subList[idx].x, this.parseSubs.subList[idx].type === 2 ? this.parseSubs.subList[idx].fontSize : 0, this.parseSubs.subList[idx].type === 2 ? this.parseSubs.subList[idx].lineHeight : 0, this.parseSubs.subList[idx].type === 2 ? this.parseSubs.subList[idx].letterSpacing : 0];
-                let isMove = false;
+                let isMove = false,allSubs=JSON.parse(JSON.stringify( this.parseSubs.subList));
                 document.onmousemove = (e) => {
                     this.moveNum = 1;
                     isMove = true;
@@ -842,19 +773,16 @@
                             this.parseSubs.subList[idx].x = lx;
                         }
                     } else {
-                        if (this.parseSubs.subList[idx].type === 2 && this.parseSubs.subList[idx].contenteditable) return;
-                        if (this.parseSubs.subList[idx].type === 3) {
-                            this.parseSubs.subList.map( (item, i) => {
-                                if (item.type === 3) {
-                                    item.x = l;
-                                    item.y = t;
-                                }
-                            } )
-                        } else {
+                        if (this.parseSubs.subList[idx].type === 1) {
                             this.parseSubs.subList[idx].x = l;
                             this.parseSubs.subList[idx].y = t;
+                            this.parseSubs.subList.map( (item, i) => {
+                                if (item.type === 3 && item.canMove) {
+                                    item.y = allSubs[i].y + e.clientY - ev.clientY;
+                                    item.x = allSubs[i].x + e.clientX - ev.clientX;
+                                }
+                            } )
                         }
-
                     }
                     this.fivePoint = true;
                 }
@@ -874,7 +802,7 @@
                 }
             },
             borderFun(idx, k) {
-                if (k) {
+                if (k || this.parseSubs.subList[idx].type!==1) {
                     this.enterIdx = -1;
                     return
                 }
@@ -932,10 +860,85 @@
                         else cansTxt.drawImage( this.edrieImgInfo.oriObj, 0, 0, oImg.width, oImg.height );
                         cansTxt.restore();
                     } )
-                    this.parseSubs.subList[idx].useImg = cans.toDataURL( "image/png" );
-                    this.downLoadImg2();
+                    // this.parseSubs.subList[idx].useImg = cans.toDataURL( "image/png" );
+                    // this.downLoadImg2();
+                    this.electtexiao( cans, cansTxt.getImageData( 0, 0, cans.width, cans.height ), idx )
                 };
-                oImg.src = addUrlQuery( url );
+                oImg.src = addUrlQuery(url);
+            },
+            electtexiao(loadImg, dataImg, idx) {//原图特效处理
+                let mainSub = this.parseSubs.subList.find( item => item.type === 1 ),
+                    oCan = document.createElement( 'canvas' ), oCan2 = document.createElement( 'canvas' ),
+                    oCan3 = document.createElement( 'canvas' ), obj = loadImg;
+                let oCanTxt = oCan.getContext( '2d' ), oCanTxt2 = oCan2.getContext( '2d' ),
+                    oCanTxt3 = oCan3.getContext( '2d' ), [w, h] = [obj.width, obj.height];
+                let texiaoList = ['', '', 'emboss', 'grayscale', 'dither', 'triangleripple', 'blur', 'threshold', 'twirl'],
+                    otehC = {
+                        blur: {amount: 5.0},
+                        threshold: {threshold: 100},
+                        twirl: {radius: w, angle: 90, centerX: 0.5, centerY: 0.5}
+                    };
+                oCan.width = w;
+                oCan2.width = w;
+                oCan3.width = w;
+                oCan.height = h;
+                oCan2.height = h;
+                oCan3.height = h;
+                if (mainSub.t2Idx > 1) {
+                    obj = this.jsMulitData( dataImg, texiaoList[mainSub.t2Idx], otehC[texiaoList[mainSub.t2Idx]] || {}, 1 );
+                }
+                if (mainSub.checked) {
+                    oCanTxt.drawImage( obj, 0, 0, w, h );
+                    let imgData = oCanTxt.getImageData( 0, 0, w, h );
+                    for (let y = 0; y < h; y++) {
+                        for (let x = 0; x < w; x++) {
+                            let pixel = (y * w + x) * 4;
+                            if (imgData.data[pixel + 3] != 0) {
+                                imgData.data[pixel] = 0;
+                                imgData.data[pixel + 1] = 0;
+                                imgData.data[pixel + 2] = 0;
+                                imgData.data[pixel + 3] = (1 - mainSub.extend / 100) * imgData.data[pixel + 3];
+                            }
+                        }
+                    }
+                    if (mainSub.size > 0) StackBlur.imageDataRGBA( imgData, 0, 0, w, h, parseInt( mainSub.size / this.parseSubs.scale ) );
+                    oCanTxt.clearRect( 0, 0, w, h )
+                    oCanTxt.putImageData( imgData, 0, 0 )
+                    const xy = this.initAngleDistance( mainSub.angle, mainSub.distance )
+                    oCanTxt3.drawImage( oCan, xy.x, xy.y )
+                }
+                if (mainSub.checkedM) {
+                    oCanTxt2.drawImage( obj, 0, 0, w, h );
+                    console.log(mainSub.mSize,111111)
+                    jsMulit['strokeBorder'].filter( oCan2, oCanTxt2.getImageData( 0, 0, w, h ), mainSub.mSize, mainSub.colorVal );
+                    oCanTxt3.drawImage( oCan2, 0, 0, w, h )
+                }
+                oCanTxt3.drawImage( obj, 0, 0, w, h );
+                this.parseSubs.subList[idx].useImg = oCan3.toDataURL( "image/png" );
+                this.downLoadImg2();
+            },
+            initAngleDistance(angle, distance) {//更具角度计算位置
+                if (angle == 0 || angle == 360) return {x: -distance, y: 0};
+                else if (angle > 0 && angle < 90) return {
+                    x: -Math.cos( setRad( angle ) ) * distance,
+                    y: -Math.sin( setRad( angle ) ) * distance
+                };
+                else if (angle == 90) return {x: 0, y: -distance};
+                else if (angle > 90 && angle < 180) return {
+                    x: Math.cos( setRad( 180 - angle ) ) * distance,
+                    y: -Math.sin( setRad( 180 - angle ) ) * distance
+                };
+                else if (angle == 180) return {x: distance, y: 0};
+                else if (angle > 180 && angle < 270) return {
+                    x: Math.cos( setRad( angle - 180 ) ) * distance,
+                    y: Math.sin( setRad( angle - 180 ) ) * distance
+                };
+                else if (angle == 270) return {x: 0, y: distance};
+                else if (angle > 270 && angle < 360) return {
+                    x: -Math.cos( setRad( 360 - angle ) ) * distance,
+                    y: Math.sin( setRad( 360 - angle ) ) * distance
+                };
+                // else return{x:-Math.cos(360-angle)*distance,y:Math.sin(360-angle)*distance};
             },
             downLoadImg(e, k) {
                 this.downType = k;
@@ -946,24 +949,29 @@
                 if (!this.mainOri && this.parseSubs.subList[iidx].fileId) {
                     downloadMattedImage( {fileId: this.parseSubs.subList[iidx].fileId} ).then( res => {
                         if (!res.code) {
+                            this.hisLoadList.push(this.loadIdx);
                             this.mainOri = res.data;
                             initSmallTag( e, '次数 -1' );
                             this.userGetscribe();
+                            this.initOriRepir( res.data, iidx );
+                        }
+                    } )
+                } else if(!this.parseSubs.subList[iidx].fileId){
+                    initSmallTag( e, '免费' );
+                    this.initOriRepir( this.parseSubs.subList[iidx].pro, iidx );
+                }else if(this.hisLoadList.includes(this.loadIdx) ){
+                    initSmallTag( e, '免费' );
+                    this.initOriRepir( this.mainOri, iidx );
+                }else{
+                    templatedownload( data ).then( res => {
+                        if (!res.code) {
+                            initSmallTag( e, '次数 -1' );
+                            this.userGetscribe();
                             this.initOriRepir( this.mainOri, iidx );
+                            this.hisLoadList.push(this.loadIdx);
+                            // this.downLoadImg2();
                         } else if (res.code === 1100) this.dialogVisible2 = true;
                     } )
-                } else if (this.mainOri && this.parseSubs.subList[iidx].fileId) {
-                    initSmallTag( e, '免费' );
-                    this.userGetscribe();
-                    this.initOriRepir( this.mainOri, iidx );
-                } else {
-                    // templatedownload( data ).then( res => {
-                    //     if (!res.code) {
-                    initSmallTag( e, '免费' );
-                    // this.parseSubs.subList[iidx].useImg=res.data;
-                    this.downLoadImg2();
-                    // } else if (res.code === 1100) this.dialogVisible2 = true;
-                    // } )
                 }
 
             },
@@ -1003,7 +1011,7 @@
                         }, [] )
                         if (next.every( it => it['lastObj'] )) this.initCanImg( dOrr )
                     };
-                    oImg.src = reg.test( item.useImg ) ? item.useImg : addUrlQuery( item.useImg );
+                    oImg.src = reg.test( item.useImg ) ? item.useImg : addUrlQuery(item.useImg);
                 } )
             },
             initCanImg(dOrr) {
@@ -1022,233 +1030,31 @@
                         oCanTxt.translate( item.x / scale + item.w / scale / 2, item.y / scale + item.h / scale / 2 );
                         oCanTxt.rotate( item.rotate * Math.PI / 180 );
                         oCanTxt.translate( -(item.x / scale + item.w / scale / 2), -(item.y / scale + item.h / scale / 2) );
+                        if(item.type===1)oCanTxt.globalAlpha = (100-this.$refs.Munes.opacityVal)/100;
                         oCanTxt.drawImage( item.lastObj, item.x / scale, item.y / scale, item.w / scale, item.h / scale );
+                        oCanTxt.globalAlpha =1
                         oCanTxt.setTransform( 1, 0, 0, 1, 0, 0 );
                     } else if (item.type == 0 && item.backColor) {
                         const a = item.backColor.split( ',' );
                         if (a.length > 1) {
-                            var gradient = oCanTxt.createLinearGradient( 0, 0, 0, oCan.height );
+                            let gradient = oCanTxt.createLinearGradient( 0, 0, 0, oCan.height );
                             gradient.addColorStop( 0, a[0] );
                             gradient.addColorStop( 1, a[1] );
                             // 设置填充样式为渐变
                             oCanTxt.fillStyle = gradient;
                         } else oCanTxt.fillStyle = item.backColor;
                         oCanTxt.fillRect( 0, 0, oCan.width, oCan.height );
-                    } else if (item.type == 2) {
-                        oCanTxt.textBaseline = 'top';
-                        const [w, h, x, y, size, lineHeight, letterSpacing] = [item.w / scale, item.h / scale, item.x / scale, item.y / scale, parseInt( item.fontSize / scale ), parseInt( item.lineHeight / scale ), item.letterSpacing / scale],
-                            textDecoration = ['none', 'underline', 'line-through'].indexOf( item.textDecoration );
-                        // console.log( item.fontStyle, item.fontWeight, size, lineHeight, item.fontFamily, `${item.fontStyle} ${item.fontWeight} ${size}px/${lineHeight}px ${item.fontFamily}`, textDecoration )
-                        oCanTxt.font = `${item.fontStyle} ${item.fontWeight} ${size}px/${lineHeight}px ${item.fontFamily}`;
-                        oCanTxt.translate( x + w / 2, y + h / 2 );
-                        oCanTxt.rotate( item.rotate * Math.PI / 180 );
-                        oCanTxt.translate( -(x + w / 2), -(y + h / 2) );
-                        if (item.backgroundColor) {
-                            oCanTxt.fillStyle = item.backgroundColor;
-                            oCanTxt.fillRect( x, y, w, h );
-                        }
-                        oCanTxt.strokeStyle = '#333'/*item.color*/;
-                        oCanTxt.fillStyle = item.color;
-                        if (item.textShadow !== 'none' && item.textShadow.split( ',' ).length > 1) {
-                            // ctx.strokeText("空心文字:stroke",10,200);
-                        } else if (item.textShadow !== 'none' && item.textShadow.split( ',' ).length === 1) {
-                            oCanTxt.shadowColor = '#333';
-                            oCanTxt.shadowBlur = 5;
-                            oCanTxt.shadowOffsetY = 5;
-                            oCanTxt.shadowOffsetX = 5;
-                        } else {
-                            oCanTxt.shadowColor = '';
-                            oCanTxt.shadowBlur = 0;
-                            oCanTxt.shadowOffsetY = 0;
-                            oCanTxt.shadowOffsetX = 0;
-                        }
-                        let stroke = (item.textShadow !== 'none' && item.textShadow.split( ',' ).length > 1) ? 2 : 1;//2描边  1填充
-                        if (!item.flexDirection) {
-                            let content = this.initfontList( oCanTxt, item.title, letterSpacing, w, h, item.flexDirection, size ),
-                                line_size = lineHeight / 2 - size / 2;
-                            if (item.textAlign === 'left') {
-                                content.map( (itemSon, idx) => {
-                                    oCanTxt.letterSpacingText( itemSon.str, x, y + idx * lineHeight + line_size, letterSpacing, stroke )
-                                    this.initLineTo( oCanTxt, size, x, y, idx, lineHeight, itemSon, w, item.textAlign, textDecoration )
-                                } )
-                            } else {
-                                if (content.length === 1) {
-                                    item.textAlign === 'center' ? oCanTxt.letterSpacingText( content[0].str, x + w / 2 - content[0].len / 2, y + line_size, letterSpacing, stroke ) : oCanTxt.letterSpacingText( content[0].str, x + w - content[0].len, y + line_size, letterSpacing, stroke );
-                                    this.initLineTo( oCanTxt, size, x, y, 0, lineHeight, content[0], w, item.textAlign, textDecoration )
-                                } else {
-                                    const last = content[content.length - 1];
-                                    content.map( (itemSon, idx) => {
-                                        const xx = item.textAlign === 'center' ? x + w / 2 - itemSon.len / 2 : x;
-                                        if (idx !== content.length - 1) oCanTxt.letterSpacingText( itemSon.str, xx, y + idx * lineHeight + line_size, letterSpacing, stroke );
-                                        this.initLineTo( oCanTxt, size, x, y, idx, lineHeight, itemSon, w, item.textAlign, textDecoration )
-                                    } )
-                                    item.textAlign === 'center' ? oCanTxt.letterSpacingText( last.str, x + w / 2 - last.len / 2, y + (content.length - 1) * lineHeight + line_size, letterSpacing, stroke ) : oCanTxt.letterSpacingText( last.str, x + w - last.len, y + (content.length - 1) * lineHeight + line_size, letterSpacing, stroke )
-                                }
-                            }
-                        } else {
-                            let content = this.initfontList( oCanTxt, item.title, letterSpacing, w, h, item.flexDirection, size ),
-                                regExt = /[a-zA-Z]/g,
-                                line_size = lineHeight / 2 - size / 2;
-                            if (item.textAlign === 'left') {
-                                content.map( (itemSon, idx) => {
-                                    itemSon.str.split( '' ).map( (it, ix) => {
-                                        oCanTxt.fillTextVertical( it, x + w - (lineHeight - line_size) - idx * lineHeight + size / 2, y + ix * letterSpacing + size, stroke )
-                                        // stroke === 1 ? oCanTxt.fillText( it, x + w - (lineHeight - line_size) - idx * lineHeight, y + ix * letterSpacing + ix * size ) : oCanTxt.strokeText( it, x + w - idx * lineHeight + line_size, y + ix * letterSpacing + ix * size );
-                                    } )
-                                    this.initLineTo2( oCanTxt, size, x, y, idx, lineHeight, line_size, itemSon, w, h, item.textAlign, textDecoration )
-                                } )
-                            } else {
-                                if (content.length === 1) {
-                                    content[0].str.split( '' ).map( (it, ix) => {
-                                        const yc = item.textAlign === 'center' ? y + ix * letterSpacing + oCanTxt.measureText( content[0].str.substring( 0, ix ) ).width + h / 2 - content[0].len / 2 : y + ix * letterSpacing + oCanTxt.measureText( content[0].str.substring( 0, ix ) ).width;
-                                        // console.log( yc, oCanTxt.measureText( content[0].str.substring( 0, ix ) ).width, ix * size, 22222 )
-                                        oCanTxt.fillTextVertical( it, x + w - (lineHeight - line_size) + size / 2, yc, stroke )
-                                        // stroke === 1 ? oCanTxt.fillText( it, x + w - (lineHeight - line_size), yc ) : oCanTxt.strokeText( it, x + w + line_size, yc );
-                                    } )
-                                    this.initLineTo2( oCanTxt, size, x, y, 0, lineHeight, line_size, content[0], w, h, item.textAlign, textDecoration )
-                                } else {
-                                    const last = content[content.length - 1];
-                                    content.map( (itemSon, idx) => {
-                                        if (idx !== content.length - 1) {
-                                            itemSon.str.split( '' ).map( (it, ix) => {
-                                                const yc = item.textAlign === 'center' ? y + ix * letterSpacing + oCanTxt.measureText( content[idx].str.substring( 0, ix ) ).width + h / 2 - content[idx].len / 2 : y + ix * letterSpacing + oCanTxt.measureText( content[idx].str.substring( 0, ix ) ).width;
-                                                oCanTxt.fillTextVertical( it, x + w - (lineHeight - line_size) - idx * lineHeight + size / 2, yc, stroke )
-                                                // stroke === 1 ? oCanTxt.fillText( it, x + w - (lineHeight - line_size) - idx * lineHeight, yc ) : oCanTxt.strokeText( it, x + w - idx * lineHeight + line_size, yc );
-                                            } )
-                                        }
-                                        this.initLineTo2( oCanTxt, size, x, y, idx, lineHeight, line_size, itemSon, w, h, item.textAlign, textDecoration )
-                                    } )
-                                    last.str.split( '' ).map( (it, ix) => {
-                                        const ys = item.textAlign === 'center' ? y + ix * letterSpacing + oCanTxt.measureText( last.str.substring( 0, ix ) ).width + h / 2 - last.len / 2 : y + ix * letterSpacing + oCanTxt.measureText( last.str.substring( 0, ix ) ).width;
-                                        oCanTxt.fillTextVertical( it, x + w - (lineHeight - line_size) - (content.length - 1) * lineHeight + size / 2, ys, stroke )
-                                        // stroke === 1 ? oCanTxt.fillText( it, x + w - (lineHeight - line_size) - (content.length - 1) * lineHeight, ys ) : oCanTxt.strokeText( it, x + w - (content.length - 1) * lineHeight + line_size, ys );
-                                    } )
-                                }
-                            }
-                        }
-                        oCanTxt.setTransform( 1, 0, 0, 1, 0, 0 );
                     }
                 } )
                 if (!dOrr) this.downLoad( oCan )
             },
-            initfontList(oCanTxt, str, letterSpacing, w, h, flexDirection, size) {
-                let str1 = str.replace( /\<span.*?>(.*?)<\/span>/g, '$1' )//去除span标签
-                let arr = (str1.replace( /\&nbsp;/g, ' ' )).replace( /\<\/div>/g, "" ).split( '<div>' ), lastArr = [];//根据几个子div，判断有几个内容，每个内容都必须另起一行，再然后每个内容在判断是否要换行
-                if (!flexDirection) {
-                    arr.map( itemP => {
-                        if (oCanTxt.measureText( itemP ).width + (itemP.length - 1) * letterSpacing <= w) lastArr.push( {
-                            str: itemP,
-                            len: oCanTxt.measureText( itemP ).width + (itemP.length - 1) * letterSpacing
-                        } );
-                        else {
-                            const listSon = itemP.split( '' );
-                            let brr = listSon.reduce( (pre, item, idx) => {
-                                const w1 = oCanTxt.measureText( item ).width,
-                                    w2 = pre.str !== '' ? oCanTxt.measureText( pre.str ).width + (pre.str.length - 1) * letterSpacing : 0;
-                                if (w2 + letterSpacing + w1 > w && idx !== listSon.length - 1) {
-                                    pre.list.push( {str: pre.str, len: w2} );
-                                    pre.str = item;
-                                } else if (idx === listSon.length - 1 && w2 + letterSpacing + w1 <= w) {
-                                    pre.list.push( {str: pre.str + item, len: w2 + w1 + letterSpacing} );
-                                    pre.str = '';
-                                } else if (idx === listSon.length - 1 && w2 + letterSpacing + w1 > w) {
-                                    pre.list.push( {str: pre.str, len: w2} );
-                                    pre.list.push( {str: item, len: w1} );
-                                    pre.str = item;
-                                } else pre.str = pre.str + item;
-                                return pre
-                            }, {str: '', list: []} )
-                            lastArr = [...lastArr, ...brr.list]
-                        }
-                    } )
-                } else {
-                    arr.map( itemP => {
-                        if (oCanTxt.measureText( itemP ).width + (itemP.length - 1) * letterSpacing <= h) lastArr.push( {
-                            str: itemP,
-                            len: oCanTxt.measureText( itemP ).width + (itemP.length - 1) * letterSpacing
-                        } );
-                        else {
-                            const listSon = itemP.split( '' );
-                            let brr = listSon.reduce( (pre, item, idx) => {
-                                const w1 = size,
-                                    w2 = pre.str !== '' ? oCanTxt.measureText( pre.str ).width + (pre.str.length - 1) * letterSpacing : 0;
-                                if (w2 + letterSpacing + w1 > h && idx !== listSon.length - 1) {
-                                    pre.list.push( {str: pre.str, len: w2} );
-                                    pre.str = item;
-                                } else if (idx === listSon.length - 1 && w2 + letterSpacing + w1 <= h) {
-                                    pre.list.push( {str: pre.str + item, len: w2 + w1 + letterSpacing} );
-                                    pre.str = '';
-                                } else if (idx === listSon.length - 1 && w2 + letterSpacing + w1 > h) {
-                                    pre.list.push( {str: pre.str, len: w2} );
-                                    pre.list.push( {str: item, len: w1} );
-                                    pre.str = item;
-                                } else pre.str = pre.str + item;
-                                return pre
-                            }, {str: '', list: []} )
-                            lastArr = [...lastArr, ...brr.list]
-                        }
-                    } )
-                }
-                return lastArr;
-            },
-            initLineTo(oCanTxt, size, x, y, idx, lineHeight, itemSon, w, textAlign, textDecoration) {
-                if (!textDecoration) return;
-                oCanTxt.beginPath();
-                oCanTxt.lineWidth = 2;
-                let sx, sy, ex, ey;
-                if (textAlign === 'center') {
-                    sx = x + w / 2 - itemSon.len / 2;
-                    sy = y + idx * lineHeight + lineHeight / 2;
-                    ex = x + w / 2 - itemSon.len / 2 + itemSon.len;
-                    ey = y + idx * lineHeight + lineHeight / 2;
-                } else if (textAlign === 'left') {
-                    sx = x;
-                    sy = y + idx * lineHeight + lineHeight / 2;
-                    ex = x + itemSon.len;
-                    ey = y + idx * lineHeight + lineHeight / 2;
-                } else {
-                    sx = x + w - itemSon.len;
-                    sy = y + idx * lineHeight + lineHeight / 2;
-                    ex = x + w;
-                    ey = y + idx * lineHeight + lineHeight / 2;
-                }
-                oCanTxt.moveTo( sx, textDecoration === 2 ? sy : sy + size / 2 );
-                oCanTxt.lineTo( ex, textDecoration === 2 ? ey : ey + size / 2 );
-                oCanTxt.stroke();
-            },
-            initLineTo2(oCanTxt, size, x, y, idx, lineHeight, line_size, itemSon, w, h, textAlign, textDecoration) {
-                // console.log( textDecoration )
-                if (!textDecoration) return;
-                oCanTxt.beginPath();
-                oCanTxt.lineWidth = 2;
-                let sx, sy, ex, ey;
-                if (textAlign === 'center') {
-                    sx = x + w - (lineHeight - line_size) - idx * lineHeight;
-                    sy = y + h / 2 - itemSon.len / 2;
-                    ex = x + w - (lineHeight - line_size) - idx * lineHeight;
-                    ey = y + h / 2 - itemSon.len / 2 + itemSon.len;
-                } else if (textAlign === 'left') {
-                    sx = x + w - (lineHeight - line_size) - idx * lineHeight;
-                    sy = y;
-                    ex = x + w - (lineHeight - line_size) - idx * lineHeight;
-                    ey = y + itemSon.len;
-                } else {
-                    sx = x + w - (lineHeight - line_size) - idx * lineHeight;
-                    sy = y + h - itemSon.len;
-                    ex = x + w - (lineHeight - line_size) - idx * lineHeight;
-                    ey = y + h;
-                }
-                oCanTxt.moveTo( textDecoration === 2 ? sx + size / 2 : sx, sy );
-                oCanTxt.lineTo( textDecoration === 2 ? ex + size / 2 : ex, ey );
-                oCanTxt.stroke();
-            },
             downLoad(cans) {
                 const type = this.downType ? 'image/jpeg' : 'image/png';
-                if (myBrowser() === 'IE' || myBrowser() === 'Edge') {//ie下载图片
+                if (window.navigator.msSaveOrOpenBlob) {//ie下载图片
                     let url = cans.msToBlob( _ => {
                     }, type );
                     let blobObj = new Blob( [url] );
-                    window.navigator.msSaveOrOpenBlob( blobObj, this.edrieImgInfo.filename.replace( /.png/g, '' ) + (this.downType ? '.jpg' : '.png') );
+                    window.navigator.msSaveOrOpenBlob( blobObj, '形象照' + (this.downType ? '.jpg' : '.png') );
                     this.loadingInstance.close()
                 } else {
                     let url = cans.toDataURL( type );
@@ -1260,26 +1066,12 @@
                     let objurl = URL.createObjectURL( new Blob( [u8arr], {type: mime} ) );
                     let save_link = document.createElement( 'a' );
                     save_link.href = objurl;
-                    save_link.download = this.edrieImgInfo.filename.replace( /.png/g, '' );
+                    save_link.download = '形象照';
                     let event = document.createEvent( 'MouseEvents' );
                     event.initMouseEvent( 'click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null );
                     save_link.dispatchEvent( event );
                     this.loadingInstance.close()
                 }
-            },
-            changeSize(val) {//画布尺寸输入
-                const item = this.idPhotolist.find( it => it.name === val )
-                let data = {
-                    w: item.width,
-                    h: item.height,
-                    // pro: this.edrieImgInfo.pro,
-                    // ori: this.edrieImgInfo.ori,
-                    color: item.color,
-                    filename: item.name,
-                    // fileId: this.edrieImgInfo.fileId,
-                    // mattingType: 8
-                }
-                this.initAllInfo( data )
             },
             wheelFun(k) {
                 let scale = parseFloat( this.parseSubs.scale ), newscale, data,
@@ -1297,27 +1089,40 @@
                 } )
             },
             initAllInfo(data) {//初始化时操作信息
-                let obj = data ? data : JSON.parse( localStorage.getItem( 'photoMsg' ) );
+                let obj = data ? data : JSON.parse( localStorage.getItem( 'onlineimageMsg' ) );
                 if (!obj) obj = {};
                 this.edrieImgInfo = {...this.edrieImgInfo, ...obj};
                 this.loading.show = true;
                 this.loading.text = '加载中...';
                 this.openBack = false;
-                this.tzSonUrl = 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200818/9af28d937387444eb97699dc532fceb5.jpg';
                 this.parseSubs.subList = [];
                 this.loadSubObj = '';
                 let oImg = new Image();
                 oImg.crossOrigin = '';
                 oImg.onload = () => {
-                    const [w, h] = [parseFloat( this.edrieImgInfo.w ), parseFloat( this.edrieImgInfo.h )];
+                    const [w, h] = [this.edrieImgInfo.w, this.edrieImgInfo.h];
                     this.edrieImgInfo.oriObj = oImg;
-                    let scaleW = 0.55 * h / w;//头部占尺寸的比例
-                    let iw = w * scaleW * this.edrieImgInfo.originalWidth / (this.edrieImgInfo.headData.right - this.edrieImgInfo.headData.left);//缩放后的图片宽
-                    let ih = iw * this.edrieImgInfo.originalHeight / this.edrieImgInfo.originalWidth;
-                    let top = -(ih * this.edrieImgInfo.headData.top / this.edrieImgInfo.originalHeight) + h * 0.05;
-                    let left = w / 2 - ((this.edrieImgInfo.headData.right - this.edrieImgInfo.headData.left) / 2 + this.edrieImgInfo.headData.left) * iw / this.edrieImgInfo.originalWidth;
+                    // let scaleW = 2 / 9 * h / w;//头部占尺寸的比例
+                    // let iw = w * scaleW * this.edrieImgInfo.originalWidth / (this.edrieImgInfo.headData.right - this.edrieImgInfo.headData.left);//缩放后的图片宽
+                    // let ih = iw * this.edrieImgInfo.originalHeight / this.edrieImgInfo.originalWidth;
+                    // let top = -(ih * this.edrieImgInfo.headData.top / this.edrieImgInfo.originalHeight) + h * 0.05;
+                    // let left = w / 2 - ((this.edrieImgInfo.headData.right - this.edrieImgInfo.headData.left) / 2 + this.edrieImgInfo.headData.left) * iw / this.edrieImgInfo.originalWidth;
+                    // let downTop = h - top <= ih ? top : h - ih;//吸底判断
+                    let mattingMsg=this.edrieImgInfo;
+                    let point = mattingMsg.maskRect, ow = mattingMsg.originalWidth, oh = mattingMsg.originalHeight, iw, ih, downTop,
+                        left, afterPoint;//        var iw=ow>oh ? w*0.62 : (h*0.62)*w/h,ih=ow>oh ? w*0.62*h/w : h*0.62,downTop=(h-ih)/2,left=(w-iw)/2
+                    if (point.width > point.height) {
+                        iw = (0.7 * w) * ow / point.width;
+                        ih = iw * oh / ow;
+                    } else {
+                        ih = 0.7 * h * oh / point.height;
+                        iw = ih * ow / oh;
+                    }
+                    afterPoint = {x: iw * point.x / ow, y: ih * point.y / oh, w: iw * point.width / ow, h: ih * point.height / oh};//缩放后的内容信息
+                    downTop = h / 2 - (afterPoint.y + afterPoint.h / 2);
+                    left = w / 2 - (afterPoint.x + afterPoint.w / 2);
                     let it = {
-                        title: this.edrieImgInfo.filename,
+                        title: '电商白底图',
                         oriW: w,
                         oriH: h,
                         isOwnTwo: 1,//证件照替换时需要调整x位置
@@ -1326,28 +1131,26 @@
                         cover: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200724/aa742c4ea6a045d79d3256e170c48118.png',
                         subList: [{
                             type: 0,
-                            backColor: this.edrieImgInfo.color
+                            backColor: ''
                         }, {
                             "type": 1,
-                            "title": "图片组件",
+                            "title": "主图",
                             "w": iw,
                             "h": ih,
                             "x": left,
-                            "y": top,
+                            "y": downTop,
                             "rotate": 0,
                             "useImg": this.edrieImgInfo.pro,
                             "pro": this.edrieImgInfo.pro,
                             "ori": this.edrieImgInfo.ori,
                             "hovering": false,
-                            "mattingType": 8,
+                            "mattingType": 9,
                             fileId: this.edrieImgInfo.fileId,
                         }]
                     }
-                    this.photoSize = this.idPhotolist.find( item => item.name === it.title ).name;
-                    this.colorType = this.edrieImgInfo.color;
                     this.loadSubs( it );
                 };
-                oImg.src = addUrlQuery( this.edrieImgInfo.ori );
+                oImg.src = addUrlQuery(this.edrieImgInfo.ori);
             },
             reloads(k) {//重新上传
                 const msg = k ? '确定要选择此模板替换当前模板, 是否继续?' : '确定要重置, 是否继续?';
@@ -1391,7 +1194,7 @@
                     this.parseSubs.subList[idx].id = `img${Math.random()}`;
                     this.loading.show = false;
                 };
-                oImg.src = addUrlQuery( this.parseSubs.subList[idx].useImg );
+                oImg.src = addUrlQuery(this.parseSubs.subList[idx].useImg);
             },
             initUpImgs(file) {
                 let formData = new FormData();
@@ -1425,7 +1228,7 @@
                         this.parseSubs.subList.push( data )
                         this.loading.show = false;
                     };
-                    oImg.src = addUrlQuery( res.data );
+                    oImg.src = addUrlQuery(res.data);
 
                 } )
 
@@ -1444,29 +1247,6 @@
                         }
                     } )
                 } )
-                // dataImg=nowSub.subList.filter(item=>(item.type!==2 && !reg.test(item.useImg) && item.useImg && !item.backColor));
-                // console.log(dataImg.length)
-                // if(dataImg.length>0){
-                //     dataImg.map(item=>{
-                //         let oCan=document.createElement('canvas'),oCantxt,oImg=new Image(),formData=new FormData(),idx=nowSub.subList.findIndex(it=>it.id===item.id);
-                //         oCantxt=oCan.getContext('2d')
-                //         oImg.crossOrigin='';
-                //         oImg.onload=()=>{
-                //             oCan.width=oImg.width;
-                //             oCan.height=oImg.height;
-                //             oCantxt.drawImage(oImg,0,0)
-                //             oCan.toBlob(blob=>{
-                //                 formData.append('file',blob);
-                //                 uploadossBg(formData).then(res=>{
-                //                     upNum+=1;
-                //                     nowSub.subList[idx].useImg=res.data;
-                //                     if(upNum===dataImg.length) this.saveTempelteSub(nowSub)
-                //                 })
-                //             })
-                //         };
-                //         oImg.src=item.useImg;
-                //     })
-                // }else this.saveTempelteSub(nowSub)
                 this.downLoadImg2( nowSub );
             },
             saveTempelteSub(nowSub, url) {
@@ -1484,6 +1264,7 @@
             loadSubs(item) {
                 let mItems = JSON.parse( JSON.stringify( item ) ),
                     oH = document.getElementById( 'e_r' ).offsetHeight * 0.6,
+                    imgsList = mItems.subList.filter( it => ([1].includes( it.type ) && it.useImg) ),
                     oW = document.getElementById( 'e_r' ).offsetWidth * 0.6;
                 mItems['bW'] = mItems.oriW > mItems.oriH ? (mItems.oriW > oW ? oW : mItems.oriW) : (mItems.oriH > oH ? oH * mItems.oriW / mItems.oriH : mItems.oriW);
                 mItems['bH'] = mItems.oriW > mItems.oriH ? (mItems.oriW > oW ? oW * mItems.oriH / mItems.oriW : mItems.oriH) : (mItems.oriH > oH ? oH : mItems.oriH);
@@ -1497,15 +1278,27 @@
                         if (it === 'textShadow') mItems.subList[idx][it] = ['none', '#333 1px 0 0, #333 0 1px 0, #333 -1px 0 0, #333 0 -1px 0', '0 5px 5px #333'][mItems.subList[idx][it]]
                     } )
                 } )
+                this.loadSubing = 0;
                 this.oriW = mItems.oriW;
                 this.oriH = mItems.oriH;
-                this.parseSubs = mItems;
-                this.loading = {show: false, text: '处理中...'};
-                this.$nextTick( _ => {
-                    this.SubsDataList = [];
-                    this.hisIdx = -1;
-                    this.initsave();//模板加载后，重新存下数据
-                    this.openBack = true;
+                mItems.subList.map( (item, idx) => {
+                    if ([1].includes( item.type ) && item.useImg) {
+                        mItems.subList[idx]['id'] = `img${Math.random()}`;
+                        mItems.subList[idx]['proObj'] = ``;
+                        let oImg = new Image();
+                        oImg.crossOrigin = '';
+                        oImg.onload = () => {
+                            mItems.subList[idx]['proObj'] = oImg;
+                            this.loadSubing+=1;
+                            if(this.loadSubing===imgsList.length){
+                                this.parseSubs=mItems;
+                                const ixs=this.edrieImgInfo.idxSplace;
+                                if(ixs>-1 && ixs<38)this.loadThis(this.effectList[ixs],ixs);
+                                this.loading = {show: false, text: '处理中...'};
+                            }
+                        };
+                        oImg.src =addUrlQuery(mItems.subList[idx].useImg);
+                    }
                 } )
 
             },
@@ -1518,7 +1311,142 @@
                 this.$nextTick( _ => {
                     $( '.hDown2' ).css( 'zIndex', 888 )
                 } )
-            }
+            },
+            initDiv() {
+                let oImg = new Image(), w = 900, h = 1275,mattingMsg={"previewHeight":"500","original":"http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200912/68c0e3b336c74460958010c081d06529.jpg","originalHeight":"1600","maskRect":{"x":427,"width":896,"y":95,"height":1505},"bgRemovedPreview":"https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/09/21/http___deeplor.oss-cn-hangzhou.aliyuncs.com_upload_image_20200912_68c0e3b336c74460958010c081d06529.png","queueNumber":"1","originalWidth":"1600","status":"success","fileId":"746894","previewWidth":"500"};
+                // let scaleW = 2 / 9 * h / w;//头部占据2/9
+                // let iw = w * scaleW * mattingMsg.originalWidth / (mattingMsg.headData.right - mattingMsg.headData.left);//缩放后的图片宽
+                // let ih = iw * mattingMsg.originalHeight / mattingMsg.originalWidth;
+                // let top = -(ih * mattingMsg.headData.top / mattingMsg.originalHeight) + h * 0.05;
+                // let left = w / 2 - ((mattingMsg.headData.right - mattingMsg.headData.left) / 2 + mattingMsg.headData.left) * iw / mattingMsg.originalWidth;
+                // let downTop = h - top <= ih ? top : h - ih;//吸底判断
+                let point=mattingMsg.maskRect,ow=mattingMsg.originalWidth,oh=mattingMsg.originalHeight;
+                let downTop=h * 0.08,ih=(h-downTop)*oh/point.height,iw=ow*ih/oh,left=w/2-iw/2;//
+                let afterPoint={x:iw*point.x/ow,y:ih*point.y/oh,w:iw*point.width/ow,h:ih*point.height/oh};
+                downTop=downTop-afterPoint.y;
+                if(afterPoint.w>w){
+                    iw=(w*ow/point.width);
+                    ih=iw*oh/ow;
+                    left=0;
+                    downTop=h-ih;
+                    afterPoint={x:iw*point.x/ow,y:ih*point.y/oh,w:iw*point.width/ow,h:ih*point.height/oh};
+                }
+                left=w/2-iw/2-(afterPoint.x+afterPoint.w/2-iw/2);
+                oImg.crossOrigin = '';
+                oImg.onload = ()=> {
+                    let data = {};
+                    this.effectList.map((item,idxx)=>{
+                        let type = item.type;
+                        if (type == 1) {//径向渐变
+                            let colorStr = item.color;
+                            data = {colorStr: colorStr, imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: ''};
+                            item.imgurl=jsMulit.RadialGradient.init( data )
+                        } else if (type == 2) {//前后背景
+                            let oCan=document.createElement('canvas'),ctx=oCan.getContext('2d');
+                            oCan.width=w;oCan.height=h;
+                            ctx.drawImage(oImg,left,downTop,iw,ih);
+                            item.imgurl=oCan.toDataURL();
+                            // data = {backStr: backStr, imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: ''};
+                            // jsMulit.AddBackgroundImage.init( data, callback )
+                        } else if (type == 3) {//三个影子
+                            // let headw = (mattingMsg.headData.right - mattingMsg.headData.left) * iw / mattingMsg.originalWidth;
+                            let headw =iw/3;
+                            data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, headw: headw, downtype: ''};
+                            item.imgurl=jsMulit.ThreeShow.init( data )
+                        } else if (type == 4) {//加相框
+                            let bColor = item.bColor;
+                            data = {bColor: bColor, imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', size: 40,iheight:downTop+afterPoint.y};
+                           item.imgurl= jsMulit.AddPhotoFrame.init( data )
+                        } else if (type == 5) {//加佛光
+                            let upColor = item.upColor, backUrl = item.backUrl,
+                                callback = (can)=> {
+                                    item.imgurl=can.toDataURL()
+                                };
+                            data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', upColor: upColor, backUrl: backUrl};
+                            jsMulit.AddBuddhaLight.init( data, callback )
+                        } else if (type == 6) {//加圆圈
+                            let colors = item.colors;
+                            data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', colors: colors, bcolor: '#000'
+                            };
+                            item.imgurl= jsMulit.AddArc.init( data )
+                        }
+                    })
+                };
+                oImg.src = addUrlQuery('http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_preview/2020/09/17/4a6460db6b1d4af1acaafcac6867ad50.png');
+            },
+            loadThis(item,x){
+                let type=item.type,oCan=document.createElement('canvas'),canTxt,data,idx=this.parseSubs.subList.findIndex(items=>!items.type),mattingMsg=this.edrieImgInfo,w=mattingMsg.w,h=mattingMsg.h;
+                let [scaleW,oImg] = [2 / 9 * h / w,(this.parseSubs.subList.find(items=>items.type===1)).proObj];//头部占据2/9
+                // let iw = w * scaleW * mattingMsg.originalWidth / (mattingMsg.headData.right - mattingMsg.headData.left);//缩放后的图片宽
+                // let ih = iw * mattingMsg.originalHeight / mattingMsg.originalWidth;
+                // let top = -(ih * mattingMsg.headData.top / mattingMsg.originalHeight) + h * 0.05;
+                // let left = w / 2 - ((mattingMsg.headData.right - mattingMsg.headData.left) / 2 + mattingMsg.headData.left) * iw / mattingMsg.originalWidth;
+                // let downTop = h - top <= ih ? top : h - ih;//吸底判断
+                let point=mattingMsg.maskRect,ow=mattingMsg.originalWidth,oh=mattingMsg.originalHeight;
+                let downTop=h * 0.08,ih=(h-downTop)*oh/point.height,iw=ow*ih/oh,left=w/2-iw/2;//
+                let afterPoint={x:iw*point.x/ow,y:ih*point.y/oh,w:iw*point.width/ow,h:ih*point.height/oh};
+                downTop=downTop-afterPoint.y;
+                if(afterPoint.w>w){
+                    iw=(w*ow/point.width);
+                    ih=iw*oh/ow;
+                    left=0;
+                    downTop=h-ih;
+                    afterPoint={x:iw*point.x/ow,y:ih*point.y/oh,w:iw*point.width/ow,h:ih*point.height/oh};
+                }
+                left=w/2-iw/2-(afterPoint.x+afterPoint.w/2-iw/2);
+                oCan.width=w;
+                oCan.height=h;
+                canTxt=oCan.getContext('2d');
+                this.parseSubs.subList=[{ type: 0, useImg: '', pro: '', ori: ''},...this.parseSubs.subList.filter(itemson=>[1].includes(itemson.type))];
+                if(type===1){
+                    let gradient = canTxt.createRadialGradient( w / 2, h / 2, 0, w / 2, h / 2, h / 2 ),colors=item.color.split(',');
+                    gradient.addColorStop( 0, colors[0] );
+                    gradient.addColorStop( 1, colors[1] );
+                    canTxt.fillStyle = gradient;
+                    canTxt.fillRect( 0, 0,w,h );
+                    data={backColor:'', type: 0, title: '背景组件', w:w*this.parseSubs.scale, h:h*this.parseSubs.scale, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: oCan.toDataURL(), pro:  oCan.toDataURL(), ori:  oCan.toDataURL(), hovering: false, mattingType: -1,}
+                    this.parseSubs.subList.splice(idx,1,data);
+                }else if(type===2){
+                    let imglist=item.imgSrc.split(','),imgs;
+                    data={backColor:'', type: 0, title: '背景组件', w:w*this.parseSubs.scale, h:h*this.parseSubs.scale, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: imglist[0], pro:  imglist[0], ori: imglist[0], hovering: false, mattingType: -1,}
+                    this.parseSubs.subList.splice(idx,1,data);
+                    if(imglist.length>1){
+                        imgs={type: 3, title: '图片背景', w:w*this.parseSubs.scale, h:h*this.parseSubs.scale, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: imglist[1], pro:  imglist[1], ori: imglist[1], hovering: false, mattingType: -1,}
+                        this.parseSubs.subList.push(imgs);
+                    }
+                }else if(type===3){
+                    this.parseSubs.subList[0].backColor='#000';
+                    // let headw = (mattingMsg.headData.right - mattingMsg.headData.left) * iw / mattingMsg.originalWidth,objData;
+                    let headw = iw/3,objData;
+                    data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, headw: headw, downtype: '',color:'rgba(0,0,0,0)'};
+                    let effurl=jsMulit.ThreeShow.init( data,'',1 );
+                    objData={type: 3, title: '图片', w:this.parseSubs.bW, h:this.parseSubs.bH, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: effurl, pro:  effurl, ori: effurl, hovering: false, mattingType: -1,}
+                    this.parseSubs.subList.splice(1,0,objData)
+                }else if(type===4){//PhotoFrame
+                    data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', size: 40,iheight:downTop+afterPoint.y};
+                    this.parseSubs.subList[0].backColor=item.bColor;
+                    const img=jsMulit.PhotoFrame.init( data),img2=jsMulit.PhotoFrame.init( data,1);
+                    let imgdata={type: 3, title: '图片', w:this.parseSubs.bW, h:this.parseSubs.bH, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: img, pro:  img, ori: img, hovering: false, mattingType: -1,};
+                    let imgdata2={type: 3, title: '图片', w:this.parseSubs.bW, h:this.parseSubs.bH, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: img2, pro:  img2, ori: img2, hovering: false, mattingType: -1,};
+                    this.parseSubs.subList.splice(1,0,imgdata2);
+                    this.parseSubs.subList.push(imgdata);
+                }else if(type===5){//PhotoFrame
+                    data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', upColor: item.upColor, backUrl: item.backUrl};
+                    const backsub={backColor:'', type: 0, title: '背景组件', w:this.parseSubs.bW, h:this.parseSubs.bH, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: data.backUrl, pro:  data.backUrl, ori:  data.backUrl, hovering: false, mattingType: -1,}
+                    let img=jsMulit.AddBuddhaLight.init( data,'',1),cale=this.parseSubs.scale;
+                    let imgsub={type: 3, title: '图片', w:this.parseSubs.bW, h:this.parseSubs.bH, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: img, pro:  img, ori: img, hovering: false, mattingType: -1,canMove:true};
+                    let mainsub={...this.parseSubs.subList[1],...{x:left*cale,y:downTop*cale,w:iw*cale,h:ih*cale}};
+                    this.parseSubs.subList.splice(0,1,backsub);
+                    this.parseSubs.subList.splice(1,1,mainsub);
+                    this.parseSubs.subList.push(imgsub);
+                    // console.log(this.parseSubs.subList,mainsub)
+                }
+                this.loadIdx=x;
+                this.$nextTick(_=>{
+                    const mainidx=this.parseSubs.subList.findIndex(it=>it.type===1);
+                    this.hoverThis(mainidx);
+                })
+            },
         },
         created() {//透明背景储存
         },
@@ -1530,8 +1458,6 @@
                 this.initUserinfo();
             }
             $( '#e_r' ).niceScroll( {cursorcolor: '#999999'} );
-            letterText()//字间距
-            verticalText()//字间距
             document.addEventListener( 'keydown', (e) => {//键盘事件
                 const keynum = window.event ? e.keyCode : e.which;
                 const idx = this.hoverSub.idx, type = this.hoverSub.type;
@@ -1543,11 +1469,15 @@
                 const keynum = window.event ? e.keyCode : e.which;
                 if (keynum === 17) this.touchContrl = false;
             } )
+            document.addEventListener( 'click', (e) => {
+                this.showcolorList = false;
+            } )
             window.addEventListener( 'resize', () => {
                 const oDiv = document.getElementById( 'e_r' )
                 this.oDiv_w = {w: oDiv.offsetWidth, h: oDiv.offsetHeight};
             } )
             this.initAllInfo();
+            this.initDiv();
         }
     }
 </script>
@@ -1581,76 +1511,60 @@
                 margin-bottom: 20px;
             }
 
-            .el-select {
-                width: 100%;
-                margin-bottom: 30px;
-            }
+            .smallBtn {
+                margin-top: 20px;
+                margin-bottom: 35px;
+                background-color: initial;
 
-            .colors {
-                margin-bottom: 20px;
-
-                & > div {
-                    margin-right: 8px;
-                    font-size: 12px;
-                    color: #fff;
-                    text-align: center;
-                    line-height: 1;
-
-                    strong {
-                        display: block;
-                        margin-bottom: 15px;
-                    }
-
-                    &:nth-child(5n) {
-                        margin: 0;
-                    }
+                .bordershow {
+                    box-shadow: 0 0 5px $co;
                 }
 
-                span {
+                .color_List {
+                    position: absolute;
+                    top: 30px;
+                    right: -200px;
+                    width: 240px;
+                    flex-wrap: wrap;
+                    box-shadow: 0 0 10px #333;
+                    margin-top: 10px;
+                    z-index: 1002;
+                    background-color: #fff;
+
+                    span:first-child {
+                        margin-bottom: 10px;
+                    }
+
+                    span {
+                        width: 20px;
+                        height: 20px;
+                    }
+                }
+            }
+
+            .smallBtn > div {
+                border-radius: 5px;
+                width: 28px;
+                height: 28px;
+                margin-right: 10px;
+                margin-bottom: 10px;
+                position: relative;
+
+                img {
                     display: block;
-                    position: relative;
-                    width: 39px;
-                    height: 39px;
-                    border-radius: 5px;
-                    margin-bottom: 6px;
-
-                    i {
-                        position: absolute;
-                        font-size: 14px;
-                        left: 50%;
-                        color: #4254E6;
-                        font-weight: bold;
-                        top: 50%;
-                        transform: translate(-50%, -50%);
-                    }
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
                 }
-            }
 
-            .active {
-                border-color: $co;
-                color: $co;
+                &:first-child, &:nth-child(2) {
+                    border-radius: 50%;
+                }
             }
 
             .el-slider {
                 width: 80%;
                 margin-right: 15px;
-            }
-
-            .Fbtn {
-                font-size: 14px;
-                color: #ADAEB2;
-                line-height: 32px;
-                margin-bottom: 20px;
-                border-bottom: 1px solid #40454B;
-
-                span {
-                    padding: 0 5px;
-                }
-
-                .active {
-                    color: #fff;
-                    border-bottom: 2px solid $co;
-                }
             }
 
             .fource {
@@ -1663,23 +1577,42 @@
                     margin-bottom: 20px;
                 }
 
+                .Fbtn {
+                    font-size: 14px;
+                    color: #ADAEB2;
+                    line-height: 32px;
+                    margin-bottom: 20px;
+                    border-bottom: 1px solid #40454B;
+
+                    span {
+                        padding: 0 5px;
+                    }
+
+                    .active {
+                        color: #fff;
+                        border-bottom: 2px solid $co;
+                    }
+                }
 
                 .iconList {
                     padding: 5px;
                     /*justify-content: center;*/
                     div {
+                        background-size: cover;
+                        background-repeat: no-repeat;
+                        background-position: center;
                         width: 100px;
                         position: relative;
                         margin-bottom: 10px;
                         overflow: hidden;
-                        background: url("http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/b80c2dd51d2b49e5885f8d4aff5032c6.jpg") no-repeat center;
-
-                        /*&:nth-child(2n) {*/
-                        /*    margin: 0 10px;*/
-                        /*}*/
-
-                        img {
+                        img{
                             display: block;
+                            width: 100%;
+                        }
+                        img.upimgsb{
+                            position: absolute;
+                            left: 0;
+                            top: 0;
                             width: 100%;
                         }
                     }
@@ -1924,7 +1857,6 @@
                 transform: translate(-50%, -50%);
                 box-shadow: 0 0 15px #9c9c9c;
                 overflow: hidden;
-
                 .upss {
                     z-index: 1;
                 }
@@ -2008,6 +1940,9 @@
                     }
                 }
             }
+            .teimgs{
+                pointer-events: none;
+            }
 
         }
 
@@ -2015,6 +1950,8 @@
             width: 220px;
             padding: 80px 20px 0;
             background-color: #fff;
+            position: relative;
+            z-index: 32;
 
             h4 {
                 font-size: 14px;

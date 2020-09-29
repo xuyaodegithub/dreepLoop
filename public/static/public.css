@@ -2,13 +2,13 @@
 /* CSS Document */
 
 body,ol,ul,h1,h2,h3,h4,h5,h6,p,th,td,dl,dd,form,fieldset,legend,input,textarea,select,figure{margin:0;padding:0;}
-body{font-size:12px; word-wrap:break-word;height:100%;background-color: #f5f5f7;}
+body{font-size:12px; word-wrap:break-word;height:100%;background-color: #f5f5f7;font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif !important;}
 html{height:100%;}
 a,u,s,del{color:#666;text-decoration:none}
 fieldset ,a img,.bor0 {border:0;}
 i,em,b,th{font-style:normal;font-weight:100;}
 li{list-style:none}
-img{vertical-align:middle}
+img{vertical-align:middle ;}
 table{border-collapse:collapse;}
 mark{background:none;}
 input,textarea{outline:none;}/*去除谷歌点击蓝色虚框*/

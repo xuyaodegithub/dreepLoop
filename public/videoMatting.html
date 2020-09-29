@@ -1,20 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script>(function (w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push( {
-            'gtm.start':
-                new Date().getTime(), event: 'gtm.js'
-        } );
-        var f = d.getElementsByTagName( s )[0],
-            j = d.createElement( s ), dl = l != 'dataLayer' ? '&l=' + l : '';
-        j.async = true;
-        j.src =
-            'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-        f.parentNode.insertBefore( j, f );
-    })( window, document, 'script', 'dataLayer', 'GTM-WG4BQ8P' );
-    </script>
+    <%= require('html-loader!./temple_google.html')  %>
     <meta charset="utf-8">
     <!--//设置不缓存-->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
@@ -33,19 +20,9 @@
     <link rel="stylesheet" href="static/public.css">
     <link rel="icon" href="smallLogo.jpg" type="images/x-icon">
     <!--标题栏：-->
-    <!--<link rel="icon" href="static/ball.png" type="image/x-icon">-->
+    <!--<link rel="icon" href="static/smallLogo.png" type="image/x-icon">-->
     <!--收藏夹：-->
-    <!--<link rel="shortcut icon" href="static/ball.png" type="image/x-icon">-->
-    <script>
-        var _hmt = _hmt || [];
-        (function () {
-            var hm = document.createElement( "script" );
-            // hm.src = "https://hm.baidu.com/hm.js?156c05f7319464c49127c703f9ed21df";
-            hm.src = "https://hm.baidu.com/hm.js?e12fc5e6ff2012ad0838c01122228ca7";
-            var s = document.getElementsByTagName( "script" )[0];
-            s.parentNode.insertBefore( hm, s );
-        })();
-    </script>
+    <!--<link rel="shortcut icon" href="static/smallLogo.png" type="image/x-icon">-->
 </head>
 <style>
     html, body {

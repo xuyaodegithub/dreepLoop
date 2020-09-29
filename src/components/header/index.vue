@@ -28,7 +28,7 @@
                         class="el-icon-caret-bottom"></i>
                     <transition name="el-zoom-in-top">
                         <div class="link">
-                            <a :href="item+'.html'" v-for="(item,idx) in editList" :key="idx"
+                            <a :href="item+'.html'" v-for="(item,idx) in editList" :key="idx" :target="!idx ? '_blank' :''"
                                :class="{'red' : urls.includes(item)}">{{['自由编辑器','证件照编辑器','形象照编辑器'][idx]}}</a>
                         </div>
                     </transition>

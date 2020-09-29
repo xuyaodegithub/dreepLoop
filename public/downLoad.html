@@ -1,22 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-WG4BQ8P');
-    </script>
-    <script>
-        var _hmt = _hmt || [];
-        (function() {
-            var hm = document.createElement("script");
-            // hm.src = "https://hm.baidu.com/hm.js?156c05f7319464c49127c703f9ed21df";
-            hm.src = "https://hm.baidu.com/hm.js?e12fc5e6ff2012ad0838c01122228ca7";
-            var s = document.getElementsByTagName("script")[0];
-            s.parentNode.insertBefore(hm, s);
-        })();
-    </script>
+    <%= require('html-loader!./temple_google.html')  %>
     <meta charset="utf-8">
     <!--//设置不缓存-->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
@@ -254,75 +239,7 @@
         <img src="static/ewmm.jpg" alt="" class="iill">
     </div>
 </div>
-<footer>
-    <div class="margin flex">
-        <div class="F_l">
-            <img src="static/logos.png" alt="">
-            <p>皮卡智能PicUP.AI利用人工智能和计算机视觉的力量，提供各种各样的产品、素材和API，为不同领域 的客户提供服务，包括设计行业、国内电商、跨境
-                电商、证件照形象照处理APP、表情制作小程序开发等，还包括新兴的POD（Print on demand）照片定制打印按需印刷业务。</p>
-        </div>
-        <div>
-            <h5>智能抠图</h5>
-            <a href="people.html">人像抠图</a>
-            <a href="objects.html">物体抠图</a>
-            <a href="apis.html">API</a>
-            <a href="userVip.html">定价</a>
-        </div>
-        <div>
-            <h5>功能应用</h5>
-            <span class="guo ewn cu">国庆同框
-                <img src="static/e1.png" alt="">
-            </span>
-            <span class="lv ewn cu">一键旅拍
-                <img src="static/e2.png" alt=""></span>
-            <a href="product.html">更多产品</a>
-            <a href="http://www.picup.shop/img/list">免费背景图</a>
-        </div>
-        <div>
-            <h5>关于我们</h5>
-            <a href="aboutUs.html">关于我们</a>
-            <a href="servicePrivacy.html">服务和隐私</a>
-            <a href="copyright.html">版权</a>
-        </div>
-    </div>
-    <div class="margin youqin">
-        友情链接：<a href="http://www.djcang.com/" target="_blank">大鲸云仓</a>
-    </div>
-    <div class="labelTages margin">
-        皮卡智能 <a href="index.html">抠图网站</a> 提供：
-        <a href="index.html" target="_blank">抠图软件</a>
-        <a href="index.html">抠图神器</a>
-        <a href="index.html">在线抠图</a>
-        <a href="index.html">自动抠图</a>
-        <a href="index.html">智能抠图软件</a>
-        <a href="people.html">人像抠图</a>
-        <a href="index.html">一键抠图</a>
-        <a href="people.html">人物抠图</a>
-        <a href="people.html">AI抠图</a>
-        <a href="index.html">在线一键抠图</a>
-        <a href="index.html">抠图神手</a>
-        <a href="index.html">免费抠图</a>
-        <a href="objects.html">透明物体抠图</a>
-        <a href="objects.html">汽车抠图</a>
-        <a href="index.html">电脑抠图软件</a>
-        <a href="index.html">在线抠图工具</a>
-        <span>免费背景素材：</span>
-        <a href="people.html">抠图背景图片</a>
-        <a href="people.html">抠图换背景</a>
-        <a href="people.html">抠图背景素材</a>
-        <a href="people.html">证件照背景</a>
-        <a href="people.html">证件照底色</a>
-        <a href="people.html">最美证件照</a>
-        <span>不用知道：</span>
-        <a href="index.html">抠图软件哪个好用</a>
-        <a href="index.html">ps抠图教程</a>
-        <a href="index.html">ps怎么抠图</a>
-        <a href="index.html">如何抠图</a>
-        <span>手机上也可以抠图：</span>
-        <a href="http://m.picup.ai">手机抠图软件</a>
-        <a href="http://m.picup.ai">抠图软件app</a>
-    </div>
-</footer>
+<%= require('html-loader!./temple_footer.html')  %>
 <div class="f_last">
     © 2018-2020皮卡智能PicUP.AI
 </div>

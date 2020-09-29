@@ -13,16 +13,13 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <meta name="applicable-device" content="pc">
     <link rel="mobile-agent" content="format=html5;url=http://m.picup.shop"/>
-<!--    <link rel="icon" href="<%= BASE_URL %>favicon.ico">-->
+    <meta name="Description" content="picup.ai还提供人物头像自动分割（抠头像），图像修复去水印，超分辨率，以图搜图，自动ps，风格转换，stylegan，人脸识别技术。">
+    <meta name="Keywords" content="人物头像自动分割,抠头像,去水印,超分辨率,以图搜图,自动ps"/>
+    <link rel="stylesheet" href="static/public.css">
     <link rel="icon" href="smallLogo.jpg">
-<!--    <title>我的</title>-->
-    <title>我的</title>
+    <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
-<body style="height: 100%">
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WG4BQ8P"
-                  height="0" width="0" style="display:none;visibility:hidden"></iframe>
-</noscript>
-<div id="user"></div>
-<!-- built files will be auto injected -->
+<body style="overflow: hidden;">
+<div id="onlineImageEdit"></div>
 </body>
 </html>

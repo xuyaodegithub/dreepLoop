@@ -15,7 +15,9 @@
 <!--                    <img src="@/assets/image/wechatEwm.jpg" alt="">-->
                 </div>
                 <div class="center">
-                    <div class="title">包月用不完，累积5个月</div><!--订阅计划-->
+                    <div class="title" style="margin-bottom: 25px">包月超优惠
+                        <p style="font-size: 12px;color: #333;">包月用不完，续费就可持续累积5个月</p>
+                    </div><!--订阅计划-->
                     <div class="price" v-show="radio!=='other'"><span>￥{{selectRadio | Calculation(radio3)}}</span>/次
                     </div>
                     <!--图像-->

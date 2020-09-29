@@ -9,7 +9,33 @@
     padding: 0;
     position: relative;
 }
-
+.posill{
+    position: absolute;
+    width: 320px;
+    height: 140px;
+    background-image: url("https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/09/21/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20200922143827.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    bottom: 0;
+    right: 120px;
+    text-indent: 20px;
+}
+.posill h2{
+    padding-top: 15px;
+    font-size: 18px;
+    color: #333;
+}
+.posill img{
+    margin-left: 10px;
+}
+.posill p{
+    font-size: 14px;
+    color: #666;
+}
+.posill.te{
+    background-image: url("https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/09/21/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20200922143823.png");
+}
 .OperatorRight .tops, .OperatorRight .sect {
     padding: 40px 0 40px 50px;
     /*border-radius: 15px;*/
@@ -367,13 +393,14 @@
 
 .oLeft > p {
     font-size: 12px !important;
-    line-height: 1;
+    line-height: 18px;
     color: #737373;
 }
 
 .oright {
     margin-left: auto;
-    margin-right: 140px;
+    /*margin-right: 140px;*/
+    position: relative;
 }
 
 .OperatorRight .oLeft p:nth-child(1), .OperatorRight .oLeft p:nth-child(3) {
@@ -392,7 +419,7 @@
     font-size: 12px;
     color: #333;
     font-weight: 600;
-    line-height: 20px;
+    line-height: 24px;
     margin-bottom: 20px;
 }
 

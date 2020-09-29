@@ -57,7 +57,8 @@ export const BrowserInfo = {//目前主要支持 安卓 & 苹果 & ipad & 微信
     isAli: Boolean( navigator.userAgent.match( /AlipayClient/ig ) ),
     isPhone: Boolean( /(iPhone|iPad|iPod|iOS|Android)/i.test( navigator.userAgent ) ),
     isMac: /macintosh|mac os x/i.test( navigator.userAgent ),
-    isWindows: /windows|win32/i.test( navigator.userAgent )
+    isWindows: /windows|win32/i.test( navigator.userAgent ),
+    isSafari: /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent)
 }
 //获取某一区间随机数
 export const getrandom = (min, max) => {

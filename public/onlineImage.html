@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <%= require('html-loader!./temple_google.html')  %>
+    <meta charset="utf-8">
+    <!--//设置不缓存-->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Cache" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--    <meta name="viewport" content="width=device-width,initial-scale=1.0" id="view">-->
+    <meta name="applicable-device" content="pc">
+    <link rel="mobile-agent" content="format=html5;url=http://m.picup.shop"/>
+    <meta name="Description" content="皮卡智能在线制作高端个人形象照，智能换背景高端大气，智能磨皮美颜，一键时尚特效，时尚个性艺术形象照私人订制">
+    <meta name="Keywords" content="个人形象照、商务照、职业形象照、企业员工形象照、西装形象照"/>
+    <!--  <title>AI智能抠图</title>-->
+    <title>高端个人形象照在线制作时尚艺术个性背景特效处理-皮卡智能抠图PicUP.AI</title>
+    <link rel="stylesheet" href="static/public.css">
+    <link rel="stylesheet" href="static/css/idPhoto.css">
+    <link rel="stylesheet" href="static/css/imagePhoto.css">
+    <link rel="stylesheet" href="static/css/onlineImage.css">
+    <link rel="icon" href="smallLogo.jpg" type="images/x-icon">
+    <!--标题栏：-->
+    <!--<link rel="icon" href="static/smallLogo.png" type="image/x-icon">-->
+    <!--收藏夹：-->
+    <!--<link rel="shortcut icon" href="static/smallLogo.png" type="image/x-icon">-->
+</head>
+<style>
+    header.positionTop {
+        position: absolute;
+        top: -100000px;
+        font-size: 14px;
+        color: #fff;
+        line-height: 60px;
+        background-color: #303030;
+        /*background: url("static/images/back.jpg") no-repeat center;*/
+    }
+
+    header li {
+        margin: 0 25px;
+    }
+
+    header .right span {
+        display: inline-block;
+        padding: 0 15px;
+        line-height: 32px;
+        cursor: pointer;
+    }
+
+    header .right span.active {
+        border: 1px solid #a1a1a1;
+        border-radius: 16px;
+    }
+
+    header li:first-child {
+        margin-left: 0;
+        margin-right: 60px;
+    }
+</style>
+<body>
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WG4BQ8P"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
+<header class="positionTop">
+    <div class="margin flex j-b a-i first">
+        <ul class="flex">
+            <li><a href="index.html"><img src="static/images/sureLogo.png" alt=""></a></li>
+            <li class="cu"><a href="index.html">人像抠图</a></li>
+            <li class="cu"><a href="product.html">更多产品</a></li>
+            <li class="cu"><a href="aboutUs.html">关于我们</a></li>
+            <li class="cu"><a href="downLoad.html">下载桌面端</a></li>
+            <!--            <li class="cu">登录</li>-->
+        </ul>
+        <div class="right">
+            <span><a href="userVip.html">定价</a></span>
+            <span class="active"><a href="loginOrRegister.html">登录/注册</a></span>
+        </div>
+    </div>
+</header>
+<div id="onlineImage"></div>
+<div class="helloFirst">
+    <input type="file" style="display: none" id="upImg" onchange="changeImg(event)"
+           accept="image/*"/>
+    <div class=" apps">
+        <div class="Operator">
+            <div onclick="upLoadimg()" class="btns cu"><!--Upload-->电脑上传</div>
+            <div onclick="upbymobile(1)" class="btns te cu"><!--Upload-->手机上传</div>
+            <h4 onclick="showHisList(1)" class="cu"><img
+                    src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/53ee8479d4e54371a3245eb5c0482ab4.png"
+                    alt="" style="margin-right: 10px;">电商白底图上传记录</h4>
+            <div class="photoHisList hisList">
+                <h5>暂无记录</h5>
+                <i class="cu" onclick="showHisList()"></i>
+                <div class="list" style="height: 80%;overflow-y:auto;" onscroll="scrollHis(event)"></div>
+            </div>
+            <div class="bottonLast">
+                <div class="fixedB">
+                    <h5><!--Contact us-->联系我们</h5>
+                    <div class="flex a-i cu">
+                        <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/79d22ed7c75049b9bd280cd5d50e6444.png"
+                             alt="">
+                        <p>roymind</p>
+                        <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/74ee5f7eaa754347bdafe939151b5923.png"
+                             alt="" style="margin-left: 20px;margin-right: 0;">
+                        <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/cdf212032f814af3af8638735fcc2ea6.png"
+                             alt="" class="noC" style="width:120px;">
+                    </div>
+                    <div class="flex a-i cu">
+                        <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/b8338f76e2774b55a9a4c041523910ad.png"
+                             alt="">
+                        <p><a href="mailto:pikachu@picup.ai">pikachu@picup.ai</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="OperatorRight drops">
+            <div class="flex tops">
+                <div class="oLeft">
+                    <h1>在线制作电商白底图</h1>
+                    <div class="flex f-w icons">
+                        <p>
+                            <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/83cd1ba825d94728a47be4c10c2fde44.png"
+                                 alt="">智能一键白底图，无需PS抠图</p>
+                        <p>
+                            <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/83cd1ba825d94728a47be4c10c2fde44.png"
+                                 alt="">自动缩放、阴影、倒影、描边</p>
+                        <p>
+                            <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/83cd1ba825d94728a47be4c10c2fde44.png"
+                                 alt="">淘宝亚马逊，平台尺寸自动生成</p>
+                    </div>
+                    <div class="flex twoBtns">
+                        <span onclick="upLoadimg()"><img
+                                src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png"
+                                alt="">电脑上传</span>
+                        <span onclick="upbymobile(1)"><img
+                                src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/1900436f3be2442980cb8e2887fc0d21.png"
+                                alt="">手机上传</span>
+                    </div>
+                    <div class="flex lizi">
+                        <span>没有照片？<br>试试这些图片：</span>
+                        <div class="photoHisList flex">
+                            <div class="itmes">
+                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200912/68c0e3b336c74460958010c081d06529.jpg"
+                                     alt=""></div>
+                            <div class="itmes">
+                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200912/ef2ad9f3ea344139999a31c01232f86d.jpg"
+                                     alt=""></div>
+                            <div class="itmes">
+                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200912/9399fe2f719246e7b9b8a5713af9dbea.jpg"
+                                     alt=""></div>
+                            <div class="itmes">
+                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200912/a51f89ddc0ed41c992b88d9ba4d25100.jpg"
+                                     alt=""></div>
+                        </div>
+                    </div>
+                    <!--                    <h6>照片要求：</h6>-->
+                    <p>电商平台:国内电商淘宝、天猫、1688、拼多多、京东、店菇街、有赞、微信、微商</p>
+                    <p class="mar">跨境电商∶Amazon亚马逊、速卖通、Shopee、Ebay、Wish、Lazada、Newegg.Shopify</p>
+                    <p>白底图使用:主图、详情图、推广图、直通车图、广告图、创意图、第五张白底图</p>
+                    <p class="mar">解决烦恼:怎么做白底图、白底图怎么拍、怎么抠白底图、ps怎么抠白底图</p>
+                </div>
+                <!--                <div class="oright">-->
+                <!--                    <a href="idPhoto.html" target="_blank" class="posill te">-->
+                <!--                        <h2 class="flex a-i">在线制作证件照 <img-->
+                <!--                                src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/09/21/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20200922145221.png"-->
+                <!--                                alt=""></h2>-->
+                <!--                        <p> 免费一键智能换背景</p>-->
+                <!--                    </a>-->
+                <!--                </div>-->
+            </div>
+            <div class="sect">
+                <!--                <div class="sizeClass flex a-i">-->
+                <!--                    <label>形象照选择</label>-->
+                <!--                    <div class="swithP flex a-i"><label>人像美颜</label>-->
+                <!--                        <div class="swith cu cancal" onclick="changeType(this)"><i></i></div>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+                <div class="initList one">
+                    <label>常用白底图模板:</label>
+                    <div class="cList flex">
+                        <div class="cu">
+                            <div class="its" type="1" color="#282c38,#08070c">
+                                <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png"
+                                     alt="">
+                                <div class="flex"><span onclick="downLoadonline(this,event)">下载 </span><span>编辑</span></div>
+                            </div>
+                            <p class="over">淘宝</p>
+                        </div>
+                        <div class="cu">
+                            <div class="its" type="1" color="#1E476D,#0A2A48">
+                                <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png"
+                                     alt="">
+                                <div class="flex"><span onclick="downLoadonline(this,event)">下载 </span><span>编辑</span></div>
+                            </div>
+                            <p class="over">天猫</p>
+                        </div>
+                        <div class="cu">
+                            <div class="its" type="1" color="#862836,#380A10">
+                                <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png"
+                                     alt="">
+                                <div class="flex"><span onclick="downLoadonline(this,event)">下载 </span><span>编辑</span></div>
+                            </div>
+                            <p class="over">1688</p>
+                        </div>
+                        <div class="cu">
+                            <div class="its" type="1" color="#525E60,#404A4C">
+                                <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png"
+                                     alt="">
+                                <div class="flex"><span onclick="downLoadonline(this,event)">下载 </span><span>编辑</span></div>
+                            </div>
+                            <p class="over">拼多多</p>
+                        </div>
+                        <div class="cu">
+                            <div class="its" type="1" color="#BAC2CE,#848E98">
+                                <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png"
+                                     alt="">
+                                <div class="flex"><span onclick="downLoadonline(this,event)">下载 </span><span>编辑</span></div>
+                            </div>
+                            <p class="over">京东</p>
+                        </div>
+                        <div class="cu">
+                            <div class="its" type="1" color="#D5DAE5,#BAC0CC">
+                                <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png"
+                                     alt="">
+                                <div class="flex"><span onclick="downLoadonline(this,event)">下载 </span><span>编辑</span></div>
+                            </div>
+                            <p class="over">蘑菇街</p>
+                        </div>
+                    </div>
+                    <label>热门白底图模板:</label>
+                    <!--                    <div class="classBtn flex mb-45">-->
+                    <!--                        <span>全部</span>-->
+                    <!--                        <span class="active">渐变</span>-->
+                    <!--                        <span>阴影</span>-->
+                    <!--                        <span>描边</span>-->
+                    <!--                        <span>文字</span>-->
+                    <!--                        <span>混合</span>-->
+                    <!--                    </div>-->
+                    <div class="cList flex contents">
+                        <div class="cu">
+                            <div class="its" type="1" color="#C2C2C8,#666A76">
+                                <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png"
+                                     alt="">
+                                <div class="flex"><span onclick="downLoadonline(this,event)">下载 </span><span>编辑</span></div>
+                            </div>
+                            <p class="over">浅灰色</p>
+                        </div>
+                        <div class="cu">
+                            <div class="its" type="2" color="#1A4250,#0A424E">
+                                <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png"
+                                     alt="">
+                                <div class="flex"><span onclick="downLoadonline(this,event)">下载 </span><span>编辑</span></div>
+                            </div>
+                            <p class="over">倒影</p>
+                        </div>
+                        <div class="cu">
+                            <div class="its" type="8" color="#999,#000">
+                                <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png"
+                                     alt="">
+                                <div class="flex"><span onclick="downLoadonline(this,event)">下载 </span><span>编辑</span></div>
+                            </div>
+                            <p class="over">接触阴影</p>
+                        </div>
+                        <div class="cu">
+                            <div class="its" type="3" color="#1A4250,#0A424E">
+                                <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png"
+                                     alt="">
+                                <div class="flex"><span onclick="downLoadonline(this,event)">下载 </span><span>编辑</span></div>
+                            </div>
+                            <p class="over">悬浮投影</p>
+                        </div>
+                        <div class="cu">
+                            <div class="its" type="4" color="#1A4250,#0A424E">
+                                <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png"
+                                     alt="">
+                                <div class="flex"><span onclick="downLoadonline(this,event)">下载 </span><span>编辑</span></div>
+                            </div>
+                            <p class="over">投影</p>
+                        </div>
+                        <div class="cu">
+                            <div class="its" type="5" color="#28F5B4">
+                                <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png"
+                                     alt="">
+                                <div class="flex"><span onclick="downLoadonline(this,event)">下载 </span><span>编辑</span></div>
+                            </div>
+                            <p class="over">描边纯色</p>
+                        </div>
+                        <div class="cu">
+                            <div class="its" type="5" color="#FED835">
+                                <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png"
+                                     alt="">
+                                <div class="flex"><span onclick="downLoadonline(this,event)">下载 </span><span>编辑</span></div>
+                            </div>
+                            <p class="over">描边纯色</p>
+                        </div>
+                        <div class="cu">
+                            <div class="its" type="5" color="#000">
+                                <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png"
+                                     alt="">
+                                <div class="flex"><span onclick="downLoadonline(this,event)">下载 </span><span>编辑</span></div>
+                            </div>
+                            <p class="over">描边纯色</p>
+                        </div>
+                        <div class="cu">
+                            <div class="its" type="6" color="#333">
+                                <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png"
+                                     alt="">
+                                <div class="flex"><span onclick="downLoadonline(this,event)">下载 </span><span>编辑</span></div>
+                            </div>
+                            <p class="over">描边纯色单边</p>
+                        </div>
+                        <div class="cu">
+                            <div class="its" type="7" color="#999,#000">
+                                <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png"
+                                     alt="">
+                                <div class="flex"><span onclick="downLoadonline(this,event)">下载 </span><span>编辑</span></div>
+                            </div>
+                            <p class="over">双重描边</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="diglog">
+    <i class="cu" onclick="setDiog()"></i>
+    <h4>扫码上传图片</h4>
+    <div id="qrcode"></div>
+    <p>手机上传图片时，请不要关闭弹框</p>
+</div>
+<div class="diglog2">
+    <i class="cu" onclick="setDiog()"></i>
+    <h4>提示</h4>
+    <p style="line-height: 20px;color: #333;width:260px">检测到多人体，也许有他人或图案影响。您可以换一张照片重试</p>
+    <div class="btn cu" onclick="reupload()">重新上传</div>
+</div>
+<div class="zhezhao"></div>
+<div class="loading">
+    处理中...
+</div>
+<script>
+    var baseUrl = '<%= VUE_APP_BASEURL %>',
+        urlhref = '<%= NODE_ENV %>' === 'development' ? 'http://wwwdev.picup.shop' : 'http://www.picup.shop';
+    // var baseUrl = '<%= VUE_APP_BASEURL %>',urlhref='http://wwwdev.picup.shop';
+</script>
+<script src="static/jquery-1.11.3.min.js"></script>
+<script src="static/qrcode.min.js"></script>
+<script src="static/imagePhoto.js"></script>
+<script>
+    var token = localStorage.getItem( 'user_Token' ), fileId, mattingMsg = {
+            fileId: '',
+            filename: [],
+            oriMattingUrl:'',
+            // bgRemovedPreview: 'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/09/21/http___deeplor.oss-cn-hangzhou.aliyuncs.com_upload_image_20200918_3cc4d585fc954b9d877e858a84739c95%20%281%29.png',
+            bgRemovedPreview: 'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png',
+            oripro: 'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png',
+            original: 'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.jpg',
+            mattingType: 9,
+            originalHeight: "800",
+            originalWidth: "800",
+            previewHeight: "500",
+            previewWidth: "500",
+            maskRect: {x: 166, width: 492, y: 178, height: 536}
+        }, taskFlag, timer, page = 1, pageSize = 20, oriMattingUrl = '', filename = [], uptype = 1, downItem,
+        BeautyResult = {}, noBeautyResult = {}, downType = 'image/png'//避免重复扣点;
+    var qrcode = new QRCode( document.getElementById( "qrcode" ), {
+        text: urlhref + "/uploadBymobile.html",
+        width: 128,
+        height: 128,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    } );
+
+    function initDiv() {
+        $( '.cList .its img' ).attr( 'src', 'http://www.picup.shop/img-static/img/loading.gif' );
+        var oDiv = $( '.cList .its' ), oImg = new Image(), oBtn = $( '.classBtn span' ), w = 800, h = 800;
+        var point = mattingMsg.maskRect, ow = mattingMsg.originalWidth, oh = mattingMsg.originalHeight, iw, ih, downTop,
+            left, afterPoint;//        var iw=ow>oh ? w*0.62 : (h*0.62)*w/h,ih=ow>oh ? w*0.62*h/w : h*0.62,downTop=(h-ih)/2,left=(w-iw)/2
+        if (point.width > point.height) {
+            iw = (0.7 * w) * ow / point.width;
+            ih = iw * oh / ow;
+        } else {
+            ih = 0.7 * h * oh / point.height;
+            iw = ih * ow / oh;
+        }
+        afterPoint = {x: iw * point.x / ow, y: ih * point.y / oh, w: iw * point.width / ow, h: ih * point.height / oh};//缩放后的内容信息
+        downTop = h / 2 - (afterPoint.y + afterPoint.h / 2);
+        left = w / 2 - (afterPoint.x + afterPoint.w / 2);
+        oImg.crossOrigin = '';
+        oImg.onload = function () {
+            var data = {};
+            $.each( oDiv, function (idx, item) {
+                var type = $( item ).attr( 'type' );
+                if (type == 1) {//白色背景
+                    var cans = document.createElement( 'canvas' ), ctx = cans.getContext( '2d' );
+                    cans.width = w;
+                    cans.height = h;
+                    ctx.drawImage( oImg, left, downTop, iw, ih );
+                    $( item ).css( 'backgroundColor', '#fff' )
+                    $( item ).find( 'img' ).attr( 'src', cans.toDataURL() )
+                } else if (type == 2) {//倒影
+                    data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, afterP: afterPoint, aph: 0.6, downtype: ''};
+                    $( this ).find( 'img' ).attr( 'src', specialEffectsList.InvertedImage.init( data ) )
+                } else if (type == 3) {//悬浮投影
+                    data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, aph: 0.3, ydistance: 0.1 * afterPoint.h, xdistance: 0, shadow: 0, downtype: ''};
+                    $( this ).find( 'img' ).attr( 'src', specialEffectsList.ResliderVal.init( data ) )
+                } else if (type == 4) {//投影
+                    data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, aph: 0, distance: 0, shadow: 40, downtype: ''};
+                    $( this ).find( 'img' ).attr( 'src', specialEffectsList.ResliderVal.init( data ) )
+                } else if (type == 5) {//描边纯色
+                    data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', size:10, color:$(item).attr('color')};
+                    $( this ).find( 'img' ).attr( 'src', specialEffectsList.setBorder.init( data ) )
+                } else if (type == 6) {//描边纯色单边
+                    data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, aph: 0, xdistance: 0.06*afterPoint.w, ydistance: 0, shadow: 0, downtype: '', color:$(item).attr('color')};
+                    $( this ).find( 'img' ).attr( 'src', specialEffectsList.ResliderVal.init( data ) )
+                }else if(type==7){//双描边
+                    var colorList=$(item).attr('color').split(','),oIImge=new Image();
+                    oIImge.crossOrigin='';
+                    data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', size:20, color:colorList[0]};
+                    oIImge.onload=function () {
+                        var datas={imgObj:oIImge, w: w, h: h, x: 0, y: 0, iw: w, ih: h, downtype: '', size:10, color:colorList[1]};
+                        $( item ).find( 'img' ).attr( 'src', specialEffectsList.setBorder.init( datas) )
+                    }
+                    oIImge.src=specialEffectsList.setBorder.init( data );
+                }else if(type==8){//接触阴影
+                    data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, afterP: afterPoint, aph: 0.2, downtype: ''};
+                    $( this ).find( 'img' ).attr( 'src', specialEffectsList.ContactShadow.init( data ) )
+                }
+            } )
+        };
+        oImg.src = addUrlQuery( mattingMsg.bgRemovedPreview );
+        oBtn.click( function () {
+            $( this ).addClass( 'active' ).siblings( 'span' ).removeClass( 'active' );
+            console.log( $( this ).index() )
+        } )
+    }
+
+    function clickDiv() {//添加点击事件
+        $( '.cList .cu .its' ).click( function () {
+            var type = $( this ).attr( 'type' ), indexs = $( this ).parents().index();
+            var data = Object.assign( JSON.parse(JSON.stringify(mattingMsg)), {
+                ori: mattingMsg.original,
+                pro: mattingMsg.bgRemovedPreview,
+                type: type,
+                fileId: mattingMsg.fileId ? mattingMsg.fileId : '',
+                mattingType: 9,
+                idxSplace: indexs
+            } )
+            if (type == 1) data.color = $( this ).attr( 'color' );
+            else if (type == 2) data.backlist = $( this ).attr( 'imgSrc' );
+            else if (type == 4) data.bColor = $( this ).attr( 'bColor' );
+            else if (type == 5) {
+                data.upColor = $( this ).attr( 'upColor' );
+                data.backUrl = $( this ).attr( 'backUrl' );
+            } else if (type == 6) data.colors = $( this ).attr( 'colors' );
+            localStorage.setItem( 'onlineimageMsg', JSON.stringify( data ) );
+            window.open( 'onlineImageEdit.html' );
+        } )
+    }
+    function downLoadonline(item,e){
+        setLoading( 1 );
+        var ev = e || window.event, oImg = new Image(),
+            idx = $( item ).parents( '.its' ).parents( '.cu' ).index();
+        ev.stopPropagation();
+        oImg.crossOrigin = '';
+        ev.stopPropagation();
+        // downType = k ? 'image/jpeg' : 'image/png';
+        token = localStorage.getItem( 'user_Token' );
+        if (mattingMsg.fileId && !mattingMsg.oriMattingUrl) {
+            $.ajax( {
+                url: baseUrl + '/webMatting/getMattedImage',///poster/download
+                type: 'get',
+                dataType: 'json',
+                headers: {token: token},
+                data: {fileId: mattingMsg.fileId},
+                success: function (res) {
+                    if (!res.code) {
+                        initSmallTag( e, '次数 -1' );
+                        mattingMsg.oriMattingUrl = res.data;
+                        mattingMsg.filename.push( idx );
+                        oImg.onload = function () {
+                            downOnline( oImg, item )
+                        };
+                        oImg.src = addUrlQuery( res.data );
+                    } else if (res.code === 1100) {
+                        showloginDialog();
+                        setLoading();
+                    } else if (res.code === 4001) {
+                        confirm( res.msg + ', 是否前往充值?', '提示', {
+                            confirmButtonText: '前往充值',
+                            cancelButtonText: '取消',
+                            type: 'warning'
+                        } ).then( function () {
+                            window.location.href = 'userVip.html'
+                        } ).catch( function () {
+
+                        } );
+                    } else Notification( res.msg )
+                }
+            } )
+        } else if (!mattingMsg.fileId || mattingMsg.filename.indexOf( idx ) > -1) {
+            initSmallTag( e, '免费' )
+            oImg.onload = function () {
+                downOnline( oImg, item )
+            };
+            oImg.src = mattingMsg.oriMattingUrl ? addUrlQuery( mattingMsg.oriMattingUrl ) : addUrlQuery( mattingMsg.bgRemovedPreview );
+        } else {
+            $.ajax( {
+                url: baseUrl + '/poster/download',
+                type: 'get',
+                dataType: 'json',
+                headers: {token: token},
+                data: {templateId: 1},
+                success: function (res) {
+                    if (!res.code) {
+                        initSmallTag( e, '次数 -1' );
+                        mattingMsg.filename.push( idx );
+                        oImg.onload = function () {
+                            downOnline( oImg, item )
+                        };
+                        oImg.src = addUrlQuery( mattingMsg.oriMattingUrl );
+                    } else if (res.code === 4001) {
+                        confirm( res.msg + ', 是否前往充值?', '提示', {
+                            confirmButtonText: '前往充值',
+                            cancelButtonText: '取消',
+                            type: 'warning'
+                        } ).then( function () {
+                            window.location.href = 'userVip.html'
+                        } ).catch( function () {
+
+                        } );
+                    } else Notification( res.msg )
+                }
+            } )
+        }
+
+    }
+    function downOnline(oImg, item){
+        var oItem = $( item ).parents( '.its' ), w = 800, h = 800,
+            name = $( oItem ).parents( '.cu' ).find( 'p' ).text(), type = $( oItem ).attr( 'type' ), data = {};
+        var point = mattingMsg.maskRect, ow = mattingMsg.originalWidth, oh = mattingMsg.originalHeight, iw, ih, downTop,
+            left, afterPoint;//        var iw=ow>oh ? w*0.62 : (h*0.62)*w/h,ih=ow>oh ? w*0.62*h/w : h*0.62,downTop=(h-ih)/2,left=(w-iw)/2
+        if (point.width > point.height) {
+            iw = (0.7 * w) * ow / point.width;
+            ih = iw * oh / ow;
+        } else {
+            ih = 0.7 * h * oh / point.height;
+            iw = ih * ow / oh;
+        }
+        afterPoint = {x: iw * point.x / ow, y: ih * point.y / oh, w: iw * point.width / ow, h: ih * point.height / oh};//缩放后的内容信息
+        downTop = h / 2 - (afterPoint.y + afterPoint.h / 2);
+        left = w / 2 - (afterPoint.x + afterPoint.w / 2);
+        if (type == 1) {//白色背景
+            var cans = document.createElement( 'canvas' ), ctx = cans.getContext( '2d' );
+            cans.width = w;
+            cans.height = h;
+            ctx.fillStyle='#fff';
+            ctx.fillRect(0,0,w,h)
+            ctx.drawImage( oImg, left, downTop, iw, ih );
+            downImgFro(cans)
+        } else if (type == 2) {//倒影
+            data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, afterP: afterPoint, aph: 0.6, downtype: ''};
+            downImgFro(specialEffectsList.InvertedImage.init( data ,1) )
+        } else if (type == 3) {//悬浮投影
+            data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, aph: 0.3, ydistance: 0.1 * afterPoint.h, xdistance: 0, shadow: 0, downtype: ''};
+            downImgFro(specialEffectsList.ResliderVal.init( data ,1) )
+        } else if (type == 4) {//投影
+            data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, aph: 0, distance: 0, shadow: 40, downtype: ''};
+            downImgFro( specialEffectsList.ResliderVal.init( data ,1) )
+        } else if (type == 5) {//描边纯色
+            data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', size:10, color:$(oItem).attr('color')};
+            downImgFro(specialEffectsList.setBorder.init( data ,1) )
+        } else if (type == 6) {//描边纯色单边
+            data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, aph: 0, xdistance: 0.06*afterPoint.w, ydistance: 0, shadow: 0, downtype: '', color:$(item).attr('color')};
+            downImgFro(specialEffectsList.ResliderVal.init( data ,1) )
+        }else if(type==7){//双描边
+            var colorList=$(oItem).attr('color').split(','),oIImge=new Image();
+            oIImge.crossOrigin='';
+            data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', size:20, color:colorList[0]};
+            oIImge.onload=function () {
+                var datas={imgObj:oIImge, w: w, h: h, x: 0, y: 0, iw: w, ih: h, downtype: '', size:10, color:colorList[1]};
+                downImgFro( specialEffectsList.setBorder.init( datas,1) )
+            }
+            oIImge.src=specialEffectsList.setBorder.init( data );
+        }else if(type==8){//接触阴影
+            data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, afterP: afterPoint, aph: 0.2, downtype: ''};
+            downImgFro(specialEffectsList.ContactShadow.init( data ,1) )
+        }
+    }
+    $( function () {
+        initDiv();
+        clickDiv();
+    } )
+    pasteTomatting();
+    stopPrevent();
+
+</script>
+</body>
+</html>
