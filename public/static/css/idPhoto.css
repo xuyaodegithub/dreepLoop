@@ -9,7 +9,8 @@
     padding: 0;
     position: relative;
 }
-.posill{
+
+.posill {
     position: absolute;
     width: 320px;
     height: 140px;
@@ -21,34 +22,41 @@
     right: 120px;
     text-indent: 20px;
 }
-.posill h2{
+
+.posill h2 {
     padding-top: 15px;
     font-size: 18px;
     color: #333;
 }
-.posill img{
+
+.posill img {
     margin-left: 10px;
 }
-.posill p{
+
+.posill p {
     font-size: 14px;
     color: #666;
 }
-.posill.te{
+
+.posill.te {
     background-image: url("https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/09/21/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20200922143823.png");
 }
+
 .OperatorRight .tops, .OperatorRight .sect {
     padding: 40px 0 40px 50px;
     /*border-radius: 15px;*/
     margin-bottom: 20px;
     background-color: #fff;
 }
-.OperatorRight .sect .swithP{
+
+.OperatorRight .sect .swithP {
     font-size: 14px;
     font-weight: normal;
     margin-left: 40px;
     /*margin-right: 120px;*/
 }
-.OperatorRight .sect .swith{
+
+.OperatorRight .sect .swith {
     margin-left: 10px;
     position: relative;
     width: 60px;
@@ -56,8 +64,9 @@
     background-color: #e82255;
     border-radius: 12.5px;
 }
-.OperatorRight .sect .swith i{
-    transition:all .2s linear ;
+
+.OperatorRight .sect .swith i {
+    transition: all .2s linear;
     position: absolute;
     height: 20px;
     width: 20px;
@@ -67,13 +76,16 @@
     right: 2.5px;
     transform: translateY(-50%);
 }
-.OperatorRight .sect .swith.cancal{
+
+.OperatorRight .sect .swith.cancal {
     background-color: #909399;
 }
-.OperatorRight .sect .swith.cancal i{
+
+.OperatorRight .sect .swith.cancal i {
     right: 37.5px;
     /*left: 2.5px;*/
 }
+
 .helloFirst .OperatorRight .cList {
     flex-wrap: wrap;
 }
@@ -255,6 +267,7 @@
     color: #333;
     font-weight: bold;
 }
+
 .OperatorRight .sizeClass.fixed {
     position: fixed;
     width: 100%;
@@ -262,8 +275,9 @@
     left: 260px;
     top: 60px;
     background-color: #fff;
-    z-index:666;
+    z-index: 666;
 }
+
 .OperatorRight .sizeClass .inpup {
     position: relative;
     width: 400px;
@@ -307,6 +321,28 @@
     overflow-y: auto;
 }
 
+.OperatorRight .inpup .tags {
+    line-height: 12px;
+}
+
+.OperatorRight .inpup .clear {
+    margin-right: 50px;
+    width: 24px;
+    height: 24px;
+    display: none;
+}
+
+.OperatorRight .inpup .tags span {
+    display: inline-block;
+    line-height: 12px;
+    padding: 0 8px;
+    font-size: 12px;
+    color: #999;
+    cursor: pointer;
+}
+.OperatorRight .inpup .tags span:hover{
+    color: #e82255;
+}
 .OperatorRight .inpup li {
     line-height: 20px;
     cursor: pointer;
@@ -520,22 +556,26 @@
     border-radius: 5px;
     box-shadow: 0 0 2px #999;
 }
-.saveJpg strong{
+
+.saveJpg strong {
     padding: 8px 20px;
     cursor: pointer;
     display: block;
     text-align: left;
     position: relative;
 }
-.saveJpg h3{
+
+.saveJpg h3 {
     padding-bottom: 15px;
     border-bottom: 1px solid #eee
 }
-.saveJpg strong:hover{
+
+.saveJpg strong:hover {
     color: #e82255;
     background-color: #eee;
 }
-.saveJpg img{
+
+.saveJpg img {
     height: 20px;
     vertical-align: middle;
     position: absolute;
@@ -543,6 +583,7 @@
     right: 30px;
     transform: translateY(-50%);
 }
+
 .OperatorRight .cList strong {
     display: block;
 }
@@ -563,7 +604,7 @@
     transform: translate(-50%, -50%);
 }
 
-.diglog,.diglog2 {
+.diglog, .diglog2 {
     position: fixed;
     padding: 40px 60px;
     background-color: #fff;
@@ -575,11 +616,13 @@
     z-index: 699;
     border-radius: 15px;
 }
-.diglog2 h4{
+
+.diglog2 h4 {
     font-size: 24px;
     color: #333;
     margin-bottom: 30px;
 }
+
 .diglog h4 {
     font-size: 16px;
     color: #333;
@@ -592,7 +635,7 @@
     margin: 0 auto 20px;
 }
 
-.diglog p,.diglog2 p {
+.diglog p, .diglog2 p {
     font-size: 14px;
     color: #9c9c9c;
 }
@@ -607,7 +650,8 @@
     background: url("http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200812/5e3d6826bc0045a4b8808d4fb1d50724.png") no-repeat center;
 
 }
-.diglog2 .btn{
+
+.diglog2 .btn {
     font-size: 14px;
     color: #fff;
     background-color: #e82255;
@@ -617,6 +661,7 @@
     margin: 36px auto 0;
     border-radius: 10px;
 }
+
 .zhezhao {
     display: none;
     position: fixed;

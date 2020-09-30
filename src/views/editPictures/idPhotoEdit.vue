@@ -50,8 +50,7 @@
             </div>
         </header>
         <div class="e_c">
-            <el-scrollbar style="overflow-x: hidden;height:100%;"
-                          v-loading="!classItem.length">
+            <el-scrollbar style="overflow-x: hidden;height:100%;">
             <label>选择证件照规格</label>
             <el-select v-model="photoSize" placeholder="请选择" @change="changeSize">
                 <el-option
@@ -84,10 +83,10 @@
                 </div>
             </div>
             <label style="margin-bottom: 10px">换正装</label>
-            <div class="Fbtn flex j-b">
+            <div class="Fbtn flex j-b" :class="{fixeds : fixeds}">
                    <span v-for="(item,idx) in ttList" :key="idx" :class="{'active' : tzType===idx}" class="cu" @click="changetz(idx)">{{item.title}}</span>
             </div>
-            <div class="fource">
+            <div class="fource" v-loading="!classItem.length">
                     <div class="iconList flex f-w j-b a-i">
                         <div v-for="(son,ix) in classItem" :key="ix" class="cu" @click="addImgsSub(son,ix)"
                              :class="{active : tzSonUrl===son.cover}">
@@ -250,23 +249,16 @@
         mixins: [mixins],
         data() {
             return {
+                fixeds:false,
                 idPhotolist,
-                colorList: [{name: '红', val: '#FF0000'}, {name: '蓝', val: '#438edb'}, {
-                    name: '白',
-                    val: '#fff'
-                }, {name: '深蓝', val: '#2a385b'},{name: '青蓝', val: '#00BFF3'},
-                    {name: '渐变蓝', val: '#66B5F2,#CBE8FB'}, {name: '心动粉', val: '#F7BEB3'}, {
-                        name: '默契蓝',
-                        val: '#B8DDE6'
-                    }, {name: '渐变灰', val: '#999999,#FFFFFF'},
-                    {name: '钟情黄', val: '#E0B97E'}, {name: '倾心绿', val: '#CCE2D6'}, {
-                        name: '希望绿',
-                        val: '#40896E'
-                    }, {name: '绅士红', val: '#C42134'},
-                    {name: '文艺灰', val: '#777E90,#ABB2C5'}, {name: '高贵蓝', val: '#3F64BF'}, {
-                        name: '温暖橙',
-                        val: '#D16541'
-                    }, {name: '芭比粉', val: '#FDDAE1'},
+                colorList: [
+                    {name: '红', val: '#FF0000'}, {name: '蓝', val: '#438edb'}, {name: '白', val: '#fff'},
+                    {name: '深蓝', val: '#2a385b'},{name: '青蓝', val: '#00BFF3'},
+                    {name: '渐变蓝', val: '#66B5F2,#CBE8FB'}, {name: '心动粉', val: '#F7BEB3'},
+                    {name: '默契蓝', val: '#B8DDE6'}, {name: '渐变灰', val: '#999999,#FFFFFF'},
+                    {name: '钟情黄', val: '#E0B97E'}, {name: '倾心绿', val: '#CCE2D6'}, {name: '希望绿', val: '#40896E'},
+                    {name: '绅士红', val: '#C42134'}, {name: '文艺灰', val: '#777E90,#ABB2C5'}, {name: '高贵蓝', val: '#3F64BF'} ,
+                    {name: '温暖橙', val: '#D16541'}, {name: '芭比粉', val: '#FDDAE1'},{name: '深邃黑', val: '#000000'},
                 ],
                 listH: document.documentElement.clientHeight,
                 colorType: '',
@@ -467,6 +459,10 @@
             ...mapActions( [
                 'userGetscribe', 'showLoginDilogAction'
             ] ),
+            scrollThis(e){
+                const {scrollHeight,scrollTop}=e.target;
+                console.log(scrollHeight,scrollTop,e)
+            },
             repireImg() {
                 if (this.hoverSub.idx === -1) {
                     const idx = this.parseSubs.subList.findIndex( item => item.type === 1 )
@@ -1547,6 +1543,12 @@
                 const oDiv = document.getElementById( 'e_r' )
                 this.oDiv_w = {w: oDiv.offsetWidth, h: oDiv.offsetHeight};
             } )
+            const obtn=document.querySelector('.Fbtn ').offsetTop;
+            document.querySelector('.e_c .el-scrollbar__wrap').addEventListener('scroll',e=>{
+               const {scrollHeight,scrollTop}=e.target;
+               if(scrollTop>obtn)this.fixeds=true;
+               else this.fixeds=false;
+            });
             this.initAllInfo();
         }
     }
@@ -1637,6 +1639,8 @@
             }
 
             .Fbtn {
+                z-index: 88;
+                background-color: #2A2F35;
                 font-size: 14px;
                 color: #ADAEB2;
                 line-height: 32px;
@@ -1651,6 +1655,12 @@
                     color: #fff;
                     border-bottom: 2px solid $co;
                 }
+            }
+            .fixeds{
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
             }
 
             .fource {

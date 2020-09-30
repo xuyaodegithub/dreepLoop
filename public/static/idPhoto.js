@@ -1416,6 +1416,7 @@ function seach(e) {
         keywords = $( '#inputs' ).val();
     if (e && keynum !== 13) return;
     if (keywords) {
+        $('.inpup .clear').show();
         var newList = idPhotolist.filter( function (item) {
             return item.name.includes( keywords )
         } );
@@ -1443,6 +1444,7 @@ function seach(e) {
         $( '.one' ).css( 'display', 'none' )
         $( '.two' ).css( 'display', 'block' )
     } else {
+        $('.inpup .clear').hide();
         $( '.one' ).css( 'display', 'block' )
         $( '.two' ).css( 'display', 'none' )
     }
@@ -1453,10 +1455,11 @@ function seach(e) {
 function inputS(k) {//input事件
     var oUl = $( '.inpup ul' ), keywords = $( '#inputs' ).val();
     if (keywords) {
+        $('.inpup .clear').show();
         var thinkList = idPhotolist.filter( function (item) {
             return item.name.includes( keywords )
         } );
-        oUl.html( '' )
+        oUl.html( '' );
         if (thinkList.length > 0) {
             for (var i = 0; i < thinkList.length; i++) {
                 var item = thinkList[i]
@@ -1465,7 +1468,10 @@ function inputS(k) {//input事件
             }
             oUl.show();
         } else oUl.hide();
-    } else oUl.hide();
+    } else{
+        oUl.hide();
+        $('.inpup .clear').hide();
+    }
 }
 
 function seachList(t) {

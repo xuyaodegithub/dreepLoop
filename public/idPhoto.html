@@ -209,12 +209,22 @@
                 <div class="sizeClass flex a-i">
                     <label>证件照尺寸选择</label>
                     <div class="inpup">
-                        <input placeholder="输入规格名称，如：一寸照" onkeypress="seach(event)" id="inputs" oninput="inputS()"
-                               onblur="blurs()"/><img
-                            src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/b98b8c15147e4cfea40f6a1a9ad99550.png"
-                            alt="" class="cu" onclick="seach()">
-                        <ul>
-                        </ul>
+                        <div style="position:relative;">
+                            <input placeholder="输入规格名称，如：一寸照" onkeypress="seach(event)" id="inputs" oninput="inputS()"
+                                   onblur="blurs()"/><img
+                                src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/b98b8c15147e4cfea40f6a1a9ad99550.png"
+                                alt="" class="cu" onclick="seach()">
+                            <img src="static/images/clear.png" alt="" class="cu clear" onclick="showAll()">
+                            <ul>
+                            </ul>
+                        </div>
+                        <div class="tags">
+                            <span> 一寸</span>
+                            <span> 二寸</span>
+                            <span> 签证</span>
+                            <span> 教师</span>
+                            <span> 考试</span>
+                        </div>
                     </div>
                     <div class="swithP flex a-i"><label>人像美颜</label>
                         <div class="swith cu cancal" onclick="changeType(this)"><i></i></div>
@@ -7552,6 +7562,18 @@
             $( '.sizeClass' ).width( 'auto' )
         }
     } )
+    function showAll(){
+        $('.inpup input').val('');
+        seach();
+        window.scrollTo(0,550);
+    }
+    $(function(){
+        $('.inpup .tags span').click(function(){
+            $('.inpup input').val($(this).text().trim());
+            seach();
+            window.scrollTo(0,550);
+        })
+    })
     // initList();
     pasteTomatting();
     stopPrevent();

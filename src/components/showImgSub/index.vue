@@ -11,7 +11,7 @@
             </div>
             <div class="flex imgs">
                 <div>
-                    <img :src="Original" alt="">
+                    <img :src="Original" alt="" class="oriImg">
                     <div class="bg_img flex" v-show="showBgList">
                         <div class="title flex a-i">
                             <h4>背景图片</h4>
@@ -242,10 +242,14 @@
             document.addEventListener( 'click', () => {
                 this.showcolorList = false
             } )
-            this.oDDiv = this.$refs.activeImg
-            this.oIImg = this.$refs.oIImg
-            document.addEventListener( 'mousemove', this.moves )
-            document.addEventListener( 'mouseup', this.ups )
+            window.addEventListener( 'resize', (e) => {//抠图后缩屏同步大小
+               $('.activeDiv canvas').width($('.oriImg').width())
+               $('.activeDiv canvas').height($('.oriImg').height())
+            } )
+            this.oDDiv = this.$refs.activeImg;
+            this.oIImg = this.$refs.oIImg;
+            document.addEventListener( 'mousemove', this.moves );
+            document.addEventListener( 'mouseup', this.ups );
         },
         methods: {
             ...mapActions(['showLoginDilogAction']),
