@@ -413,7 +413,7 @@
                     data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, aph: 0, distance: 0, shadow: 40, downtype: ''};
                     $( this ).find( 'img' ).attr( 'src', specialEffectsList.ResliderVal.init( data ) )
                 } else if (type == 5) {//描边纯色
-                    data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', size:10, color:$(item).attr('color')};
+                    data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', size:20, color:$(item).attr('color')};
                     $( this ).find( 'img' ).attr( 'src', specialEffectsList.setBorder.init( data ) )
                 } else if (type == 6) {//描边纯色单边
                     data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, aph: 0, xdistance: 0.06*afterPoint.w, ydistance: 0, shadow: 0, downtype: '', color:$(item).attr('color')};
@@ -449,15 +449,8 @@
                 type: type,
                 fileId: mattingMsg.fileId ? mattingMsg.fileId : '',
                 mattingType: 9,
-                idxSplace: indexs
+                // idxSplace: indexs
             } )
-            if (type == 1) data.color = $( this ).attr( 'color' );
-            else if (type == 2) data.backlist = $( this ).attr( 'imgSrc' );
-            else if (type == 4) data.bColor = $( this ).attr( 'bColor' );
-            else if (type == 5) {
-                data.upColor = $( this ).attr( 'upColor' );
-                data.backUrl = $( this ).attr( 'backUrl' );
-            } else if (type == 6) data.colors = $( this ).attr( 'colors' );
             localStorage.setItem( 'onlineimageMsg', JSON.stringify( data ) );
             window.open( 'onlineImageEdit.html' );
         } )
@@ -498,7 +491,7 @@
                         } ).then( function () {
                             window.location.href = 'userVip.html'
                         } ).catch( function () {
-
+                            setLoading()
                         } );
                     } else Notification( res.msg )
                 }

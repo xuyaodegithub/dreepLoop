@@ -51,7 +51,8 @@
         props: {
             edrieImgInfo: Object,
             openScreen:Boolean,
-            hisList:Array
+            hisList:Array,
+            oriMsg:Object
         },
         data() {
             return {
@@ -308,12 +309,13 @@
                 }
             },
             savepointList(point,k){//此时处理的是预览图，需要存处理过的点的位置和类型
+                const w=this.oriMsg.originalWidth || this.oriObj.width,h=this.oriMsg.originalHeight || this.oriObj.height;
                 const data={
-                    x: point.x * this.oriObj.width / this.preObj.width,//在原图中的x位置
-                    y: point.y * this.oriObj.height / this.preObj.height,//在原图中的y位置
+                    x: point.x * w / this.preObj.width,//在原图中的x位置
+                    y: point.y * h / this.preObj.height,//在原图中的y位置
                     type:this.isPaint,
                     node:k ? 1 : 0,
-                    r:this.penSize*this.oriObj.width / this.preObj.width,
+                    r:this.penSize*w / this.preObj.width,
                     save:0,//1为当前状态
                 }
                 if ([1, 2].includes( this.isPaint )) {//每次push记录前都要确保save为1点以及后面的删掉在push

@@ -78,6 +78,7 @@ import mohu1 from '@/assets/image/mohu1.png'
 import mohu2 from '@/assets/image/mohu2.png'
 import { imgListCat,catImgList,getUserInfo } from "@/apis";
 import {mapActions} from 'vuex'
+import {getToken} from "../utils/auth";
 export const mixins={
   data(){
     return {
@@ -156,7 +157,7 @@ export const mixins={
           1500,
           function () {
             $i.remove();
-            _self.userGetscribe()
+            if(getToken())_self.userGetscribe()
           } );
     }
   },

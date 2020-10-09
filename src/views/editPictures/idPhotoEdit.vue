@@ -203,7 +203,7 @@
                 top="0vh"
                 :width=" openScreen ? '95%' : '1200px'"
                 :visible.sync="dialogVisible">
-            <matting-img :edrieImgInfo="hoverSub" @close="closeSetMap" v-if="dialogVisible" :openScreen="openScreen"
+            <matting-img :edrieImgInfo="hoverSub" @close="closeSetMap" v-if="dialogVisible" :openScreen="openScreen" :oriMsg="edrieImgInfo"
                          @changeScree="openScreen=!openScreen" :hisList="pointLists"></matting-img>
         </el-dialog>
         <el-dialog
@@ -467,8 +467,7 @@
                 if (this.hoverSub.idx === -1) {
                     const idx = this.parseSubs.subList.findIndex( item => item.type === 1 )
                     this.parseSubs.subList[idx].hovering = true;
-                }
-                ;
+                };
                 this.$nextTick( _ => {
                     this.dialogVisible = true;
                 } )

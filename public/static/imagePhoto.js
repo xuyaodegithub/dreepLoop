@@ -866,7 +866,7 @@ function downLoad(item, e) {
                     } ).then( function () {
                         window.location.href = 'userVip.html'
                     } ).catch( function () {
-
+                        setLoading();
                     } );
                 } else Notification( res.msg )
             }

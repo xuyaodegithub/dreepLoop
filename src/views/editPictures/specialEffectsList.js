@@ -1,4 +1,4 @@
-export const  effectList=[//1径向渐变 2前后背景 3多重影子 4相框 5佛光 6圆中人
+export const  effectList=[//形象照编辑器内容//1径向渐变 2前后背景 3多重影子 4相框 5佛光 6圆中人
     {type:1,color:"#C2C2C8,#666A76",imgurl:'http://www.picup.shop/img-static/img/loading.gif'},
     {type:1,color:"#1A4250,#0A424E",imgurl:'http://www.picup.shop/img-static/img/loading.gif'},
     {type:1,color:"#5A2406,#381202",imgurl:'http://www.picup.shop/img-static/img/loading.gif'},
@@ -46,4 +46,14 @@ export const  effectList=[//1径向渐变 2前后背景 3多重影子 4相框 5�
     // {type:5, upColor:"#E4E7ED",backUrl:"http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200911/a60707c3b9ee45cd852cb74f02cda42a.jpg",imgurl:'http://www.picup.shop/img-static/img/loading.gif'},
     // {type:5, upColor:"#ED1717",backUrl:"http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200911/f07498946a6d4253a7b8e699706d2e08.jpg",imgurl:'http://www.picup.shop/img-static/img/loading.gif'},
     // {type:6, colors:"#ED1717,#fff",imgurl:'http://www.picup.shop/img-static/img/loading.gif'},
+]
+export const  effectList2=[//白底图编辑器内容//1径向渐变 2前后背景 3多重影子 4相框 5佛光 6圆中人
+    {type:1,color:"#fff",imgurl:'http://www.picup.shop/img-static/img/loading.gif'},
+    {type:2,imgurl:'http://www.picup.shop/img-static/img/loading.gif'},
+    {type:3,imgurl:'http://www.picup.shop/img-static/img/loading.gif'},
+    {type:4, imgurl:'http://www.picup.shop/img-static/img/loading.gif'},
+    {type:5, color:"#FED835",imgurl:'http://www.picup.shop/img-static/img/loading.gif'},
+    {type:6,imgurl:'http://www.picup.shop/img-static/img/loading.gif'},
+    {type:7, color:"#999,#000",imgurl:'http://www.picup.shop/img-static/img/loading.gif'},
+    {type:8, imgurl:'http://www.picup.shop/img-static/img/loading.gif'},
 ]

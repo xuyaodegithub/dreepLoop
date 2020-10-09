@@ -2685,6 +2685,261 @@ function setBorder() {//描边效果
 		}
 	}
 }
+
+function InvertedImage() {//倒影
+	this.aph = 0.5;
+	this.can = document.createElement( 'canvas' );
+	this.canTxt = this.can.getContext( '2d' );
+	this.downtype = 'image/png';
+	this.init = function (data, k) {
+		var downType = data.downtype || this.downtype, aph = data.aph || this.aph;
+		console.log(aph)
+		this.can.width = data.w;
+		this.can.height = data.h;
+		this.canTxt.drawImage( data.imgObj, data.x, data.y, data.iw, data.ih );
+		// this.canTxt.globalAlpha=aph;
+		this.canTxt.save();
+		this.canTxt.scale( 1, -1 );
+		// this.canTxt.translate( data.w / 2 - data.x, data.h / 2 - data.y );
+		// this.canTxt.rotate( 180 * Math.PI / 180 );
+		// this.canTxt.translate( -(data.w - (data.w / 2 - data.x)), -(data.h - (data.h / 2 - data.y)) );
+		this.canTxt.drawImage( data.imgObj, data.x, -(data.h / 2 + data.afterP.h / 2 - (data.ih - data.afterP.y - data.afterP.h)), data.iw, -data.ih );//y轴翻转  需要计算一下
+		// this.canTxt.setTransform( 1, 0, 0, 1, 0, 0 );
+		this.canTxt.restore();
+		var dataImag = this.canTxt.getImageData( 0, 0, data.w, data.h ), t = parseInt( data.afterP.h / 2 + data.h / 2 );
+		for (var a = t - t % 4; a < data.h; a++) {
+			for (var b = 0; b < data.w; b++) {
+				var pixel = (a * data.w + b) * 4;
+				if (dataImag.data[pixel + 3] != 0) {
+					// imgData.data[pixel] = colors[0];
+					// imgData.data[pixel + 1] = colors[1];
+					// imgData.data[pixel + 2] = colors[2];
+					aph = (data.h - a) / (data.h - (t + (4 - t % 4))) * data.aph;
+					dataImag.data[pixel + 3] = aph * dataImag.data[pixel + 3];
+				}
+			}
+		}
+		this.canTxt.putImageData( dataImag, 0, 0 )
+		return k ? this.can : this.can.toDataURL( downType );
+	}
+}
+
+function ContactShadow() {//接触阴影
+	this.aph = 0.5;
+	this.shadow = 50;
+	this.can = document.createElement( 'canvas' );
+	this.canTxt = this.can.getContext( '2d' );
+	this.downtype = 'image/png';
+	this.init = function (data,k) {
+		var downType = data.downtype || this.downtype, aph = data.aph || this.aph, shadow = data.shadow || this.shadow;
+		this.can.width = data.w;
+		this.can.height = data.h;
+		this.canTxt.drawImage( data.imgObj, data.x, data.y, data.iw, data.ih );
+		this.canTxt.save();
+		this.canTxt.scale( 1, -1 );
+		this.canTxt.drawImage( data.imgObj, data.x, -(data.h / 2 + data.afterP.h / 2 - (data.ih - data.afterP.y - data.afterP.h)), data.iw, -data.ih );//y轴翻转  需要计算一下
+		this.canTxt.restore();
+		var dataImag = this.canTxt.getImageData( 0, 0, data.w, data.h ), t = parseInt( data.afterP.h / 2 + data.h / 2 );
+		for (var a = t - t % 4; a < data.h; a++) {
+			for (var b = 0; b < data.w; b++) {
+				var pixel = (a * data.w + b) * 4;
+				if (dataImag.data[pixel + 3] != 0) {
+					dataImag.data[pixel] = 0;
+					dataImag.data[pixel + 1] = 0;
+					dataImag.data[pixel + 2] = 0;
+					aph = (data.h - a) / (data.h - (t + (4 - t % 4))) * data.aph;
+					dataImag.data[pixel + 3] = aph * dataImag.data[pixel + 3];
+				}
+			}
+		}
+		// if (shadow > 0) StackBlur.imageDataRGBA( dataImag, 0, t - t % 4, dataImag.width, dataImag.height, shadow );
+		this.canTxt.putImageData( dataImag, 0, 0 )
+		return k ? this.can : this.can.toDataURL( downType );
+	}
+}
+
+function ResliderVal() {//悬浮投影
+	this.oCan = document.createElement( 'canvas' );
+	this.oCanTxt = this.oCan.getContext( '2d' );
+	this.ydistance = 0;//距离
+	this.xdistance = 0;//距离
+	this.aph = 1;//透明度  0-1
+	this.shadow = 0;//模糊度 0-100
+	this.color = [0, 0, 0];
+	this.downtype = 'image/png';
+	this.init = function (data,k) {
+		var aph = data.aph || this.aph, ydistance = data.ydistance || this.ydistance,
+			xdistance = data.xdistance || this.xdistance, shadow = data.shadow || this.shadow,
+			downType = data.downtype || this.downtype, color = data.color ? colorRgb( data.color ) : this.color;
+		this.oCan.width = data.w;
+		this.oCan.height = data.h;
+		this.oCanTxt.drawImage( data.imgObj, data.x, data.y, data.iw, data.ih );
+		var imgData = this.oCanTxt.getImageData( 0, 0, this.oCan.width, this.oCan.height );
+		for (var y = 0; y < data.h; y++) {
+			for (var x = 0; x < data.w; x++) {
+				var pixel = (y * data.w + x) * 4;
+				if (imgData.data[pixel + 3] != 0) {
+					imgData.data[pixel] = color[0];
+					imgData.data[pixel + 1] = color[1];
+					imgData.data[pixel + 2] = color[2];
+					if (aph < 1) imgData.data[pixel + 3] = (1 - aph) * imgData.data[pixel + 3];
+				}
+			}
+		}
+		if (shadow > 0) StackBlur.imageDataRGBA( imgData, 0, 0, imgData.width, imgData.height, shadow );
+		this.oCanTxt.clearRect( 0, 0, data.w, data.h );
+		this.oCanTxt.putImageData( imgData, xdistance, ydistance );
+		this.oCanTxt.drawImage( data.imgObj, data.x, data.y, data.iw, data.ih );
+		return k ? this.oCan : this.oCan.toDataURL( downType );
+	}
+}
+
+function setBorder2() {//描边效果
+	this.canvas = document.createElement( 'canvas' );
+	this.ctx = this.canvas.getContext( '2d' )
+	this.tempCanvas = document.createElement( 'canvas' );
+	this.downtype = 'image/png';
+	this.removeTransparency = (canvas) => {
+		var ctx = canvas.getContext( '2d' );
+		var imageData = ctx.getImageData( 0, 0, canvas.width, canvas.height );
+		var nPixels = imageData.data.length;
+		for (var i = 3; i < nPixels; i += 4) {
+			if (imageData.data[i] > 0) {
+				imageData.data[i] = 255;
+			}
+		}
+		ctx.clearRect( 0, 0, canvas.width, canvas.height );
+		ctx.putImageData( imageData, 0, 0 );
+		return canvas;
+	}
+
+	this.init = (data,k) => {
+		// var size = this.getAttr('borderSize') || 0;
+		// - first set correct dimensions for canvases
+		this.canvas.width = data.w;
+		this.canvas.height = data.h;
+		this.ctx.drawImage( data.imgObj, data.x, data.y, data.iw, data.ih );
+		var imageData = this.ctx.getImageData( 0, 0, data.w, data.h ), nPixels = imageData.data.length,downType = data.downtype || this.downtype;
+		this.tempCanvas.width = imageData.width;
+		this.tempCanvas.height = imageData.height;
+		// - the draw original shape into temp canvas
+		this.tempCanvas.getContext( '2d' ).putImageData( imageData, 0, 0 );
+		// - then we need to remove alpha chanel, because it will affect shadow (transparent shapes has smaller shadow)
+		this.removeTransparency( this.tempCanvas );
+		// var color = this.getAttr('borderColor') || 'black';
+		// 3. we will use shadow as border
+		// so we just need apply shadow on the original image
+		this.ctx.save();
+		this.ctx.shadowColor = data.color;
+		this.ctx.shadowBlur = data.size;
+		this.ctx.drawImage( this.tempCanvas, 0, 0 );
+		this.ctx.restore();
+		// - Then we will dive in into image data of [original image + shadow]
+		// and remove transparency from shadow
+		var tempImageData = this.ctx.getImageData( 0, 0, this.canvas.width, this.canvas.height );
+		var SMOOTH_MIN_THRESHOLD = 3;
+		var SMOOTH_MAX_THRESHOLD = 10;
+		let val, hasValue;
+		var offset = 3;
+		for (var i = 3; i < nPixels; i += 4) {
+			// skip opaque pixels
+			if (imageData.data[i] === 255) {
+				continue;
+			}
+			val = tempImageData.data[i];
+			hasValue = val !== 0;
+			if (!hasValue) {
+				continue;
+			}
+			if (val > SMOOTH_MAX_THRESHOLD) {
+				val = 255;
+			} else if (val < SMOOTH_MIN_THRESHOLD) {
+				val = 0;
+			} else {
+				val =
+					((val - SMOOTH_MIN_THRESHOLD) /
+						(SMOOTH_MAX_THRESHOLD - SMOOTH_MIN_THRESHOLD)) *
+					255;
+			}
+			tempImageData.data[i] = val;
+		}
+		// draw resulted image (original + shadow without opacity) into canvas
+		this.ctx.putImageData( tempImageData, 0, 0 );
+		// then fill whole image with color (after that shadow is colored)
+		this.ctx.save();
+		this.ctx.globalCompositeOperation = 'source-in';
+		this.ctx.fillStyle = data.color;
+		this.ctx.fillRect( 0, 0, this.canvas.width, this.canvas.height );
+		this.ctx.restore();
+		// then we need to copy colored shadow into original imageData
+		var newImageData = this.ctx.getImageData( 0, 0, this.canvas.width, this.canvas.height );
+		var indexesToProcess = [];
+		for (var i = 3; i < nPixels; i += 4) {
+			var hasTransparentOnTop =
+				imageData.data[i - imageData.width * 4 * offset] === 0;
+			var hasTransparentOnTopRight =
+				imageData.data[i - (imageData.width * 4 + 4) * offset] === 0;
+			var hasTransparentOnTopLeft =
+				imageData.data[i - (imageData.width * 4 - 4) * offset] === 0;
+			var hasTransparentOnRight = imageData.data[i + 4 * offset] === 0;
+			var hasTransparentOnLeft = imageData.data[i - 4 * offset] === 0;
+			var hasTransparentOnBottom =
+				imageData.data[i + imageData.width * 4 * offset] === 0;
+			var hasTransparentOnBottomRight =
+				imageData.data[i + (imageData.width * 4 + 4) * offset] === 0;
+			var hasTransparentOnBottomLeft =
+				imageData.data[i + (imageData.width * 4 - 4) * offset] === 0;
+			var hasTransparentAround =
+				hasTransparentOnTop ||
+				hasTransparentOnRight ||
+				hasTransparentOnLeft ||
+				hasTransparentOnBottom ||
+				hasTransparentOnTopRight ||
+				hasTransparentOnTopLeft ||
+				hasTransparentOnBottomRight ||
+				hasTransparentOnBottomLeft;
+			// if pixel presented in original image - skip it
+			// because we need to change only shadow area
+			if (
+				imageData.data[i] === 255 ||
+				(imageData.data[i] && !hasTransparentAround)
+			) {
+				continue;
+			}
+			if (!newImageData.data[i]) {
+				// skip transparent pixels
+				continue;
+			}
+			indexesToProcess.push( i );
+		}
+		for (var index = 0; index < indexesToProcess.length; index += 1) {
+			var i = indexesToProcess[index];
+
+			var alpha = imageData.data[i] / 255;
+
+			if (alpha > 0 && alpha < 1) {
+				var aa = 1 + 1;
+			}
+			imageData.data[i] = newImageData.data[i];
+			imageData.data[i - 1] =
+				newImageData.data[i - 1] * (1 - alpha) +
+				imageData.data[i - 1] * alpha;
+			imageData.data[i - 2] =
+				newImageData.data[i - 2] * (1 - alpha) +
+				imageData.data[i - 2] * alpha;
+			imageData.data[i - 3] =
+				newImageData.data[i - 3] * (1 - alpha) +
+				imageData.data[i - 3] * alpha;
+
+			if (newImageData.data[i] < 255 && alpha > 0) {
+				var bb = 1 + 1;
+			}
+		}
+		this.ctx.drawImage( data.imgObj, data.x, data.y, data.iw, data.ih );
+		return k ? this.canvas : this.canvas.toDataURL( downType );
+	}
+}
+
 /**
  * A collection of all the filters.
  */
@@ -2739,6 +2994,10 @@ var JSManipulate = {
 	AddArc: new AddArc(),//圈内出人
 	AddBackgroundImage: new AddBackgroundImage(),//添加前后背景
 	PhotoFrame:new PhotoFrame(),//生成相框
+	InvertedImage: new InvertedImage(),//倒影
+	ContactShadow: new ContactShadow(),//接触阴影
+	ResliderVal: new ResliderVal(),//悬浮阴影
+	setBorder2: new setBorder2(),//描边
 };
 
 // module.exports = JSManipulate

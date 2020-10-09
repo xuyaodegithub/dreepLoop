@@ -25,16 +25,6 @@
             <div class="hDown">
                 <el-button class="up" @click="reupload" style="margin-right: 10px">重新上传
                 </el-button>
-<!--                <el-popover-->
-<!--                        @show="setIndex"-->
-<!--                        popper-class="hDown2"-->
-<!--                        placement="bottom"-->
-<!--                        trigger="click">-->
-<!--                    <div class="saveJpg">-->
-<!--                        <h3>选择下载类型</h3>-->
-<!--                        <strong @click="downLoadImg($event,0)">PNG格式<br>高保真，适合打印 </strong>-->
-<!--                        <strong @click="downLoadImg($event,1)">JPG格式<br>文件小，适合上传 </strong>-->
-<!--                    </div>-->
                     <el-button class="doo" type="primary" icon="el-icon-download" slot="reference" @click="downLoadImg($event,0)">下载
                         <table class="downBtn" @click.stop="">
                             <tr>{{(userSubscribeData.monthExpireDate && userSubscribeData.monthExpireDate>noeTime &&
@@ -63,16 +53,15 @@
                     <img :src="items" alt="" v-if="idx<2"/>
                 </div>
             </div>
-            <label>形象照模板</label>
+            <label>白底图模板</label>
             <div class="fource">
                 <el-scrollbar style="overflow-x: hidden;" :style="{height:`100%`,overflowY: 'auto'}"
                 >
                     <div class="iconList flex contents f-w j-b">
                         <div class="cu" v-for="(item,idx) in effectList" :key="idx" @click="loadThis(item,idx)">
-                            <div class="its" :style="item | itemBack">
+                            <div class="its">
                                 <img :src="item.imgurl"
                                      alt="">
-                                <img class="upimgsb" v-if="item.type===2 && item.imgSrc.split(',').length>1" :src="item.imgSrc.split(',')[1]" alt="">
                             </div>
                         </div>
                     </div>
@@ -224,7 +213,7 @@
     } from '@/apis';
     import {mapGetters, mapActions} from 'vuex';
     import {getToken} from "@/utils/auth";
-    import { effectList } from './specialEffectsList'
+    import { effectList2 } from './specialEffectsList'
     import * as StackBlur from 'stackblur-canvas';
     export default {
         name: 'editPictures',
@@ -233,7 +222,7 @@
             return {
                 hisLoadList:[],
                 loadIdx:-1,
-                effectList,
+                effectList:effectList2,
                 loadSubing: 0,
                 initcolorList: [color, fupa, '#000', '#fff', '#BFBFBF', '#2862F4', '#FED835', '#28F5B4', '#F62897', '#F57B28', '#00FFFF', '#90C320'],
                 showcolorList: false,//是否显示颜色选择的弹框
@@ -399,10 +388,6 @@
                 const a = val.split( ',' );
                 return {background: `linear-gradient(${a[0]},${a[1] || a[0]})`}
             },
-            itemBack(item){
-                if(item.type===2)return {backgroundImage:`url(${item.imgSrc.split(',')[0]})`}
-                else return {}
-            }
         },
         methods: {
             ...mapActions( [
@@ -1102,12 +1087,6 @@
                 oImg.onload = () => {
                     const [w, h] = [this.edrieImgInfo.w, this.edrieImgInfo.h];
                     this.edrieImgInfo.oriObj = oImg;
-                    // let scaleW = 2 / 9 * h / w;//头部占尺寸的比例
-                    // let iw = w * scaleW * this.edrieImgInfo.originalWidth / (this.edrieImgInfo.headData.right - this.edrieImgInfo.headData.left);//缩放后的图片宽
-                    // let ih = iw * this.edrieImgInfo.originalHeight / this.edrieImgInfo.originalWidth;
-                    // let top = -(ih * this.edrieImgInfo.headData.top / this.edrieImgInfo.originalHeight) + h * 0.05;
-                    // let left = w / 2 - ((this.edrieImgInfo.headData.right - this.edrieImgInfo.headData.left) / 2 + this.edrieImgInfo.headData.left) * iw / this.edrieImgInfo.originalWidth;
-                    // let downTop = h - top <= ih ? top : h - ih;//吸底判断
                     let mattingMsg=this.edrieImgInfo;
                     let point = mattingMsg.maskRect, ow = mattingMsg.originalWidth, oh = mattingMsg.originalHeight, iw, ih, downTop,
                         left, afterPoint;//        var iw=ow>oh ? w*0.62 : (h*0.62)*w/h,ih=ow>oh ? w*0.62*h/w : h*0.62,downTop=(h-ih)/2,left=(w-iw)/2
@@ -1293,7 +1272,7 @@
                             if(this.loadSubing===imgsList.length){
                                 this.parseSubs=mItems;
                                 const ixs=this.edrieImgInfo.idxSplace;
-                                if(ixs>-1 && ixs<38)this.loadThis(this.effectList[ixs],ixs);
+                                // if(ixs>-1 && ixs<38)this.loadThis(this.effectList[ixs],ixs);
                                 this.loading = {show: false, text: '处理中...'};
                             }
                         };
@@ -1313,96 +1292,95 @@
                 } )
             },
             initDiv() {
-                let oImg = new Image(), w = 900, h = 1275,mattingMsg={"previewHeight":"500","original":"http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200912/68c0e3b336c74460958010c081d06529.jpg","originalHeight":"1600","maskRect":{"x":427,"width":896,"y":95,"height":1505},"bgRemovedPreview":"https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/09/21/http___deeplor.oss-cn-hangzhou.aliyuncs.com_upload_image_20200912_68c0e3b336c74460958010c081d06529.png","queueNumber":"1","originalWidth":"1600","status":"success","fileId":"746894","previewWidth":"500"};
-                // let scaleW = 2 / 9 * h / w;//头部占据2/9
-                // let iw = w * scaleW * mattingMsg.originalWidth / (mattingMsg.headData.right - mattingMsg.headData.left);//缩放后的图片宽
-                // let ih = iw * mattingMsg.originalHeight / mattingMsg.originalWidth;
-                // let top = -(ih * mattingMsg.headData.top / mattingMsg.originalHeight) + h * 0.05;
-                // let left = w / 2 - ((mattingMsg.headData.right - mattingMsg.headData.left) / 2 + mattingMsg.headData.left) * iw / mattingMsg.originalWidth;
-                // let downTop = h - top <= ih ? top : h - ih;//吸底判断
-                let point=mattingMsg.maskRect,ow=mattingMsg.originalWidth,oh=mattingMsg.originalHeight;
-                let downTop=h * 0.08,ih=(h-downTop)*oh/point.height,iw=ow*ih/oh,left=w/2-iw/2;//
-                let afterPoint={x:iw*point.x/ow,y:ih*point.y/oh,w:iw*point.width/ow,h:ih*point.height/oh};
-                downTop=downTop-afterPoint.y;
-                if(afterPoint.w>w){
-                    iw=(w*ow/point.width);
-                    ih=iw*oh/ow;
-                    left=0;
-                    downTop=h-ih;
-                    afterPoint={x:iw*point.x/ow,y:ih*point.y/oh,w:iw*point.width/ow,h:ih*point.height/oh};
+                let oImg = new Image(), w = 800, h = 800,mattingMsg={
+                    bgRemovedPreview: 'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png',
+                    oripro: 'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png',
+                    original: 'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.jpg',
+                    originalHeight: "800",
+                    originalWidth: "800",
+                    previewHeight: "500",
+                    previewWidth: "500",
+                    maskRect: {x: 166, width: 492, y: 178, height: 536}
+                };
+                let point = mattingMsg.maskRect, ow = mattingMsg.originalWidth, oh = mattingMsg.originalHeight, iw, ih, downTop,
+                    left, afterPoint;//        var iw=ow>oh ? w*0.62 : (h*0.62)*w/h,ih=ow>oh ? w*0.62*h/w : h*0.62,downTop=(h-ih)/2,left=(w-iw)/2
+                if (point.width > point.height) {
+                    iw = (0.7 * w) * ow / point.width;
+                    ih = iw * oh / ow;
+                } else {
+                    ih = 0.7 * h * oh / point.height;
+                    iw = ih * ow / oh;
                 }
-                left=w/2-iw/2-(afterPoint.x+afterPoint.w/2-iw/2);
+                afterPoint = {x: iw * point.x / ow, y: ih * point.y / oh, w: iw * point.width / ow, h: ih * point.height / oh};//缩放后的内容信息
+                downTop = h / 2 - (afterPoint.y + afterPoint.h / 2);
+                left = w / 2 - (afterPoint.x + afterPoint.w / 2);
                 oImg.crossOrigin = '';
                 oImg.onload = ()=> {
                     let data = {};
                     this.effectList.map((item,idxx)=>{
                         let type = item.type;
-                        if (type == 1) {//径向渐变
-                            let colorStr = item.color;
-                            data = {colorStr: colorStr, imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: ''};
-                            item.imgurl=jsMulit.RadialGradient.init( data )
-                        } else if (type == 2) {//前后背景
-                            let oCan=document.createElement('canvas'),ctx=oCan.getContext('2d');
-                            oCan.width=w;oCan.height=h;
-                            ctx.drawImage(oImg,left,downTop,iw,ih);
-                            item.imgurl=oCan.toDataURL();
-                            // data = {backStr: backStr, imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: ''};
-                            // jsMulit.AddBackgroundImage.init( data, callback )
-                        } else if (type == 3) {//三个影子
-                            // let headw = (mattingMsg.headData.right - mattingMsg.headData.left) * iw / mattingMsg.originalWidth;
-                            let headw =iw/3;
-                            data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, headw: headw, downtype: ''};
-                            item.imgurl=jsMulit.ThreeShow.init( data )
-                        } else if (type == 4) {//加相框
-                            let bColor = item.bColor;
-                            data = {bColor: bColor, imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', size: 40,iheight:downTop+afterPoint.y};
-                           item.imgurl= jsMulit.AddPhotoFrame.init( data )
-                        } else if (type == 5) {//加佛光
-                            let upColor = item.upColor, backUrl = item.backUrl,
-                                callback = (can)=> {
-                                    item.imgurl=can.toDataURL()
-                                };
-                            data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', upColor: upColor, backUrl: backUrl};
-                            jsMulit.AddBuddhaLight.init( data, callback )
-                        } else if (type == 6) {//加圆圈
-                            let colors = item.colors;
-                            data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', colors: colors, bcolor: '#000'
-                            };
-                            item.imgurl= jsMulit.AddArc.init( data )
+                        if (type == 1) {//白色背景
+                            let cans = document.createElement( 'canvas' ), ctx = cans.getContext( '2d' );
+                            cans.width = w;
+                            cans.height = h;
+                            ctx.fillStyle=item.color;
+                            ctx.fillRect(0,0,w,h);
+                            ctx.drawImage( oImg, left, downTop, iw, ih );
+                            item.imgurl= cans.toDataURL();
+                        } else if (type == 2) {//倒影
+                            data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, afterP: afterPoint, aph: 0.6, downtype: ''};
+                            item.imgurl=  jsMulit.InvertedImage.init( data ) ;
+                        } else if (type == 3) {//悬浮投影
+                            data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, aph: 0.3, ydistance: 0.1 * afterPoint.h, xdistance: 0, shadow: 0, downtype: ''};
+                            item.imgurl=  jsMulit.ResliderVal.init( data ) ;
+                        } else if (type == 4) {//投影
+                            data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, aph: 0, distance: 0, shadow: 40, downtype: ''};
+                            item.imgurl= jsMulit.ResliderVal.init( data ) ;
+                        } else if (type == 5) {//描边纯色
+                            data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', size:20, color:item.color};
+                            item.imgurl= jsMulit.setBorder2.init( data );
+                        } else if (type == 6) {//描边纯色单边
+                            data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, aph: 0, xdistance: 0.06*afterPoint.w, ydistance: 0, shadow: 0, downtype: '', color:item.color};
+                            item.imgurl= jsMulit.ResliderVal.init( data );
+                        }else if(type==7){//双描边
+                            var colorList=item.color.split(','),oIImge=new Image();
+                            oIImge.crossOrigin='';
+                            data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', size:20, color:colorList[0]};
+                            oIImge.onload=function () {
+                                let datas={imgObj:oIImge, w: w, h: h, x: 0, y: 0, iw: w, ih: h, downtype: '', size:10, color:colorList[1]};
+                                item.imgurl=  jsMulit.setBorder2.init( datas);
+                            }
+                            oIImge.src=jsMulit.setBorder2.init( data );
+                        }else if(type==8){//接触阴影
+                            data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, afterP: afterPoint, aph: 0.2, downtype: ''};
+                            item.imgurl=  jsMulit.ContactShadow.init( data ) ;
                         }
                     })
                 };
-                oImg.src = addUrlQuery('http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_preview/2020/09/17/4a6460db6b1d4af1acaafcac6867ad50.png');
+                oImg.src = addUrlQuery('https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png');
             },
             loadThis(item,x){
                 let type=item.type,oCan=document.createElement('canvas'),canTxt,data,idx=this.parseSubs.subList.findIndex(items=>!items.type),mattingMsg=this.edrieImgInfo,w=mattingMsg.w,h=mattingMsg.h;
                 let [scaleW,oImg] = [2 / 9 * h / w,(this.parseSubs.subList.find(items=>items.type===1)).proObj];//头部占据2/9
-                // let iw = w * scaleW * mattingMsg.originalWidth / (mattingMsg.headData.right - mattingMsg.headData.left);//缩放后的图片宽
-                // let ih = iw * mattingMsg.originalHeight / mattingMsg.originalWidth;
-                // let top = -(ih * mattingMsg.headData.top / mattingMsg.originalHeight) + h * 0.05;
-                // let left = w / 2 - ((mattingMsg.headData.right - mattingMsg.headData.left) / 2 + mattingMsg.headData.left) * iw / mattingMsg.originalWidth;
-                // let downTop = h - top <= ih ? top : h - ih;//吸底判断
-                let point=mattingMsg.maskRect,ow=mattingMsg.originalWidth,oh=mattingMsg.originalHeight;
-                let downTop=h * 0.08,ih=(h-downTop)*oh/point.height,iw=ow*ih/oh,left=w/2-iw/2;//
-                let afterPoint={x:iw*point.x/ow,y:ih*point.y/oh,w:iw*point.width/ow,h:ih*point.height/oh};
-                downTop=downTop-afterPoint.y;
-                if(afterPoint.w>w){
-                    iw=(w*ow/point.width);
-                    ih=iw*oh/ow;
-                    left=0;
-                    downTop=h-ih;
-                    afterPoint={x:iw*point.x/ow,y:ih*point.y/oh,w:iw*point.width/ow,h:ih*point.height/oh};
+                let point = mattingMsg.maskRect, ow = mattingMsg.originalWidth, oh = mattingMsg.originalHeight, iw, ih, downTop,
+                    left, afterPoint;//        var iw=ow>oh ? w*0.62 : (h*0.62)*w/h,ih=ow>oh ? w*0.62*h/w : h*0.62,downTop=(h-ih)/2,left=(w-iw)/2
+                if (point.width > point.height) {
+                    iw = (0.7 * w) * ow / point.width;
+                    ih = iw * oh / ow;
+                } else {
+                    ih = 0.7 * h * oh / point.height;
+                    iw = ih * ow / oh;
                 }
-                left=w/2-iw/2-(afterPoint.x+afterPoint.w/2-iw/2);
+                afterPoint = {x: iw * point.x / ow, y: ih * point.y / oh, w: iw * point.width / ow, h: ih * point.height / oh};//缩放后的内容信息
+                downTop = h / 2 - (afterPoint.y + afterPoint.h / 2);
+                left = w / 2 - (afterPoint.x + afterPoint.w / 2);
                 oCan.width=w;
                 oCan.height=h;
                 canTxt=oCan.getContext('2d');
                 this.parseSubs.subList=[{ type: 0, useImg: '', pro: '', ori: ''},...this.parseSubs.subList.filter(itemson=>[1].includes(itemson.type))];
                 if(type===1){
-                    let gradient = canTxt.createRadialGradient( w / 2, h / 2, 0, w / 2, h / 2, h / 2 ),colors=item.color.split(',');
-                    gradient.addColorStop( 0, colors[0] );
-                    gradient.addColorStop( 1, colors[1] );
-                    canTxt.fillStyle = gradient;
+                    let colors=item.color;
+                    canTxt.fillStyle = colors;
                     canTxt.fillRect( 0, 0,w,h );
                     data={backColor:'', type: 0, title: '背景组件', w:w*this.parseSubs.scale, h:h*this.parseSubs.scale, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: oCan.toDataURL(), pro:  oCan.toDataURL(), ori:  oCan.toDataURL(), hovering: false, mattingType: -1,}
                     this.parseSubs.subList.splice(idx,1,data);
@@ -1451,6 +1429,7 @@
         created() {//透明背景储存
         },
         mounted() {//初始化参数
+            window.StackBlur = StackBlur;
             const oDiv = document.getElementById( 'e_r' );
             this.oDiv_w = {w: oDiv.offsetWidth, h: oDiv.offsetHeight};
             if (getToken()) {
@@ -1598,9 +1577,7 @@
                     padding: 5px;
                     /*justify-content: center;*/
                     div {
-                        background-size: cover;
-                        background-repeat: no-repeat;
-                        background-position: center;
+                        background-color: #fff;
                         width: 100px;
                         position: relative;
                         margin-bottom: 10px;
