@@ -24,39 +24,40 @@
     <!--<link rel="icon" href="static/smallLogo.png" type="image/x-icon">-->
     <!--收藏夹：-->
     <!--<link rel="shortcut icon" href="static/smallLogo.png" type="image/x-icon">-->
+    <style>
+        header.positionTop {
+            position: absolute;
+            top: -100000px;
+            font-size: 14px;
+            color: #fff;
+            line-height: 60px;
+            background-color: #303030;
+            /*background: url("static/images/back.jpg") no-repeat center;*/
+        }
+
+        header li {
+            margin: 0 25px;
+        }
+
+        header .right span {
+            display: inline-block;
+            padding: 0 15px;
+            line-height: 32px;
+            cursor: pointer;
+        }
+
+        header .right span.active {
+            border: 1px solid #a1a1a1;
+            border-radius: 16px;
+        }
+
+        header li:first-child {
+            margin-left: 0;
+            margin-right: 60px;
+        }
+    </style>
+
 </head>
-<style>
-    header.positionTop {
-        position: absolute;
-        top: -100000px;
-        font-size: 14px;
-        color: #fff;
-        line-height: 60px;
-        background-color: #303030;
-        /*background: url("static/images/back.jpg") no-repeat center;*/
-    }
-
-    header li {
-        margin: 0 25px;
-    }
-
-    header .right span {
-        display: inline-block;
-        padding: 0 15px;
-        line-height: 32px;
-        cursor: pointer;
-    }
-
-    header .right span.active {
-        border: 1px solid #a1a1a1;
-        border-radius: 16px;
-    }
-
-    header li:first-child {
-        margin-left: 0;
-        margin-right: 60px;
-    }
-</style>
 <body>
 <noscript>
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WG4BQ8P"
@@ -296,11 +297,11 @@
                             <p class="over">(89*127mm) (1050*1499px)</p>
                         </div>
                     </div>
-                    <label>艺术证件照尺寸:</label>
+                    <label>艺术证件照背景色:</label>
                     <div class="cList flex">
                         <div class="cu">
                             <div class="its">
-                                <div w="295" h="413" color="#F7BEB3" name="一寸(25*35mm)">
+                                <div w="413" h="579" color="#F7BEB3" name="二寸(35*49mm)">
                                     <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/171c9283e0e44392ad6741dbbddef1d2.png"
                                          alt="">
                                     <div class="flex"><span onclick="downLoad(this,event)">下载 </span><span>编辑</span>
@@ -308,8 +309,8 @@
 
                                 </div>
                             </div>
-                            <p class="over">心动粉（一寸）</p>
-                            <p>(25*35mm) (295*413px)</p>
+                            <p class="over">心动粉（二寸）</p>
+                            <p>(35*49mm) (413*579px)</p>
                         </div>
                         <div class="cu">
                             <div class="its">
@@ -325,55 +326,103 @@
                         </div>
                         <div class="cu">
                             <div class="its">
-                                <div w="649" h="991" color="#E0B97E" name="三寸(55*84mm)">
+                                <div w="413" h="579" color="#E0B97E" name="二寸(35*49mm)">
                                     <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/171c9283e0e44392ad6741dbbddef1d2.png"
                                          alt="">
                                     <div class="flex"><span onclick="downLoad(this,event)">下载</span><span>编辑</span>
                                     </div>
                                 </div>
                             </div>
-                            <p class="over">钟情黄（三寸）</p>
-                            <p class="over">(55*84mm) (649*991px)</p>
+                            <p class="over">钟情黄（二寸）</p>
+                            <p>(35*49mm) (413*579px)</p>
                         </div>
                         <div class="cu">
                             <div class="its">
-                                <div w="898" h="1205" color="#CCE2D6" name="四寸(76*102mm)">
+                                <div w="413" h="579" color="#CCE2D6" name="二寸(35*49mm)">
                                     <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/171c9283e0e44392ad6741dbbddef1d2.png"
                                          alt="">
                                     <div class="flex"><span onclick="downLoad(this,event)">下载</span><span>编辑</span>
                                     </div>
                                 </div>
                             </div>
-                            <p class="over">倾心绿（四寸）</p>
-                            <p class="over">(76*102mm) (898*1205px)</p>
+                            <p class="over">倾心绿（二寸）</p>
+                            <p>(35*49mm) (413*579px)</p>
                         </div>
+<!--                        <div class="cu">-->
+<!--                            <div class="its">-->
+<!--                                <div w="649" h="991" color="#E0B97E" name="三寸(55*84mm)">-->
+<!--                                    <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/171c9283e0e44392ad6741dbbddef1d2.png"-->
+<!--                                         alt="">-->
+<!--                                    <div class="flex"><span onclick="downLoad(this,event)">下载</span><span>编辑</span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <p class="over">钟情黄（三寸）</p>-->
+<!--                            <p class="over">(55*84mm) (649*991px)</p>-->
+<!--                        </div>-->
+<!--                        <div class="cu">-->
+<!--                            <div class="its">-->
+<!--                                <div w="898" h="1205" color="#CCE2D6" name="四寸(76*102mm)">-->
+<!--                                    <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/171c9283e0e44392ad6741dbbddef1d2.png"-->
+<!--                                         alt="">-->
+<!--                                    <div class="flex"><span onclick="downLoad(this,event)">下载</span><span>编辑</span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <p class="over">倾心绿（四寸）</p>-->
+<!--                            <p class="over">(76*102mm) (898*1205px)</p>-->
+<!--                        </div>-->
                         <div class="cu">
                             <div class="its">
-                                <div w="1050" h="1499" color="#C42134" name="五寸(89*127mm)"
-                                     style="width: 148.149px; height: 211.5px;">
+                                <div w="413" h="579" color="#C42134" name="二寸(35*49mm)">
                                     <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/171c9283e0e44392ad6741dbbddef1d2.png"
                                          alt="">
                                     <div class="flex"><span onclick="downLoad(this,event)">下载</span><span>编辑</span>
                                     </div>
                                 </div>
                             </div>
-                            <p class="over">绅士红（五寸）</p>
-                            <p class="over">(89*127mm) (1050*1499px)</p>
+                            <p class="over">绅士红（二寸）</p>
+                            <p>(35*49mm) (413*579px)</p>
                         </div>
+<!--                        <div class="cu">-->
+<!--                            <div class="its">-->
+<!--                                <div w="1050" h="1499" color="#C42134" name="五寸(89*127mm)"-->
+<!--                                     style="width: 148.149px; height: 211.5px;">-->
+<!--                                    <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/171c9283e0e44392ad6741dbbddef1d2.png"-->
+<!--                                         alt="">-->
+<!--                                    <div class="flex"><span onclick="downLoad(this,event)">下载</span><span>编辑</span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <p class="over">绅士红（五寸）</p>-->
+<!--                            <p class="over">(89*127mm) (1050*1499px)</p>-->
+<!--                        </div>-->
                         <div class="cu">
                             <div class="its">
-                                <div w="413" h="531" color="#40896E" name="小二寸(35*45mm)"
-                                     style="width: 164px; height: 211px; margin-left: -92px; margin-top: -105.5px; background-color: rgb(67, 142, 219);">
+                                <div w="413" h="579" color="#40896E" name="二寸(35*49mm)">
                                     <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/171c9283e0e44392ad6741dbbddef1d2.png"
-                                         alt=""
-                                         style="width: 253.017px; top: -4.30833px; left: -39.7542px; transform: translate(0px, 0px); height: 253.017px;">
+                                         alt="">
                                     <div class="flex"><span onclick="downLoad(this,event)">下载</span><span>编辑</span>
                                     </div>
                                 </div>
                             </div>
-                            <p class="over">希望绿（小二寸）</p>
-                            <p class="over">(35*45mm) (413*531px)</p>
+                            <p class="over">希望绿（二寸）</p>
+                            <p>(35*49mm) (413*579px)</p>
                         </div>
+<!--                        <div class="cu">-->
+<!--                            <div class="its">-->
+<!--                                <div w="413" h="531" color="#40896E" name="小二寸(35*45mm)"-->
+<!--                                     style="width: 164px; height: 211px; margin-left: -92px; margin-top: -105.5px; background-color: rgb(67, 142, 219);">-->
+<!--                                    <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/171c9283e0e44392ad6741dbbddef1d2.png"-->
+<!--                                         alt=""-->
+<!--                                         style="width: 253.017px; top: -4.30833px; left: -39.7542px; transform: translate(0px, 0px); height: 253.017px;">-->
+<!--                                    <div class="flex"><span onclick="downLoad(this,event)">下载</span><span>编辑</span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <p class="over">希望绿（小二寸）</p>-->
+<!--                            <p class="over">(35*45mm) (413*531px)</p>-->
+<!--                        </div>-->
                     </div>
                     <label>热门证件照尺寸:</label>
                     <div class="cList flex contents">
@@ -7419,6 +7468,7 @@
         var ih = iw * mattingMsg.originalHeight / mattingMsg.originalWidth;
         var top = -(ih * mattingMsg.headData.top / mattingMsg.originalHeight) + h * 0.05;
         var left = w / 2 - ((mattingMsg.headData.right - mattingMsg.headData.left) / 2 + mattingMsg.headData.left) * iw / mattingMsg.originalWidth;
+        top= top + ih < h ? h - ih : top;
         oCan.width = w;
         oCan.height = h;
         oCanTxt.fillStyle = c;
@@ -7509,7 +7559,7 @@
         } else {
             var oA = document.createElement( 'a' );
             oA.href = cans.toDataURL( type );
-            oA.download = name;
+            oA.download = name + nametype;
             oA.click();
         }
         $( '.zhezhao' ).hide();

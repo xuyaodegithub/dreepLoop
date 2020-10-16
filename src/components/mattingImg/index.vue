@@ -100,6 +100,7 @@
             }
         },
         mounted() {
+            console.log(111);
             [this.oPre, this.oOri, this.oOriup] = [document.getElementById( 'pre' ), document.getElementById( 'ori' ), document.getElementById( 'oriup' )];
             [this.oPreTxt, this.oOriTxt, this.oOriupTxt] = [this.oPre.getContext( '2d' ), this.oOri.getContext( '2d' ), this.oOriup.getContext( '2d' )];
             this.initallCans();
@@ -309,7 +310,7 @@
                 }
             },
             savepointList(point,k){//此时处理的是预览图，需要存处理过的点的位置和类型
-                const w=this.oriMsg.originalWidth || this.oriObj.width,h=this.oriMsg.originalHeight || this.oriObj.height;
+                const w=this.oriMsg ? this.oriMsg.originalWidth : this.oriObj.width,h=this.oriMsg ? this.oriMsg.originalHeight : this.oriObj.height;
                 const data={
                     x: point.x * w / this.preObj.width,//在原图中的x位置
                     y: point.y * h / this.preObj.height,//在原图中的y位置

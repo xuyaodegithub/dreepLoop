@@ -147,7 +147,7 @@
 <script>
     // @ is an alias to /src
     import vHeader from '@/components/header'
-    import {myBrowser, findLastIdx} from '@/utils'
+    import { findLastIdx} from '@/utils'
     import one from '@/assets/image/e_o.png'
     import two from '@/assets/image/e_t.png'
     // import three from '@/assets/image/e_th.png'
@@ -752,7 +752,7 @@
                     }
                     if (bg) this.initBgimg( bg, cans, ctxs );
                     ctxs.drawImage( oImg, 0, 0, cans.width, cans.height );
-                    if (myBrowser() === 'IE' || myBrowser() === 'Edge') {//ie下载图片
+                    if (window.navigator.msSaveOrOpenBlob) {//ie下载图片
                         let url = cans.msToBlob();
                         let blobObj = new Blob( [url] );
                         window.navigator.msSaveOrOpenBlob( blobObj, this.filename.substring( 0, this.filename.lastIndexOf( '.' ) ) + ".png" );

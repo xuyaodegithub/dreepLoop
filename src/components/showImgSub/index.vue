@@ -123,7 +123,7 @@
     import scale from '../../assets/image/scale.png'
     import opacity from '@/assets/opacity.jpg'
     import {uploadImgApi, downloadMattedImage, getMattingInfo, copyUpload, uploadossBg} from "../../apis";
-    import {myBrowser, getrandom} from "../../utils";
+    import { getrandom} from "../../utils";
     import {getToken} from "../../utils/auth";
     import JSManipulate from '../../utils/jsmanipulate.js'
     import {mapGetters,mapActions} from 'vuex'
@@ -819,7 +819,7 @@
             },
             downFunc(cans, all) {//下载方法提取
                 this.showLoading = false;
-                if (myBrowser() === 'IE' || myBrowser() === 'Edge') {//ie下载图片
+                if (window.navigator.msSaveOrOpenBlob) {//ie下载图片
                     let url = cans.msToBlob();
                     let blobObj = new Blob( [url] );
                     window.navigator.msSaveOrOpenBlob( blobObj, this.filename.substring( 0, this.filename.lastIndexOf( '.' ) ) + ".png" );
@@ -827,6 +827,7 @@
                         this.$emit( 'downall', {obj: url, filename: this.filename} )
                         return
                     }
+                    console.log(111)
                 } else {
                     let url = cans.toDataURL( "image/png" );
                     if (all) {

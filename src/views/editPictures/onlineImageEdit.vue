@@ -63,6 +63,7 @@
                                 <img :src="item.imgurl"
                                      alt="">
                             </div>
+                            <p>{{item.downName}}</p>
                         </div>
                     </div>
                 </el-scrollbar>
@@ -92,18 +93,6 @@
                      :style="item | subsStyle"
                      @mousedown.stop="moveBack($event,idx)" @click.stop="hoverThis(idx)" @mouseenter="borderFun(idx)"
                      @mouseleave="borderFun(idx,1)">
-<!--                    <el-tooltip class="item" effect="dark" content="双击修改文字" placement="top"-->
-<!--                                :disabled="moveNum>0 || hoverSub.contenteditable">-->
-<!--                        <div v-if="item.type===2" :contenteditable="item.contenteditable" class="text"-->
-<!--                             :class="{texsst : item.contenteditable}"-->
-<!--                             style="font-weight:inherit;border: 0;width:auto;height: auto;"-->
-<!--                             @dblclick="writeText(idx)"-->
-<!--                             @input="setBlur($event,idx)"-->
-<!--                             @blur="setBlur($event,idx,1)"-->
-<!--                             v-html="item.title">-->
-<!--                            &lt;!&ndash;                            <div>{{}}</div>&ndash;&gt;-->
-<!--                        </div>-->
-<!--                    </el-tooltip>-->
                     <el-tooltip class="item" effect="dark" content="双击替换图片" placement="top"
                                 :disabled="moveNum>0">
                         <div v-if="[1].includes(item.type)" class="Imgs" @dblclick="writeText(idx)" :style="miansubStyle">
@@ -160,7 +149,7 @@
         </div>
         <div class="e_rLast">
             <v-mune ref="Munes" @mattingImgs="repireImg"
-                    @effectsImg="effectsImg" @loading="loadings" @hoverMain="hoverMain" :edrieImgInfo="edrieImgInfo"></v-mune>
+                    @effectsImg="effectsImg" @loading="loadings" @hoverMain="hoverMain" :edrieImgInfo="edrieImgInfo" :init="true"></v-mune>
             <!--            <h4>修复</h4>-->
             <!--            <el-button plain @click="repireImg">手工修补</el-button>-->
         </div>
@@ -173,7 +162,7 @@
                 :width=" openScreen ? '95%' : '1200px'"
                 :visible.sync="dialogVisible">
             <matting-img :edrieImgInfo="hoverSub" @close="closeSetMap" v-if="dialogVisible" :openScreen="openScreen"
-                         @changeScree="openScreen=!openScreen" :hisList="pointLists"></matting-img>
+                         @changeScree="openScreen=!openScreen" :hisList="pointLists" :oriMsg="edrieImgInfo"></matting-img>
         </el-dialog>
         <el-dialog
                 :close-on-click-modal="false"
@@ -220,8 +209,6 @@
         mixins: [mixins],
         data() {
             return {
-                hisLoadList:[],
-                loadIdx:-1,
                 effectList:effectList2,
                 loadSubing: 0,
                 initcolorList: [color, fupa, '#000', '#fff', '#BFBFBF', '#2862F4', '#FED835', '#28F5B4', '#F62897', '#F57B28', '#00FFFF', '#90C320'],
@@ -240,7 +227,7 @@
                     bgRemovedPreview: 'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png',
                     oripro: 'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png',
                     original: 'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.jpg',
-                    mattingType: 9,
+                    mattingType: 10,
                     originalHeight: "800",
                     originalWidth: "800",
                     previewHeight: "500",
@@ -282,7 +269,8 @@
                 touchContrl: false,
                 pointList: [],//历史记录
                 mainOri: '',//主图扣过的原图尺寸
-                downType: 0
+                downType: 0,
+                selectItem:{},//选中的特效数据
             }
         },
         watch: {
@@ -502,7 +490,7 @@
                         };
                         oImg2.src = addUrlQuery(res.data);
                     }
-                    if ([1, 2, 3, 6, 9].includes( this.hoverSub.mattingType )) {
+                    if ([1, 2, 3, 6, 10].includes( this.hoverSub.mattingType )) {
                         this.mattingbyUrl( this.hoverSub.mattingType )//1额外参数表示  替换时传参
                     } else {
                         this.parseSubs.subList[this.hoverSub.idx].useImg = res.data;
@@ -588,7 +576,7 @@
                 this.loading.show = true;
                 this.mattingMsg.type = type;
                 let obj = {url: this.hoverSub.ori, mattingType: type};
-                if (type === 9) obj['bodyData'] = 1;
+                // if (type === 9) obj['bodyData'] = 1;
                 copyUpload( obj ).then( res => {
                     if (!res.code) {
                         this.mattingMsg.id = res.data.fileId;
@@ -612,20 +600,7 @@
                     this.edrieImgInfo = {...this.edrieImgInfo, ...result};
                     oImg.crossOrigin='';
                     oImg.onload=()=>{
-
-                        const [w, h,mattingMsg] = [parseFloat( this.edrieImgInfo.w ), parseFloat( this.edrieImgInfo.h ),this.edrieImgInfo];
-                        let point=mattingMsg.maskRect,ow=mattingMsg.originalWidth,oh=mattingMsg.originalHeight;
-                        let downTop=h * 0.08,ih=(h-downTop)*oh/point.height,iw=ow*ih/oh,left=w/2-iw/2;//
-                        let afterPoint={x:iw*point.x/ow,y:ih*point.y/oh,w:iw*point.width/ow,h:ih*point.height/oh};
-                        downTop=downTop-afterPoint.y;
-                        if(afterPoint.w>w){
-                            iw=(w*ow/point.width);
-                            ih=iw*oh/ow;
-                            left=0;
-                            downTop=h-ih;
-                            afterPoint={x:iw*point.x/ow,y:ih*point.y/oh,w:iw*point.width/ow,h:ih*point.height/oh};
-                        }
-                        left=w/2-iw/2-(afterPoint.x+afterPoint.w/2-iw/2);
+                        const {w, h,iw,ih,afterPoint,downTop,left}=this.initSize()
                         this.parseSubs.subList[idx].w = iw * this.parseSubs.scale;
                         this.parseSubs.subList[idx].h = ih * this.parseSubs.scale;
                         this.parseSubs.subList[idx].x = left * this.parseSubs.scale;
@@ -634,8 +609,7 @@
                         this.loading.show = false;
                         // this.hoverThis(idx);
                         this.mainOri='';
-                        this.hisLoadList=[];
-                        if(this.loadIdx>-1)this.loadThis(this.effectList[this.loadIdx],this.loadIdx);
+                        if(this.selectItem.type)this.loadThis(this.selectItem);
                         this.$nextTick(_=>{
                             this.hoverThis(idx);
                         })
@@ -854,30 +828,49 @@
             electtexiao(loadImg, dataImg, idx) {//原图特效处理
                 let mainSub = this.parseSubs.subList.find( item => item.type === 1 ),
                     oCan = document.createElement( 'canvas' ), oCan2 = document.createElement( 'canvas' ),
-                    oCan3 = document.createElement( 'canvas' ), obj = loadImg;
+                    oCan3 = document.createElement( 'canvas' ), obj = loadImg,data,type=parseInt(this.selectItem.type),resUrl='';
                 let oCanTxt = oCan.getContext( '2d' ), oCanTxt2 = oCan2.getContext( '2d' ),
-                    oCanTxt3 = oCan3.getContext( '2d' ), [w, h] = [obj.width, obj.height];
-                let texiaoList = ['', '', 'emboss', 'grayscale', 'dither', 'triangleripple', 'blur', 'threshold', 'twirl'],
-                    otehC = {
-                        blur: {amount: 5.0},
-                        threshold: {threshold: 100},
-                        twirl: {radius: w, angle: 90, centerX: 0.5, centerY: 0.5}
-                    };
-                oCan.width = w;
-                oCan2.width = w;
+                    oCanTxt3 = oCan3.getContext( '2d' ), [ow, oh] = [obj.width, obj.height];
+                const {w, h,iw,ih,afterPoint,downTop,left}=this.initSize();
+                oCan.width = ow;
+                oCan2.width = ow;
                 oCan3.width = w;
-                oCan.height = h;
-                oCan2.height = h;
+                oCan.height = oh;
+                oCan2.height = oh;
                 oCan3.height = h;
-                if (mainSub.t2Idx > 1) {
-                    obj = this.jsMulitData( dataImg, texiaoList[mainSub.t2Idx], otehC[texiaoList[mainSub.t2Idx]] || {}, 1 );
+                if([1,2,7,8].includes(type)){
+                    if (type == 1) {//白色背景
+                        data = {imgObj: obj, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', size:0, color:'rgba(0,0,0,0)'};
+                        resUrl=jsMulit.setBorder2.init( data );
+                    } else if (type == 2) {//倒影
+                        data = {imgObj: obj, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, afterP: afterPoint, aph: 0.6, downtype: ''};
+                        resUrl = jsMulit.InvertedImage.init( data ) ;
+                    } else if(type==7){//双描边
+                        let colorList=this.selectItem.color.split(','),oIImge=new Image();
+                        oIImge.crossOrigin='';
+                        data = {imgObj: obj, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', size:20, color:colorList[0]};
+                        oIImge.onload= ()=> {
+                            let datas={imgObj:oIImge, w: w, h: h, x: 0, y: 0, iw: w, ih: h, downtype: '', size:10, color:colorList[1]};
+                            this.parseSubs.subList[idx].useImg = jsMulit.setBorder2.init( datas);
+                            this.downLoadImg2();
+                        }
+                        oIImge.src=jsMulit.setBorder2.init( data );
+                    }else if(type==8){//接触阴影
+                        data = {imgObj: obj, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, afterP: afterPoint, aph: 0.5, downtype: ''};
+                        resUrl=  jsMulit.ContactShadow.init( data ) ;
+                    }
+                   if([1,2,8].includes(type)) {
+                       this.parseSubs.subList[idx].useImg = resUrl;
+                       this.downLoadImg2();
+                   }
+                    return;
                 }
                 if (mainSub.checked) {
-                    oCanTxt.drawImage( obj, 0, 0, w, h );
-                    let imgData = oCanTxt.getImageData( 0, 0, w, h );
-                    for (let y = 0; y < h; y++) {
-                        for (let x = 0; x < w; x++) {
-                            let pixel = (y * w + x) * 4;
+                    oCanTxt.drawImage( obj, 0, 0, ow, oh );
+                    let imgData = oCanTxt.getImageData( 0, 0, ow, oh );
+                    for (let y = 0; y < oh; y++) {
+                        for (let x = 0; x < ow; x++) {
+                            let pixel = (y * ow + x) * 4;
                             if (imgData.data[pixel + 3] != 0) {
                                 imgData.data[pixel] = 0;
                                 imgData.data[pixel + 1] = 0;
@@ -886,19 +879,18 @@
                             }
                         }
                     }
-                    if (mainSub.size > 0) StackBlur.imageDataRGBA( imgData, 0, 0, w, h, parseInt( mainSub.size / this.parseSubs.scale ) );
-                    oCanTxt.clearRect( 0, 0, w, h )
-                    oCanTxt.putImageData( imgData, 0, 0 )
-                    const xy = this.initAngleDistance( mainSub.angle, mainSub.distance )
-                    oCanTxt3.drawImage( oCan, xy.x, xy.y )
+                    if (mainSub.size > 0) StackBlur.imageDataRGBA( imgData, 0, 0, ow, oh, parseInt( mainSub.size ) );
+                    oCanTxt.clearRect( 0, 0, ow, oh );
+                    oCanTxt.putImageData( imgData, 0, 0 );
+                    const xy = this.initAngleDistance( mainSub.angle, mainSub.distance );
+                    oCanTxt3.drawImage( oCan, left+xy.x, downTop+xy.y,iw,ih )
                 }
                 if (mainSub.checkedM) {
-                    oCanTxt2.drawImage( obj, 0, 0, w, h );
-                    console.log(mainSub.mSize,111111)
-                    jsMulit['strokeBorder'].filter( oCan2, oCanTxt2.getImageData( 0, 0, w, h ), mainSub.mSize, mainSub.colorVal );
-                    oCanTxt3.drawImage( oCan2, 0, 0, w, h )
+                    oCanTxt2.drawImage( obj, 0, 0, ow, oh );
+                    jsMulit['strokeBorder'].filter( oCan2, oCanTxt2.getImageData( 0, 0, ow, oh ), mainSub.mSize, mainSub.colorVal );
+                    oCanTxt3.drawImage( oCan2,left, downTop,iw,ih )
                 }
-                oCanTxt3.drawImage( obj, 0, 0, w, h );
+                oCanTxt3.drawImage( obj, left, downTop,iw,ih );
                 this.parseSubs.subList[idx].useImg = oCan3.toDataURL( "image/png" );
                 this.downLoadImg2();
             },
@@ -931,29 +923,24 @@
                 if (!this.loadSubObj && this.parseSubs.hasOwnProperty( 'isOwnTwo' )) data.templateId = this.parseSubs.templateId;
                 else if (this.loadSubObj) data.templateId = this.loadSubObj.id;
                 // templatedownload( data ).then( res => {
-                if (!this.mainOri && this.parseSubs.subList[iidx].fileId) {
-                    downloadMattedImage( {fileId: this.parseSubs.subList[iidx].fileId} ).then( res => {
+                if (!this.mainOri && this.edrieImgInfo.fileId) {
+                    downloadMattedImage( {fileId: this.edrieImgInfo.fileId} ).then( res => {
                         if (!res.code) {
-                            this.hisLoadList.push(this.loadIdx);
                             this.mainOri = res.data;
                             initSmallTag( e, '次数 -1' );
                             this.userGetscribe();
                             this.initOriRepir( res.data, iidx );
                         }
                     } )
-                } else if(!this.parseSubs.subList[iidx].fileId){
+                } else if (!this.edrieImgInfo.fileId) {
                     initSmallTag( e, '免费' );
                     this.initOriRepir( this.parseSubs.subList[iidx].pro, iidx );
-                }else if(this.hisLoadList.includes(this.loadIdx) ){
-                    initSmallTag( e, '免费' );
-                    this.initOriRepir( this.mainOri, iidx );
                 }else{
                     templatedownload( data ).then( res => {
                         if (!res.code) {
                             initSmallTag( e, '次数 -1' );
                             this.userGetscribe();
                             this.initOriRepir( this.mainOri, iidx );
-                            this.hisLoadList.push(this.loadIdx);
                             // this.downLoadImg2();
                         } else if (res.code === 1100) this.dialogVisible2 = true;
                     } )
@@ -1039,7 +1026,7 @@
                     let url = cans.msToBlob( _ => {
                     }, type );
                     let blobObj = new Blob( [url] );
-                    window.navigator.msSaveOrOpenBlob( blobObj, '形象照' + (this.downType ? '.jpg' : '.png') );
+                    window.navigator.msSaveOrOpenBlob( blobObj, this.selectItem.downName + (this.downType ? '.jpg' : '.png') );
                     this.loadingInstance.close()
                 } else {
                     let url = cans.toDataURL( type );
@@ -1051,7 +1038,7 @@
                     let objurl = URL.createObjectURL( new Blob( [u8arr], {type: mime} ) );
                     let save_link = document.createElement( 'a' );
                     save_link.href = objurl;
-                    save_link.download = '形象照';
+                    save_link.download = `${this.selectItem.downName}.png`;
                     let event = document.createEvent( 'MouseEvents' );
                     event.initMouseEvent( 'click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null );
                     save_link.dispatchEvent( event );
@@ -1085,21 +1072,8 @@
                 let oImg = new Image();
                 oImg.crossOrigin = '';
                 oImg.onload = () => {
-                    const [w, h] = [this.edrieImgInfo.w, this.edrieImgInfo.h];
                     this.edrieImgInfo.oriObj = oImg;
-                    let mattingMsg=this.edrieImgInfo;
-                    let point = mattingMsg.maskRect, ow = mattingMsg.originalWidth, oh = mattingMsg.originalHeight, iw, ih, downTop,
-                        left, afterPoint;//        var iw=ow>oh ? w*0.62 : (h*0.62)*w/h,ih=ow>oh ? w*0.62*h/w : h*0.62,downTop=(h-ih)/2,left=(w-iw)/2
-                    if (point.width > point.height) {
-                        iw = (0.7 * w) * ow / point.width;
-                        ih = iw * oh / ow;
-                    } else {
-                        ih = 0.7 * h * oh / point.height;
-                        iw = ih * ow / oh;
-                    }
-                    afterPoint = {x: iw * point.x / ow, y: ih * point.y / oh, w: iw * point.width / ow, h: ih * point.height / oh};//缩放后的内容信息
-                    downTop = h / 2 - (afterPoint.y + afterPoint.h / 2);
-                    left = w / 2 - (afterPoint.x + afterPoint.w / 2);
+                    const {w, h,iw,ih,afterPoint,downTop,left}=this.initSize();
                     let it = {
                         title: '电商白底图',
                         oriW: w,
@@ -1123,13 +1097,30 @@
                             "pro": this.edrieImgInfo.pro,
                             "ori": this.edrieImgInfo.ori,
                             "hovering": false,
-                            "mattingType": 9,
+                            "mattingType": 10,
                             fileId: this.edrieImgInfo.fileId,
                         }]
                     }
                     this.loadSubs( it );
                 };
                 oImg.src = addUrlQuery(this.edrieImgInfo.ori);
+            },
+            initSize(msg){//公用提取
+                const [w, h] = [this.edrieImgInfo.w, this.edrieImgInfo.h];
+                let mattingMsg=msg || this.edrieImgInfo;
+                let point = mattingMsg.maskRect, ow = mattingMsg.originalWidth, oh = mattingMsg.originalHeight, iw, ih, downTop,
+                    left, afterPoint;//        var iw=ow>oh ? w*0.62 : (h*0.62)*w/h,ih=ow>oh ? w*0.62*h/w : h*0.62,downTop=(h-ih)/2,left=(w-iw)/2
+                if (point.width > point.height) {
+                    iw = (0.7 * w) * ow / point.width;
+                    ih = iw * oh / ow;
+                } else {
+                    ih = 0.7 * h * oh / point.height;
+                    iw = ih * ow / oh;
+                }
+                afterPoint = {x: iw * point.x / ow, y: ih * point.y / oh, w: iw * point.width / ow, h: ih * point.height / oh};//缩放后的内容信息
+                downTop = h / 2 - (afterPoint.y + afterPoint.h / 2);
+                left = w / 2 - (afterPoint.x + afterPoint.w / 2);
+                return {w, h,iw,ih,afterPoint,downTop,left}
             },
             reloads(k) {//重新上传
                 const msg = k ? '确定要选择此模板替换当前模板, 是否继续?' : '确定要重置, 是否继续?';
@@ -1172,6 +1163,7 @@
                     this.parseSubs.subList[idx].proObj = oImg;
                     this.parseSubs.subList[idx].id = `img${Math.random()}`;
                     this.loading.show = false;
+                    this.loadThis(this.selectItem,1);
                 };
                 oImg.src = addUrlQuery(this.parseSubs.subList[idx].useImg);
             },
@@ -1248,7 +1240,7 @@
                 mItems['bW'] = mItems.oriW > mItems.oriH ? (mItems.oriW > oW ? oW : mItems.oriW) : (mItems.oriH > oH ? oH * mItems.oriW / mItems.oriH : mItems.oriW);
                 mItems['bH'] = mItems.oriW > mItems.oriH ? (mItems.oriW > oW ? oW * mItems.oriH / mItems.oriW : mItems.oriH) : (mItems.oriH > oH ? oH : mItems.oriH);
                 mItems['scale'] = parseFloat( mItems.bW / mItems.oriW );
-                const keyList = ['w', 'h', 'x', 'y', 'fontSize', 'letterSpacing', 'lineHeight']
+                const keyList = ['w', 'h', 'x', 'y', 'fontSize', 'letterSpacing', 'lineHeight'];
                 mItems.subList.map( (item, idx) => {
                     Object.keys( item ).map( it => {
                         if (keyList.includes( it )) {
@@ -1271,8 +1263,8 @@
                             this.loadSubing+=1;
                             if(this.loadSubing===imgsList.length){
                                 this.parseSubs=mItems;
-                                const ixs=this.edrieImgInfo.idxSplace;
-                                // if(ixs>-1 && ixs<38)this.loadThis(this.effectList[ixs],ixs);
+                                this.selectItem={type:this.edrieImgInfo.type,color:this.edrieImgInfo.color,downName:this.edrieImgInfo.downName};
+                                this.loadThis(this.selectItem);
                                 this.loading = {show: false, text: '处理中...'};
                             }
                         };
@@ -1292,7 +1284,7 @@
                 } )
             },
             initDiv() {
-                let oImg = new Image(), w = 800, h = 800,mattingMsg={
+                let oImg = new Image(),mattingMsg={
                     bgRemovedPreview: 'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png',
                     oripro: 'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png',
                     original: 'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.jpg',
@@ -1302,28 +1294,22 @@
                     previewWidth: "500",
                     maskRect: {x: 166, width: 492, y: 178, height: 536}
                 };
-                let point = mattingMsg.maskRect, ow = mattingMsg.originalWidth, oh = mattingMsg.originalHeight, iw, ih, downTop,
-                    left, afterPoint;//        var iw=ow>oh ? w*0.62 : (h*0.62)*w/h,ih=ow>oh ? w*0.62*h/w : h*0.62,downTop=(h-ih)/2,left=(w-iw)/2
-                if (point.width > point.height) {
-                    iw = (0.7 * w) * ow / point.width;
-                    ih = iw * oh / ow;
-                } else {
-                    ih = 0.7 * h * oh / point.height;
-                    iw = ih * ow / oh;
-                }
-                afterPoint = {x: iw * point.x / ow, y: ih * point.y / oh, w: iw * point.width / ow, h: ih * point.height / oh};//缩放后的内容信息
-                downTop = h / 2 - (afterPoint.y + afterPoint.h / 2);
-                left = w / 2 - (afterPoint.x + afterPoint.w / 2);
+                const {w, h,iw,ih,afterPoint,downTop,left}=this.initSize(mattingMsg);
                 oImg.crossOrigin = '';
                 oImg.onload = ()=> {
                     let data = {};
                     this.effectList.map((item,idxx)=>{
                         let type = item.type;
                         if (type == 1) {//白色背景
-                            let cans = document.createElement( 'canvas' ), ctx = cans.getContext( '2d' );
+                            let cans = document.createElement( 'canvas' ), ctx = cans.getContext( '2d' ),color22=item.color.split(',');;
                             cans.width = w;
                             cans.height = h;
-                            ctx.fillStyle=item.color;
+                            if(color22.length>1){
+                                var gradient = ctx.createLinearGradient(0, 0, 0, h);
+                                gradient.addColorStop(0, color22[0]);
+                                gradient.addColorStop(1, color22[1]);
+                                ctx.fillStyle = gradient;
+                            }else ctx.fillStyle = color22[0];
                             ctx.fillRect(0,0,w,h);
                             ctx.drawImage( oImg, left, downTop, iw, ih );
                             item.imgurl= cans.toDataURL();
@@ -1343,7 +1329,7 @@
                             data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, aph: 0, xdistance: 0.06*afterPoint.w, ydistance: 0, shadow: 0, downtype: '', color:item.color};
                             item.imgurl= jsMulit.ResliderVal.init( data );
                         }else if(type==7){//双描边
-                            var colorList=item.color.split(','),oIImge=new Image();
+                            let colorList=item.color.split(','),oIImge=new Image();
                             oIImge.crossOrigin='';
                             data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', size:20, color:colorList[0]};
                             oIImge.onload=function () {
@@ -1352,7 +1338,7 @@
                             }
                             oIImge.src=jsMulit.setBorder2.init( data );
                         }else if(type==8){//接触阴影
-                            data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, afterP: afterPoint, aph: 0.2, downtype: ''};
+                            data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, afterP: afterPoint, aph: 0.5, downtype: ''};
                             item.imgurl=  jsMulit.ContactShadow.init( data ) ;
                         }
                     })
@@ -1360,68 +1346,77 @@
                 oImg.src = addUrlQuery('https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/571ef984f7734c54.png');
             },
             loadThis(item,x){
-                let type=item.type,oCan=document.createElement('canvas'),canTxt,data,idx=this.parseSubs.subList.findIndex(items=>!items.type),mattingMsg=this.edrieImgInfo,w=mattingMsg.w,h=mattingMsg.h;
-                let [scaleW,oImg] = [2 / 9 * h / w,(this.parseSubs.subList.find(items=>items.type===1)).proObj];//头部占据2/9
-                let point = mattingMsg.maskRect, ow = mattingMsg.originalWidth, oh = mattingMsg.originalHeight, iw, ih, downTop,
-                    left, afterPoint;//        var iw=ow>oh ? w*0.62 : (h*0.62)*w/h,ih=ow>oh ? w*0.62*h/w : h*0.62,downTop=(h-ih)/2,left=(w-iw)/2
-                if (point.width > point.height) {
-                    iw = (0.7 * w) * ow / point.width;
-                    ih = iw * oh / ow;
-                } else {
-                    ih = 0.7 * h * oh / point.height;
-                    iw = ih * ow / oh;
-                }
-                afterPoint = {x: iw * point.x / ow, y: ih * point.y / oh, w: iw * point.width / ow, h: ih * point.height / oh};//缩放后的内容信息
-                downTop = h / 2 - (afterPoint.y + afterPoint.h / 2);
-                left = w / 2 - (afterPoint.x + afterPoint.w / 2);
+                let type=parseInt(item.type),oCan=document.createElement('canvas'),canTxt,data,idx=this.parseSubs.subList.findIndex(items=>!items.type);
+                let oImg = (this.parseSubs.subList.find(items=>items.type===1)).proObj, mainidx=this.parseSubs.subList.findIndex(it=>it.type===1);//头部占据2/9
+                const {w, h,iw,ih,afterPoint,downTop,left}=this.initSize(),closeUrl=x? (this.parseSubs.subList.find(items=>items.type===1)).pro : this.edrieImgInfo.pro;//修复过后pro替换修复过后的
                 oCan.width=w;
                 oCan.height=h;
                 canTxt=oCan.getContext('2d');
-                this.parseSubs.subList=[{ type: 0, useImg: '', pro: '', ori: ''},...this.parseSubs.subList.filter(itemson=>[1].includes(itemson.type))];
-                if(type===1){
-                    let colors=item.color;
-                    canTxt.fillStyle = colors;
+                // this.parseSubs.subList=[{ type: 0, useImg: '', pro: '', ori: ''},...this.parseSubs.subList.filter(itemson=>[1].includes(itemson.type))];
+                if(type===1){//白色背景
+                    this.colorType=this.initcolorList.indexOf(item.color);
+                    const color22=item.color.split(',');
+                    if(color22.length>1){
+                        var gradient = canTxt.createLinearGradient(0, 0, 0, h);
+                        gradient.addColorStop(0, color22[0]);
+                        gradient.addColorStop(1, color22[1]);
+                        canTxt.fillStyle = gradient;
+                    }else canTxt.fillStyle = color22[0];
                     canTxt.fillRect( 0, 0,w,h );
                     data={backColor:'', type: 0, title: '背景组件', w:w*this.parseSubs.scale, h:h*this.parseSubs.scale, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: oCan.toDataURL(), pro:  oCan.toDataURL(), ori:  oCan.toDataURL(), hovering: false, mattingType: -1,}
                     this.parseSubs.subList.splice(idx,1,data);
-                }else if(type===2){
-                    let imglist=item.imgSrc.split(','),imgs;
-                    data={backColor:'', type: 0, title: '背景组件', w:w*this.parseSubs.scale, h:h*this.parseSubs.scale, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: imglist[0], pro:  imglist[0], ori: imglist[0], hovering: false, mattingType: -1,}
-                    this.parseSubs.subList.splice(idx,1,data);
-                    if(imglist.length>1){
-                        imgs={type: 3, title: '图片背景', w:w*this.parseSubs.scale, h:h*this.parseSubs.scale, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: imglist[1], pro:  imglist[1], ori: imglist[1], hovering: false, mattingType: -1,}
-                        this.parseSubs.subList.push(imgs);
+                    let args = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', size:0, color:'rgba(0,0,0,0)'};
+                    const url=jsMulit.setBorder2.init( args );
+                    data={ type: 1, title: '白底组件', w:this.parseSubs.bW, h:this.parseSubs.bH, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: url, pro:  closeUrl, ori: this.edrieImgInfo.original, hovering: false, mattingType: 10,}
+                    this.parseSubs.subList.splice(mainidx,1,data);
+                }else if(type===2){//倒影
+                    let args= {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, afterP: afterPoint, aph: 0.6, downtype: ''};
+                    const url= jsMulit.InvertedImage.init( args );
+                    data={ type: 1, title: '倒影组件', w:w*this.parseSubs.scale, h:h*this.parseSubs.scale, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: url, pro:  closeUrl, ori: this.edrieImgInfo.original, hovering: false, mattingType: 10,}
+                    this.parseSubs.subList.splice(mainidx,1,data);
+                }else if(type===3){//悬浮投影
+                    let args = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, aph: 0.5, ydistance: parseInt(0.1 * afterPoint.h), xdistance: 0, shadow: 30, downtype: ''};
+                    const url= jsMulit.ResliderVal.init( args ) ;
+                    data={checked:true,angle:270,distance:args.ydistance,extend:args.aph*100,size:30,type: 1, title: '悬浮投影', w:this.parseSubs.bW, h:this.parseSubs.bH, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: url, pro:  closeUrl, ori: this.edrieImgInfo.original, hovering: false, mattingType: 10,}
+                    this.parseSubs.subList.splice(mainidx,1,data)
+                    console.log(this.parseSubs.subList[mainidx])
+                }else if(type===4){//投影
+                    let args = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, aph: 0, distance: 0, shadow: 40, downtype: ''};
+                    const url= jsMulit.ResliderVal.init( args );
+                    data={checked:true,angle:0,distance:0,extend:0,size:40,type: 1, title: '投影', w:this.parseSubs.bW, h:this.parseSubs.bH, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: url, pro:  closeUrl, ori: this.edrieImgInfo.ori, hovering: false, mattingType: 10,};
+                    this.parseSubs.subList.splice(mainidx,1,data);
+                }else if(type===5){//描边纯色
+                    let args = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', size:20, color:item.color};
+                    const url=jsMulit.setBorder2.init( args );
+                    data={checkedM:true,mSize:20,colorVal:item.color,type: 1, title: '描边纯色', w:this.parseSubs.bW, h:this.parseSubs.bH, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: url, pro:  closeUrl, ori:  this.edrieImgInfo.ori, hovering: false, mattingType: 10,}
+                    this.parseSubs.subList.splice(mainidx,1,data);
+                }else if(type===6){//右投影
+                    let args = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, aph: 0, xdistance: 0.06*afterPoint.w, ydistance: 0, shadow: 0, downtype: '', color:item.color};
+                    const url=jsMulit.ResliderVal.init( args )
+                    data={checked:true,angle:180,distance:0.06*afterPoint.w,extend:0,size:0,type: 1, title: '右投影', w:this.parseSubs.bW, h:this.parseSubs.bH, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: url, pro:  closeUrl, ori:  this.edrieImgInfo.ori, hovering: false, mattingType: 10,}
+                    this.parseSubs.subList.splice(mainidx,1,data);
+                }else if(type===7){//双描边
+                  let colorList=item.color.split(','),oIImge=new Image();
+                    oIImge.crossOrigin='';
+                    let args = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', size:20, color:colorList[0]};
+                    oIImge.onload= () =>{
+                        let datas={imgObj:oIImge, w: w, h: h, x: 0, y: 0, iw: w, ih: h, downtype: '', size:10, color:colorList[1]};
+                        const url=jsMulit.setBorder2.init( datas);
+                        data={proObj:oImg,type: 1, title: '双描边', w:this.parseSubs.bW, h:this.parseSubs.bH, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: url, pro:  closeUrl, ori:  this.edrieImgInfo.ori, hovering: false, mattingType: 10,}
+                        this.parseSubs.subList.splice(mainidx,1,data);
+                        this.hoverThis(mainidx);
                     }
-                }else if(type===3){
-                    this.parseSubs.subList[0].backColor='#000';
-                    // let headw = (mattingMsg.headData.right - mattingMsg.headData.left) * iw / mattingMsg.originalWidth,objData;
-                    let headw = iw/3,objData;
-                    data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, headw: headw, downtype: '',color:'rgba(0,0,0,0)'};
-                    let effurl=jsMulit.ThreeShow.init( data,'',1 );
-                    objData={type: 3, title: '图片', w:this.parseSubs.bW, h:this.parseSubs.bH, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: effurl, pro:  effurl, ori: effurl, hovering: false, mattingType: -1,}
-                    this.parseSubs.subList.splice(1,0,objData)
-                }else if(type===4){//PhotoFrame
-                    data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', size: 40,iheight:downTop+afterPoint.y};
-                    this.parseSubs.subList[0].backColor=item.bColor;
-                    const img=jsMulit.PhotoFrame.init( data),img2=jsMulit.PhotoFrame.init( data,1);
-                    let imgdata={type: 3, title: '图片', w:this.parseSubs.bW, h:this.parseSubs.bH, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: img, pro:  img, ori: img, hovering: false, mattingType: -1,};
-                    let imgdata2={type: 3, title: '图片', w:this.parseSubs.bW, h:this.parseSubs.bH, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: img2, pro:  img2, ori: img2, hovering: false, mattingType: -1,};
-                    this.parseSubs.subList.splice(1,0,imgdata2);
-                    this.parseSubs.subList.push(imgdata);
-                }else if(type===5){//PhotoFrame
-                    data = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, downtype: '', upColor: item.upColor, backUrl: item.backUrl};
-                    const backsub={backColor:'', type: 0, title: '背景组件', w:this.parseSubs.bW, h:this.parseSubs.bH, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: data.backUrl, pro:  data.backUrl, ori:  data.backUrl, hovering: false, mattingType: -1,}
-                    let img=jsMulit.AddBuddhaLight.init( data,'',1),cale=this.parseSubs.scale;
-                    let imgsub={type: 3, title: '图片', w:this.parseSubs.bW, h:this.parseSubs.bH, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: img, pro:  img, ori: img, hovering: false, mattingType: -1,canMove:true};
-                    let mainsub={...this.parseSubs.subList[1],...{x:left*cale,y:downTop*cale,w:iw*cale,h:ih*cale}};
-                    this.parseSubs.subList.splice(0,1,backsub);
-                    this.parseSubs.subList.splice(1,1,mainsub);
-                    this.parseSubs.subList.push(imgsub);
-                    // console.log(this.parseSubs.subList,mainsub)
+                    oIImge.src=jsMulit.setBorder2.init( args );
+                }else if(type===8){//接触阴影
+                    let args = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, afterP: afterPoint, aph: 0.5, downtype: ''};
+                    const url= jsMulit.ContactShadow.init( args );
+                    data={type: 1, title: '接触阴影', w:this.parseSubs.bW, h:this.parseSubs.bH, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: url, pro:  closeUrl, ori:  this.edrieImgInfo.ori, hovering: false, mattingType: 10,}
+                    this.parseSubs.subList.splice(mainidx,1,data);
                 }
-                this.loadIdx=x;
+                this.selectItem={type:item.type,color:item.color,downName:item.downName};
+                // this.loadIdx=x;
                 this.$nextTick(_=>{
-                    const mainidx=this.parseSubs.subList.findIndex(it=>it.type===1);
+                    this.parseSubs.subList[mainidx].proObj=oImg;
                     this.hoverThis(mainidx);
                 })
             },
@@ -1576,13 +1571,14 @@
                 .iconList {
                     padding: 5px;
                     /*justify-content: center;*/
+                    text-align: center;
                     div {
-                        background-color: #fff;
                         width: 100px;
                         position: relative;
                         margin-bottom: 10px;
                         overflow: hidden;
                         img{
+                            background-color: #fff;
                             display: block;
                             width: 100%;
                         }

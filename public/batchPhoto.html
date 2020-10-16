@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <%= require('html-loader!./temple_google.html') %>
+    <meta charset="utf-8">
+    <!--//设置不缓存-->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Cache" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--    <meta name="viewport" content="width=device-width,initial-scale=1.0" id="view">-->
+    <meta name="applicable-device" content="pc">
+    <link rel="mobile-agent" content="format=html5;url=http://m.picup.shop"/>
+    <meta name="Description" content="皮卡智能证件照免费在线制作,一寸/二寸各种证件照尺寸,软件一键换背景蓝底/白底/红底,手机拍摄就可以轻松制作最美证件照/结婚证件照/电子证件照">
+    <meta name="Keywords" content="最美证件照,证件照尺寸,结婚证件照,蓝底证件照,白底证件照,证件照换背景"/>
+    <!--  <title>AI智能抠图</title>-->
+    <title>智能证件照免费在线制作多尺寸换背景-皮卡智能抠图PicUP.AI</title>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="static/public.css">
+    <link rel="stylesheet" href="static/css/idPhoto.css">
+    <link rel="icon" href="smallLogo.jpg" type="images/x-icon">
+    <!--标题栏：-->
+    <!--<link rel="icon" href="static/smallLogo.png" type="image/x-icon">-->
+    <!--收藏夹：-->
+    <!--<link rel="shortcut icon" href="static/smallLogo.png" type="image/x-icon">-->
+    <style>
+        header.positionTop {
+            position: absolute;
+            top: -100000px;
+            font-size: 14px;
+            color: #fff;
+            line-height: 60px;
+            background-color: #303030;
+            /*background: url("static/images/back.jpg") no-repeat center;*/
+        }
+
+        header li {
+            margin: 0 25px;
+        }
+
+        header .right span {
+            display: inline-block;
+            padding: 0 15px;
+            line-height: 32px;
+            cursor: pointer;
+        }
+
+        header .right span.active {
+            border: 1px solid #a1a1a1;
+            border-radius: 16px;
+        }
+
+        header li:first-child {
+            margin-left: 0;
+            margin-right: 60px;
+        }
+    </style>
+
+</head>
+<body>
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WG4BQ8P"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
+<header class="positionTop">
+    <div class="margin flex j-b a-i first">
+        <ul class="flex">
+            <li><a href="index.html"><img src="static/images/sureLogo.png" alt=""></a></li>
+            <li class="cu"><a href="index.html">人像抠图</a></li>
+            <li class="cu"><a href="product.html">更多产品</a></li>
+            <li class="cu"><a href="aboutUs.html">关于我们</a></li>
+            <li class="cu"><a href="downLoad.html">下载桌面端</a></li>
+            <!--            <li class="cu">登录</li>-->
+        </ul>
+        <div class="right">
+            <span><a href="userVip.html">定价</a></span>
+            <span class="active"><a href="loginOrRegister.html">登录/注册</a></span>
+        </div>
+    </div>
+</header>
+<div class="helloFirst">
+    <div class=" apps">
+        <div class="Operator">
+            <div onclick="upLoadimg()" class="btns cu"><!--Upload-->电脑批量上传</div>
+            <div onclick="upbymobile(1)" class="btns te cu"><!--Upload-->手机批量上传</div>
+            <h3>选择证件照规格</h3>
+            <div id="select">
+
+            </div>
+            <h3>选择证件照背景</h3>
+            <div class="colorLists flex a-i f-w">
+                <div class="cItem active">
+                    <div color="#FF0000"></div>
+                    <span>红</span></div>
+                <div class="cItem">
+                    <div color="#438edb"></div>
+                    <span>蓝</span></div>
+                <div class="cItem">
+                    <div color="#fff"></div>
+                    <span>白</span></div>
+                <div class="cItem">
+                    <div color="#2a385b"></div>
+                    <span>深蓝</span></div>
+                <div class="cItem">
+                    <div color="#00BFF3"></div>
+                    <span>青蓝</span></div>
+                <div class="cItem">
+                    <div color="#66B5F2,#CBE8FB"></div>
+                    <span>渐变蓝</span></div>
+                <div class="cItem">
+                    <div color="#F7BEB3"></div>
+                    <span>心动粉</span></div>
+                <div class="cItem">
+                    <div color="#B8DDE6"></div>
+                    <span>默契蓝</span></div>
+                <div class="cItem">
+                    <div color="#999999,#FFFFFF"></div>
+                    <span>渐变灰</span></div>
+                <div class="cItem">
+                    <div color="#E0B97E"></div>
+                    <span>钟情黄</span></div>
+                <div class="cItem">
+                    <div color="#CCE2D6"></div>
+                    <span>倾心绿</span></div>
+                <div class="cItem">
+                    <div color="#40896E"></div>
+                    <span>希望绿</span></div>
+                <div class="cItem">
+                    <div color="#C42134"></div>
+                    <span>绅士红</span></div>
+                <div class="cItem">
+                    <div color="#777E90,#ABB2C5"></div>
+                    <span>文艺灰</span></div>
+                <div class="cItem">
+                    <div color="#3F64BF"></div>
+                    <span>高贵蓝</span></div>
+                <div class="cItem">
+                    <div color="#D16541"></div>
+                    <span>温暖橙</span></div>
+                <div class="cItem">
+                    <div color="#FDDAE1"></div>
+                    <span>芭比粉</span></div>
+                <div class="cItem">
+                    <div color="#000000"></div>
+                    <span>深邃黑</span></div>
+            </div>
+            <h4 onclick="showHisList(1)" class="cu"><img
+                    src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/53ee8479d4e54371a3245eb5c0482ab4.png"
+                    alt="" style="margin-right: 10px;">证件照上传记录</h4>
+            <div class="photoHisList hisList">
+                <h5>暂无记录</h5>
+                <i class="cu" onclick="showHisList()"></i>
+                <div class="list" style="height: 80%;overflow-y:auto;" onscroll="scrollHis(event)"></div>
+            </div>
+<!--            <div class="bottonLast">-->
+<!--                <div class="fixedB">-->
+<!--                    <h5>&lt;!&ndash;Contact us&ndash;&gt;联系我们</h5>-->
+<!--                    <div class="flex a-i cu">-->
+<!--                        <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/79d22ed7c75049b9bd280cd5d50e6444.png"-->
+<!--                             alt="">-->
+<!--                        <p>roymind</p>-->
+<!--                        <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/74ee5f7eaa754347bdafe939151b5923.png"-->
+<!--                             alt="" style="margin-left: 20px;margin-right: 0;">-->
+<!--                        <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/cdf212032f814af3af8638735fcc2ea6.png"-->
+<!--                             alt="" class="noC" style="width:120px;">-->
+<!--                    </div>-->
+<!--                    <div class="flex a-i cu">-->
+<!--                        <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/b8338f76e2774b55a9a4c041523910ad.png"-->
+<!--                             alt="">-->
+<!--                        <p><a href="mailto:pikachu@picup.ai">pikachu@picup.ai</a></p>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+        <div class="OperatorRight drops">
+            <div class="flex tops">
+                <div class="oLeft batchleft" style="width: auto;">
+                    <h1>批量制作证件照，免费一键智能换背景</h1>
+                    <div class="flex f-w icons">
+                        <p>
+                            <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/83cd1ba825d94728a47be4c10c2fde44.png"
+                                 alt="">批量证件照裁剪尺寸</p>
+                        <p>
+                            <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/83cd1ba825d94728a47be4c10c2fde44.png"
+                                 alt="">批量智能磨皮美颜</p>
+                        <p>
+                            <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/83cd1ba825d94728a47be4c10c2fde44.png"
+                                 alt="">批量证件照换底色，白底红底蓝底</p>
+                        <p>
+                            <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/83cd1ba825d94728a47be4c10c2fde44.png"
+                                 alt="">丰富的换装模版</p>
+                    </div>
+                    <div class="flex twoBtns">
+                        <span onclick="upLoadimg()"><img
+                                src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png"
+                                alt="">电脑批量上传</span>
+                        <span onclick="upbymobile(1)"><img
+                                src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/1900436f3be2442980cb8e2887fc0d21.png"
+                                alt="">手机批量上传</span>
+                    </div>
+                    <a href="//picup.shop/apidoc/_book/idphoto.html" target="_blank"
+                       style="font-size: 15px;color: #333;margin-bottom: 50px;display: inline-block">证件照API></a>
+                    <div class="flex lizi">
+                        <span>没有照片？<br>试试这些证件照：</span>
+                        <div class="photoHisList flex">
+                            <div class="itmes">
+                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200903/6683d16ff0584fc794507d687ce7737d.jpg"
+                                     alt=""></div>
+                            <div class="itmes">
+                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200903/b5aad16e532049519d3c92c0f9d0d129.jpg"
+                                     alt=""></div>
+                            <div class="itmes">
+                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200903/1705c25fa2884cb282ef2be77ec516ef.jpg"
+                                     alt=""></div>
+                            <div class="itmes">
+                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/8aa70d3ef210426b848fa0760e5af69b.jpg"
+                                     alt=""></div>
+                        </div>
+                    </div>
+                    <h6>照片要求：</h6>
+                    <p class="mar">正面免冠，头发不遮挡眉毛、眼睛和脸颊，露出耳朵。不着制式服装， 儿童不系红领巾。</p>
+                    <p>姿势端正，抬头挺胸，注意避免侧身、歪脸、斜肩、昂头、驼背。手机拍摄证件照即可，浅色背景墙壁为佳。</p>
+                </div>
+            </div>
+            <div class="sect">
+                <div class="sizeClass flex a-i">
+                    <label>批量证件照</label>
+                    <div class="swithP flex a-i"><label>人像美颜</label>
+                        <div class="swith cu cancal" onclick="changeType()"><i></i></div>
+                    </div>
+                    <div class="a-i flex delbtn cu" onclick="delAllItem()"><img
+                            src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/10/14/delete.png" alt="">
+                        全部删除
+                    </div>
+                    <div class="button cu" onclick="downLoad(event)">批量下载</div>
+                </div>
+                <div class="initList one">
+                    <div id="batchPhoto"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="diglog">
+    <i class="cu" onclick="setDiog()"></i>
+    <h4>扫码上传图片</h4>
+    <div id="qrcode"></div>
+    <p>手机上传图片时，请不要关闭弹框</p>
+</div>
+<div class="diglog2">
+    <i class="cu" onclick="setDiog()"></i>
+    <h4>提示</h4>
+    <p style="line-height: 20px;color: #333;width:260px">检测到多人体，也许有他人或图案影响。您可以换一张照片重试</p>
+    <div class="btn cu" onclick="reupload()">重新上传</div>
+</div>
+<div class="zhezhao"></div>
+<div class="loading">
+    处理中...
+</div>
+<div class="saveJpg">
+    <h3>选择下载类型</h3>
+    <strong onclick="downLoadAll(0)">PNG格式<br>高保真，适合打印 </strong>
+    <strong onclick="downLoadAll(1)">JPG格式<br>文件小，适合上传 </strong>
+</div>
+<!--<script src="https://unpkg.com/vue/dist/vue.js"></script>-->
+<!-- 引入组件库 -->
+<!--<script src="https://unpkg.com/element-ui@2.13.2/lib/index.js"></script>-->
+<script>
+    var baseUrl = '<%= VUE_APP_BASEURL %>',
+        urlhref = '<%= NODE_ENV %>' === 'development' ? 'http://wwwdev.picup.shop' : 'http://www.picup.shop';
+    // var baseUrl = '<%= VUE_APP_BASEURL %>',urlhref='http://wwwdev.picup.shop';
+</script>
+<script src="static/jquery-1.11.3.min.js"></script>
+<!--<script src="static/idPhoto.js?id=1"></script>-->
+<script src="static/qrcode.min.js"></script>
+<script>
+    function upbymobile() {
+        token = localStorage.getItem( 'user_Token' )
+        if (!token) {
+            showloginDialog();
+            return;
+        }
+        uptype = 2;//记录上传方式
+        $.ajax( {
+            url: baseUrl + '/oss/newUploadTask',
+            type: 'get',
+            dataType: 'json',
+            xhrFields: {
+                withCredentials: true
+            },
+            headers: {token: token},
+            data: {},
+            success: function (res) {
+                if (!res.code) {
+                    taskFlag = res.data;
+                    qrcode.makeCode( urlhref + "/uploadBymobile.html?taskFlag=" + res.data );
+                    setDiog( 1 );
+                    lunxun()
+                } else Notification( res.msg )
+            }
+        } )
+    }
+
+    function lunxun() {
+        $.ajax( {
+            url: baseUrl + '/oss/getUploadTask',
+            type: 'get',
+            dataType: 'json',
+            xhrFields: {
+                withCredentials: true
+            },
+            headers: {token: token},
+            data: {taskFlag: taskFlag},
+            success: function (res) {
+                if (!res.code) {
+                    if (res.data.status === 2) {
+                        setDiog()
+                        noBeautyResult = {};
+                        BeautyResult = {};
+                        dreepByurl( res.data.url );
+                    } else timer = setTimeout( lunxun, 2000 )
+                } else Notification( res.msg )
+            }
+        } )
+    }
+
+    function initColors() {
+        var oDiv = $( '.colorLists .cItem div' ), cItem = $( '.colorLists .cItem' )
+        for (var i = 0; i < oDiv.length; i++) {
+            var colors = oDiv.eq( i ).attr( 'color' ).split( ',' );
+            if (colors.length > 1) oDiv.eq( i ).css( 'background', 'linear-gradient(' + colors[0] + ',' + colors[1] + ')' );
+            else oDiv.eq( i ).css( 'backgroundColor', colors );
+        }
+        cItem.click( function () {
+            $( this ).addClass( 'active' ).siblings( '.cItem' ).removeClass( 'active' );
+            _self.colorVal = $( this ).find( 'div' ).attr( 'color' );
+        } )
+    }
+
+    $( function () {
+        initColors()
+    } )
+    document.addEventListener('click',function(e){
+        var ev= e || window.event;
+        ev.stopPropagation();
+        $('.saveJpg').hide()
+    })
+</script>
+</body>
+</html>

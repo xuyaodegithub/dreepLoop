@@ -11,6 +11,7 @@
             <div>邀请码：{{yqma}}</div>
             <span @click="copyUrl2">点击复制</span>
         </div>
+        <p style="color:#e82255;font-size: 14px;margin-top: 10px;">手机号注册才有邀请码可填</p>
         <div class="oldUse">
             <h5><!--Points Usage History-->邀请记录</h5>
             <el-table

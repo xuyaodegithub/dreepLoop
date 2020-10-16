@@ -271,7 +271,7 @@ export const childClothList=[
         cover: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200818/92ac3cef9ab84740b2bc9757afed18c4.png',
         right: 475,
         left: 300,
-        list: ['http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200818/e014b9a3185f416eaa026004532cf10e.png', 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200818/8553664db479455a839470fdbcf598a1.png']
+        list: ['https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/10/14/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20201015183602.png', 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200818/8553664db479455a839470fdbcf598a1.png']
     },
     {
         cover: 'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200818/d15ad431338e4771859fff9953296836.png',

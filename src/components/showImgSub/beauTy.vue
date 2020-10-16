@@ -78,7 +78,7 @@
 
 <script>
     import {mapGetters, mapActions} from 'vuex';
-    import {myBrowser, getrandom,initSmallTag} from "../../utils";
+    import { getrandom,initSmallTag} from "../../utils";
     import {uploadImgApi, downloadMattedImage, getMattingInfo, copyUpload, uploadossBg} from "../../apis";
 
     export default {

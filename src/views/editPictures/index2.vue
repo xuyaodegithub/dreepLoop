@@ -262,7 +262,7 @@
     import vMune from '@/components/editMune';
     import fMune from '@/components/fontMune';
     import mattingImg from '@/components/mattingImg';
-    import {myBrowser, findLastIdx, setRad} from '@/utils';
+    import { findLastIdx, setRad} from '@/utils';
     import scale from '../../assets/image/scale.png';
     import {mixins} from '@/minxins';
     import {getTanDeg, letterText} from '@/utils'
@@ -1401,7 +1401,7 @@
                 oCanTxt.stroke();
             },
             downLoad(cans) {
-                if (myBrowser() === 'IE' || myBrowser() === 'Edge') {//ie下载图片
+                if (window.navigator.msSaveOrOpenBlob) {//ie下载图片
                     let url = cans.msToBlob();
                     let blobObj = new Blob( [url] );
                     window.navigator.msSaveOrOpenBlob( blobObj, this.edrieImgInfo.filename.substring( 0, this.filename.lastIndexOf( '.' ) ) + ".png" );

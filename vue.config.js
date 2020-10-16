@@ -242,6 +242,12 @@ module.exports = {
             filename: 'idPhoto.html',
             title: '证件照',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
+        },batchPhoto: {
+            entry: 'src/views/idPhoto/batchPhoto.js',
+            template: 'public/batchPhoto.html',
+            filename: 'batchPhoto.html',
+            title: '批量证件照',
+            // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
         }, idPhotoEdit: {
             entry: 'src/views/editPictures/idPhotoEdit.js',
             template: 'public/idPhotoEdit.html',

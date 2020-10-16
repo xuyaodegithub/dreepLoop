@@ -13,11 +13,13 @@
     export default {
         name: 'HelloWorld',
         data() {
-            return {}
+            return {
+            }
         },
         filters: {},
         watch: {},
         mounted() {
+            window._self=this;
             window.showloginDialog = this.showloginDialog;
             window.Notification = this.showNotification;
             window.initSmallTag = initSmallTag;

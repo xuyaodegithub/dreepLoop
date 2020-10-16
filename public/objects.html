@@ -23,52 +23,53 @@
     <!--<link rel="icon" href="static/smallLogo.png" type="image/x-icon">-->
     <!--收藏夹：-->
     <!--<link rel="shortcut icon" href="static/smallLogo.png" type="image/x-icon">-->
+    <style>
+        header.positionTop {
+            position: absolute;
+            top: -100000px;
+            font-size: 14px;
+            color: #fff;
+            line-height: 60px;
+            background-color: #303030;
+            /*background: url("static/images/back.jpg") no-repeat center;*/
+        }
+
+        header li {
+            margin: 0 25px;
+        }
+
+        header .right span {
+            display: inline-block;
+            padding: 0 15px;
+            line-height: 32px;
+            cursor: pointer;
+        }
+
+        header .right span.active {
+            border: 1px solid #a1a1a1;
+            border-radius: 16px;
+        }
+
+        header li:first-child {
+            margin-left: 0;
+            margin-right: 60px;
+        }
+
+        .labelTages.margin{
+            text-align: center;
+            color: #d8d8da;
+            margin-top: 80px;
+        }
+        .margin.labelTages a{
+            color: #d8d8da;
+            margin-right: 8px;
+        }
+        .margin.labelTages span{
+            margin-left:15px ;
+        }
+    </style>
+
 </head>
-<style>
-    header.positionTop {
-        position: absolute;
-        top: -100000px;
-        font-size: 14px;
-        color: #fff;
-        line-height: 60px;
-        background-color: #303030;
-        /*background: url("static/images/back.jpg") no-repeat center;*/
-    }
-
-    header li {
-        margin: 0 25px;
-    }
-
-    header .right span {
-        display: inline-block;
-        padding: 0 15px;
-        line-height: 32px;
-        cursor: pointer;
-    }
-
-    header .right span.active {
-        border: 1px solid #a1a1a1;
-        border-radius: 16px;
-    }
-
-    header li:first-child {
-        margin-left: 0;
-        margin-right: 60px;
-    }
-
-    .labelTages.margin{
-        text-align: center;
-        color: #d8d8da;
-        margin-top: 80px;
-    }
-    .margin.labelTages a{
-        color: #d8d8da;
-        margin-right: 8px;
-    }
-    .margin.labelTages span{
-        margin-left:15px ;
-    }
-</style>
 <body>
 <noscript>
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WG4BQ8P"

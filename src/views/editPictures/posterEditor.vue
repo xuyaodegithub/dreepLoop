@@ -254,7 +254,7 @@
                            @click.stop="setOImg(it)"
                            :class="['iOne','iTwo','iTh','iFor','iFive','iSix','iSeven','iEight','icon-shanchu','icon-dashujukeshihuaico-1','icon-dashujukeshihuaico-'][it-1]"
                            style="z-index: 666"
-                           v-show="!(([1,3].includes(it) && hoverSub.type===2 && !hoverSub.flexDirection) || ([2,4].includes(it) && hoverSub.type===2 && hoverSub.flexDirection) || ([7,8].includes(it) && !hoverSub.type))"
+                           v-show="!(([1,3].includes(it) && hoverSub.type===2 && !hoverSub.flexDirection) || ([2,4].includes(it) && hoverSub.type===2 && hoverSub.flexDirection) )"
                            :style="pointcursor(it)"></i>
                     </el-tooltip>
                 </div>
@@ -326,7 +326,7 @@
     import fMune from '@/components/fontMune';
     import loginDialog from '@/components/login_dialog/index2';
     import mattingImg from '@/components/mattingImg';
-    import {myBrowser, findLastIdx, setRad, verticalText, initSmallTag} from '@/utils';
+    import { findLastIdx, setRad, verticalText, initSmallTag} from '@/utils';
     import {mixins} from '@/minxins';
     import {getTanDeg, letterText} from '@/utils'
     import _1 from '@/assets/image/1.png';
@@ -1259,11 +1259,11 @@
                 this.changeBgType( l )
             },
             selectBg(item, ix) {
-                this.loading.show = true;
-                this.openBack = false;
                 const idx = this.parseSubs.subList.findIndex( item => item.type === 0 ), yw = this.parseSubs.bW + 100,
                     yh = this.parseSubs.bH + 100;
                 if (idx > -1 && item.url === this.parseSubs.subList[idx].useImg && !this.parseSubs.subList[idx].backColor) return;
+                this.loading.show = true;
+                this.openBack = false;
                 let data = {
                     type: 0,//背景
                     rotate: 0,
@@ -1777,7 +1777,7 @@
                 oCanTxt.stroke();
             },
             downLoad(cans) {
-                if (myBrowser() === 'IE' || myBrowser() === 'Edge') {//ie下载图片
+                if (window.navigator.msSaveOrOpenBlob) {//ie下载图片
                     let url = cans.msToBlob();
                     let blobObj = new Blob( [url] );
                     window.navigator.msSaveOrOpenBlob( blobObj, this.edrieImgInfo.filename.substring( 0, this.filename.lastIndexOf( '.' ) ) + ".png" );

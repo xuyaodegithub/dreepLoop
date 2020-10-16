@@ -84,7 +84,11 @@
         name: "index",
         props: {
             mattingType: Number,
-            edrieImgInfo: Object
+            edrieImgInfo: Object,
+            init:{
+                type:Boolean,
+                value:false
+            }
         },
         data() {
             return {
@@ -244,7 +248,7 @@
                     angle: this.angle
                 } );
                 keys.map( item => {
-                    if (data.hasOwnProperty( item ) && this.sliderVal.hasOwnProperty( item )) this.sliderVal[item] = data[item];
+                    if (data.hasOwnProperty( item ) && this.sliderVal.hasOwnProperty( item )) this.sliderVal[item] = parseInt(data[item]);
                     else if (data.hasOwnProperty( item ) && this.showDowVal.hasOwnProperty( item )) this.showDowVal[item] = data[item];
                     else if (data.hasOwnProperty( item ) && ['checked', 'checkedM', 't2Idx', 'angle'].includes( item )) this[item] = data[item];
                     else if (data.hasOwnProperty( item ) && item === 'mattingType') this.btnType = this.btnList.findIndex( item => item.type === data['mattingType'] );
@@ -256,13 +260,43 @@
                     this.closeWatch = false;
                 } )
             },
+            initSize(msg){//公用提取
+                const [w, h] = [this.edrieImgInfo.w, this.edrieImgInfo.h];
+                let mattingMsg=msg || this.edrieImgInfo;
+                let point = mattingMsg.maskRect, ow = mattingMsg.originalWidth, oh = mattingMsg.originalHeight, iw, ih, downTop,
+                    left, afterPoint;//        var iw=ow>oh ? w*0.62 : (h*0.62)*w/h,ih=ow>oh ? w*0.62*h/w : h*0.62,downTop=(h-ih)/2,left=(w-iw)/2
+                if (point.width > point.height) {
+                    iw = (0.7 * w) * ow / point.width;
+                    ih = iw * oh / ow;
+                } else {
+                    ih = 0.7 * h * oh / point.height;
+                    iw = ih * ow / oh;
+                }
+                afterPoint = {x: iw * point.x / ow, y: ih * point.y / oh, w: iw * point.width / ow, h: ih * point.height / oh};//缩放后的内容信息
+                downTop = h / 2 - (afterPoint.y + afterPoint.h / 2);
+                left = w / 2 - (afterPoint.x + afterPoint.w / 2);
+                return {w, h,iw,ih,afterPoint,downTop,left}
+            },
             initsliderVal() {
                 this.$emit('hoverMain',1);
                 let oCan = document.createElement( 'canvas' ), oCanTxt;
                 oCanTxt = oCan.getContext( '2d' );
+                const [x, y] = [this.checkedM ? (this.initshowDowVal.width - this.resliderVal.width) / 2 + this.initAngleDistance.x : this.initAngleDistance.x, this.checkedM ? (this.initshowDowVal.height - this.resliderVal.height) / 2 + this.initAngleDistance.y : this.initAngleDistance.y]
+                if(this.init){
+                    const {w, h,iw,ih,afterPoint,downTop,left}=this.initSize();
+                    [oCan.width,oCan.height]=[w,h]
+                    if (this.checked) oCanTxt.drawImage( this.resliderVal, left+x, downTop+y, iw,ih);
+                    if (this.checkedM) oCanTxt.drawImage( this.initshowDowVal, left,downTop,iw,ih, );//重复同位置putimgData会覆盖，需要画上去
+                    oCanTxt.drawImage( this.filterList[this.t2Idx].loadObj,left,downTop,iw,ih );
+                    this.$emit( 'effectsImg', {
+                        useImg: oCan.toDataURL(), ...this.sliderVal, ...this.showDowVal, angle: this.angle,
+                        checked: this.checked,
+                        checkedM: this.checkedM
+                    } );
+                    return;
+                }
                 oCan.width = this.checkedM ? this.initshowDowVal.width : this.proImgObj.width;
                 oCan.height = this.checkedM ? this.initshowDowVal.height : this.proImgObj.height;
-                const [x, y] = [this.checkedM ? (this.initshowDowVal.width - this.resliderVal.width) / 2 + this.initAngleDistance.x : this.initAngleDistance.x, this.checkedM ? (this.initshowDowVal.height - this.resliderVal.height) / 2 + this.initAngleDistance.y : this.initAngleDistance.y]
                 if (this.checked) oCanTxt.drawImage( this.resliderVal, x, y );
                 if (this.checkedM) oCanTxt.drawImage( this.initshowDowVal, 0, 0, this.initshowDowVal.width, this.initshowDowVal.height );//重复同位置putimgData会覆盖，需要画上去
                 const [xx, yy] = [this.checkedM ? (this.initshowDowVal.width - this.resliderVal.width) / 2 : 0, this.checkedM ? (this.initshowDowVal.height - this.resliderVal.height) / 2 : 0]
@@ -285,7 +319,7 @@
                 this.$emit( 'mattingImgs', type )
             },
             filterUrl(data) {//初始化特效
-                if (data.pro === this.preImg) return;
+                // if (data.pro === this.preImg) return;
                 this.t2Idx = 1;
                 this.initCanshu( data );
                 this.preImg = data.pro;

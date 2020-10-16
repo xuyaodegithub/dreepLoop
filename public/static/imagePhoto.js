@@ -629,7 +629,7 @@ function changeImg(e) {
 function dreepByurl(url, id) {//抠图
     setLoading( 1 )
     token = localStorage.getItem( 'user_Token' );
-    var data = {url: url, mattingType: 9}, cancal = $( '.swith' ).hasClass( 'cancal' );
+    var data = {url: url, mattingType: mattingType}, cancal = $( '.swith' ).hasClass( 'cancal' );
     if (id) data.fileId = id;
     if (!cancal) data.faceBeauty = 1;
     $.ajax( {
@@ -709,7 +709,7 @@ function inithisList(k) {//初始化历史记录/webMatting/mattingHistory
         openScroll = true;
         $( '.hisList .list' ).html( '' );
     }
-    var data = {page: page, pageSize: pageSize, mattingType: 9}, oDiv = $( '.hisList .list' );
+    var data = {page: page, pageSize: pageSize, mattingType:mattingType}, oDiv = $( '.hisList .list' );
     $.ajax( {
         url: baseUrl + '/webMatting/mattingHistory',
         type: 'get',
@@ -838,7 +838,6 @@ function downLoad(item, e) {
     ev.stopPropagation();
     // downType = k ? 'image/jpeg' : 'image/png';
     token = localStorage.getItem( 'user_Token' );
-    console.log( mattingMsg )
     if (mattingMsg.fileId && !mattingMsg.oriMattingUrl) {
         $.ajax( {
             url: baseUrl + '/webMatting/getMattedImage',///poster/download
@@ -993,7 +992,7 @@ function classTypeDwon(oImg, item) {
 
 function downImgFro(cans) {
     var nametype = downType === 'image/png' ? '.png' : '.jpg',
-        name = 'tets' + (Math.random()).toString().split( '.' )[1];
+        name =downName || 'tets' + (Math.random()).toString().split( '.' )[1];
     if (window.navigator.msSaveOrOpenBlob) {
         var imgData = cans.msToBlob( function () {
         }, downType );
@@ -1003,7 +1002,7 @@ function downImgFro(cans) {
     } else {
         var oA = document.createElement( 'a' );
         oA.href = cans.toDataURL( downType );
-        oA.download = name;
+        oA.download = name + nametype;
         oA.click();
     }
     setLoading();

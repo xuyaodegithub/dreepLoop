@@ -192,7 +192,7 @@
                 :width=" openScreen ? '95%' : '1200px'"
                 :visible.sync="dialogVisible">
             <matting-img :edrieImgInfo="hoverSub" @close="closeSetMap" v-if="dialogVisible" :openScreen="openScreen"
-                         @changeScree="openScreen=!openScreen" :hisList="pointLists"></matting-img>
+                         @changeScree="openScreen=!openScreen" :hisList="pointLists" :oriMsg="edrieImgInfo"></matting-img>
         </el-dialog>
         <el-dialog
                 :close-on-click-modal="false"
@@ -626,7 +626,7 @@
                 this.loading.show = true;
                 this.mattingMsg.type = type;
                 let obj = {url: this.hoverSub.ori, mattingType: type};
-                if (type === 9) obj['bodyData'] = 1;
+                // if (type === 9) obj['bodyData'] = 1;
                 copyUpload( obj ).then( res => {
                     if (!res.code) {
                         this.mattingMsg.id = res.data.fileId;
@@ -1100,7 +1100,7 @@
                     let objurl = URL.createObjectURL( new Blob( [u8arr], {type: mime} ) );
                     let save_link = document.createElement( 'a' );
                     save_link.href = objurl;
-                    save_link.download = '形象照';
+                    save_link.download = '形象照.png';
                     let event = document.createEvent( 'MouseEvents' );
                     event.initMouseEvent( 'click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null );
                     save_link.dispatchEvent( event );
@@ -1338,7 +1338,7 @@
                             if (this.loadSubing === imgsList.length) {
                                 this.parseSubs = mItems;
                                 const ixs = this.edrieImgInfo.idxSplace;
-                                if (ixs > -1 && ixs < 38) this.loadThis( this.effectList[ixs], ixs );
+                                if (ixs > -1 && ixs < 42) this.loadThis( this.effectList[ixs], ixs );
                                 this.loading = {show: false, text: '处理中...'};
                             }
                         };

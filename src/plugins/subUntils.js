@@ -14,7 +14,7 @@ require( 'promise.prototype.finally' ).shim();//使axios支持finally回调
 window.addUrlQuery=function(url){
     var reg = /^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base64)?,([a-z0-9!$&',()*+;=\-._~:@\/?%\s]*?)\s*$/i;
     if(reg.test(url))return url;
-    else return url+ (url.indexOf('?')>-1 ? '&' : '?') +'id='+Math.random()
+    else return url+ (url.indexOf('?')>-1 ? '&' : '?') +'id='+Math.random();
 }
 Object.keys( filters ).map( (val, index) => {
     Vue.filter( val, filters[val] )

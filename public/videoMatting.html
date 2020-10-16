@@ -10,7 +10,7 @@
     <meta http-equiv="Expires" content="0"/>
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" id="view">
+<!--    <meta name="viewport" content="width=device-width,initial-scale=1.0" id="view">-->
     <meta name="applicable-device" content="pc">
     <link rel="mobile-agent" content="format=html5;url=http://m.picup.shop"/>
     <meta name="Description" content="皮卡智能免费自动视频抠图软件,在线一键视频去背景,无需视频抠图教程,轻松换背景,制作哔哩哔哩/快手/抖音短视频,淘宝/京东/亚马逊电商短视频 ">
@@ -23,238 +23,238 @@
     <!--<link rel="icon" href="static/smallLogo.png" type="image/x-icon">-->
     <!--收藏夹：-->
     <!--<link rel="shortcut icon" href="static/smallLogo.png" type="image/x-icon">-->
-</head>
-<style>
-    html, body {
-        background-color: #000 !important;
-    }
+    <style>
+        html, body {
+            background-color: #000 !important;
+        }
 
-    header.positionTop {
-        position: absolute;
-        top: -100000px;
-        font-size: 14px;
-        color: #fff;
-        line-height: 60px;
-        background-color: #303030;
-        /*background: url("static/images/back.jpg") no-repeat center;*/
-    }
+        header.positionTop {
+            position: absolute;
+            top: -100000px;
+            font-size: 14px;
+            color: #fff;
+            line-height: 60px;
+            background-color: #303030;
+            /*background: url("static/images/back.jpg") no-repeat center;*/
+        }
 
-    header li {
-        margin: 0 25px;
-    }
+        header li {
+            margin: 0 25px;
+        }
 
-    header .right span {
-        display: inline-block;
-        padding: 0 15px;
-        line-height: 32px;
-        cursor: pointer;
-    }
+        header .right span {
+            display: inline-block;
+            padding: 0 15px;
+            line-height: 32px;
+            cursor: pointer;
+        }
 
-    header .right span.active {
-        border: 1px solid #a1a1a1;
-        border-radius: 16px;
-    }
+        header .right span.active {
+            border: 1px solid #a1a1a1;
+            border-radius: 16px;
+        }
 
-    header li:first-child {
-        margin-left: 0;
-        margin-right: 60px;
-    }
+        header li:first-child {
+            margin-left: 0;
+            margin-right: 60px;
+        }
 
-    .content {
-        margin-left: 244px;
-        padding-left: 15px;
-        padding-right: 75px;
-    }
+        .content {
+            margin-left: 244px;
+            padding-left: 15px;
+            padding-right: 75px;
+        }
 
-    .matting {
-        width: 100%;
-        min-height: 624px;
-        background-color: #202020;
-        padding-top: 70px;
-        box-sizing: border-box;
-        margin-bottom: 15px;
-    }
+        .matting {
+            width: 100%;
+            min-height: 624px;
+            background-color: #202020;
+            padding-top: 70px;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
 
-    .matting p:first-child {
-        font-weight: bold;
-    }
+        .matting p:first-child {
+            font-weight: bold;
+        }
 
-    .matting > p:nth-child(2) {
-        margin-bottom: 16px;
-    }
+        .matting > p:nth-child(2) {
+            margin-bottom: 16px;
+        }
 
-    .matting .lm ~ p {
-        position: relative;
-        top: -60px;
-    }
+        .matting .lm ~ p {
+            position: relative;
+            top: -60px;
+        }
 
-    .matting > img {
-        display: block;
-        margin: 0 auto;
-        width: 540px;
-    }
+        .matting > img {
+            display: block;
+            margin: 0 auto;
+            width: 540px;
+        }
 
-    .matting p:last-child span {
-        color: #e82255;
-    }
+        .matting p:last-child span {
+            color: #e82255;
+        }
 
-    .matting > p:last-child {
-        color: #D9D9D9;
-    }
+        .matting > p:last-child {
+            color: #D9D9D9;
+        }
 
-    .matting .mb {
-        width: 544px;
-        height: 323px;
-        margin-bottom: 30px;
-    }
+        .matting .mb {
+            width: 544px;
+            height: 323px;
+            margin-bottom: 30px;
+        }
 
-    .matting .matt-wechat {
-        width: 260px;
-        height: 260px;
-        display: block;
-        margin: 0 auto;
-        margin-top: 50px;
-        margin-bottom: 24px;
-        font-size: 15px;
-    }
+        .matting .matt-wechat {
+            width: 260px;
+            height: 260px;
+            display: block;
+            margin: 0 auto;
+            margin-top: 50px;
+            margin-bottom: 24px;
+            font-size: 15px;
+        }
 
-    .matting .imgbox {
-        width: 900px;
-        margin: 0 auto;
-    }
+        .matting .imgbox {
+            width: 900px;
+            margin: 0 auto;
+        }
 
-    .matting .matt-user {
-        width: 852px;
-        height: 281px;
-        margin-top: 78px;
-    }
+        .matting .matt-user {
+            width: 852px;
+            height: 281px;
+            margin-top: 78px;
+        }
 
-    .matting p {
-        font-size: 14px;
-        color: #9f9f9f;
-        text-align: left;
-    }
+        .matting p {
+            font-size: 14px;
+            color: #9f9f9f;
+            text-align: left;
+        }
 
-    .matting .list {
-        width: 100%;
-        margin-top: 60px;
-    }
+        .matting .list {
+            width: 100%;
+            margin-top: 60px;
+        }
 
-    .matting p {
-        width: 100%;
-        text-align: center;
-        color: rgba(217, 217, 217, 1);
-        font-size: 19px;
-    }
+        .matting p {
+            width: 100%;
+            text-align: center;
+            color: rgba(217, 217, 217, 1);
+            font-size: 19px;
+        }
 
-    .matting p:first-child {
-        font-size: 40px;
-        margin-bottom: 20px;
-    }
+        .matting p:first-child {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
 
-    .matting p.bot-tip {
-        font-size: 14px;
-    }
+        .matting p.bot-tip {
+            font-size: 14px;
+        }
 
-    .matting p.bot-tip-mb {
-        font-size: 14px;
-    }
+        .matting p.bot-tip-mb {
+            font-size: 14px;
+        }
 
-    .matting .list li {
-        width: 100%;
-        margin-bottom: 80px;
-    }
+        .matting .list li {
+            width: 100%;
+            margin-bottom: 80px;
+        }
 
-    .matting .list li:last-child {
-        margin: 0;
-    }
+        .matting .list li:last-child {
+            margin: 0;
+        }
 
-    .matting .list .inline-box {
-        width: 900px;
-        margin: 0 auto;
-    }
+        .matting .list .inline-box {
+            width: 900px;
+            margin: 0 auto;
+        }
 
-    .matting .list .inline:first-child {
-        margin-right: 50px;
-    }
+        .matting .list .inline:first-child {
+            margin-right: 50px;
+        }
 
-    .matting .list .inline {
-        float: left;
-        max-width: 420px;
-    }
+        .matting .list .inline {
+            float: left;
+            max-width: 420px;
+        }
 
-    .matting .list .list1 {
-        width: 420px;
-        /*height: 240px;*/
-    }
+        .matting .list .list1 {
+            width: 420px;
+            /*height: 240px;*/
+        }
 
-    .matting .list .list3 {
-        height: 350px;
-        margin-bottom: 62px;
-    }
+        .matting .list .list3 {
+            height: 350px;
+            margin-bottom: 62px;
+        }
 
-    .matting .list .inline p {
-        font-size: 15px;
-        text-align: left;
-    }
+        .matting .list .inline p {
+            font-size: 15px;
+            text-align: left;
+        }
 
-    .matting .list .inline p:first-child {
-        font-size: 30px;
-        margin-top: 30px;
-    }
+        .matting .list .inline p:first-child {
+            font-size: 30px;
+            margin-top: 30px;
+        }
 
-    .matting .list .inline p:last-child {
-        line-height: 26px;
-    }
+        .matting .list .inline p:last-child {
+            line-height: 26px;
+        }
 
-    .matting .list .list li:last-child {
-        margin-bottom: 0;
-    }
+        .matting .list .list li:last-child {
+            margin-bottom: 0;
+        }
 
-    .matting .demo {
-        justify-content: center;
-    }
+        .matting .demo {
+            justify-content: center;
+        }
 
-    .demo .videoItem {
-        position: relative;
-        width: 480px;
-        margin: 0 20px;
-    }
-
-    .demo .videoItem .posi {
-        position: absolute;
-        width: 50%;
-        overflow: hidden;
-    }
-    .videoList{
-        min-height: initial;
-        padding-bottom: 100px;
-    }
-    .videoList p{
-        margin-bottom: 70px !important;
-    }
-    .videoItem .posi .video, .videoItem > .videoImg {
-        object-fit: fill;
-        width: 480px;
-    }
-
-    .demo .videoItem > .move {
-        cursor: ew-resize;
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        height: 100%;
-        top: 0;
-    }
-    @media screen and (max-width: 1500px) {
         .demo .videoItem {
-            width: 400px;
+            position: relative;
+            width: 480px;
+            margin: 0 20px;
+        }
+
+        .demo .videoItem .posi {
+            position: absolute;
+            width: 50%;
+            overflow: hidden;
+        }
+        .videoList{
+            min-height: initial;
+            padding-bottom: 100px;
+        }
+        .videoList p{
+            margin-bottom: 70px !important;
         }
         .videoItem .posi .video, .videoItem > .videoImg {
-            width: 400px;
+            object-fit: fill;
+            width: 480px;
         }
-    }
-</style>
+
+        .demo .videoItem > .move {
+            cursor: ew-resize;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 100%;
+            top: 0;
+        }
+        @media screen and (max-width: 1500px) {
+            .demo .videoItem {
+                width: 400px;
+            }
+            .videoItem .posi .video, .videoItem > .videoImg {
+                width: 400px;
+            }
+        }
+    </style>
+</head>
 <body>
 <noscript>
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WG4BQ8P"

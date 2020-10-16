@@ -224,7 +224,7 @@
     import vMune from '@/components/editMune';
     import loginDialog from '@/components/login_dialog/index2';
     import mattingImg from '@/components/mattingImg';
-    import {myBrowser, verticalText, getTanDeg, letterText, initSmallTag} from '@/utils';
+    import { verticalText, getTanDeg, letterText, initSmallTag} from '@/utils';
     import {mixins} from '@/minxins';
     import opacity from '@/assets/opacity.jpg'
     import {niceScroll} from 'jquery.nicescroll';
@@ -1238,12 +1238,12 @@
                 oCanTxt.stroke();
             },
             downLoad(cans) {
-                const type = this.downType ? 'image/jpeg' : 'image/png';
-                if (myBrowser() === 'IE' || myBrowser() === 'Edge') {//ie下载图片
+                const type = this.downType ? 'image/jpeg' : 'image/png',name=this.edrieImgInfo.downName ?  this.edrieImgInfo.downName.substring(0,this.edrieImgInfo.downName.lastIndexOf('.')) : this.edrieImgInfo.filename;
+                if (window.navigator.msSaveOrOpenBlob) {//ie下载图片
                     let url = cans.msToBlob( _ => {
                     }, type );
                     let blobObj = new Blob( [url] );
-                    window.navigator.msSaveOrOpenBlob( blobObj, this.edrieImgInfo.filename.replace( /.png/g, '' ) + (this.downType ? '.jpg' : '.png') );
+                    window.navigator.msSaveOrOpenBlob( blobObj, name+ (this.downType ? '.jpg' : '.png') );
                     this.loadingInstance.close()
                 } else {
                     let url = cans.toDataURL( type );
@@ -1255,7 +1255,7 @@
                     let objurl = URL.createObjectURL( new Blob( [u8arr], {type: mime} ) );
                     let save_link = document.createElement( 'a' );
                     save_link.href = objurl;
-                    save_link.download = this.edrieImgInfo.filename.replace( /.png/g, '' );
+                    save_link.download = name + (this.downType ? '.jpg' : '.png');
                     let event = document.createEvent( 'MouseEvents' );
                     event.initMouseEvent( 'click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null );
                     save_link.dispatchEvent( event );

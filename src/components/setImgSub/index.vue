@@ -81,7 +81,6 @@
 
 <script>
   import opacity from '@/assets/opacity.jpg'
-  import { myBrowser } from "../../utils";
   import pen from'@/assets/image/pen.png'
   import ca from'@/assets/image/xiangpica.png'
   export default {
@@ -362,7 +361,7 @@
           imgA.crossOrigin = ""
           imgA.onload = (e) => {
             ctx.drawImage(imgA, 0, 0, can.width, can.height)
-            if(myBrowser()==='IE' || myBrowser()==='Edge'){//ie下载图片
+            if(window.navigator.msSaveOrOpenBlob){//ie下载图片
               let url=can.msToBlob();
               let blobObj = new Blob([url]);
               window.navigator.msSaveOrOpenBlob(blobObj, 'test' + ".png");

@@ -19,7 +19,7 @@
     background-size: cover;
     background-position: center;
     bottom: 0;
-    right: 120px;
+    right: 60px;
     text-indent: 20px;
 }
 
@@ -156,7 +156,55 @@
     /*text-align: center;*/
     padding: 0 30px;
 }
-
+.Operator h3{
+    line-height: 1;
+    font-size: 14px;
+    padding: 30px 30px 0;
+}
+.Operator .colorLists{
+    margin: 13px auto 0;
+    max-width: 200px;
+}
+.Operator .colorLists > div{
+    margin-right: 8px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 12px;
+    color: #333;
+    cursor: pointer;
+}
+.Operator .colorLists > .active div:after{
+    font-family: element-icons!important;
+    position: absolute;
+    display: block;
+    content: '\e6da';
+    font-size: 14px;
+    font-weight: 600;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    color: #fff;
+}
+.Operator .colorLists > div:nth-child(4n){
+    margin-right: 0;
+}
+.Operator .colorLists > div span{
+    margin-bottom: 15px;
+}
+.Operator .colorLists > div div{
+    position: relative;
+    margin-bottom:6px ;
+    width: 39px;
+    height: 39px;
+    border:1px #E5E5E5 solid;
+    border-radius: 3px;
+}
+.Operator #select{
+    display: block;
+    width: 180px;
+    height: 40px;
+    margin: 12px auto 0;
+}
 .bottonLast .flex img {
     margin-right: 10px;
 }
@@ -442,7 +490,12 @@
 .OperatorRight .oLeft p:nth-child(1), .OperatorRight .oLeft p:nth-child(3) {
     width: 40%;
 }
-
+.OperatorRight .batchleft p:nth-child(1), .OperatorRight .batchleft p:nth-child(3) {
+    width: auto;
+}
+.OperatorRight .batchleft p{
+    margin-right: 25px;
+}
 .OperatorRight .oLeft .icons img {
     display: inline-block;
     width: 25px;
@@ -490,7 +543,33 @@
     top: 0;
     background-color: #e82255;
 }
-
+.OperatorRight .sect .delbtn{
+    font-size: 14px;
+    color: #303030;
+    margin-left: auto;
+    position: relative;
+    margin-right: 46px;
+}
+.OperatorRight .sect .delbtn img{
+    position:inherit;
+    width: 16px;
+    height: 16px;
+    transform:none;
+    top: 0;
+    right: 0;
+}
+.OperatorRight .sect .button{
+    font-size: 14px;
+    margin-right: 54px;
+    width: 160px;
+    height: 46px;
+    line-height: 46px;
+    background-color: #e82255;
+    text-align: center;
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+}
 .OperatorRight .cList > div {
     margin: 0 20px 30px 0;
 }

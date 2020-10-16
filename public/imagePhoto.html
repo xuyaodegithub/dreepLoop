@@ -25,39 +25,40 @@
     <!--<link rel="icon" href="static/smallLogo.png" type="image/x-icon">-->
     <!--收藏夹：-->
     <!--<link rel="shortcut icon" href="static/smallLogo.png" type="image/x-icon">-->
+    <style>
+        header.positionTop {
+            position: absolute;
+            top: -100000px;
+            font-size: 14px;
+            color: #fff;
+            line-height: 60px;
+            background-color: #303030;
+            /*background: url("static/images/back.jpg") no-repeat center;*/
+        }
+
+        header li {
+            margin: 0 25px;
+        }
+
+        header .right span {
+            display: inline-block;
+            padding: 0 15px;
+            line-height: 32px;
+            cursor: pointer;
+        }
+
+        header .right span.active {
+            border: 1px solid #a1a1a1;
+            border-radius: 16px;
+        }
+
+        header li:first-child {
+            margin-left: 0;
+            margin-right: 60px;
+        }
+    </style>
+
 </head>
-<style>
-    header.positionTop {
-        position: absolute;
-        top: -100000px;
-        font-size: 14px;
-        color: #fff;
-        line-height: 60px;
-        background-color: #303030;
-        /*background: url("static/images/back.jpg") no-repeat center;*/
-    }
-
-    header li {
-        margin: 0 25px;
-    }
-
-    header .right span {
-        display: inline-block;
-        padding: 0 15px;
-        line-height: 32px;
-        cursor: pointer;
-    }
-
-    header .right span.active {
-        border: 1px solid #a1a1a1;
-        border-radius: 16px;
-    }
-
-    header li:first-child {
-        margin-left: 0;
-        margin-right: 60px;
-    }
-</style>
 <body>
 <noscript>
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WG4BQ8P"
@@ -237,6 +238,48 @@
                     <!--                        <span>混合</span>-->
                     <!--                    </div>-->
                     <div class="cList flex contents">
+                        <div class="cu">
+                            <div class="its" type="1" color="#F7BEB3,#F7BEB3">
+                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/09/17/3c45728cdfd549f5b12c67997be8236d.png"
+                                     alt="">
+                                <div class="flex"><span onclick="downLoad(this,event)">下载 </span><span>编辑</span></div>
+                            </div>
+                        </div>
+                        <div class="cu">
+                            <div class="its" type="1" color="#B8DDE6,#B8DDE6">
+                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/09/17/3c45728cdfd549f5b12c67997be8236d.png"
+                                     alt="">
+                                <div class="flex"><span onclick="downLoad(this,event)">下载 </span><span>编辑</span></div>
+                            </div>
+                        </div>
+                        <div class="cu">
+                            <div class="its" type="1" color="#E0B97E,#E0B97E">
+                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/09/17/3c45728cdfd549f5b12c67997be8236d.png"
+                                     alt="">
+                                <div class="flex"><span onclick="downLoad(this,event)">下载 </span><span>编辑</span></div>
+                            </div>
+                        </div>
+                        <div class="cu">
+                            <div class="its" type="1" color="#CCE2D6,#CCE2D6">
+                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/09/17/3c45728cdfd549f5b12c67997be8236d.png"
+                                     alt="">
+                                <div class="flex"><span onclick="downLoad(this,event)">下载 </span><span>编辑</span></div>
+                            </div>
+                        </div>
+                        <div class="cu">
+                            <div class="its" type="1" color="#C42134,#C42134">
+                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/09/17/3c45728cdfd549f5b12c67997be8236d.png"
+                                     alt="">
+                                <div class="flex"><span onclick="downLoad(this,event)">下载 </span><span>编辑</span></div>
+                            </div>
+                        </div>
+                        <div class="cu">
+                            <div class="its" type="1" color="#FDDAE1,#FDDAE1">
+                                <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/09/17/3c45728cdfd549f5b12c67997be8236d.png"
+                                     alt="">
+                                <div class="flex"><span onclick="downLoad(this,event)">下载 </span><span>编辑</span></div>
+                            </div>
+                        </div>
                         <div class="cu">
                             <div class="its" type="1" color="#C2C2C8,#666A76">
                                 <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/09/17/3c45728cdfd549f5b12c67997be8236d.png"
@@ -617,7 +660,7 @@
             previewHeight: "500",
             previewWidth: "500",
             maskRect: {x: 427, width: 896, y: 95, height: 1505},
-        }, taskFlag, timer, page = 1, pageSize = 20, oriMattingUrl = '', filename = [], uptype = 1, downItem,
+        }, taskFlag, timer, page = 1, pageSize = 20, oriMattingUrl = '', filename = [], uptype = 1, downItem,downName,mattingType=9,
         BeautyResult = {}, noBeautyResult = {}, downType = 'image/png'//避免重复扣点;
     var qrcode = new QRCode( document.getElementById( "qrcode" ), {
         text: urlhref + "/uploadBymobile.html",

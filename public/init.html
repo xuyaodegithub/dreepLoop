@@ -37,6 +37,7 @@
             background-position: center;
             background-repeat: no-repeat;
             color: #fff;
+            min-width: 1200px;
         }
 
         .titleHeader h1 {
@@ -197,6 +198,7 @@
             padding: 127px 0 137px 0;
             line-height: 1;
             text-align: center;
+            min-width: 1200px;
         }
 
         .loop h1, .bgchange h1, .API h1, .anli h1 {
@@ -451,6 +453,7 @@
             font-size: 14px;
             line-height: 22px;
             padding: 40px 0 80px 0;
+            min-width: 1200px;
             border-bottom: 1px solid rgb(152, 152, 152);
         }
 
@@ -499,6 +502,7 @@
             text-align: center;
             line-height: 57px;
             background-color: #191919;
+            min-width: 1200px;
         }
 
         .guo, .lv {
@@ -583,6 +587,7 @@
             font-size: 20px;
             line-height: 1;
             padding: 67px 0 34px;
+            min-width: 1200px;
         }
         .boke h2{
             text-align: center;
@@ -616,6 +621,7 @@
             color: #fff;
             font-size: 16px;
             text-align: center;
+            min-width: 1200px;
         }
         .suanfa h1{
             font-size: 40px;
@@ -773,10 +779,10 @@
                 <h3><a href="idPhoto.html" style="color:#000;">在线制作证件照 <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/09/21/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20200921181735.png" alt=""></a></h3>
                 <p>免费一键智能换背景</p>
                 <div class="btns flex">
-                    <div class="btn cu btnte"  onclick="uploadByCom()"><img
+                    <div class="btn cu btnte"  onclick="uploadByCom(0)"><img
                             src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png"
                             alt="">电脑上传</div>
-                    <div class="btn cu"  onclick="upbymobile()"><img
+                    <div class="btn cu"  onclick="upbymobile(0)"><img
                             src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/1900436f3be2442980cb8e2887fc0d21.png"
                             alt="">手机上传</div>
                 </div>
@@ -800,6 +806,23 @@
             </div>
             <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/09/21/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20200921103340.png"
                  alt="" style="margin: 0 0 0 75px;">
+        </div>
+        <div class="flex idIn" style="margin-top: 100px">
+            <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/10/16/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20201016171643.png"
+                 alt="">
+            <div>
+                <h3><a href="onlineImage.html" style="color:#000;">在线制作白底图 <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/09/21/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20200921181735.png" alt=""></a></h3>
+                <p>只能—键白底图，无需PS抠图，各平台尺寸自动生成</p>
+                <div class="btns flex">
+                    <div class="btn cu btnte"  onclick="uploadByCom(2)"><img
+                            src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png"
+                            alt="">电脑上传</div>
+                    <div class="btn cu"  onclick="upbymobile(2)"><img
+                            src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/1900436f3be2442980cb8e2887fc0d21.png"
+                            alt="">手机上传</div>
+                </div>
+                <p style="line-height: 20px">白底图使用:主图、详情图、推广图、直通车图、广告图、第五张白底图<br> 解决烦恼∶怎么做白底图、白底图怎么拍、怎么抠白底图、ps怎么抠白底图</p>
+            </div>
         </div>
     </div>
 </section>
@@ -1046,7 +1069,7 @@
         // window.location.href='transitionPage.html'
     })
     function uploadByCom(k) {
-        toUrl=k ? 'imagePhoto.html' : 'idPhoto.html';
+        toUrl=['imagePhoto.html', 'idPhoto.html', 'onlineImage.html'][k];
         oFile.val('');
         oFile.click();
         // window.location.href='transitionPage.html'
@@ -1185,7 +1208,7 @@
         toPostEdior( url )
     } )
     function upbymobile(k) {
-        toUrl= k ? 'imagePhoto.html' : 'idPhoto.html';
+        toUrl= ['imagePhoto.html', 'idPhoto.html', 'onlineImage.html'][k];
         $.ajax( {
             url: devbase + '/oss/newUploadTask',
             type: 'get',

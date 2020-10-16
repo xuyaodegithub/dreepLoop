@@ -29,7 +29,7 @@
                     <transition name="el-zoom-in-top">
                         <div class="link">
                             <a :href="item+'.html'" v-for="(item,idx) in editList" :key="idx" :target="!idx ? '_blank' :''"
-                               :class="{'red' : urls.includes(item)}">{{['自由编辑器','证件照编辑器','形象照编辑器'][idx]}}</a>
+                               :class="{'red' : urls.includes(item)}">{{['自由编辑器','证件照编辑器','形象照编辑器','电商白底图'][idx]}}</a>
                         </div>
                     </transition>
                 </li>
@@ -108,7 +108,7 @@
                 piliangList: ['currency', 'people', 'headCutout', 'objects'],
                 nameList: ['通用抠图', '人像抠图', '头像抠图', '物体抠图'],
                 beauList: ['beautify', 'intelligentRepair'],
-                editList: ['posterEditor','idPhoto','imagePhoto'],
+                editList: ['posterEditor','idPhoto','imagePhoto','onlineImage'],
                 priceList: ['userVip','videoPrice'],
             }
         },

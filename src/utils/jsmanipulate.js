@@ -2693,7 +2693,6 @@ function InvertedImage() {//倒影
 	this.downtype = 'image/png';
 	this.init = function (data, k) {
 		var downType = data.downtype || this.downtype, aph = data.aph || this.aph;
-		console.log(aph)
 		this.can.width = data.w;
 		this.can.height = data.h;
 		this.canTxt.drawImage( data.imgObj, data.x, data.y, data.iw, data.ih );

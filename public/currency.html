@@ -23,72 +23,73 @@
     <!--<link rel="icon" href="static/smallLogo.png" type="image/x-icon">-->
     <!--收藏夹：-->
     <!--<link rel="shortcut icon" href="static/smallLogo.png" type="image/x-icon">-->
+    <style>
+        header.positionTop {
+            position: absolute;
+            top: -100000px;
+            font-size: 14px;
+            color: #fff;
+            line-height: 60px;
+            background-color: #303030;
+            /*background: url("static/images/back.jpg") no-repeat center;*/
+        }
+
+        header li {
+            margin: 0 25px;
+        }
+
+        header .right span {
+            display: inline-block;
+            padding: 0 15px;
+            line-height: 32px;
+            cursor: pointer;
+        }
+
+        header .right span.active {
+            border: 1px solid #a1a1a1;
+            border-radius: 16px;
+        }
+
+        header li:first-child {
+            margin-left: 0;
+            margin-right: 60px;
+        }
+
+        .content {
+            padding-bottom: 25px;
+            margin-top: 75px;
+        }
+
+        .content .rightBig {
+            margin-left: 244px;
+            flex: 1;
+            padding-left: 15px;
+            padding-right: 75px;
+        }
+        .content .rightBig h3 {
+            font-size: 32px;
+            margin-bottom: 28px;
+            color: #333;
+        }
+
+        .content .rightBig p {
+            font-size: 18px;
+            color: #999999;
+        }
+        .rightBig .labelTages{
+            color: #d8d8da;
+            text-align: center;
+        }
+        .rightBig .labelTages a{
+            color: #d8d8da;
+            margin-right: 8px;
+        }
+        .rightBig .labelTages span{
+            margin-left:15px ;
+        }
+    </style>
 </head>
-<style>
-    header.positionTop {
-        position: absolute;
-        top: -100000px;
-        font-size: 14px;
-        color: #fff;
-        line-height: 60px;
-        background-color: #303030;
-        /*background: url("static/images/back.jpg") no-repeat center;*/
-    }
 
-    header li {
-        margin: 0 25px;
-    }
-
-    header .right span {
-        display: inline-block;
-        padding: 0 15px;
-        line-height: 32px;
-        cursor: pointer;
-    }
-
-    header .right span.active {
-        border: 1px solid #a1a1a1;
-        border-radius: 16px;
-    }
-
-    header li:first-child {
-        margin-left: 0;
-        margin-right: 60px;
-    }
-
-    .content {
-        padding-bottom: 25px;
-        margin-top: 75px;
-    }
-
-    .content .rightBig {
-        margin-left: 244px;
-        flex: 1;
-        padding-left: 15px;
-        padding-right: 75px;
-    }
-    .content .rightBig h3 {
-        font-size: 32px;
-        margin-bottom: 28px;
-        color: #333;
-    }
-
-    .content .rightBig p {
-        font-size: 18px;
-        color: #999999;
-    }
-    .rightBig .labelTages{
-        color: #d8d8da;
-        text-align: center;
-    }
-    .rightBig .labelTages a{
-        color: #d8d8da;
-        margin-right: 8px;
-    }
-    .rightBig .labelTages span{
-        margin-left:15px ;
-    }
-</style>
 <body>
 <noscript>
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WG4BQ8P"
