@@ -23,8 +23,9 @@
                     <i class="el-icon-circle-close"></i>
                     {{this.bgOriginal.status===3 ? '网络出现中断，请重试' : '次数受限'}}
                     <p>
-                        {{this.bgOriginal.status===3 ? '请选择一个不超过15M的图片进行处理' :  '未登录使用次数已达上限，'}}<br>
-                        <span v-show="bgOriginal.status===4">请 <span @click="showLoginDilogAction" style="color: #e82255">登录</span> 后继续操作！</span>
+                        {{this.bgOriginal.status===3 ? '请选择一个不超过15M的图片进行处理' : '未登录使用次数已达上限，'}}<br>
+                        <span v-show="bgOriginal.status===4">请 <span @click="showLoginDilogAction"
+                                                                     style="color: #e82255">登录</span> 后继续操作！</span>
                     </p>
                 </div>
                 <div v-show="bgOriginal.status===2" class="errmsg">
@@ -67,8 +68,9 @@
                     </tr>
                     <tr>{{(userSubscribeData.monthExpireDate && userSubscribeData.monthExpireDate>noeTime &&
                         userSubscribeData.monthRemaining>0) ? `包月剩余次数:${userSubscribeData.monthRemaining}` :
-                        `永久剩余次数:${userSubscribeData.freeRemaining >0 ? userSubscribeData.freeRemaining : 0 }`}} <a href="userVip.html" class="cu" target="_blank"
-                                                                  style="color: #a1a0a0;margin-left: 20px;border-bottom: 1px solid #a1a0a0;">去充值</a>
+                        `永久剩余次数:${userSubscribeData.freeRemaining >0 ? userSubscribeData.freeRemaining : 0 }`}} <a
+                                href="userVip.html" class="cu" target="_blank"
+                                style="color: #a1a0a0;margin-left: 20px;border-bottom: 1px solid #a1a0a0;">去充值</a>
                     </tr>
                 </table>
             </el-button>
@@ -78,7 +80,7 @@
 
 <script>
     import {mapGetters, mapActions} from 'vuex';
-    import { getrandom,initSmallTag} from "../../utils";
+    import {getrandom, initSmallTag, base64Toblob} from "../../utils";
     import {uploadImgApi, downloadMattedImage, getMattingInfo, copyUpload, uploadossBg} from "../../apis";
 
     export default {
@@ -91,13 +93,13 @@
             return {
                 bgOriginal: {},
                 imageMsg: {},
-                loadingInstance:'',
+                loadingInstance: '',
                 canvasinitNum: '',
-                file:'',
-                filename:'',
-                imgname:'',
-                Original:'',
-                fileId:'',
+                file: '',
+                filename: '',
+                imgname: '',
+                Original: '',
+                fileId: '',
                 noeTime: new Date().getTime()
             }
         },
@@ -114,7 +116,7 @@
             ...mapGetters( ['userSubscribeData'] ),
         },
         methods: {
-            ...mapActions(['showLoginDilogAction']),
+            ...mapActions( ['showLoginDilogAction'] ),
             downLoadImg(e, k) {
                 let oImg = new Image(), c = document.createElement( 'canvas' );
                 const ct = c.getContext( '2d' );
@@ -128,12 +130,13 @@
                                 c.height = oImg.height;
                                 ct.drawImage( oImg, 0, 0 );
                                 if (window.navigator.msSaveOrOpenBlob) {
-                                    var imgData = c.msToBlob();
+                                    var imgData = c.msToBlob( function () {
+                                    }, 'image/png' );
                                     var blobObj = new Blob( [imgData] );
-                                    window.navigator.msSaveOrOpenBlob( blobObj, 'this' + ".png" );
+                                    window.navigator.msSaveOrOpenBlob( blobObj, this.filename );
                                 } else {
                                     let oA = document.createElement( 'a' );
-                                    oA.href = c.toDataURL();
+                                    oA.href = base64Toblob( c.toDataURL( "image/png" ) );
                                     oA.download = this.filename;
                                     oA.click();
                                 }
@@ -141,7 +144,7 @@
                             oImg.src = res.data;
                         }
                     } )
-                }else{
+                } else {
                     initSmallTag( e, '免费' );
                     oImg.crossOrigin = '';
                     oImg.onload = () => {
@@ -149,17 +152,18 @@
                         c.height = oImg.height;
                         ct.drawImage( oImg, 0, 0 );
                         if (window.navigator.msSaveOrOpenBlob) {
-                            var imgData = c.msToBlob();
+                            var imgData = c.msToBlob( function () {
+                            }, 'image/png' );
                             var blobObj = new Blob( [imgData] );
-                            window.navigator.msSaveOrOpenBlob( blobObj, 'this' + ".png" );
+                            window.navigator.msSaveOrOpenBlob( blobObj, this.filename + ".png" );
                         } else {
                             let oA = document.createElement( 'a' );
-                            oA.href = c.toDataURL();
+                            oA.href = base64Toblob( c.toDataURL() );
                             oA.download = this.filename;
                             oA.click();
                         }
                     }
-                    oImg.src = addUrlQuery(this.bgOriginal.img);
+                    oImg.src = addUrlQuery( this.bgOriginal.img );
                 }
             },
             deleteItem() {//删除某一个
@@ -171,107 +175,103 @@
             },
             getImgData() {
                 let file = this.file, _self = this
-                if (window.FileReader) {
-                    let reader = new FileReader();
-                    reader.readAsDataURL( file );
-                    //监听文件读取结束后事件
-                    reader.onloadend = function (e) {
-                        _self.Original = e.target.result
-                        let param = new FormData();
-                        param.append( 'file', file, file.name )
-                        param.set( 'mattingType', 4 )
-                        uploadImgApi( param ).then( res => {
-                            if (res.code == 0) {
-                                _self.fileId = res.data.fileId
-                                _self.imageMsg = res.data
-                                if (res.data.status !== 'success') {
-                                    _self.bgOriginal = {
-                                        name: _self.imgname,
-                                        img: '',
-                                        status: 2,
-                                        fileId: _self.fileId
-                                    }
-                                    _self.pollingImg()
-                                    return
-                                }
-                                let obj = {
-                                    name: _self.imgname,
-                                    img: res.data.bgRemovedPreview,
-                                    status: 0,
-                                    fileId: _self.fileId
-                                }
-                                _self.Original = res.data.original
-                                _self.bgOriginal = obj
-                                _self.$emit( 'to-parse', {
-                                    id: _self.index,
-                                    img: res.data.bgRemovedPreview,
-                                    name: _self.files.name,
-                                    color: 'add',
-                                    fileId: _self.fileId,
-                                    Original: _self.Original,
-                                    filename: _self.filename
-                                } )
-                            } else if(res.code ===4003){
-                                let obj = {
-                                    name: _self.imgname,
-                                    img: '',
-                                    status: 4,
-                                    fileId: _self.fileId
-                                }
-                                _self.$emit( 'to-parse', {
-                                    id: _self.index,
-                                    img: '',
-                                    color: 'add',
-                                    name: _self.files.name,
-                                    fileId: _self.fileId,
-                                    Original: _self.Original,
-                                    noSave: true
-                                } )
-                                _self.bgOriginal = obj
-                            }else {
-                                let obj = {
-                                    name: _self.imgname,
-                                    img: '',
-                                    status: 1,
-                                    fileId: _self.fileId
-                                }
-                                _self.$emit( 'to-parse', {
-                                    id: _self.index,
-                                    img: '',
-                                    color: 'add',
-                                    name: _self.files.name,
-                                    fileId: _self.fileId,
-                                    Original: _self.Original,
-                                    noSave: true
-                                } )
-                                _self.bgOriginal = obj
-                            }
-                        } ).catch( err => {
-                            console.log( err, 111111, _self.fileId )
-                            let obj = {
+                this.Original = URL.createObjectURL( file );
+                if(file.size/1024/1024>15){
+                    _self.bgOriginal= {
+                        name: _self.imgname,
+                        img: '',
+                        status: 3,
+                        fileId: _self.fileId
+                    }
+                    _self.$emit( 'to-parse', {
+                        id: _self.index,
+                        img: '',
+                        color: 'add',
+                        name: _self.files.name,
+                        fileId: _self.fileId,
+                        Original: _self.Original,
+                        noSave: true
+                    } )
+                    return;
+                }
+                //监听文件读取结束后事件
+                let param = new FormData();
+                param.append( 'file', file, file.name )
+                param.set( 'mattingType', 4 )
+                uploadImgApi( param ).then( res => {
+                    if (res.code == 0) {
+                        _self.fileId = res.data.fileId
+                        _self.imageMsg = res.data
+                        if (res.data.status !== 'success') {
+                            _self.bgOriginal = {
                                 name: _self.imgname,
                                 img: '',
-                                status: 3,
+                                status: 2,
                                 fileId: _self.fileId
                             }
-                            _self.$emit( 'to-parse', {
-                                id: _self.index,
-                                img: '',
-                                color: 'add',
-                                name: _self.files.name,
-                                fileId: _self.fileId,
-                                Original: _self.Original,
-                                noSave: true
-                            } )
-                            _self.bgOriginal = obj
+                            _self.pollingImg()
+                            return
+                        }
+                        let obj = {
+                            name: _self.imgname,
+                            img: res.data.bgRemovedPreview,
+                            status: 0,
+                            fileId: _self.fileId
+                        }
+                        _self.Original = res.data.original
+                        _self.bgOriginal = obj
+                        _self.$emit( 'to-parse', {
+                            id: _self.index,
+                            img: res.data.bgRemovedPreview,
+                            name: _self.files.name,
+                            color: 'add',
+                            fileId: _self.fileId,
+                            Original: _self.Original,
+                            filename: _self.filename
                         } )
-                    };
-                }
+                    } else if (res.code === 4003) {
+                        let obj = {
+                            name: _self.imgname,
+                            img: '',
+                            status: 4,
+                            fileId: _self.fileId
+                        }
+                        _self.$emit( 'to-parse', {
+                            id: _self.index,
+                            img: '',
+                            color: 'add',
+                            name: _self.files.name,
+                            fileId: _self.fileId,
+                            Original: _self.Original,
+                            noSave: true
+                        } )
+                        _self.bgOriginal = obj
+                    } else {
+                        let obj = {
+                            name: _self.imgname,
+                            img: '',
+                            status: 1,
+                            fileId: _self.fileId
+                        }
+                        _self.$emit( 'to-parse', {
+                            id: _self.index,
+                            img: '',
+                            color: 'add',
+                            name: _self.files.name,
+                            fileId: _self.fileId,
+                            Original: _self.Original,
+                            noSave: true
+                        } )
+                        _self.bgOriginal = obj
+                    }
+                } ).catch( err => {
+
+                } )
             },
             getImgMsgByurl() {//通过粘贴请求
-                this.Original = this.file
-                let obj = {url: this.file, mattingType: 4}
-                if (this.files.fileId) obj.fileId = this.files.fileId
+                this.Original = this.file;
+                let obj = {url: this.file, mattingType: 4};
+                if (this.files.fileId) obj.fileId = this.files.fileId;
                 copyUpload( obj ).then( res => {
                     if (res.code == 0) {
                         this.fileId = res.data.fileId
@@ -303,7 +303,7 @@
                             Original: this.Original,
                             filename: this.filename
                         } )
-                    }else if(res.code ===4003){
+                    } else if (res.code === 4003) {
                         let obj = {
                             name: this.imgname,
                             img: '',
@@ -339,7 +339,7 @@
                         this.bgOriginal = obj
                     }
                 } ).catch( err => {
-                    console.log( err ,this.fileId)
+                    console.log( err, this.fileId )
                     let obj = {
                         name: this.imgname,
                         img: '',
@@ -359,41 +359,41 @@
                 } )
             },
             pollingImg() {//轮询
-                    getMattingInfo( {fileId: this.fileId} ).then( res => {
-                        if (!res.code) {
-                            this.imageMsg = res.data;
-                            if (res.data.status === 'success') {
-                                let obj = {
-                                    name: this.imgname,
-                                    img: res.data.bgRemovedPreview,
-                                    status: 0,
-                                    fileId: this.fileId
-                                }
-                                this.Original = res.data.original
-                                this.bgOriginal = obj
-                                this.$emit( 'to-parse', {
-                                    id: this.index,
-                                    img: res.data.bgRemovedPreview,
-                                    name: this.files.type === 'copy' ? this.imgname : this.files.name,
-                                    color: 'add',
-                                    fileId: this.fileId,
-                                    Original: this.Original,
-                                    filename: this.filename
-                                } )
-                            }else setTimeout(this.pollingImg,2000)
-                        } else {
+                getMattingInfo( {fileId: this.fileId} ).then( res => {
+                    if (!res.code) {
+                        this.imageMsg = res.data;
+                        if (res.data.status === 'success') {
+                            let obj = {
+                                name: this.imgname,
+                                img: res.data.bgRemovedPreview,
+                                status: 0,
+                                fileId: this.fileId
+                            }
+                            this.Original = res.data.original
+                            this.bgOriginal = obj
                             this.$emit( 'to-parse', {
                                 id: this.index,
-                                img: '',
-                                color: 'add',
+                                img: res.data.bgRemovedPreview,
                                 name: this.files.type === 'copy' ? this.imgname : this.files.name,
+                                color: 'add',
                                 fileId: this.fileId,
                                 Original: this.Original,
-                                noSave: true
+                                filename: this.filename
                             } )
-                            this.bgOriginal = {name: this.imgname, img: '', status: 1, fileId: this.fileId}
-                        }
-                    } )
+                        } else setTimeout( this.pollingImg, 2000 )
+                    } else {
+                        this.$emit( 'to-parse', {
+                            id: this.index,
+                            img: '',
+                            color: 'add',
+                            name: this.files.type === 'copy' ? this.imgname : this.files.name,
+                            fileId: this.fileId,
+                            Original: this.Original,
+                            noSave: true
+                        } )
+                        this.bgOriginal = {name: this.imgname, img: '', status: 1, fileId: this.fileId}
+                    }
+                } )
             },
         },
         mounted() {
@@ -409,7 +409,11 @@
                 this.imgname = this.file.name.substring( 0, this.file.name.lastIndexOf( '.' ) );
                 this.getImgData()
             }
+        },
+        destroyed() {
+            window.URL.revokeObjectURL(this.Original);
         }
+
     }
 </script>
 
@@ -473,7 +477,7 @@
                 img {
                     display: block;
                     max-width: 500px;
-                    max-height:500px;
+                    max-height: 500px;
                     margin: 0 auto;
                 }
 

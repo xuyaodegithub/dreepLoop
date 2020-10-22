@@ -1,5 +1,5 @@
 <template>
-    <div class="mattingVideo">
+    <div class="mattingVideo" :style="{backgroundColor: white ? '#fff' : '#202020'}">
         <el-popover
                 placement="left"
                 width="160"
@@ -11,7 +11,7 @@
             </div>
             <i class="close cu el-icon-delete" slot="reference"></i>
         </el-popover>
-        <div class="vupload" v-if="!upStatus">
+        <div class="vupload" v-if="!upStatus"  :style="{backgroundColor: white ? '#fff' : '#202020'}">
             <div v-show="errStep<3">
                 <p class="over">上传</p>
                 <p class="name over">{{files.name}}</p>
@@ -24,13 +24,13 @@
             </div>
         </div>
         <div class="preview" v-else-if="upStatus===1">
-            <p>预览</p>
+            <p :style="{color: white ? '#999' : '#d9d9d9'}">视频预览</p>
             <div class="viewBox" v-loading="!preImglist.time"
                  element-loading-text="拼命加载中"
                  element-loading-spinner="el-icon-loading"
-                 element-loading-background="rgba(0, 0, 0, 0.5)">
+                 element-loading-background="rgba(0, 0, 0, 0.3)">
                 <div class="title flex a-i">
-                    <p class="over">{{files.name}}</p>
+                    <p class="over" :style="{color: white ? '#333' : '#d9d9d9'}">{{files.name}}</p>
                     <span>时长：{{parseInt(preImglist.time) | minsfilter(1)}}</span><span>每秒{{preImglist.fps}}帧</span>
                 </div>
                 <el-carousel indicator-position="none" arrow="never" :height="imgH" :interval="3000"
@@ -44,13 +44,13 @@
                     </el-carousel-item>
                 </el-carousel>
                 <div class="flex point" @mouseenter="autoplay=false" @mouseleave="autoplay=true">
-                    <div v-for="(it,idx) in preImglist.timeList" :key="idx" :class="{active :initialIdx == idx}"
+                    <div v-for="(it,idx) in preImglist.timeList" :key="idx" :class="{active :initialIdx == idx,'whiteBar' : white}"
                          @click="moveImg(idx)">
-                        <span v-show="initialIdx == idx">{{parseInt(it) | minsfilter(1)}}</span>
+                        <span v-show="initialIdx == idx" :class="{'white' : white}">{{parseInt(it) | minsfilter(1)}}</span>
                     </div>
                 </div>
             </div>
-            <div class="setBtns flex a-i" v-show="preImglist.time">
+            <div class="setBtns flex a-i" v-show="preImglist.time" :style="{color: white ? '#333' : '#d9d9d9'}">
                 <!--                <div class="flex a-i">-->
                 <!--                    &lt;!&ndash;                    <div class="left_1">&ndash;&gt;-->
                 <!--                    &lt;!&ndash;                        <div class="tit">背景为</div>&ndash;&gt;-->
@@ -94,10 +94,11 @@
                             <!--                        <p>视频时长：{{parseInt(preImglist.time) | minsfilter(1)}}</p>-->
                             <p>消耗秒数：{{parseInt(preImglist.time) | minsfilter}}</p>
                             <p>视频账户余额：{{userSubscribeData.videoRemaining | minsfilter}} &nbsp;<a href="videoPrice.html"
-                                                                                                 style="color:#D9D9D9;border-bottom: 1px solid #D9D9D9;"
+                                                                                                 style="border-bottom: 1px solid #D9D9D9;"
+                                                                                                 :style="{color: white ? '#333' : '#d9d9d9',borderColor: white ? '#333' : '#d9d9d9'}"
                                                                                                  target="_blank">去充值</a></p>
                         </div>
-                        <div class="left_1 flex a-i" v-show="!downAllMsg.open && !fullVideoUrl && !downAllMsg.err">
+                        <div class="left_1 flex a-i" v-show="!downAllMsg.open && !fullVideoUrl && !downAllMsg.err && !white">
                             <div class="tit">背景：</div>
                             <el-select v-model="color" placeholder="请选择" size="mini" popper-class="seleDrop">
                                 <el-option
@@ -138,7 +139,7 @@
 
                 </div>
             </div>
-            <div class="lastMes">
+            <div class="lastMes" :style="{borderColor: white ? '#eee' : '#323232'}">
                 <p>检查以上预览帧，以评估整个视频的质量，然后再进行处理。一旦开始，大约需要{{parseInt(preImglist.time*2.5) | minsfilter}}</p>
                 <p>你需要一个视频剪辑软件来添加新的背景。<!--更多信息--></p>
             </div>
@@ -161,7 +162,8 @@
     export default {
         name: "index",
         props: {
-            filesMsg: Object
+            filesMsg: Object,
+            white:Boolean
         },
         data() {
             return {
@@ -404,7 +406,7 @@
                             this.preVideoUrl = result.previewVideoPath;
                             if (this.downMsg.open) this.downMsg.open = this.preVideoUrl ? false : true;
                             if (result.previewStatus === '预览处理失败') this.downMsg = {open: false, time: 0, err: true, des: '预览处理失败！'};
-                            if(this.preVideoUrl){
+                            if(this.preVideoUrl || result.previewStatus === '预览处理失败'){
                                 const idx=this.startUpkeys.findIndex(item=>item===2);
                                 this.startUpkeys.splice(idx,1);
                             }
@@ -414,7 +416,7 @@
                             this.fullVideoUrl = result.videoPath;
                             if (this.downAllMsg.open) this.downAllMsg.open = this.fullVideoUrl ? false : true;
                             if (result.status === '处理失败') this.downAllMsg = {open: false, time: 0, err: true, des: '处理失败！'};
-                            if(this.fullVideoUrl){
+                            if(this.fullVideoUrl || result.status === '处理失败'){
                                 const idx=this.startUpkeys.findIndex(item=>item===3);
                                 this.startUpkeys.splice(idx,1);
                             }
@@ -545,7 +547,6 @@
 
 <style scoped lang="scss">
     .mattingVideo {
-        background-color: #202020;
         position: relative;
         margin-bottom: 15px;
 
@@ -666,7 +667,18 @@
                             border-right: 5px solid #202020;
                             transform: translate(-50%, 100%);
                         }
+                        &.white{
+                            background-color: #D9D9D9;
+                        }
+                        &.white:after{
+                            border-top: 5px solid #D9D9D9;
+                            border-left: 5px solid #fff;
+                            border-right: 5px solid #fff;
+                        }
                     }
+                }
+                .whiteBar{
+                    background-color: #D9D9D9;
                 }
 
                 .active {

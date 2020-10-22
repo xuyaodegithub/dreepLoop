@@ -7159,8 +7159,8 @@
 </div>
 <div class="saveJpg">
     <h3>选择下载类型</h3>
-    <strong onclick="downLoad2(0)">PNG格式<br>高保真，适合打印 </strong>
-    <strong onclick="downLoad2(1)">JPG格式<br>文件小，适合上传 </strong>
+    <strong onclick="downLoad2(0)">PNG格式<br><span>高保真，适合打印 </span></strong>
+    <strong onclick="downLoad2(1)">JPG格式<br><span>文件小，适合上传</span> </strong>
 </div>
 <script>
     var baseUrl = '<%= VUE_APP_BASEURL %>',
@@ -7557,8 +7557,15 @@
             window.navigator.msSaveOrOpenBlob( blobObj, name + nametype );
             // window.navigator.msSaveOrOpenBlob( blobObj );
         } else {
+            let url = cans.toDataURL( type );
+            let arr = url.split( ',' ), mime = arr[0].match( /:(.*?);/ )[1], bstr = atob( arr[1] ),//base64  to blob
+                n = bstr.length, u8arr = new Uint8Array( n );
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt( n );
+            }
+            let objurl = URL.createObjectURL( new Blob( [u8arr], {type: mime} ) );
             var oA = document.createElement( 'a' );
-            oA.href = cans.toDataURL( type );
+            oA.href = objurl;
             oA.download = name + nametype;
             oA.click();
         }

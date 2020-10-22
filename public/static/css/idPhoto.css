@@ -626,6 +626,7 @@
     color: #333333;
     font-size: 12px;
     display: none;
+    transition: all 0.3s linear;
     padding: 10px 0;
     /*left: 500px;*/
     /*top: 500px;*/
@@ -645,6 +646,7 @@
 }
 
 .saveJpg h3 {
+    font-weight: 600;
     padding-bottom: 15px;
     border-bottom: 1px solid #eee
 }
@@ -653,7 +655,9 @@
     color: #e82255;
     background-color: #eee;
 }
-
+.saveJpg strong span{
+    color: #999;
+}
 .saveJpg img {
     height: 20px;
     vertical-align: middle;

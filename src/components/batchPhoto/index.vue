@@ -5,9 +5,9 @@
         </div>
         <div class="loadingStatus flex a-i" v-if="!dreepAfter">
             <div>
-                <i :class="(realTimeRes && realTimeRes.code) ? 'el-icon-circle-close' : 'el-icon-loading'"
+                <i :class="iconList[stutasMsg]"
                    style="font-size: 28px;"></i>
-                <p style="margin-top: 10px">{{stutasMsg}}</p>
+                <p style="margin-top: 10px;padding: 0 10px;">{{stutasMsg===2 ? realTimeRes.msg : tooltip[stutasMsg]}}</p>
             </div>
         </div>
         <div class="dreepSuccess" v-if="dreepAfter" :style="initPhoto[1]">
@@ -23,7 +23,7 @@
 
 <script>
     import {uploadImgApi, downloadMattedImage, getMattingInfo, copyUpload, uploadossBg} from "../../apis";
-
+    import {base64Toblob} from "../../utils";
     export default {
         name: "batchPhoto",
         props: {
@@ -40,7 +40,9 @@
                 result: null,
                 faceResult: null,
                 oriImg: '',
-                oriBgromve:''
+                oriBgromve:'',
+                iconList:['el-icon-s-flag','el-icon-loading','el-icon-circle-close','el-icon-success'],
+                tooltip:['等待处理中...','正在处理中...','','处理完成']
             }
         },
         watch: {
@@ -55,11 +57,11 @@
             },
             stutasMsg() {
                 let msg = '',str=this.faceBeauty ? 'faceResult' : 'result';
-                if (!this[str]) msg = '等待处理中...';
-                else if (this[str] && this[str].code) msg = this[str].msg;
+                if (!this.dataMsg.switch) msg = 0;//'等待处理中...';
                 else {
-                    if (this[str].status !== 'success') msg = '正在处理中...';
-                    else msg = '处理完成';
+                    if (this[str] && this[str].code) msg = 2;//this[str].msg;//处理完成且失败
+                    else if(this[str] && !this[str].code && this[str].data.status==='success')msg = 3;//'处理完成'//处理完成且成功;
+                    else msg = 1;//'正在处理中...';
                 }
                 return msg
             },
@@ -74,6 +76,13 @@
                 let ih = iw * mattingMsg.originalHeight / mattingMsg.originalWidth;
                 let top = -(ih * mattingMsg.headData.top / mattingMsg.originalHeight) + ph * 0.05;
                 let left = pw / 2 - ((mattingMsg.headData.right - mattingMsg.headData.left) / 2 + mattingMsg.headData.left) * iw / mattingMsg.originalWidth;
+                // let afterPoint={
+                //     right:iw*mattingMsg.headData.right/mattingMsg.originalWidth,
+                //     left:iw*mattingMsg.headData.left/mattingMsg.originalWidth,
+                // }
+                // if(afterPoint.right-afterPoint.left<pw){
+                //     iw=
+                // }
                 const a = {
                         width: `${iw}px`,
                         top: (top + ih < ph ? ph - ih : top) + 'px',
@@ -88,29 +97,36 @@
                         marginTop: (-parseInt( ph ) / 2) + 'px',
                         background: color.length > 1 ? `linear-gradient(${color[0]},${color[1]})` : this.colorVal
                     };
-                console.log( left, top, iw, ih)
                 return [a, b]
             },
             realTimeRes(){
                 return this.faceBeauty ? this.faceResult : this.result;
+            },
+            fileName(){
+                return this.dataMsg.type ? this.dataMsg.img.name : this.dataMsg.img
             }
         },
         mounted() {
-            if(this.dataMsg.type)this.oriImg = URL.createObjectURL( this.dataMsg.img );
-            else this.oriImg = this.dataMsg.img ;
-
+            this.oriImg =this.dataMsg.type? URL.createObjectURL( this.dataMsg.img ) : this.dataMsg.img ;
+        },
+        destroyed(){
+            URL.revokeObjectURL(this.oriImg);
         },
         methods: {
             dreepFile(){
-                if (this.dataMsg.type) {
-                    this.getImgData();
-                }
+                if (this.dataMsg.type) this.getImgData();
+                else this.dreepByurl();
             },
             delItem(){
                 this.$emit('del',this.dataMsg.id)
             },
-            getImgData() {
+            getImgData() {//文件抠图开始
                 let file = this.dataMsg.img,str=this.faceBeauty ? 'faceResult' : 'result';
+                if(file.size/1024/1024>15){
+                    this[str]={code:300,data:'',msg:'网络出现中断，请重试！请选择—个不超过15M的图片进行处理'};
+                    this.$emit('initEnd',this.dataMsg.id);
+                    return;
+                }
                 //监听文件读取结束后事件
                 let param = new FormData();
                 param.append( 'file', file, file.name );
@@ -118,6 +134,26 @@
                 param.append( 'mattingType', 8 );
                 if (this.faceBeauty) param.append( 'faceBeauty', 1 );
                 uploadImgApi( param ).then( res => {
+                    this[str] = res;
+                    if (res.code == 0) {
+                        if (res.data.status !== 'success') {
+                            this.pollingImg();
+                            return
+                        } ;
+                    }
+                    if(res.code ||(!res.code && res.data.status === 'success')) this.$emit('initEnd',this.dataMsg.id);
+                } ).catch( err => {
+
+                } )
+            },
+            dreepByurl(){
+                let file = this.dataMsg.img,str=this.faceBeauty ? 'faceResult' : 'result';
+                //监听文件读取结束后事件
+                let obj = {url: file, mattingType: 8,bodyData:1};
+                if (this.faceBeauty) obj.faceBeauty=1;
+                // if (this.faceBeauty) obj.append( 'faceBeauty', 1 );
+                if(this.dataMsg.fileId)obj.fileId=this.dataMsg.fileId;
+                copyUpload( obj ).then( res => {
                     this[str] = res;
                     if (res.code == 0) {
                         if (res.data.status !== 'success') {
@@ -154,14 +190,14 @@
                     h: this.sizeMsg.height,
                     color: this.colorVal,
                     filename: this.sizeMsg.name,
-                    downName: this.dataMsg.img.name,
+                    downName: this.fileName,
                     fileId: mattingMsg.fileId,
                     mattingType: 8
                 }
                 localStorage.setItem( 'photoMsg', JSON.stringify( data ) );
                 window.open( 'idPhotoEdit.html' );
             },
-           async downThis(k){
+           async downThis(k){//单个下载
                 const oCan=document.createElement('canvas'),oTxt=oCan.getContext('2d'),{width,height}=this.sizeMsg,str=this.faceBeauty ? 'faceResult' : 'result',mattingMsg=this[str].data;
                 oCan.width=width;
                 oCan.height=height;
@@ -183,7 +219,7 @@
                    }oTxt.fillStyle=colors[0];
                    oTxt.fillRect(0,0,width,height);
                    oTxt.drawImage(oImg,left,top,iw,ih)
-                   let type = k ? 'image/jpeg' : 'image/png', nametype = k ? '.jpg' : '.png',name=this.dataMsg.img.name;
+                   let type = k ? 'image/jpeg' : 'image/png', nametype = k ? '.jpg' : '.png',name=this.fileName.substring( 0, this.fileName.lastIndexOf( '.' ) );
                    if (window.navigator.msSaveOrOpenBlob) {
                        let imgData = oCan.msToBlob( function () {
                        }, type );
@@ -192,7 +228,7 @@
                        // window.navigator.msSaveOrOpenBlob( blobObj );
                    } else {
                        let oA = document.createElement( 'a' );
-                       oA.href = oCan.toDataURL( type );
+                       oA.href = base64Toblob(oCan.toDataURL( type ));
                        oA.download = name + nametype;
                        oA.click();
                    }

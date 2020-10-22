@@ -375,7 +375,7 @@ export const initSmallTag = (e, txt) => {//点击小动画
 }
 export const compressImg = (files, k) => {//压缩
     return new Promise( (resolve, reject) => {
-        let [can, reader] = [document.createElement( 'canvas' ), new FileReader()];
+        let [can, reader] = [document.createElement( 'canvas' ), new FileReader()],maxW=2048;
         let canTxt = can.getContext( '2d' );
         if (!k) {
             reader.readAsDataURL( files );
@@ -383,8 +383,8 @@ export const compressImg = (files, k) => {//压缩
                 let oImg = new Image();
                 oImg.crossOrigin = '';
                 oImg.onload = () => {
-                    can.width = oImg.width > oImg.height ? (oImg.width > 1024 ? 1024 : oImg.width) : (oImg.height > 1024 ? oImg.width * 1024 / oImg.height : oImg.width);
-                    can.height = oImg.width > oImg.height ? (oImg.width > 1024 ? 1024 * oImg.height / oImg.width : oImg.height) : (oImg.height > 1024 ? 1024 : oImg.height);
+                    can.width = oImg.width > oImg.height ? (oImg.width > maxW ? maxW : oImg.width) : (oImg.height > maxW ? oImg.width * maxW / oImg.height : oImg.width);
+                    can.height = oImg.width > oImg.height ? (oImg.width > maxW ? maxW * oImg.height / oImg.width : oImg.height) : (oImg.height > maxW ? maxW : oImg.height);
                     canTxt.drawImage( oImg, 0, 0, can.width, can.height )
                     can.toBlob( (blob) => {
                         resolve( blob )
@@ -399,8 +399,8 @@ export const compressImg = (files, k) => {//压缩
             let oImg = new Image();
             oImg.crossOrigin = '';
             oImg.onload = () => {
-                can.width = oImg.width > oImg.height ? (oImg.width > 1024 ? 1024 : oImg.width) : (oImg.height > 1024 ? oImg.width * 1024 / oImg.height : oImg.width);
-                can.height = oImg.width > oImg.height ? (oImg.width > 1024 ? 1024 * oImg.height / oImg.width : oImg.height) : (oImg.height > 1024 ? 1024 : oImg.height);
+                can.width = oImg.width > oImg.height ? (oImg.width > maxW ? maxW : oImg.width) : (oImg.height > maxW ? oImg.width * maxW / oImg.height : oImg.width);
+                can.height = oImg.width > oImg.height ? (oImg.width > maxW ? maxW * oImg.height / oImg.width : oImg.height) : (oImg.height > maxW ? maxW : oImg.height);
                 canTxt.drawImage( oImg, 0, 0, can.width, can.height )
                 can.toBlob( (blob) => {
                     resolve( blob )
@@ -458,4 +458,12 @@ export const queryStringUrl=(name)=>{
         return decodeURI(r[2])
     }
     return null
+}
+export const base64Toblob=(base64)=>{//base转blob是为了防止大文件下载不了
+    let arr = base64.split( ',' ), mime = arr[0].match( /:(.*?);/ )[1], bstr = atob( arr[1] ),//base64  to blob
+        n = bstr.length, u8arr = new Uint8Array( n );
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt( n );
+    }
+    return URL.createObjectURL( new Blob( [u8arr], {type: mime} ) );
 }

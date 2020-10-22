@@ -1375,7 +1375,7 @@
                     data={ type: 1, title: '倒影组件', w:w*this.parseSubs.scale, h:h*this.parseSubs.scale, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: url, pro:  closeUrl, ori: this.edrieImgInfo.original, hovering: false, mattingType: 10,}
                     this.parseSubs.subList.splice(mainidx,1,data);
                 }else if(type===3){//悬浮投影
-                    let args = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, aph: 0.5, ydistance: parseInt(0.1 * afterPoint.h), xdistance: 0, shadow: 30, downtype: ''};
+                    let args = {imgObj: oImg, w: w, h: h, x: left, y: downTop, iw: iw, ih: ih, aph: 0.8, ydistance: parseInt(0.1 * afterPoint.h), xdistance: 0, shadow: 30, downtype: ''};
                     const url= jsMulit.ResliderVal.init( args ) ;
                     data={checked:true,angle:270,distance:args.ydistance,extend:args.aph*100,size:30,type: 1, title: '悬浮投影', w:this.parseSubs.bW, h:this.parseSubs.bH, x: 0, y: 0, id: `img${Math.random()}`, rotate: 0, useImg: url, pro:  closeUrl, ori: this.edrieImgInfo.original, hovering: false, mattingType: 10,}
                     this.parseSubs.subList.splice(mainidx,1,data)

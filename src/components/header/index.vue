@@ -21,7 +21,7 @@
                         class="el-icon-caret-bottom"></i>
                     <div class="link">
                         <a :href="item+'.html'" v-for="(item,idx) in beauList" :key="idx"
-                           :class="{'red' : urls.includes(item)}">{{['一键美化','图片修复'][idx]}}</a>
+                           :class="{'red' : urls.includes(item)}">{{['去水印','一键美化','图片修复'][idx]}}</a>
                     </div>
                 </li>
                 <li class="cu hove" :class="{'redPS' : editList.findIndex(item=>urls.includes(item))>-1}">编辑器 <i
@@ -105,9 +105,9 @@
                 userInfo: '',
                 navList: ['index', 'product', 'aboutUs', 'userVip'],
                 urls: window.location.href,
-                piliangList: ['currency', 'people', 'headCutout', 'objects'],
-                nameList: ['通用抠图', '人像抠图', '头像抠图', '物体抠图'],
-                beauList: ['beautify', 'intelligentRepair'],
+                piliangList: ['currency', 'people', 'headCutout', 'objects','batchPhoto'],
+                nameList: ['通用抠图', '人像抠图', '头像抠图', '物体抠图','批量证件照'],
+                beauList: ['intelligentRepair','beautify', 'intelligentRepair'],
                 editList: ['posterEditor','idPhoto','imagePhoto','onlineImage'],
                 priceList: ['userVip','videoPrice'],
             }

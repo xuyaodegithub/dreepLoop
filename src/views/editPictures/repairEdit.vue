@@ -85,7 +85,7 @@
     import {getToken} from "@/utils/auth";
     import loginDialog from '@/components/login_dialog/index2'
     import {redirMatting, getMattingInfo, uploadossBg} from '@/apis'
-    import {compressImg} from "../../utils";
+    import {compressImg,base64Toblob} from "../../utils";
     export default {
         name: "repairEdit",
         data() {
@@ -223,7 +223,7 @@
                                     window.navigator.msSaveOrOpenBlob( blobObj, this.imgName + ".png" );
                                 } else {
                                     let oA = document.createElement( 'a' );
-                                    oA.href = oCan.toDataURL();
+                                    oA.href = base64Toblob(oCan.toDataURL());
                                     oA.download = `${this.imgName}.png`;
                                     oA.click();
                                 }
@@ -276,6 +276,7 @@
                 this.hideCan.toBlob( (blob) => {
                     fromData.append( 'mask', blob );
                     this.upImg( fromData );
+                    console.log(URL.createObjectURL(blob))
                 }, 'image/jpeg' );
             },
             upImg(fromData) {

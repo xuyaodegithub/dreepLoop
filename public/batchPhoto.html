@@ -84,70 +84,80 @@
 <div class="helloFirst">
     <div class=" apps">
         <div class="Operator">
-            <div onclick="upLoadimg()" class="btns cu"><!--Upload-->电脑批量上传</div>
-            <div onclick="upbymobile(1)" class="btns te cu"><!--Upload-->手机批量上传</div>
-            <h3>选择证件照规格</h3>
-            <div id="select">
+            <div class="el-scrollbar" style="height: 80%;overflow-x: hidden;">
+                <div class="el-scrollbar__wrap" style="margin-bottom: -17px; margin-right: -17px;">
+                    <div class="el-scrollbar__view">
+                        <div onclick="upLoadimg()" class="btns cu"><!--Upload-->电脑批量上传</div>
+                        <!--            <div onclick="upbymobile(1)" class="btns te cu">&lt;!&ndash;Upload&ndash;&gt;手机批量上传</div>-->
+                        <h3>选择证件照规格</h3>
+                        <div id="select">
 
+                        </div>
+                        <h3>选择证件照背景</h3>
+                        <div class="colorLists flex a-i f-w">
+                            <div class="cItem active">
+                                <div color="#FF0000"></div>
+                                <span>红</span></div>
+                            <div class="cItem">
+                                <div color="#438edb"></div>
+                                <span>蓝</span></div>
+                            <div class="cItem">
+                                <div color="#fff"></div>
+                                <span>白</span></div>
+                            <div class="cItem">
+                                <div color="#2a385b"></div>
+                                <span>深蓝</span></div>
+                            <div class="cItem">
+                                <div color="#00BFF3"></div>
+                                <span>青蓝</span></div>
+                            <div class="cItem">
+                                <div color="#66B5F2,#CBE8FB"></div>
+                                <span>渐变蓝</span></div>
+                            <div class="cItem">
+                                <div color="#F7BEB3"></div>
+                                <span>心动粉</span></div>
+                            <div class="cItem">
+                                <div color="#B8DDE6"></div>
+                                <span>默契蓝</span></div>
+                            <div class="cItem">
+                                <div color="#999999,#FFFFFF"></div>
+                                <span>渐变灰</span></div>
+                            <div class="cItem">
+                                <div color="#E0B97E"></div>
+                                <span>钟情黄</span></div>
+                            <div class="cItem">
+                                <div color="#CCE2D6"></div>
+                                <span>倾心绿</span></div>
+                            <div class="cItem">
+                                <div color="#40896E"></div>
+                                <span>希望绿</span></div>
+                            <div class="cItem">
+                                <div color="#C42134"></div>
+                                <span>绅士红</span></div>
+                            <div class="cItem">
+                                <div color="#777E90,#ABB2C5"></div>
+                                <span>文艺灰</span></div>
+                            <div class="cItem">
+                                <div color="#3F64BF"></div>
+                                <span>高贵蓝</span></div>
+                            <div class="cItem">
+                                <div color="#D16541"></div>
+                                <span>温暖橙</span></div>
+                            <div class="cItem">
+                                <div color="#FDDAE1"></div>
+                                <span>芭比粉</span></div>
+                            <div class="cItem">
+                                <div color="#000000"></div>
+                                <span>深邃黑</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="el-scrollbar__bar is-horizontal"><div class="el-scrollbar__thumb" style="transform: translateX(0%);"></div></div>
+                <div class="el-scrollbar__bar is-vertical">
+                    <div class="el-scrollbar__thumb"></div>
+                </div>
             </div>
-            <h3>选择证件照背景</h3>
-            <div class="colorLists flex a-i f-w">
-                <div class="cItem active">
-                    <div color="#FF0000"></div>
-                    <span>红</span></div>
-                <div class="cItem">
-                    <div color="#438edb"></div>
-                    <span>蓝</span></div>
-                <div class="cItem">
-                    <div color="#fff"></div>
-                    <span>白</span></div>
-                <div class="cItem">
-                    <div color="#2a385b"></div>
-                    <span>深蓝</span></div>
-                <div class="cItem">
-                    <div color="#00BFF3"></div>
-                    <span>青蓝</span></div>
-                <div class="cItem">
-                    <div color="#66B5F2,#CBE8FB"></div>
-                    <span>渐变蓝</span></div>
-                <div class="cItem">
-                    <div color="#F7BEB3"></div>
-                    <span>心动粉</span></div>
-                <div class="cItem">
-                    <div color="#B8DDE6"></div>
-                    <span>默契蓝</span></div>
-                <div class="cItem">
-                    <div color="#999999,#FFFFFF"></div>
-                    <span>渐变灰</span></div>
-                <div class="cItem">
-                    <div color="#E0B97E"></div>
-                    <span>钟情黄</span></div>
-                <div class="cItem">
-                    <div color="#CCE2D6"></div>
-                    <span>倾心绿</span></div>
-                <div class="cItem">
-                    <div color="#40896E"></div>
-                    <span>希望绿</span></div>
-                <div class="cItem">
-                    <div color="#C42134"></div>
-                    <span>绅士红</span></div>
-                <div class="cItem">
-                    <div color="#777E90,#ABB2C5"></div>
-                    <span>文艺灰</span></div>
-                <div class="cItem">
-                    <div color="#3F64BF"></div>
-                    <span>高贵蓝</span></div>
-                <div class="cItem">
-                    <div color="#D16541"></div>
-                    <span>温暖橙</span></div>
-                <div class="cItem">
-                    <div color="#FDDAE1"></div>
-                    <span>芭比粉</span></div>
-                <div class="cItem">
-                    <div color="#000000"></div>
-                    <span>深邃黑</span></div>
-            </div>
-            <h4 onclick="showHisList(1)" class="cu"><img
+            <h4 onclick="showHisList(1)" class="cu" style="margin: 25px 0;"><img
                     src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/53ee8479d4e54371a3245eb5c0482ab4.png"
                     alt="" style="margin-right: 10px;">证件照上传记录</h4>
             <div class="photoHisList hisList">
@@ -155,25 +165,6 @@
                 <i class="cu" onclick="showHisList()"></i>
                 <div class="list" style="height: 80%;overflow-y:auto;" onscroll="scrollHis(event)"></div>
             </div>
-<!--            <div class="bottonLast">-->
-<!--                <div class="fixedB">-->
-<!--                    <h5>&lt;!&ndash;Contact us&ndash;&gt;联系我们</h5>-->
-<!--                    <div class="flex a-i cu">-->
-<!--                        <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/79d22ed7c75049b9bd280cd5d50e6444.png"-->
-<!--                             alt="">-->
-<!--                        <p>roymind</p>-->
-<!--                        <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/74ee5f7eaa754347bdafe939151b5923.png"-->
-<!--                             alt="" style="margin-left: 20px;margin-right: 0;">-->
-<!--                        <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/cdf212032f814af3af8638735fcc2ea6.png"-->
-<!--                             alt="" class="noC" style="width:120px;">-->
-<!--                    </div>-->
-<!--                    <div class="flex a-i cu">-->
-<!--                        <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/b8338f76e2774b55a9a4c041523910ad.png"-->
-<!--                             alt="">-->
-<!--                        <p><a href="mailto:pikachu@picup.ai">pikachu@picup.ai</a></p>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
         </div>
         <div class="OperatorRight drops">
             <div class="flex tops">
@@ -197,7 +188,7 @@
                         <span onclick="upLoadimg()"><img
                                 src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png"
                                 alt="">电脑批量上传</span>
-                        <span onclick="upbymobile(1)"><img
+                        <span style="display: none" onclick="upbymobile(1)"><img
                                 src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/1900436f3be2442980cb8e2887fc0d21.png"
                                 alt="">手机批量上传</span>
                     </div>
@@ -228,9 +219,9 @@
             <div class="sect">
                 <div class="sizeClass flex a-i">
                     <label>批量证件照</label>
-                    <div class="swithP flex a-i"><label>人像美颜</label>
-                        <div class="swith cu cancal" onclick="changeType()"><i></i></div>
-                    </div>
+                    <!--                    <div class="swithP flex a-i"><label>人像美颜</label>-->
+                    <!--                        <div class="swith cu cancal" onclick="changeType()"><i></i></div>-->
+                    <!--                    </div>-->
                     <div class="a-i flex delbtn cu" onclick="delAllItem()"><img
                             src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/10/14/delete.png" alt="">
                         全部删除
@@ -250,20 +241,14 @@
     <div id="qrcode"></div>
     <p>手机上传图片时，请不要关闭弹框</p>
 </div>
-<div class="diglog2">
-    <i class="cu" onclick="setDiog()"></i>
-    <h4>提示</h4>
-    <p style="line-height: 20px;color: #333;width:260px">检测到多人体，也许有他人或图案影响。您可以换一张照片重试</p>
-    <div class="btn cu" onclick="reupload()">重新上传</div>
-</div>
 <div class="zhezhao"></div>
 <div class="loading">
     处理中...
 </div>
 <div class="saveJpg">
     <h3>选择下载类型</h3>
-    <strong onclick="downLoadAll(0)">PNG格式<br>高保真，适合打印 </strong>
-    <strong onclick="downLoadAll(1)">JPG格式<br>文件小，适合上传 </strong>
+    <strong onclick="downLoadAll(0)">PNG格式<br><span>高保真，适合打印</span> </strong>
+    <strong onclick="downLoadAll(1)">JPG格式<br><span>文件小，适合上传 </span></strong>
 </div>
 <!--<script src="https://unpkg.com/vue/dist/vue.js"></script>-->
 <!-- 引入组件库 -->
@@ -277,10 +262,20 @@
 <!--<script src="static/idPhoto.js?id=1"></script>-->
 <script src="static/qrcode.min.js"></script>
 <script>
+    var openScroll = true, page = 1, pageSize = 20, taskFlag = '', token = localStorage.getItem( 'user_Token' );
+    var qrcode = new QRCode( document.getElementById( "qrcode" ), {
+        text: urlhref + "/uploadBymobile.html",
+        width: 128,
+        height: 128,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    } );
+
     function upbymobile() {
         token = localStorage.getItem( 'user_Token' )
         if (!token) {
-            showloginDialog();
+            showLoginDilogAction();
             return;
         }
         uptype = 2;//记录上传方式
@@ -299,7 +294,7 @@
                     qrcode.makeCode( urlhref + "/uploadBymobile.html?taskFlag=" + res.data );
                     setDiog( 1 );
                     lunxun()
-                } else Notification( res.msg )
+                } else showNotification( res.msg )
             }
         } )
     }
@@ -322,13 +317,85 @@
                         BeautyResult = {};
                         dreepByurl( res.data.url );
                     } else timer = setTimeout( lunxun, 2000 )
-                } else Notification( res.msg )
+                } else showNotification( res.msg )
             }
         } )
     }
 
+    function setDiog(k) {
+        clearTimeout( timer )
+        if (k) {
+            $( '.diglog' ).show();
+            $( '.zhezhao' ).show();
+        } else {
+            $( '.diglog' ).hide();
+            $( '.zhezhao' ).hide();
+        }
+    }
+
+    function scrollHis(e) {
+        if (!openScroll) return;
+        var scrollTop = e.target.scrollTop, h = document.querySelector( '.hisList .list' ).offsetHeight,
+            sh = document.querySelector( '.hisList .list' ).scrollHeight;
+        if (scrollTop + h > sh - 30) {
+            page += 1;
+            inithisList()
+        }
+    }
+
+    function showHisList(k) {
+        if (k) {
+            $( '.hisList' ).css( 'display', 'block' )
+            inithisList( 1 )
+        } else $( '.hisList' ).css( 'display', 'none' )
+    }
+
+    function inithisList(k) {//初始化历史记录/webMatting/mattingHistory
+        if (k) {
+            page = 1;
+            openScroll = true;
+            $( '.hisList .list' ).html( '' );
+        }
+        var data = {page: page, pageSize: pageSize, mattingType: 8}, oDiv = $( '.hisList .list' );
+        $.ajax( {
+            url: baseUrl + '/webMatting/mattingHistory',
+            type: 'get',
+            dataType: 'json',
+            headers: {token: token},
+            data: data,
+            success: function (res) {
+                if (!res.code) {
+                    var resultList = Object.keys( res.data ), resultObj = res.data;
+                    if (resultList.length < 1 && page === 1) $( '.hisList h5' ).css( 'display', 'block' )
+                    else if (resultList.length > 0) {
+                        resultList.map( function (it) {
+                            var str = " <div class='hisItems'><h3>" + it + "</h3><div class='flex a-i f-w'>";
+                            resultObj[it].map( function (itson) {
+                                str += "<div class='itmes' oriUrl=" + itson.originalImage + " fileId='" + itson.id + "' onclick='showhisItem(this)'><img src='" + itson.originalImage + "' alt=''></div>";
+                            } );
+                            str += "</div></div>";
+                            oDiv.append( $( str ) );
+                        } )
+                    }
+                    if (resultList.reduce( function (pre, item, idx) {
+                        return pre + resultObj[item].length
+                    }, 0 ) < 20) {
+                        oDiv.append( $( '<p style="font-size: 12px;line-height: 36px;color: #9c9c9c;text-align: center;">已经到底啦！</p>' ) );
+                        openScroll = false;
+                    }
+                } else showNotification( res.msg )
+            }
+        } )
+    }
+
+    function showhisItem(t) {
+        var url = $( t ).attr( 'oriUrl' )
+        var fileId = $( t ).attr( 'fileId' )
+        dreepByurl( url, fileId )
+    }
+
     function initColors() {
-        var oDiv = $( '.colorLists .cItem div' ), cItem = $( '.colorLists .cItem' )
+        var oDiv = $( '.colorLists .cItem div' ), cItem = $( '.colorLists .cItem' ), oImg = $( '.photoHisList .itmes' );
         for (var i = 0; i < oDiv.length; i++) {
             var colors = oDiv.eq( i ).attr( 'color' ).split( ',' );
             if (colors.length > 1) oDiv.eq( i ).css( 'background', 'linear-gradient(' + colors[0] + ',' + colors[1] + ')' );
@@ -338,16 +405,20 @@
             $( this ).addClass( 'active' ).siblings( '.cItem' ).removeClass( 'active' );
             _self.colorVal = $( this ).find( 'div' ).attr( 'color' );
         } )
+        oImg.click( function () {
+            var url = $( this ).find( 'img' ).attr( 'src' );
+            dreepByurl( url )
+        } )
     }
 
     $( function () {
         initColors()
     } )
-    document.addEventListener('click',function(e){
-        var ev= e || window.event;
+    document.addEventListener( 'click', function (e) {
+        var ev = e || window.event;
         ev.stopPropagation();
-        $('.saveJpg').hide()
-    })
+        $( '.saveJpg' ).hide()
+    } )
 </script>
 </body>
 </html>

@@ -524,6 +524,13 @@
             changetihuan(e) {
                 let file = e.target.files[0], formData = new FormData(), oImg = new Image();
                 if (!file) return;
+                if(file.size/1024/1024>15){
+                    this.$message({
+                        type:'warning',
+                        message:"图片过大，请选择不大于15M的图片"
+                    })
+                    return
+                }
                 this.loading.show = true;
                 formData.append( 'file', file );
                 uploadossBg( formData ).then( res => {

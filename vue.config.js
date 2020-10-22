@@ -18,7 +18,7 @@ module.exports = {
     css: {//有的时候你想要向 webpack 的预处理器 loader 传递选项。你可以使用 vue.config.js 中的 css.loaderOptions 选项。比如你可以这样向所有 Sass 样式传入共享的全局变量：
         loaderOptions: {
             // 给 sass-loader 传递选项
-            sass: {
+            scss: {
                 // @/ 是 src/ 的别名
                 // 所以这里假设你有 `src/variables.scss` 这个文件
                 data: `@import "~@/style/initscss.scss";`
@@ -162,11 +162,11 @@ module.exports = {
             title: '修改密码',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
         },
-        emailAction: {
-            entry: 'src/views/emailAction/index.js',
-            template: 'public/emailAction.html',
-            filename: 'emailAction.html',
-            title: '邮箱',
+        cartoonImage: {
+            entry: 'src/views/cartoonImage/index.js',
+            template: 'public/cartoonImage.html',
+            filename: 'cartoonImage.html',
+            title: '一键卡通',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
         },
         product: {

@@ -64,7 +64,7 @@
                         <p>
                             {{this.bgOriginal.status===3 ? '请选择一个不超过15M的图片进行处理' : '未登录使用次数已达上限，'}}<br>
                             <span v-show="bgOriginal.status===4">请 <span @click="showLoginDilogAction" class="cu"
-                                                                      style="color: #e82255">登录</span> 后继续操作！</span>
+                                                                         style="color: #e82255">登录</span> 后继续操作！</span>
                             <!--                        	Try picture that contains person, more categories will be supported in future-->
                         </p>
                     </div>
@@ -123,10 +123,10 @@
     import scale from '../../assets/image/scale.png'
     import opacity from '@/assets/opacity.jpg'
     import {uploadImgApi, downloadMattedImage, getMattingInfo, copyUpload, uploadossBg} from "../../apis";
-    import { getrandom} from "../../utils";
+    import {getrandom} from "../../utils";
     import {getToken} from "../../utils/auth";
     import JSManipulate from '../../utils/jsmanipulate.js'
-    import {mapGetters,mapActions} from 'vuex'
+    import {mapGetters, mapActions} from 'vuex'
     import {mixins} from '@/minxins'
     import downBtn from '../downLoadBtn'
     import loadingSub from '../loadingSub'
@@ -226,6 +226,9 @@
         created() {
             // this.initsub()
         },
+        destroyed() {
+            window.URL.revokeObjectURL(this.Original);
+        },
         mounted() {
             let windowW = document.documentElement.clientWidth
             if (windowW > 1500) this.canvasinitNum = 500
@@ -243,8 +246,8 @@
                 this.showcolorList = false
             } )
             window.addEventListener( 'resize', (e) => {//抠图后缩屏同步大小
-               $('.activeDiv canvas').width($('.oriImg').width())
-               $('.activeDiv canvas').height($('.oriImg').height())
+                $( '.activeDiv canvas' ).width( $( '.oriImg' ).width() )
+                $( '.activeDiv canvas' ).height( $( '.oriImg' ).height() )
             } )
             this.oDDiv = this.$refs.activeImg;
             this.oIImg = this.$refs.oIImg;
@@ -252,7 +255,7 @@
             document.addEventListener( 'mouseup', this.ups );
         },
         methods: {
-            ...mapActions(['showLoginDilogAction']),
+            ...mapActions( ['showLoginDilogAction'] ),
             setInitStatus(e) {//s设置初始化状态
                 let sObj = {
                     type: this.choseBack === 'bg' ? 4 : this.choseBack
@@ -514,7 +517,7 @@
                                     Original: this.Original,
                                     filename: this.filename
                                 } )
-                            }else this.pollingImg();
+                            } else this.pollingImg();
                         } else {
                             // clearInterval( this.timer )
                             this.$emit( 'to-parse', {
@@ -539,103 +542,100 @@
                 this.$emit( 'openImgSet', this.imageMsg )
             },
             getImgData() {
-                let file = this.file, _self = this
-                if (window.FileReader) {
-                    let reader = new FileReader();
-                    reader.readAsDataURL( file );
-                    //监听文件读取结束后事件
-                    reader.onloadend = function (e) {
-                        _self.Original = e.target.result
-                        let param = new FormData();
-                        param.append( 'file', file, file.name )
-                        param.set( 'mattingType', _self.type ? _self.type : 1 )
-                        if (_self.type && _self.type === 3) param.set( 'crop', 1 )
-                        uploadImgApi( param ).then( res => {
-                            if (res.code == 0) {
-                                _self.fileId = res.data.fileId
-                                _self.imageMsg = res.data
-                                if (res.data.status !== 'success') {
-                                    _self.bgOriginal = {
-                                        name: _self.imgname,
-                                        img: '',
-                                        status: 2,
-                                        fileId: _self.fileId
-                                    }
-                                    _self.pollingImg()
-                                    return
-                                }
-                                let obj = {
-                                    name: _self.imgname,
-                                    img: res.data.bgRemovedPreview,
-                                    status: 0,
-                                    fileId: _self.fileId
-                                }
-                                _self.Original = res.data.original
-                                _self.bgOriginal = obj
-                                _self.$emit( 'to-parse', {
-                                    id: _self.index,
-                                    img: res.data.bgRemovedPreview,
-                                    name: _self.files.name,
-                                    color: 'add',
-                                    fileId: _self.fileId,
-                                    Original: _self.Original,
-                                    filename: _self.filename
-                                } )
-                            } else if (res.code === 4003) {
-                                let obj = {
-                                    name: _self.imgname,
-                                    img: '',
-                                    status: 4,
-                                    fileId: _self.fileId
-                                }
-                                _self.$emit( 'to-parse', {
-                                    id: _self.index,
-                                    img: '',
-                                    color: 'add',
-                                    name: _self.files.name,
-                                    fileId: _self.fileId,
-                                    Original: _self.Original,
-                                    noSave: true
-                                } )
-                                _self.bgOriginal = obj
-                            } else {
-                                let obj = {
-                                    name: _self.imgname,
-                                    img: '',
-                                    status: 1,
-                                    fileId: _self.fileId
-                                }
-                                _self.$emit( 'to-parse', {
-                                    id: _self.index,
-                                    img: '',
-                                    color: 'add',
-                                    name: _self.files.name,
-                                    fileId: _self.fileId,
-                                    Original: _self.Original,
-                                    noSave: true
-                                } )
-                                _self.bgOriginal = obj
-                            }
-                        } ).catch( err => {
-                            let obj = {
-                                name: _self.imgname,
-                                img: '',
-                                status: 3,
-                                fileId: _self.fileId
-                            }
-                            _self.$emit( 'to-parse', {
-                                id: _self.index,
-                                img: '',
-                                color: 'add',
-                                name: _self.files.name,
-                                fileId: _self.fileId,
-                                Original: _self.Original,
-                                noSave: true
-                            } )
-                            _self.bgOriginal = obj
-                        } )
-                    };
+                let file = this.file, _self = this;
+                //监听文件读取结束后事件
+                this.Original =URL.createObjectURL(file);
+                if(file.size/1024/1024>15){
+                    this.bgOriginal = {
+                        name: this.imgname,
+                        img: '',
+                        status: 3,
+                        fileId: this.fileId
+                    }
+                    this.$emit( 'to-parse', {
+                        id: this.index,
+                        img: '',
+                        color: 'add',
+                        name: this.files.name,
+                        fileId: this.fileId,
+                        Original: this.Original,
+                        noSave: true
+                    } )
+                    return;
                 }
+                let param = new FormData();
+                param.append( 'file', file, file.name )
+                param.set( 'mattingType', this.type ? this.type : 1 )
+                if (this.type && this.type === 3) param.set( 'crop', 1 )
+                uploadImgApi( param ).then( res => {
+                    if (res.code == 0) {
+                        this.fileId = res.data.fileId
+                        this.imageMsg = res.data
+                        if (res.data.status !== 'success') {
+                            this.bgOriginal = {
+                                name: this.imgname,
+                                img: '',
+                                status: 2,
+                                fileId: this.fileId
+                            }
+                            this.pollingImg()
+                            return
+                        }
+                        let obj = {
+                            name: this.imgname,
+                            img: res.data.bgRemovedPreview,
+                            status: 0,
+                            fileId: this.fileId
+                        }
+                        this.Original = res.data.original
+                        this.bgOriginal = obj
+                        this.$emit( 'to-parse', {
+                            id: this.index,
+                            img: res.data.bgRemovedPreview,
+                            name: this.files.name,
+                            color: 'add',
+                            fileId: this.fileId,
+                            Original: this.Original,
+                            filename: this.filename
+                        } )
+                    } else if (res.code === 4003) {
+                        let obj = {
+                            name: this.imgname,
+                            img: '',
+                            status: 4,
+                            fileId: this.fileId
+                        }
+                        this.$emit( 'to-parse', {
+                            id: this.index,
+                            img: '',
+                            color: 'add',
+                            name: this.files.name,
+                            fileId: this.fileId,
+                            Original: this.Original,
+                            noSave: true
+                        } )
+                        this.bgOriginal = obj
+                    } else {
+                        let obj = {
+                            name: this.imgname,
+                            img: '',
+                            status: 1,
+                            fileId: this.fileId
+                        }
+                        this.$emit( 'to-parse', {
+                            id: this.index,
+                            img: '',
+                            color: 'add',
+                            name: this.files.name,
+                            fileId: this.fileId,
+                            Original: this.Original,
+                            noSave: true
+                        } )
+                        this.bgOriginal = obj
+                    }
+                } ).catch( err => {
+
+                } )
             },
             getImgMsgByurl() {//通过粘贴请求
                 this.Original = this.file
@@ -742,8 +742,8 @@
                         backgroundRepeat: 'mo-repeat',
                         backgroundPasition: 'center'
                     };
-                } else if (index === 2) this.drawStyleBg( addUrlQuery(this.Original) , addUrlQuery(this.bgOriginal.img) , 1 );
-                else if (index === 3) this.drawStyleBg( addUrlQuery(this.Original) , addUrlQuery(this.bgOriginal.img) , 2 );
+                } else if (index === 2) this.drawStyleBg( addUrlQuery( this.Original ), addUrlQuery( this.bgOriginal.img ), 1 );
+                else if (index === 3) this.drawStyleBg( addUrlQuery( this.Original ), addUrlQuery( this.bgOriginal.img ), 2 );
                 else {
                     this.showcolorList = !this.showcolorList
                 }
@@ -764,7 +764,7 @@
                     this.downOldImg( url, all )
                 } else {
                     if (this.imageMUrl) {
-                        if(!all) this.initSmallTag( e, '免费 :）' );
+                        if (!all) this.initSmallTag( e, '免费 :）' );
                         this.downOldImg( this.imageMUrl, all );
                         return
                     }
@@ -775,7 +775,7 @@
                     }
                     downloadMattedImage( data ).then( res => {
                         if (!res.code) {
-                           if(!all) this.initSmallTag( e, '次数 -1' );
+                            if (!all) this.initSmallTag( e, '次数 -1' );
                             this.imageMUrl = res.data;
                             this.downOldImg( res.data, all );
                         } else this.showLoading = false;
@@ -784,7 +784,7 @@
             },
             // 下载
             downOldImg(urls, all) {
-                let urlss = addUrlQuery(urls);
+                let urlss = addUrlQuery( urls );
                 let _self = this
                 let cans = document.createElement( 'canvas' );
                 let ctxs = cans.getContext( '2d' );
@@ -796,7 +796,7 @@
                         ctxs.drawImage( objs.bgRemovedImg, 0, 0 );
                         _self.downFunc( cans, all )
                     }
-                    this.drawStyleBg( addUrlQuery(this.Original), addUrlQuery(urlss) , 1, _self.choseBack, callback )
+                    this.drawStyleBg( addUrlQuery( this.Original ), addUrlQuery( urlss ), 1, _self.choseBack, callback )
                     return
                 }
                 let oImg = new Image();
@@ -827,7 +827,6 @@
                         this.$emit( 'downall', {obj: url, filename: this.filename} )
                         return
                     }
-                    console.log(111)
                 } else {
                     let url = cans.toDataURL( "image/png" );
                     if (all) {
