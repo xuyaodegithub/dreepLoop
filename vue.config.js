@@ -1,9 +1,10 @@
 const webpack = require( 'webpack' );
 const ProgressBarPlugin = require( 'progress-bar-webpack-plugin' );//打包时，显示进度条插件
 // const UglifyJsPlugin = require('uglifyjs-webpack-plugin');//js压缩
-const path = require( 'path' )
-const HtmlWebpackPlugin = require( 'html-webpack-plugin' )
+const path = require( 'path' );
+const HtmlWebpackPlugin = require( 'html-webpack-plugin' );
 const Timestamp = new Date().getTime();//时间戳，解决缓存问题
+// const model=process.env.NODE_ENV==='production' || process.env.NODE_ENV==='devtest';
 module.exports = {
     // publicPath: process.env.NODE_ENV === 'production' ? 'http://47.111.168.199:8080' : 'http://47.111.168.199:8080',
     publicPath: './',
@@ -23,7 +24,8 @@ module.exports = {
                 // 所以这里假设你有 `src/variables.scss` 这个文件
                 data: `@import "~@/style/initscss.scss";`
             }
-        }
+        },
+        // extract:model
     },
 
     devServer: {//代理
@@ -277,6 +279,12 @@ module.exports = {
             template: 'public/onlineImageEdit.html',
             filename: 'onlineImageEdit.html',
             title: '电商白底图编辑器',
+            // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
+        },uploadBymobile: {
+            entry: 'src/views/userVip/uploadBymobile.js',
+            template: 'public/uploadBymobile.html',
+            filename: 'uploadBymobile.html',
+            title: '手机上传图片',
             // chunks: ['chunk-vendors', 'chunk-common', 'changePass']
         },
     },

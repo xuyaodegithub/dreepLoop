@@ -641,7 +641,7 @@
 </div>
 <script>
     var baseUrl = '<%= VUE_APP_BASEURL %>',
-        urlhref = '<%= NODE_ENV %>' === 'development' ? 'http://wwwdev.picup.shop' : 'http://www.picup.shop';
+        urlhref =  '<%= VUE_APP_NAME %>' === 'formal' ? 'http://www.picup.shop' : 'http://wwwdev.picup.shop';
     // var baseUrl = '<%= VUE_APP_BASEURL %>',urlhref='http://wwwdev.picup.shop';
 </script>
 <script src="static/jquery-1.11.3.min.js"></script>

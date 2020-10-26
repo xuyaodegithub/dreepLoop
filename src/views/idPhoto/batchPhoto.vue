@@ -95,6 +95,7 @@
                 } )
             },
             startSwitch() {
+                $( 'body,html' ).animate( {scrollTop: $(document).height()}, 500 );//滚动到最底
                 if (this.startDreep) return;
                 const oDivs = this.$refs.dreepSub, ix = this.files.findIndex( item => !item.switch );
                 this.startDreep = true;
@@ -129,11 +130,12 @@
 
                 });
             },
-            downLoadAll(k, blogTitle = 'pictureZip') {
+            downLoadAll(k, e,blogTitle = 'pictureZip') {
+                let ev = e || window.event;
                 const str = this.faceBeauty ? 'faceResult' : 'result'
                 if (this.allOrItem) {//下载单个
                     const subItem = this.$refs.dreepSub.find( item => item[str].data.fileId === this.allOrItem );
-                    subItem.downThis( k );
+                    subItem.downThis( k,ev );
                     return
                 }
                 if (this.startDreep) {
@@ -163,7 +165,7 @@
                             oImg.crossOrigin = '';
                             oImg.onload = _ => {
                                 const urlMsg = this.initPhoto( oImg, allSubs, idx )
-                                imgs.file( urlMsg.name.substring( 0, urlMsg.name.lastIndexOf( '.' ) ) + nametype, urlMsg.url.substring( 22 ), {
+                                imgs.file( urlMsg.name.substring( 0, urlMsg.name.lastIndexOf( '.' ) )+`(${this.photoSize})` + nametype, urlMsg.url.substring( 22 ), {
                                     base64: true
                                 } );
                                 this.Percentile += 1;

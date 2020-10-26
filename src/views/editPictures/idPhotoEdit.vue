@@ -52,7 +52,7 @@
         <div class="e_c">
             <el-scrollbar style="overflow-x: hidden;height:100%;">
             <label>选择证件照规格</label>
-            <el-select v-model="photoSize" placeholder="请选择" @change="changeSize">
+            <el-select v-model="photoSize" placeholder="请选择" @change="changeSize()">
                 <el-option
                         v-for="item in idPhotolist"
                         :key="item.name"
@@ -184,14 +184,11 @@
             </div>
         </div>
         <div class="e_rLast">
-            <!--            <h4>智能抠图模式</h4>-->
-            <!--            <div class="btns flex j-b f-w">-->
-            <!--                    <span class="cu" v-for="(it,idx) in btnList" :key="idx"-->
-            <!--                          :class="{'active' : hoverSub.mattingType===it.type }"-->
-            <!--                          @click="mattingbyUrl(it.type)">-->
-            <!--                        {{it.name}}-->
-            <!--                    </span>-->
-            <!--            </div>-->
+            <h4>自定义尺寸：</h4>
+            <div class="flex c_input j-b">
+                <div><el-input type="number" :max="3000" :min="1" v-model="edrieImgInfo.w" @change="changeSize(1)" /><i>宽(px)</i></div>
+                <div><el-input type="number" :max="3000" :min="1" v-model="edrieImgInfo.h" @change="changeSize(1)" /><i>高(px)</i></div>
+            </div>
             <h4>修复</h4>
             <el-button plain @click="repireImg">手工修补</el-button>
         </div>
@@ -249,8 +246,8 @@
         mixins: [mixins],
         data() {
             return {
-                fixeds:false,
-                idPhotolist,
+                fixeds:false,//定位
+                idPhotolist,//照片全部
                 colorList: [
                     {name: '红', val: '#FF0000'}, {name: '蓝', val: '#438edb'}, {name: '白', val: '#fff'},
                     {name: '深蓝', val: '#2a385b'},{name: '青蓝', val: '#00BFF3'},
@@ -260,7 +257,6 @@
                     {name: '绅士红', val: '#C42134'}, {name: '文艺灰', val: '#777E90,#ABB2C5'}, {name: '高贵蓝', val: '#3F64BF'} ,
                     {name: '温暖橙', val: '#D16541'}, {name: '芭比粉', val: '#FDDAE1'},{name: '深邃黑', val: '#000000'},
                 ],
-                listH: document.documentElement.clientHeight,
                 colorType: '',
                 noeTime: new Date().getTime(),
                 userInfo: {},
@@ -325,8 +321,6 @@
                         ori: '',
                     }],
                 },
-                oriW: 0,
-                oriH: 0,
                 SubsDataList: [],
                 openBack: true,
                 hisIdx: -1,//当前处于历史记录的哪个位置的对应记录id（储存记录时会存一个对应id）
@@ -366,10 +360,10 @@
         components: {vMune, mattingImg, loginDialog},
         computed: {
             ...mapGetters( ['userSubscribeData', 'effectsImgList', 'showLoginDilog'] ),
-            noArts() {
+            noArts() {//非艺术颜色
                 return this.colorList.slice( 0, 5 )
             },
-            ArtList() {
+            ArtList() {//艺术颜色
                 return this.colorList.slice( 5 )
             },
             subsLength() {
@@ -414,6 +408,23 @@
                 if (idx > -1) return this.pointList.filter( (item, ix) => ([1, 2].includes( item.type ) && ix < idx) );
                 else return this.pointList.filter( (item, ix) => ([1, 2].includes( item.type )) );
             },
+            // whlt(){//根据edrieImgInfo返回iw/ih/left/top
+            //     const [w, h] = [parseFloat( this.edrieImgInfo.w ), parseFloat( this.edrieImgInfo.h )];
+            //     let scaleW = 0.55 * h / w;//头部占尺寸的比例
+            //     let iw = w * scaleW * this.edrieImgInfo.originalWidth / (this.edrieImgInfo.headData.right - this.edrieImgInfo.headData.left);//缩放后的图片宽
+            //     let ih = iw * this.edrieImgInfo.originalHeight / this.edrieImgInfo.originalWidth;
+            //     let top = -(ih * this.edrieImgInfo.headData.top / this.edrieImgInfo.originalHeight) + h * 0.05;
+            //     let left = w / 2 - ((this.edrieImgInfo.headData.right - this.edrieImgInfo.headData.left) / 2 + this.edrieImgInfo.headData.left) * iw / this.edrieImgInfo.originalWidth;
+            //     top=top + ih < ph ? ph - ih : top;
+            //     return {iw,ih,left,top}
+            // },
+            // owohcsle(){
+            //     const [w, h,ow,oh] = [parseFloat( this.edrieImgInfo.w ), parseFloat( this.edrieImgInfo.h ),this.oDiv_w.w*0.6,this.oDiv_w.h*0.6,];
+            //     let bw = w > h ? (w > ow ? ow : w) : (h > oh ? oh * w/ h :w);
+            //     let bH = w> h ? (w > ow ? ow * h / w :h) : (h > oh ? oh : h);
+            //     let scale = parseFloat( bw / bH );
+            //     return {bw,bH,scale}
+            // }
         },
         filters: {
             subsStyle(item) {
@@ -1269,14 +1280,14 @@
                     this.loadingInstance.close()
                 }
             },
-            changeSize(val) {//画布尺寸输入
-                const item = this.idPhotolist.find( it => it.name === val )
+            changeSize(k) {//画布尺寸输入
+                const item = this.idPhotolist.find( it => it.name === this.photoSize )
                 let data = {
-                    w: item.width,
-                    h: item.height,
+                    w: k ? this.edrieImgInfo.w : item.width,
+                    h: k? this.edrieImgInfo.h : item.height,
                     // pro: this.edrieImgInfo.pro,
                     // ori: this.edrieImgInfo.ori,
-                    color: item.color,
+                    color: this.colorType,
                     filename: item.name,
                     // fileId: this.edrieImgInfo.fileId,
                     // mattingType: 8
@@ -1318,6 +1329,7 @@
                     let ih = iw * this.edrieImgInfo.originalHeight / this.edrieImgInfo.originalWidth;
                     let top = -(ih * this.edrieImgInfo.headData.top / this.edrieImgInfo.originalHeight) + h * 0.05;
                     let left = w / 2 - ((this.edrieImgInfo.headData.right - this.edrieImgInfo.headData.left) / 2 + this.edrieImgInfo.headData.left) * iw / this.edrieImgInfo.originalWidth;
+                    top=top + ih < h ? h - ih : top
                     let it = {
                         title: this.edrieImgInfo.filename,
                         oriW: w,
@@ -1484,9 +1496,7 @@
                 } ).finally( _ => this.loading.show = false )
             },
             loadSubs(item) {
-                let mItems = JSON.parse( JSON.stringify( item ) ),
-                    oH = document.getElementById( 'e_r' ).offsetHeight * 0.6,
-                    oW = document.getElementById( 'e_r' ).offsetWidth * 0.6;
+                let mItems = JSON.parse( JSON.stringify( item ) ), oH = document.getElementById( 'e_r' ).offsetHeight * 0.6, oW = document.getElementById( 'e_r' ).offsetWidth * 0.6;
                 mItems['bW'] = mItems.oriW > mItems.oriH ? (mItems.oriW > oW ? oW : mItems.oriW) : (mItems.oriH > oH ? oH * mItems.oriW / mItems.oriH : mItems.oriW);
                 mItems['bH'] = mItems.oriW > mItems.oriH ? (mItems.oriW > oW ? oW * mItems.oriH / mItems.oriW : mItems.oriH) : (mItems.oriH > oH ? oH : mItems.oriH);
                 mItems['scale'] = parseFloat( mItems.bW / mItems.oriW );
@@ -1499,8 +1509,6 @@
                         if (it === 'textShadow') mItems.subList[idx][it] = ['none', '#333 1px 0 0, #333 0 1px 0, #333 -1px 0 0, #333 0 -1px 0', '0 5px 5px #333'][mItems.subList[idx][it]]
                     } )
                 } )
-                this.oriW = mItems.oriW;
-                this.oriH = mItems.oriH;
                 this.parseSubs = mItems;
                 this.loading = {show: false, text: '处理中...'};
                 this.$nextTick( _ => {
@@ -2031,7 +2039,20 @@
             width: 220px;
             padding: 80px 20px 0;
             background-color: #fff;
+            .c_input {
+                font-size: 12px;
+                line-height: 38px;
+                margin-bottom: 30px;
 
+                .el-input {
+                    width: 80px;
+                    border: none;
+                    margin-right: 10px;
+                    line-height: 38px;
+                    height: 38px;
+                }
+
+            }
             h4 {
                 font-size: 14px;
                 color: #333;

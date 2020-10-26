@@ -9,9 +9,9 @@
                 <el-button size="mini" type="text" @click="visible = false">取消</el-button>
                 <el-button type="text" size="mini" @click="close">确定</el-button>
             </div>
-            <i class="close cu el-icon-delete" slot="reference"></i>
+            <i class="close cu el-icon-delete" slot="reference" :style="{color:white ? '#333' : '#fff'}"></i>
         </el-popover>
-        <div class="vupload" v-if="!upStatus"  :style="{backgroundColor: white ? '#fff' : '#202020'}">
+        <div class="vupload" v-if="!upStatus" :style="{backgroundColor: white ? '#fff' : '#202020'}">
             <div v-show="errStep<3">
                 <p class="over">上传</p>
                 <p class="name over">{{files.name}}</p>
@@ -44,9 +44,11 @@
                     </el-carousel-item>
                 </el-carousel>
                 <div class="flex point" @mouseenter="autoplay=false" @mouseleave="autoplay=true">
-                    <div v-for="(it,idx) in preImglist.timeList" :key="idx" :class="{active :initialIdx == idx,'whiteBar' : white}"
+                    <div v-for="(it,idx) in preImglist.timeList" :key="idx"
+                         :class="{active :initialIdx == idx,'whiteBar' : white}"
                          @click="moveImg(idx)">
-                        <span v-show="initialIdx == idx" :class="{'white' : white}">{{parseInt(it) | minsfilter(1)}}</span>
+                        <span v-show="initialIdx == idx"
+                              :class="{'white' : white}">{{parseInt(it) | minsfilter(1)}}</span>
                     </div>
                 </div>
             </div>
@@ -82,7 +84,7 @@
                         <div class="title"><i class="el-icon-circle-close"></i></div>
                         <div class="des">{{downMsg.des}} <br><span @click="retry">点击重试</span></div>
                     </div>
-                    <div class="err_mini play cu" v-show="preVideoUrl"  @click="$emit('preVideo',preVideoUrl)">
+                    <div class="err_mini play cu" v-show="preVideoUrl" @click="$emit('preVideo',preVideoUrl)">
                         <i class="el-icon-caret-right"></i>在线观看预览
                     </div>
                 </div>
@@ -96,9 +98,11 @@
                             <p>视频账户余额：{{userSubscribeData.videoRemaining | minsfilter}} &nbsp;<a href="videoPrice.html"
                                                                                                  style="border-bottom: 1px solid #D9D9D9;"
                                                                                                  :style="{color: white ? '#333' : '#d9d9d9',borderColor: white ? '#333' : '#d9d9d9'}"
-                                                                                                 target="_blank">去充值</a></p>
+                                                                                                 target="_blank">去充值</a>
+                            </p>
                         </div>
-                        <div class="left_1 flex a-i" v-show="!downAllMsg.open && !fullVideoUrl && !downAllMsg.err && !white">
+                        <div class="left_1 flex a-i"
+                             v-show="!downAllMsg.open && !fullVideoUrl && !downAllMsg.err && !white">
                             <div class="tit">背景：</div>
                             <el-select v-model="color" placeholder="请选择" size="mini" popper-class="seleDrop">
                                 <el-option
@@ -109,7 +113,8 @@
                                 </el-option>
                             </el-select>
                             <el-tooltip class="item" effect="dark" placement="top">
-                                <div slot="content" style="line-height: 22px;">透明背景，为mov格式，文件比较大<br/>纯色背景，为mp4格式，文件小很多</div>
+                                <div slot="content" style="line-height: 22px;">透明背景，为mov格式，文件比较大<br/>纯色背景，为mp4格式，文件小很多
+                                </div>
                                 <i class="el-icon-question" style="font-size: 14px;"></i>
                             </el-tooltip>
                         </div>
@@ -118,19 +123,23 @@
                             下载
                         </div>
                         <div class="lright_btn_2 noback" v-show="downAllMsg.open">
-                            <p class="flex a-i">正在处理： <el-progress :stroke-width="8" :percentage="downAllMsg.time" color="#E82256"
-                                                                   :show-text="false" style="width: 90px;margin-right: 10px;"></el-progress> <span class="co">{{downAllMsg.time}}%</span></p>
+                            <p class="flex a-i">正在处理：
+                                <el-progress :stroke-width="8" :percentage="downAllMsg.time" color="#E82256"
+                                             :show-text="false" style="width: 90px;margin-right: 10px;"></el-progress>
+                                <span class="co">{{downAllMsg.time}}%</span></p>
                             <p>预计剩余处理时间：<span class="co">{{(Math.ceil(remainingTime)+10) | minsfilter}}</span></p>
                         </div>
                         <div class="err_mini flex a-i" v-show="downAllMsg.err">
-                            <div class="title" style="margin-right: 10px;margin-bottom: 0;"><i class="el-icon-circle-close"></i></div>
+                            <div class="title" style="margin-right: 10px;margin-bottom: 0;"><i
+                                    class="el-icon-circle-close"></i></div>
                             <div class="des">{{downAllMsg.des}} <br>
                                 <span @click="retry" v-if="!downAllMsg.noPoint">点击重试</span>
                                 <a href="videoPrice.html" v-else target="_blank">前往充值</a>
                             </div>
                         </div>
                         <div class="err_mini flex a-i" v-show="fullVideoUrl">
-                            <div class="title" style="color: #67C23A;margin-right: 10px;"><i class="el-icon-circle-check"></i></div>
+                            <div class="title" style="color: #67C23A;margin-right: 10px;"><i
+                                    class="el-icon-circle-check"></i></div>
                             <div class="des">处理完成<br>
                                 <span @click="toSureDown">点击下载</span>
                             </div>
@@ -163,7 +172,7 @@
         name: "index",
         props: {
             filesMsg: Object,
-            white:Boolean
+            white: Boolean
         },
         data() {
             return {
@@ -188,8 +197,11 @@
                 errMsg: {title: '加载失败', des: '网络错误，请先确认网络正常后，重新操作！', errWhere: 0},
                 preVideoUrl: '',
                 fullVideoUrl: '',
-                colorList:[{title:'透明',val:''},{title:'绿色',val:'#00FF00'},{title:'蓝色',val:'#0000FF'},{title:'黑色',val:'#000000'},{title:'白色',val:'#FFFFFF'},],
-                startUpkeys:[],//含有1 代表预览图  2代表预览视频  3代表完整视频
+                colorList: [{title: '透明', val: ''}, {title: '绿色', val: '#00FF00'}, {
+                    title: '蓝色',
+                    val: '#0000FF'
+                }, {title: '黑色', val: '#000000'}, {title: '白色', val: '#FFFFFF'},],
+                startUpkeys: [],//含有1 代表预览图  2代表预览视频  3代表完整视频
             }
         },
         computed: {
@@ -203,22 +215,22 @@
                 else if (a.minwh <= 1080) b = 10;
                 return b * this.preImglist.time * (1 - this.downAllMsg.time / 100)
             },
-            keyLength(){
+            keyLength() {
                 return this.startUpkeys.length
             },
-            bgcolor(){
-                const key=this.color ? 'background' : 'backgroundImage';
+            bgcolor() {
+                const key = this.color ? 'background' : 'backgroundImage';
                 return {
-                    [key]:this.color ||  'url(http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200821/d693060fc9604ccda7c91bd7360d4661.jpg)'
+                    [key]: this.color || 'url(http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200821/d693060fc9604ccda7c91bd7360d4661.jpg)'
                 }
             }
         },
-        watch:{
-            keyLength(n,o){
-                if(n>0 && !this.timeOut1)this.timeOut1=setInterval(this.videoMattingInfo,2000);
-                else if(!n) {
-                    clearInterval(this.timeOut1);
-                    this.timeOut1=null;
+        watch: {
+            keyLength(n, o) {
+                if (n > 0 && !this.timeOut1) this.timeOut1 = setInterval( this.videoMattingInfo, 2000 );
+                else if (!n) {
+                    clearInterval( this.timeOut1 );
+                    this.timeOut1 = null;
                 }
             }
         },
@@ -237,16 +249,16 @@
                     this.$nextTick( _ => {
                         videoImgsPreview( {taskFlag: this.taskFlag} ).then( res => {//加载预览图轮播
                             if (!res.code) {
-                                this.startUpkeys.push(1);
-                                videoPreview( {taskFlag: this.taskFlag} ).then(relt=>{
+                                this.startUpkeys.push( 1 );
+                                videoPreview( {taskFlag: this.taskFlag} ).then( relt => {
                                     if (!res.code) {
-                                        this.startUpkeys.push(2);
+                                        this.startUpkeys.push( 2 );
                                     } else {
                                         this.downMsg.err = true;
                                         this.downMsg.open = false;
                                         this.downMsg.des = res.msg;
                                     }
-                                })
+                                } )
                             } else {
                                 this.upStatus = 2;
                                 this.errMsg.errWhere = 1;//加载失败
@@ -342,12 +354,12 @@
             },
             downPreVideo() {//开始处理预览视频
                 if (this.preVideoUrl) {
-                    this.$emit('preVideo',this.preVideoUrl);
+                    this.$emit( 'preVideo', this.preVideoUrl );
                     return;
                 }
                 videoPreview( {taskFlag: this.taskFlag} ).then( res => {
                     if (!res.code) {
-                        this.startUpkeys.push(2);
+                        this.startUpkeys.push( 2 );
                     } else {
                         this.downMsg.err = true;
                         this.downMsg.open = false;
@@ -360,10 +372,10 @@
                     this.downVideo( this.fullVideoUrl );
                     return;
                 }
-                const bgColor=this.color ? this.color.split('#')[1]: '';
-                videoFullMatting( {taskFlag: this.taskFlag,bgColor} ).then( res => {
+                const bgColor = this.color ? this.color.split( '#' )[1] : '';
+                videoFullMatting( {taskFlag: this.taskFlag, bgColor} ).then( res => {
                     if (!res.code) {
-                        this.startUpkeys.push(3);
+                        this.startUpkeys.push( 3 );
                         this.videoMattingInfo()
                     } else {
                         this.downAllMsg.err = true;
@@ -375,13 +387,13 @@
             },
             videoMattingInfo() {//获取视频处理进度预览和全视频
                 this.upStatus = 1;
-                if(this.startUpkeys.includes(2))this.downMsg.open=true;
-                if(this.startUpkeys.includes(3))this.downAllMsg.open=true;
+                if (this.startUpkeys.includes( 2 )) this.downMsg.open = true;
+                if (this.startUpkeys.includes( 3 )) this.downAllMsg.open = true;
                 let data = {taskFlag: this.taskFlag}
                 videoMattingInfo( data ).then( res => {
                     if (!res.code) {
-                        const result = res.data,oView = document.documentElement.clientWidth > 1500 ? 500 : 400;
-                        if(this.startUpkeys.includes(1)){
+                        const result = res.data, oView = document.documentElement.clientWidth > 1500 ? 500 : 400;
+                        if (this.startUpkeys.includes( 1 )) {
                             if (result.previewImages) {
                                 let oImg = new Image();
                                 oImg.onload = () => {
@@ -395,30 +407,40 @@
                                         matting: result.previewImages.matting,
                                         minwh: result.width > result.height ? result.height : result.width
                                     };
-                                    const idx=this.startUpkeys.findIndex(item=>item===1);
-                                    this.startUpkeys.splice(idx,1);
+                                    const idx = this.startUpkeys.findIndex( item => item === 1 );
+                                    this.startUpkeys.splice( idx, 1 );
                                 };
                                 oImg.src = result.previewImages.image[0];
                             }
                         }
-                        if(this.startUpkeys.includes(2)){
+                        if (this.startUpkeys.includes( 2 )) {
                             this.downMsg.time = result.previewPercentage;
                             this.preVideoUrl = result.previewVideoPath;
                             if (this.downMsg.open) this.downMsg.open = this.preVideoUrl ? false : true;
-                            if (result.previewStatus === '预览处理失败') this.downMsg = {open: false, time: 0, err: true, des: '预览处理失败！'};
-                            if(this.preVideoUrl || result.previewStatus === '预览处理失败'){
-                                const idx=this.startUpkeys.findIndex(item=>item===2);
-                                this.startUpkeys.splice(idx,1);
+                            if (result.previewStatus === '预览处理失败') this.downMsg = {
+                                open: false,
+                                time: 0,
+                                err: true,
+                                des: '预览处理失败！'
+                            };
+                            if (this.preVideoUrl || result.previewStatus === '预览处理失败') {
+                                const idx = this.startUpkeys.findIndex( item => item === 2 );
+                                this.startUpkeys.splice( idx, 1 );
                             }
                         }
-                        if(this.startUpkeys.includes(3)){
+                        if (this.startUpkeys.includes( 3 )) {
                             this.downAllMsg.time = result.percentage;
                             this.fullVideoUrl = result.videoPath;
                             if (this.downAllMsg.open) this.downAllMsg.open = this.fullVideoUrl ? false : true;
-                            if (result.status === '处理失败') this.downAllMsg = {open: false, time: 0, err: true, des: '处理失败！'};
-                            if(this.fullVideoUrl || result.status === '处理失败'){
-                                const idx=this.startUpkeys.findIndex(item=>item===3);
-                                this.startUpkeys.splice(idx,1);
+                            if (result.status === '处理失败') this.downAllMsg = {
+                                open: false,
+                                time: 0,
+                                err: true,
+                                des: '处理失败！'
+                            };
+                            if (this.fullVideoUrl || result.status === '处理失败') {
+                                const idx = this.startUpkeys.findIndex( item => item === 3 );
+                                this.startUpkeys.splice( idx, 1 );
                             }
                         }
                     } /*else {
@@ -481,8 +503,8 @@
                     this.files['name'] = this.files.originalName;
                     if (!this.files.previewImages) {
                         this.upStatus = 1;
-                        this.startUpkeys.push(1);
-                        this.startUpkeys.push(2);
+                        this.startUpkeys.push( 1 );
+                        this.startUpkeys.push( 2 );
                         return;
                     }
                     let oView = document.documentElement.clientWidth > 1500 ? 500 : 400;
@@ -502,8 +524,8 @@
                     };
                     oImg.src = this.files.previewImages.image[0];
                     const [a, b] = [!this.files.previewVideoPath && this.files.previewPercentage > 0, !this.files.videoPath && this.files.percentage > 0]
-                    if (a) this.startUpkeys.push(2);
-                    if (b) this.startUpkeys.push(3);
+                    if (a) this.startUpkeys.push( 2 );
+                    if (b) this.startUpkeys.push( 3 );
                     // if (a || b) this.startUpkeys.push();
                     if (this.files.previewVideoPath) this.preVideoUrl = this.files.previewVideoPath;
                     if (this.files.videoPath) this.fullVideoUrl = this.files.videoPath;
@@ -667,17 +689,20 @@
                             border-right: 5px solid #202020;
                             transform: translate(-50%, 100%);
                         }
-                        &.white{
+
+                        &.white {
                             background-color: #D9D9D9;
                         }
-                        &.white:after{
+
+                        &.white:after {
                             border-top: 5px solid #D9D9D9;
                             border-left: 5px solid #fff;
                             border-right: 5px solid #fff;
                         }
                     }
                 }
-                .whiteBar{
+
+                .whiteBar {
                     background-color: #D9D9D9;
                 }
 
@@ -702,8 +727,9 @@
 
             .left_1 {
                 /*width: 80px;*/
-                margin-right:40px;
-                .el-select{
+                margin-right: 40px;
+
+                .el-select {
                     margin: 0 10px;
                     width: 80px;
                 }
@@ -768,7 +794,8 @@
                     border-bottom: 1px solid #e82255;
                 }
             }
-            .play{
+
+            .play {
                 border: 1px solid $co;
                 border-radius: 5px;
                 color: #e82255;
@@ -777,7 +804,8 @@
                 height: 40px;
                 width: 120px;
                 text-align: center;
-                i{
+
+                i {
                     margin-right: 8px;
                     font-size: 16px;
                 }
@@ -866,16 +894,19 @@
             border-bottom: 1px solid #e6a23c;
         }
     }
-    .seleDrop.el-select-dropdown{
+
+    .seleDrop.el-select-dropdown {
         background-color: #202020 !important;
         color: #fff;
-        .el-select-dropdown__item{
+
+        .el-select-dropdown__item {
             font-size: 13px;
             line-height: 28px;
             height: 28px;
             color: #fff;
         }
-        .el-select-dropdown__item:hover,.selected,.hover{
+
+        .el-select-dropdown__item:hover, .selected, .hover {
             background-color: $co;
             color: #fff;
         }

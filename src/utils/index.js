@@ -375,7 +375,7 @@ export const initSmallTag = (e, txt) => {//点击小动画
 }
 export const compressImg = (files, k) => {//压缩
     return new Promise( (resolve, reject) => {
-        let [can, reader] = [document.createElement( 'canvas' ), new FileReader()],maxW=2048;
+        let [can, reader] = [document.createElement( 'canvas' ), new FileReader()],maxW=7000;
         let canTxt = can.getContext( '2d' );
         if (!k) {
             reader.readAsDataURL( files );
@@ -386,9 +386,10 @@ export const compressImg = (files, k) => {//压缩
                     can.width = oImg.width > oImg.height ? (oImg.width > maxW ? maxW : oImg.width) : (oImg.height > maxW ? oImg.width * maxW / oImg.height : oImg.width);
                     can.height = oImg.width > oImg.height ? (oImg.width > maxW ? maxW * oImg.height / oImg.width : oImg.height) : (oImg.height > maxW ? maxW : oImg.height);
                     canTxt.drawImage( oImg, 0, 0, can.width, can.height )
+                    // console.log(can.toDataURL('image/jpeg'),222,can.width,can.height)
                     can.toBlob( (blob) => {
                         resolve( blob )
-                    } )
+                    } ,'image/jpeg')
                 };
                 oImg.src = reader.result;
             }
@@ -404,7 +405,7 @@ export const compressImg = (files, k) => {//压缩
                 canTxt.drawImage( oImg, 0, 0, can.width, can.height )
                 can.toBlob( (blob) => {
                     resolve( blob )
-                } )
+                },'image/jpeg' )
             };
             oImg.src = addUrlQuery(files);
             oImg.onerror = (err) => {

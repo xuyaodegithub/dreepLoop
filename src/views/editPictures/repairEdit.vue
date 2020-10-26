@@ -276,7 +276,7 @@
                 this.hideCan.toBlob( (blob) => {
                     fromData.append( 'mask', blob );
                     this.upImg( fromData );
-                    console.log(URL.createObjectURL(blob))
+                    // console.log(URL.createObjectURL(blob))
                 }, 'image/jpeg' );
             },
             upImg(fromData) {
@@ -288,12 +288,12 @@
                         this.imageInfo = res.data;
                         this.historyList.push( this.imageInfo );
                         this.redInit();
-                        console.log( this.imageInfo )
+                        // console.log( this.imageInfo )
                     }
                 } ).catch( re => {
-
-                } ).finally( () => {
                     this.loading.show = false;
+                } ).finally( () => {
+
                 } )
             },
             redInit() {
@@ -304,6 +304,7 @@
                     this.hideCanTxt.fillRect( 0, 0, this.hideCan.width, this.hideCan.height );
                     this.upCanTxt.clearRect( 0, 0, this.upCan.width, this.upCan.height );
                     this.canTxt.drawImage( oImg, 0, 0, );
+                    this.loading.show = false;
                 }
                 oImg.src = addUrlQuery(this.imageInfo);
             },
@@ -436,7 +437,7 @@
             wheelFun(e) {//滚轮事件
                 this.setScale = parseFloat( (this.pxWidth / this.oriImgObg.width).toFixed( 1 ) ) - 1;
                 if (e.deltaY < 0 && this.setScale >= 1) return;
-                if (e.deltaY > 0 && this.setScale <= -0.5) return;
+                if (e.deltaY > 0 && this.setScale <= -0.9) return;
                 if (e.deltaY < 0) this.setScale = parseFloat( (this.setScale + 0.1).toFixed( 1 ) );//放大
                 else this.setScale = parseFloat( (this.setScale - 0.1).toFixed( 1 ) );//放大
                 this.pxWidth = parseInt( this.oriImgObg.width * (1 + this.setScale) )

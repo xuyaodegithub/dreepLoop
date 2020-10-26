@@ -70,7 +70,7 @@
                     <h2>黑科技，一键变卡通</h2>
                     <p>头像、人像、照片、视频，上传就可以变成漫画、动漫、动画片</p>
                     <div class="flex a-i">
-                        <div class="gif"><img src="../../assets/image/pgif.gif" alt=""></div>
+                        <div class="gif"><img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/10/19/cartoon.gif" alt=""></div>
                         <div class="gifrights">
                             <div >
                                 <el-button type="primary" round @click="upLoadimg()"><img style="height: 20px;margin-right: 10px;" src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png" alt=""> 电脑上传</el-button>
@@ -138,10 +138,10 @@
         data() {
             return {
                 initimgsList: [
-                    'http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2019/11/15/89e18986c9d04b22bf4298e510b92efd.png',
-                    'http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2019/11/15/aad243c8df764979961ab4e905f63bd9.jpg',
-                    'http://deeplor.oss-cn-hangzhou.aliyuncs.com/matting_original/2019/11/15/19708509c8c9440db6d92d91a916892e.png',
-                    'http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200722/c8450198680249f584ef7c28fcc014dd.png',
+                    'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/10/19/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20201024113731.png',
+                    'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/10/19/1ce01eff46d94a09a887d42bc040bcd1.png',
+                    'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/10/19/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20201024114436.png',
+                    'https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/10/19/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20201024114551.png',
                 ],
                 selectImg: 0,
                 multiple: false,
@@ -386,9 +386,34 @@
                         }
                     } )
             },
+            initHisImage(){
+                let data = {
+                    page:1,
+                    pageSize: 20,
+                    mattingType: 11
+                }
+                userHistoryList( data ).then( res => {
+                    if (!res.code) {
+                        const obj=res.data;
+                        for(let idx in obj){
+                            obj[idx].map((item,ix)=>{
+                                this.files.unshift( {
+                                    file: item.originalImage,
+                                    id: this.files.length ? this.files[0].id+1 : 0,
+                                    type: 'url',
+                                    subType:1,
+                                    fileId:item.id? item.id : ''
+                                } )
+                            })
+                        }
+                        this.toscroll();
+
+                    }
+                } )
+            }
         },
         created() {
-
+    this.initHisImage()
         }
     }
 </script>

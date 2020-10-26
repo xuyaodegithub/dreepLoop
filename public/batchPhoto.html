@@ -247,15 +247,15 @@
 </div>
 <div class="saveJpg">
     <h3>选择下载类型</h3>
-    <strong onclick="downLoadAll(0)">PNG格式<br><span>高保真，适合打印</span> </strong>
-    <strong onclick="downLoadAll(1)">JPG格式<br><span>文件小，适合上传 </span></strong>
+    <strong onclick="downLoadAll(0,event)">PNG格式<br><span>高保真，适合打印</span> </strong>
+    <strong onclick="downLoadAll(1,event)">JPG格式<br><span>文件小，适合上传 </span></strong>
 </div>
 <!--<script src="https://unpkg.com/vue/dist/vue.js"></script>-->
 <!-- 引入组件库 -->
 <!--<script src="https://unpkg.com/element-ui@2.13.2/lib/index.js"></script>-->
 <script>
     var baseUrl = '<%= VUE_APP_BASEURL %>',
-        urlhref = '<%= NODE_ENV %>' === 'development' ? 'http://wwwdev.picup.shop' : 'http://www.picup.shop';
+        urlhref = '<%= VUE_APP_NAME %>' === 'formal' ? 'http://www.picup.shop' : 'http://wwwdev.picup.shop';
     // var baseUrl = '<%= VUE_APP_BASEURL %>',urlhref='http://wwwdev.picup.shop';
 </script>
 <script src="static/jquery-1.11.3.min.js"></script>

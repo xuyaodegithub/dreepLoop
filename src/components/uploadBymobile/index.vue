@@ -27,7 +27,7 @@
                 qrcode: '',
                 timer: 0,
                 showCode: false,
-                urlhref: process.env.NODE_ENV === 'development' ? 'http://wwwdev.picup.shop' : 'http://www.picup.shop',
+                urlhref: process.env.VUE_APP_NAME === 'formal' ? 'http://www.picup.shop' : 'http://wwwdev.picup.shop',
                 taskFlag: ''
             }
         },

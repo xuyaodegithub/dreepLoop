@@ -7032,19 +7032,6 @@
                             <p class="over">(35*52mm) (413*619px)</p></div>
                         <div class="cu">
                             <div class="its">
-                                <div w="254" h="354" color="#fff" name="果诚行科技(21*30mm)"
-                                     style="width: 151px; height: 211px; margin-left: -85.5px; margin-top: -105.5px; background-color: rgb(255, 255, 255);">
-                                    <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/171c9283e0e44392ad6741dbbddef1d2.png"
-                                         alt=""
-                                         style="width: 253.017px; top: -4.30833px; left: -46.127px; transform: translate(0px, 0px); height: 253.017px;">
-                                    <div class="flex"><span onclick="downLoad(this,event)">下载</span><span>编辑</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="over">果诚行科技</p>
-                            <p class="over">(21*30mm) (254*354px)</p></div>
-                        <div class="cu">
-                            <div class="its">
                                 <div w="626" h="413" color="#FF0000" name="结婚照(53*35mm)"
                                      style="width: 211px; height: 139px; margin-left: -115.5px; margin-top: -69.5px; background-color: rgb(255, 0, 0);">
                                     <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting/2020/09/24/171c9283e0e44392ad6741dbbddef1d2.png"
@@ -7164,7 +7151,8 @@
 </div>
 <script>
     var baseUrl = '<%= VUE_APP_BASEURL %>',
-        urlhref = '<%= NODE_ENV %>' === 'development' ? 'http://wwwdev.picup.shop' : 'http://www.picup.shop';
+        urlhref = '<%= VUE_APP_NAME %>' === 'formal' ? 'http://www.picup.shop' : 'http://wwwdev.picup.shop';
+    // console.log('<%= VUE_APP_BASEURL %>','<%= NODE_ENV %>','<%= VUE_APP_NAME %>')
     // var baseUrl = '<%= VUE_APP_BASEURL %>',urlhref='http://wwwdev.picup.shop';
 </script>
 <script src="static/jquery-1.11.3.min.js"></script>

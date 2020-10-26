@@ -23,7 +23,8 @@
     <link rel="stylesheet" href="static/css/reset.css">
     <style>
         body {
-            padding-top: 1.5rem;
+            padding-top: 1.5rem !important;
+            background-color: #fff !important;
         }
 
         .up {
@@ -100,6 +101,7 @@
     </style>
 </head>
 <body>
+<div id="uploadBymobile"></div>
 <input type="file" accept="image/*" style="display: none" id="files" onchange="getImg(event)">
 <div class="up" onclick="upfile()">
     <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200818/20a2f5e446d64ccc88b3119b190e3664.png"
@@ -116,7 +118,7 @@
 </div>
 <script>
     // var baseUrl = 'http://restapidev.picup.shop' ;//'<%= NODE_ENV %>'==='development' ?: '//restapi.picup.shop'
-    var baseUrl = '//restapi.picup.shop';
+    var baseUrl = '<%= VUE_APP_BASEURL %>';
 </script>
 <script>
     (function (doc, win) {

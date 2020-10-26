@@ -1384,12 +1384,7 @@ var idPhotolist = [
         "width": 295,
         "height": 413,
         "color": "#FF0000"
-    }, {"name": "陕西二级建造师(35*52mm)", "width": 413, "height": 619, "color": "#fff"}, {
-        "name": "果诚行科技(21*30mm)",
-        "width": 254,
-        "height": 354,
-        "color": "#fff"
-    }, {"name": "结婚照(53*35mm)", "width": 626, "height": 413, "color": "#FF0000"}, {"name": "国家学籍网(25*35mm)", "width": 295, "height": 413, "color": "#FF0000"}
+    }, {"name": "陕西二级建造师(35*52mm)", "width": 413, "height": 619, "color": "#fff"},  {"name": "结婚照(53*35mm)", "width": 626, "height": 413, "color": "#FF0000"}, {"name": "国家学籍网(25*35mm)", "width": 295, "height": 413, "color": "#FF0000"}
     ], openScroll = true;
 
 function initList() {

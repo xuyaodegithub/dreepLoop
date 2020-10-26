@@ -197,7 +197,7 @@
                 localStorage.setItem( 'photoMsg', JSON.stringify( data ) );
                 window.open( 'idPhotoEdit.html' );
             },
-           async downThis(k){//单个下载
+           async downThis(k,e){//单个下载
                 const oCan=document.createElement('canvas'),oTxt=oCan.getContext('2d'),{width,height}=this.sizeMsg,str=this.faceBeauty ? 'faceResult' : 'result',mattingMsg=this[str].data;
                 oCan.width=width;
                 oCan.height=height;
