@@ -1,3 +1,7 @@
+/**
+ * 无用
+ * **/
+
 export const throwErr=(code,response)=>{
   let message='请求错误'
   switch(code){

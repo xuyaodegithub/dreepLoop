@@ -1,4 +1,4 @@
-/**
+/**暂时无用  横向破瀑流插件
  *  Jquery.Iboot.js V1.0.0
  *  Create on 2018年10月12日15:33:08
  *  Author: jon-millent

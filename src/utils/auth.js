@@ -1,3 +1,8 @@
+/**
+ * 关于账号token存储的文件   还各个页面的缓存字段
+ * **/
+
+
 const [TokenKey,imgsKey,imgsKey2,imgsKey3,imgsKey4,imgsKey5,userAccount] = ['user_Token','secImgs','objectImgs','beautyImgs','headerImgs','currencyImgs','userAccount'];
 const imgsesion=['',imgsKey,imgsKey2,imgsKey3,imgsKey4,imgsKey5]
 // const imgsKey='secImgs';

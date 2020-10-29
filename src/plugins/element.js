@@ -9,7 +9,7 @@ Object.keys(filters).map((val,index)=>{
     // console.log(val,filters[val])
 })
 // Vue.use(Element)
-Vue.directive('drag',(event)=>{
+Vue.directive('drag',(event)=>{//拖拽的自定义指令
     let oDiv=event;
     oDiv.onmousedown=(ev)=>{
         console.log(ev.target.className)

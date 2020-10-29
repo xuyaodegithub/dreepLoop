@@ -1,3 +1,7 @@
+/**
+ * 无用
+ * **/
+
 class Boot {
     constructor(str, config) {  // 构造函数
         this.ele=$(str);//容器元素

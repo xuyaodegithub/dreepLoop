@@ -10,6 +10,7 @@ Demo page: http://www.joelb.me/jsmanipulate
 MIT LICENSED (http://www.opensource.org/licenses/mit-license.php)
 Copyright (c) 2011, Joel Besada
 =========================================================================
+特效插件
 */
 function RadialGradient() {//渐变方法
 	this.Colors = ['#fff', '#333'];

@@ -3,7 +3,7 @@ import '../assets/public.css';
 import '../element-variables.scss'
 import filters from '../filters/filters'
 import {getTanDeg,IEVersion} from '@/utils'
-if([6,7,8,9,10].includes(IEVersion()))window.location.href='compatible.html';
+if([6,7,8,9,10].includes(IEVersion()))window.location.href='compatible.html';//这些ie版本都会跳转兼容页面
 require( 'promise.prototype.finally' ).shim();//使axios支持finally回调
 // import lang from 'element-ui/lib/locale/lang/en'
 // import locale from 'element-ui/lib/locale'
@@ -11,12 +11,12 @@ require( 'promise.prototype.finally' ).shim();//使axios支持finally回调
 // window.addEventListener('beforeunload', e => {
 //     window.localStorage.removeItem('user_Token')
 // });
-window.addUrlQuery=function(url){
+window.addUrlQuery=function(url){//图片链接后加个随机数  base64格式图片原格式返回
     var reg = /^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base64)?,([a-z0-9!$&',()*+;=\-._~:@\/?%\s]*?)\s*$/i;
     if(reg.test(url))return url;
     else return url+ (url.indexOf('?')>-1 ? '&' : '?') +'id='+Math.random();
 }
-Object.keys( filters ).map( (val, index) => {
+Object.keys( filters ).map( (val, index) => {//全局过滤器
     Vue.filter( val, filters[val] )
     // console.log(val,filters[val])
 } )
