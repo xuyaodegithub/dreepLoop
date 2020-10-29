@@ -417,7 +417,7 @@
                 showcolorList: false,//是否显示颜色选择的弹框
                 // bgType: 1,//更换背景的类型中当前选中的下标
                 scale: '',//图片width/height比例系数
-                edrieImgInfo: {
+                edrieImgInfo: {//图片数据
                     bgImg: "",
                     fileId: "",
                     filename: "http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200721/6ed6a205f75d4f4c88fb403700712191.jpg",
@@ -443,7 +443,7 @@
                 dialogVisible2: false,//登录弹框
                 openScreen: false,//是否全屏
                 oDiv_w: {w: 0, h: 0},
-                parseSubs: {
+                parseSubs: {//模块数组  层级数组
                     bW: 0,
                     bH: 0,
                     scale: 1,

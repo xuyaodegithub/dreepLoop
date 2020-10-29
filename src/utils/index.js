@@ -373,9 +373,9 @@ export const initSmallTag = (e, txt) => {//点击小动画
             $i.remove();
         } );
 }
-export const compressImg = (files, k) => {//压缩
+export const compressImg = (files, k) => {//压缩 限制在2048
     return new Promise( (resolve, reject) => {
-        let [can, reader] = [document.createElement( 'canvas' ), new FileReader()],maxW=7000;
+        let [can, reader] = [document.createElement( 'canvas' ), new FileReader()],maxW=2048;
         let canTxt = can.getContext( '2d' );
         if (!k) {
             reader.readAsDataURL( files );

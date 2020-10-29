@@ -26,17 +26,31 @@
     <!--    <title>会员中心</title>-->
     <title>一键抠图人像在线抠图物体抠图软件PicUP.Ai</title>
     <style>
+        .banners{
+            position: relative;
+            overflow: hidden;
+        }
+        .banners video{
+            width:100%;
+            min-width: 1920px;
+            position: absolute;
+            object-fit: fill;
+            left: 0;
+            top: 0;
+        }
         .titleHeader {
             font-size: 24px;
             line-height: 1;
             text-align: center;
             margin-top: 60px;
-            padding: 86px 0 72px;
-            background-image: url("static/bg20200803113146.jpg");
+            padding: 86px 0 72px 300px;
+            /*background-image: url("static/bg20200803113146.jpg");*/
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             color: #fff;
+            z-index: 22;
+            position: relative;
             min-width: 1200px;
         }
 
@@ -65,7 +79,7 @@
 
         .titleHeader .lp {
             font-size: 14px;
-            color: #F8CFD2;
+            /*color: #F8CFD2;*/
             margin-top: 15px;
         }
 
@@ -671,28 +685,33 @@
 <img src="slt.jpg" alt="" style="display: none">
 <input type="file" name="" id="loadIn" accept="image/*" multiple="false" style="display: none"
        onchange="changeImg(event)">
-<div class="titleHeader">
-    <h1>一键抠图神器</h1>
-    <p>100%自动，免费，在线换背景</p>
-    <div class="oA">
-        <img src="static/ico_20200803113312.png" alt="">上传图像
-    </div>
-    <p class="lp">CTRL+V粘贴图像或者URL，也可拖拽图像到此页面</p>
-    <div class="flex lizi ">
-        <span>没有照片？<br>试试这些图片:</span>
-        <div class="photoHisList flex">
-            <div class="itmes"
-                 imgsrc="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/b261cffebe11499f8d283c18bbd3a544.png"
-                 style="background-image: url('http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/b261cffebe11499f8d283c18bbd3a544.png')"></div>
-            <div class="itmes"
-                 imgsrc="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/21bf764501e24f1a857bd78d0095a197.jpg"
-                 style="background-image: url('http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/21bf764501e24f1a857bd78d0095a197.jpg')"></div>
-            <div class="itmes"
-                 imgsrc="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/f8e6362ed4dc494f912bf73016656c8a.png"
-                 style="background-image: url('http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/f8e6362ed4dc494f912bf73016656c8a.png')"></div>
-            <div class="itmes"
-                 imgsrc="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/f275f16a50c74151b11e881ccb0be68e.png"
-                 style="background-image: url('http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/f275f16a50c74151b11e881ccb0be68e.png')"></div>
+<div class="banners">
+    <video src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/10/19/banner%E5%8A%A8%E7%94%BB%E4%B8%AD%E6%96%87.mp4" muted ref="videoss" loop autoplay>
+        <source src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/10/19/banner%E5%8A%A8%E7%94%BB%E4%B8%AD%E6%96%87.mp4" type="video/mp4">
+    </video>
+    <div class="titleHeader">
+        <h1>一键抠图神器</h1>
+        <p>100%自动，免费，在线换背景</p>
+        <div class="oA">
+            <img src="static/ico_20200803113312.png" alt="">上传图像
+        </div>
+        <p class="lp">CTRL+V粘贴图像或者URL，也可拖拽图像到此页面</p>
+        <div class="flex lizi ">
+            <span>没有照片？<br>试试这些图片:</span>
+            <div class="photoHisList flex">
+                <div class="itmes"
+                     imgsrc="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/b261cffebe11499f8d283c18bbd3a544.png"
+                     style="background-image: url('http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/b261cffebe11499f8d283c18bbd3a544.png')"></div>
+                <div class="itmes"
+                     imgsrc="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/21bf764501e24f1a857bd78d0095a197.jpg"
+                     style="background-image: url('http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/21bf764501e24f1a857bd78d0095a197.jpg')"></div>
+                <div class="itmes"
+                     imgsrc="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/f8e6362ed4dc494f912bf73016656c8a.png"
+                     style="background-image: url('http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/f8e6362ed4dc494f912bf73016656c8a.png')"></div>
+                <div class="itmes"
+                     imgsrc="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/f275f16a50c74151b11e881ccb0be68e.png"
+                     style="background-image: url('http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/f275f16a50c74151b11e881ccb0be68e.png')"></div>
+            </div>
         </div>
     </div>
 </div>
@@ -743,15 +762,15 @@
                     <img src="static/headcount.gif" alt="">
                 </div>
             </a>
-            <a href="beautify.html">
+            <a href="cartoonImage.html">
                 <div class="item flex">
                     <div class="itemL">
-                        <h2>一键美化</h2>
-                        <p> 过曝、过暗，全局局部曝光自动调整</p>
+                        <h2>漫画卡通</h2>
+                        <p> 头像、人像、照片、视频，上传就可以变成漫画、动漫、动画片</p>
                         <i class="el-icon-right"></i>
                         <span style="background-color: #1AD8AE;">上传图片</span>
                     </div>
-                    <img src="static/beauty.gif" alt="">
+                    <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/10/19/cartoon.gif" alt="">
                 </div>
             </a>
             <a href="intelligentRepair.html">
@@ -812,7 +831,7 @@
                  alt="">
             <div>
                 <h3><a href="onlineImage.html" style="color:#000;">在线制作白底图 <img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/09/21/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20200921181735.png" alt=""></a></h3>
-                <p>只能—键白底图，无需PS抠图，各平台尺寸自动生成</p>
+                <p>智能一键白底图，无需PS抠图，各平台尺寸自动生成</p>
                 <div class="btns flex">
                     <div class="btn cu btnte"  onclick="uploadByCom(2)"><img
                             src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png"

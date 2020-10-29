@@ -97,6 +97,12 @@
             </el-scrollbar>
         </div>
         <div class="e_r" id="e_r" @mouseup="blurAll">
+<!--            <div class="paiban">-->
+<!--                <el-tabs v-model="activeName" @tab-click="handleClick">-->
+<!--                    <el-tab-pane label="电子照片" name="first">用户管理</el-tab-pane>-->
+<!--                    <el-tab-pane label="排版照片" name="fourth">定时任务补偿</el-tab-pane>-->
+<!--                </el-tabs>-->
+<!--            </div>-->
             <div class="subs opas"
                  :style="{width:`${parseSubs.bW}px`,height:`${parseSubs.bH}px`,opacity:'.4',overflow:'initial'}">
                 <div class="items upss" :class="{'hovers' : item.hovering}" v-for="(item,idx) in parseSubs.subList"
@@ -333,7 +339,8 @@
                 touchContrl: false,
                 pointList: [],//历史记录
                 mainOri: '',//主图扣过的原图尺寸
-                downType: 0
+                downType: 0,
+                activeName: 'first'
             }
         },
         watch: {
@@ -470,6 +477,9 @@
             ...mapActions( [
                 'userGetscribe', 'showLoginDilogAction'
             ] ),
+            handleClick(tab, event) {
+                console.log(tab, event);
+            },
             scrollThis(e){
                 const {scrollHeight,scrollTop}=e.target;
                 console.log(scrollHeight,scrollTop,e)
@@ -2045,7 +2055,7 @@
                 margin-bottom: 30px;
 
                 .el-input {
-                    width: 80px;
+                    width: 65px;
                     border: none;
                     margin-right: 10px;
                     line-height: 38px;

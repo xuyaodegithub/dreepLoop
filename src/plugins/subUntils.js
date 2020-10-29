@@ -71,9 +71,13 @@ import {
     CollapseItem,
     Image,
     Progress,
-    Alert
+    Alert,
+    Tabs,
+    TabPane,
 } from 'element-ui'
 
+Vue.component( Tabs.name, Tabs );
+Vue.component( TabPane.name, TabPane );
 Vue.component( Button.name, Button );
 Vue.component( Alert.name, Alert );
 Vue.component( Progress.name, Progress );

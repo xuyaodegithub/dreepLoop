@@ -103,7 +103,11 @@
             <!--                    <img src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200814/e152ec2436294da0a1241b42b4d3e01b.png"-->
             <!--                         alt=""></div>-->
             <!--            </div>-->
-            <h4 onclick="showHisList(1)" class="cu"><img
+            <h4 class="flex a-i cu" style="margin-bottom: 0">
+                <a href="apis.html"><img style="margin-right: 10px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTM4IDc5LjE1OTgyNCwgMjAxNi8wOS8xNC0wMTowOTowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTcgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjZFMjkyOTJBQUFCMzExRTk5NEY4RTdCOTA2MjI5NzUzIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjZFNDJBMEQ1QUFCMzExRTk5NEY4RTdCOTA2MjI5NzUzIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NkUyOTI5MjhBQUIzMTFFOTk0RjhFN0I5MDYyMjk3NTMiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6NkUyOTI5MjlBQUIzMTFFOTk0RjhFN0I5MDYyMjk3NTMiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz40CiTYAAAAfUlEQVR42mL8//8/AzUAC4gwNDQk27Tz588zgmgmBiqBkWwQMDDp6yIWYlwCYwOTCekGwTSBDMFnAP0DmxjXjPAE+RWID0Jpkg16CcSzgdgXiEWA2AFK+0LFX+JLR7eAeAMQbwTiE0D8D03dDyDeAsUZQGwOxAFQDAYAAQYA6Hwhfv9ISywAAAAASUVORK5CYII=" alt="">
+                    API</a>
+            </h4>
+            <h4 onclick="showHisList(1)" class="cu" style="margin: 20px 0;"><img
                     src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200817/53ee8479d4e54371a3245eb5c0482ab4.png"
                     alt="" style="margin-right: 10px;">证件照上传记录</h4>
             <div class="photoHisList hisList">
@@ -170,9 +174,10 @@
                         <span onclick="upLoadimg()"><img
                                 src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png"
                                 alt="">电脑上传</span>
-                        <span onclick="upbymobile(1)"><img
+                        <span onclick="upbymobile(1)" class="tete"><img
                                 src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/1900436f3be2442980cb8e2887fc0d21.png"
                                 alt="">手机上传</span>
+                        <span onclick="toBatch()">批量上传</span>
                     </div>
                     <a href="//picup.shop/apidoc/_book/idphoto.html" target="_blank"
                        style="font-size: 15px;color: #333;margin-bottom: 50px;display: inline-block">证件照API></a>
@@ -7188,7 +7193,7 @@
                 c = $( item ).attr( 'color' );
             var pw = w > h ? scnum * 0.9 : w * (scnum * 0.9) / h, ph = w > h ? h * (scnum * 0.9) / w : scnum * 0.9,
                 oImg = $( this ).find( 'img' );
-            var scaleW = 0.55 * ph / pw;
+            var scaleW = 0.55 * ph / pw;//
             var iw = pw * scaleW * mattingMsg.originalWidth / (mattingMsg.headData.right - mattingMsg.headData.left);//缩放后的图片宽
             var ih = iw * mattingMsg.originalHeight / mattingMsg.originalWidth;
             var top = -(ih * mattingMsg.headData.top / mattingMsg.originalHeight) + ph * 0.05;
@@ -7304,7 +7309,9 @@
         $( '#upImg' ).val( '' );
         $( '#upImg' ).click();
     }
-
+    function toBatch(){
+        window.location.href='batchPhoto.html'
+    }
     function changeImg(e) {
         var file = e.target.files[0], formData = new FormData;
         formData.append( 'file', file );
@@ -7538,7 +7545,7 @@
 
     function downImgFro(cans, name, k) {
         var type = k ? 'image/jpeg' : 'image/png', nametype = k ? '.jpg' : '.png';
-        if (window.navigator.msSaveOrOpenBlob) {
+        if (window.navigator.msSaveOrOpenBlob) {//ie兼容
             var imgData = cans.msToBlob( function () {
             }, type );
             var blobObj = new Blob( [imgData] );
@@ -7551,7 +7558,7 @@
             while (n--) {
                 u8arr[n] = bstr.charCodeAt( n );
             }
-            let objurl = URL.createObjectURL( new Blob( [u8arr], {type: mime} ) );
+            let objurl = URL.createObjectURL( new Blob( [u8arr], {type: mime} ) );//防止数据过大 下载不了
             var oA = document.createElement( 'a' );
             oA.href = objurl;
             oA.download = name + nametype;

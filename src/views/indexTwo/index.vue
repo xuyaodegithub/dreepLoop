@@ -1039,9 +1039,9 @@
                     }
 
                     p {
-                        font-size: 14px;
+                        font-size: 12px;
                         color: #999;
-                        line-height: 50px;
+                        line-height: 28px;
                     }
 
                     .flex div {
@@ -1052,7 +1052,7 @@
                     }
 
                     .titlips {
-                        font-size: 14px;
+                        font-size: 12px;
 
                         a {
                             color: #999;

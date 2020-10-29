@@ -1007,7 +1007,7 @@
                     }
 
                     p {
-                        font-size: 14px;
+                        font-size: 12px;
                         color: #999;
                         line-height: 28px;
                     }
@@ -1019,7 +1019,7 @@
                         margin-right: 12px;
                     }
                     .titlips{
-                        font-size: 14px;
+                        font-size: 12px;
                         a{
                             color: #999;
                         }

@@ -21,7 +21,7 @@
                         class="el-icon-caret-bottom"></i>
                     <div class="link">
                         <a :href="item+'.html'" v-for="(item,idx) in beauList" :key="idx"
-                           :class="{'red' : urls.includes(item)}">{{['去水印','一键美化','一键卡通','图片修复'][idx]}}</a>
+                           :class="{'red' : urls.includes(item)}">{{['去水印','一键美化','漫画卡通','图片修复'][idx]}}</a>
                     </div>
                 </li>
                 <li class="cu hove" :class="{'redPS' : editList.findIndex(item=>urls.includes(item))>-1}">编辑器 <i

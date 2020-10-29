@@ -2,11 +2,15 @@
     <div class="helloFirst">
         <input type="file" style="display: none" ref="upImg" @change="changeImg($event)" :multiple="multiple"
                accept="image/*,video/*,video/mp4,video/x-m4v,image/gif"/>
+        <!--        -->
         <header-sub></header-sub>
         <div class=" apps">
             <div class="Operator">
                 <h6><!--Local images-->本地图像</h6>
-                <el-button type="primary" round @click="upLoadimg()"><img style="height: 20px;margin-right: 10px;" src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png" alt=""> 电脑上传</el-button>
+                <el-button type="primary" round @click="upLoadimg()"><img style="height: 20px;margin-right: 10px;"
+                                                                          src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png"
+                                                                          alt=""> 上传图片/视频
+                </el-button>
                 <uploadBymobile @success="deepItem" ref="uploadSub" :color="2"></uploadBymobile>
                 <p class="afterbtn" v-if="!LoginStatus"><span class="cu" @click="showLoginDilogAction">登录</span>
                     <!--for batch upload-->后批量上传</p>
@@ -27,10 +31,10 @@
                     <!--                    </div>-->
                 </div>
                 <div class="bottonLast">
-                    <div class="flex a-i cu" @click="openHistory()">
-                        <img src="../../assets/image/img2.png" alt="">
-                        <span><!--History-->历史记录</span>
-                    </div>
+<!--                    <div class="flex a-i cu" @click="openHistory()">-->
+<!--                        <img src="../../assets/image/img2.png" alt="">-->
+<!--                        <span>&lt;!&ndash;History&ndash;&gt;历史记录</span>-->
+<!--                    </div>-->
                     <div class="fixedB">
                         <h5><!--Contact us-->联系我们</h5>
                         <div class="flex a-i cu">
@@ -70,15 +74,41 @@
                     <h2>黑科技，一键变卡通</h2>
                     <p>头像、人像、照片、视频，上传就可以变成漫画、动漫、动画片</p>
                     <div class="flex a-i">
-                        <div class="gif"><img src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/10/19/cartoon.gif" alt=""></div>
+                        <div class="gif"><img
+                                src="https://deeplor.oss-cn-hangzhou.aliyuncs.com/matting2/2020/10/19/cartoon.gif"
+                                alt=""></div>
                         <div class="gifrights">
-                            <div >
-                                <el-button type="primary" round @click="upLoadimg()"><img style="height: 20px;margin-right: 10px;" src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png" alt=""> 电脑上传</el-button>
+                            <div>
+                                <el-button type="primary" round @click="upLoadimg()"><img
+                                        style="height: 20px;margin-right: 10px;"
+                                        src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200811/f74e8180882a4cc282dc70c541c7712e.png"
+                                        alt=""> 上传图片/视频
+                                </el-button>
                                 <uploadBymobile @success="deepItem" ref="uploadSub" :color="2"></uploadBymobile>
                             </div>
-                            <el-input v-model="imgUrl" class="upcas" placeholder="CTRL+V粘贴图像或者URL"
-                                      @focus="$event.target.select()"></el-input>
-                            <div class="titlips"><a href="https://www.google.cn/chrome/" target="_blank">推荐使用：谷歌游览器 <img src="@/assets/image/img1.png" alt="">，防止兼容问题</a></div>
+<!--                            <el-input v-model="imgUrl" class="upcas" placeholder="CTRL+V粘贴图像或者URL"-->
+<!--                                      @focus="$event.target.select()"></el-input>-->
+                            <div class="imgVideo" style="margin-bottom: 20px;">
+                                <div>支持格式：图片+视频
+                                    <el-tooltip class="item" effect="dark" placement="bottom">
+                                    <div slot="content" style="line-height: 22px;padding: 10px 20px;">
+                                        <h3>图片</h3>
+                                        <p>支持格式：.png, .jpg, .jpeg, .bmp, .gif</p>
+                                        <p>最大文件大小：15M</p>
+                                        <p>最大图片像素：4096 x 4096</p>
+                                        <br>
+                                        <h3>视频</h3>
+                                        <p>支持格式：.mp4, .webm, .mov, .gif</p>
+                                        <p>最大文件大小：500M</p>
+                                        <p>最大视频清晰度：1080P</p>
+                                    </div>
+                                    <i class="el-icon-question" style="font-size: 14px;color: #999;"></i>
+                                    </el-tooltip>
+                                </div>
+                                <div>CTRL+V粘贴图像/视频或者URL</div>
+                            </div>
+                            <div class="titlips"><a href="https://www.google.cn/chrome/" target="_blank">推荐使用：谷歌游览器 <img
+                                    src="@/assets/image/img1.png" alt="">，防止兼容问题</a></div>
                             <p>没有图像？试试以下图片看看效果</p>
                             <div class="flex a-i">
                                 <div :style="{backgroundImage:`url(${item})`,backgroundSize:'cover',backgroundPosition:'center'}"
@@ -92,10 +122,11 @@
                      :id="item.id">
                     <!--                    :class="{'active' : index===files.length-1}"-->
                     <div v-if="item.subType===1">
-                        <img-sub :files="item"  @close="closeItem" :id="item.id" ref="subs"></img-sub>
+                        <img-sub :files="item" @close="closeItem" :id="item.id" ref="subs"></img-sub>
                     </div>
                     <div v-else-if="item.subType===2">
-                        <matting-video :filesMsg="item" ref="videoSubs" @close="closeItem" @preVideo="preVideo" :white="true"></matting-video>
+                        <matting-video :filesMsg="item" ref="videoSubs" @close="closeItem" @preVideo="preVideo"
+                                       :white="true" :mattingType="11"></matting-video>
                     </div>
                 </div>
             </div>
@@ -108,13 +139,13 @@
                 width="40%"
                 :before-close="beforClose">
             <div>
-                <video :src="videoUrl" controls  :style="colorList[backIdx] | backColor" autoplay loop>
+                <video :src="videoUrl" controls :style="colorList[backIdx] | backColor" autoplay loop>
                     <source :src="videoUrl" type="video/webm">
                 </video>
-                <div class="colorList flex">
-                <span :style="item | backColor" v-for="(item,idx) in colorList" class="cu" @click="backIdx=idx"
-                      :key="idx">{{item.val ? '' : '原视频'}}</span>
-                </div>
+                <!--                <div class="colorList flex">-->
+                <!--                <span :style="item | backColor" v-for="(item,idx) in colorList" class="cu" @click="backIdx=idx"-->
+                <!--                      :key="idx">{{item.val ? '' : '原视频'}}</span>-->
+                <!--                </div>-->
             </div>
 
         </el-dialog>
@@ -129,10 +160,11 @@
     import imgSub from '@/components/showImgSub/cartoonSub.vue';
     import mattingVideo from '@/components/mattingVideo/index.vue';
     import {getToken, getSecImgs, setSecImgs} from "../../utils/auth";
-    import {getMattedImageMultiple, userHistoryList,videoDelete} from "../../apis";
+    import {getMattedImageMultiple, userHistoryList, videoDelete} from "../../apis";
     import {niceScroll} from 'jquery.nicescroll';
     import uploadBymobile from '@/components/uploadBymobile';
-    import { BrowserInfo } from '@/utils'
+    import {BrowserInfo} from '@/utils'
+
     export default {
         name: 'HelloWorld',
         data() {
@@ -155,13 +187,13 @@
                 classType: 0,
                 stopUpdata: false,//停止滑动加载
                 scrollStop: true,
-                dialogVisible:false,
-                videoUrl:'',
+                dialogVisible: false,
+                videoUrl: '',
                 colorList: [{title: '原视频', val: ''}, {title: '绿色', val: '#00ff00'}, {
                     title: '蓝色',
                     val: '#0000ff'
                 }, {title: '黑色', val: '#000000'}, {title: '白色', val: '#ffffff'},],
-                backIdx:0
+                backIdx: 0
             }
         },
         filters: {
@@ -185,7 +217,7 @@
         },
         watch: {},
         mounted() {
-            this.stopPrevent()
+            this.stopPrevent();
             if (getToken()) this.userGetscribe();
             $( '#niceScrolls' ).niceScroll( {cursorcolor: '#999999'} );
             document.addEventListener( 'paste', (e) => {
@@ -208,7 +240,7 @@
                     if (item && item.kind === 'string' && item.type.match( /^text\//i )) {
                         this.deepItem( clipboardData.getData( "Text" ) )
                     }
-                    if (item && item.kind === 'file' &&item.type.match( /^image\//i )) {
+                    if (item && item.kind === 'file' && item.type.match( /^image\//i )) {
                         this.changeImg( {target: {files: [item.getAsFile()]}} )
                     }
                 }
@@ -228,31 +260,31 @@
             // }
         },
         components: {
-            headerSub, imgSub,uploadBymobile,mattingVideo
+            headerSub, imgSub, uploadBymobile, mattingVideo
         },
         methods: {
             ...mapActions( [
-                'userGetscribe','showLoginDilogAction'
+                'userGetscribe', 'showLoginDilogAction'
             ] ),
             beforClose(done) {
                 this.videoUrl = '';
                 this.backIdx = 0;
                 done()
             },
-            fileType(type){
-                return (type.includes('video') || type.includes('gif')) ? 2 : 1;//1图片  2视频
+            fileType(type) {
+                return (type.includes( 'video' ) || type.includes( 'gif' )) ? 2 : 1;//1图片  2视频
             },
             preVideo(item) {//预览视频
-                if(BrowserInfo.isSafari){
-                    this.$confirm('目前Safari游览器不支持视频预览，建议使用谷歌游览器体验?', '提示', {
+                if (BrowserInfo.isSafari) {
+                    this.$confirm( '目前Safari游览器不支持视频预览，建议使用谷歌游览器体验?', '提示', {
                         confirmButtonText: '前往下载谷歌游览器',
                         cancelButtonText: '取消',
                         type: 'warning'
-                    }).then(() => {
-                        window.open('https://www.google.cn/chrome/')
-                    }).catch(() => {
+                    } ).then( () => {
+                        window.open( 'https://www.google.cn/chrome/' )
+                    } ).catch( () => {
 
-                    });
+                    } );
                     return;
                 }
                 this.videoUrl = item;
@@ -260,18 +292,18 @@
             },
             deepItem(item) {
                 this.imgUrl = item;
-                this.copyImgUrl(this.imgUrl)
+                this.copyImgUrl( this.imgUrl )
             },
-            closeItem(taskFlag,id) {
+            closeItem(taskFlag, id) {
                 const idx = this.files.findIndex( item => item.id === id );
-                if(taskFlag){
+                if (taskFlag) {
                     videoDelete( {taskFlag} ).then( res => {
                         if (!res.code) {
                             this.$message( {message: '删除成功', type: 'success'} );
                             this.files.splice( idx, 1 );
                         }
                     } )
-                }else this.files.splice( idx, 1 );
+                } else this.files.splice( idx, 1 );
 
             },
             upLoadimg() {//点击上传
@@ -287,15 +319,15 @@
                 this.toscroll();
                 this.files.unshift( {
                     file: url,
-                    id: this.files.length ? this.files[0].id+1 : 0,
+                    id: this.files.length ? this.files[0].id + 1 : 0,
                     type: 'url',
-                    subType:1,
-                    fileId:id? id : ''
+                    subType: 1,
+                    fileId: id ? id : ''
                 } )
                 this.imgUrl = ''
             },
             changeImg(ev) {//图片上传
-                const e = ev.target
+                const e = ev.target;
                 if (e.files.length > 30) {
                     this.$message( {
                         type: 'warning',
@@ -303,14 +335,18 @@
                     } )
                     return
                 }
+                if((e.files.length >1 && !getToken()) || (e.files.length ===1 && this.fileType( e.files[0].type )===2 && !getToken())){
+                    this.showLoginDilogAction()
+                    return
+                }
                 this.toscroll();
                 for (let i = 0; i < e.files.length; i++) {
-                    const fileItem=e.files[i];
+                    const fileItem = e.files[i];
                     this.files.unshift( {
                         file: fileItem,
-                        id: this.files.length ? this.files[0].id+1 : 0,
+                        id: this.files.length ? this.files[0].id + 1 : 0,
                         type: 'file',
-                        subType:this.fileType(fileItem.type),
+                        subType: this.fileType( fileItem.type ),
                     } );
                 }
             },
@@ -350,7 +386,7 @@
                 }
             },
             addItem(item) {
-                this.copyImgUrl( item.originalImage,item.id )
+                this.copyImgUrl( item.originalImage, item.id )
             },
             stopPrevent() {//阻止游览器默认打开图片
                 document.addEventListener( "drop", function (e) {  //拖离
@@ -365,55 +401,46 @@
                 document.addEventListener( "dragover", function (e) {  //拖来拖去
                     e.preventDefault();
                 } );
-                   document.addEventListener( "drop",  (e)=> {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        let files = e.dataTransfer.files;
-                        if (!files.length) return;
-                        if (!getToken() && files.length > 1) {
-                            this.$message( {type: 'error', message: '登录后可批量上传'} )
-                            return
-                        }
-                        this.toscroll();
-                        for (let i = 0; i < files.length; i++) {
-                            const fileItem=files[i];
-                            this.files.unshift( {
-                                file: fileItem,
-                                id: this.files.length ? this.files[0].id+1 : 0,
-                                type: 'file',
-                                subType:this.fileType(fileItem.type),
-                            } )
-                        }
-                    } )
+                document.addEventListener( "drop", (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    let files = e.dataTransfer.files;
+                    if (!files.length) return;
+                    if (!getToken() && files.length > 1) {
+                        this.$message( {type: 'error', message: '登录后可批量上传'} )
+                        return
+                    }
+                    this.toscroll();
+                    for (let i = 0; i < files.length; i++) {
+                        const fileItem = files[i];
+                        this.files.unshift( {
+                            file: fileItem,
+                            id: this.files.length ? this.files[0].id + 1 : 0,
+                            type: 'file',
+                            subType: this.fileType( fileItem.type ),
+                        } )
+                    }
+                } )
             },
-            initHisImage(){
-                let data = {
-                    page:1,
-                    pageSize: 20,
-                    mattingType: 11
-                }
+            initHisImage() {
+                let data = {page: 1, pageSize: 20, mattingType: 11};
                 userHistoryList( data ).then( res => {
                     if (!res.code) {
-                        const obj=res.data;
-                        for(let idx in obj){
-                            obj[idx].map((item,ix)=>{
-                                this.files.unshift( {
-                                    file: item.originalImage,
-                                    id: this.files.length ? this.files[0].id+1 : 0,
-                                    type: 'url',
-                                    subType:1,
-                                    fileId:item.id? item.id : ''
-                                } )
-                            })
-                        }
-                        this.toscroll();
-
+                        const obj = res.data;
+                        if(obj.length<1)return;
+                        obj.reverse().map( item => {
+                            let itemson={id: this.files.length ? this.files[0].id + 1 : 0,}
+                            if(item.hasOwnProperty('taskFlag'))itemson={...itemson,file: item,type:'obj', subType: 2,}
+                            else itemson={...itemson,file: item.originalImage,type:'url', subType: 1,fileId: item.id}
+                            this.files.unshift(itemson )
+                        } )
+                       this.toscroll();
                     }
                 } )
             }
         },
         created() {
-    this.initHisImage()
+            this.initHisImage()
         }
     }
 </script>
@@ -666,16 +693,22 @@
                     text-align: left;
                     width: 280px;
                     margin-left: 78px;
-                    &> .aList{
+
+                    & > .aList {
                         font-size: 14px;
                         justify-content: space-between;
                         margin-bottom: 50px;
                         padding-right: 20px;
-                        a{
+
+                        a {
                             color: #333;
-                            &:hover{ color: #e82255;}
+
+                            &:hover {
+                                color: #e82255;
+                            }
                         }
                     }
+
                     .el-button, .el-input {
                         display: block;
                         width: 100%;
@@ -689,6 +722,7 @@
                             border-color: #fff;
                         }
                     }
+
                     input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
                         color: #333;
                     }
@@ -704,13 +738,14 @@
                     input:-ms-input-placeholder { /* Internet Explorer 10-11 */
                         color: #333;
                     }
+
                     .el-input {
                         margin-bottom: 15px;
                         background-color: rgb(243, 243, 243);
                     }
 
                     p {
-                        font-size: 14px;
+                        font-size: 12px;
                         color: #999;
                         line-height: 28px;
                     }
@@ -721,10 +756,23 @@
                         border-radius: 5px;
                         margin-right: 12px;
                     }
-                    .titlips{
-                        font-size: 14px;
-                        a{
+
+                    .titlips {
+                        font-size: 12px;
+
+                        a {
                             color: #999;
+                        }
+                    }
+                    .imgVideo{
+                        font-size: 12px;
+                        color: #333;
+                        line-height: 22px;
+                        h3{
+                            margin-bottom: 15px;
+                        }
+                        p{
+                            color: #333;
                         }
                     }
                 }
@@ -788,7 +836,8 @@
                     display: block;
                 }
             }
-            .deAll{
+
+            .deAll {
                 display: block;
                 line-height: 16px;
                 font-size: 12px;
@@ -940,18 +989,23 @@
             }
         }
     }
+
     .dialogVidoe {
         background-color: #202020 !important;
-        .el-dialog__title{
+
+        .el-dialog__title {
             color: #fff;
         }
+
         .el-dialog__body {
             padding: 0;
         }
-        .el-dialog__headerbtn .el-dialog__close{
+
+        .el-dialog__headerbtn .el-dialog__close {
             font-size: 18px;
             font-weight: 600;
         }
+
         video {
             display: block;
             max-width: 100%;
@@ -959,6 +1013,7 @@
             object-fit: fill;
             margin: 0 auto;
         }
+
         .colorList {
             padding: 15px 0;
             justify-content: space-between;

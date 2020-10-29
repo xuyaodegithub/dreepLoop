@@ -218,13 +218,14 @@
                                 oCan.height = oImg.height;
                                 oCanTxt.drawImage( oImg, 0, 0 );
                                 if (window.navigator.msSaveOrOpenBlob) {
-                                    let imgData = oCan.msToBlob();
+                                    var imgData = oCan.msToBlob( function () {
+                                    }, 'image/jpeg' );
                                     let blobObj = new Blob( [imgData] );
-                                    window.navigator.msSaveOrOpenBlob( blobObj, this.imgName + ".png" );
+                                    window.navigator.msSaveOrOpenBlob( blobObj, this.imgName + ".jpg" );
                                 } else {
                                     let oA = document.createElement( 'a' );
-                                    oA.href = base64Toblob(oCan.toDataURL());
-                                    oA.download = `${this.imgName}.png`;
+                                    oA.href = base64Toblob(oCan.toDataURL('image/jpeg'));
+                                    oA.download = `${this.imgName}.jpg`;
                                     oA.click();
                                 }
                             };

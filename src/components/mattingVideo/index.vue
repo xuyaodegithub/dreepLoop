@@ -35,11 +35,11 @@
                 </div>
                 <el-carousel indicator-position="none" arrow="never" :height="imgH" :interval="3000"
                              @change="changIdx" ref="swiper"
-                             :autoplay="autoplay">
+                             :autoplay="false">
                     <el-carousel-item v-for="(item,key) in preImglist.image" :key="key">
                         <div class="flex" style="height: 100%;">
-                            <div><img :src="item" alt=""></div>
-                            <div><img :src="preImglist.matting[key]" alt="" :style="bgcolor"></div>
+                            <div style=""><img :src="item" alt=""></div>
+                            <div style=""><img :src="preImglist.matting[key]" alt="" :style="bgcolor"></div>
                         </div>
                     </el-carousel-item>
                 </el-carousel>
@@ -76,7 +76,7 @@
                     <!--                        &lt;!&ndash;                        preVideoUrl下载预览视频&ndash;&gt;-->
                     <!--                    </div>-->
                     <div class="lright_btn_2 noback" v-show="downMsg.open">
-                        <p style="margin-bottom:20px; ">在线预览处理：<span class="co">{{downMsg.time}}%</span></p>
+                        <p style="margin-bottom:20px; " :style="{color: white ? '#333' : '#fff'}">在线预览处理：<span class="co">{{downMsg.time}}%</span></p>
                         <el-progress :stroke-width="8" :percentage="downMsg.time" color="#E82256"
                                      :show-text="false"></el-progress>
                     </div>
@@ -172,7 +172,8 @@
         name: "index",
         props: {
             filesMsg: Object,
-            white: Boolean
+            white: Boolean,
+            mattingType:Number
         },
         data() {
             return {
@@ -247,10 +248,12 @@
                 if (this.stepNum >= this.stepAllNum) {//上传完成后
                     this.upStatus = 1;
                     this.$nextTick( _ => {
-                        videoImgsPreview( {taskFlag: this.taskFlag} ).then( res => {//加载预览图轮播
+                        let a1={taskFlag: this.taskFlag}
+                        if(this.mattingType)a1.mattingType=this.mattingType;
+                        videoImgsPreview( a1 ).then( res => {//加载预览图轮播
                             if (!res.code) {
                                 this.startUpkeys.push( 1 );
-                                videoPreview( {taskFlag: this.taskFlag} ).then( relt => {
+                                videoPreview( a1 ).then( relt => {
                                     if (!res.code) {
                                         this.startUpkeys.push( 2 );
                                     } else {
@@ -357,7 +360,9 @@
                     this.$emit( 'preVideo', this.preVideoUrl );
                     return;
                 }
-                videoPreview( {taskFlag: this.taskFlag} ).then( res => {
+                let a1={taskFlag: this.taskFlag};
+                if(this.mattingType)a1.mattingType=this.mattingType;
+                videoPreview( a1 ).then( res => {
                     if (!res.code) {
                         this.startUpkeys.push( 2 );
                     } else {
@@ -372,8 +377,11 @@
                     this.downVideo( this.fullVideoUrl );
                     return;
                 }
-                const bgColor = this.color ? this.color.split( '#' )[1] : '';
-                videoFullMatting( {taskFlag: this.taskFlag, bgColor} ).then( res => {
+                let all1={taskFlag: this.taskFlag}
+                if(this.mattingType)all1.mattingType=this.mattingType;
+                else all1.bgColor=this.color ? this.color.split( '#' )[1] : '';
+                // const bgColor = this.color ? this.color.split( '#' )[1] : '';
+                videoFullMatting( all1 ).then( res => {
                     if (!res.code) {
                         this.startUpkeys.push( 3 );
                         this.videoMattingInfo()
@@ -635,6 +643,7 @@
 
             .flex > div {
                 width: 50%;
+                padding: 0 5px;
 
                 &:last-child img {
                     background-image: url("http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200821/d693060fc9604ccda7c91bd7360d4661.jpg");
@@ -646,8 +655,8 @@
 
             img {
                 display: block;
-                /*max-width: 500px;*/
-                height: 100%;
+                max-width:100%;
+                max-height: 100%;
                 margin: 0 auto;
             }
 

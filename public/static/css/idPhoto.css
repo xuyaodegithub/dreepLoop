@@ -453,7 +453,7 @@
     border: 1px solid #e82255;
 }
 
-.twoBtns span:last-child {
+.twoBtns span:last-child ,.twoBtns .tete{
     background-color: #fff;
     color: #e82255;
 }
