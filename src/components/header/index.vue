@@ -21,7 +21,7 @@
                         class="el-icon-caret-bottom"></i>
                     <div class="link">
                         <a :href="item+'.html'" v-for="(item,idx) in beauList" :key="idx"
-                           :class="{'red' : urls.includes(item)}">{{['去水印','一键美化','漫画卡通','图片修复'][idx]}}</a>
+                           :class="{'red' : urls.includes(item)}">{{['去水印','一键美化','图片修复'][idx]}}</a>
                     </div>
                 </li>
                 <li class="cu hove" :class="{'redPS' : editList.findIndex(item=>urls.includes(item))>-1}">编辑器 <i
@@ -33,6 +33,7 @@
                         </div>
                     </transition>
                 </li>
+                <li class="cu"  :class="{'red' : urls.includes('cartoonImage')}"><a href="cartoonImage.html">动漫化</a></li>
                 <li class="cu"  :class="{'red' : urls.includes('videoMatting')}"><a href="videoMatting.html">视频抠图</a><img class="beta"
                         src="http://deeplor.oss-cn-hangzhou.aliyuncs.com/upload/image/20200903/0961ebc6bf6c406d8af72e975632bbf0.png" alt=""></li>
             </ul>
@@ -107,7 +108,7 @@
                 urls: window.location.href,
                 piliangList: ['currency', 'people', 'headCutout', 'objects','batchPhoto'],
                 nameList: ['通用抠图', '人像抠图', '头像抠图', '物体抠图','批量证件照'],
-                beauList: ['intelligentRepair','beautify','cartoonImage', 'intelligentRepair'],
+                beauList: ['intelligentRepair','beautify', 'intelligentRepair'],
                 editList: ['posterEditor','idPhoto','imagePhoto','onlineImage'],
                 priceList: ['userVip','videoPrice'],
             }

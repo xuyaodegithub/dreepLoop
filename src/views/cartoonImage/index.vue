@@ -335,7 +335,7 @@
                     } )
                     return
                 }
-                if((e.files.length >1 && !getToken()) || (e.files.length ===1 && this.fileType( e.files[0].type )===2 && !getToken())){
+                if((e.files.length >1 && !getToken()) || (e.files.length >=1 && this.fileType( e.files[0].type )===2 && !getToken())){
                     this.showLoginDilogAction()
                     return
                 }
@@ -434,7 +434,9 @@
                             else itemson={...itemson,file: item.originalImage,type:'url', subType: 1,fileId: item.id}
                             this.files.unshift(itemson )
                         } )
-                       this.toscroll();
+                       this.$nextTick(_=>{
+                           this.toscroll();
+                       })
                     }
                 } )
             }

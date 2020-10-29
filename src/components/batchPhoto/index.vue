@@ -51,7 +51,7 @@
             // }
         },
         computed: {
-            dreepAfter() {
+            dreepAfter() {//当时考虑到美化   现在不需要了  去掉了
                 const str=this.faceBeauty ? 'faceResult' : 'result'
                 return this[str] && !this[str].code && this[str].data.status === 'success';
             },
